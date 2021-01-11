@@ -1,0 +1,686 @@
+\section{Computing Volume in High Dimensions}
+
+A very popular problem in high-dimensional convex geometry is that of determining the volume of an arbitrary body.\\
+
+For a fixed dimension $n$, this problem isn't too difficult if we want to measure it up to some precision $\varepsilon$. We could assume that the body $K$ is enclosed in a box $B=\bigtimes_{i\leq n}[a_i,b_i]$, subdivide this box up to precision $\varepsilon$, and count how many subdivided boxes have non-empty intersection with $K$. This (after normalizing appropriately) can be considered efficient in a fixed dimension, where polynomiality is measure in $\frac{1}{\varepsilon}$. If we measure it in $n$ on the other hand, this method is useless.\\
+We are looking for algorithms that are efficient (polynomial) in the \textit{dimension} $n$.\\
+
+There are a few issues that arise when we even want to formulate this problem.
+\begin{itemize}
+    \item What does it mean when we say that a convex body $K$ is ``given"? In what form is it given?
+    \item What does ``efficient" exactly mean?
+\end{itemize}
+
+We have already answered the second question above -- we are looking for algorithms that are \textit{polynomial} in the dimension $n$. We either want the exact volume or an approximation up to some small \textit{relative error} $\varepsilon>0$. If it is the latter, we would also like the algorithm to be polynomial in $\frac{1}{\varepsilon}$.\footnote{Note that $\varepsilon$ takes only $\log(1/\varepsilon)$ bits, so this is a relaxation in some sense.}
+
+\subsection{Sandwiching and Deterministic Algorithms}
+\label{subsec: sandwiching and deterministic algorithms}
+
+Let us answer the first question that we mentioned -- how is an arbitrary body $K$ represented? What information do we have access to?
+
+\subsubsection{Oracles}
+
+We represent the body using an \textit{oracle}. We explain the different types of oracles one may consider over the course of this section.
+
+\begin{definition}
+A body $K$ is said to be \textit{well-guaranteed} if it contains $r B_2^n$ and is contained in $R B_2^n$ for some $r,R>0$.
+\end{definition}
+
+We restrict ourselves to well-guaranteed bodies since otherwise, we may ask any (finite) number of questions about the body (say of the form ``is $x\in K$") and receive a \texttt{no} every time. This doesn't allow us to make any useful inferences about $\vol(K)$. The fact that $K$ contains $r B_2^n$ ensures that it isn't too small and the containment in $R B_2^n$ ensures that it isn't ``at infinity".\\
+
+A body $K$ is given by an \textit{oracle} $K$ if we know nothing about it other than the fact that it is well-guaranteed with $r$ and $R$ and we may ask questions about $K$, and receive answers to said questions. Depending on the questions and answers, we get different types of oracles.\\
+We primarily use \textit{weak separation oracles} and \textit{strong membership oracles}.
+
+\begin{definition}[Strong Membership Oracle]
+For a fixed convex body $K$, the \textit{strong membership oracle} (correctly) answers questions of the form ``Is $x\in K$?".
+\end{definition}
+
+Now, for $x\not\in K$, we know that there is a hyperplane separating them by \Cref{hyperplane separation theorem}. This gives rise to the strong separation oracle.
+
+\begin{definition}[Strong Separation Oracle]
+For a fixed convex body $K$, the \textit{strong separation oracle} (correctly) answers questions of the form ``Is $x\in K$?". If the answer is \texttt{no}, it also returns a hyperplane $S$ separating $x$ from $K$.
+\end{definition}
+This hyperplane is returned as a vector $s\in\R^n$ with $\norm{s}_\infty=1$ such that $\langle s,x\rangle > 1$ and $\langle s,y\rangle\leq 1$ for any $y\in K$.\\
+This leads to the weak separation oracle.
+
+\begin{definition}[Weak Separation Oracle]
+For a fixed convex body $K$, we can fix an $\varepsilon>0$ and ask the \textit{weak separation oracle} questions of the form ``Is $x\in K$ for the positive number $\varepsilon$?". However, in this case, the precision of the answer is $\varepsilon$ in the sense that
+\begin{enumerate}[(i)]
+    \item If $d(x,\partial K)<\varepsilon$, we can get any answer.
+    \item If $B(x,\varepsilon)\subseteq K$, we get the correct answer (\texttt{yes}).
+    \item If $d(x,K)\geq\varepsilon$, we get the correct answer (\texttt{no}) and a vector $s$ normalized by $\norm{s}_\infty=1$ for which $\langle s,y\rangle < \langle s,x\rangle+\varepsilon$ for every $y\in K$.
+\end{enumerate}
+\end{definition}
+
+A \textit{weak membership oracle} is similar, where if it is within $\varepsilon$ of $\partial K$, it may return either answer and if it is farther than $\varepsilon$, it returns the correct answer.\\
+
+The complexity of the algorithm is measured in the number of calls to the oracle, since this is usually the most expensive step.
+
+\subsubsection{Sandwiching}
+
+We earlier mentioned that we only consider well-guaranteed bodies. As might be expected, the ratio $R/r$ is quite important. Defining it slightly more concretely,
+
+\begin{definition}
+Given a convex body $K$, let $\mathcal{E}$ an ellipsoid centered at $0$ such that $\mathcal{E}\subseteq K\subseteq d\mathcal{E}$ for some $d\geq 1$. We are then said to have a \textit{sandwiching} of $K$ with \textit{sandwiching ratio} $d$.
+\end{definition}
+
+We are given a sandwiching of sandwiching ratio $R/r$ initially. It is natural to want to obtain a sandwiching that has a lower ratio to make whatever algorithm we use more efficient.\\
+Further, note that by \Cref{fritz john banach mazur distance}, the minimum possible sandwiching ratio of (an affine transformation of) a body is at most $n$.\\
+
+The information given to us initially ($r$ and $R$) are not even necessarily useful all the time. For example, one could have a very ``pencil-like" body in $\R^n$ such that the inscribed ball is far far smaller than the circumscribed one. Thus, before we even begin our algorithm, we would want to do some preliminary sandwiching -- perform an affine transformation to get a sandwiching with a more manageable sandwiching ratio.\\
+
+Lov\'asz showed in \cite{Lovsz1986AlgorithmicTO} that it is possible to compute an affine transformation $\tilde{K}$ of $K$ in polynomial time such that
+\begin{equation}
+\label{eqn weak lowner john ellipsoid}
+    B_2^n\subseteq \tilde{K} \subseteq (n+1)\sqrt{n} B_2^n.
+\end{equation}
+
+We first introduce the following common tool.
+
+\begin{lemma}[Basic ellipsoid method]
+For a convex body $K\subseteq\R^n$ along with some $R>0$ such that $K\subseteq RB_2^n$ and a weak separation oracle, it is possible to find a point in $K$ in polynomial time.
+\end{lemma}
+We prove it for the case where we have a \textit{strong} separation oracle. The algorithm basically works by cutting down our search space until we find a point.
+\begin{proof}
+We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0 = R B_2^n$. Given $\mathcal{E}_r$, check if its center $x_r$ is contained in $K$. Otherwise, we have a half-space $H_r$ such that $K\subseteq H_r$. We set $\mathcal{E}_{r+1}$ to be the ellipsoid of minimal volume that contains $K\cap H_r$. The sequence terminates when the center of an ellipsoid is contained in $K$.
+
+It may be shown\footnote{We explicitly give the update formula without proof on the next page. See \href{https://web.stanford.edu/class/ee364b/lectures/ellipsoid_method_notes.pdf}{this}.} that
+\[ \vol(\mathcal{E}_{r+1}) = \left(\frac{n}{n+1}\right)^{(n+1)/2}\left(\frac{n}{n-1}\right)^{(n-1)/2} \vol(\mathcal{E}_{r}). \]
+Rewriting it more suggestively,
+\begin{align*}
+    \vol(\mathcal{E}_{r+1}) &= \left(\frac{n^2}{n^2-1}\right)^{(n-1)/2} \frac{n}{n+1} \vol(\mathcal{E}_{r}) \\
+    &< \left(1+\frac{1}{n^2}\right)^{(n-1)/2} \vol(\mathcal{E}_r) < e^{-1/2n} \vol(\mathcal{E}_r).
+\end{align*}
+The thing to note here is that $e^{-1/2n}$ is independent of the ellipsoids involved. Since we have $K\subseteq \mathcal{E}_k$,
+\[ \vol (K)\leq \vol(\mathcal{E}_k) \leq e^{-k/2n}(2R)^n.  \]
+That is,
+\[ k \leq 2n^2 \log(2R) - 2n \log(\vol (K)) \]
+so there is a polynomial upper bound on the number of steps.
+\end{proof}
+
+If each ellipsoid is given by
+\[ \mathcal{E}_r = \left\{x\in\R^n : (x-x_k)^\top A_k^{-1} (x-x_k) \leq 1 \right\}, \]
+$c_k$ is the vector returned by the separation oracle and $g_k = \frac{1}{\sqrt{c_k^\top A_k c_k}} c_k$, then
+\begin{align*}
+    x_{k+1} &= x_k - \frac{1}{n+1}A_k g_k\text{ and } \\
+    A_{k+1} &= \frac{n^2}{n^2-1} \left( A_k - \frac{2}{n+1}A_k g_k g_k^\top A_k. \right)
+\end{align*}
+Since there is rounding anyway (irrationals might become involved due to the $\sqrt{\cdot}$), it turns out that it suffices to have a weak separation oracle.\\
+
+A pair of ellipsoids like that in \Cref{eqn weak lowner john ellipsoid} is often known as a \textit{weak L\"owner-John pair} for $K$ (the sandwiching ratio must be $(n+1)\sqrt n$). 
+
+\begin{ftheo}
+\label{lovasz pre-sandwich}
+Let $K\subseteq\R^n$ be a convex body given by a weak separation oracle. Then a weak L\"owner-John pair for $K$ can be computed in polynomial time. 
+\end{ftheo}
+Again, we prove it for the case where we have a strong separation oracle instead. This algorithm is nearly identical to that of basic ellipsoid method, but at each step we perform a little extra computation to check if the corresponding ellipsoid scaled down by a factor of $(n+1)\sqrt{n}$ is contained in $K$.
+\begin{proof}
+We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0=R B_2^n$. Given $\mathcal{E}_r$, first check if its center $x_r$ is contained in $K$. if it is not, then use the basic ellipsoid method to get an ellipsoid that does; we abuse notation and refer to this as $\mathcal{E}_r$ as well.\\
+Next, let the endpoints of the axes of the ellipsoid be given by $x_r \pm a_i$ (for $1\leq i\leq n$). Check if the $2n$ points $x_r \pm \frac{1}{n+1} a_i$ are in $K$ for each $i$. If they all are, then we are done, since this implies that the convex hull of these points is contained in $K$ as well, and the maximal ellipsoid contained in the convex hull is just $\mathcal{E}_r$ scaled down by a factor of $(n+1)\sqrt{n}$.\\
+Otherwise, suppose that $x_r+\frac{1}{n+1}a_1$ is not in $K$ and $H_r$ is the half-space returned by the oracle that contains $K$. Similar to the basic ellipsoid method, find the minimal ellipsoid $\mathcal{E}_{r+1}$ that contains $\mathcal{E}_r\cap H_r$.\\
+The sequence terminates when we have found a weak L\"owner-John pair.
+\end{proof}
+
+% It may be shown that this sandwiching algorithm can be run in $\tilde{\mathcal{O}}(n^4)$.\footnote{the $\tilde{O}$ notation means that we suppress powers of $\log n$.}\\
+
+One might be tempted to increase the $\frac{1}{n+1}$ factor we use to get something even better, but it is worth noting the reason for both this algorithm working in the first place is that the volume of the ellipsoid decreases at each step.\\
+
+It is also notable that for certain types of special convex bodies, we can improve the bound beyond $(n+1)\sqrt{n}$.\\
+In particular, if $K$ is symmetric, we can attain a factor of $n$, if $K$ is a polytope given as the convex hull of a set of vectors, we can attain $n+1$, and if $K$ is a symmetric polytope given as above, we can attain $\sqrt{n+1}$.\\
+
+Typically, we assume that after performing sandwiching, we perform a linear transformation such that $B_2^n$ becomes the maximal ellipsoid of the transformed body. That is, the problem boils down computing the volume of a body $K$ with
+\[ B_2^n \subseteq K \subseteq (n+1)\sqrt{n} B_2^n. \]
+
+\subsubsection{The Problem and Deterministic Attempts}
+
+Our problem is to find for some given convex body $K$, some quantities $\uvol(K)$ and $\ovol(K)$ such that
+\[ \uvol(K) \leq \vol(K) \leq \ovol(K) \]
+while minimizing $\frac{\ovol(K)}{\uvol(K)}$.
+
+\Cref{lovasz pre-sandwich} produces estimates (equal to the volumes of the ellipsoids) with $\frac{\ovol(K)}{\uvol(K)} = n^n (n+1)^{n/2}$. This may seem ludicrously bad, but as it turns out, any deterministic attempts in general are destined to fail. Indeed, Elekes proved in \cite{Elekes1986} that for any positive $\varepsilon<2$, there exists no deterministic polynomial time algorithm that returns
+\begin{equation}
+\label{eqn elekes deterministic SUCKS}
+    \frac{\ovol(K)}{\uvol(K)} \leq (2-\varepsilon)^n
+\end{equation}
+for every convex body $K$. The reason for this is that the convex hull of polynomially many points in $B_2^n$ is always bound to be far smaller than $B_2^n$ itself -- we've already seen this all the way back in \Cref{approximating sphere to polytope}. Let us now prove \Cref{eqn elekes deterministic SUCKS}.
+
+\begin{lemma}[Elekes' Theorem]
+Every deterministic algorithm to estimate the volume of an arbitrary convex body $K\subseteq\R^n$ that uses $q$ oracle queries has $\frac{\ovol(K)}{\uvol(K)} \geq \frac{2^n}{q}$ for some $K$ given by a well-guaranteed weak separation oracle.
+\end{lemma}
+
+What exactly do we mean by a deterministic algorithm? Roughly, it means that if we pass the same body into the algorithm twice, we will get the exact same result. More specifically, if we pass two bodies $K_1$ and $K_2$ such that $(x_i)$ and $(y_i)$ are the queried points respectively, the first point where they differ, say $x_i\neq y_i$, must be such that $x_{i-1}=y_{i-1}$ is in $K_1\triangle K_2$. We abuse this fact.
+
+\begin{proof}
+Let $\mathcal{A}$ be some deterministic algorithm to estimate the volume of a convex body. Fix $\varepsilon=2^n$ for the separation oracle. When we run $\mathcal{A}$ on $B_2^n$, suppose that the points queried are $x_1,\ldots,x_q$. Let $C$ be the convex hull of these $q$ points. Now, note that if we run $\mathcal{A}$ on $C$, the same points $(x_i)$ will be queried and as a result, the volume estimates $\uvol$ and $\ovol$ that are returned are the same as well!\\
+To conclude the argument, note that
+\[ C \subseteq \bigcup_{i=1}^q B\left(\frac{x_i}{2},\frac{1}{2}\right). \]
+Therefore,
+\[ \frac{\vol(C)}{\vol(B_2^n)} \leq \frac{q}{2^n}. \]
+We then have
+\[ \frac{\ovol}{\uvol} \geq \frac{\vol(B_2^n)}{\vol(C)} \geq \frac{2^n}{q}. \]
+\end{proof}
+
+\subsubsection{The B\'ar\'any-F\"uredi Theorem}
+
+We now give a stronger result known as the B\'ar\'any-F\"uredi Theorem (given in \cite{no-deterministic-algo-barany-furedi}), which shows that deterministic algorithms in general aren't much better than even the estimate with an $n^n$ error returned by basic sandwiching.
+
+\begin{ftheo}[B\'ar\'any-F\"uredi Theorem]
+There is no deterministic polynomial time algorithm that computes a lower bound $\uvol(K)$ and an upper bound $\ovol(K)$ for the volume of every convex body $K\subseteq\R^n$ given by some oracle such that for every convex body,
+\[ \frac{\ovol(K)}{\uvol(K)} \leq \left(c \frac{n}{\log n}\right)^n \]
+\end{ftheo}
+
+The basic outline of the proof is as follows.\\
+
+\begin{proof}
+Rather than considering a simple separation oracle, we consider an even stronger oracle. First of all, we know beforehand that the convex body $K$ is such that $B_1^n\subseteq K\subseteq B_\infty^n$.\\
+For $x\in\R^n$, denote $x^\circ = x/\norm{x}$, $H^+(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \leq 1 \}$ and $H^-(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \geq 1 \}$.\\
+
+When we query $x\in\R^n$, in addition to the information given by the separation oracle, we also receive ``$x^\circ\in K$ and $-x^\circ\in K$ and $K\subseteq H^-(x^\circ)$ and $K\subseteq H^+(x^\circ)$". That is, if $x\not\in K$, in addition to a separating hyperplane, we also receive information as to whether the hyperplanes at $\pm x^\circ$ that are orthogonal to $x$ are tangential to $K$.\\
+
+Now, for the main part of the proof, suppose we have some deterministic polyomial time algorithm $\mathcal{A}$ that returns a lower and upper bound $\uvol(K)$ and $\ovol(K)$ for any body $K$. The basic idea is roughly similar to that of Elekes' Theorem. Suppose we run $\mathcal{A}$ on $B_2^n$ until $m\leq n^a - n$ questions have been asked for some $a\geq 2$ (due to the polynomial nature of the algorithm) and $x_1,\ldots,x_m$ are the points queried. Define
+\[ C = \conv(\pm e_1, \pm e_2, \ldots, \pm e_n, x_1^\circ, \ldots, x_m^\circ). \]
+Now, consider the dual $C^*$ of $C$ (recall what a dual is from the proof of \Cref{fritz johns theorem part 1}). Observe that for any of the $x_i$, the output of the oracle on passing $x_i$ (or $\pm e_i$) must be the same whether we pass it with regards to $C$, $C^*$, or $B_2^n$.\footnote{if $x_i\in B_2^n$, we receive a \texttt{yes}. Otherwise, we receive a \texttt{no} along with the information that the hyperplanes at the $x_i^\circ$ are tangential.} Indeed, each $H^+(x_i^\circ)$ and $H^-(x_i^\circ)$ is a supporting hyperplane of all three bodies. This implies that the estimates returned by $\mathcal{A}$ are the same for all three bodies!\\
+We then have
+\[ \ovol(B_2^n) \geq \vol(C^*)\text{ and }\uvol(B_2^n) \leq \vol(C). \]
+Therefore,
+\[ \frac{\ovol(C)}{\uvol(C)} = \frac{\ovol(C^*)}{\uvol(C^*)} = \frac{\ovol(B_2^n)}{\uvol(B_2^n)} \geq \frac{\vol(C^*)}{\vol(C)}. \]
+\end{proof}
+
+Over the rest of this section, we show that there is some constant $c$ such that
+\[ \frac{\vol(C^*)}{\vol(C)} \geq \left(c \frac{n}{\log n}\right)^n. \]
+To do this, we introduce some more notation. Let
+\[ V(n,m) = \sup\{\vol(K):K=\conv(\{v_1,\ldots,v_m\})\subseteq B_2^n\} \]
+and
+\[ S(n,m) = \inf\{\vol(\{x:|\langle x,v_i\rangle| \leq 1\text{ for each $i$}\}) : (v_i)_1^m\in\R^n\text{ such that for each }i, \norm{v_i}\leq 1\} \]
+
+Clearly, it suffices to show that
+\begin{equation}
+\label{eqn: barany furedy}
+    \frac{S(n,n^a)}{V(n,n^a)} \geq \left(c \frac{n}{\log n}\right)^n
+\end{equation}
+since $C^*$ and $C$ are of the above considered forms.\\
+
+\subsubsection{Bounding $V(n,m)$ and $S(n,m)$}
+
+For $1\leq k\leq n$, define
+\[
+\rho(n,k) = 
+\begin{cases}
+1, & \text{if }k=0 \\
+\sqrt{(n-k)/nk}, & \text{if }1\leq k\leq n-2 \\
+1/n, & \text{if }k=n-1.
+\end{cases}
+\]
+
+\begin{lemma}
+\label{rho span bound}
+Let $S=\conv(\{v_0,v_1,\ldots,v_n\})\subseteq B_2^n$ be an $n$-dimensional simplex and $x\in S$. Then for every $k$ such that $0\leq k\leq n-1$, $S$ has a $k$-dimensional face $S_k = \conv(\{v_{i_0},v_{i_1},\ldots,v_{i_k}\})$ and a point $x_k$ in the interior\footnote{it is a convex combination of the $(v_{i_j})$} of $S_k$ such that $(x-x_k) \perp \Span(S_k)$ and $\norm{x-x_k}\leq \rho(n,k)$.
+\end{lemma}
+
+\begin{proof}
+The result for $k=n-1$ follows directly from the fact that the maximal ellipsoid in $S$ is at most $\frac{1}{n}B_2^n$.\\
+For $1\leq k\leq n-2$, we use strong (backward) induction on $k$.\\
+Let $x_n=x$ and for each $r:n>k>k$, let $x_r$ be such that $(x_{r+1}-x_r)\perp \Span(S_r)$ and $\norm{x_{r+1}-x_r} \leq \rho(n,r)$.\\
+Note that $x_n - x_{n-1}, x_{n-1}-x_{n-2},\ldots,x_{k+1}-x_{k}$ are all orthogonal and $\norm{x_{r+1} - x_r}\leq\frac{1}{r}$ for each $r$. We then have
+\begin{align*}
+    \norm{x_n - x_k}^2 &= \sum_{r=k}^{n-1} \norm{x_{r+1}-x_r}^2 \\
+    &\leq \sum_{r=k+1}^{n} \frac{1}{r^2} \\
+    &\leq \sum_{r=k+1}^{n} \frac{1}{r(r-1)} \\
+    &= \frac{1}{k} - \frac{1}{n}.
+\end{align*}
+Finally, the result for $k=0$ follows from the fact that the $(v_i)$ are contained in $B_2^n$.
+\end{proof}
+
+Observe that this bound is only tight when $k$ is $1$ or $n$. Putting this in a slightly more compact form, let $S\subseteq\R^n$ and $U=\Span(S)$. If we define
+\[ S^\rho = S + \left(U^\perp + \rho B_2^n\right), \]
+\Cref{rho span bound} just says that for some $S_k$, $x \in S_k^{\rho(n,k)}$.\\
+It is also worth noting that if $S$ is convex and $\dim U = k$,
+\begin{equation}
+\label{eqn: rho convex body volume}
+    \vol(S^\rho) = \vol_k(S) v_{n-k} \rho^{n-k}
+\end{equation}
+
+\begin{ftheo}
+\label{upper bound on V n m}
+There is a constant $c>0$ such that
+\[ \frac{V(n,m)}{v_n} \leq \left(c \frac{1+\log(m/n)}{n}\right)^{n/2} \]
+and so,
+\[ V(n,m) \leq \left(\gamma \frac{\sqrt{1+\log(m/n)}}{n}\right)^{n} \]
+where $\gamma=\sqrt{2\pi e c}$.
+\end{ftheo}
+
+If $m/n\to\infty$ and $n/\log(m/n)\to\infty$, then there is a constant $c'$ such that
+\[ \frac{V(n,m)}{v_n} \leq \left(c' \frac{\log(m/n)}{n}\right)^{n/2} \]
+
+\begin{proof}
+It may be shown that if $K=\conv(\{v_1,\ldots,v_m\})\subseteq\R^n$, then $K$ is the union of its $n$-dimensional simplices. That is,
+\[ K = \bigcup_{i_0 < \cdots < i_n} \conv(\{v_{i_0},\ldots,v_{i_n}\}). \]
+This allows us to bound the volume of $K$. For any $1\leq k\leq n-1$, we can write
+\[ K \subseteq \bigcup_{i_0 < \cdots < i_k} \left\{S^{\rho(n,k)} : S=\conv(\{v_{i_0},\ldots,v_{i_k}\})\right\}. \]
+Bounding the volume,
+\[ \vol(K) \leq \binom{m}{k+1} \max\left\{\vol\left(S^{\rho(n,k)}\right) : S=\conv(\{x_0,\ldots,x_k\})\subseteq B_2^n\right\}. \]
+Using \Cref{eqn: rho convex body volume},
+\[ \vol(K) \leq \binom{m}{k+1} \cdot v_{n-k} \rho(n,k)^{n-k} \cdot \max\left\{\vol_k(S) : S=\conv(\{x_0,\ldots,x_k\})\subseteq B_2^n\right\}. \]
+The right-most quantity is maximum when the body is the $k$-dimensional regular solid simplex, whose volume is $(n+1)^{(n+1)/2}/n^{n/2}n!$. This is easily computed by using induction on dimension and the maximality was briefly mentioned at the end of \Cref{subsection: reverse isoperimetric problem 2.3}. So,
+\begin{align*}
+    \vol(K) &\leq \binom{m}{k+1} \cdot \frac{\pi^{(n-k)/2}}{\Gamma\left(\frac{n-k}{2}+1\right)} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+    &\leq \binom{m}{k+1} \cdot \left(\frac{2\pi e}{n-k}\right)^{(n-k)/2} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+    &= \binom{m}{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+    &\leq \frac{m^{k+1}}{(k+1)!} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+    &\leq \left(\frac{em}{k+1}\right)^{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \left(\frac{e}{k}\right)^k.
+\end{align*}
+And therefore,
+\[ \frac{\vol (K)}{v_n} \leq \left(\frac{em}{k+1}\right)^{k+1} n^{k/2} k^{-(n+k)/2}. \]
+It remains to choose a suitable value of $k$. For the case when $m/n\to\infty$ and $n/\log(m/n)\to\infty$, we can let $k = \left\lceil \frac{n}{2\log(m/n)} \right\rceil$ to obtain
+\[ \frac{\vol(K)}{v_n} \leq e^{o(n)} \left(\frac{2e\log(m/n)}{n}\right)^{n/2}. \]
+\end{proof}
+
+Note that the above again leads to an inference similar to that we made in \Cref{approximating sphere to polytope} -- the volume is comparable only when $m$ is exponentially large.\\
+
+It remains to bound $S(n,m)$.\\
+
+To do this, we use the second of the following beautiful results (we state the first for the sake of completeness).
+
+\begin{theorem}[Blaschke-Santal\'o Inequality]
+\label{santalo inequality}
+Let $K$ be a convex body in $\R^n$ with dual $K^*$. Then
+\[ \vol(K)\vol(K^*) \leq \vol(B_2^n)^2 \]
+with equality when $K$ is an ellipsoid.
+\end{theorem}
+
+\begin{ftheo}[Inverse Santal\'o Inequality]
+\label{inverse santalo inequality}
+Let $K$ be a convex body in $\R^n$ with dual $K^*$. Then
+\[ \vol(K)\vol(K^*) \geq \frac{4^n}{n!} \]
+with equality when $K$ is the regular solid simplex.
+\end{ftheo}
+
+For our purposes, it suffices to know that there is some constant $c_2$ such that
+\[ \vol(K)\vol(K^*) \geq \left(\frac{c_2}{n}\right)^n. \]
+If we let $K=\{x\in\R^n:|\langle x,v_i\rangle| \leq 1\text{ for each $i$}\}$ for some $(v_i)_1^m\in\R^n$ such that $\norm{v_i}\leq 1$ for each $i$, then note that $K^* = \conv(\{v_1,\ldots,v_m\})$.\\
+An upper bound then directly follows from \Cref{inverse santalo inequality} and \Cref{upper bound on V n m}. We get for some constants $c_2$ and $\gamma$,
+\begin{equation}
+\label{eqn: lower bound on S n m}
+    S(n,m) \geq \left(\frac{c_2}{n}\right)^n \left(\frac{n}{\gamma\sqrt{ \log(m/n)+1}}\right)^n = \left(\frac{c'}{\sqrt{\log(m/n)+1}}\right)^n
+\end{equation}
+for some constant $c'$.\\
+
+Finally, to show the bound mentioned in \Cref{eqn: barany furedy}, use \Cref{upper bound on V n m} and \Cref{eqn: lower bound on S n m} to get
+\[ \frac{\ovol(C)}{\uvol(C)} \geq \frac{S(n,n^a)}{V(n,n^a)} \geq \left(\frac{c_1}{\gamma a}\frac{n}{\log n}\right)^n \]
+which is exactly what we want.
+
+\subsection{Rapidly Mixing Random Walks}
+
+It has now clearly been established beyond doubt that deterministic algorithms will get us nowhere. What if instead, we consider randomized algorithms? That is, we are fine with some small probability, say $\eta$, of getting the incorrect answer? We can do far \textit{far} better in this case.
+
+\subsubsection{An Issue with High Dimensions and the Solution}
+
+Reformulating the problem in this context, we pass some $0<\eta<1$, some $\varepsilon>0$, and a well-guaranteed strong membership oracle\footnote{it is in general not too important which oracle we are given.} of a body $K$, and ask for an estimate $\evol(K)$ such that with probability at least $1-\eta$,
+\[ (1-\varepsilon)\evol(K) \leq \vol(K) \leq (1+\varepsilon)\evol(K). \]
+
+Henceforth, we assume that the reader has a basic understanding of Markov chains and stationary distributions thereof, at least in the discrete case. In case the reader does not, they can skip ahead to \Cref{subsec: measure theoretic markov chains}.\\
+
+A simple method that might come to mind is a Monte Carlo algorithm. Find some box $Q$ in which $K$ is contained, uniformly randomly generate a large number of points in $Q$, and find the fraction of points generated that are in $K$ -- this is a good estimate of $\frac{\vol(K)}{\vol(Q)}$.\\
+However, the issue is one that we emphasised very heavily on in the very first (and quantified to some extent in the previous) section: if we take $K=B_2^n$ and $Q=B_\infty^n$, then $\vol(K)/\vol(Q)$ is extremely (exponentially) small, so it will not work (in polynomial time) at all.\\
+
+That is, the issue is that $\vol(K)$ is extremely small compared to a box it is contained in. To get around this, there is a surprisingly simple solution.\\
+
+Rather than considering just $K$, consider some $m+1$ bodies $K_0\subseteq K_1\subseteq \cdots \subseteq K_m=K$ (for appropriately large $m$) and for each $i$, estimate $\Lambda_i \coloneqq \vol(K_i)/\vol(K_{i-1})$ (we can then estimate $\vol(K)$ as $\vol(K_0)\prod_i\Lambda_i$).\\
+Usually, we take $K_i = K \cap 2^{i/n}B_2^n$. Note that because $K_{i}\subseteq 2^{i/n}K_{i-1}$ in this case,
+\[ \Lambda_i = \frac{\vol(K_i)}{\vol(K_{i-1})} \leq 2 \]
+is not large at all.\\
+The value of $\vol(K_0)$ is already known. But how do we estimate $\Lambda_i$?\\
+As observed earlier, since $1/\Lambda_i$ is not small, we can just stick with Monte Carlo methods, the basic idea being to somehow generate a uniform random distribution on $K_i$ and find the fraction of points generated within $K_{i-1}$. Here on out, our main interest is just to figure out a way of efficiently uniformly randomly generating points from $K_i$.\\
+
+To do this, we synthesize a Markov chain whose stationary distribution is the uniform distribution on $K_i$. We run the chain for polynomially many steps, and take the resultant state as a point uniformly randomly generated from $K_i$.\\
+
+Obviously, we want Markov chains that converge to the stationary distribution very rapidly (in polynomial time) since that is the main part of the algorithm that must be made efficient. To restrict ourselves to finding the uniform distribution \textit{within} $K_i$, we skip any move where the random walk attempts to leave $K_i$.\footnote{For the hit-and-run strategy we describe later, this is unimportant since it never even tries to leave the body.} At the same time, we count how often we are in $K_{i-1}\subseteq K_i$.\\
+
+Succinctly, we use ``Multiphase Monte Carlo Markov Chain methods" for volume computation. We call the random walk ``rapidly mixing" if it gets sufficiently close to the stationary distribution in polynomially many steps.\\
+
+Another small change is that we make the random walk \textit{lazy}. That is, if we are at $a\in K$,  we stay at $a$ with probability $\frac{1}{2}$, and with probability $\frac{1}{2}$ we choose a random direction $a+v$. If $a+v\in K$, we move there. Otherwise, we stay put. There are two reasons for doing this. The first is that sometimes parity issues arise due to which the stationary distribution might not be the uniform one. The second is that it turns the matrix describing the random walk into a positive semidefinite matrix, which is much easier to analyze.
+
+\subsubsection{Random Walks on Graphs}
+
+Before we move onto the general case, let us define random walks in graphs and study them for a bit. Let $G=(V,E)$ be a connected $d$-regular simple graph with $V=\{1,\ldots,n\}$. A \textit{simple random walk on $G$ with initial state $X_0$} is given by
+\[
+\Pr[X_{t+1}=j\mid X_t=i] = 
+\begin{cases}
+\frac{1}{2}, & i=j, \\
+\frac{1}{2d}, & ij\in E, \\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+It may be shown that irrespective of $X_0$, $\lim_{t\to\infty}\Pr[X_t=i] = \frac{1}{n}$ for any $i$. But to see whether the walk is rapidly mixing, we need to know how fast it converges. Let
+\[ e_{i,t} = \Pr[X_t=i] - \frac{1}{n} \]
+be the ``excess" probability at time $t$ on vertex $i$. Also, denote $\Pr[X_t=i]$ as $p_i^{(t)}$ for the sake of brevity. Denoting the neighbourhood of $i$ by $\Gamma(i)$,
+\begin{align}
+    e_{i,t+1} &= p_i^{(t+1)} - \frac{1}{n} \nonumber \\
+    &= \left(\frac{1}{2}p_i^{(t)} + \frac{1}{2d}\sum_{j\in\Gamma(i)}p_j^{(t)}\right) - \frac{1}{n} \nonumber \\
+    &= \frac{1}{2}e_{i,t} + \frac{1}{2d}\sum_{j\in\Gamma(i)}e_{j,t} \nonumber \\
+    &= \frac{1}{2d} \sum_{j\in\Gamma(i)}(e_{i,t}+e_{j,t}) \label{eqn: alternate expression for future error}
+\end{align}
+To be able to quantify our closeness to the stationary distribution, define
+\[d_1(t)=d_1(\tilde{X},t) = \sum_{i}|e_{i,t}|\]
+and
+\[d_2(t)=d_2(\tilde{X},t) = \sum_{i}e_{i,t}^2.\]
+
+We call a walk $\tilde{X}$ on $G$ \textit{rapidly mixing} if there exists a polynomial $f$ such that for any $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n)\log(1/\varepsilon)$, $d_1(t)\leq\varepsilon$. However, this doesn't completely make sense right now since if we only have a single graph, $n$ is constant.
+
+\begin{fdef}[Rapidly Mixing Random Walks]
+\label{def: rapidly mixing random walks}
+Let $(G_i)_{i\in\N}$ be a sequence of graphs where $G_i$ has $n_i$ 
+vertices and $n_i\to\infty$. We say that the simple random walks on $G_1,G_2,\ldots$ are \textit{randomly mixing} if there is a polynomial $f$ (depending only on the sequence $(G_i)$) such that if $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n_i)\log(1/\varepsilon)$, then $d(\tilde{X_i},t)\leq\varepsilon$ whenever $\tilde{X_i}$ is a simple random walk on $G_i$.
+\end{fdef}
+
+There are some issues that arise when we want to synthesize a rapidly mixing walk. For example, suppose we have a random walk on $[-1,1]^n$ and we somehow find ourselves near one of the corners. Then the probability of leaving the corner is extremely low (of the order of $2^{-n}$) at each step, which would greatly hinder the speed of convergence.
+
+\subsubsection{Conductance and Bounding the Speed of Convergence}
+
+In a graph, the analogous event is that we get stuck within some subset of vertices that is highly connected within itself, but not very well-connected to its complement. With this in mind, let us define the conductance of a graph. Let $G=(V,E)$ be a graph and $U\subseteq V$ be non-empty. Then define
+\[ \Phi_G(U) = \frac{e(U,V\setminus U)}{d|U|} \]
+where $e(U,V\setminus U)$ is the number of edges between $U$ and $V$.\\
+$\Phi_G(U)$ gives a measure of the ``difficulty" we mentioned earlier. The lower it is, the more difficult it is to leave $U$. We might as well consider only sets $U$ with $|U|\leq\frac{n}{2}$. Thus, we define the \textit{conductance} of $G$ by
+\[ \Phi_G = \min_{1\leq|U|\leq n/2}\Phi_G(U). \]
+In graph theoretic contexts, this quantity is more often known as the \textit{Cheeger's constant} of a graph or its \textit{isoperimetric number}.\\
+
+For graphs in general, denote $\vol(U)=\sum_{u\in U}d(u)$. Then its conductance is
+\[ \Phi_G = \min_{\substack{ U\subsetneq V \\ U\neq\emptyset}} \frac{e(U,V\setminus U)}{\min(\vol(U),\vol(V\setminus U))}. \]
+Obviously, $0\leq\Phi_G\leq 1$ for any graph $G$. The upper bound is only attained when $G$ is the graph containing a single vertex, a single edge, or a triangle. The lower bound is attained only when $G$ is disconnected. If $G$ is large, then the best we can hope for is that $\Phi_G$ is not too much lower than $\frac{1}{2}$.\\
+
+It is intuitively clear that if a graph has high conductance, then any simple walk will converge quite rapidly. This is stated quantitatively in the following.
+
+\begin{ftheo}
+\label{random walk speed of convergence conductance}
+Every simple random walk on a connected $d$-regular graph $G$ satisfies
+\[ d_2(t+1) \leq \left(1-\frac{1}{4}\Phi_G^2\right) d_2(t). \]
+In particular,
+\[ d_2(t) \leq \left(1-\frac{1}{4}\Phi_G^2\right)^t d_2(0) \leq 2\left(1-\frac{1}{4}\Phi_G^2\right)^t. \]
+\end{ftheo}
+
+We prove this using two other lemmas.
+
+\begin{lemma}
+\label{random walk speed of convergence conductance lemma 1}
+For any simple random walk on a connected $d$-regular simple graph on $G$,
+\[ d_2(t+1) \leq d_2(t) - \frac{1}{2d}\sum_{ij\in E}(e_{i,t}-e_{j,t})^2. \]
+\end{lemma}
+\begin{proof}
+Using \Cref{eqn: alternate expression for future error} along with the Cauchy-Schwarz inequality,
+\begin{align*}
+    d_2(t+1) &= \frac{1}{4d^2} \sum_{i=1}^n \left( \sum_{j\in\Gamma(i)} e_{i,t}+e_{j,t}\right)^2 \\
+    &\leq \frac{1}{4d} \sum_{i=1}^n \sum_{j\in\Gamma(i)} (e_{i,t}+e_{j,t})^2 \\
+    &= \frac{1}{2d} \sum_{ij\in E} (e_{i,t}+e_{j,t})^2 \\
+    &= \frac{1}{d} \sum_{ij\in E} (e_{i,t}^2 + e_{j,t}^2) - \frac{1}{2d} \sum_{ij\in E}(e_{i,t}-e_{j,t})^2 \\
+    &= d_2(t) - \frac{1}{2d} \sum_{ij\in E} (e_{i,t}-e_{j,t})^2
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+Suppose weights $x_i$ are assigned to the elements of the vertex set $V=[n]$ satisfying $\sum_i x_i = 0$. Then
+\[ \sum_{ij\in E} (x_i-x_j)^2 \geq \frac{d}{2}\Phi_G^2 \sum_{i=1}^n x_i^2. \]
+\end{lemma}
+
+Observe that setting $x_i=e_{i,t}$ for each $i$ and substituting the above in \Cref{random walk speed of convergence conductance lemma 1} directly gives \Cref{random walk speed of convergence conductance}.
+
+\begin{proof}
+We may assume without loss of generality that $x_1\geq x_2\geq \cdots\geq x_n$. Fix $m=\lceil n/2\rceil$ and for each $i$, let $y_i = x_i-x_m$. Note that it suffices (and is in fact stronger) to prove the inequality for the $(y_i)$ instead of the $(x_i)$ since
+\[ \frac{d}{2}\Phi_G^2\sum_{i=1}^n (x_i-x_m)^2 = \frac{d}{2}\Phi_G^2\sum_{i=1}^n x_i^2 + \frac{nd}{2}\Phi_G^2 x_m^2. \]
+Also, let
+\[
+u_i =
+\begin{cases}
+y_i, & i\leq m, \\
+0, & \text{otherwise},
+\end{cases}
+v_i =
+\begin{cases}
+0, & i\leq m, \\
+y_i, & \text{otherwise}.
+\end{cases}
+\]
+Obviously, it suffices to prove the inequality for the $(u_i)$ and $(v_i)$ since \[(y_i-y_j)^2 = (u_i-u_j + v_i-v_j)^2\geq (u_i-u_j)^2 + (v_i-v_j)^2\]
+and $\sum_i x_i^2 = \sum_i u_i^2 + \sum_i v_i^2$.\\
+We prove it only for the $(u_i)$. Using the Cauchy-Schwarz inequality,
+\begin{align}
+    2d\sum_{i=1}^n u_i^2 \sum_{ij\in E} (u_i-u_j)^2 &= \sum_{ij\in E} 2(u_i^2 + u_j^2) \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
+    &\geq \sum_{ij\in E} (u_i + u_j)^2 \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
+    &\geq \left(\sum_{ij\in E} (u_i^2 - u_j^2)\right)^2 \label{eqn: random walk speed of convergence conductance lemma 2 cauchy schwarz}
+\end{align}
+We aim now to bound the term within the square in the final expression.\\
+Suppose that in every edge $ij\in E$, $i<j$. We can then rewrite the expression as
+\[ \sum_{ij\in E} (u_i^2-u_j^2) = \sum_{ij\in E} \sum_{l=i}^{j-1} (u_l^2-u_{l+1}^2) = \sum_{l=1}^{n} (u_l^2 - u_{l+1}^2) e\left([l],[n]\setminus[l]\right). \]
+It is very clear now how the conductance enters the picture. Since we can disregard the terms of the summation after $l=m$, the expression on the right is bounded below by $dl\Phi_G$. That is,
+\begin{align*}
+    \sum_{ij\in E} (u_i^2-u_j^2) &\geq \sum_{l=1}^m (u_l^2-u_{l+1}^2) dl\Phi_G \\
+    &= d\Phi_G\sum_{l=1}^m u_l^2.
+\end{align*}
+Substituting the above in \Cref{eqn: random walk speed of convergence conductance lemma 2 cauchy schwarz},
+\[ \sum_{ij\in E}(u_i-u_j)^2 \geq \frac{d}{2}\Phi_G^2 \sum_{l=1}^n u_l^2, \]
+which is exactly what we want to show.
+\end{proof}
+
+Since $d_1(t)^2 \leq n d_2(t)$, we have the following corollary of \Cref{random walk speed of convergence conductance}.
+
+\begin{corollary}
+Every simple random walk on a connected $d$-regular graph $G$ satisfies
+\[ d_1(t) \leq (2n)^{1/2} \left(1-\frac{1}{4}\Phi_G^2\right)^{t/2} \]
+\end{corollary}
+
+Note that if $G$ is connected (so $\Phi_G\neq 0$), then for
+\begin{equation}
+\label{eqn: condition on time in terms of conductance}
+t > 8\Phi_G^{-2}\left(\log(2n)+\log(1/\varepsilon)\right) > \frac{2}{-\log\left(1-\frac{1}{4}\Phi_G^2\right)} \left(\log(2n)+\log(1/\varepsilon)\right),
+\end{equation}
+$d_1(t)<\varepsilon$. Thus, we have the following sufficient condition for rapid mixing.
+
+\begin{lemma}
+Let $(G_i)_{i\in\N}$ be a sequence of regular graphs with $|G_i|=n_i\to\infty$. If there exists $k\in\N$ such that
+\[ \Phi_{G_i} \geq (\log n_i)^{-k} \]
+for sufficiently large $i$, then the simple random walks on $(G_i)$ are rapidly mixing.
+\end{lemma}
+
+The entirety of the discussion thus far has been regarding simple random walks. How would one go about generalizing this to aperiodic reversible random walks on finite sets in general?
+
+\begin{fdef}
+Let $V$ be a finite set and $X$ a random walk on $V$ with transition probabilities $p(u,v)$ such that for each $u$, $p(u,u)\geq \frac{1}{2}$. Let $\lambda$ be the (reversible) stationary distribution that satisfies $\lambda(u)p(u,v)=\lambda(v)p(v,u)$. Also, for $U\subseteq V$, write $\lambda(U)=\sum_{u\in U}\lambda(u)$. The \textit{conductance} of $X$ is then
+\[ \tilde{\Phi}_X = \min_{\lambda(U)\leq\frac{1}{2}} \frac{\sum_{u\in U}\sum_{v\in V\setminus U} \lambda(u)p(u,v)}{\lambda(U)}. \]
+\end{fdef}
+
+Similar to earlier, the lower the conductance, the higher the probability of getting ``stuck" somewhere. Note that the conductance here is half as large as the definition we gave for regular graphs (since in this case, $p(u,v)=1/2d$ replaces the $1/d$ earlier). That is, if $X$ is a simple random walk on a regular graph,
+\[ \tilde{\Phi}_X = \frac{1}{2}\Phi_G. \]
+As earlier, we can measure the distance from $\lambda$ by
+\[ d_2(t) = \sum_{v\in V} \left(p_v^{(t)}-\lambda(v)\right)^2. \]
+We can then prove the following analogue of \Cref{random walk speed of convergence conductance} (in exactly the same way).
+
+\begin{ftheo}
+\label{large conductance implies rapidly mixing}
+Let $X$ be a reversible random walk. Then with the notation above,
+\[ d_2(t+1) \leq (1-\tilde{\Phi}_X^2)d_2(t). \]
+In particular,
+\[ d_2(t) \leq 2(1-\tilde{\Phi}_X^2)^t. \]
+\end{ftheo}
+
+\subsubsection{An Overview of Random Walks for Uniform Distributions}
+
+The basic algorithm used in most algorithms that attempt to solve this problem, which we mentioned at the beginning of this section, was proposed by Dyer, Frieze, and Kannan in \cite{dyer-frieze-kannan} and has remained largely unchanged.\\
+This algorithm is $\mathcal{O}(n^{23}(\log n)^5\varepsilon^{-2}\log(1/\varepsilon)\log(1/\eta))$. Henceforth, to make things relatively simple, we use the $\mathcal{O}^*$ notation that suppresses any powers of $\log n$ and polynomials of $(1/\varepsilon)$ and $\log(1/\eta)$. With this notation, the algorithm is $\mathcal{O}^*(n^{23})$.\\
+
+We use a multiphase Monte Carlo algorithm while using random walks to sample. The improvements on this algorithm since its proposal have primarily involved changing the random walk used, using the conductance to bound the mixing time when we are likely to be close to the stationary distribution, and bounding the conductance using isoperimetric inequalities.\\
+
+There are mainly three different types of random walks used.
+
+\paragraph{Walking on the Grid.}
+
+This is probably the simplest graph. It defines a sufficiently fine grid $\mathbb{L}_\delta$ where each step is of size $\delta$. Suppose we are at $x_t$. At each step, we stay put at $x_t$ with probability $\frac{1}{2}$. Otherwise, we choose a random vector $v$ of the $2n$ possible directions. If $x_t+v\not\in K$, we remain at $x_t$ and otherwise, we move to $x_{t+1}=x_t+v$.\\
+\cite{dyer-frieze-kannan} uses this walk with a value of $\delta$ around $n^{-5/2}$. In \cite{lovasz-simonovits-mixing-rate-isoperimetric}, this was improved to a $\delta$ around $n^{-3/2}$.
+
+\paragraph{Ball-Steps.}
+
+In this random walk, we choose some small step-size $\delta$. We use a lazy random walk but when we try to move, we choose a random $v\in\delta B_2^n$. Similar to the grid, if $x_j+v\not\in K$, we remain at $x_j$ and otherwise, we move to $x_{j+1}=x_j+v$. In \cite{KLS-n5}, the value of $\delta$ was around $n^{-1/2}$.
+
+\paragraph{Hit-and-Run.}
+
+Unlike the previous two walks where we had to choose a step-size $\delta$, this walk doesn't need anything of the sort. We choose a random unit vector $v$ from $B_2^n$. We then find the length of the intersection of $\{x+tv:t\in\R\}$ with $K$ and pick a uniformly distributed $x'$ from this segment. It is believed that this walk converges very rapidly.\\
+
+An issue (in any of the walks) that we must figure out how to rectify is that of getting stuck in some corner (we had given this as motivation for defining the conductance of a random walk).\\
+For example, in the ball-step walk, we can consider the \textit{local conductance}
+\[ \ell_\delta(x) \coloneqq \frac{\vol(K\cap (x+\delta B_2^n))}{\vol(\delta B_2^n)} \]
+and the overall conductance
+\[ \lambda\coloneqq \frac{1}{\vol(K)} \int_K \ell_\delta(x)\d{x}. \]
+
+In recent times, it has also been a common theme to use \textit{Metropolis chains}, which are defined as follows.
+
+\paragraph{Metropolis Chain.} Suppose we have a function $f$ on $K$ and a random walk (of any of the above types). We can modify our walk using the same laziness as above, but when we wish to move, we check if $f(x)\geq f(x+v)$ (where $x$ is the original position and $x+v$ is the new proposed position) and
+\begin{itemize}
+    \item if \texttt{yes}, move to $x+v$.
+    \item if \texttt{no}, move to $x+v$ with probability $\frac{f(x)}{f(x+v)}$ (and stay at $x$ otherwise).
+\end{itemize}
+
+If $\int f < \infty$, this produces a random walk with stationary distribution that is proportional to $f(x)$.
+
+So far, we have only tried finding uniform distributions within the body $K$ (and never return a point outside the body $K$). Often, however, we sacrifice this in favour of a distribution that can return a point outside of $K$ with not too high probability (say less than $\frac{1}{2}$) that mixes more rapidly. We detail one such algorithm, similar to that in \cite{dyer-frieze-sample-outside}, in the following section.
+
+\subsection{A Modified Grid Walk that Runs in \texorpdfstring{$\mathcal{O}^*(n^8)$}{}}
+
+\subsubsection{A Description of the Walk}
+
+The algorithm we describe here uses the ``Walking on the Grid" mentioned in the previous section. This involves splitting the body into cubes. To this end, it was observed that if want to sandwich a body between two concentric \textit{cubes} instead of balls, then a ratio of $\mathcal{O}(n)$ can be obtained (instead of the ball-sandwiching ratio of $\mathcal{O}(n^{3/2})$). In particular, \cite{applegate-kannan-cube-sandwich} shows that we can find an affine transformation $\tilde K$ of $K$ such that
+\[ B_\infty^n\subseteq \tilde{K}\subseteq 2(n+1)B_\infty^n. \]
+% We shall instead just stick with a far looser affine transformation that gives
+% \[ B_\infty^n \subseteq \tilde{K} \subseteq n^2 B_\infty^n \]
+Henceforth, we refer to this $\tilde{K}$ as $K$. So in this case, it is more convenient to consider $K_i=2^{i/n}$, $0\leq i\leq m\coloneqq \lceil n\log_2(2(n+1))\rceil$ instead of the intersections with the balls we used earlier. That is, at each phase we have two bodies $K$ and $L$ such that
+\[ K_0 = B_\infty^n \subseteq L \subseteq K \subseteq 2(n+1) B_\infty^n = K_m \]
+and
+\[ L\subseteq K\subseteq 2^{1/n}L. \]
+The grid graph over which we design our random walk has vertex set
+\[ V = \frac{1}{2n}\Z^n \cap K_m.  \]
+That is, $V$ is the vertex set of the grid graph $P_l^n$ with $l=8n(n+1)+1$ (having $l^n$ vertices). Denote this graph by $G$ (there is an edge between points whose distance under the $\ell_\infty$ norm is $\frac{1}{2n}$).\\
+We wish to create a rapidly mixing random walk that converges to the stationary distribution on $K$ (or something that could serve the same purpose). Let us now define a distribution on $V$ that is the stationary distribution of a specific random walk.\\
+Consider the function $\varphi_0$ on $\R^n$ defined by
+\[ \varphi_0(x) = \min\left\{s\geq 0 : x \in \left(1+\frac{s}{2n}\right)K\right\} \]
+and $\varphi$ defined by $\varphi(x)=\left\lceil \varphi_0(x)\right\rceil$. Finally, define $f(x)=2^{-\varphi(x)}$.\\
+There are a few things to observe that make it apparent why this $f$ is a good choice for our purposes:
+\begin{itemize}
+    \item For $x\in K$, $f(x)=1$.
+    \item If $x,y$ are such that $\norm{x-y}_\infty \leq \frac{1}{2n}$, then $|\varphi_0(x)-\varphi_0(y)|\leq 1$. Indeed,
+    \[ x = y + (x-y) \in \left(1+\frac{\varphi_0(y)}{2n}\right)K + \frac{1}{2n}K = \left(1+\frac{\varphi_0(y)+1}{2n}\right)K \]
+    so $\varphi_0(x) \leq \varphi_0(y)+1$.
+    \item How many $x\in V$ are there such that $\varphi(x)=s>0$ (so $f(x)=2^{-s}$)? We must have
+    \[ x \in \left(1+\frac{s}{2n}\right)K \mathbin{\big\backslash} \left(1+\frac{s-1}{2n}\right)K. \]
+    The volume of the body on the right is about
+    \[ \left(\left(1+\frac{s}{2n}\right)^n - \left(1+\frac{s-1}{2n}\right)^n\right) \vol(K) < (e^{s/2}-1) \vol(K). \]
+    Multiplying by an appropriate factor on either side, the number of points in $V$ in this body is at most $(e^{s/2}-1)f(K)$. Therefore, for $n>3$,
+    \[ f(V) = f(K) + \sum_{s=1}^\infty 2^{-s}(e^{s/2}-1)f(K) < 5f(K). \]
+\end{itemize}
+The above suggests that a Metropolis chain under this function might be exactly what we want -- the first point ensures that the resulting distribution is constant on $K$.\\
+
+What is the Metropolis chain corresponding to $f$ for $G$? It is easily checked that its transition matrix is given by
+\[
+p(x,y) =
+\begin{cases}
+\frac{1}{4n}, & xy\in E\text{ and }\varphi(y)\leq\varphi(x), \\
+\frac{1}{8n}, & xy\in E\text{ and }\varphi(y)=\varphi(x)+1, \\
+1-\sum_{z\in\Gamma(x)}p(x,z), & x=y, \\
+0, & \text{otherwise.}
+\end{cases}
+\]
+
+It can also easily be checked that this walk is reversible.\\
+% It is also seen that the walk stays put at $x$ with probability at least $\frac{1}{2}$.\\
+Now, let the stationary distribution of this walk be $\lambda$, given by $\lambda(x)=cf(x)$ for a suitable normalizing constant $c$. The third point above ensures that $\lambda(K)>1/5$ and we don't get points outside of $K$ too often.\\
+
+There is another issue that we haven't mentioned so far that this walk takes care of. When we have such a walk (in general), we would want to be able to compute the transition probabilities efficiently only at the points where we need it -- it would be absurd to store the entire transition matrix all the time. In this example, all we have to do is ``carry" the current value of $\varphi$ with us. At most $4n$ appeals to the oracle will give us the values of $\varphi$ at all the neighbours! We can start at a point that we know the value of $\varphi$ of, such as $0\in B_\infty^n \subseteq K$.
+
+\subsubsection{Showing Rapid Mixing by Bounding Conductance}
+
+The only thing that remains to show now is that it suffices to run the above random walk for a polynomial amount of time to get sufficiently close to the stationary distribution, that is, that the walk is rapidly mixing.\\
+By \Cref{large conductance implies rapidly mixing}, it suffices to show that this walk has large conductance. To do this, we use the following isoperimetric inequality given in \cite{lovasz-simonovits-mixing-rate-isoperimetric}.
+
+\begin{ftheo}
+\label{conductance isoperimetric inequality}
+Let $M\subseteq\R^n$ and $\mathcal{B}(M)$ be the $\sigma$-field of Borel subsets of $M$. Let $F:\Int M\to\Rp$ be a log-concave function and let $\mu$ be the measure on $\mathcal{B}(M)$ with density $F$
+\[ \mu(A) = \int_A F \]
+for $A\in\mathcal{B}(M)$. Then for $A_1,A_2\in\mathcal{B}(M)$,
+\[ \min(\mu(A_1),\mu(A_2)) \leq \frac{\diam M}{d(A_1,A_2)}\mu(M \setminus (A_1\cup A_2)), \]
+where $\diam M = \sup\{\norm{x-y}:x,y\in M\}$.
+\end{ftheo}
+
+This inequality is slightly loose. The best possible constant on the right is $\frac{1}{2}$ and was proved in \cite{dyer-frieze-sample-outside}. We shall show now use this to show that the conductance of our random walk is large.\\
+Let us have $U\subseteq V$ with $0<\lambda(U)<\frac{1}{2}$ and let $\overline{U}=V\setminus U$. Also, let $\partial{U}$ be the set of vertices in $\overline{U}$ with at least one neighbour in $U$.\\
+Let $M$ be the union of the cubes of side length $1/2n$ centered at vertices of $V$ ($M$ is a solid cube) and $A_1$ be the union of cubes of side length $1/2n$ centered at vertices of $U$. Let $B$ be the union of cubes of volume $2/(2n)^n$ centered at vertices of $\partial U$ and $A_2 = M \setminus (A_1 \cup B)$. Obviously,
+\begin{equation}
+    \diam(M) = \mathcal{O}(n^{3/2}).
+\end{equation}
+Then, observe that
+\begin{equation}
+    d(A_1,A_2) \geq \frac{1}{2n}\frac{\sqrt{n}}{2} (2^{1/n} - 1) = \Omega(n^{-3/2}).
+\end{equation}
+for some suitable positive constant $c_1$. Also, for some positive constant $c_2$,
+\begin{align*}
+    \sum_{\substack{u\in U \\ v \in \overline{U}}}\lambda(u)p(u,v) &= \sum_{\substack{u\in U \\ v \in B}}\lambda(v)p(v,u)\\
+    &\geq \sum_{v\in B} \frac{1}{8n} \lambda(v) = c_2\frac{\lambda(B)}{n}.
+\end{align*}
+
+We may assume that $\lambda(B)$ is small.
+Now, define a measure $\mu$ on $\mathcal{B}(M)$ as in \Cref{conductance isoperimetric inequality} with $F=2^{-\varphi_1}$, where $\varphi_1$ is the maximal convex function on $M$ bounded above by $\varphi$. Observe that $\lambda(u)$ is always within a constant factor of the $\mu$-measure of the unit cube centered at $u$. Thus, we have
+\begin{align}
+    \frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\
+    &= \frac{c_3}{n}\frac{\mu(M \setminus (A_1\cup A_2))}{\min\{\mu(A_1),\mu(A_2)\}} \nonumber \\
+    &\geq \frac{c_3}{n} \frac{d(A_1,A_2)}{\diam M} \nonumber \\
+    &= \Omega(n^{-4}) \label{eqn: number of steps}
+\end{align}
+
+So what is the total time complexity of the algorithm? Combining \Cref{eqn: number of steps} and \Cref{eqn: condition on time in terms of conductance} (or rather, the corresponding result for $d_2(t)$ that does not have the $\log n$ factor), the number of steps in the random walk of each phase of the multiphase Metropolis walk is $\mathcal{O}^*(n^{8})$. At each step of the walk, we perform $\mathcal{O}(n)$ oracle queries. Finally, there are $\mathcal{O}^*(n)$ phases. All together, the algorithm is $\mathcal{O}^*(n^{10})$.\\
+
+In \cite{dyer-frieze-sample-outside}, a more careful analysis is done to show that this algorithm is in fact $\mathcal{O}^*(n^{8})$.\footnote{The conductance is actually $\Omega(n^{-3})$.} More precisely, it is
+\[ \mathcal{O}\left(n^8\varepsilon^{-2}\log\left(\frac{n}{\varepsilon}\right)\log\left(\frac{1}{\eta}\right)\right). \]
+
+% \subsubsection{Closing Statements}
+
+% When \cite{dyer-frieze-kannan} originally showed that it was possible to compute the volume in polynomial time, pre-sandwiching was a negligible step in the process being nearly insignificant compared to the $\mathcal{O}^*(n^{23})$ that the main part of the algorithm took. However, as time has passed and the second part of the algorithm has become faster and faster, it has become necessary to get a more efficient algorithm for sandwiching as well. In particular, in \cite{KLS-n5}, both the sandwiching and the second part were $\mathcal{O}^*(n^5)$. If we want to get faster than this, then we have to speed up the sandwiching as well.\\
+% The main innovation in this is to do \textit{approximate sandwiching} instead. Instead of insisting that $B_2^n\subseteq K\subseteq d B_2^n$, we instead want $B_2^n\subseteq K$ and that $d' B_2^n\cap K$ is ``most of" $K$. Despite what we had said earlier that might be slightly misleading, even \cite{KLS-n5} uses an approximate sandwiching algorithm.
+% % More recently, \cite{vempala-n4} uses such an algorithm to achieve an $\mathcal{O}^*(n^4)$ algorithm for volume estimation.
+
+% There is also the following problem by Lov\'asz related to sandwiching.
+% \begin{quote}
+%     Given a convex $K\subseteq\R^n$ and an $\varepsilon>0$, can one always find two homethetic ellipsoids $\mathcal{E}_1$ and $\mathcal{E}_2$ such that their ratio is $\leq(\log n)^c$ and $\vol(K\setminus\mathcal{E}_2)<\varepsilon\vol(K)$ and $\vol(\mathcal{E}_1\setminus K)<\varepsilon\vol(K)$?
+% \end{quote}
+
+% With this approximate sandwiching as motivation, we introduce the following.
+
+% There exists a unique ellipsoid $\mathcal{E}_K$ such that for every $s\in\R^n$,
+% \[ \int_K \langle \textbf{x},s\rangle^2 \d{\textbf{x}} = \int_{\mathcal{E}_K} \langle \textbf{x},s\rangle^2 \d{\textbf{x}}. \]
+% This ellipsoid is known as the Legendre ellipsoid of $K$. A body is said to be in isotropic position if its Legendre ellipsoid is $B_2^n$. That is,
+
+% \begin{fdef}[Isotropic Position]
+% A convex body $K\subseteq\R^n$ is said to be in \textit{isotropic position} if its center of gravity is the origin
+% \[ \textbf{b}(K) = \int \textbf{x}\d{\textbf{x}} = 0, \]
+% and for every $1\leq i\leq j\leq n$,
+% \[ \frac{1}{\vol(K)} \int_K x_i x_j =
+% \begin{cases}
+% 1, & i=j, \\
+% 0, & \text{otherwise.}
+% \end{cases}
+% \]
+% \end{fdef}
+
+% Note that this implies
+% \[ \int_K \norm{\textbf{x}}^2\d{\textbf{x}} = n. \]
+% Markov's inequality then implies that all but an $\varepsilon$ portion of $K$ belongs to $\displaystyle\sqrt{\frac{n}{\varepsilon}}B_2^n$.
+
+% For computational purposes,
+
+% \begin{definition}
+% For $\nu\in(0,1)$, $K$ is said to be in \textit{$\nu$-almost-isotropic position} if $\norm{\textbf{b}(K)}\leq \nu$ and for every $v\in\R^n$,
+% \[ (1-\nu)\norm{v}^2 \leq \frac{1}{\vol(K)} \int_{K-\textbf{b}(K)} \langle v,\textbf{x}\rangle^2\d{\textbf{x}} \leq (1+\nu)\norm{v}^2. \]
+% \end{definition}
+
+% There is in fact a randomized algorithm that finds in $\mathcal{O}\left(n^5 \log (n) \log\left(\frac{1}{\nu\eta}\right)\right)$ steps a linear transformation $\tilde{K}$ of $K$ such that $\tilde{K}$ is $\nu$-almost-isotropic with probability at least $1-\eta$. Further, with probability at most $1-\eta$,
+% \[ \vol\left(\tilde{K} \setminus 2\sqrt{2n}\log\left(\frac{1}{\varepsilon}\right)B_2^n\right) < \varepsilon\vol(\tilde{K}). \]
+
+% This isotropic position is what has been used instead of usual sandwiching in \cite{KLS-n5,vempala-n4}.\\
+
+% We now state one of the most important conjectures in this field, commonly known as the KLS Conjecture (named after Kannan, Lov\'asz, and Simonovits).
+

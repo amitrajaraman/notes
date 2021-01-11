@@ -1,0 +1,120 @@
+\title{High-Dimensional Convex Geometry}
+\author{Amit Rajaraman}
+\date{Winter 2020}
+
+\usepackage{amsmath,amssymb,amsthm,amsfonts,amscd}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[tmargin=1in, bmargin=1in, lmargin=0.75in, rmargin=0.75in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{tikz}
+\usepackage{cleveref}
+\usetikzlibrary{arrows}
+\usepackage{mathtools}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{doi}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{esvect}
+\usepackage{lastpage}
+
+\usepackage[square,numbers]{natbib}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\thesubsection.}{0.2cm}{\large}
+\titleformat{\subsubsection}[block]{\large\bfseries\sffamily}{\normalsize\thesubsubsection.}{0.15cm}{\normalsize}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{High-Dimensional Convex Geometry}}
+\chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
+\rhead{\sffamily{Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+\setlength\parindent{0pt}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewcommand{\emptyset}{\varnothing}
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rp}{\mathbb{R}^+}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\indic}{\mathbbm{1}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\newcommand{\expec}{\textbf{E}}
+\newcommand{\Var}{\operatorname{\textbf{Var}}}
+\newcommand{\conv}{\operatorname{Conv}}
+\newcommand{\vr}{\operatorname{vr}}
+\newcommand{\avg}{\operatorname{avg}}
+\newcommand{\med}{\operatorname{med}}
+\newcommand{\uvol}{\underline{\vol}}
+\newcommand{\ovol}{\overline{\vol}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\evol}{\widetilde{\vol}}
+\newcommand{\Int}{\operatorname{Int}}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newenvironment{ftheo}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
+  {\end{theorem}\end{shaded}}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newenvironment{fdef}
+  {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
+  {\end{definition}\end{shaded}}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\numberwithin{exercise}{section}
+
+\mdfdefinestyle{solutionstyle}{%
+	% linecolor=gray,linewidth=1pt,%
+	% frametitlerule=true,%
+	frametitlebackgroundcolor=white,
+	% backgroundcolor=  gray!20,	
+	bottomline=false, topline=false, rightline=false, leftline=true,
+	innerlinewidth=0.7pt, outerlinewidth=0.7pt, middlelinewidth=2pt, middlelinecolor=white, %
+	innerleftmargin=6pt,innerbottommargin=0pt,
+	skipabove=0pt
+}
+\mdtheorem[style=solutionstyle]{solution}{Solution}
+\numberwithin{solution}{section}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge \scshape High-Dimensional Convex Geometry} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large\textbf{Amit Rajaraman}}\\ % Author name
+    
+    \vspace{0.4cm}
+    Last updated \today % Year published
+
+\endgroup}

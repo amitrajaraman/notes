@@ -1,0 +1,296 @@
+\section{Concentration and Almost-Balls}
+
+Before we formally begin this section, we state without proof some results in probability that will be helpful later.\\
+
+Unlike usual convention in probability, we take that a Bernoulli random variable takes $-1$ and $+1$ (instead of $0$ and $1$) with probability $\frac{1}{2}$ each.
+
+\begin{ftheo}[Hoeffding's inequality]
+\label{hoeffding's inequality}
+If $(\varepsilon_i)_1^n$ are independent Bernoulli random variables and $(a_i)_1^n$ are reals that satisfy $\sum_i a_i^2 = 1$, then for $t>0$,
+\[ \Pr\left[\left|\sum_{i=1}^n a_i\varepsilon_i\right| > t\right] \leq 2e^{-t^2/2}. \]
+\end{ftheo}
+
+We also have
+
+\begin{theorem}
+If $(X_i)_1^n$ are iid random variables, each of which is uniformly distributed on $[-\frac{1}{2},\frac{1}{2}]$ and $(a_i)_1^n$ are reals that satisfy $\sum_i a_i^2 = 1$, then for $t>0$,
+\[ \Pr\left[\left|\sum_{i=1}^n a_i X_i\right| > t\right] \leq 2e^{-6t^2}. \]
+\end{theorem}
+
+Given a point $x\in\R^n$, $\sum_i a_i x_i$ is the distance of $x$ from the hyperplane orthogonal to $(a_1,\ldots,a_n)\in\R^n$ that passes through the origin. So the above theorem essentially says that if we uniformly randomly pick a point from $\left[-\frac{1}{2},\frac{1}{2}\right]^n$, then it is close to any $(n-1)$-dimensional hyperplane passing through the origin. This might be reminiscent of how a majority of the volume in a ball is contained in (relatively) thin slabs.\\
+We elaborate further on this phenomenon in the following section.
+
+\subsection{Concentration in Geometry}
+
+Given a compact set $A\subseteq\R^n$ and $x\in\R^n$, we write
+\[ d(x,A) = \inf\{d(x,y):y\in A\}. \]
+Note that for $\varepsilon>0$,
+\[ A + \varepsilon B_2^n = \{x\in\R^n:d(x,A)\leq\varepsilon\}. \]
+Denote such a neighbourhood $(A+\varepsilon B_2^n)$ of $A$ by $A_\varepsilon$.\\
+Then the proof of the \nameref{isoperimetric inequality} we gave using the Brunn-Minkowski inequality essentially says that if $B$ is a Euclidean ball of the same volume as $A$, then
+\[ \vol(A_\varepsilon) > \vol(B_\varepsilon) \text{ for any }\varepsilon>0. \]
+Observe that we have removed Minkowski addition and reformulated everything in terms of only the measure and the metric. A more general question that one might ask is:
+\begin{flushleft}
+\hbox{%
+\vrule\hspace{.5em}\parbox{.9\textwidth}%
+{Given a metric space $(\Omega,d)$ equipped with a Borel measure $\mu$ and some $\alpha,\varepsilon>0$, for which sets $A$ of measure $\alpha$ do the ``blow-ups" $A_\varepsilon$ have the smallest measure?
+}}
+\end{flushleft}
+
+\subsubsection{The Chordal Metric}
+\label{3.1.1 the chordal metric}
+
+First, consider the example of $\Omega=S^{n-1}$ and $d$ being the Euclidean metric inherited from $\R^n$ (also known as the \textit{chordal metric}). The measure is $\sigma_{n-1}$.\\
+It was shown (with great difficulty) that the sets $A$ are exactly spherical caps in $\R^n$, which are the balls in $S^{n-1}$.\\
+
+This might not seem like a big deal, but it does lead to some very startling results. For example, consider some hemisphere $H$ ($\alpha=\frac{1}{2}$). Then for any set $A$ of measure $\frac{1}{2}$, $\sigma(A_\varepsilon) \geq \sigma(H_\varepsilon)$. Further, since the complement of $A$ is a $\varepsilon$-cap, we can use \Cref{spherical cap upper bound} to write
+\[ \sigma(A_\varepsilon) \geq 1 - e^{-n\varepsilon^2/2}. \]
+This means (for sufficiently large $n$), that nearly the entire sphere lies within distance $\varepsilon$ of $A$, although there might be points that are far from $A$.\\
+Similar to the observation made at the beginning where the majority of the mass was concentrated around any hyperplane through the origin, we see that the majority of the mass is concentrated around any set of measure $\frac{1}{2}$.\\
+
+Let us now reformulate this same property in another way. Let $f:S^{n-1}\to\R$ be a $1$-Lipschitz function:
+\[ |f(\theta)-f(\phi)|\leq\norm{\theta-\phi}\text{ for any }\theta,\phi\in S^{n-1}\]
+Let $M\in\R$ (a median of $f$), be such that $\sigma(\{f\geq M\})=\sigma(\{f\leq M\})=\frac{1}{2}$. Due to the Lipschitz nature of $f$, for any $\varepsilon>0$, if $x$ is at distance at most $\varepsilon$ from $\{f\leq M\}$,
+\[ \sigma(\{f > M+\varepsilon\}) \leq e^{-n\varepsilon^2/2}. \]
+Writing a similar expression for $\sigma(\{f < M+\varepsilon\})$ and combining the two, we get
+\[ \sigma(\{|f-M| \leq \varepsilon\}) \leq 2e^{-n\varepsilon^2/2}. \]
+That is, any $1$-Lipschitz function on $S^{n-1}$ is practically constant!\\
+
+For future reference, we also state two more results. Here, $\med(\cdot)$ represents a \textit{median} of the function, that is, a number $M$ such that $\sigma(\{f\leq M\})\geq\frac{1}{2}$ and $\sigma(\{f\geq M\})\leq\frac{1}{2}$.
+
+\begin{lemma}
+\label{lipschitz function median expectation bound}
+Let $f:S^{n-1}\to\R$ be $1$-Lipschitz. Then
+\[ |\med(f)-\expec(f)| \leq 12n^{-1/2}. \]
+\end{lemma}
+\begin{proof}
+We have
+\begin{align*}
+    |\med(f) - \expec(f)| &\leq \expec\left(|f-\med(f)|\right) \\
+    &\leq \sum_{k=0}^\infty \frac{k+1}{\sqrt{n}} \Pr\left[|f-\med(f)| \geq \frac{k}{\sqrt{n}}\right] \\
+    &\leq n^{-1/2} \sum_{k=0}^\infty (k+1) 2e^{-k^2/2} \\
+    &\leq 12n^{-1/2}.
+\end{align*}
+\end{proof}
+
+\subsubsection{The Gaussian Metric}
+
+Second, let us consider the example of $\R^n$ equipped with the standard Gaussian probability measure $\mu$ that has density
+\[ \gamma(x) = (2\pi)^{-n/2} e^{-|x|^2/2}. \]
+The solutions to the problem for $\alpha=\frac{1}{2}$ were found to be \textit{half-spaces}. That is, if $A\subseteq\R^n$ and $\mu(A) = \frac{1}{2}$, then for any $\varepsilon>0$, $\mu(A_\varepsilon)\geq\mu(H_\varepsilon)$, where $H=\{x\in\R^n:x_1\leq 0\}$ and so, $H_\varepsilon = \{x\in\R^n:x_1\leq\varepsilon\}$. We have
+\[ \mu(\overline{H_\varepsilon}) = \frac{1}{\sqrt{2\pi}}\int_\varepsilon^\infty e^{-x^2/2}\d x \leq e^{-\varepsilon^2/2} \]
+and therefore,
+\[ \mu(A_\varepsilon) \geq 1 - e^{-\varepsilon^2/2}. \]
+
+A more general result about the Gaussian metric states that
+\begin{ftheo}
+Let $A\subseteq\R^n$ be measurable and $\mu$ the standard Gaussian probability measure on $\R$. Then
+\[ \int e^{d(x,A)^2/4} \d\mu \leq \frac{1}{\mu(A)}. \]
+In particular, if $\mu(A)=\frac{1}{2}$,
+\[ \mu(A_\varepsilon) \geq 1 - 2e^{-\varepsilon^2/4}. \]
+\end{ftheo}
+\begin{proof}
+Define the functions
+\begin{align*}
+    f &: x\mapsto e^{d(x,A)^2/4}\gamma(x), \\
+    g &: x\mapsto \mathbbm{1}_A\gamma(x),\text{ and} \\
+    m &: x\mapsto \gamma(x),
+\end{align*}
+where $\mathbbm{1}_A$ represents the indicator function on $A$. Then, for any $x\not\in A$ and $y\in A$,
+\begin{align*}
+    f(x)g(y) &= e^{d(x,A)^2/4}\cdot(2\pi)^{-n}e^{-(|x|^2+|y|^2)/2} \\
+    &\leq  (2\pi)^{-n} e^{\norm{x-y}^2/4} e^{-(\norm{x}^2+\norm{y}^2)/2} \\
+    &= (2\pi)^{-n} e^{-\norm{x+y}^2/4} \\
+    &= m\left(\frac{x+y}{2}\right)^2.
+\end{align*}
+Using the above, it is obvious that for any $x,y\in\R^n$,
+\[ f(x)g(y)\leq m\left(\frac{x+y}{2}\right)^2.\]
+We can then use the \nameref{prekopa leindler} to conclude that
+\[ \left(\int_{\R^n} f\right) \left(\int_{\R^n} g\right) \leq \left(\int_{\R^n} m\right)^2. \]
+That is,
+\[ \mu(A)\int e^{d(x,A)^2/4}\d\mu \leq 1,\]
+which is exactly what we want to show.\\
+
+For the second part, we have
+\[ e^{d(x,A)^2/4} \leq 2. \]
+For any $\varepsilon>0$, the integral on the left is at least $e^{\varepsilon^2/4}\mu(\{d(x,A) \geq \varepsilon\})$. We then have
+\[ \mu(\{d(x,A) \geq \varepsilon\}) \leq 2e^{-\varepsilon^2/4}, \]
+which directly results in our claim.
+\end{proof}
+
+The reader might have noticed that we have proved slightly different bounds from what we claimed at the beginning of this subsection ($\varepsilon^2/4$ instead of $\varepsilon^2/2$), we can get arbitrarily close to the given bound by changing $f$, $g$ and $\lambda$ (which we chose to be $\frac{1}{2}$) slightly. Henceforth, we use the $\varepsilon^2/2$ bound itself.
+
+\clearpage
+\subsection{Dvoretzky's Theorem}
+
+\begin{ftheo}[Dvoretzky's Theorem]
+\label{dvoretzkys theorem}
+There is a positive number $c$ such that for every $\varepsilon>0$ and natural $n$, every symmetric body of dimension $n$ has a slice of dimension
+\[ k \geq \frac{c\varepsilon^2}{\log(1+\varepsilon^{-1})} \log n \]
+that is within distance $1+\varepsilon$ of the Euclidean ball.
+\end{ftheo}
+
+The above theorem essentially says that any symmetric convex body possesses almost spherical slices.
+
+While the original proof was by Dvoretzky, Milman found a different proof of the above theorem which is based on concentration of measure. A few years later, Gordon removed the $\log(1+\varepsilon^{-1})$ factor from the denominator.\\
+We describe Milman's approach without making explicit the dependence on $n$ (for the sake of simplicity).\\
+
+Loosely, the proof goes as follows:
+\begin{itemize}
+    \item \Cref{3.2.3 Dvoretzky Rogers Lemma} - Using \Cref{dvoretzky rogers lemma}, restrict to a ``good" subspace that is not too much smaller than $\R^n$.
+    \item \Cref{bounding expectation} - Bound the expectation, and thus the median, of the norm corresponding to the body by some constant multiple of $\sqrt\frac{\log n}{n}$.
+    \item \Cref{median bound} - Find a general bound on a valid $k$ in terms of the median and use the bound from the previous step. 
+\end{itemize}
+
+\subsubsection{Expressing the Result in Terms of the Median}
+\label{median bound}
+
+Let $K$ be a symmetric convex body such that the maximal ellipsoid in it is the Euclidean ball. Let $\norm{\cdot}_K$ be the metric under which $K$ is the unit ball.\\
+We then want to find a $k$-dimensional subspace $H$ of $\R^n$ such that the function $f:\theta\mapsto\norm{\theta}_K$ is almost constant on the $k$-dimensional ball $H\cap S^{n-1}$. Now, for any $x\in\R^n$, we have $\norm{x}\geq\norm{x}_K$. This implies that
+\[ \left| \norm{\theta}_K-\norm{\phi}_K \right| \leq \norm{\theta-\phi}_K \leq \norm{\theta-\phi} \]
+so $f$ is $1$-Lipschitz on $S^{n-1}$. From the discussion in \Cref{3.1.1 the chordal metric}, we know that on a large part of $S^{n-1}$, $f$ is approximately equal to
+\[ M = \int_{S^{n-1}} f\d\sigma. \]
+We can view any such subspace $H$ as an embedding $T:\R^k\to\R^n$. For any unit vector $\psi\in\R^k$, $\norm{T\psi}_K$ is close to $M$ with high probability. Then for any unit vectors $(\psi_i)_1^m$, $\norm{T\psi}_K$ is close to $M$ with high probability for some choice of $T$. What we would like to show is that if we pin down $\norm{T\psi_i}_K$ at sufficiently many points that are ``well-distributed" around the ball (in $\R^k$), then the radius will be almost constant on the sphere as well.\\
+To make this more concrete, we bring back some terminology that we used in the proof of \Cref{approximating sphere to polytope}.
+Define a set $\{\psi_1,\ldots,\psi_m\}$ to be a \textit{$\delta$-set} in $S^{k-1}$ if for any $x\in S^{k-1}$, $d(x,\psi_i)\leq\delta$ for some $i$.
+
+\begin{lemma}
+Let $\norm{\cdot}_K$ be a norm on $\R^k$. Suppose that for some $\gamma>0$, each point $\psi$ of some $\delta$-net on $S^{k-1}$ satisfies
+\[ M(1-\gamma)\leq\norm{\psi}_K\leq M(1+\gamma). \]
+Then for every $\theta\in S^{k-1}$,
+\[ \frac{M(1-\gamma-2\delta)}{1-\delta} \leq \norm{\theta}_K \leq \frac{M(1+\gamma)}{1-\delta}. \]
+\end{lemma}
+\begin{proof}
+We may assume without loss of generality that $M=1$. Let
+\[ C = \sup_{\theta\in S^{n-1}} \norm{\theta}_K = \sup_{\theta\in S^{n-1}} \frac{\norm{\theta}_K}{\norm{\theta}} \]
+and $\theta_0$ be the point on $S^{n-1}$ for which this is attained.
+Let $\psi_0$ be a point of the $\delta$-net such that $\norm{\theta_0-\psi}\leq\delta$. Then,
+\begin{align*}
+    C &= \norm{\theta_0}_K \\
+    &\leq \norm{\psi_0-\theta_0}_K + \norm{\psi_0}_K \\
+    &\leq C\delta + (1+\gamma).
+\end{align*}
+Therefore,
+\[ C \leq \frac{1+\gamma}{1-\delta}. \]
+Now, for any $\theta\in S^{n-1}$, if $\psi$ is a point of the $\delta$-net such that $\norm{\theta-\psi}\leq\delta$, then
+\begin{align*}
+    1-\gamma &\leq \norm{\psi}_K \\
+    &\leq \norm{\theta}_K + \norm{\psi-\theta}_K \\
+    &\leq \norm{\theta}_K + \left(\frac{1+\gamma}{1-\delta}\right)\delta.
+\end{align*}
+This directly gives the other side of the inequality.
+\end{proof}
+
+Now, let us bring the problem to the above form.\\
+
+From the discussion in \Cref{3.1.1 the chordal metric}, we know that for any $\gamma>0$,
+\[ M(1-\gamma) \leq \norm{\theta}_K \leq M(1+\gamma) \]
+on all but a set of measure (at most) $2e^{-nM^2\gamma^2/2}$.\\
+We can find a $\delta$-net $\mathcal{A}$ (of the sphere in $\R^{k-1}$ that has at most $\frac{1}{2}\cdot\left(\frac{\delta}{2}\right)^{k-1}$ points.\\
+Now, rather than considering every $k$-dimensional subspace of $\R^n$, we can instead fix a particular embedding of $\R^k$ in $\R^n$ and subsequently consider every orthogonal transformation $U$ of this space.\\
+Rephrasing it in these terms, we want to determine if there is an orthogonal transformation $U$ such that every $\psi\in\mathcal{A}$,
+\[ M(1-\gamma) \leq \norm{U\psi}_K \leq M(1+\gamma). \]
+For a particular $\psi$, the set of ``bad" transformations is of measure at most $2e^{-nM^2\gamma^2/2}$. Further, a necessary (and sufficient) condition for there to be a valid $U$ is that the total set of bad transformations is of measure less than $1$. This yields
+\[ \left(\frac{4}{\delta}\right)^{k-1} \cdot e^{-nM^2\gamma^2/2} < 1 \]
+which gives a $k$ in the order of 
+\[ \frac{nM^2\gamma^2}{2\log(4/\delta)}. \]
+Both the $\gamma$ and the $\delta$ contribute to the $\varepsilon$ as mentioned in \nameref{dvoretzkys theorem}, so we should aim to bound $M$ by a reasonably quantity to get the $\log(n)$ estimate we gave in the beginning. In particular, we should show that
+\[ M = \int_{S^{n-1}} \norm{\theta}_K \d\sigma \text{ is of the order of } \sqrt{\frac{\log n}{n}}. \]
+To show this, we must use the fact that $B_2^n$ is the maximal ellipsoid in $K$.
+Before we prove the general case, we examine a specific case.
+
+\subsubsection{Dvoretzky's Theorem for a Cross-Polytope under the Gaussian Measure}
+
+Consider the case where the measure is the Gaussian measure on $\R^n$. Then,
+\begin{align*}
+    M &= \int_{S^{n-1}} \norm{\theta}_K \d\sigma \\
+    &= \frac{\Gamma\left(\frac{n}{2}\right)}{\sqrt{2}\Gamma\left(\frac{n+1}{2}\right)} \int_{\R^n} \norm{x}_K \d\mu(x) & (\text{converting from polar coordinates using \Cref{int of f over Rn}}) \\
+    &> \frac{1}{\sqrt{n}} \int_{\R^n} \norm{x}_K \d\mu(x)
+\end{align*}
+
+and the body $K$ under consideration is the cross-polytope. The corresponding norm is $x\mapsto\frac{1}{\sqrt{n}}\sum_i |x_i|$. We can split this integral to $n$ separate integrals (in terms of each coordinate) to get
+\[ M > \frac{1}{\sqrt{n}} \int_{\R^n} \norm{x}_K \d\mu(x) = \int_{-\infty}^{\infty} |x| \frac{1}{\sqrt{2\pi}} e^{-x^2/2} \d x  = \sqrt\frac{2}{\pi} \]
+This proves that for this example, there are in fact almost-spherical sections of dimension of the order of $n$!\footnote{exclamation mark, not factorial!}
+
+\subsubsection{A Weaker Version of the Dvoretzky-Rogers Lemma}
+\label{3.2.3 Dvoretzky Rogers Lemma}
+
+To aid us in our goal, we give the following lemma.
+
+\begin{ftheo}[Dvoretzky-Rogers Lemma]
+\label{dvoretzky rogers lemma}
+Let $K\subseteq\R^n$ be a symmetric body with maximal ellipsoid $B_2^n$. Then, there exists some subspace $Z\subseteq\R^n$ of dimension $k=\left\lfloor\frac{n}{\log_2 n}\right\rfloor$ and an orthonormal basis $(u_i)_1^k$ of $Z$ such that $\norm{u_i}_{K}\geq \frac{1}{2}$ for all $i$.
+\end{ftheo}
+
+The above is quite similar in spirit to \Cref{fritz john banach mazur distance}. Instead of bounding the body between $B_2^n$ and $\sqrt{n}B_2^n$, we bound the restriction of the body to a subspace between a ball and a parallelotope.\footnote{the parallelotope is defined by the separating hyperplanes between each $(2u_i)$ and $K$.}\\
+
+The basic idea of the proof is as follows. Either the body $K$ touches the inner ball at a ``large number" of places, in which case we can construct the $(u_i)$, or it stays away from the ball in some ``large" subspace. In this case, we restrict to this subspace, inflate the inner ball, and repeat the process. Since we cannot inflate the inner ball forever (it must be contained within $\sqrt{n}B_2^n$), this will end at some point.
+
+\begin{proof}
+Consider two cases.
+\begin{itemize}
+    \item If every subspace $Y\subseteq\R^n$ of dimension $>n-k$ contains a vector $u$ with $\norm{u}=1$ and $\norm{u}_{K}\geq\frac{1}{2}$, then choose one such vector from each of $k$ orthogonal subspaces of dimension $n-k+1$ to construct the required.
+    \item Otherwise, there exists some subspace $Y$ of dimension greater than $n-k$ such that for every unit vector $u\in Y$, $\norm{u}_K \leq \frac{1}{2}$. Let $\tilde{K}$ and $\tilde{B_2^n}$ be the restriction of $K$ and $B_2^n$ to this subspace respectively. Observe that $2\tilde{B_2^n}\subseteq\tilde{K}$. We can then recurse on the subspace $Y$ scaled down by a factor of $\frac{1}{2}$.
+\end{itemize}
+Since $K$ is contained in $\sqrt{n}B_2^n$, this process must terminate in at most $i_0\coloneqq\log_2(n)-1$ steps. Because $n-ki_0\geq k$, the result holds.
+\end{proof}
+
+Note that we could have repeated the above proof to get a similar result that is off by a constant factor if in \Cref{fritz john banach mazur distance}, we had the weaker bound of something like $n$ or $n^{43}$ instead of $\sqrt{n}$.\\
+
+While we have found a subspace of dimension $\frac{n}{\log_2 n}$, there are alternate proofs that give much better results. One in particular gives $\dim(Z) = \frac{n}{2}$.
+
+\subsubsection{Bounding the Expectation}
+\label{bounding expectation}
+
+Henceforth, we restrict ourselves to the subspace $Z$ as defined in \Cref{dvoretzky rogers lemma}. We can do so because the reduction in dimension from $n$ to $\frac{n}{\log n}$ makes barely any difference.\footnote{For a more convincing argument, one could just work in the subspace of dimension $\frac{n}{2}$.} Assume that $Z=\R^n$. \\
+
+We now want to get a lower bound on the median of $x\mapsto\norm{x}_K$ (restricted to $S^{n-1}$). Instead of doing this, we shall bound the \textit{expectation}. This is justified because as seen in \Cref{lipschitz function median expectation bound}, the difference between them is $\mathcal{O}(n^{-1/2})$ which is irrelevant compared to the quantity we aim to bound it by.\\
+
+
+Let $\norm{\cdot}_P$ be the norm that defines the corresponding parallelotope.\\
+We clearly have $\norm{\theta}_K\geq\norm{\theta}_P$.
+Therefore, it suffices to instead bound the expectation of $\norm{\cdot}_P$.\\
+
+Now, we show that it in fact suffices to consider the cube $[-2,2]^n$ instead of the parallelotope! The norm corresponding to the cube is $\frac{1}{2}\norm{\cdot}_\infty$.
+
+\begin{lemma}
+Let $v_1,\ldots,v_n$ be vectors in a normed space with norm $\norm{\cdot}$. Then
+\[ \sum_{\sigma\in\{-1,1\}^n}\norm{\sum_{i=1}^n \sigma_i v_i} \geq 2^n\max_i \norm{v_i} \]
+\end{lemma}
+\begin{proof}
+Assume without loss of generality that $v_1$ has the largest norm. Then,
+\begin{align*}
+    \sum_{\sigma\in\{-1,1\}^n}\norm{\sum_{i=1}^n \sigma_i v_i} &= 2 \sum_{\sigma\in\{-1,1\}^{n-1}}\norm{v_1 + \sum_{i=1}^n \sigma_{i-1} v_i} \\
+    &= 2 \sum_{\sigma\in\{-1,1\}^{n-2}}\norm{v_1 + \left( v_2 + \sum_{i=2}^n \sigma_{i-2} v_i\right)} + \norm{v_1 - \left( v_2 + \sum_{i=2}^n \sigma_{i-2} v_i\right)} \\
+    &\geq 2\sum_{\sigma\in\{-1,1\}^{n-2}} 2\norm{v_1} \\
+    &= 2^n\norm{v_1}.
+\end{align*}
+\end{proof}
+
+
+For the sake of simplicity, denote the function $x\mapsto\norm{x}_P$ by $f_P$ and $x\mapsto\frac{1}{2}\norm{x}_\infty$ by $f_C$. We want to show that $\expec[f_P]\geq\expec[f_C]$. We use an averaging argument as follows, writing each $x\in S^{n-1}$ as $\sum_i \alpha_i u_i$ for some $(\alpha_i)$. We then have
+\begin{align*}
+    2^n \expec[f_P] &= 2^n \int_{S^{n-1}} f_P(x)\d\sigma(x) \\
+    &= \sum_{\sigma\in\{-1,1\}^n} \int_{S^{n-1}} f_P\left(\sum_{i=1}^n \sigma_i\alpha_i u_i\right) \d\sigma(x) \\
+    &= \int_{S^{n-1}} \sum_{\sigma\in\{-1,1\}^n} f_P\left(\sum_{i=1}^n \sigma_i\alpha_i u_i\right) \d\sigma(x) \\
+    &\geq \int_{S^{n-1}} 2^n \max_i\norm{\alpha_i u_i} \d\sigma(x) \\
+    &\geq \int_{S^{n-1}} 2^n\cdot\frac{1}{2}\max_i|\alpha_i| \d\sigma(x) \\
+    &= 2^n \int_{S^{n-1}} f_C(x)\d\sigma(x) = 2^n \expec[f_C].
+\end{align*}
+
+Finally, we shall show that for some constant $c$,
+\[ \expec[f_C] = \frac{1}{2} \int_{S^{n-1}} \norm{x}_\infty \d\sigma(x) \geq c\sqrt\frac{\log n}{n} \]
+
+To show this, we give an elegant probabilistic method that uses the fact that the $n$-dimensional Gaussian is symmetric about the origin. Let $Z=(Z_1,\ldots,Z_n)$ be the standard normal. We can draw a point uniformly randomly from $S^{n-1}$ using $\frac{Z}{\norm{Z}}$. Clearly,
+\[ \expec[f_C] = \expec\left[\frac{\norm{Z}_\infty}{\norm{Z}}\right]. \]
+Now, note that
+\[ \Pr[\norm{Z} \geq \sqrt{3n}] = \Pr[\norm{Z}^2 \geq 3\expec[\norm{Z}^2] \leq \frac{1}{3}. \]
+That is, $\norm{Z}$ is less than some constant multiple of $\sqrt{n}$ with probability at least $\frac{2}{3}$. On the other hand, for any constant $z$,
+\begin{align*}
+    \Pr[\norm{Z}_\infty \leq z] &= \left(\Pr[|Z_1| \leq z]\right)^n \\
+    &= \left(1 - \int_z^\infty \frac{2}{\sqrt{2\pi}}e^{-t^2/2}\d{t} \right)^n \\
+    &\leq \left(1 - \frac{2}{\sqrt{2\pi}} e^{-(z+1)^2/2}\d{t} \right)^n \\
+\end{align*}
+Setting $z$ to $\sqrt{\log n}-1$, we get
+\[ \Pr[\norm{Z}_\infty \leq z] \leq \left(1-\frac{2}{\sqrt{2\pi}} n^{-1/2} \right)^n,\]
+which is less than $\frac{1}{3}$ for all $n$. Therefore, $\norm{Z}_\infty \leq c_2\sqrt{n}$ with probability at least $\frac{2}{3}$ and $\norm{Z} \geq c_1 \sqrt{\log n}$ with probability at least $\frac{2}{3}$ for some constants $c_1,c_2$. This implies that $\frac{\norm{Z}_\infty}{\norm{Z}} \geq c\sqrt\frac{\log n}{n}$ for some suitable $c$,\footnote{since we know that it occurs with probability at least $\frac{1}{3}$.} which is exactly what we want.\\
