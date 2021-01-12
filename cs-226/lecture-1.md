@@ -7,7 +7,11 @@ _Logic_ is the study of valid reasoning. We try to establish criteria to decide 
 _Propositions_ are statements that are either true or false (but not both). Opinions, interrogatives, and imperatives are not statements.    
 We use operators/connectives to create a compound proposition from multiple proposition. These connectives are the negation ($$\neg$$), conjunction ($$\wedge$$), disjunction ($$\vee$$), exclusive or ($$\oplus$$), implication ($$\implies$$), and biconditional ($$\iff$$).
 
-A number with _radix_ $$r$$ is represented b a string of digits $$A_{n-1}A_{n-2}\ldots A_1 A_0 . A__{-1} \ldots A_{-n}$$, where $$A_i$$ represents $$r^{i}$$.
+A number with _radix_ $$r$$ is represented b a string of digits
+
+$$A_{n-1}A_{n-2}\ldots A_1 A_0 . A__{-1} \ldots A_{-n},$$
+
+where $$A_i$$ represents $$r^{i}$$.
 
 Binary is radix $$2$$, octal is radix $$8$$, decimal is radix $$10$$, and hexadecimal is radix $$16$$.
 
