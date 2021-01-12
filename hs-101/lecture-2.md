@@ -1,5 +1,9 @@
 ---
+layout: page
+title: Lecture 2
 ---
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
 
 The _circular flow diagram_ is a visual model of the economy that shows how dollars flow through markets among households and firms.
 

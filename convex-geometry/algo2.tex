@@ -46,10 +46,10 @@ This is equivalent to saying that for any function $g:\Omega\times\Omega\to\R$ (
 It is equivalent to say that the operator $M$ is self-adjoint.\footnote{an operator $A$ such that $\langle Ax,y\rangle=\langle x,A y\rangle$ for any $x,y$.} If the Markov scheme can be described by a transition function $f$ (with respect to $Q$), then time-reversibility is equivalent to the symmetry of $f$.\\
 If the Markov scheme is time-reversible, then for any $g\in L^2$,
 \begin{align}
-    \langle g,g\rangle - \langle g,M g\rangle &= \int_{\Omega} f^2\d{Q} - \int_\Omega\int_\Omega f(u)f(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
-    &= \int_{\Omega}\int_\Omega f^2(u)\d{P_u}(v)\d{Q} - \int_\Omega\int_\Omega f(u)f(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
-    &= \frac{1}{2} \left(\int_{\Omega}\int_\Omega (f^2(u)+f^2(v))\d{P_u}(v)\d{Q} - \int_\Omega\int_\Omega 2f(u)f(v)\d{P_u}(v)\d{Q}(u)\right) & (\text{by \Cref{eqn: time reversible function formulation}}) \nonumber \\
-    &= \frac{1}{2}\int_\Omega\int_\Omega (f(u)-f(v))^2\d{P_u}(v)\d{Q}(u) \geq 0. \label{eqn: self-adjoint spectral radius 1}
+    \langle g,g\rangle - \langle g,M g\rangle &= \int_{\Omega} g^2\d{Q} - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
+    &= \int_{\Omega}\int_\Omega g^2(u)\d{P_u}(v)\d{Q} - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
+    &= \frac{1}{2} \left(\int_{\Omega}\int_\Omega (g^2(u)+g^2(v))\d{P_u}(v)\d{Q} - \int_\Omega\int_\Omega 2g(u)g(v)\d{P_u}(v)\d{Q}(u)\right) & (\text{by \Cref{eqn: time reversible function formulation}}) \nonumber \\
+    &= \frac{1}{2}\int_\Omega\int_\Omega (g(u)-g(v))^2\d{P_u}(v)\d{Q}(u) \geq 0. \label{eqn: self-adjoint spectral radius 1}
 \end{align}
 Therefore, the spectral radius\footnote{the largest absolute value of its eigenvalues.} of $M$ is exactly $1$.
 
@@ -112,7 +112,7 @@ and $s=Q(H_t)$. Then
 Therefore, the $(s/2)$-conductance is at most $2t$.
 
 The main use of defining conductance is that it is closely related to how fast Markov chains converge to their stationary distribution.\\
-Suppose that $Q_k$ is the distribution in the $k$th step of the chain ($Q_k(A)=\Pr[w_k\in A]$). It turns out that if for all $A\in\mathcal{A}$ such that $Q(A)>0$, $\Phi(A)>0$, then $Q_k\to Q$ (in the $\ell_1$ distance). This naturally provides a bound on the speed of convergence.\\
+Suppose that $Q_k$ is the distribution in the $k$th step of the chain ($Q_k(A)=\Pr[w_k\in A]$). It turns out that if for all $A\in\mathcal{A}$ such that $Q(A)>0$, $\Phi(A)>0$, then $Q_k\to Q$ (in the $\ell_1$ distance\footnote{given by $\norm{f}_1 = \int_\Omega |f|\d{Q}$}.). This naturally provides a bound on the speed of convergence.\\
 Let us consider the following particular distance function.
 
 \subsubsection{A Distance Function}
@@ -160,7 +160,7 @@ We first show that if $Q(B)=x$, then the indicator function on $B$ suffices. Ind
 \begin{align*}
     \int_\Omega g\d{Q}_k &= \int_U g\d{Q}_k + \int_{B\setminus U} g\phi\d{Q} + \int_{\Omega\setminus B} g\phi\d{Q} \\
     &= \int_U g\d{Q}_k + \int_{B\setminus U} (g-1)\phi\d{Q} + \int_{B\setminus U} \d{Q}_k + \int_{\Omega\setminus B} g\phi\d{Q} \\
-    &\leq \int_U \d{Q}_k + s\int_{B\setminus U} (g-1)\d{Q} + \int_{B\setminus U} \d{Q}_k + s\int_{\Omega\setminus B} g \d{Q} & \text{(since $0\leq g\leq 1$ and $\phi\leq s$ almost everywhere on $\Omega\setminus B$)} \\
+    &\leq \int_U \d{Q}_k + s\int_{B\setminus U} (g-1)\d{Q} + \int_{B\setminus U} \d{Q}_k + s\int_{\Omega\setminus B} g \d{Q} & \text{(since $0\leq g\leq 1$ and $\phi\leq s$ $Q$-almost everywhere on $\Omega\setminus B$)} \\
     &= Q_k(B) + s\int_{\Omega\setminus U} g\d{Q} - s\int_{B\setminus U}\d{Q} \\
     &= Q_k(B) + s(x - Q(B)) = Q_k(B).
 \end{align*}
@@ -229,6 +229,7 @@ We also have
 The next result is analogous to \Cref{large conductance implies rapidly mixing} and is our main tool in bounding the speed of convergence using the conductance.
 
 \begin{ftheo}
+\label{decrease in markov distance}
 Let $0\leq s\leq 1/2$ and suppose we have $c_1,c_2$ such that for $s\leq x\leq 1-s$,
 \[ h_0(x) \leq c_1 + c_2\min\{\sqrt{x-s},\sqrt{1-s-x}\}. \]
 Then for every $k\geq 0$ and $s\leq x\leq 1-s$,
@@ -248,5 +249,63 @@ We prove this via induction. It clearly holds for $k=0$. Suppose that $k\leq 1$ 
 Writing the above in a slightly more useful form,
 
 \begin{corollary}
-
+Let $M=\sup_A Q_0(A)/Q(A)$. Then for every $A\in\mathcal{A}$,
+\[ |Q_k(A) - Q(A)| \leq \sqrt{M}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
 \end{corollary}
+\begin{proof}
+Clearly, for any $x$, $h_0(x) \leq Mx$. We also have $h_0(x) \leq 1-x$. Therefore,
+\[ h_0(x) \leq \sqrt{Mx(1-x)} \leq \sqrt{M}\min\{\sqrt{x},\sqrt{1-x}\}. \]
+\Cref{decrease in markov distance} then implies the required.
+\end{proof}
+
+\begin{corollary}
+Let $0\leq s\leq 1/2$ and $H_s=\sup\{|Q_0(A)-Q(A)|:Q(A)\leq s\}$. Then for every $A\in\mathcal{A}$,
+\[|Q_k(A)-Q(A)| \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+\end{corollary}
+\begin{proof}
+We show that for every $0\leq x\leq 1$,
+\[ h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
+Since both sides are concave functions, it suffices to show it at an extreme point of $h_0$. For $0\leq x\leq s$,
+\[ h_0(x) = \sup_{\substack{A\in\mathcal{A} \\ Q(A)=x}} (Q_0(A)-Q(A)) \leq H_s. \]
+It is similarly shown (by taking the complement) that for $1-s\leq x\leq 1$, $h_0(x) \leq H_s$. Now, the concavity of $h_0(x)$ implies that for any $s\leq x\leq 1$,
+\[ h_0(x) \leq \frac{h_0(s)\cdot x}{s} \leq H_s \frac{H_s}{s}(x-s) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
+Similarly, for $0\leq x\leq 1-s$, $h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{1-x-s}$.\\
+Therefore, for all $s\leq x\leq 1-s$,
+\[ h_k(s) \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k\min\{\sqrt{x-s},\sqrt{1-x-s}\} \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+The inequality trivially holds for $x<s$ and $x>1-s$, since we have $h_0(x) \leq H_s$ by definition (with complementation in the second case) and $h_k(x) \leq h_0(x)$.
+\end{proof}
+
+\subsubsection{An Important Inequality involving the operator \texorpdfstring{$M$}{}}
+
+A little bit of thought makes it quite clear that to analyze the speed of mixing of Markov chains, the spectrum of the operator $M$ is an important parameter.
+
+\begin{ftheo}
+Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $g\in L^2$ with $\expec[g]=0$,
+\[ \langle g,Mg\rangle \leq \left(1-\frac{\Phi^2}{2}\right)\norm{g}^2. \]
+\end{ftheo}
+
+This quite neatly captures the fact that rapid mixing depends heavily on conductance. Indeed, due to the self-adjointness of $M$, we have
+\[ \norm{Mg}^2 \leq \left(1-\frac{\Phi^2}{2}\right)^2 \norm{g}^2,  \]
+so $\norm{g}$ decreases as time progresses.\\
+
+\begin{proof}
+As might be expected, we use \Cref{eqn: self-adjoint spectral radius 1} in this proof. It suffices to show that if $\expec[g]=0$,
+\[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \Phi^2 \norm{g}^2. \]
+Choose a median $r$ of $Q$, that is, a real number such that $Q(\{x:f(x)>r\}) \leq 1/2$ and $Q(\{x:f(x)<r\}) \leq 1/2$. Let $g(x)=\max\{f(x)-r,0\}$.
+To do this, use the Cauchy-Schwarz inequality to get
+\begin{align*}
+    \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) &\geq \frac{\int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u)}{\int_\Omega \int_\Omega (g(u)+g(v))^2 \d{P}_y(u)\d{Q}(v)}  
+\end{align*}
+\end{proof}
+
+\begin{corollary}
+Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $f\in L^2$ with $\expec[f]=0$,
+\[ \langle f,M^k f\rangle \leq \left(1-\frac{\Phi^2}{2}\right)^k\norm{f}^2. \]
+\end{corollary}
+
+The next inequality can be thought of a central limit theorem style inequality.
+
+\begin{theorem}
+Let $\mathcal{M}$ be a time-reversible Markov scheme with stationary distribution $Q$ and let $w_1,w_2,\ldots$ be a Markov chain generated by $\mathcal{M}$ with initial distribution $Q$. Let $F\in L^2$ and $\xi = \sum_{i=0}^{T-1}F(w_i)$ for some $T$. Then,
+\[ \Var[\xi] \leq \frac{4T}{\Phi^2}\norm{F}^2 \]
+\end{theorem}

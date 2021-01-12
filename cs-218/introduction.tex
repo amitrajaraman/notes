@@ -1,0 +1,171 @@
+\section{Different Types of Algorithms}
+
+\subsection{Asymptotic Notation}
+
+\subsubsection{Big-\texorpdfstring{$\mathcal{O}$}{} Notation}
+
+Consider the following basic algorithm we use to check primality (checking if any $2\leq i\leq \sqrt{n}$ divides $n$):
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\KwIn{A non-negative integer $n$}
+    \KwOut{If $n$ is prime, output $\tr$  else $\fa$}
+   	$\var{flag}\gets\tr$\;
+   	\For{$i=2$ \KwTo $\sqrt{n}$} {
+   		\If{$i$ divides $n$} {
+   			$\var{flag}\gets\fa$
+   		}
+   	}
+	\Return{$\var{flag}$}
+    \caption{Algorithm to check if a number is prime}
+\end{algorithm}
+
+Is the above a polynomial time algorithm?
+
+No! It is polynomial in $n$, but \textit{not} polynomial in the input size $\log n$.\footnote{A polynomial time algorithm was described in \cite{AKS-primality}.}\\
+While analyzing algorithms in general, it is important to look at the input size, the number of bits that constitute the input.
+
+\begin{definition}[Big-$\mathcal{O}$ notation]
+$T(n)$ is said to be $\mathcal{O}(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\leq cf(n)$.
+\end{definition}
+
+This notation is abused to say, for example, that $\sqrt{n} = \mathcal{O}(n)$ (instead of the correct $\sqrt{n}\in\mathcal{O}(n)$. We also write $\sqrt{n} = 2^{\mathcal{O}(\log n)}$ sometimes, which means that there is some $f(n)\in\mathcal{O}(\log n)$ such that .
+
+\begin{definition}[Big-$\Omega$ notation]
+$T(n)$ is said to be $\Omega(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\geq cf(n)$.
+\end{definition}
+
+Finally, we have
+
+\begin{definition}[$\Theta$ notation]
+$T(n)$ is said to be $\Theta(f(n))$ if there are some $c_1,c_2\geq 0$ and $N\in\N$ such that for all $n>N$, $c_1 f(n) \leq T(n)\leq c_2 f(n)$.\\
+Equivalently, $T(n) \in \Theta(f(n))$ if and only if $T(n) \in \mathcal{O}(f(n))$ and $T(n) \in \Omega(f(n))$.
+\end{definition}
+
+\subsubsection{A Few Examples}
+
+We give a few examples with the aim of hopefully making the above notation more clear.
+
+\begin{enumerate}
+	\item $\mathcal{O}(n)$. Given an array $\var{A}$ containing $n$ integers ($0$-indexed), find the value of the maximum element in the array.\\
+	Consider \Cref{algo: maximum element in array} that takes $\mathcal{O}(n)$ time.
+
+	\begin{algorythm}
+		\DontPrintSemicolon
+		\KwIn{An array $\var{A}$ containing $n$ integers}
+	    \KwOut{The maximum element in $\var{A}$}
+	   	$\var{max}\gets\var{A[0]}$\;
+	   	\For{$i=1$ \KwTo $n-1$} {
+	   		\If{$\var{A[i]}>\var{max}$} {
+	   			$\var{max}\gets\var{A[i]}$
+	   		}
+	   	}
+		\Return{$\var{max}$}
+	    \caption{Algorithm to find the maximum element in an array}\label{algo: maximum element in array}
+	\end{algorythm}
+	
+	The bits used to represent each $\var{A}[i]$ is $\log m$. We are assuming that comparison takes constant time. Technically the following algorithm is $\mathcal{O}(n \log m)$, but we often blur the details slightly. To be completely correct, we should say that the algorithm performs $\mathcal{O}(n)$ \textit{comparisons}.
+
+	\item $\mathcal{O}(n \log n)$. Given an array $\var{A}$ containing $n$ elements ($0$-indexed), sort the array.\\
+	The merge sort algorithm performs $\mathcal{O}(n\log n)$ comparisons. We do not explicitly write out the algorithm.
+
+	\item $\mathcal{O}(n^2)$. Given $n$ points $p_1=(x_1,y_1),\ldots,p_n=(x_n,y_n)$ in the plane, output a pair $i,j$ such that the distance between $p_i$ and $p_j$ is minimum.
+
+	The algorithm is described in \Cref{algo: closest pair of points}.
+
+	\begin{algorythm}
+		\DontPrintSemicolon
+		\KwIn{$n\geq 2$ points $p_1=(x_1,y_1),\ldots,p_n=(x_n,y_n)$}
+	    \KwOut{$i,j\in[n]$ such that the distance between $p_i$ and $p_j$ is minimum}
+	   	$\var{i_1},\var{i_2}\gets 0,1$\;
+	   	$\var{min}\gets (x_1-x_2)^2+(y_1-y_2)^2$\;
+	   	\For{$i=1$ \KwTo $n$} {
+	   		\For{$j=i+1$ \KwTo $n$} {
+	   			$\var{d}\gets (x_i-x_j)^2+(y_i-y_j)^2$\;
+	   			\If{$\var{d}<\var{min}$} {
+	   				$\var{min}\gets\var{d}$\;
+	   				$i_1,j_1\gets i,j$\;
+	   			}
+	   		}
+	   	}
+	   	\Return{$\var{i_1},\var{i_2}$}
+		\caption{Algorithm to find the closest pair of points}\label{algo: closest pair of points}
+	\end{algorythm}
+	This problem can in fact be solved in $\mathcal{O}(n\log n)$ time, which we shall see later (you can try thinking about it now).
+
+	\item $\mathcal{O}(n^k)$. Given a graph $G=(V,E)$, find a $S\subseteq V$ such that $|S|=k$ and there is no edge between any two nodes in $S$.\\
+	The above is known as the ``independent set problem''. The counterpart with an edge between any two nodes is known as the ``clique problem''.\\
+	This is easily done by just checking every subset of size $k$, of which there are $\binom{n}{k}\mathcal{O}(k^2)=\mathcal{O}(n^k k^2)$ (there are $\mathcal{O}(k^2)$ comparisons for each subset). Since $k$ is constant, this is just $\mathcal{O}(n^k)$.
+
+	So for constant $k$, this \textit{is} technically polynomial, but for reasonably large $k$, this is terrible. In fact, if we want to find the largest clique, then a polynomial time algorithm (in $n$) is not known. Indeed, this is an ``NP-hard'' problem, which we shall read more about later.
+
+\end{enumerate}
+
+\begin{exercise}
+Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ is said to be a maxima in the array if $\var{A}[i-1]<\var{A}[i]$ and $\var{A}[i]>\var{A}[i+1]$. Also, $\var{A}[1]$ is a maxima if $\var{A}[2]<\var{A}[1]$ and $\var{A}[n]$ is a maxima if $\var{A}[n]>\var{A}[n-1]$. Find a maxima in the array in time $\mathcal{O}(\log n)$.
+\end{exercise}
+\begin{solution}
+	The basic idea behind this algorithm is to, at each step, greedily check the half of the array that contains the greater element among the two neighbours of the current element. It is described more precisely in \Cref{algo: find maxima}. We encourage the reader to prove the correctness of this algorithm.
+\end{solution}
+	\begin{algorithm}
+		\DontPrintSemicolon
+		\KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
+	    \KwOut{A maxima in $\var{A}$}
+	    \SetKwProg{Fn}{}{}{}
+	    \SetKwFunction{FRecurs}{greedyStep}
+	    \SetKwFunction{Size}{size}
+	    \Fn{\FRecurs{$\var{B}$}}{
+	    	\If{$\var{size(B)}=1$} {
+	    		\Return{$\var{B}[0]$}
+	    	}
+	    	$\var{mid}\gets\Size{$\var{B}$}/2$\;
+	    	\If{$\var{B}[\var{mid}]>\var{B}[\var{mid}+1]$ and $\var{B}[\var{mid}]>\var{B}[\var{mid}-1]$} {
+	    		\Return{$\var{B}[\var{mid}]$}\;
+	    	}
+	    	\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}-1]$} {
+	    		\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
+	    	}
+	    	\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
+	    		\Return{$\FRecurs(\var{B}[\var{mid}/2:\Size{$\var{B}$}])$}
+	    	}
+	    }
+	    \Return{\FRecurs{$\var{A}$}}
+		\caption{Algorithm to find a maxima in an array}\label{algo: find maxima}
+	\end{algorithm}
+
+\subsection{Greedy Algorithms}
+
+Greed is good, and sometimes, it's even optimal.\\
+
+What is a greedy algorithm? It essentially builds a solution in tiny steps, performing some sort of \textit{local} optimization, which ends up optimizing the problem requirement \textit{globally}.\\
+It's quite clear that greedy algorithms needn't always work, we have to pick a local criterion that fits our requirements.\\
+
+\subsubsection{Interval Scheduling}
+
+Consider the ``interval-scheduling problem''. We have a supercomputer on which jobs need to be scheduled. We are given $n$ jobs specified by their start and finish times. That is, for $i\in[n]$, we are given $J_i = (s(i),f(i))$. We wish to schedule as many jobs as possible on the computer. That is, given $J = \{J_i = (s(i),f(i)) : i\in[n]\}$, find the largest subset $S\subseteq J$ such that no two intervals in $S$ overlap.\\
+We want maximality in terms of \textit{cardinality} of $S$ (the number of jobs scheduled), not the total time covered.
+
+Consider the following greedy algorithms.
+
+\begin{enumerate}
+ 	\item Choose a job with the earliest starting time. This basically says that we never want to leave the computer idle. It is easily seen that this need not work, since the job that starts soonest can take a very long time, obviously resulting in non-optimality.\\
+ 	More concretely, let $J = \{(0,3),(1,2),(2,3)\}$.
+
+ 	\item Choose the smallest available job. This needn't work either, since the smallest job could overshadow multiple longer jobs that intersect it.\\
+ 	For example, let $J=\{(1,5),(4,6),(6,10)\}$.
+
+ 	\item Choose the job with the earliest ending time. This \textit{does} work. The idea behind this is that it tries to keep as many resources free as possible. One can try playing around with a few examples to see that it does work.\\
+ 	But how would we prove that it works?
+\end{enumerate}
+
+Let $\mathcal{A}$ be the set selected by the (last) greedy algorithm above and $\mathsf{OPT}$ denote an optimal solution. We wish to show that $|\mathcal{A}|=|\mathsf{OPT}|$.\\
+Let $\mathcal{A}=\{a_1,\ldots,a_k\}$ and $\mathsf{OPT}=\{b_1,\ldots,b_m\}$.
+
+\begin{lemma}
+For $r\in[k]$, $f(a_r) \leq f(b_r)$.
+\end{lemma}
+\begin{proof}
+This is easily shown via induction. For $r=1$, it holds by the definition of $\mathcal{A}$. For $r>1$, we have (by induction) $f(a_{r-1}) \leq f(b_{r-1}) \leq s(b_r)$. Then since $b_r$ itself can be chosen by the algorithm, we must have that $f(a_r) \leq f(b_r)$.
+\end{proof}
+
+This also implies that $\mathcal{A}$ is optimal since at each step, the job corresponding to $\mathsf{OPT}$ can be picked by $\mathcal{A}$.

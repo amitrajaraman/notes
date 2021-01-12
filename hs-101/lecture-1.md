@@ -1,6 +1,9 @@
 ---
-
+layout: page
+title: Lecture 1
 ---
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
 
 We look at things _marginally_ - the changes that occur when we make a small change to our consumption/supply.
 

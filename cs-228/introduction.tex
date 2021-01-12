@@ -1,0 +1,164 @@
+\section{Introduction to Logic}
+
+\subsection{Lecture 1}
+
+For any computer scientist, logic is an extremely basic tool. Consider the statement
+\begin{quote}
+    This sentence is false.
+\end{quote}
+A little bit of thought shows that the above sentence has no definite truth value -- it is \textit{paradoxical}. Indeed, it is often known as the ``liar's paradox". This sort of self-referential sentence will come back to haunt us many more times in the future.\\
+
+Propositional logic (or \textit{zeroth-order logic}) is basically the form of logic that deals with propositions which can be true or false as well as relations between them.\\
+A more useful tool is that of \textit{first-order logic}, that also deals with non-logical objects, predicates about them, and quantifiers ($\forall$ and $\exists$). That is, we are allowed to quantify over elements of the set, but not something like subsets of the set. A lot of mathematical statements cannot be written when we are restricted to first-order logic.\\
+
+We study theories with basic assumptions or \textit{axioms}. Using these axioms, we aim to prove more non-trivial results within the theory. A natural question to ask is: is it possible to have some set of axioms that allow us to concretely determine the truth value of any consequential statement? Once more, the self-referential statement returns.
+
+\begin{theorem}[G\"odel's Incompleteness Theorem]
+There are theories whose assumptions cannot be listed.
+\end{theorem}
+\begin{proof}
+Suppose that there exists such a list for the number theory. Consider the \textbf{true} statement
+\begin{quote}
+    This sentence cannot be proven by the list.
+\end{quote}
+The list cannot imply the sentence. This yields a contradiction.
+\end{proof}
+
+This theorem shows that logic has all but failed as a tool to do math. From this failure, rose computer science. This is the basic spirit of the proof and might not be completely understood. We discuss it more concretely later.
+
+\subsection{Lecture 2}
+
+\subsubsection{Propositional Logic: Syntax and Parsing}
+
+We need an efficient method to identify if some group of symbols is a logical argument. We usually define a syntax for this (for example, grammar in English).\\
+
+The logic we consider is over some list of propositions. We give each proposition a symbol. So say there is some set $\mathsf{Vars}$ of \textit{countably many} propositional variables.
+% Say
+% \[ \mathsf{Vars} = \{p_1,p_2,\ldots\}. \]
+These propositional variables are also called \textit{Boolean variables}.\\
+Propositions are connected by \textit{logical arguments}. How could we connect propositions?
+\begin{itemize}
+    \item A statement that is always true/false.
+    \item Negation. A statement that is the negation of another.
+    \item Conjunction. Two statements being true simultaneously.
+    \item Disjunction. At least one of two statements being true.
+    \item Implication. If a statement is true, then some other statement is true as well.
+    \item Equivalence. Two statements always have the same truth value.
+    \item Disequality or exclusive or. Two statements always have different truth values.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{c|c|c}
+     true & $\top$ & top  \\
+     false & $\perp$ & bot \\
+     negation & $\neg$ & not \\
+     conjunction & $\wedge$ & and \\
+     disjunction & $\vee$ & or \\
+     implication & $\implies$ & implies \\
+     equivalence & $\iff$ & iff \\
+     exclusive or & $\oplus$ & xor \\
+     opening parenthesis & ( & \\
+     closing parenthesis & ) &
+\end{tabular}
+\end{center}
+
+We assume that the above \textit{logical connectives} are not in $\mathsf{Vars}$.\\
+A \textit{propositional formula} is a finite string containing symbols in $\mathsf{Vars}$ and logical connectives.
+
+\begin{definition}
+The set of propositional formulas is the smallest set $P$ such that
+\begin{itemize}
+    \item $\top,\perp\in P$,
+    \item $\mathsf{Vars}\subseteq P$,
+    \item if $f\in P$, then $\neg f\in P$, and
+    \item if $\circ$ is a binary symbol and $f,g\in P$, then $(f\circ g)\in P$.
+\end{itemize}
+\end{definition}
+
+Alternatively, this can succinctly be written as ``$f \in P$ if
+\[f \triangleq p\mid\top\mid\perp\mid \neg f \mid (f\vee f) \mid (f\wedge f) \mid (f\implies f) \mid (f\iff f) \mid (f\oplus f) \]
+where $p\in\mathsf{Vars}$."
+
+\begin{definition}
+$\top$, $\perp$, and any $p\in\mathsf{Vars}$ are known as \textit{atomic formulas}.
+\end{definition}
+
+\begin{definition}
+For each $f\in P$, $\mathsf{Vars}(f)$ is the set of variables appearing in $f$.
+\end{definition}
+
+It is important to note that parentheses are needed (only) between binary operations. So as of now, $(\perp\implies\top)$ is a formula but $\perp\implies\top$ isn't.\\
+Not all strings over $\mathsf{Vars}$ and logical connectives are in $P$.
+
+\subsubsection{Examples Encoding Arguments into Logic}
+
+Consider the following argument.
+\begin{quote}
+    If $c$ then if $s$ then $f$. not $f$. Therefore, if $s$ then not $c$.
+\end{quote}
+This can be written as
+\[ (((c\implies (s\implies f)) \wedge \neg f) \implies (s \implies \neg c)). \]
+Another example, say we know that good people always tell the truth and not good people always tell a lie. If there are two people $A$ and $B$ and $A$ says ``I am not good or $B$ is good", then what are $A$ and $B$?\\
+Suppose the variables $p_A$ and $p_B$ denote whether $A$ and $B$ are truthful or not. Then the above is basically
+\[ ((\neg p_A \vee p_B) \iff p_A). \]
+How do we determine whether there is some $p_A,p_B$ that satisfies this?
+
+\subsubsection{Parsing Formulas}
+
+$F\in P$ iff it can be obtained by unfolding one of these generation rules.
+
+\begin{definition}
+A \textit{parse tree} of a formula $F\in P$ is a tree such that
+\begin{itemize}
+    \item the root is $F$,
+    \item the leaves are atomic formulas, and
+    \item each internal node is formed by applying some formulation rule on its children.
+\end{itemize}
+\end{definition}
+
+We have the following 
+
+\begin{theorem}
+$F\in P$ iff there is a parse tree of $F$.
+\end{theorem}
+\begin{proof}
+The reverse direction follows by definition.\\
+How do we show that any $F\in P$ has a parse tree? In fact, it has a \textit{unique} parse tree.
+\end{proof}
+
+A parse tree is a directed acyclic graph (DAG). The parsing produces a parse DAG. This is done by not writing repeated symbols twice, ensuring that all arrows go from higher levels of the DAG to the lower ones.
+
+\begin{definition}
+A formula $G$ is a \textit{subformula} of a formula $F$ if $G$ occurs within $F$. Further, $G$ is a proper subformula of $F$ if $F\neq G$. Denote by $\mathsf{sub}(F)$ the set of subformulas of $F$.
+\end{definition}
+
+Observe that the nodes of the parse tree of $F$ form $\mathsf{sub}(F)$.
+
+Immediate subformulas are the children of a formula in its parse tree. The corresponding \textit{leading connective} is the connective used to join the children. So for example,
+
+\[ \mathsf{sub}((\neg p_2 \iff (p_1 \wedge p_3)) = \{((\neg p_2 \iff (p_1 \wedge p_3)), \neg p_2, (p_1 \wedge p_3), p_1, p_2, p_3\}. \]
+
+\subsubsection{Shorthands}
+
+The reader might have noticed by now that we need to write so many parentheses, which don't really feel necessary most of the time. If we use some sort of precedence order over logical connectives, we may be able to drop some parentheses without losing the unique parsing property.\\
+For example, we may drop outermost parentheses without any confusion. An example of this is writing $((p \wedge q)\implies (r \vee p))$ as $(p \wedge q)\implies (r \vee p)$.\\
+Further, in the above example, if we give $\vee$ and $\wedge$ higher precedence then $\implies$ during parentheses, then we can drop all the parentheses! The usual precedence order we use is
+\[ \neg > \vee = \wedge = \oplus > \implies = \iff. \]
+So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\circ_2 \cdots\circ_n F_n$, where each $F_i$ is either atomic, enclosed by parentheses, or their negation. We transform it as follows.
+\begin{itemize}
+    \item Find a $\circ_i$ such that $\circ_{i-1}$ and $\circ_{i+1}$ have lower precedence (if they exist).
+    \item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\triangleq (F_{i-1}\circ_i F_i)$ so you now have
+    \[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
+\end{itemize}
+Repeat the above until only one expression remains ($n$ becomes $1$). We can then parse it normally. For example,
+\[ p \wedge q \implies r \vee p \text{ to } (p\wedge q)\implies r\vee p \text{ to } (p\wedge q)\implies (r\vee p) \text{ to } ((p\wedge q)\implies (r\vee p)). \]
+Some formulas cannot be unambiguously parsed, for example $p\vee q\wedge r$, $p \vee q \vee r$, or $p\implies q\implies r$. But can we salvage any of them?\\
+Associativity preference may further reduce the need of parentheses. Let's make all our operators right associative (first group the rightmost occurrence). So for example, unless mentioned otherwise, we take $p\implies q\implies r$ as $(p\implies (q\implies r))$.
+
+\begin{definition}
+For $F\in P$ and $p_1,\ldots,p_k\in\Vars$, we denote by $F[G_1/p_1,\ldots,G_k/p_k]$ the formula obtained by \textit{simultaneously} replacing all occurrences of $p_i$ by the formula $G_i$ for each $i\in[k]$. 
+\end{definition}
+
+So for example,
+\[ (p\implies (r\implies p))[(r\otimes p)/p] = ((r\otimes p)\implies (r\implies (r\otimes p))). \]
+Sometimes, we may also write a formula $F$ as $F(p_1,\ldots,p_k)$. Then, by $F(G_1,\ldots,G_n)$, we mean $F[G_1/p_1,\ldots,G_k/p_k]$.
