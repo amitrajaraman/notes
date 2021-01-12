@@ -76,7 +76,7 @@ The set of propositional formulas is the smallest set $P$ such that
 \end{definition}
 
 Alternatively, this can succinctly be written as ``$f \in P$ if
-\[f \triangleq p\mid\top\mid\perp\mid \neg f \mid (f\vee f) \mid (f\wedge f) \mid (f\implies f) \mid (f\iff f) \mid (f\oplus f) \]
+\[f \coloneqq p\mid\top\mid\perp\mid \neg f \mid (f\vee f) \mid (f\wedge f) \mid (f\implies f) \mid (f\iff f) \mid (f\oplus f) \]
 where $p\in\mathsf{Vars}$."
 
 \begin{definition}
@@ -147,7 +147,7 @@ Further, in the above example, if we give $\vee$ and $\wedge$ higher precedence 
 So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\circ_2 \cdots\circ_n F_n$, where each $F_i$ is either atomic, enclosed by parentheses, or their negation. We transform it as follows.
 \begin{itemize}
     \item Find a $\circ_i$ such that $\circ_{i-1}$ and $\circ_{i+1}$ have lower precedence (if they exist).
-    \item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\triangleq (F_{i-1}\circ_i F_i)$ so you now have
+    \item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\coloneqq (F_{i-1}\circ_i F_i)$ so you now have
     \[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
 \end{itemize}
 Repeat the above until only one expression remains ($n$ becomes $1$). We can then parse it normally. For example,
@@ -162,3 +162,148 @@ For $F\in P$ and $p_1,\ldots,p_k\in\Vars$, we denote by $F[G_1/p_1,\ldots,G_k/p_
 So for example,
 \[ (p\implies (r\implies p))[(r\otimes p)/p] = ((r\otimes p)\implies (r\implies (r\otimes p))). \]
 Sometimes, we may also write a formula $F$ as $F(p_1,\ldots,p_k)$. Then, by $F(G_1,\ldots,G_n)$, we mean $F[G_1/p_1,\ldots,G_k/p_k]$.
+
+\subsection{Lecture 3}
+
+\subsubsection{Semantics}
+
+Semantics is giving meaning to formulas. We denote the set of truth values as $\mathcal{B}\coloneqq\{0,1\}$. We may view $0$ as ``false" and $1$ as ``true", but the only important thing is that they are distinct.
+
+\begin{definition}[Model]
+A \textit{model} is an function from $\Vars\to\mathcal{B}$.
+\end{definition}
+
+For example, $\{p_1\mapsto 1, p_2\mapsto 0, p_3\mapsto 0,\ldots\}$. Since $\Vars$ is countable, the set of models is non-empty and infinite.\\
+A given model $m$ may or may not satisfy a formula $F$. This satisfaction relation is denoted by $m\vDash F$. Let us define this more concretely.
+
+\begin{definition}
+The \textit{satisfaction relation} $\vDash$ between models and formulas is the smallest relation that satisfies the following.
+\begin{itemize}
+    \item $m\vDash\top$,
+    \item if $m(p)=1$, then $m\vDash p$,
+    \item if $m\nvDash F$, then $m\vDash\neg F$,
+    \item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash F_1\vee F_2$,
+    \item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash F_1\wedge F_2$,
+    \item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash F_1\oplus F_2$,
+    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\implies F_2)$, and
+    \item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\iff F_2)$.
+\end{itemize}
+\end{definition}
+
+Observe that $\perp$ is not explicitly mentioned in the above definition since it follows from it being the \textit{smallest} relation.\\
+
+If $m\vDash F$, we say that $m$ \textit{satisfies} $F$.\\
+$F$ is \textit{satisfiable} if there is a model $m$ such that $m\vDash F$. This is often abbreviated as \textit{sat}.\\
+$F$ is \textit{valid} (written $\vDash F$) if for each model $m$, $m\vDash F$. A valid formula is also called a \textit{tautology}.\\
+$F$ is \textit{unsatisfiable} (written $\nvDash F$) if there is no model $m$ such that $m\vDash F$. This is often abbreviated as \textit{unsat}.\\
+
+We can check if a certain formula satisfies a model by moving bottom-up in the parse tree.\\
+
+We overload the $\vDash$ operator in several natural ways.
+
+\begin{definition}
+Let $M$ be a set of models. We write $M\vDash F$ if for every $m\in M$, $m\vDash F$.
+\end{definition}
+
+\begin{definition}
+Let $\Sigma$ be a set of formulas. We write $\Sigma\vDash F$ if for every $m$ that satisfies every formula in $\Sigma$, $m\vDash F$.
+\end{definition}
+
+This is read ``$\Sigma$ implies $F$''. If $\Sigma=\{G\}$, we write $G\vDash F$.
+
+\begin{definition}
+We write $F\equiv G$ if for each model $m$,
+\[ m\vDash F \iff m\vDash G. \]
+\end{definition}
+
+\begin{definition}
+Formulas $F$ and $G$ are \textit{equisatisfiable} if
+\[ F \text{ is sat} \iff G \text{ is sat.}\]
+\end{definition}
+
+\begin{definition}
+Formulas $F$ and $G$ are \textit{equivalid} if $\vDash F\iff\vDash G$.
+\end{definition}
+
+\subsubsection{Decidability of SAT}
+
+\begin{fdef}
+A problem is \textit{decidable} if there is an algorithm to solve the problem.
+\end{fdef}
+
+This is required since G\"odel's Incompleteness implies the existence of undecidable problems.
+
+The problem we consider here, known as the \textit{propositional satisfiability problem} is:
+\begin{quote}
+For a given $F\in P$, is $F$ satisfiable?
+\end{quote}
+
+\begin{theorem}
+The propositional satisfiability problem is decidable.
+\end{theorem}
+\begin{proof}
+We enumerate the $2^{|\Vars|}$ elements of $\Vars(F)\to\mathcal{B}$. If any of the models satisfy the formula, $F$ is sat. Otherwise, it is unsat.
+\end{proof}
+
+The cost is obviously exponential and we would want to do better. There are, however, several tricks that make satisfiability checking more feasible for real-world formulas.
+
+\subsubsection{Truth Tables}
+
+We wish to assign a truth value to every formula $F$.
+
+Given a model $m:\Vars\to\mathcal{M}$, we can naturally extend it to $m:P\to B$ as
+\[
+    m(F) = 
+    \begin{cases}
+    1, & m\vDash F, \\
+    0, & \text{otherwise.}
+    \end{cases}
+\]
+
+This extended $m$ is known as the \textit{truth function}. We needn't introduce new symbols since this is a very natural extension.\\
+
+For a formula $F$, a truth table consists f $2^{|\Vars(F)|}$ rows, where each row considers one of the models and computes the corresponding truth value of $F$.
+
+For example, show that $p\vee q \equiv \neg(\neg p \wedge \neg q)$ and $p\wedge q \equiv \neg(\neg p \vee \neg q)$, also known as De Morgan's laws.\\
+It is also easily shown that $p\implies q \equiv (\neg p \vee q)$.
+
+Truth tables are tedious because we need to write $2^n$ rows even if a simple observation could easily show (un)satisfiability.\\
+For example, $a \vee (c \neg a)$ is very clearly true. If there's no $\neg$s (of any form, $\oplus$ in particular) in general, one can just set everything as true. Another example is that $(a \vee (c \neg a))\wedge\neg (a \vee (c \neg a))$ is obviously unsat.\\
+How do we take such shortcuts?
+
+\subsubsection{Expressive power of propositional logic}
+
+A finite boolean function is one from $\B^n\to\B$.\\
+A formula $F$ with $\Vars(F)=\{p_1,\ldots,p_n\}$ can be viewed as a boolean function $f$ such that for each model $m$, $m(F)=f(m(p_1),\ldots,m(p_n))$. This is just an alternate way of writing a truth table (as a function instead of a table).
+
+\begin{theorem}
+FOr each finite boolean function $f$, there is a formula $F$ that represents $f$.
+\end{theorem}
+\begin{proof}
+Let $f:\B^n\to\B$. Let $p_i^0\coloneqq\neg p_i$ and $p_i^1\coloneqq p_i$. For every $(b_1,\ldots,b_n)\in\B^n$, let
+\[
+    F_{(b_1,\ldots,b_n)} \coloneqq
+    \begin{cases}
+        (p_1^{b_1}\wedge\cdots\wedge p_n^{b_n}), & f(b_1,\ldots,b_n)=1 \\
+        \perp, & \text{otherwise.}
+    \end{cases}
+\]
+We can then define the required formula $F$ by taking the conjunction over all boolean combinations,
+\[ F \coloneqq F_{(0,\ldots,0)} \vee \cdots \vee F_{(1,\ldots,1)}. \]
+\end{proof}
+
+Observe that we have only used three logical connectives.
+
+What if we do not have all logical connectives? Then we may not be able to represent all boolean functions. This is known as ``insufficient expressive power".\\
+
+For example, $\wedge$ alone cannot express all boolean functions. Consider the function $f=\{0\mapsto 1, 1\mapsto 1\}$. We show that this cannot be achieved by any $\wedge$s by taking induction on the size of formulas containing the variable $p$ and $\wedge$. For the base case, our only choice of formula is $p$. Now, suppose that formulas $F$ and $G$ of size less than $n-1$ do not represent $f$. We can construct a longer formula by $(F\wedge G)$. This formula does not represent $f$ because we can always pick a model where $F$ and $G$ produce $0$.
+
+We originally used $8$ connectives. This is not the minimal set required for maximum expressivity, however. For example, $\neg$ and $\vee$ can define the whole propositional logic. Indeed,
+\begin{itemize}
+    \item $\top \equiv p \vee \neg p$,
+    \item $\perp \equiv \neg \top$,
+    \item $(p \wedge q) \equiv \neg(p \vee q)$,
+    \item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
+    \item $(p\implies q) \equiv (\neg p \vee q)$, and
+    \item $(p\iff q) \equiv (p\implies q) \wedge (q\implies p)$.
+\end{itemize}
