@@ -19,6 +19,7 @@
 \usepackage[square, numbers]{natbib}
 \usepackage{mathrsfs}
 \usepackage{esvect}
+\usepackage{bussproofs}
 
 \usepackage{titlesec}
 \titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
@@ -28,7 +29,7 @@
 \usepackage{fancyhdr}
 \lhead{\sffamily{CS 228: Logic in Computer Science}}
 \chead{\sffamily{\thepage}}
-\rhead{\sffamily{-Amit Rajaraman}}
+\rhead{\sffamily{Amit Rajaraman}}
 \cfoot{}
 \pagestyle{fancy}
 
@@ -88,6 +89,9 @@
 }
 \mdtheorem[style=solutionstyle]{solution}{Solution}
 \numberwithin{solution}{section}
+\newenvironment{level}
+  {\addtolength{\itemindent}{2em}}
+  {\addtoength{\itemindent}{-2em}}
 
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
 

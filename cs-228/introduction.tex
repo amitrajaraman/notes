@@ -54,7 +54,7 @@ Propositions are connected by \textit{logical arguments}. How could we connect p
      negation & $\neg$ & not \\
      conjunction & $\wedge$ & and \\
      disjunction & $\vee$ & or \\
-     implication & $\implies$ & implies \\
+     implication & $\Rightarrow$ & implies \\
      equivalence & $\iff$ & iff \\
      exclusive or & $\oplus$ & xor \\
      opening parenthesis & ( & \\
@@ -76,7 +76,7 @@ The set of propositional formulas is the smallest set $P$ such that
 \end{definition}
 
 Alternatively, this can succinctly be written as ``$f \in P$ if
-\[f \coloneqq p\mid\top\mid\perp\mid \neg f \mid (f\vee f) \mid (f\wedge f) \mid (f\implies f) \mid (f\iff f) \mid (f\oplus f) \]
+\[f \coloneqq p\mid\top\mid\perp\mid \neg f \mid (f\vee f) \mid (f\wedge f) \mid (f\Rightarrow f) \mid (f\iff f) \mid (f\oplus f) \]
 where $p\in\mathsf{Vars}$."
 
 \begin{definition}
@@ -87,7 +87,7 @@ $\top$, $\perp$, and any $p\in\mathsf{Vars}$ are known as \textit{atomic formula
 For each $f\in P$, $\mathsf{Vars}(f)$ is the set of variables appearing in $f$.
 \end{definition}
 
-It is important to note that parentheses are needed (only) between binary operations. So as of now, $(\perp\implies\top)$ is a formula but $\perp\implies\top$ isn't.\\
+It is important to note that parentheses are needed (only) between binary operations. So as of now, $(\perp\Rightarrow\top)$ is a formula but $\perp\Rightarrow\top$ isn't.\\
 Not all strings over $\mathsf{Vars}$ and logical connectives are in $P$.
 
 \subsubsection{Examples Encoding Arguments into Logic}
@@ -97,7 +97,7 @@ Consider the following argument.
     If $c$ then if $s$ then $f$. not $f$. Therefore, if $s$ then not $c$.
 \end{quote}
 This can be written as
-\[ (((c\implies (s\implies f)) \wedge \neg f) \implies (s \implies \neg c)). \]
+\[ (((c\Rightarrow (s\Rightarrow f)) \wedge \neg f) \Rightarrow (s \Rightarrow \neg c)). \]
 Another example, say we know that good people always tell the truth and not good people always tell a lie. If there are two people $A$ and $B$ and $A$ says ``I am not good or $B$ is good", then what are $A$ and $B$?\\
 Suppose the variables $p_A$ and $p_B$ denote whether $A$ and $B$ are truthful or not. Then the above is basically
 \[ ((\neg p_A \vee p_B) \iff p_A). \]
@@ -141,9 +141,9 @@ Immediate subformulas are the children of a formula in its parse tree. The corre
 \subsubsection{Shorthands}
 
 The reader might have noticed by now that we need to write so many parentheses, which don't really feel necessary most of the time. If we use some sort of precedence order over logical connectives, we may be able to drop some parentheses without losing the unique parsing property.\\
-For example, we may drop outermost parentheses without any confusion. An example of this is writing $((p \wedge q)\implies (r \vee p))$ as $(p \wedge q)\implies (r \vee p)$.\\
-Further, in the above example, if we give $\vee$ and $\wedge$ higher precedence then $\implies$ during parentheses, then we can drop all the parentheses! The usual precedence order we use is
-\[ \neg > \vee = \wedge = \oplus > \implies = \iff. \]
+For example, we may drop outermost parentheses without any confusion. An example of this is writing $((p \wedge q)\Rightarrow (r \vee p))$ as $(p \wedge q)\Rightarrow (r \vee p)$.\\
+Further, in the above example, if we give $\vee$ and $\wedge$ higher precedence then $\Rightarrow$ during parentheses, then we can drop all the parentheses! The usual precedence order we use is
+\[ \neg > \vee = \wedge = \oplus > \Rightarrow = \iff. \]
 So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\circ_2 \cdots\circ_n F_n$, where each $F_i$ is either atomic, enclosed by parentheses, or their negation. We transform it as follows.
 \begin{itemize}
     \item Find a $\circ_i$ such that $\circ_{i-1}$ and $\circ_{i+1}$ have lower precedence (if they exist).
@@ -151,16 +151,16 @@ So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\ci
     \[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
 \end{itemize}
 Repeat the above until only one expression remains ($n$ becomes $1$). We can then parse it normally. For example,
-\[ p \wedge q \implies r \vee p \text{ to } (p\wedge q)\implies r\vee p \text{ to } (p\wedge q)\implies (r\vee p) \text{ to } ((p\wedge q)\implies (r\vee p)). \]
-Some formulas cannot be unambiguously parsed, for example $p\vee q\wedge r$, $p \vee q \vee r$, or $p\implies q\implies r$. But can we salvage any of them?\\
-Associativity preference may further reduce the need of parentheses. Let's make all our operators right associative (first group the rightmost occurrence). So for example, unless mentioned otherwise, we take $p\implies q\implies r$ as $(p\implies (q\implies r))$.
+\[ p \wedge q \Rightarrow r \vee p \text{ to } (p\wedge q)\Rightarrow r\vee p \text{ to } (p\wedge q)\Rightarrow (r\vee p) \text{ to } ((p\wedge q)\Rightarrow (r\vee p)). \]
+Some formulas cannot be unambiguously parsed, for example $p\vee q\wedge r$, $p \vee q \vee r$, or $p\Rightarrow q\Rightarrow r$. But can we salvage any of them?\\
+Associativity preference may further reduce the need of parentheses. Let's make all our operators right associative (first group the rightmost occurrence). So for example, unless mentioned otherwise, we take $p\Rightarrow q\Rightarrow r$ as $(p\Rightarrow (q\Rightarrow r))$.
 
 \begin{definition}
 For $F\in P$ and $p_1,\ldots,p_k\in\Vars$, we denote by $F[G_1/p_1,\ldots,G_k/p_k]$ the formula obtained by \textit{simultaneously} replacing all occurrences of $p_i$ by the formula $G_i$ for each $i\in[k]$. 
 \end{definition}
 
 So for example,
-\[ (p\implies (r\implies p))[(r\otimes p)/p] = ((r\otimes p)\implies (r\implies (r\otimes p))). \]
+\[ (p\Rightarrow (r\Rightarrow p))[(r\otimes p)/p] = ((r\otimes p)\Rightarrow (r\Rightarrow (r\otimes p))). \]
 Sometimes, we may also write a formula $F$ as $F(p_1,\ldots,p_k)$. Then, by $F(G_1,\ldots,G_n)$, we mean $F[G_1/p_1,\ldots,G_k/p_k]$.
 
 \subsection{Lecture 3}
@@ -185,7 +185,7 @@ The \textit{satisfaction relation} $\vDash$ between models and formulas is the s
     \item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash F_1\vee F_2$,
     \item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash F_1\wedge F_2$,
     \item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash F_1\oplus F_2$,
-    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\implies F_2)$, and
+    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\Rightarrow F_2)$, and
     \item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\iff F_2)$.
 \end{itemize}
 \end{definition}
@@ -265,7 +265,7 @@ This extended $m$ is known as the \textit{truth function}. We needn't introduce 
 For a formula $F$, a truth table consists f $2^{|\Vars(F)|}$ rows, where each row considers one of the models and computes the corresponding truth value of $F$.
 
 For example, show that $p\vee q \equiv \neg(\neg p \wedge \neg q)$ and $p\wedge q \equiv \neg(\neg p \vee \neg q)$, also known as De Morgan's laws.\\
-It is also easily shown that $p\implies q \equiv (\neg p \vee q)$.
+It is also easily shown that $p\Rightarrow q \equiv (\neg p \vee q)$.
 
 Truth tables are tedious because we need to write $2^n$ rows even if a simple observation could easily show (un)satisfiability.\\
 For example, $a \vee (c \neg a)$ is very clearly true. If there's no $\neg$s (of any form, $\oplus$ in particular) in general, one can just set everything as true. Another example is that $(a \vee (c \neg a))\wedge\neg (a \vee (c \neg a))$ is obviously unsat.\\
@@ -304,6 +304,244 @@ We originally used $8$ connectives. This is not the minimal set required for max
     \item $\perp \equiv \neg \top$,
     \item $(p \wedge q) \equiv \neg(p \vee q)$,
     \item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
-    \item $(p\implies q) \equiv (\neg p \vee q)$, and
-    \item $(p\iff q) \equiv (p\implies q) \wedge (q\implies p)$.
+    \item $(p\Rightarrow q) \equiv (\neg p \vee q)$, and
+    \item $(p\iff q) \equiv (p\Rightarrow q) \wedge (q\Rightarrow p)$.
+\end{itemize}
+
+\subsection{Lecture 4}
+
+\subsubsection{Formal Proofs}
+
+Suppose that for a set of formulas $\Sigma$ and a formula $F$, $\Sigma\vDash F$. Can we infer that $\Sigma\vDash F$ without writing out the truth tables? This syntactic inference is called \textit{derivation}. This is written $\Sigma\vdash F$ and is read ``$\Sigma$ proves $F$''. In this case, $F$ is said to be a ``consequence'' of $\Sigma$.\\
+
+If $F$ occurs on the left hand side $F\in\Sigma$, then $F$ is clearly a consequence.\\
+
+A \textit{proof rule} provides us a means to derive new statements from old statements. They are written as
+\begin{prooftree}
+    \LeftLabel{\textsf{RuleName}}
+    \AxiomC{Stuff already there}
+    \RightLabel{\textsf{Conditions to be met}}
+    \UnaryInfC{Stuff to be added}
+\end{prooftree}
+A derivation proceeds by applying these proof rules.
+So for instance, the rule we mentioned earlier can be written as
+\begin{prooftree}
+    \LeftLabel{\textsf{Assumption}}
+    \AxiomC{}
+    \RightLabel{$F\in\Sigma.$}
+    \UnaryInfC{$\Sigma\vdash F$}
+\end{prooftree}
+Another obvious example is
+\begin{prooftree}
+    \LeftLabel{\textsf{Monotonic}}
+    \AxiomC{$\Sigma\vdash F$}
+    \RightLabel{$\Sigma\subseteq\Sigma'.$}
+    \UnaryInfC{$\Sigma'\vdash F$}
+\end{prooftree}
+
+\begin{definition}
+A \textit{derivation} is a list of statements that are derived from earlier statements.
+\end{definition}
+
+An example of a derivation using the above rules is:
+\begin{enumerate}
+    \item $\{p\vee q,\neg\neg q\}\vdash\neg\neg q$ \hfill (\textsf{Assumption})
+    \item $\{p\vee q, \neg\neg q, r\}\vdash\neg\neg q$ \hfill (\textsf{Monotonic} applied to 1)
+\end{enumerate}
+It is important to note that we need to explicitly point out which earlier step we are using (if any).
+
+Let us try to establish some proof rules on our logical connectives.
+
+\paragraph{Negation.}
+
+\begin{prooftree}
+    \LeftLabel{\textsf{DoubleNeg}}
+    \AxiomC{$\Sigma\vdash F$}
+    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
+    \UnaryInfC{$\Sigma\vdash\neg\neg F$}
+\end{prooftree}
+
+For example,
+\begin{enumerate}
+    \item $\{p\vee q,r\}\vdash r$ \hfill (\textsf{Assumption})
+    \item $\{p\vee q, r, \neg\neg q\}\vdash r$ \hfill (\textsf{Monotonic} applied to 1)
+    \item $\{p\vee q, r, \neg\neg q\}\vdash\neg\neg r$ \hfill (\textsf{DoubleNeg} applied to 2)
+\end{enumerate}
+
+\paragraph{Conjunction.}
+
+We have the following proof rules for the conjunction.
+
+\begin{prooftree}
+    \LeftLabel{$\wedge$-\textsf{Intro}}
+    \AxiomC{$\Sigma\vdash F$}
+    \AxiomC{$\Sigma\vdash G$}
+    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
+    \BinaryInfC{$\Sigma\vdash F\wedge G$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\wedge$-\textsf{Elim}}
+    \AxiomC{$\Sigma\vdash F\wedge G$}
+    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
+    \UnaryInfC{$\Sigma\vdash F$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\wedge$-\textsf{Symm}}
+    \AxiomC{$\Sigma\vdash F\wedge G$}
+    \UnaryInfC{$\Sigma\vdash G\wedge F$}
+\end{prooftree}
+
+An example using these is
+\begin{enumerate}
+    \item $\{p\wedge q, \neg\neg q, r\}\vdash p\wedge q$ \hfill (\textsf{Assumption})
+    \item $\{p\wedge q, \neg\neg q, r\}\vdash p$ \hfill (\textsf{$\wedge$-Elim} applied to 1)
+    \item $\{p\wedge q, \neg\neg q, r\}\vdash q\wedge p$ \hfill (\textsf{$\wedge$-Symm} applied to 1)
+\end{enumerate}
+
+\paragraph{Disjunction.}
+
+Except for the last two (which are like De Morgan's law), the rules for the disjunction are similar.
+
+\begin{prooftree}
+    \LeftLabel{$\vee$-\textsf{Intro}}
+    \AxiomC{$\Sigma\vdash F$}
+    \UnaryInfC{$\Sigma\vdash F\vee G$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\vee$-\textsf{Elim}}
+    \AxiomC{$\Sigma\vdash F\vee G$}
+    \AxiomC{$\Sigma\cup\{F\}\vdash H$}
+    \AxiomC{$\Sigma\cup\{G\}\vdash H$}
+    \TrinaryInfC{$\Sigma\vdash H$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\vee$-\textsf{Symm}}
+    \AxiomC{$\Sigma\vdash F\vee G$}
+    \UnaryInfC{$\Sigma\vdash G\vee F$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\vee$-\textsf{Def}}
+    \AxiomC{$\Sigma\vdash F\vee G$}
+    \UnaryInfC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\vee$-\textsf{Def}}
+    \AxiomC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
+    \UnaryInfC{$\Sigma\vdash F\vee G$}
+\end{prooftree}
+
+Let us give another example, which is basically equivalent to the distributive law. Suppose we have $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$, we want to show that we can derive $\Sigma\vdash F\wedge(G\vee H)$. Indeed,
+\begin{enumerate}
+    \item $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$ \hfill (\textsf{Premise})%1
+    
+    \item $\Sigma\cup\{F\wedge G\} \vdash F\wedge G$ \hfill (\textsf{Assumption})%2
+    \item $\Sigma\cup\{F\wedge G\} \vdash F$ \hfill (\textsf{$\wedge$-Elim} applied to 2)%3
+    \item $\Sigma\cup\{F\wedge G\} \vdash G\wedge F$ \hfill (\textsf{$\wedge$-Symm} applied to 2)%4
+    \item $\Sigma\cup\{F\wedge G\} \vdash G$ \hfill (\textsf{$\wedge$-Elim} applied to 4)%5
+    \item $\Sigma\cup\{F\wedge G\}\vdash G\vee H$ \hfill (\textsf{$\vee$-Intro} applied to 5)%6
+    \item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\textsf{$\wedge$-Intro} applied to 3,6)%7
+
+    \item $\Sigma\cup\{F\wedge H\} \vdash F\wedge H$ \hfill (\textsf{Assumption})%8
+    \item $\Sigma\cup\{F\wedge H\} \vdash F$ \hfill (\textsf{$\wedge$-Elim} applied to 8)%9
+    \item $\Sigma\cup\{F\wedge H\} \vdash H\wedge F$ \hfill (\textsf{$\wedge$-Symm} applied to 8)%10
+    \item $\Sigma\cup\{F\wedge H\} \vdash H$ \hfill (\textsf{$\wedge$-Elim} applied to 10)%11
+    \item $\Sigma\cup\{F\wedge H\}\vdash H\vee G$ \hfill (\textsf{$\vee$-Intro} applied to 11)%12
+    \item $\Sigma\cup\{F\wedge H\}\vdash G\vee H$ \hfill (\textsf{$\vee$-Symm} applied to 11)%13
+    \item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\textsf{$\wedge$-Intro} applied to 9,13)%14
+
+    \item $\Sigma\vdash F\wedge(G\vee H)$ \hfill (\textsf{$\vee$-Elim} applied to 1,7,14)%15
+\end{enumerate}
+
+\paragraph{Implication.}
+
+The rules for the implication are:
+
+\begin{prooftree}
+    \LeftLabel{$\Rightarrow$-\textsf{Intro}}
+    \AxiomC{$\Sigma\cup \{F\}\vdash G$}
+    \UnaryInfC{$\Sigma\vdash F \Rightarrow G$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\Rightarrow$-\textsf{Elim}}
+    \AxiomC{$\Sigma\vdash F\Rightarrow G$}
+    \AxiomC{$\Sigma\vdash F$}
+    \BinaryInfC{$\Sigma\vdash G$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\Rightarrow$-\textsf{Def}}
+    \AxiomC{$\Sigma\vdash F\Rightarrow G$}
+    \UnaryInfC{$\Sigma\vdash \neg F\vee G$}
+\end{prooftree}
+
+\begin{prooftree}
+    \LeftLabel{$\Rightarrow$-\textsf{Def}}
+    \AxiomC{$\Sigma\vdash \neg F\vee G$}
+    \UnaryInfC{$\Sigma\vdash F\Rightarrow G$}
+\end{prooftree}
+
+For example, let us show that $\{\neg p\vee q,p\}\vdash q$.
+\begin{enumerate}
+    \item $\{\neg p\vee q, p\}\vdash p$ \hfill (\textsf{Assumption})
+    \item $\{\neg p\vee q, p\}\vdash \neg p\vee q$ \hfill (\textsf{Assumption})
+    \item $\{\neg p\vee q, p\}\vdash p\Rightarrow q$ \hfill (\textsf{$\Rightarrow$-Def} applied to 2)
+    \item $\{\neg p\vee q, p\}\vdash q$ \hfill (\textsf{$\Rightarrow$-Elim} applied to 1,3)
+\end{enumerate}
+
+As another example, let us show that $\emptyset\vdash(p\Rightarrow q)\vee p$.
+\begin{enumerate}
+    \item $\{\neg p\}\vdash\neg p$ \hfill (\textsf{Assumption})
+    \item $\{\neg p\}\vdash \neg p \vee q$ \hfill (\textsf{$\vee$-Intro} applied to 1)
+    \item $\{\neg p\}\vdash p \Rightarrow q$ \hfill (\textsf{$\Rightarrow$-Def} applied to 2)
+    \item $\{\neg p\}\vdash (p \Rightarrow q)\vee p$ \hfill (\textsf{$\vee$-Intro} applied to 3)
+
+    \item $\{p\}\vdash p$ \hfill (\textsf{Assumption})
+    \item $\{p\}\vdash p\vee(p\Rightarrow q)$ \hfill (\textsf{$\vee$-Intro} applied to 5)
+    \item $\{p\}\vdash (p\Rightarrow q)\vee p$ \hfill (\textsf{$\vee$-Symm} applied to 6)
+
+    \item $\emptyset\vdash (p\Rightarrow p)$ \hfill (\textsf{$\Rightarrow$-Intro} applied to 5)
+    \item $\emptyset\vdash (\neg p\vee p)$ \hfill (\textsf{$\Rightarrow$-Def} applied to 8)
+    
+    \item $\emptyset\vdash (p\implies q)\vee p$ \hfill (\textsf{$\vee$-Elim} applied to 4,7,9)
+    % \item $\emptyset\vdash (\neg p)\Rightarrow (p\Rightarrow q)$ \hfill (\textsf{$\Rightarrow$-Intro} applied to 3)
+    % \item $\emptyset\vdash (\neg \neg p) \vee (p\Rightarrow q)$ \hfill (\textsf{$\Rightarrow$-Def} applied to 4)
+\end{enumerate}
+
+There are several more proof rules for parentheses, $\oplus$, $\iff$, et cetera.
+
+\subsubsection{Soundness}
+
+How do we know that the above proof rules are correct? What does ``correct'' even mean?
+
+\begin{theorem}
+\label{theo: derivation implies modeling}
+    If proof rules derive a statement $\Sigma\vdash F$, then $\Sigma\vDash F$.
+\end{theorem}
+We use an inductive argument. Assume that the theorem holds for the premises of the rules. We shall show that it is also true for the conclusions.\\
+
+Consider the following rule
+\begin{prooftree}
+    \LeftLabel{$\wedge$-\textsf{Elim}}
+    \AxiomC{$\Sigma\vdash F\wedge G$}
+    \UnaryInfC{$\Sigma\vdash F$}
+\end{prooftree}
+Consider a model $m\vDash\Sigma$. By the induction hypothesis, $m\vDash F\wedge G$. It is easy to show (using the truth table) that if $m\vDash F\wedge G$, then $m\vDash F$. Therefore, $\Sigma\vDash F$.\\
+
+As another example, consider
+\begin{prooftree}
+    \LeftLabel{$\Rightarrow$-\textsf{Intro}}
+    \AxiomC{$\Sigma\cup\{F\}\vdash G$}
+    \UnaryInfC{$\Sigma\vdash F\Rightarrow G$}
+\end{prooftree}
+Consider a model $m\vDash\Sigma$. There are two possibilities.
+\begin{itemize}
+    \item $m\vDash F$. Then $m\vDash \Sigma\cup\{F\}$. By the hypothesis, $m\vDash G$. Therefore, $m\vDash F\Rightarrow G$.
+    \item $m\nvDash F$. Then $m$ trivially satisfies $m\vDash F\Rightarrow G$.
 \end{itemize}
