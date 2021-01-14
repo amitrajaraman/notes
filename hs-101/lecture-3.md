@@ -16,5 +16,8 @@ A _monopoly_ is on the other end of the spectrum.
 _Oligopoly_ means not many sellers and not very aggressive competition. Example. Telecom market.      
 _Monopolistic competition_ (monopoly+competition) has many sellers and slightly differentiated products. Each seller may set price for its own product. Example. Hotel market.
 
+The _quantity demanded_ is the amount of a good that buyers are willing and able to purchase.    
 The _law of demand_ states that, other things equal, the quantity demanded of a good falls when the price of the good rises.    
-The law of demand doesn't always hold. Example. Stock market. The usual rule of thumb is to buy more when the price of the stocks increases. Another example is paintings/antiques in auctions.
+The law of demand doesn't always hold. Example. Stock market. The usual rule of thumb is to buy more when the price of the stocks increases. Another example is paintings/antiques in auctions.    
+The _demand schedule_ is a table showing the relation between the price and the quantity demanded. When the law of demand holds, the two have an inverse relationship.    
+The _demand curve_ is a graph of the two (price on vertical axis).
