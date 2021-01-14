@@ -89,7 +89,7 @@ We give a few examples with the aim of hopefully making the above notation more 
 	   		}
 	   	}
 	   	\Return{$\var{i_1},\var{i_2}$}
-		\caption{Algorithm to find the closest pair of points}\label{algo: closest pair of points}
+		\caption{Algorithm to find a closest pair of points}\label{algo: closest pair of points}
 	\end{algorythm}
 	This problem can in fact be solved in $\mathcal{O}(n\log n)$ time, which we shall see later (you can try thinking about it now).
 
@@ -126,7 +126,7 @@ Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ 
 	    		\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
 	    	}
 	    	\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
-	    		\Return{$\FRecurs(\var{B}[\var{mid}/2:\Size{$\var{B}$}])$}
+	    		\Return{$\FRecurs(\var{B}[1+\var{mid}/2:\Size{$\var{B}$}])$}
 	    	}
 	    }
 	    \Return{\FRecurs{$\var{A}$}}

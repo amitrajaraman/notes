@@ -1,4 +1,10 @@
-## Introduction
+---
+layout: page
+title: Lecture 1 - Introduction
+---
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
+
 
 Engineering is essentially _design under constraint_. We have a set of constraints such as size, weight, reliability, etc, and we want to optimize our solution under these constraints.
 
@@ -9,7 +15,7 @@ We use operators/connectives to create a compound proposition from multiple prop
 
 A number with _radix_ $$r$$ is represented b a string of digits
 
-$$A_{n-1}A_{n-2}\ldots A_1 A_0 . A__{-1} \ldots A_{-n},$$
+$$A_{n-1}A_{n-2}\ldots A_1 A_0 . A__{-1} \ldots A_{-n}$$
 
 where $$A_i$$ represents $$r^{i}$$.
 
