@@ -293,7 +293,7 @@ Observe that we have only used three logical connectives.
 
 What if we do not have all logical connectives? Then we may not be able to represent all boolean functions. This is known as ``insufficient expressive power".\\
 
-For example, $\wedge$ alone cannot express all boolean functions. Consider the function $f=\{0\mapsto 1, 1\mapsto 1\}$. We show that this cannot be achieved by any $\wedge$s by taking induction on the size of formulas containing the variable $p$ and $\wedge$. For the base case, our only choice of formula is $p$. Now, suppose that formulas $F$ and $G$ of size less than $n-1$ do not represent $f$. We can construct a longer formula by $(F\wedge G)$. This formula does not represent $f$ because we can always pick a model where $F$ and $G$ produce $0$.
+For example, $\wedge$ alone cannot express all boolean functions. Consider the function $f=\{0\mapsto 1, 1\mapsto 1\}$. We show that this cannot be achieved by any $\wedge$s by taking induction on the size of formulas containing the variable $p$ and $\wedge$. For the base case, our only choice of formula is $p$. Now, suppose that formulas $F$ and $G$ of size less than $n-1$ do not represent $f$. We can construct a longer formula by $(F\wedge G)$. This formula does not represent $f$ because we can always pick a model where $F$ or $G$ produce $0$.
 
 We originally used $8$ connectives. This is not the minimal set required for maximum expressivity, however. For example, $\neg$ and $\vee$ can define the whole propositional logic. Indeed,
 \begin{itemize}
