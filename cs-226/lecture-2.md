@@ -13,7 +13,7 @@ Given binary digits $$X$$ and $$Y$$, their sum is $$S = X \oplus Y$$ and the car
 It would be more convenient to have a system that adds $$3$$ bits at a time, since then we can use recurrence to add some long binary numbers. So given two binary digits $$(X,Y)$$ along with a carry in $$Z$$, we get the following:
 
 * If the carry $$Z$$ is $$0$$, then it's the same as the two-bit case.
-* Otherwise, we get $$S = \neg (X \oplus Y)$$ and $$C = X \vee Y$$.
+* Otherwise, we get $$S = \neg (X \oplus Y)$$ anythingd $$C = X \vee Y$$.
 
 The above is known as a _full adder_. The two bit version is known as a _half adder_.
 

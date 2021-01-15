@@ -170,8 +170,8 @@ Semantics is giving meaning to formulas. We denote the set of truth values as $\
 A \textit{model} is an function from $\Vars\to\mathcal{B}$.
 \end{definition}
 
-For example, $\{p_1\mapsto 1, p_2\mapsto 0, p_3\mapsto 0,\ldots\}$. Since $\Vars$ is countable, the set of models is non-empty and infinite.\\
-A given model $m$ may or may not satisfy a formula $F$. This satisfaction relation is denoted by $m\vDash F$. Let us define this more concretely.
+For example, $\{p_1\mapsto 1, p_2\mapsto 0, p_3\mapsto 0,\ldots\}$ is a model. \\
+It is quite natural to extend this further to formulas in general. That is, a given model $m$ may or may not satisfy a formula $F$. More concretely.
 
 \begin{definition}
 The \textit{satisfaction relation} $\vDash$ between models and formulas is the smallest relation that satisfies the following.
@@ -179,11 +179,11 @@ The \textit{satisfaction relation} $\vDash$ between models and formulas is the s
     \item $m\vDash\top$,
     \item if $m(p)=1$, then $m\vDash p$,
     \item if $m\nvDash F$, then $m\vDash\neg F$,
-    \item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash F_1\vee F_2$,
-    \item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash F_1\wedge F_2$,
-    \item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash F_1\oplus F_2$,
-    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\Rightarrow F_2)$, and
-    \item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\iff F_2)$.
+    \item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash (F_1\vee F_2)$,
+    \item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash (F_1\wedge F_2)$,
+    \item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash (F_1\oplus F_2)$,
+    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\Rightarrow F_2$, and
+    \item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\Leftrightarrow F_2)$.
 \end{itemize}
 \end{definition}
 
@@ -259,13 +259,13 @@ Given a model $m:\Vars\to\B$, we can naturally extend it to $m:P\to \B$ as
 
 This extended $m$ is known as the \textit{truth function}. We do not introduce new notation for this, keeping the meanings from the definitions for models unchanged.\\
 
-For a formula $F$, a truth table consists f $2^{|\Vars(F)|}$ rows, where each row considers one of the models and computes the corresponding truth value of $F$.
+For a formula $F$, a truth table consists of $2^{|\Vars(F)|}$ rows, where each row considers one of the models and computes the corresponding truth value of $F$.
 
-For example, show that $p\vee q \equiv \neg(\neg p \wedge \neg q)$ and $p\wedge q \equiv \neg(\neg p \vee \neg q)$, also known as De Morgan's laws.\\
+Truth tables are sometimes useful to prove that formulae are equivalent. For example, show that $p\vee q \equiv \neg(\neg p \wedge \neg q)$ and $p\wedge q \equiv \neg(\neg p \vee \neg q)$, also known as De Morgan's laws.\\
 It is also easily shown that $p\Rightarrow q \equiv (\neg p \vee q)$.
 
 Truth tables are tedious because we need to write $2^n$ rows even if a simple observation could easily show (un)satisfiability.\\
-For example, $a \vee (c \wedge b)$ is very clearly true. If there are no $\neg$s (of any form, $\oplus$ in particular) in general, one can just set everything as true. Another example is that $(a \vee (c \neg a))\wedge\neg (a \vee (c \neg a))$ is obviously unsat.\\
+For example, $a \vee (c \wedge b)$ being sat is very clearly true. If there are no $\neg$s (of any form, $\oplus$ in particular) in general, one can just set everything as true. Another example is that $(a \vee (c \neg a))\wedge\neg (a \vee (c \neg a))$ is obviously unsat.\\
 How do we take such shortcuts?
 
 \subsubsection{Expressive power of propositional logic}
@@ -302,7 +302,7 @@ We originally used $8$ connectives. This is not the minimal set required for max
     \item $(p \wedge q) \equiv \neg(p \vee q)$,
     \item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
     \item $(p\Rightarrow q) \equiv (\neg p \vee q)$, and
-    \item $(p\iff q) \equiv (p\Rightarrow q) \wedge (q\Rightarrow p)$.
+    \item $(p\Leftrightarrow q) \equiv (p\Rightarrow q) \wedge (q\Rightarrow p)$.
 \end{itemize}
 
 \subsection{Lecture 4}
