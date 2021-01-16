@@ -1019,26 +1019,65 @@ The next inequality can be thought of a central limit theorem style inequality.
     \end{align*}
 \end{proof}
 
-\subsubsection{Metropolis Chain}
+\subsubsection{Metropolis Chains}
 
 While we have used Metropolis chains previously, let us define them more formally for the sake of completeness.
 
-\begin{definition}
-    Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that
-    \[ \overline{F} = \int_\Omega F\d{Q} \]
-    is finite. Denote by $\mu_F$ the measure with density $F$. Define a new Markov scheme $\mathcal{M}/F$, known as the \textit{filtering} of $\mathcal{M}$ by $F$, with transition probabilities
+\begin{fdef}[Metropolis Chain]
+    Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that $\overline{F} = \displaystyle\int_\Omega F\d{Q}$ is finite. Denote by $\mu_F$ the measure with density $F$. We then define the \textit{filtering} of $\mathcal{M}$ by $F$, denoted $\mathcal{M}/F$, as the Markov scheme with transition probabilities
     \[
         P_u^F(A) = 
         \begin{cases}
-            \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
-            \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
+            \displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
+            \displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
         \end{cases}
     \]
     where
     \[ \ell(u) = \int_\Omega \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(u). \]
-\end{definition}
+\end{fdef}
+
+And as mentioned, this modified chain converges to a distribution proportional to $F$.
+
+\begin{theorem}
+    If $\mathcal{M}$ is time-reversible, then $\mathcal{M}/F$ is also time-reversible and has stationary distribution $Q_F = (1/\overline{F})\mu_F$.
+\end{theorem}
+\begin{proof}
+    It suffices to show that for any disjoint measurable sets $A$ and $B$,
+    \[ \int_B P_u^F(A)\d{Q}_F(u) = \int_A P_u^F(B) \d{Q}_F(u), \]
+    that is,
+    \[ \int_B \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u). \]
+    Rewriting, we want to show that
+    \[ \int_B \int_A \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u), \]
+    but this follows from the time-reversibility of $\mathcal{M}$.
+\end{proof}
 
 Before we move on to the main algorithm, we set up some prerequisite results to make the discussion in the subsequent section more natural.
+
+\subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{} Algorithm using the Ball-Step}
+
+As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm described here was originally given in \cite{lov-sim-on7}.\\
+Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
+\[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
+is uniformly distributed in $B_2^n$.\\
+On a separate note, instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points from from a programming perspective. Our analysis shall be done using this general case.\\
+
+We modify the ball-walk into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
+\[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
+and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear what convex body we are talking about. First of all, we can use \Cref{find sphere volume} and \Cref{eqn: volume in terms of radial distance} to get
+\[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
+That is,
+\begin{equation}
+    \vol(K) = \frac{1}{n!} \int_{\R^n} F.
+\end{equation}
+
+Now, define
+\[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
+\begin{lemma}
+    Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
+    \[ H(v) = \lambda(\phi(v))v \]
+    is uniformly distributed on $K$.
+\end{lemma}
+
 
 \subsection{An Isoperimetric Inequality}
 
@@ -1072,11 +1111,13 @@ Setting $K$ to be a rectangle aligned with the axes having edges of length $\var
     in the remaining variables is log-concave.
 \end{corollary}
 
-% \begin{corollary}
-%     Let $K$ and $K'$ be two convex bodies and $t>0$. If $\{x\in\R^n:\vol((x+K')\cap K)>t\}$ has an interior point, then it is convex. In particular, for any $0<s<1$,
-%     \[ K_s = \{x\in K : \vol((x+K)\cap K) \geq s\vol(K)\} \]
-%     is a convex body.
-% \end{corollary}
+Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that the function $x\mapsto \vol((x+K')\cap K)$ is concave.
+
+\begin{corollary}
+    Let $K$ and $K'$ be two convex bodies and $t>0$. If $\{x\in\R^n:\vol((x+K')\cap K)>t\}$ has an interior point, then it is convex. In particular, for any $0<s<1$,
+    \[ K_s = \{x\in K : \vol((x+K)\cap K) \geq s\vol(K)\} \]
+    is a convex body.
+\end{corollary}
 
 \subsubsection{A Localization Lemma}
 
@@ -1086,3 +1127,6 @@ The main result of this section is the following result, which is an improvement
 Let $g$ and $h$ be upper semi-continuous Lebesgue integrable functions on $\R^n$ such that their integrals on $\R^n$ are positive. Then there exist points $a,b\in\R^n$ and a linear function $\ell:[0,1]\to\Rp$ such that
 \[ \int_0^1 \ell(t)g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
+
+Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{The segment joining $a$ and $b$ is the axis of the truncated cone and $\ell$ represents the radius at the appropriate point.} Before we prove this, let us discuss some consequences of the result.
+

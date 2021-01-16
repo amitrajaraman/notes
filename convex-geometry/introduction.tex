@@ -82,9 +82,10 @@ The measure of unit ball is ``concentrated" both near the surface \textit{and} a
 Another fun\footnote{subject to debate} thing to think about is the following. Consider the cube $[-1,1]^n$. Construct a ball of radius $1/2$ at each of the $2^n$ vertices $(\pm 1,\ldots, \pm 1)$. Now, construct the ball with center $(\frac{1}{2},\ldots,\frac{1}{2})$ that touches each of these $2^n$ balls. Then note that for $n=4$, this ball touches (the center of each face of) the cube, and for $n\geq 5$, it actually goes \textit{outside} the cube!\\
 
 To conclude, let us write the volume of a general convex body $K$ in spherical polar coordinates. Assume that $K$ has $0$ in its interior and for each direction $\theta\in S^{n-1}$, let $r(\theta)$ be the radius of $K$ (in that direction). Then,
-\[
-\vol(K) = nv_n \int_{S^{n-1}}\int_0^{r(\theta)}s^{n-1}\d{s}\d\sigma = v_n\int_{S^{n-1}} r(\theta)^n\d\sigma.
-\]
+\begin{equation}
+\label{eqn: volume in terms of radial distance}
+    \vol(K) = nv_n \int_{S^{n-1}}\int_0^{r(\theta)}s^{n-1}\d{s}\d\sigma = v_n\int_{S^{n-1}} r(\theta)^n\d\sigma.
+\end{equation}
 
 \begin{definition}
 A convex body $K$ is said to be \textit{(centrally) symmetric} if $-x\in K$ whenever $x\in K$.
