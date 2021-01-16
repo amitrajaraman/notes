@@ -1019,6 +1019,27 @@ The next inequality can be thought of a central limit theorem style inequality.
     \end{align*}
 \end{proof}
 
+\subsubsection{Metropolis Chain}
+
+While we have used Metropolis chains previously, let us define them more formally for the sake of completeness.
+
+\begin{definition}
+    Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that
+    \[ \overline{F} = \int_\Omega F\d{Q} \]
+    is finite. Denote by $\mu_F$ the measure with density $F$. Define a new Markov scheme $\mathcal{M}/F$, known as the \textit{filtering} of $\mathcal{M}$ by $F$, with transition probabilities
+    \[
+        P_u^F(A) = 
+        \begin{cases}
+            \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
+            \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
+        \end{cases}
+    \]
+    where
+    \[ \ell(u) = \int_\Omega \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(u). \]
+\end{definition}
+
+Before we move on to the main algorithm, we set up some prerequisite results to make the discussion in the subsequent section more natural.
+
 \subsection{An Isoperimetric Inequality}
 
 \subsubsection{Log-Concave Functions}
