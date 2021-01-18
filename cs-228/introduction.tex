@@ -4,7 +4,7 @@
 
 For any computer scientist, logic is an extremely basic tool. Consider the statement
 \begin{quote}
-    This sentence is false.
+	This sentence is false.
 \end{quote}
 A little bit of thought shows that the above sentence has no definite truth value -- it is \textit{paradoxical}. Indeed, it is often known as the ``liar's paradox". This sort of self-referential sentence will come back to haunt us many more times in the future.\\
 
@@ -19,7 +19,7 @@ There are theories whose assumptions cannot be listed.
 \begin{proof}
 Suppose that there exists such a list for the number theory. Consider the \textbf{true} statement
 \begin{quote}
-    This sentence cannot be proven by the list.
+	This sentence cannot be proven by the list.
 \end{quote}
 The list cannot imply the sentence. This yields a contradiction.
 \end{proof}
@@ -38,27 +38,27 @@ The logic we consider is over some list of propositions. We give each propositio
 These propositional variables are also called \textit{Boolean variables}.\\
 Propositions are connected by \textit{logical arguments}. How can we connect propositions?
 \begin{itemize}
-    \item A statement that is always true/false.
-    \item Negation. A statement that is the negation of another.
-    \item Conjunction. Two statements being true simultaneously.
-    \item Disjunction. At least one of two statements being true.
-    \item Implication. If a statement is true, then some other statement is true as well.
-    \item Equivalence. Two statements always have the same truth value.
-    \item Disequality or exclusive or. Two statements always have different truth values.
+	\item A statement that is always true/false.
+	\item Negation. A statement that is the negation of another.
+	\item Conjunction. Two statements being true simultaneously.
+	\item Disjunction. At least one of two statements being true.
+	\item Implication. If a statement is true, then some other statement is true as well.
+	\item Equivalence. Two statements always have the same truth value.
+	\item Disequality or exclusive or. Two statements always have different truth values.
 \end{itemize}
 
 \begin{center}
 \begin{tabular}{c|c|c}
-     true & $\top$ & top  \\
-     false & $\perp$ & bot \\
-     negation & $\neg$ & not \\
-     conjunction & $\wedge$ & and \\
-     disjunction & $\vee$ & or \\
-     implication & $\implies$ & implies \\
-     equivalence & $\iff$ & iff \\
-     exclusive or & $\oplus$ & xor \\
-     opening parenthesis & ( & \\
-     closing parenthesis & ) &
+	 true & $\top$ & top  \\
+	 false & $\perp$ & bot \\
+	 negation & $\neg$ & not \\
+	 conjunction & $\wedge$ & and \\
+	 disjunction & $\vee$ & or \\
+	 implication & $\implies$ & implies \\
+	 equivalence & $\iff$ & iff \\
+	 exclusive or & $\oplus$ & xor \\
+	 opening parenthesis & ( & \\
+	 closing parenthesis & ) &
 \end{tabular}
 \end{center}
 
@@ -68,10 +68,10 @@ A \textit{propositional formula} is a finite string containing symbols in $\math
 \begin{definition}
 The set of propositional formulas is the smallest set $P$ such that
 \begin{itemize}
-    \item $\top,\perp$ are in $P$,
-    \item $\mathsf{Vars}\subseteq P$,
-    \item if $F\in P$, then $\neg F\in P$, and
-    \item if $\circ$ is a binary symbol and $F,G\in P$, then $(F\circ G)\in P$.
+	\item $\top,\perp$ are in $P$,
+	\item $\mathsf{Vars}\subseteq P$,
+	\item if $F\in P$, then $\neg F\in P$, and
+	\item if $\circ$ is a binary symbol and $F,G\in P$, then $(F\circ G)\in P$.
 \end{itemize}
 \end{definition}
 
@@ -94,7 +94,7 @@ Not all strings over $\mathsf{Vars}$ and logical connectives are in $P$.
 
 Consider the following argument.
 \begin{quote}
-    If $c$ then if $s$ then $f$. not $f$. Therefore, if $s$ then not $c$.
+	If $c$ then if $s$ then $f$. not $f$. Therefore, if $s$ then not $c$.
 \end{quote}
 This can be written as
 \[ (((c\imp (s\imp f)) \wedge \neg f) \imp (s \imp \neg c)). \]
@@ -110,9 +110,9 @@ $F\in P$ iff it can be obtained by unfolding one of these generation rules.
 \begin{definition}
 A \textit{parse tree} of a formula $F\in P$ is a tree such that
 \begin{itemize}
-    \item the root is $F$,
-    \item the leaves are atomic formulas, and
-    \item each internal node is formed by applying some formulation rule on its children.
+	\item the root is $F$,
+	\item the leaves are atomic formulas, and
+	\item each internal node is formed by applying some formulation rule on its children.
 \end{itemize}
 \end{definition}
 
@@ -143,9 +143,9 @@ Further, in the above example, if we give $\vee$ and $\wedge$ higher precedence 
 \[ \neg > \vee = \wedge = \oplus > \imp = \iff. \]
 So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\circ_2 \cdots\circ_n F_n$, where each $F_i$ is either atomic, enclosed by parentheses, or their negation. We transform it as follows.
 \begin{itemize}
-    \item Find a $\circ_i$ such that $\circ_{i-1}$ and $\circ_{i+1}$ have lower precedence (if they exist).
-    \item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\coloneqq (F_{i-1}\circ_i F_i)$ so we now have
-    \[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
+	\item Find a $\circ_i$ such that $\circ_{i-1}$ and $\circ_{i+1}$ have lower precedence (if they exist).
+	\item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\coloneqq (F_{i-1}\circ_i F_i)$ so we now have
+	\[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
 \end{itemize}
 Repeat the above until only one term remains ($n$ becomes $1$). We can then parse it normally. For example,
 \[ p \wedge q \imp r \vee p \text{ to } (p\wedge q)\imp r\vee p \text{ to } (p\wedge q)\imp (r\vee p) \text{ to } ((p\wedge q)\imp (r\vee p)). \]
@@ -176,14 +176,14 @@ It is quite natural to extend this further to formulas in general. That is, a gi
 \begin{definition}
 The \textit{satisfaction relation} $\vDash$ between models and formulas is the smallest relation that satisfies the following.
 \begin{itemize}
-    \item $m\vDash\top$,
-    \item if $m(p)=1$, then $m\vDash p$,
-    \item if $m\nvDash F$, then $m\vDash\neg F$,
-    \item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash (F_1\vee F_2)$,
-    \item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash (F_1\wedge F_2)$,
-    \item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash (F_1\oplus F_2)$,
-    \item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\imp F_2$, and
-    \item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\Leftrightarrow F_2)$.
+	\item $m\vDash\top$,
+	\item if $m(p)=1$, then $m\vDash p$,
+	\item if $m\nvDash F$, then $m\vDash\neg F$,
+	\item if $m\vDash F_1$ or $m\vDash F_2$, then $m\vDash (F_1\vee F_2)$,
+	\item if $m\vDash F_1$ and $m\vDash F_2$, then $m\vDash (F_1\wedge F_2)$,
+	\item if $m\vDash F_1$ and $m\vDash F_2$ but not both, then $m\vDash (F_1\oplus F_2)$,
+	\item if if $m\vDash F_1$ then $m\vDash F_2$, then $m\vDash (F_1\imp F_2$, and
+	\item if $m\vDash F_1$ iff $m\vDash F_2$, then $m\vDash (F_1\Leftrightarrow F_2)$.
 \end{itemize}
 \end{definition}
 
@@ -250,11 +250,11 @@ We wish to assign a truth value to every formula $F$.
 
 Given a model $m:\Vars\to\B$, we can naturally extend it to $m:P\to \B$ as
 \[
-    m(F) = 
-    \begin{cases}
-    1, & m\vDash F, \\
-    0, & \text{otherwise.}
-    \end{cases}
+	m(F) = 
+	\begin{cases}
+	1, & m\vDash F, \\
+	0, & \text{otherwise.}
+	\end{cases}
 \]
 
 This extended $m$ is known as the \textit{truth function}. We do not introduce new notation for this, keeping the meanings from the definitions for models unchanged.\\
@@ -279,11 +279,11 @@ For each finite boolean function $f$, there is a formula $F$ that represents $f$
 \begin{proof}
 Let $f:\B^n\to\B$. Let $p_i^0\coloneqq\neg p_i$ and $p_i^1\coloneqq p_i$. For every $(b_1,\ldots,b_n)\in\B^n$, let
 \[
-    F_{(b_1,\ldots,b_n)} \coloneqq
-    \begin{cases}
-        (p_1^{b_1}\wedge\cdots\wedge p_n^{b_n}), & f(b_1,\ldots,b_n)=1 \\
-        \perp, & \text{otherwise.}
-    \end{cases}
+	F_{(b_1,\ldots,b_n)} \coloneqq
+	\begin{cases}
+		(p_1^{b_1}\wedge\cdots\wedge p_n^{b_n}), & f(b_1,\ldots,b_n)=1 \\
+		\perp, & \text{otherwise.}
+	\end{cases}
 \]
 We can then define the required formula $F$ by taking the conjunction over all boolean combinations,
 \[ F \coloneqq F_{(0,\ldots,0)} \vee \cdots \vee F_{(1,\ldots,1)}. \]
@@ -297,12 +297,12 @@ For example, $\wedge$ alone cannot express all boolean functions. Consider the f
 
 We originally used $8$ connectives. This is not the minimal set required for maximum expressivity, however. For example, $\neg$ and $\vee$ can define the whole propositional logic. Indeed,
 \begin{itemize}
-    \item $\top \equiv p \vee \neg p$,
-    \item $\perp \equiv \neg \top$,
-    \item $(p \wedge q) \equiv \neg(p \vee q)$,
-    \item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
-    \item $(p\imp q) \equiv (\neg p \vee q)$, and
-    \item $(p\Leftrightarrow q) \equiv (p\imp q) \wedge (q\imp p)$.
+	\item $\top \equiv p \vee \neg p$,
+	\item $\perp \equiv \neg \top$,
+	\item $(p \wedge q) \equiv \neg(p \vee q)$,
+	\item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
+	\item $(p\imp q) \equiv (\neg p \vee q)$, and
+	\item $(p\Leftrightarrow q) \equiv (p\imp q) \wedge (q\imp p)$.
 \end{itemize}
 
 \subsection{Lecture 4}
@@ -315,25 +315,25 @@ If $F$ occurs on the left hand side $F\in\Sigma$, then $F$ is clearly a conseque
 
 A \textit{proof rule} provides us a means to derive new statements from old statements. They are written as
 \begin{prooftree}
-    \LeftLabel{\rul{RuleName}}
-    \AxiomC{Stuff already there}
-    \RightLabel{\rul{Conditions to be met}}
-    \UnaryInfC{Stuff to be added}
+	\LeftLabel{\rul{RuleName}}
+	\AxiomC{Stuff already there}
+	\RightLabel{\rul{Conditions to be met}}
+	\UnaryInfC{Stuff to be added}
 \end{prooftree}
 A derivation proceeds by applying these proof rules.
 So for instance, the rule we mentioned earlier can be written as
 \begin{prooftree}
-    \LeftLabel{\rul{Assumption}}
-    \AxiomC{}
-    \RightLabel{$F\in\Sigma.$}
-    \UnaryInfC{$\Sigma\vdash F$}
+	\LeftLabel{\rul{Assumption}}
+	\AxiomC{}
+	\RightLabel{$F\in\Sigma.$}
+	\UnaryInfC{$\Sigma\vdash F$}
 \end{prooftree}
 Another obvious example is
 \begin{prooftree}
-    \LeftLabel{\rul{Monotonic}}
-    \AxiomC{$\Sigma\vdash F$}
-    \RightLabel{$\Sigma\subseteq\Sigma'.$}
-    \UnaryInfC{$\Sigma'\vdash F$}
+	\LeftLabel{\rul{Monotonic}}
+	\AxiomC{$\Sigma\vdash F$}
+	\RightLabel{$\Sigma\subseteq\Sigma'.$}
+	\UnaryInfC{$\Sigma'\vdash F$}
 \end{prooftree}
 
 \begin{definition}
@@ -342,8 +342,8 @@ A \textit{derivation} is a list of statements that are derived from earlier stat
 
 An example of a derivation using the above rules is:
 \begin{enumerate}
-    \item $\{p\vee q,\neg\neg q\}\vdash\neg\neg q$ \hfill (\rul{Assumption})
-    \item $\{p\vee q, \neg\neg q, r\}\vdash\neg\neg q$ \hfill (\rul{Monotonic} applied to 1)
+	\item $\{p\vee q,\neg\neg q\}\vdash\neg\neg q$ \hfill (\rul{Assumption})
+	\item $\{p\vee q, \neg\neg q, r\}\vdash\neg\neg q$ \hfill (\rul{Monotonic} applied to 1)
 \end{enumerate}
 It is important to note that we need to explicitly point out which earlier step we are using (if any).
 
@@ -352,17 +352,17 @@ Let us try to establish some proof rules on our logical connectives.
 \paragraph{Negation.}
 
 \begin{prooftree}
-    \LeftLabel{\rul{DoubleNeg}}
-    \AxiomC{$\Sigma\vdash F$}
-    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
-    \UnaryInfC{$\Sigma\vdash\neg\neg F$}
+	\LeftLabel{\rul{DoubleNeg}}
+	\AxiomC{$\Sigma\vdash F$}
+	% \RightLabel{$\Sigma\subseteq\Sigma'.$}
+	\UnaryInfC{$\Sigma\vdash\neg\neg F$}
 \end{prooftree}
 
 For example,
 \begin{enumerate}
-    \item $\{p\vee q,r\}\vdash r$ \hfill (\rul{Assumption})
-    \item $\{p\vee q, r, \neg\neg q\}\vdash r$ \hfill (\rul{Monotonic} applied to 1)
-    \item $\{p\vee q, r, \neg\neg q\}\vdash\neg\neg r$ \hfill (\rul{DoubleNeg} applied to 2)
+	\item $\{p\vee q,r\}\vdash r$ \hfill (\rul{Assumption})
+	\item $\{p\vee q, r, \neg\neg q\}\vdash r$ \hfill (\rul{Monotonic} applied to 1)
+	\item $\{p\vee q, r, \neg\neg q\}\vdash\neg\neg r$ \hfill (\rul{DoubleNeg} applied to 2)
 \end{enumerate}
 
 \paragraph{Conjunction.}
@@ -370,31 +370,31 @@ For example,
 We have the following proof rules for the conjunction.
 
 \begin{prooftree}
-    \LeftLabel{$\wedge$-\rul{Intro}}
-    \AxiomC{$\Sigma\vdash F$}
-    \AxiomC{$\Sigma\vdash G$}
-    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
-    \BinaryInfC{$\Sigma\vdash F\wedge G$}
+	\LeftLabel{$\wedge$-\rul{Intro}}
+	\AxiomC{$\Sigma\vdash F$}
+	\AxiomC{$\Sigma\vdash G$}
+	% \RightLabel{$\Sigma\subseteq\Sigma'.$}
+	\BinaryInfC{$\Sigma\vdash F\wedge G$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\wedge$-\rul{Elim}}
-    \AxiomC{$\Sigma\vdash F\wedge G$}
-    % \RightLabel{$\Sigma\subseteq\Sigma'.$}
-    \UnaryInfC{$\Sigma\vdash F$}
+	\LeftLabel{$\wedge$-\rul{Elim}}
+	\AxiomC{$\Sigma\vdash F\wedge G$}
+	% \RightLabel{$\Sigma\subseteq\Sigma'.$}
+	\UnaryInfC{$\Sigma\vdash F$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\wedge$-\rul{Symm}}
-    \AxiomC{$\Sigma\vdash F\wedge G$}
-    \UnaryInfC{$\Sigma\vdash G\wedge F$}
+	\LeftLabel{$\wedge$-\rul{Symm}}
+	\AxiomC{$\Sigma\vdash F\wedge G$}
+	\UnaryInfC{$\Sigma\vdash G\wedge F$}
 \end{prooftree}
 
 An example using these is
 \begin{enumerate}
-    \item $\{p\wedge q, \neg\neg q, r\}\vdash p\wedge q$ \hfill (\rul{Assumption})
-    \item $\{p\wedge q, \neg\neg q, r\}\vdash p$ \hfill (\rul{$\wedge$-Elim} applied to 1)
-    \item $\{p\wedge q, \neg\neg q, r\}\vdash q\wedge p$ \hfill (\rul{$\wedge$-Symm} applied to 1)
+	\item $\{p\wedge q, \neg\neg q, r\}\vdash p\wedge q$ \hfill (\rul{Assumption})
+	\item $\{p\wedge q, \neg\neg q, r\}\vdash p$ \hfill (\rul{$\wedge$-Elim} applied to 1)
+	\item $\{p\wedge q, \neg\neg q, r\}\vdash q\wedge p$ \hfill (\rul{$\wedge$-Symm} applied to 1)
 \end{enumerate}
 
 \paragraph{Disjunction.}
@@ -402,57 +402,57 @@ An example using these is
 Except for the last two (which are like De Morgan's law), the rules for the disjunction are similar.
 
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{Intro}}
-    \AxiomC{$\Sigma\vdash F$}
-    \UnaryInfC{$\Sigma\vdash F\vee G$}
+	\LeftLabel{$\vee$-\rul{Intro}}
+	\AxiomC{$\Sigma\vdash F$}
+	\UnaryInfC{$\Sigma\vdash F\vee G$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{Elim}}
-    \AxiomC{$\Sigma\vdash F\vee G$}
-    \AxiomC{$\Sigma\cup\{F\}\vdash H$}
-    \AxiomC{$\Sigma\cup\{G\}\vdash H$}
-    \TrinaryInfC{$\Sigma\vdash H$}
+	\LeftLabel{$\vee$-\rul{Elim}}
+	\AxiomC{$\Sigma\vdash F\vee G$}
+	\AxiomC{$\Sigma\cup\{F\}\vdash H$}
+	\AxiomC{$\Sigma\cup\{G\}\vdash H$}
+	\TrinaryInfC{$\Sigma\vdash H$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{Symm}}
-    \AxiomC{$\Sigma\vdash F\vee G$}
-    \UnaryInfC{$\Sigma\vdash G\vee F$}
+	\LeftLabel{$\vee$-\rul{Symm}}
+	\AxiomC{$\Sigma\vdash F\vee G$}
+	\UnaryInfC{$\Sigma\vdash G\vee F$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{Def}}
-    \AxiomC{$\Sigma\vdash F\vee G$}
-    \UnaryInfC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
+	\LeftLabel{$\vee$-\rul{Def}}
+	\AxiomC{$\Sigma\vdash F\vee G$}
+	\UnaryInfC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{Def}}
-    \AxiomC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
-    \UnaryInfC{$\Sigma\vdash F\vee G$}
+	\LeftLabel{$\vee$-\rul{Def}}
+	\AxiomC{$\Sigma\vdash \neg(\neg F \wedge \neg G)$}
+	\UnaryInfC{$\Sigma\vdash F\vee G$}
 \end{prooftree}
 
 Let us give another example, which is basically equivalent to the distributive law. Suppose we have $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$, we want to show that we can derive $\Sigma\vdash F\wedge(G\vee H)$. Indeed,
 \begin{enumerate}
-    \item $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$ \hfill (\rul{Premise})%1
-    
-    \item $\Sigma\cup\{F\wedge G\} \vdash F\wedge G$ \hfill (\rul{Assumption})%2
-    \item $\Sigma\cup\{F\wedge G\} \vdash F$ \hfill (\rul{$\wedge$-Elim} applied to 2)%3
-    \item $\Sigma\cup\{F\wedge G\} \vdash G\wedge F$ \hfill (\rul{$\wedge$-Symm} applied to 2)%4
-    \item $\Sigma\cup\{F\wedge G\} \vdash G$ \hfill (\rul{$\wedge$-Elim} applied to 4)%5
-    \item $\Sigma\cup\{F\wedge G\}\vdash G\vee H$ \hfill (\rul{$\vee$-Intro} applied to 5)%6
-    \item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 3,6)%7
+	\item $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$ \hfill (\rul{Premise})%1
+	
+	\item $\Sigma\cup\{F\wedge G\} \vdash F\wedge G$ \hfill (\rul{Assumption})%2
+	\item $\Sigma\cup\{F\wedge G\} \vdash F$ \hfill (\rul{$\wedge$-Elim} applied to 2)%3
+	\item $\Sigma\cup\{F\wedge G\} \vdash G\wedge F$ \hfill (\rul{$\wedge$-Symm} applied to 2)%4
+	\item $\Sigma\cup\{F\wedge G\} \vdash G$ \hfill (\rul{$\wedge$-Elim} applied to 4)%5
+	\item $\Sigma\cup\{F\wedge G\}\vdash G\vee H$ \hfill (\rul{$\vee$-Intro} applied to 5)%6
+	\item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 3,6)%7
 
-    \item $\Sigma\cup\{F\wedge H\} \vdash F\wedge H$ \hfill (\rul{Assumption})%8
-    \item $\Sigma\cup\{F\wedge H\} \vdash F$ \hfill (\rul{$\wedge$-Elim} applied to 8)%9
-    \item $\Sigma\cup\{F\wedge H\} \vdash H\wedge F$ \hfill (\rul{$\wedge$-Symm} applied to 8)%10
-    \item $\Sigma\cup\{F\wedge H\} \vdash H$ \hfill (\rul{$\wedge$-Elim} applied to 10)%11
-    \item $\Sigma\cup\{F\wedge H\}\vdash H\vee G$ \hfill (\rul{$\vee$-Intro} applied to 11)%12
-    \item $\Sigma\cup\{F\wedge H\}\vdash G\vee H$ \hfill (\rul{$\vee$-Symm} applied to 11)%13
-    \item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 9,13)%14
+	\item $\Sigma\cup\{F\wedge H\} \vdash F\wedge H$ \hfill (\rul{Assumption})%8
+	\item $\Sigma\cup\{F\wedge H\} \vdash F$ \hfill (\rul{$\wedge$-Elim} applied to 8)%9
+	\item $\Sigma\cup\{F\wedge H\} \vdash H\wedge F$ \hfill (\rul{$\wedge$-Symm} applied to 8)%10
+	\item $\Sigma\cup\{F\wedge H\} \vdash H$ \hfill (\rul{$\wedge$-Elim} applied to 10)%11
+	\item $\Sigma\cup\{F\wedge H\}\vdash H\vee G$ \hfill (\rul{$\vee$-Intro} applied to 11)%12
+	\item $\Sigma\cup\{F\wedge H\}\vdash G\vee H$ \hfill (\rul{$\vee$-Symm} applied to 11)%13
+	\item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 9,13)%14
 
-    \item $\Sigma\vdash F\wedge(G\vee H)$ \hfill (\rul{$\vee$-Elim} applied to 1,7,14)%15
+	\item $\Sigma\vdash F\wedge(G\vee H)$ \hfill (\rul{$\vee$-Elim} applied to 1,7,14)%15
 \end{enumerate}
 
 \paragraph{Implication.}
@@ -460,55 +460,55 @@ Let us give another example, which is basically equivalent to the distributive l
 The rules for the implication are:
 
 \begin{prooftree}
-    \LeftLabel{$\imp$-\rul{Intro}}
-    \AxiomC{$\Sigma\cup \{F\}\vdash G$}
-    \UnaryInfC{$\Sigma\vdash F \imp G$}
+	\LeftLabel{$\imp$-\rul{Intro}}
+	\AxiomC{$\Sigma\cup \{F\}\vdash G$}
+	\UnaryInfC{$\Sigma\vdash F \imp G$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\imp$-\rul{Elim}}
-    \AxiomC{$\Sigma\vdash F\imp G$}
-    \AxiomC{$\Sigma\vdash F$}
-    \BinaryInfC{$\Sigma\vdash G$}
+	\LeftLabel{$\imp$-\rul{Elim}}
+	\AxiomC{$\Sigma\vdash F\imp G$}
+	\AxiomC{$\Sigma\vdash F$}
+	\BinaryInfC{$\Sigma\vdash G$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\imp$-\rul{Def}}
-    \AxiomC{$\Sigma\vdash F\imp G$}
-    \UnaryInfC{$\Sigma\vdash \neg F\vee G$}
+	\LeftLabel{$\imp$-\rul{Def}}
+	\AxiomC{$\Sigma\vdash F\imp G$}
+	\UnaryInfC{$\Sigma\vdash \neg F\vee G$}
 \end{prooftree}
 
 \begin{prooftree}
-    \LeftLabel{$\imp$-\rul{Def}}
-    \AxiomC{$\Sigma\vdash \neg F\vee G$}
-    \UnaryInfC{$\Sigma\vdash F\imp G$}
+	\LeftLabel{$\imp$-\rul{Def}}
+	\AxiomC{$\Sigma\vdash \neg F\vee G$}
+	\UnaryInfC{$\Sigma\vdash F\imp G$}
 \end{prooftree}
 
 For example, let us show that $\{\neg p\vee q,p\}\vdash q$.
 \begin{enumerate}
-    \item $\{\neg p\vee q, p\}\vdash p$ \hfill (\rul{Assumption})
-    \item $\{\neg p\vee q, p\}\vdash \neg p\vee q$ \hfill (\rul{Assumption})
-    \item $\{\neg p\vee q, p\}\vdash p\imp q$ \hfill (\rul{$\imp$-Def} applied to 2)
-    \item $\{\neg p\vee q, p\}\vdash q$ \hfill (\rul{$\imp$-Elim} applied to 1,3)
+	\item $\{\neg p\vee q, p\}\vdash p$ \hfill (\rul{Assumption})
+	\item $\{\neg p\vee q, p\}\vdash \neg p\vee q$ \hfill (\rul{Assumption})
+	\item $\{\neg p\vee q, p\}\vdash p\imp q$ \hfill (\rul{$\imp$-Def} applied to 2)
+	\item $\{\neg p\vee q, p\}\vdash q$ \hfill (\rul{$\imp$-Elim} applied to 1,3)
 \end{enumerate}
 
 As another example, let us show that $\emptyset\vdash(p\imp q)\vee p$.
 \begin{enumerate}
-    \item $\{\neg p\}\vdash\neg p$ \hfill (\rul{Assumption})
-    \item $\{\neg p\}\vdash \neg p \vee q$ \hfill (\rul{$\vee$-Intro} applied to 1)
-    \item $\{\neg p\}\vdash p \imp q$ \hfill (\rul{$\imp$-Def} applied to 2)
-    \item $\{\neg p\}\vdash (p \imp q)\vee p$ \hfill (\rul{$\vee$-Intro} applied to 3)
+	\item $\{\neg p\}\vdash\neg p$ \hfill (\rul{Assumption})
+	\item $\{\neg p\}\vdash \neg p \vee q$ \hfill (\rul{$\vee$-Intro} applied to 1)
+	\item $\{\neg p\}\vdash p \imp q$ \hfill (\rul{$\imp$-Def} applied to 2)
+	\item $\{\neg p\}\vdash (p \imp q)\vee p$ \hfill (\rul{$\vee$-Intro} applied to 3)
 
-    \item $\{p\}\vdash p$ \hfill (\rul{Assumption})
-    \item $\{p\}\vdash p\vee(p\imp q)$ \hfill (\rul{$\vee$-Intro} applied to 5)
-    \item $\{p\}\vdash (p\imp q)\vee p$ \hfill (\rul{$\vee$-Symm} applied to 6)
+	\item $\{p\}\vdash p$ \hfill (\rul{Assumption})
+	\item $\{p\}\vdash p\vee(p\imp q)$ \hfill (\rul{$\vee$-Intro} applied to 5)
+	\item $\{p\}\vdash (p\imp q)\vee p$ \hfill (\rul{$\vee$-Symm} applied to 6)
 
-    \item $\emptyset\vdash (p\imp p)$ \hfill (\rul{$\imp$-Intro} applied to 5)
-    \item $\emptyset\vdash (\neg p\vee p)$ \hfill (\rul{$\imp$-Def} applied to 8)
-    
-    \item $\emptyset\vdash (p\imp q)\vee p$ \hfill (\rul{$\vee$-Elim} applied to 4,7,9)
-    % \item $\emptyset\vdash (\neg p)\imp (p\imp q)$ \hfill (\rul{$\imp$-Intro} applied to 3)
-    % \item $\emptyset\vdash (\neg \neg p) \vee (p\imp q)$ \hfill (\rul{$\imp$-Def} applied to 4)
+	\item $\emptyset\vdash (p\imp p)$ \hfill (\rul{$\imp$-Intro} applied to 5)
+	\item $\emptyset\vdash (\neg p\vee p)$ \hfill (\rul{$\imp$-Def} applied to 8)
+	
+	\item $\emptyset\vdash (p\imp q)\vee p$ \hfill (\rul{$\vee$-Elim} applied to 4,7,9)
+	% \item $\emptyset\vdash (\neg p)\imp (p\imp q)$ \hfill (\rul{$\imp$-Intro} applied to 3)
+	% \item $\emptyset\vdash (\neg \neg p) \vee (p\imp q)$ \hfill (\rul{$\imp$-Def} applied to 4)
 \end{enumerate}
 
 There are several more proof rules for parentheses, $\oplus$, $\iff$, et cetera.
@@ -519,28 +519,28 @@ How do we know that the above proof rules are correct? What does ``correct'' eve
 
 \begin{theorem}
 \label{theo: derivation implies modeling}
-    If proof rules derive a statement $\Sigma\vdash F$, then $\Sigma\vDash F$.
+	If proof rules derive a statement $\Sigma\vdash F$, then $\Sigma\vDash F$.
 \end{theorem}
 We use an inductive argument. Assume that the theorem holds for the premises of the rules. We shall show that it is also true for the conclusions.\\
 
 Consider the following rule
 \begin{prooftree}
-    \LeftLabel{$\wedge$-\rul{Elim}}
-    \AxiomC{$\Sigma\vdash F\wedge G$}
-    \UnaryInfC{$\Sigma\vdash F$}
+	\LeftLabel{$\wedge$-\rul{Elim}}
+	\AxiomC{$\Sigma\vdash F\wedge G$}
+	\UnaryInfC{$\Sigma\vdash F$}
 \end{prooftree}
 Consider a model $m\vDash\Sigma$. By the induction hypothesis, $m\vDash F\wedge G$. It is easy to show (using the truth table) that if $m\vDash F\wedge G$, then $m\vDash F$. Therefore, $\Sigma\vDash F$.\\
 
 As another example, consider
 \begin{prooftree}
-    \LeftLabel{$\imp$-\rul{Intro}}
-    \AxiomC{$\Sigma\cup\{F\}\vdash G$}
-    \UnaryInfC{$\Sigma\vdash F\imp G$}
+	\LeftLabel{$\imp$-\rul{Intro}}
+	\AxiomC{$\Sigma\cup\{F\}\vdash G$}
+	\UnaryInfC{$\Sigma\vdash F\imp G$}
 \end{prooftree}
 Consider a model $m\vDash\Sigma$. There are two possibilities.
 \begin{itemize}
-    \item $m\vDash F$. Then $m\vDash \Sigma\cup\{F\}$. By the hypothesis, $m\vDash G$. Therefore, $m\vDash F\imp G$.
-    \item $m\nvDash F$. Then $m$ trivially satisfies $m\vDash F\imp G$.
+	\item $m\vDash F$. Then $m\vDash \Sigma\cup\{F\}$. By the hypothesis, $m\vDash G$. Therefore, $m\vDash F\imp G$.
+	\item $m\nvDash F$. Then $m$ trivially satisfies $m\vDash F\imp G$.
 \end{itemize}
 
 \subsection{Lecture 5}
@@ -551,140 +551,140 @@ In this section and the next, we give some rules derived from those already give
 
 \paragraph{Modus ponens.} %If we have $\Sigma\vdash\neg F\vee G$ and $\Sigma\vdash F$, then we can derive $\Sigma\vdash G$. That is,
 \begin{prooftree}
-    \LeftLabel{$\vee$-\rul{ModusPonens}}
-    \AxiomC{$\Sigma\vdash \neg F\vee G$}
-    \AxiomC{$\Sigma\vdash F$}
-    \BinaryInfC{$\Sigma\vdash G$}
+	\LeftLabel{$\vee$-\rul{ModusPonens}}
+	\AxiomC{$\Sigma\vdash \neg F\vee G$}
+	\AxiomC{$\Sigma\vdash F$}
+	\BinaryInfC{$\Sigma\vdash G$}
 \end{prooftree}
 The proof is as follows.
 \begin{enumerate}
-    \item $\Sigma\vdash\neg F\vee G$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash (F\imp G)$ \hfill (\rul{$\imp$-Def} applied to 1)
-    \item $\Sigma\vdash F$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash G$ \hfill (\rul{$\imp$-Elim} applied to 2,3) 
+	\item $\Sigma\vdash\neg F\vee G$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash (F\imp G)$ \hfill (\rul{$\imp$-Def} applied to 1)
+	\item $\Sigma\vdash F$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash G$ \hfill (\rul{$\imp$-Elim} applied to 2,3) 
 \end{enumerate}
 
 \paragraph{Tautology.} %For any $F$ and set $\Sigma$ of formulas, we can derive $\Sigma\vdash \neg F\vee F$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{Tautology}}
-    \AxiomC{}
-    \UnaryInfC{$\Sigma\vdash \neg F \vee F$}
+	\LeftLabel{\rul{Tautology}}
+	\AxiomC{}
+	\UnaryInfC{$\Sigma\vdash \neg F \vee F$}
 \end{prooftree}
 This can be derived as
 \begin{enumerate}
-    \item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
-    \item $\Sigma\vdash (F\imp G)$ \hfill (\rul{$\imp$-Intro} applied to 1)
-    \item $\Sigma\vdash \neg F\vee F$ \hfill (\rul{$\imp$-Def} applied to 2)
+	\item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
+	\item $\Sigma\vdash (F\imp G)$ \hfill (\rul{$\imp$-Intro} applied to 1)
+	\item $\Sigma\vdash \neg F\vee F$ \hfill (\rul{$\imp$-Def} applied to 2)
 \end{enumerate}
 
 \paragraph{Contradiction.} %If we have $\Sigma\vdash F\land\neg F$, then $\Sigma\vdash G$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{Contra}}
-    \AxiomC{$\Sigma\vdash F\land\neg F$}
-    \UnaryInfC{$\Sigma\vdash G$}
+	\LeftLabel{\rul{Contra}}
+	\AxiomC{$\Sigma\vdash F\land\neg F$}
+	\UnaryInfC{$\Sigma\vdash G$}
 \end{prooftree}
 This is proved as
 \begin{enumerate}
-    \item $\Sigma\vdash (F\land\neg F)$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash (\neg F\land G)$ \hfill (\rul{$\land$-Symm} applied to 1)
-    \item $\Sigma\vdash \neg F$ \hfill (\rul{$\land$-Elim} applied to 2)
-    \item $\Sigma\vdash \neg F\lor G$ \hfill (\rul{$\lor$-Intro} applied to 3)
-    \item $\Sigma\vdash F$ \hfill (\rul{$\land$-Elim} applied to 1)
-    \item $\Sigma\vdash G$ \hfill (\rul{$\lor$-ModusPonens} applied to 4,5)
+	\item $\Sigma\vdash (F\land\neg F)$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash (\neg F\land G)$ \hfill (\rul{$\land$-Symm} applied to 1)
+	\item $\Sigma\vdash \neg F$ \hfill (\rul{$\land$-Elim} applied to 2)
+	\item $\Sigma\vdash \neg F\lor G$ \hfill (\rul{$\lor$-Intro} applied to 3)
+	\item $\Sigma\vdash F$ \hfill (\rul{$\land$-Elim} applied to 1)
+	\item $\Sigma\vdash G$ \hfill (\rul{$\lor$-ModusPonens} applied to 4,5)
 \end{enumerate}
 
 \paragraph{Contrapositive.} %If $\Sigma\cup\{F\}\vdash G$, then $\Sigma\cup\{\neg G\}\vdash\neg F$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{Contrapositive}}
-    \AxiomC{$\Sigma\cup\{F\}\vdash G$}
-    \UnaryInfC{$\Sigma\cup\{\neg G\}\vdash \neg F$}
+	\LeftLabel{\rul{Contrapositive}}
+	\AxiomC{$\Sigma\cup\{F\}\vdash G$}
+	\UnaryInfC{$\Sigma\cup\{\neg G\}\vdash \neg F$}
 \end{prooftree}
 This is proved as
 \begin{enumerate}
-    \item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{F\}\vdash \neg\neg G$ \hfill (\rul{DoubleNeg} applied to 1)
-    \item $\Sigma\vdash (F \imp \neg\neg G)$ (\rul{$\imp$-Intro} applied to 2)
-    \item $\Sigma\vdash \neg F \lor \neg\neg G$ \hfill (\rul{$\imp$-Def} applied to 3)
-    \item $\Sigma\vdash \neg\neg G \lor \neg F$ \hfill (\rul{$\lor$-Symm} applied to 4)
-    \item $\Sigma\vdash \neg G\imp \neg F$ \hfill (\rul{$\imp$-Def} applied to 5)
-    \item $\Sigma\cup\{\neg G\}\vdash \neg G\imp\neg F$ \hfill (\rul{Monotonic} applied to 6)
-    \item $\Sigma\cup\{\neg G\}\vdash \neg G$ \hfill (\rul{Assumption})
-    \item $\Sigma\cup\{\neg G\}\vdash \neg F$ \hfill (\rul{$\imp$-Elim} 7,8)
+	\item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{F\}\vdash \neg\neg G$ \hfill (\rul{DoubleNeg} applied to 1)
+	\item $\Sigma\vdash (F \imp \neg\neg G)$ (\rul{$\imp$-Intro} applied to 2)
+	\item $\Sigma\vdash \neg F \lor \neg\neg G$ \hfill (\rul{$\imp$-Def} applied to 3)
+	\item $\Sigma\vdash \neg\neg G \lor \neg F$ \hfill (\rul{$\lor$-Symm} applied to 4)
+	\item $\Sigma\vdash \neg G\imp \neg F$ \hfill (\rul{$\imp$-Def} applied to 5)
+	\item $\Sigma\cup\{\neg G\}\vdash \neg G\imp\neg F$ \hfill (\rul{Monotonic} applied to 6)
+	\item $\Sigma\cup\{\neg G\}\vdash \neg G$ \hfill (\rul{Assumption})
+	\item $\Sigma\cup\{\neg G\}\vdash \neg F$ \hfill (\rul{$\imp$-Elim} 7,8)
 \end{enumerate}
 
 \subsubsection{More Derived Rules}
 
 \paragraph{Proof by cases.} %If we have $\Sigma\cup\{F\}\vdash G$ and $\Sigma\cup\{\neg F\}\vdash G$, then $\Sigma\vdash G$. That is, 
 \begin{prooftree}
-    \LeftLabel{\rul{ByCases}}
-    \AxiomC{$\Sigma\cup\{F\}\vdash G$}
-    \AxiomC{$\Sigma\cup\{\neg F\}\vdash G$}
-    \BinaryInfC{$\Sigma\vdash G$}
+	\LeftLabel{\rul{ByCases}}
+	\AxiomC{$\Sigma\cup\{F\}\vdash G$}
+	\AxiomC{$\Sigma\cup\{\neg F\}\vdash G$}
+	\BinaryInfC{$\Sigma\vdash G$}
 \end{prooftree}
 This can be proved as
 \begin{enumerate}
-    \item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{\neg F\}\vdash G$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash F\lor\neg F$ \hfill (\rul{Tautology})
-    \item $\Sigma\vdash G$ \hfill (\rul{$\lor$-Elim} applied to 1,2,3)
+	\item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{\neg F\}\vdash G$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash F\lor\neg F$ \hfill (\rul{Tautology})
+	\item $\Sigma\vdash G$ \hfill (\rul{$\lor$-Elim} applied to 1,2,3)
 \end{enumerate}
 
 \paragraph{Proof by contradiction.} %If we have $\Sigma\cup\{F\}\vdash G$ and $\Sigma\cup\{F\}\vdash\neg G$, then $\Sigma\vdash\neg F$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{ByContra}}
-    \AxiomC{$\Sigma\cup\{F\}\vdash G$}
-    \AxiomC{$\Sigma\cup\{F\}\vdash \neg G$}
-    \BinaryInfC{$\Sigma\vdash \neg F$}
+	\LeftLabel{\rul{ByContra}}
+	\AxiomC{$\Sigma\cup\{F\}\vdash G$}
+	\AxiomC{$\Sigma\cup\{F\}\vdash \neg G$}
+	\BinaryInfC{$\Sigma\vdash \neg F$}
 \end{prooftree}
 This is proved as
 \begin{enumerate}
-    \item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{F\}\vdash \neg G$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{\neg G\}\vdash \neg F$ \hfill (\rul{Contrapositive} applied to 1)
-    \item $\Sigma\cup\{\neg \neg G\}\vdash \neg F$ \hfill (\rul{Contrapositive} applied to 1)
-    \item $\Sigma\vdash \neg F$ \hfill (\rul{ByCases} applied to 3,4)
+	\item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{F\}\vdash \neg G$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{\neg G\}\vdash \neg F$ \hfill (\rul{Contrapositive} applied to 1)
+	\item $\Sigma\cup\{\neg \neg G\}\vdash \neg F$ \hfill (\rul{Contrapositive} applied to 1)
+	\item $\Sigma\vdash \neg F$ \hfill (\rul{ByCases} applied to 3,4)
 \end{enumerate}
 
 \paragraph{Reverse Double Negation.} %If we have $\Sigma\vdash\neg\neg F$, then $\Sigma\vdash F$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{RevDoubleNeg}}
-    \AxiomC{$\Sigma\vdash \neg\neg F$}
-    \UnaryInfC{$\Sigma\vdash F$}
+	\LeftLabel{\rul{RevDoubleNeg}}
+	\AxiomC{$\Sigma\vdash \neg\neg F$}
+	\UnaryInfC{$\Sigma\vdash F$}
 \end{prooftree}
 This can be proved as
 \begin{enumerate}
-    \item $\Sigma\vdash \neg\neg F$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{\neg F\}\vdash \neg\neg F$ \hfill (\rul{Monotonic} applied to 1)
-    \item $\Sigma\cup\{\neg F\}\vdash \neg F$ \hfill (\rul{Assumption})
-    \item $\Sigma\cup\{\neg F\}\vdash\neg F\land\neg\neg F$ \hfill (\rul{$\land$-Intro} applied to 2,3)
-    \item $\Sigma\cup\{\neg F\}\vdash\neg F$ \hfill (\rul{$\land$-Elim} applied to 4)
-    \item $\Sigma\cup\{\neg F\}\vdash\neg\neg F\land\neg F$ \hfill (\rul{$\land$-Symm} applied to 5)
-    \item $\Sigma\cup\{\neg F\}\vdash F$ \hfill (\rul{Contra} applied to 6)
-    \item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
-    \item $\Sigma\vdash F$ \hfill (\rul{ByCases} applied to 7,8)
+	\item $\Sigma\vdash \neg\neg F$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{\neg F\}\vdash \neg\neg F$ \hfill (\rul{Monotonic} applied to 1)
+	\item $\Sigma\cup\{\neg F\}\vdash \neg F$ \hfill (\rul{Assumption})
+	\item $\Sigma\cup\{\neg F\}\vdash\neg F\land\neg\neg F$ \hfill (\rul{$\land$-Intro} applied to 2,3)
+	\item $\Sigma\cup\{\neg F\}\vdash\neg F$ \hfill (\rul{$\land$-Elim} applied to 4)
+	\item $\Sigma\cup\{\neg F\}\vdash\neg\neg F\land\neg F$ \hfill (\rul{$\land$-Symm} applied to 5)
+	\item $\Sigma\cup\{\neg F\}\vdash F$ \hfill (\rul{Contra} applied to 6)
+	\item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
+	\item $\Sigma\vdash F$ \hfill (\rul{ByCases} applied to 7,8)
 \end{enumerate}
 
 \paragraph{Resolution.} %If $\Sigma\vdash\neg F\lor G$ and $\Sigma\vdash F\lor H$, then we can derive $\Sigma\vdash G\lor H$. That is,
 \begin{prooftree}
-    \LeftLabel{\rul{Resolution}}
-    \AxiomC{$\Sigma\vdash \neg F\lor G$}
-    \AxiomC{$\Sigma\vdash F\lor H$}
-    \BinaryInfC{$\Sigma\vdash G\lor H$}
+	\LeftLabel{\rul{Resolution}}
+	\AxiomC{$\Sigma\vdash \neg F\lor G$}
+	\AxiomC{$\Sigma\vdash F\lor H$}
+	\BinaryInfC{$\Sigma\vdash G\lor H$}
 \end{prooftree}
 This is proved as
 \begin{enumerate}
-    \item $\Sigma\vdash \neg F\lor G$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{F\}\vdash \neg F\lor G$ \hfill (\rul{Monotonic} applied to 1)
-    \item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
-    \item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{$\lor$-ModusPonens} applied to 2,3)
-    \item $\Sigma\cup\{F\}\vdash G\lor H$ \hfill (\rul{$\lor$-Intro} applied to 4)
-    \item $\Sigma\vdash F\lor H$ \hfill (\rul{Premise})
-    \item $\Sigma\cup\{\neg F\}\vdash F\lor H$ \hfill (\rul{Monotonic} applied to 6)
-    \item $\Sigma\cup\{\neg F\}\vdash \neg F$ \hfill (\rul{Assumption})
-    \item $\Sigma\cup\{F\}\vdash H$ \hfill (\rul{$\lor$-ModusPonens} applied to 7,8)
-    \item $\Sigma\cup\{\neg F\}\vdash H\lor G$ \hfill (\rul{$\lor$-Intro} applied to 9)
-    \item $\Sigma\cup\{\neg F\}\vdash G\lor H$ \hfill (\rul{$\lor$-Symm} applied to 10)
-    \item $\Sigma\vdash G\lor H$ \hfill (\rul{ByCases} applied to 5,11)
+	\item $\Sigma\vdash \neg F\lor G$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{F\}\vdash \neg F\lor G$ \hfill (\rul{Monotonic} applied to 1)
+	\item $\Sigma\cup\{F\}\vdash F$ \hfill (\rul{Assumption})
+	\item $\Sigma\cup\{F\}\vdash G$ \hfill (\rul{$\lor$-ModusPonens} applied to 2,3)
+	\item $\Sigma\cup\{F\}\vdash G\lor H$ \hfill (\rul{$\lor$-Intro} applied to 4)
+	\item $\Sigma\vdash F\lor H$ \hfill (\rul{Premise})
+	\item $\Sigma\cup\{\neg F\}\vdash F\lor H$ \hfill (\rul{Monotonic} applied to 6)
+	\item $\Sigma\cup\{\neg F\}\vdash \neg F$ \hfill (\rul{Assumption})
+	\item $\Sigma\cup\{F\}\vdash H$ \hfill (\rul{$\lor$-ModusPonens} applied to 7,8)
+	\item $\Sigma\cup\{\neg F\}\vdash H\lor G$ \hfill (\rul{$\lor$-Intro} applied to 9)
+	\item $\Sigma\cup\{\neg F\}\vdash G\lor H$ \hfill (\rul{$\lor$-Symm} applied to 10)
+	\item $\Sigma\vdash G\lor H$ \hfill (\rul{ByCases} applied to 5,11)
 \end{enumerate}
 
 \subsubsection{Substitutions}
@@ -693,17 +693,17 @@ This is proved as
  The proof of the above is
 
 \begin{enumerate}
-    \item $\Sigma\vdash (F_1(G)\siff F_1(H))$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash (F_2(G)\siff F_2(H))$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash (F_1(G)\land F_2(G))$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash F_1(G)$ \hfill (\rul{$\land$-Elim} applied to 3)
-    \item $\Sigma\vdash (F_1(G)\imp F_1(H))$ \hfill (\rul{$\siff$-Def} applied to 1)
-    \item $\Sigma\vdash F_1(H)$ \hfill (\rul{$\imp$-Elim} applied to 4,5)
-    \item $\Sigma\vdash F_2(G)\land F_1(G)$ \hfill (\rul{$\land$-Symm} applied to 3)
-    \item $\Sigma\vdash F_2(G)$ \hfill (\rul{$\land$-Elim} applied to 7)
-    \item $\Sigma\vdash (F_2(G)\imp F_2(H))$ \hfill (\rul{$\siff$-Def} applied to 2)
-    \item $\Sigma\vdash F_2(H)$ \hfill (\rul{$\imp$-Elim} applied to 8,9)
-    \item $\Sigma\vdash F_1(H)\land F_2(H)$ \hfill (\rul{$\land$-Intro} applied to 6,10)
+	\item $\Sigma\vdash (F_1(G)\siff F_1(H))$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash (F_2(G)\siff F_2(H))$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash (F_1(G)\land F_2(G))$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash F_1(G)$ \hfill (\rul{$\land$-Elim} applied to 3)
+	\item $\Sigma\vdash (F_1(G)\imp F_1(H))$ \hfill (\rul{$\siff$-Def} applied to 1)
+	\item $\Sigma\vdash F_1(H)$ \hfill (\rul{$\imp$-Elim} applied to 4,5)
+	\item $\Sigma\vdash F_2(G)\land F_1(G)$ \hfill (\rul{$\land$-Symm} applied to 3)
+	\item $\Sigma\vdash F_2(G)$ \hfill (\rul{$\land$-Elim} applied to 7)
+	\item $\Sigma\vdash (F_2(G)\imp F_2(H))$ \hfill (\rul{$\siff$-Def} applied to 2)
+	\item $\Sigma\vdash F_2(H)$ \hfill (\rul{$\imp$-Elim} applied to 8,9)
+	\item $\Sigma\vdash F_1(H)\land F_2(H)$ \hfill (\rul{$\land$-Intro} applied to 6,10)
 \end{enumerate}
 
 Let $F(p)$ be a formula. If $\Sigma\vdash (G\siff H)$ and $\Sigma\vdash F(G)$, then $\Sigma\vdash F(H)$.\\
@@ -711,9 +711,133 @@ This is easily shown by using arguments similar to the one above for each connec
 
 However, we do not introduce substitution as a rule since it causes a lot of overhead for the proof-checker. We want the time cost of the proof-checker to be low, and allowing substitutions may not allow that to happen. So for example, an argument such as
 \begin{enumerate}
-    \item $\Sigma\vdash \neg(\neg\neg F\lor G)$ \hfill (\rul{Premise})
-    \item $\Sigma\vdash \neg(F\lor G)$ \hfill (\rul{DoubleNeg} applied to $\neg\neg F$ in 1)
+	\item $\Sigma\vdash \neg(\neg\neg F\lor G)$ \hfill (\rul{Premise})
+	\item $\Sigma\vdash \neg(F\lor G)$ \hfill (\rul{DoubleNeg} applied to $\neg\neg F$ in 1)
 \end{enumerate}
 is disallowed for our purposes.\\
 
 So far, we have seen several rules of reasoning. But how would one determine if these rules are sufficient to derive all true statements? Further, this feels quite inconvenient since there are so many rules. Often, we also don't know where to start applying them to a particular problem. We aim to simplify and algorithmize this process.
+
+
+\subsection{Lecture 6}
+
+If we want to develop algorithms, we require more structure in our input. We need to figure out methods for simplification and suitable ``normal forms''.
+
+In order to prove theorems, we need to get used to ``structural induction''. That is,
+
+\begin{theorem}[Structural Induction]
+	Every formula in $P$ has property $Q$ if
+	\begin{itemize}
+		\item every atomic formula has $Q$ and
+		\item if $F,G\in P$ have $Q$ then so do $\neg F$ and $(F\circ G)$, where $\circ$ is any binary symbol.
+	\end{itemize}
+\end{theorem}
+
+Substitution is an important part of logic. We should be able to substitute equivalent subformulas without altering the truth values of formulas.\\
+
+\begin{lemma}
+\label{lem: 6.2}
+	Suppose we have formulas $F(p)$, $G$, and $H$. Suppose for some model $m$, $m\vDash G\siff m\vDash H$. Then $m\vDash F(G) \siff m\vDash F(H)$.
+\end{lemma}
+This can be shown using structural induction, working it out for each connective.\\
+
+\begin{lemma}
+	If $F(p)\equiv G(p)$, then for each formula $H$, $F(H)\equiv G(H)$.
+\end{lemma}
+We may assume without loss of generality that $p$ does not appear in $H$. Consider a model $m$. Then define the model $m'$ by
+\[
+	m'\coloneqq
+	\begin{cases}
+		m[p\mapsto 1], & m\vDash H, \\
+		m[p\mapsto 0], & m\vDash H.
+	\end{cases}
+\]
+Observe that by construction, $m'\vDash p$ iff $m'\vDash H$.\\
+Further note that since $p$ does not appear in $\Vars(F(H))$, $m\vDash F(H)$ iff $m'\vDash F(H)$. By the earlier lemma, this implies that $m'\vDash F(H)$ iff $m'\vDash F(p)$.  Since $F(p)\equiv G(p)$, $m'\vDash F(p)$ iff $m'\vDash G(p)$.\\
+Again going backwards like we did now, we see that $m'\vDash G(p)$ iff $m'\vDash G(H)$ iff $m\vDash G(H)$. Therefore, $m\vDash F(H)$ iff $m\vDash G(H)$.
+
+\begin{theorem}
+	Let $G$, $H$, and $F(p)$ be formulas. If $G\equiv H$, then $F(G)\equiv F(H)$.
+\end{theorem}
+This is just a reformulation of \Cref{lem: 6.2}.\\
+This allows us to use known equivalences to modify formulas. This was also proved in the previous lecture using the proof system.
+
+\subsection{Lecture 7}
+
+\subsubsection{Negation Normal Form}
+
+Observe the following equivalences that remove $\xor$, $\imp$, and $\siff$ from formulas.
+
+\begin{align*}
+	(p\imp q) &\equiv (\neg p\lor q) \\
+	(p\xor q) &\equiv (p\lor q) \land (\neg p\lor \neg q) \\
+	(p\siff q) &\equiv \neg (p\xor q)
+\end{align*}
+
+Removing either $\xor$ or $\siff$ results in an explosion in the formula size, but we assume that we can remove them on will.\\
+Motivated by this, we define
+
+\begin{definition}
+	A formula is in \textit{negation normal form} (NNF) if $\neg$ appears only in front of the propositional variables.
+\end{definition}
+
+For any formula $F$, there is a formula $F'$ in NNF such that $F\equiv F'$.\\
+We can do stuff like $\neg(p\lor q) = (p\land \neg q)$ for every logical connective and push $\neg$ under them.\\
+
+There are also $\neg$s hidden inside $\xor$, $\imp$, and $\siff$. It is advisable to also remove these when producing the NNF of a formula.
+
+\subsubsection{Conjunctive Normal Form}
+
+Propositional variables are also referred to as \textit{atoms} (recall ``atomic formulas''). A \textit{literal} is either an atom or its negation. A \textit{clause} is a disjunction of literals.
+
+Since $\lor$ is associative, commutative, and absorbs multiple occurrences, a clause can be referred to as a set of literals.
+
+\begin{definition}
+	A formula is in \textit{conjunctive normal form} (CNF) if it is a conjunction of clauses.
+\end{definition}
+
+Since $\land$ is associative, commutative, and absorbs multiple occurrences, a CNF formula can be referred to as a set of clauses.
+
+For any formula $F$, there is a formula $F'$ in NNF such that $F\equiv F'$.\\
+First, we remove $\xor$, $\imp$, and $\siff$ using the usual equivalences. We then convert it to NNF. We then ``flatten'' $\lor$ and $\land$ using the associativity of $\lor$ and $\land$. The parse tree of the formula then has $\lor$ and $\land$ at alternating levels with the leaves being literals. We then distribute $\lor$ over $\land$ while flattening at each step to obtain a formula in CNF.\\
+But does this complete the argument? No, we also need to show that the final part of the algorithm (distribution) terminates (pushing using distributivity increases the size of the formula). To see why it should terminate, define $\nu(F)$ to be the maximum height of the $\lor$-$\land$ alternations in $F$. Suppose there is a subformula $G$ such that
+\[ G = \bigvee_{i=0}^{m} \bigwedge_{j=0}^{n_i} G_{ij} \]
+After pushing, we obtain
+\[ G' = \bigwedge_{j_1=0}^{n_1} \cdots \bigwedge_{j_m=0}^{n_m} \bigvee_{i=0}^m G_{ij}. \]
+Note that the height of the height of the above must be strictly less than $\nu(G)$.\\
+Observe that $G'$ is either the top formula or the parent of this connective is $\land$. Also, each $G_{ij}$ is either a literal or a clause.\\
+We must keep flattening to keep $F(G')$ in the considered form. Due to K\"{o}nig's lemma, this procedure must terminate.
+
+\begin{lemma}[K\"{o}nig's Lemma]
+	For an infinite connected graph $G$, if each node has finite degree, then there is an infinite simple path from each node.
+\end{lemma}
+
+This implies the required since it says that if the parse tree is infinite at any step, then the height at that step must be infinite as well.\\
+
+A \textit{unit clause} contains only one literal. A \textit{binary clause} contains exactly two literals. A \textit{ternary clause} contains exactly three literals.\\
+We can also extend this to the empty set of literals. We take by convention that $\perp$ is the empty clause.
+
+\subsubsection{Tseitin's Encoding}
+
+CNF is desirable because it has a very single structure, and only involves three distinct connectives ($\lor$, $\land$, and $\neg$).\\ The transformation using distributivity is bad because it leads to an explosion in the size of the formula. How do we avoid this?
+
+By introducing fresh variables, Tseitin's encoding translates any formula into an equisatisfiable formula in CNF without an exponential explosion.
+
+\begin{enumerate}
+	\item First, assume the input formula $F$ is in NNF without $\xor$, $\imp$, and $\siff$.
+	\item Find a $G_1\land\cdots\land G_n$ in $F$ that is just below an $\lor$. If no such subformula exists, terminate.
+	\item Replace $F(G_1\land\cdots\land G_n)$ by $F(p)\land(\neg p\lor G_1)\land\cdots\land(\neg p\lor G_n)$, where $p$ is a newly introduced variable.
+	\item Go to step 2.
+\end{enumerate}
+
+For example, $(p_1\land\cdots\land p_n)\lor(q_n\land\cdots\land q_m)$ becomes
+\[ (x\lor y) \land \bigwedge_{1\leq i\leq n} (\neg x\lor p_i) \land \bigwedge_{1\leq j\leq m} (\neg y \lor q_j), \]
+which has only $m+n+1$ clauses, as opposed to the $mn$ clauses returned by the na\"{i}ve algorithm. Here, $x$ and $y$ are the newly introduced variables.\\
+
+Why does this preserve satisfiability?\\
+Suppose $m\vDash F(p)\land(\neg p\lor G_1)\land\cdots\land(\neg p\lor G_n)$. We have three cases.
+\begin{enumerate}[(i)]
+	\item If $m\vDash p$, then $m\vDash G_i$ for every $1\leq i\leq n$. Therefore, $m\vDash G_1\land\cdots\land G_n$. We can then perform a substitution to get that $m\vDash F(G_1\land\cdots\land G_n)$.
+	\item If $m\nvDash p$ and $m\nvDash G_1\land\cdots\land G_n$. Since $m\vDash F(p)$, we can directly apply the substitution theorem again.
+	\item If $m\nvDash p$ and $m\vDash G_1\land\cdots\land G_n$. Since $F(G_1\land\cdots\land G_n)$ is in NNF, $p$ must occur positively (no $\neg p$) in $F(p)$. Therefore, $m[p\mapsto 1]\vDash F(p)$. Since $p$ does not occur in any $G_i$, we also obviously have $m[p\mapsto 1]\vDash G_1\land\cdots\land G_n$. Therefore, $m\vDash F(G_1\land\cdots\land G_n)$ (we basically ignore the modification).
+\end{enumerate}
