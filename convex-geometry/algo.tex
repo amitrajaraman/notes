@@ -7,8 +7,8 @@ We are looking for algorithms that are efficient (polynomial) in the \textit{dim
 
 There are a few issues that arise when we even want to formulate this problem.
 \begin{itemize}
-    \item What does it mean when we say that a convex body $K$ is ``given"? In what form is it given?
-    \item What does ``efficient" exactly mean?
+	\item What does it mean when we say that a convex body $K$ is ``given"? In what form is it given?
+	\item What does ``efficient" exactly mean?
 \end{itemize}
 
 We have already answered the second question above -- we are looking for algorithms that are \textit{polynomial} in the dimension $n$. We either want the exact volume or an approximation up to some small \textit{relative error} $\varepsilon>0$. If it is the latter, we would also like the algorithm to be polynomial in $\frac{1}{\varepsilon}$.\footnote{Note that $\varepsilon$ takes only $\log(1/\varepsilon)$ bits, so this is a relaxation in some sense.}
@@ -46,9 +46,9 @@ This leads to the weak separation oracle.
 \begin{definition}[Weak Separation Oracle]
 For a fixed convex body $K$, we can fix an $\varepsilon>0$ and ask the \textit{weak separation oracle} questions of the form ``Is $x\in K$ for the positive number $\varepsilon$?". However, in this case, the precision of the answer is $\varepsilon$ in the sense that
 \begin{enumerate}[(i)]
-    \item If $d(x,\partial K)<\varepsilon$, we can get any answer.
-    \item If $B(x,\varepsilon)\subseteq K$, we get the correct answer (\texttt{yes}).
-    \item If $d(x,K)\geq\varepsilon$, we get the correct answer (\texttt{no}) and a vector $s$ normalized by $\norm{s}_\infty=1$ for which $\langle s,y\rangle < \langle s,x\rangle+\varepsilon$ for every $y\in K$.
+	\item If $d(x,\partial K)<\varepsilon$, we can get any answer.
+	\item If $B(x,\varepsilon)\subseteq K$, we get the correct answer (\texttt{yes}).
+	\item If $d(x,K)\geq\varepsilon$, we get the correct answer (\texttt{no}) and a vector $s$ normalized by $\norm{s}_\infty=1$ for which $\langle s,y\rangle < \langle s,x\rangle+\varepsilon$ for every $y\in K$.
 \end{enumerate}
 \end{definition}
 
@@ -72,7 +72,7 @@ The information given to us initially ($r$ and $R$) are not even necessarily use
 Lov\'asz showed in \cite{Lovsz1986AlgorithmicTO} that it is possible to compute an affine transformation $\tilde{K}$ of $K$ in polynomial time such that
 \begin{equation}
 \label{eqn weak lowner john ellipsoid}
-    B_2^n\subseteq \tilde{K} \subseteq (n+1)\sqrt{n} B_2^n.
+	B_2^n\subseteq \tilde{K} \subseteq (n+1)\sqrt{n} B_2^n.
 \end{equation}
 
 We first introduce the following common tool.
@@ -88,8 +88,8 @@ It may be shown\footnote{We explicitly give the update formula without proof on 
 \[ \vol(\mathcal{E}_{r+1}) = \left(\frac{n}{n+1}\right)^{(n+1)/2}\left(\frac{n}{n-1}\right)^{(n-1)/2} \vol(\mathcal{E}_{r}). \]
 Rewriting it more suggestively,
 \begin{align*}
-    \vol(\mathcal{E}_{r+1}) &= \left(\frac{n^2}{n^2-1}\right)^{(n-1)/2} \frac{n}{n+1} \vol(\mathcal{E}_{r}) \\
-    &< \left(1+\frac{1}{n^2}\right)^{(n-1)/2} \vol(\mathcal{E}_r) < e^{-1/2n} \vol(\mathcal{E}_r).
+	\vol(\mathcal{E}_{r+1}) &= \left(\frac{n^2}{n^2-1}\right)^{(n-1)/2} \frac{n}{n+1} \vol(\mathcal{E}_{r}) \\
+	&< \left(1+\frac{1}{n^2}\right)^{(n-1)/2} \vol(\mathcal{E}_r) < e^{-1/2n} \vol(\mathcal{E}_r).
 \end{align*}
 The thing to note here is that $e^{-1/2n}$ is independent of the ellipsoids involved. Since we have $K\subseteq \mathcal{E}_k$,
 \[ \vol (K)\leq \vol(\mathcal{E}_k) \leq e^{-k/2n}(2R)^n.  \]
@@ -102,8 +102,8 @@ If each ellipsoid is given by
 \[ \mathcal{E}_r = \left\{x\in\R^n : (x-x_k)^\top A_k^{-1} (x-x_k) \leq 1 \right\}, \]
 $c_k$ is the vector returned by the separation oracle and $g_k = \frac{1}{\sqrt{c_k^\top A_k c_k}} c_k$, then
 \begin{align*}
-    x_{k+1} &= x_k - \frac{1}{n+1}A_k g_k\text{ and } \\
-    A_{k+1} &= \frac{n^2}{n^2-1} \left( A_k - \frac{2}{n+1}A_k g_k g_k^\top A_k. \right)
+	x_{k+1} &= x_k - \frac{1}{n+1}A_k g_k\text{ and } \\
+	A_{k+1} &= \frac{n^2}{n^2-1} \left( A_k - \frac{2}{n+1}A_k g_k g_k^\top A_k. \right)
 \end{align*}
 Since there is rounding anyway (irrationals might become involved due to the $\sqrt{\cdot}$), it turns out that it suffices to have a weak separation oracle.\\
 
@@ -140,7 +140,7 @@ while minimizing $\frac{\ovol(K)}{\uvol(K)}$.
 \Cref{lovasz pre-sandwich} produces estimates (equal to the volumes of the ellipsoids) with $\frac{\ovol(K)}{\uvol(K)} = n^n (n+1)^{n/2}$. This may seem ludicrously bad, but as it turns out, any deterministic attempts in general are destined to fail. Indeed, Elekes proved in \cite{Elekes1986} that for any positive $\varepsilon<2$, there exists no deterministic polynomial time algorithm that returns
 \begin{equation}
 \label{eqn elekes deterministic SUCKS}
-    \frac{\ovol(K)}{\uvol(K)} \leq (2-\varepsilon)^n
+	\frac{\ovol(K)}{\uvol(K)} \leq (2-\varepsilon)^n
 \end{equation}
 for every convex body $K$. The reason for this is that the convex hull of polynomially many points in $B_2^n$ is always bound to be far smaller than $B_2^n$ itself -- we've already seen this all the way back in \Cref{approximating sphere to polytope}. Let us now prove \Cref{eqn elekes deterministic SUCKS}.
 
@@ -196,7 +196,7 @@ and
 Clearly, it suffices to show that
 \begin{equation}
 \label{eqn: barany furedy}
-    \frac{S(n,n^a)}{V(n,n^a)} \geq \left(c \frac{n}{\log n}\right)^n
+	\frac{S(n,n^a)}{V(n,n^a)} \geq \left(c \frac{n}{\log n}\right)^n
 \end{equation}
 since $C^*$ and $C$ are of the above considered forms.\\
 
@@ -223,10 +223,10 @@ For $1\leq k\leq n-2$, we use strong (backward) induction on $k$.\\
 Let $x_n=x$ and for each $r:n>k>k$, let $x_r$ be such that $(x_{r+1}-x_r)\perp \Span(S_r)$ and $\norm{x_{r+1}-x_r} \leq \rho(n,r)$.\\
 Note that $x_n - x_{n-1}, x_{n-1}-x_{n-2},\ldots,x_{k+1}-x_{k}$ are all orthogonal and $\norm{x_{r+1} - x_r}\leq\frac{1}{r}$ for each $r$. We then have
 \begin{align*}
-    \norm{x_n - x_k}^2 &= \sum_{r=k}^{n-1} \norm{x_{r+1}-x_r}^2 \\
-    &\leq \sum_{r=k+1}^{n} \frac{1}{r^2} \\
-    &\leq \sum_{r=k+1}^{n} \frac{1}{r(r-1)} \\
-    &= \frac{1}{k} - \frac{1}{n}.
+	\norm{x_n - x_k}^2 &= \sum_{r=k}^{n-1} \norm{x_{r+1}-x_r}^2 \\
+	&\leq \sum_{r=k+1}^{n} \frac{1}{r^2} \\
+	&\leq \sum_{r=k+1}^{n} \frac{1}{r(r-1)} \\
+	&= \frac{1}{k} - \frac{1}{n}.
 \end{align*}
 Finally, the result for $k=0$ follows from the fact that the $(v_i)$ are contained in $B_2^n$.
 \end{proof}
@@ -237,7 +237,7 @@ Observe that this bound is only tight when $k$ is $1$ or $n$. Putting this in a 
 It is also worth noting that if $S$ is convex and $\dim U = k$,
 \begin{equation}
 \label{eqn: rho convex body volume}
-    \vol(S^\rho) = \vol_k(S) v_{n-k} \rho^{n-k}
+	\vol(S^\rho) = \vol_k(S) v_{n-k} \rho^{n-k}
 \end{equation}
 
 \begin{ftheo}
@@ -263,11 +263,11 @@ Using \Cref{eqn: rho convex body volume},
 \[ \vol(K) \leq \binom{m}{k+1} \cdot v_{n-k} \rho(n,k)^{n-k} \cdot \max\left\{\vol_k(S) : S=\conv(\{x_0,\ldots,x_k\})\subseteq B_2^n\right\}. \]
 The right-most quantity is maximum when the body is the $k$-dimensional regular solid simplex, whose volume is $(n+1)^{(n+1)/2}/n^{n/2}n!$. This is easily computed by using induction on dimension and the maximality was briefly mentioned at the end of \Cref{subsection: reverse isoperimetric problem 2.3}. So,
 \begin{align*}
-    \vol(K) &\leq \binom{m}{k+1} \cdot \frac{\pi^{(n-k)/2}}{\Gamma\left(\frac{n-k}{2}+1\right)} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
-    &\leq \binom{m}{k+1} \cdot \left(\frac{2\pi e}{n-k}\right)^{(n-k)/2} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
-    &= \binom{m}{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
-    &\leq \frac{m^{k+1}}{(k+1)!} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
-    &\leq \left(\frac{em}{k+1}\right)^{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \left(\frac{e}{k}\right)^k.
+	\vol(K) &\leq \binom{m}{k+1} \cdot \frac{\pi^{(n-k)/2}}{\Gamma\left(\frac{n-k}{2}+1\right)} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+	&\leq \binom{m}{k+1} \cdot \left(\frac{2\pi e}{n-k}\right)^{(n-k)/2} \left(\frac{n-k}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+	&= \binom{m}{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+	&\leq \frac{m^{k+1}}{(k+1)!} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \frac{(k+1)^{(k+1)/2}}{k^{k/2}k!} \\
+	&\leq \left(\frac{em}{k+1}\right)^{k+1} \cdot \left(\frac{2\pi e}{nk}\right)^{(n-k)/2} \left(\frac{e}{k}\right)^k.
 \end{align*}
 And therefore,
 \[ \frac{\vol (K)}{v_n} \leq \left(\frac{em}{k+1}\right)^{k+1} n^{k/2} k^{-(n+k)/2}. \]
@@ -301,7 +301,7 @@ If we let $K=\{x\in\R^n:|\langle x,v_i\rangle| \leq 1\text{ for each $i$}\}$ for
 An upper bound then directly follows from \Cref{inverse santalo inequality} and \Cref{upper bound on V n m}. We get for some constants $c_2$ and $\gamma$,
 \begin{equation}
 \label{eqn: lower bound on S n m}
-    S(n,m) \geq \left(\frac{c_2}{n}\right)^n \left(\frac{n}{\gamma\sqrt{ \log(m/n)+1}}\right)^n = \left(\frac{c'}{\sqrt{\log(m/n)+1}}\right)^n
+	S(n,m) \geq \left(\frac{c_2}{n}\right)^n \left(\frac{n}{\gamma\sqrt{ \log(m/n)+1}}\right)^n = \left(\frac{c'}{\sqrt{\log(m/n)+1}}\right)^n
 \end{equation}
 for some constant $c'$.\\
 
@@ -356,10 +356,10 @@ It may be shown that irrespective of $X_0$, $\lim_{t\to\infty}\Pr[X_t=i] = \frac
 \[ e_{i,t} = \Pr[X_t=i] - \frac{1}{n} \]
 be the ``excess" probability at time $t$ on vertex $i$. Also, denote $\Pr[X_t=i]$ as $p_i^{(t)}$ for the sake of brevity. Denoting the neighbourhood of $i$ by $\Gamma(i)$,
 \begin{align}
-    e_{i,t+1} &= p_i^{(t+1)} - \frac{1}{n} \nonumber \\
-    &= \left(\frac{1}{2}p_i^{(t)} + \frac{1}{2d}\sum_{j\in\Gamma(i)}p_j^{(t)}\right) - \frac{1}{n} \nonumber \\
-    &= \frac{1}{2}e_{i,t} + \frac{1}{2d}\sum_{j\in\Gamma(i)}e_{j,t} \nonumber \\
-    &= \frac{1}{2d} \sum_{j\in\Gamma(i)}(e_{i,t}+e_{j,t}) \label{eqn: alternate expression for future error}
+	e_{i,t+1} &= p_i^{(t+1)} - \frac{1}{n} \nonumber \\
+	&= \left(\frac{1}{2}p_i^{(t)} + \frac{1}{2d}\sum_{j\in\Gamma(i)}p_j^{(t)}\right) - \frac{1}{n} \nonumber \\
+	&= \frac{1}{2}e_{i,t} + \frac{1}{2d}\sum_{j\in\Gamma(i)}e_{j,t} \nonumber \\
+	&= \frac{1}{2d} \sum_{j\in\Gamma(i)}(e_{i,t}+e_{j,t}) \label{eqn: alternate expression for future error}
 \end{align}
 To be able to quantify our closeness to the stationary distribution, define
 \[d_1(t)=d_1(\tilde{X},t) = \sum_{i}|e_{i,t}|\]
@@ -370,8 +370,7 @@ We call a walk $\tilde{X}$ on $G$ \textit{rapidly mixing} if there exists a poly
 
 \begin{fdef}[Rapidly Mixing Random Walks]
 \label{def: rapidly mixing random walks}
-Let $(G_i)_{i\in\N}$ be a sequence of graphs where $G_i$ has $n_i$ 
-vertices and $n_i\to\infty$. We say that the simple random walks on $G_1,G_2,\ldots$ are \textit{randomly mixing} if there is a polynomial $f$ (depending only on the sequence $(G_i)$) such that if $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n_i)\log(1/\varepsilon)$, then $d(\tilde{X_i},t)\leq\varepsilon$ whenever $\tilde{X_i}$ is a simple random walk on $G_i$.
+	Let $(G_i)_{i\in\N}$ be a sequence of graphs where $G_i$ has $n_i$ vertices and $n_i\to\infty$. We say that the simple random walks on $G_1,G_2,\ldots$ are \textit{randomly mixing} if there is a polynomial $f$ (depending only on the sequence $(G_i)$) such that if $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n_i)\log(1/\varepsilon)$, then $d(\tilde{X_i},t)\leq\varepsilon$ whenever $\tilde{X_i}$ is a simple random walk on $G_i$.
 \end{fdef}
 
 There are some issues that arise when we want to synthesize a rapidly mixing walk. For example, suppose we have a random walk on $[-1,1]^n$ and we somehow find ourselves near one of the corners. Then the probability of leaving the corner is extremely low (of the order of $2^{-n}$) at each step, which would greatly hinder the speed of convergence.
@@ -403,17 +402,17 @@ We prove this using two other lemmas.
 
 \begin{lemma}
 \label{random walk speed of convergence conductance lemma 1}
-For any simple random walk on a connected $d$-regular simple graph on $G$,
+	For any simple random walk on a connected $d$-regular simple graph on $G$,
 \[ d_2(t+1) \leq d_2(t) - \frac{1}{2d}\sum_{ij\in E}(e_{i,t}-e_{j,t})^2. \]
 \end{lemma}
 \begin{proof}
 Using \Cref{eqn: alternate expression for future error} along with the Cauchy-Schwarz inequality,
 \begin{align*}
-    d_2(t+1) &= \frac{1}{4d^2} \sum_{i=1}^n \left( \sum_{j\in\Gamma(i)} e_{i,t}+e_{j,t}\right)^2 \\
-    &\leq \frac{1}{4d} \sum_{i=1}^n \sum_{j\in\Gamma(i)} (e_{i,t}+e_{j,t})^2 \\
-    &= \frac{1}{2d} \sum_{ij\in E} (e_{i,t}+e_{j,t})^2 \\
-    &= \frac{1}{d} \sum_{ij\in E} (e_{i,t}^2 + e_{j,t}^2) - \frac{1}{2d} \sum_{ij\in E}(e_{i,t}-e_{j,t})^2 \\
-    &= d_2(t) - \frac{1}{2d} \sum_{ij\in E} (e_{i,t}-e_{j,t})^2
+	d_2(t+1) &= \frac{1}{4d^2} \sum_{i=1}^n \left( \sum_{j\in\Gamma(i)} e_{i,t}+e_{j,t}\right)^2 \\
+	&\leq \frac{1}{4d} \sum_{i=1}^n \sum_{j\in\Gamma(i)} (e_{i,t}+e_{j,t})^2 \\
+	&= \frac{1}{2d} \sum_{ij\in E} (e_{i,t}+e_{j,t})^2 \\
+	&= \frac{1}{d} \sum_{ij\in E} (e_{i,t}^2 + e_{j,t}^2) - \frac{1}{2d} \sum_{ij\in E}(e_{i,t}-e_{j,t})^2 \\
+	&= d_2(t) - \frac{1}{2d} \sum_{ij\in E} (e_{i,t}-e_{j,t})^2
 \end{align*}
 \end{proof}
 
@@ -444,17 +443,17 @@ Obviously, it suffices to prove the inequality for the $(u_i)$ and $(v_i)$ since
 and $\sum_i x_i^2 = \sum_i u_i^2 + \sum_i v_i^2$.\\
 We prove it only for the $(u_i)$. Using the Cauchy-Schwarz inequality,
 \begin{align}
-    2d\sum_{i=1}^n u_i^2 \sum_{ij\in E} (u_i-u_j)^2 &= \sum_{ij\in E} 2(u_i^2 + u_j^2) \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
-    &\geq \sum_{ij\in E} (u_i + u_j)^2 \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
-    &\geq \left(\sum_{ij\in E} (u_i^2 - u_j^2)\right)^2 \label{eqn: random walk speed of convergence conductance lemma 2 cauchy schwarz}
+	2d\sum_{i=1}^n u_i^2 \sum_{ij\in E} (u_i-u_j)^2 &= \sum_{ij\in E} 2(u_i^2 + u_j^2) \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
+	&\geq \sum_{ij\in E} (u_i + u_j)^2 \sum_{ij\in E}(u_i-u_j)^2 \nonumber \\
+	&\geq \left(\sum_{ij\in E} (u_i^2 - u_j^2)\right)^2 \label{eqn: random walk speed of convergence conductance lemma 2 cauchy schwarz}
 \end{align}
 We aim now to bound the term within the square in the final expression.\\
 Suppose that in every edge $ij\in E$, $i<j$. We can then rewrite the expression as
 \[ \sum_{ij\in E} (u_i^2-u_j^2) = \sum_{ij\in E} \sum_{l=i}^{j-1} (u_l^2-u_{l+1}^2) = \sum_{l=1}^{n} (u_l^2 - u_{l+1}^2) e\left([l],[n]\setminus[l]\right). \]
 It is very clear now how the conductance enters the picture. Since we can disregard the terms of the summation after $l=m$, the expression on the right is bounded below by $dl\Phi_G$. That is,
 \begin{align*}
-    \sum_{ij\in E} (u_i^2-u_j^2) &\geq \sum_{l=1}^m (u_l^2-u_{l+1}^2) dl\Phi_G \\
-    &= d\Phi_G\sum_{l=1}^m u_l^2.
+	\sum_{ij\in E} (u_i^2-u_j^2) &\geq \sum_{l=1}^m (u_l^2-u_{l+1}^2) dl\Phi_G \\
+	&= d\Phi_G\sum_{l=1}^m u_l^2.
 \end{align*}
 Substituting the above in \Cref{eqn: random walk speed of convergence conductance lemma 2 cauchy schwarz},
 \[ \sum_{ij\in E}(u_i-u_j)^2 \geq \frac{d}{2}\Phi_G^2 \sum_{l=1}^n u_l^2, \]
@@ -534,8 +533,8 @@ In recent times, it has also been a common theme to use \textit{Metropolis chain
 
 \paragraph{Metropolis Chain.} Suppose we have a function $f$ on $K$ and a random walk (of any of the above types). We can modify our walk using the same laziness as above, but when we wish to move, we check if $f(x)\geq f(x+v)$ (where $x$ is the original position and $x+v$ is the new proposed position) and
 \begin{itemize}
-    \item if \texttt{yes}, move to $x+v$.
-    \item if \texttt{no}, move to $x+v$ with probability $\frac{f(x)}{f(x+v)}$ (and stay at $x$ otherwise).
+	\item if \texttt{yes}, move to $x+v$.
+	\item if \texttt{no}, move to $x+v$ with probability $\frac{f(x)}{f(x+v)}$ (and stay at $x$ otherwise).
 \end{itemize}
 
 If $\int f < \infty$, this produces a random walk with stationary distribution that is proportional to $f(x)$.
@@ -563,16 +562,16 @@ Consider the function $\varphi_0$ on $\R^n$ defined by
 and $\varphi$ defined by $\varphi(x)=\left\lceil \varphi_0(x)\right\rceil$. Finally, define $f(x)=2^{-\varphi(x)}$.\\
 There are a few things to observe that make it apparent why this $f$ is a good choice for our purposes:
 \begin{itemize}
-    \item For $x\in K$, $f(x)=1$.
-    \item If $x,y$ are such that $\norm{x-y}_\infty \leq \frac{1}{2n}$, then $|\varphi_0(x)-\varphi_0(y)|\leq 1$. Indeed,
-    \[ x = y + (x-y) \in \left(1+\frac{\varphi_0(y)}{2n}\right)K + \frac{1}{2n}K = \left(1+\frac{\varphi_0(y)+1}{2n}\right)K \]
-    so $\varphi_0(x) \leq \varphi_0(y)+1$.
-    \item How many $x\in V$ are there such that $\varphi(x)=s>0$ (so $f(x)=2^{-s}$)? We must have
-    \[ x \in \left(1+\frac{s}{2n}\right)K \mathbin{\big\backslash} \left(1+\frac{s-1}{2n}\right)K. \]
-    The volume of the body on the right is about
-    \[ \left(\left(1+\frac{s}{2n}\right)^n - \left(1+\frac{s-1}{2n}\right)^n\right) \vol(K) < (e^{s/2}-1) \vol(K). \]
-    Multiplying by an appropriate factor on either side, the number of points in $V$ in this body is at most $(e^{s/2}-1)f(K)$. Therefore, for $n>3$,
-    \[ f(V) = f(K) + \sum_{s=1}^\infty 2^{-s}(e^{s/2}-1)f(K) < 5f(K). \]
+	\item For $x\in K$, $f(x)=1$.
+	\item If $x,y$ are such that $\norm{x-y}_\infty \leq \frac{1}{2n}$, then $|\varphi_0(x)-\varphi_0(y)|\leq 1$. Indeed,
+	\[ x = y + (x-y) \in \left(1+\frac{\varphi_0(y)}{2n}\right)K + \frac{1}{2n}K = \left(1+\frac{\varphi_0(y)+1}{2n}\right)K \]
+	so $\varphi_0(x) \leq \varphi_0(y)+1$.
+	\item How many $x\in V$ are there such that $\varphi(x)=s>0$ (so $f(x)=2^{-s}$)? We must have
+	\[ x \in \left(1+\frac{s}{2n}\right)K \mathbin{\big\backslash} \left(1+\frac{s-1}{2n}\right)K. \]
+	The volume of the body on the right is about
+	\[ \left(\left(1+\frac{s}{2n}\right)^n - \left(1+\frac{s-1}{2n}\right)^n\right) \vol(K) < (e^{s/2}-1) \vol(K). \]
+	Multiplying by an appropriate factor on either side, the number of points in $V$ in this body is at most $(e^{s/2}-1)f(K)$. Therefore, for $n>3$,
+	\[ f(V) = f(K) + \sum_{s=1}^\infty 2^{-s}(e^{s/2}-1)f(K) < 5f(K). \]
 \end{itemize}
 The above suggests that a Metropolis chain under this function might be exactly what we want -- the first point ensures that the resulting distribution is constant on $K$.\\
 
@@ -611,25 +610,25 @@ This inequality is slightly loose. The best possible constant on the right is $\
 Let us have $U\subseteq V$ with $0<\lambda(U)<\frac{1}{2}$ and let $\overline{U}=V\setminus U$. Also, let $\partial{U}$ be the set of vertices in $\overline{U}$ with at least one neighbour in $U$.\\
 Let $M$ be the union of the cubes of side length $1/2n$ centered at vertices of $V$ ($M$ is a solid cube) and $A_1$ be the union of cubes of side length $1/2n$ centered at vertices of $U$. Let $B$ be the union of cubes of volume $2/(2n)^n$ centered at vertices of $\partial U$ and $A_2 = M \setminus (A_1 \cup B)$. Obviously,
 \begin{equation}
-    \diam(M) = \mathcal{O}(n^{3/2}).
+	\diam(M) = \mathcal{O}(n^{3/2}).
 \end{equation}
 Then, observe that
 \begin{equation}
-    d(A_1,A_2) \geq \frac{1}{2n}\frac{\sqrt{n}}{2} (2^{1/n} - 1) = \Omega(n^{-3/2}).
+	d(A_1,A_2) \geq \frac{1}{2n}\frac{\sqrt{n}}{2} (2^{1/n} - 1) = \Omega(n^{-3/2}).
 \end{equation}
 for some suitable positive constant $c_1$. Also, for some positive constant $c_2$,
 \begin{align*}
-    \sum_{\substack{u\in U \\ v \in \overline{U}}}\lambda(u)p(u,v) &= \sum_{\substack{u\in U \\ v \in B}}\lambda(v)p(v,u)\\
-    &\geq \sum_{v\in B} \frac{1}{8n} \lambda(v) = c_2\frac{\lambda(B)}{n}.
+	\sum_{\substack{u\in U \\ v \in \overline{U}}}\lambda(u)p(u,v) &= \sum_{\substack{u\in U \\ v \in B}}\lambda(v)p(v,u)\\
+	&\geq \sum_{v\in B} \frac{1}{8n} \lambda(v) = c_2\frac{\lambda(B)}{n}.
 \end{align*}
 
 We may assume that $\lambda(B)$ is small.
 Now, define a measure $\mu$ on $\mathcal{B}(M)$ as in \Cref{conductance isoperimetric inequality} with $F=2^{-\varphi_1}$, where $\varphi_1$ is the maximal convex function on $M$ bounded above by $\varphi$. Observe that $\lambda(u)$ is always within a constant factor of the $\mu$-measure of the unit cube centered at $u$. Thus, we have
 \begin{align}
-    \frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\
-    &= \frac{c_3}{n}\frac{\mu(M \setminus (A_1\cup A_2))}{\min\{\mu(A_1),\mu(A_2)\}} \nonumber \\
-    &\geq \frac{c_3}{n} \frac{d(A_1,A_2)}{\diam M} \nonumber \\
-    &= \Omega(n^{-4}) \label{eqn: number of steps}
+	\frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\
+	&= \frac{c_3}{n}\frac{\mu(M \setminus (A_1\cup A_2))}{\min\{\mu(A_1),\mu(A_2)\}} \nonumber \\
+	&\geq \frac{c_3}{n} \frac{d(A_1,A_2)}{\diam M} \nonumber \\
+	&= \Omega(n^{-4}) \label{eqn: number of steps}
 \end{align}
 
 So what is the total time complexity of the algorithm? Combining \Cref{eqn: number of steps} and \Cref{eqn: condition on time in terms of conductance} (or rather, the corresponding result for $d_2(t)$ that does not have the $\log n$ factor), the number of steps in the random walk of each phase of the multiphase Metropolis walk is $\mathcal{O}^*(n^{8})$. At each step of the walk, we perform $\mathcal{O}(n)$ oracle queries. Finally, there are $\mathcal{O}^*(n)$ phases. All together, the algorithm is $\mathcal{O}^*(n^{10})$.\\
@@ -713,9 +712,9 @@ Further note that $(M^k g)(u)$ represents the expectation of $g(w_{i+k})$ given 
 
 Now, consider a Markov chain where the first element is drawn from the stationary distribution. Then observe that for any function $g\in L^2$,
 \begin{align*}
-    \expec[g(w_i)] &= \expec[g(w_0)] = \langle g,1\rangle \\
-    \expec[g(w_i)^2] &= \expec[g(w_0)^2] = \langle g,g\rangle \\
-    \expec[g(w_i)g(w_{i+k)}] &= \expec[g(w_0)g(w_k)] = \langle g,M^k g\rangle
+	\expec[g(w_i)] &= \expec[g(w_0)] = \langle g,1\rangle \\
+	\expec[g(w_i)^2] &= \expec[g(w_0)^2] = \langle g,g\rangle \\
+	\expec[g(w_i)g(w_{i+k)}] &= \expec[g(w_0)g(w_k)] = \langle g,M^k g\rangle
 \end{align*}
 
 A Markov chain is said to be \textit{time-reversible} if for any $A,B\in\mathcal{A}$, the probability of going from $A$ to $B$ is the same as that of going from $B$ to $A$. That is,
@@ -725,15 +724,15 @@ It is easy to see that it suffices to have the above for all disjoint sets $A$ a
 This is equivalent to saying that for any function $g:\Omega\times\Omega\to\R$ (assuming both sides are well-defined),
 \begin{equation}
 \label{eqn: time reversible function formulation}
-    \int_\Omega \int_\Omega F(u,v)\d{P}_u(v)\d{Q}(u) = \int_\Omega \int_\Omega F(v,u)\d{P}_u(v)\d{Q}(u).
+	\int_\Omega \int_\Omega F(u,v)\d{P}_u(v)\d{Q}(u) = \int_\Omega \int_\Omega F(v,u)\d{P}_u(v)\d{Q}(u).
 \end{equation}
 It is equivalent to say that the operator $M$ is self-adjoint.\footnote{an operator $A$ such that $\langle Ax,y\rangle=\langle x,A y\rangle$ for any $x,y$.} If the Markov scheme can be described by a transition function $f$ (with respect to $Q$), then time-reversibility is equivalent to the symmetry of $f$.\\
 If the Markov scheme is time-reversible, then for any $g\in L^2$,
 \begin{align}
-    \langle g,g\rangle - \langle g,M g\rangle &= \int_{\Omega} g^2\d{Q} - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
-    &= \int_{\Omega}\int_\Omega g^2(u)\d{P_u}(v)\d{Q}(u) - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
-    &= \frac{1}{2} \left(\int_{\Omega}\int_\Omega (g^2(u)+g^2(v))\d{P_u}(v)\d{Q}(u) - \int_\Omega\int_\Omega 2g(u)g(v)\d{P_u}(v)\d{Q}(u)\right) & (\text{by \Cref{eqn: time reversible function formulation}}) \nonumber \\
-    &= \frac{1}{2}\int_\Omega\int_\Omega (g(u)-g(v))^2\d{P_u}(v)\d{Q}(u) \geq 0. \label{eqn: self-adjoint spectral radius 1}
+	\langle g,g\rangle - \langle g,M g\rangle &= \int_{\Omega} g^2\d{Q} - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
+	&= \int_{\Omega}\int_\Omega g^2(u)\d{P_u}(v)\d{Q}(u) - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
+	&= \frac{1}{2} \left(\int_{\Omega}\int_\Omega (g^2(u)+g^2(v))\d{P_u}(v)\d{Q}(u) - \int_\Omega\int_\Omega 2g(u)g(v)\d{P_u}(v)\d{Q}(u)\right) & (\text{by \Cref{eqn: time reversible function formulation}}) \nonumber \\
+	&= \frac{1}{2}\int_\Omega\int_\Omega (g(u)-g(v))^2\d{P_u}(v)\d{Q}(u) \geq 0. \label{eqn: self-adjoint spectral radius 1}
 \end{align}
 Therefore, the spectral radius\footnote{the largest absolute value of its eigenvalues.} of $M$ is exactly $1$.
 
@@ -744,8 +743,8 @@ A Markov chain is said to be \textit{lazy} if for each $u$,
 
 There are two main, albeit minor and technical, reasons for desiring laziness:
 \begin{itemize}
-    \item Sometimes, a lack of laziness can cause parity issues which result in the limit distribution of a chain not converging to the stationary distribution.
-    \item In the time-reversible case, it makes the operator $M$ positive semidefinite, thus making it far easier to analyze.
+	\item Sometimes, a lack of laziness can cause parity issues which result in the limit distribution of a chain not converging to the stationary distribution.
+	\item In the time-reversible case, it makes the operator $M$ positive semidefinite, thus making it far easier to analyze.
 \end{itemize}
 To see why the latter occurs, note that if $M$ is self-adjoint, then so is $2M-I$ and by a proof exactly like that of \Cref{eqn: self-adjoint spectral radius 1},
 \[ \langle f,M f\rangle = \frac{1}{2}\langle f,f\rangle + \frac{1}{2}\langle f,(2M-I)f\rangle \geq 0. \]
@@ -771,9 +770,9 @@ Define the \textit{ergodic flow} $\Phi:\mathcal{A}\to[0,1]$ of a Markov scheme b
 
 This just measures how likely $w_1$ is to leave the subset $A$ if $w_0$ is initially drawn from $Q$. Observe that since $Q$ is stationary,
 \begin{align*}
-    \Phi(A) - \Phi(\Omega\setminus A) &= \int_A P_u(\Omega\setminus A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) \\
-    &= Q(A) - \int_A P_u(A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) & (\text{since } P_u(\Omega\setminus A)=1-P_u(A)) \\
-    &= Q(A) - \int_\Omega P_u(A)\d{Q}(u) = 0.
+	\Phi(A) - \Phi(\Omega\setminus A) &= \int_A P_u(\Omega\setminus A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) \\
+	&= Q(A) - \int_A P_u(A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) & (\text{since } P_u(\Omega\setminus A)=1-P_u(A)) \\
+	&= Q(A) - \int_\Omega P_u(A)\d{Q}(u) = 0.
 \end{align*}
 Even conversely, if for some probability distribution $Q'$, the function $\Phi':\mathcal{A}\to[0,1]$ defined by
 \[ A\mapsto \int_A P_u(\Omega\setminus A)\d{Q}(u) \]
@@ -812,59 +811,66 @@ For example, it is easily shown that for a finite Markov chain with $N$ states a
 
 There are a few things to note.
 \begin{itemize}
-    \item For any $x$, $0\leq h_k\leq 1-x$. The lower bound is because one can consider the constant function $x$ on $\Omega$. The upper bound is because $\int_\Omega g\d{Q}_k$ is bounded above by $1$. In particular, $h_k(1)=0$.
-    \item $h_k$ is a convex function of $x$. We shall see below in \Cref{hk distance supremum attained} that the supremum in the definition of $h_k$ is attained. Then, for any $a,b,\lambda\in[0,1]$, set $x=\lambda a+(1-\lambda)b$ and let $g_1,g_2$ be the functions that attain the supremums for $h_k(a)$ and $h_k(b)$. Then,
-    \[ \sup_g \int_\Omega g\d{Q}_k - x \geq \int_\Omega (\lambda g_1 + (1-\lambda)g_2) \d{Q}_k = \lambda h_k(a) + (1-\lambda) h_k(b). \]
+	\item For any $x$, $0\leq h_k\leq 1-x$. The lower bound is because one can consider the constant function $x$ on $\Omega$. The upper bound is because $\int_\Omega g\d{Q}_k$ is bounded above by $1$. In particular, $h_k(1)=0$.
+	\item $h_k$ is a convex function of $x$. We shall see below in \Cref{hk distance supremum attained} that the supremum in the definition of $h_k$ is attained. Then, for any $a,b,\lambda\in[0,1]$, set $x=\lambda a+(1-\lambda)b$ and let $g_1,g_2$ be the functions that attain the supremums for $h_k(a)$ and $h_k(b)$. Then,
+	\[ \sup_g \int_\Omega g\d{Q}_k - x \geq \int_\Omega (\lambda g_1 + (1-\lambda)g_2) \d{Q}_k = \lambda h_k(a) + (1-\lambda) h_k(b). \]
 \end{itemize}
 
 This definition might seem quite artificial at the moment, but we hope to give more context to it with the following few lemmas.
 
 \begin{lemma}
-For every set $A\in\mathcal{A}$ with $Q(A)=x$,
-\[ -h_k(1-x) \leq Q_k(A) - Q(A) \leq h_k(x). \]
+	For every set $A\in\mathcal{A}$ with $Q(A)=x$,
+	\[ -h_k(1-x) \leq Q_k(A) - Q(A) \leq h_k(x). \]
 \end{lemma}
 \begin{proof}
-The upper bound is immediate from the definition of the distance function by taking $g = \indic_A$ (the indicator function on $A$). The similar upper bound for $\Omega\setminus A$ immediately gives the result.
+	The upper bound is immediate from the definition of the distance function by taking $g = \indic_A$ (the indicator function on $A$). The similar upper bound for $\Omega\setminus A$ immediately gives the result.
 \end{proof}
 
 \begin{lemma}
 \label{hk distance supremum attained}
-For every $0<x<1$, there exists a function $G$ that is $0$-$1$ valued except possibly on a $Q$-atom\footnote{a $Q$-atom is a set $V\in\mathcal{A}$ such that $Q(V)>0$ and for any $V'\subseteq V$, either $Q(V')=Q(V)$ or $Q(V')=0$.} that attains the supremum in the definition of $h_k(x)$.
+	For every $0<x<1$, there exists a function $G$ that is $0$-$1$ valued except possibly on a $Q$-atom\footnote{a $Q$-atom is a set $V\in\mathcal{A}$ such that $Q(V)>0$ and for any $V'\subseteq V$, either $Q(V')=Q(V)$ or $Q(V')=0$.} that attains the supremum in the definition of $h_k(x)$.
 \end{lemma}
 \begin{proof}
-Let $U\in\mathcal{A}$ such that $Q(U)=0$ and $Q_k(U)$ is maximum. Let $Q'$ and $Q_k'$ be the restrictions of $Q$ and $Q_k$ to $\Omega\setminus U$. Clearly, the way we have defined $U$ implies that $Q_k'$ is absolutely continuous with respect to $Q'$. Thus, let $\phi$ be the Radon-Nikodym derivative of $Q_k'$ with respect to $Q'$.\\
-Now, let $x\in[0,1]$ and $g:\Omega\to[0,1]$ such that $\int_\Omega g\d{Q} = x$.\\
-For $t\geq 0$, define
-\[ A_t = U \cup \{u \in \Omega\setminus U : \phi(u) \geq t\}\text{ and }s=\inf\{t\geq 0 : Q(A_t) \leq x\}. \]
-Observe that since $A_s = \bigcap_{t<s}A_t$, upper semicontinuity implies that $Q(A_s)\geq x$. Also define
-\[ A' = \bigcup_{t>s} A_t = U \cup \{u \in \Omega\setminus U : \phi(u) > s\}. \]
-Lower semicontinuity implies that $Q(A')\leq x$. We also have that $A'\subseteq A_s$ and for every $u\in A_s\setminus A'$, $\phi(u)=s$.\\
-Now, choose a $B\in\mathcal{A}$ such that $A'\subseteq B\subseteq A_s$, $Q(B)\leq x$, and $Q(B)$ is maximum.\\
-We first show that if $Q(B)=x$, then the indicator function on $B$ suffices. Indeed, in this case,
-\begin{align*}
-    \int_\Omega g\d{Q}_k &= \int_U g\d{Q}_k + \int_{B\setminus U} g\phi\d{Q} + \int_{\Omega\setminus B} g\phi\d{Q} \\
-    &= \int_U g\d{Q}_k + \int_{B\setminus U} (g-1)\phi\d{Q} + \int_{B\setminus U} \d{Q}_k + \int_{\Omega\setminus B} g\phi\d{Q} \\
-    &\leq \int_U \d{Q}_k + s\int_{B\setminus U} (g-1)\d{Q} + \int_{B\setminus U} \d{Q}_k + s\int_{\Omega\setminus B} g \d{Q} & \text{($0\leq g\leq 1$ and $\phi\leq s$ $Q$-almost everywhere on $\Omega\setminus B$)} \\
-    &= Q_k(B) + s\int_{\Omega\setminus U} g\d{Q} - s\int_{B\setminus U}\d{Q} \\
-    &= Q_k(B) + s(x - Q(B)) = Q_k(B).
-\end{align*}
-We also see that the supremum is attained when $g=\indic_B$.\\
-Next, assume that $Q(B)<x$. Then for every $W\subseteq A_s\setminus B$, either $Q(W)=0$ or $Q(W)>x-Q(B)$. That is, the measure on $A'\setminus B$ is concentrated at atoms. Let $V$ be one such atom. As shown above,
-\[ \int_\Omega g\d{Q}_k \leq Q_k(B) + s(x-Q(B)). \]
-To show that this bound is attained, let $g=\indic_B+\lambda\indic_{V}$ where $\lambda = (x-Q(B))/Q(V)$. Clearly, $0\leq g\leq 1$. Further,
-\[ \int_\Omega g\d{Q} = Q(B) + \lambda Q(V) = x \]
-and
-\[ \int_\Omega g\d{Q}_k = Q_k(B)+\lambda Q_k(V) = Q_k(B) + s(x-Q(B)) \]
-where the last step follows since $\phi(u)=s$ for all $u\in V\subseteq A_s\setminus A'$.
+	Let $U\in\mathcal{A}$ such that $Q(U)=0$ and $Q_k(U)$ is maximum. Let $Q'$ and $Q_k'$ be the restrictions of $Q$ and $Q_k$ to $\Omega\setminus U$. Clearly, the way we have defined $U$ implies that $Q_k'$ is absolutely continuous with respect to $Q'$. Thus, let $\phi$ be the Radon-Nikodym derivative of $Q_k'$ with respect to $Q'$.\\
+	Now, let $x\in[0,1]$ and $g:\Omega\to[0,1]$ such that $\int_\Omega g\d{Q} = x$.\\
+	For $t\geq 0$, define
+	\[ A_t = U \cup \{u \in \Omega\setminus U : \phi(u) \geq t\}\text{ and }s=\inf\{t\geq 0 : Q(A_t) \leq x\}. \]
+	Observe that since $A_s = \bigcap_{t<s}A_t$, upper semicontinuity implies that $Q(A_s)\geq x$. Also define
+	\[ A' = \bigcup_{t>s} A_t = U \cup \{u \in \Omega\setminus U : \phi(u) > s\}. \]
+	Lower semicontinuity implies that $Q(A')\leq x$. We also have that $A'\subseteq A_s$ and for every $u\in A_s\setminus A'$, $\phi(u)=s$.\\
+	Now, choose a $B\in\mathcal{A}$ such that $A'\subseteq B\subseteq A_s$, $Q(B)\leq x$, and $Q(B)$ is maximum.\\
+	We first show that if $Q(B)=x$, then the indicator function on $B$ suffices. Indeed, in this case,
+	\begin{align*}
+		\int_\Omega g\d{Q}_k &= \int_U g\d{Q}_k + \int_{B\setminus U} g\phi\d{Q} + \int_{\Omega\setminus B} g\phi\d{Q} \\
+		&= \int_U g\d{Q}_k + \int_{B\setminus U} (g-1)\phi\d{Q} + \int_{B\setminus U} \d{Q}_k + \int_{\Omega\setminus B} g\phi\d{Q} \\
+		&\leq \int_U \d{Q}_k + s\int_{B\setminus U} (g-1)\d{Q} + \int_{B\setminus U} \d{Q}_k + s\int_{\Omega\setminus B} g \d{Q} & \text{($0\leq g\leq 1$ and $\phi\leq s$ $Q$-almost everywhere on $\Omega\setminus B$)} \\
+		&= Q_k(B) + s\int_{\Omega\setminus U} g\d{Q} - s\int_{B\setminus U}\d{Q} \\
+		&= Q_k(B) + s(x - Q(B)) = Q_k(B).
+	\end{align*}
+	We also see that the supremum is attained when $g=\indic_B$.\\
+	Next, assume that $Q(B)<x$. Then for every $W\subseteq A_s\setminus B$, either $Q(W)=0$ or $Q(W)>x-Q(B)$. That is, the measure on $A'\setminus B$ is concentrated at atoms. Let $V$ be one such atom. As shown above,
+	\[ \int_\Omega g\d{Q}_k \leq Q_k(B) + s(x-Q(B)). \]
+	To show that this bound is attained, let $g=\indic_B+\lambda\indic_{V}$ where $\lambda = (x-Q(B))/Q(V)$. Clearly, $0\leq g\leq 1$. Further,
+	\[ \int_\Omega g\d{Q} = Q(B) + \lambda Q(V) = x \]
+	and
+	\[ \int_\Omega g\d{Q}_k = Q_k(B)+\lambda Q_k(V) = Q_k(B) + s(x-Q(B)) \]
+	where the last step follows since $\phi(u)=s$ for all $u\in V\subseteq A_s\setminus A'$.
 \end{proof}
 
 \begin{lemma}
-If $Q$ is atom-free, then
-\[ h_k(x) = \sup_{\substack{A\in\mathcal{A} \\ Q(A)=x}} \left(Q_k(A) - Q(A)\right). \]
+	If $Q$ is atom-free, then
+	\[ h_k(x) = \sup_{\substack{A\in\mathcal{A} \\ Q(A)=x}} \left(Q_k(A) - Q(A)\right). \]
 \end{lemma}
+
 This follows directly from the previous lemma.\\
 Although we did say what a rapidly mixing random walk is earlier in \Cref{def: rapidly mixing random walks}, we now define it more generally.\\
+
+\begin{lemma}
+	
+\end{lemma}
+
 First, observe that
+
 \[ \sup_{x} h_k(x) = \sup_{A\in\mathcal{A}} |Q_k(A) - Q(A)| = \frac{1}{2}\norm{Q_k - Q}_1. \]
 
 Let us now get on to the main subject of this section, namely that of bounding the speed of convergence of rapidly mixing Markov chains.
@@ -882,8 +888,7 @@ and if $1/2 \leq x\leq 1-s$, then
 \[ h_k(x) \leq \frac{1}{2} \left(h_{k-1}(x-2\Phi_s(1-x-s)) + h_{k-1}(x+2\Phi_s(1-x-s))\right). \]
 \end{theorem}
 \begin{proof}
-We prove the first inequality alone. First of all, note that the functions on both sides are concave.
-Therefore, it suffices to prove it the extreme point(s) of the function on the left (the point where the extremum, in this case, maximum is attained). 
+We prove the first inequality alone.
 
 By \Cref{hk distance supremum attained}, let $A$ be a set such that $Q(A)=x$ and $h_k(x)=Q_k(A)-Q(A)$. Define $g_1,g_2:\Omega\to[0,1]$ by
 \[ g_1(u) = 
@@ -902,12 +907,15 @@ g_2(u) =
 The functions map into $[0,1]$ because the chain is lazy.\\
 Also, let $x_1 = \int_\Omega g_1\d{Q}$ and $x_2 = \int_\Omega g_2\d{Q}$. Observe that $x_1 + x_2 = \int_\Omega 2P_u(A)\d{Q}(u) = 2x$. We have
 \begin{align*}
-    h_k(x) &= Q_k(A) - Q(A) \\
-    &= \frac{1}{2} \left( \left(\int_\Omega g_1\d{Q}_{k-1} - x_1\right) + \left( \int_\Omega g_2\d{Q}_{k-1} - x_2 \right) \right) \\
-    &\leq h_{k-1}(x_1) + h_{k-1}(x_2).
+	h_k(x) &= Q_k(A) - Q(A) \\
+	&= \frac{1}{2} \left( \left(\int_\Omega g_1\d{Q}_{k-1} - x_1\right) + \left( \int_\Omega g_2\d{Q}_{k-1} - x_2 \right) \right) \\
+	&\leq h_{k-1}(x_1) + h_{k-1}(x_2).
 \end{align*}
 We also have
 \[ x_2-x = x-x_1 = \int_A (2-2P_u(A))\d{Q}(u) = 2\Phi(A) \geq 2\Phi_s(x-s). \]
+Then with the above, the concavity of $h_{k-1}$ then implies that
+\[ h_{k-1}(x_1)+h_{k-1}(x_2) \leq h_{k-1}(x - \Phi_s(x-s)) + h_{k-1}(x+\Phi_s(x-s)), \]
+which is what we want.
 \end{proof}
 
 The next result is analogous to \Cref{large conductance implies rapidly mixing} and is our main tool in bounding the speed of convergence using the conductance.
@@ -922,42 +930,42 @@ Then for every $k\geq 0$ and $s\leq x\leq 1-s$,
 \begin{proof}
 We prove this via induction. It clearly holds for $k=0$. Suppose that $k\leq 1$ and $s\leq x\leq 1/2$. Using induction,
 \begin{align*}
-    h_k(x) &\leq \frac{1}{2} \left(h_{k-1}(x-2\Phi_s(x-s)) + h_{k-1}(x+2\Phi_s(x-s))\right) \\
-    &\leq c_1 + \frac{c_2}{2} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{x-2\Phi_s(x-s)-s} + \sqrt{x+2\Phi_s(x-s)-s}\right) \\
-    &= c_1 + \frac{c_2}{2} \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{1-2\Phi_s} + \sqrt{1+2\Phi_s}\right) \\
-    &\leq c_1 + \frac{c_2}{2}\sqrt{x-s}\left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(1-\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8} + 1+\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8}\right) \\
-    &= c_1 + c_2 \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^k \qedhere
+	h_k(x) &\leq \frac{1}{2} \left(h_{k-1}(x-2\Phi_s(x-s)) + h_{k-1}(x+2\Phi_s(x-s))\right) \\
+	&\leq c_1 + \frac{c_2}{2} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{x-2\Phi_s(x-s)-s} + \sqrt{x+2\Phi_s(x-s)-s}\right) \\
+	&= c_1 + \frac{c_2}{2} \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{1-2\Phi_s} + \sqrt{1+2\Phi_s}\right) \\
+	&\leq c_1 + \frac{c_2}{2}\sqrt{x-s}\left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(1-\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8} + 1+\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8}\right) \\
+	&= c_1 + c_2 \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^k \qedhere
 \end{align*}
 \end{proof}
 
 Writing the above in a slightly more useful form,
 
 \begin{corollary}
-    Let $M=\sup_A Q_0(A)/Q(A)$. Then for every $A\in\mathcal{A}$,
-    \[ |Q_k(A) - Q(A)| \leq \sqrt{M}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+	Let $M=\sup_A Q_0(A)/Q(A)$. Then for every $A\in\mathcal{A}$,
+	\[ |Q_k(A) - Q(A)| \leq \sqrt{M}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
 \end{corollary}
 \begin{proof}
-    Clearly, for any $x$, $h_0(x) \leq Mx$. We also have $h_0(x) \leq 1-x$. Therefore,
-    \[ h_0(x) \leq \sqrt{Mx(1-x)} \leq \sqrt{M}\min\{\sqrt{x},\sqrt{1-x}\}. \]
-    \Cref{decrease in markov distance} then implies the required.
+	Clearly, for any $x$, $h_0(x) \leq Mx$. We also have $h_0(x) \leq 1-x$. Therefore,
+	\[ h_0(x) \leq \sqrt{Mx(1-x)} \leq \sqrt{M}\min\{\sqrt{x},\sqrt{1-x}\}. \]
+	\Cref{decrease in markov distance} then implies the required.
 \end{proof}
 
-\begin{corollary}
-    Let $0\leq s\leq 1/2$ and $H_s=\sup\{|Q_0(A)-Q(A)|:Q(A)\leq s\}$. Then for every $A\in\mathcal{A}$,
-    \[|Q_k(A)-Q(A)| \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
-\end{corollary}
-\begin{proof}
-    We show that for every $0\leq x\leq 1$,
-    \[ h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
-    Since both sides are concave functions, it suffices to show it at an extreme point of $h_0$. For $0\leq x\leq s$,
-    \[ h_0(x) = \sup_{\substack{A\in\mathcal{A} \\ Q(A)=x}} (Q_0(A)-Q(A)) \leq H_s. \]
-    It is similarly shown (by taking the complement) that for $1-s\leq x\leq 1$, $h_0(x) \leq H_s$. Now, the concavity of $h_0(x)$ implies that for any $s\leq x\leq 1$,
-    \[ h_0(x) \leq \frac{h_0(s)\cdot x}{s} \leq H_s \frac{H_s}{s}(x-s) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
-    Similarly, for $0\leq x\leq 1-s$, $h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{1-x-s}$.\\
-    Therefore, for all $s\leq x\leq 1-s$,
-    \[ h_k(s) \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k\min\{\sqrt{x-s},\sqrt{1-x-s}\} \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
-    The inequality trivially holds for $x<s$ and $x>1-s$, since we have $h_0(x) \leq H_s$ by definition (with complementation in the second case) and $h_k(x) \leq h_0(x)$.
-\end{proof}
+% \begin{corollary}
+%     Let $0\leq s\leq 1/2$ and $H_s=\sup\{|Q_0(A)-Q(A)|:Q(A)\leq s\}$. Then for every $A\in\mathcal{A}$,
+%     \[|Q_k(A)-Q(A)| \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+% \end{corollary}
+% \begin{proof}
+%     We show that for every $0\leq x\leq 1$,
+%     \[ h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
+%     For $0\leq x\leq s$,
+%     \[ h_0(x) = \sup_{\substack{A\in\mathcal{A} \\ Q(A)=x}} (Q_0(A)-Q(A)) \leq H_s. \]
+%     It is similarly shown (by taking the complement) that for $1-s\leq x\leq 1$, $h_0(x) \leq H_s$. Now, the concavity of $h_0(x)$ implies that for any $s\leq x\leq 1$,
+%     \[ h_0(x) \leq \frac{h_0(s)\cdot x}{s} \leq H_s \frac{H_s}{s}(x-s) \leq H_s + \frac{H_s}{s}\sqrt{x-s}. \]
+%     Similarly, for $0\leq x\leq 1-s$, $h_0(x) \leq H_s + \frac{H_s}{s}\sqrt{1-x-s}$.\\
+%     Therefore, for all $s\leq x\leq 1-s$,
+%     \[ h_k(s) \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k\min\{\sqrt{x-s},\sqrt{1-x-s}\} \leq H_s + \frac{H_s}{s}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+%     The inequality trivially holds for $x<s$ and $x>1-s$, since we have $h_0(x) \leq H_s$ by definition (with complementation in the second case) and $h_k(x) \leq h_0(x)$.
+% \end{proof}
 
 \subsubsection{An Important Inequality involving the operator \texorpdfstring{$M$}{}}
 
@@ -965,38 +973,38 @@ A little bit of thought makes it quite clear that to analyze the speed of mixing
 
 \begin{ftheo}
 \label{rapid mixing expec 0}
-    Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $g\in L^2$ with $\expec[g]=0$,
-    \[ \langle g,Mg\rangle \leq \left(1-\frac{\Phi^2}{2}\right)\norm{g}^2. \]
+	Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $g\in L^2$ with $\expec[g]=0$,
+	\[ \langle g,Mg\rangle \leq \left(1-\frac{\Phi^2}{2}\right)\norm{g}^2. \]
 \end{ftheo}
 
 \begin{proof}
-    As might be expected, we use \Cref{eqn: self-adjoint spectral radius 1} in this proof. It suffices to show that if $\expec[g]=0$,
-    \[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \Phi^2 \norm{g}^2. \]
-    Choose a median $r$ of $Q$, that is, a real number such that $Q(\{x:g(x)>r\}) \leq 1/2$ and $Q(\{x:g(x)<r\}) \leq 1/2$. Let $h(x)=\max\{g(x)-r,0\}$. Observe that
-    \[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) \]
-    Therefore, it suffices to bound the quantity on the right suitably. To do this, use the Cauchy-Schwarz inequality to get
-    \begin{align*}
-        \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) &\geq \frac{\left(\int_\Omega \int_\Omega |h^2(u)-h^2(v)| \d{P}_u(v)\d{Q}(u)\right)^2}{\int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u)}
-    \end{align*}
-    Now, by definition, $Q(\{h\geq 0\})\leq 1/2$. Therefore,
-    \[ \int_\Omega h^2\d{Q} \geq \frac{1}{2} \int_\Omega (g(x)-r)^2 = \frac{\norm{g}^2+r^2}{2} \geq \frac{\norm{g}^2}{2}. \]
-    To bound the denominator,
-    \[ \int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u) \leq 2 \int_\Omega \int_\Omega (h^2(u)+h^2(v)) \d{P}_u(v)\d{Q}(u) = 2\norm{h} \]
-    For each $t$, define $A_t = \{x\in\Omega : h(x)^2 \geq t\}$. Then
-    \begin{align*}
-        \int_\Omega \int_\Omega |h^2(u)-h^2(v)| \d{P}_u(v)\d{Q}(u) &= 2 \int_\Omega \int_{A(h^2(u))} (h^2(v)-h^2(u)) \d{P}_u(v)\d{Q}(u) \\
-            &= 2 \int_\Omega \int_{h^2(u)}^\infty P_u(A(t)) \d{t}\d{Q}(u) & (\text{by Fubini's Theorem}) \\
-            &= 2 \int_0^\infty \int_{\Omega\setminus A(t)} P_u(A(t)) \d{Q}(u)\d{t} \\
-            &\geq 2\Phi \int_0^\infty Q(A(t))\d{t} = 2\Phi \int_\Omega h^2\d{Q} = 2\Phi\norm{h}^2.
-    \end{align*}
-    The result follows directly, since we now have
-    \[ \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) \geq \frac{4\Phi^2\norm{h}^4}{4\norm{h}^2} = 2\Phi^2\norm{h}^2 \geq \Phi^2\norm{g}^2, \]
-    which is exactly what we set out to show.
+	As might be expected, we use \Cref{eqn: self-adjoint spectral radius 1} in this proof. It suffices to show that if $\expec[g]=0$,
+	\[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \Phi^2 \norm{g}^2. \]
+	Choose a median $r$ of $Q$, that is, a real number such that $Q(\{x:g(x)>r\}) \leq 1/2$ and $Q(\{x:g(x)<r\}) \leq 1/2$. Let $h(x)=\max\{g(x)-r,0\}$. Observe that
+	\[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) \]
+	Therefore, it suffices to bound the quantity on the right suitably. To do this, use the Cauchy-Schwarz inequality to get
+	\begin{align*}
+		\int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) &\geq \frac{\left(\int_\Omega \int_\Omega |h^2(u)-h^2(v)| \d{P}_u(v)\d{Q}(u)\right)^2}{\int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u)}
+	\end{align*}
+	Now, by definition, $Q(\{h\geq 0\})\leq 1/2$. Therefore,
+	\[ \int_\Omega h^2\d{Q} \geq \frac{1}{2} \int_\Omega (g(x)-r)^2 = \frac{\norm{g}^2+r^2}{2} \geq \frac{\norm{g}^2}{2}. \]
+	To bound the denominator,
+	\[ \int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u) \leq 2 \int_\Omega \int_\Omega (h^2(u)+h^2(v)) \d{P}_u(v)\d{Q}(u) = 2\norm{h} \]
+	For each $t$, define $A_t = \{x\in\Omega : h(x)^2 \geq t\}$. Then
+	\begin{align*}
+		\int_\Omega \int_\Omega |h^2(u)-h^2(v)| \d{P}_u(v)\d{Q}(u) &= 2 \int_\Omega \int_{A(h^2(u))} (h^2(v)-h^2(u)) \d{P}_u(v)\d{Q}(u) \\
+			&= 2 \int_\Omega \int_{h^2(u)}^\infty P_u(A(t)) \d{t}\d{Q}(u) & (\text{by Fubini's Theorem}) \\
+			&= 2 \int_0^\infty \int_{\Omega\setminus A(t)} P_u(A(t)) \d{Q}(u)\d{t} \\
+			&\geq 2\Phi \int_0^\infty Q(A(t))\d{t} = 2\Phi \int_\Omega h^2\d{Q} = 2\Phi\norm{h}^2.
+	\end{align*}
+	The result follows directly, since we now have
+	\[ \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) \geq \frac{4\Phi^2\norm{h}^4}{4\norm{h}^2} = 2\Phi^2\norm{h}^2 \geq \Phi^2\norm{g}^2, \]
+	which is exactly what we set out to show.
 \end{proof}
 
 \begin{corollary}
-    Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $f\in L^2$ with $\expec[f]=0$,
-    \[ \langle f,M^k f\rangle \leq \left(1-\frac{\Phi^2}{2}\right)^k\norm{f}^2. \]
+	Let $\mathcal{M}$ be a time-reversible Markov scheme with conductance $\Phi$. Then for every $f\in L^2$ with $\expec[f]=0$,
+	\[ \langle f,M^k f\rangle \leq \left(1-\frac{\Phi^2}{2}\right)^k\norm{f}^2. \]
 \end{corollary}
 
 We omit the proof of the above.\footnote{It may be shown by considering $\tilde{M}$, the restriction of $M$ to the invariant subspace $\expec[f]=0$. By the above lemma, $\norm{\tilde{M}}\leq 1-\Phi^2/2$. Then $\norm{\tilde{M}^k} \leq \norm{\tilde{M}}^k$, which imediately gives the result.} This quite neatly captures the fact that rapid mixing depends heavily on conductance. Indeed, it implies that $\norm{M^k f} \leq (1-\Phi^2/2)^k \norm{f}$, so as time progresses, $f$ ``flattens out" and goes closer to $0$.
@@ -1004,19 +1012,19 @@ We omit the proof of the above.\footnote{It may be shown by considering $\tilde{
 The next inequality can be thought of a central limit theorem style inequality.
 
 \begin{theorem}
-    Let $\mathcal{M}$ be a time-reversible Markov scheme with stationary distribution $Q$ and let $w_1,w_2,\ldots$ be a Markov chain generated by $\mathcal{M}$ with initial distribution $Q$. Let $F\in L^2$ and $\xi = \sum_{i=0}^{T-1}F(w_i)$ for some $T$. Then,
-    \[ \Var[\xi] \leq \frac{4T}{\Phi^2}\norm{F}^2 \]
+	Let $\mathcal{M}$ be a time-reversible Markov scheme with stationary distribution $Q$ and let $w_1,w_2,\ldots$ be a Markov chain generated by $\mathcal{M}$ with initial distribution $Q$. Let $F\in L^2$ and $\xi = \sum_{i=0}^{T-1}F(w_i)$ for some $T$. Then,
+	\[ \Var[\xi] \leq \frac{4T}{\Phi^2}\norm{F}^2 \]
 \end{theorem}
 \begin{proof}
-    We may assume that $\expec[\xi] = 0$. Then \Cref{rapid mixing expec 0} implies that
-    \begin{align*}
-        \Var[\xi] = \expec[\xi^2] &= \sum_{0\leq i,j\leq T-1} \expec[F(w_i)F(w_j)] \\
-            &= T\expec[F(w_0)^2] + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
-            &= T\norm{F}^2 + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
-            &= T\norm{F}^2 + 2 \sum_{k=1}^{T-1} (T-k) \langle F,M^{k}F\rangle \\
-            &\leq \norm{F}^2 \left(T + 2 \sum_{k=1}^{T-1} (T-k)\left(1-\frac{\Phi^2}{2}\right)^k\right) \\
-            &< 2T\norm{F}^2 \sum_{k=0}^{T-1} \left(1-\frac{\Phi^2}{2}\right)^k \leq \frac{4T}{\Phi^2} \norm{F}^2.
-    \end{align*}
+	We may assume that $\expec[\xi] = 0$. Then \Cref{rapid mixing expec 0} implies that
+	\begin{align*}
+		\Var[\xi] = \expec[\xi^2] &= \sum_{0\leq i,j\leq T-1} \expec[F(w_i)F(w_j)] \\
+			&= T\expec[F(w_0)^2] + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
+			&= T\norm{F}^2 + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
+			&= T\norm{F}^2 + 2 \sum_{k=1}^{T-1} (T-k) \langle F,M^{k}F\rangle \\
+			&\leq \norm{F}^2 \left(T + 2 \sum_{k=1}^{T-1} (T-k)\left(1-\frac{\Phi^2}{2}\right)^k\right) \\
+			&< 2T\norm{F}^2 \sum_{k=0}^{T-1} \left(1-\frac{\Phi^2}{2}\right)^k \leq \frac{4T}{\Phi^2} \norm{F}^2.
+	\end{align*}
 \end{proof}
 
 \subsubsection{Metropolis Chains}
@@ -1024,31 +1032,31 @@ The next inequality can be thought of a central limit theorem style inequality.
 While we have used Metropolis chains previously, let us define them more formally for the sake of completeness.
 
 \begin{fdef}[Metropolis Chain]
-    Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that $\overline{F} = \displaystyle\int_\Omega F\d{Q}$ is finite. Denote by $\mu_F$ the measure with density $F$. We then define the \textit{filtering} of $\mathcal{M}$ by $F$, denoted $\mathcal{M}/F$, as the Markov scheme with transition probabilities
-    \[
-        P_u^F(A) = 
-        \begin{cases}
-            \displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
-            \displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
-        \end{cases}
-    \]
-    where
-    \[ \ell(u) = \int_\Omega \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(u). \]
+	Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that $\overline{F} = \displaystyle\int_\Omega F\d{Q}$ is finite. Denote by $\mu_F$ the measure with density $F$. We then define the \textit{filtering} of $\mathcal{M}$ by $F$, denoted $\mathcal{M}/F$, as the Markov scheme with transition probabilities
+	\[
+		P_u^F(A) = 
+		\begin{cases}
+			\displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
+			\displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
+		\end{cases}
+	\]
+	where
+	\[ \ell(u) = \int_\Omega \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(u). \]
 \end{fdef}
 
 And as mentioned, this modified chain converges to a distribution proportional to $F$.
 
 \begin{theorem}
-    If $\mathcal{M}$ is time-reversible, then $\mathcal{M}/F$ is also time-reversible and has stationary distribution $Q_F = (1/\overline{F})\mu_F$.
+	If $\mathcal{M}$ is time-reversible, then $\mathcal{M}/F$ is also time-reversible and has stationary distribution $Q_F = (1/\overline{F})\mu_F$.
 \end{theorem}
 \begin{proof}
-    It suffices to show that for any disjoint measurable sets $A$ and $B$,
-    \[ \int_B P_u^F(A)\d{Q}_F(u) = \int_A P_u^F(B) \d{Q}_F(u), \]
-    that is,
-    \[ \int_B \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u). \]
-    Rewriting, we want to show that
-    \[ \int_B \int_A \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u), \]
-    but this follows from the time-reversibility of $\mathcal{M}$.
+	It suffices to show that for any disjoint measurable sets $A$ and $B$,
+	\[ \int_B P_u^F(A)\d{Q}_F(u) = \int_A P_u^F(B) \d{Q}_F(u), \]
+	that is,
+	\[ \int_B \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u). \]
+	Rewriting, we want to show that
+	\[ \int_B \int_A \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{F(u),F(v)\right\} \d{P}_u(v) \d{Q}(u), \]
+	but this follows from the time-reversibility of $\mathcal{M}$.
 \end{proof}
 
 Before we move on to the main algorithm, we set up some prerequisite results to make the discussion in the subsequent section more natural.
@@ -1061,23 +1069,24 @@ Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\l
 is uniformly distributed in $B_2^n$.\\
 On a separate note, instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points from from a programming perspective. Our analysis shall be done using this general case.\\
 
+\subsubsection{The Walk}
+
 We modify the ball-walk into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
 \[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
 and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear what convex body we are talking about. First of all, we can use \Cref{find sphere volume} and \Cref{eqn: volume in terms of radial distance} to get
 \[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
 That is,
 \begin{equation}
-    \vol(K) = \frac{1}{n!} \int_{\R^n} F.
+	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
 \end{equation}
 
 Now, define
 \[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
 \begin{lemma}
-    Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
-    \[ H(v) = \lambda(\phi(v))v \]
-    is uniformly distributed on $K$.
+	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
+	\[ H(v) = \lambda(\phi(v))v \]
+	is uniformly distributed on $K$.
 \end{lemma}
-
 
 \subsection{An Isoperimetric Inequality}
 
@@ -1091,14 +1100,14 @@ It is quite obvious that if $f$ and $g$ are log-concave functions, then so are $
 
 \begin{lemma}
 \label{convolution of log concave functions is log concave}
-    Let $f$ and $g$ be two log-concave functions. If their convolution $h$ defined by $h(x)=\int_{\R^n}g(u)f(x-u)\d{u}$ is well-defined, it is log-concave.
+	Let $f$ and $g$ be two log-concave functions. If their convolution $h$ defined by $h(x)=\int_{\R^n}g(u)f(x-u)\d{u}$ is well-defined, it is log-concave.
 \end{lemma}
 
 Let $F$ be a non-negative integrable funciton on $\R^n$. As in \Cref{conductance isoperimetric inequality}, denote by $\mu_F$ the measure with density $F$. We then get the following corollary.
 
 \begin{corollary}
 \label{F(x+K) log concave K convex}
-    Let $K\subseteq\R^n$ be a convex body and $F:\R^n\to\R$ a log-concave function. Then $\mu_F(x+K)$ is a log-concave function of $x$.
+	Let $K\subseteq\R^n$ be a convex body and $F:\R^n\to\R$ a log-concave function. Then $\mu_F(x+K)$ is a log-concave function of $x$.
 \end{corollary}
 
 This is quite easily proved by setting $f=F$ and $g=\indic_K$ in \Cref{convolution of log concave functions is log concave}.\\
@@ -1106,17 +1115,17 @@ This is quite easily proved by setting $f=F$ and $g=\indic_K$ in \Cref{convoluti
 Setting $K$ to be a rectangle aligned with the axes having edges of length $\varepsilon$ in $k$ directions and $1/\varepsilon$ in the remaining directions gives
 
 \begin{corollary}
-    Let $F:\R^n\to\Rp$ be a log-concave function with finite integral. Then for any subset $\{x_1,\ldots,x_k\}$ of variables, the function
-    \[ \int_{\R} \int_{\R} \cdots \int_{\R} F \d{x}_1\ldots\d{x_k} \]
-    in the remaining variables is log-concave.
+	Let $F:\R^n\to\Rp$ be a log-concave function with finite integral. Then for any subset $\{x_1,\ldots,x_k\}$ of variables, the function
+	\[ \int_{\R} \int_{\R} \cdots \int_{\R} F \d{x}_1\ldots\d{x_k} \]
+	in the remaining variables is log-concave.
 \end{corollary}
 
 Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that the function $x\mapsto \vol((x+K')\cap K)$ is concave.
 
 \begin{corollary}
-    Let $K$ and $K'$ be two convex bodies and $t>0$. If $\{x\in\R^n:\vol((x+K')\cap K)>t\}$ has an interior point, then it is convex. In particular, for any $0<s<1$,
-    \[ K_s = \{x\in K : \vol((x+K)\cap K) \geq s\vol(K)\} \]
-    is a convex body.
+	Let $K$ and $K'$ be two convex bodies and $t>0$. If $\{x\in\R^n:\vol((x+K')\cap K)>t\}$ has an interior point, then it is convex. In particular, for any $0<s<1$,
+	\[ K_s = \{x\in K : \vol((x+K)\cap K) \geq s\vol(K)\} \]
+	is a convex body.
 \end{corollary}
 
 \subsubsection{A Localization Lemma}
@@ -1129,4 +1138,3 @@ Let $g$ and $h$ be upper semi-continuous Lebesgue integrable functions on $\R^n$
 \end{ftheo}
 
 Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{The segment joining $a$ and $b$ is the axis of the truncated cone and $\ell$ represents the radius at the appropriate point.} Before we prove this, let us discuss some consequences of the result.
-

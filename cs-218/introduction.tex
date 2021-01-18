@@ -9,15 +9,15 @@ Consider the following basic algorithm we use to check primality (checking if an
 \begin{algorithm}
 	\DontPrintSemicolon
 	\KwIn{A non-negative integer $n$}
-    \KwOut{If $n$ is prime, output $\tr$  else $\fa$}
-   	$\var{flag}\gets\tr$\;
-   	\For{$i=2$ \KwTo $\sqrt{n}$} {
-   		\If{$i$ divides $n$} {
-   			$\var{flag}\gets\fa$
-   		}
-   	}
+	\KwOut{If $n$ is prime, output $\tr$  else $\fa$}
+	$\var{flag}\gets\tr$\;
+	\For{$i=2$ \KwTo $\sqrt{n}$} {
+		\If{$i$ divides $n$} {
+			$\var{flag}\gets\fa$
+		}
+	}
 	\Return{$\var{flag}$}
-    \caption{Algorithm to check if a number is prime}
+	\caption{Algorithm to check if a number is prime}
 \end{algorithm}
 
 Is the above a polynomial time algorithm?
@@ -53,15 +53,15 @@ We give a few examples with the aim of hopefully making the above notation more 
 	\begin{algorythm}
 		\DontPrintSemicolon
 		\KwIn{An array $\var{A}$ containing $n$ integers}
-	    \KwOut{The maximum element in $\var{A}$}
-	   	$\var{max}\gets\var{A[0]}$\;
-	   	\For{$i=1$ \KwTo $n-1$} {
-	   		\If{$\var{A[i]}>\var{max}$} {
-	   			$\var{max}\gets\var{A[i]}$
-	   		}
-	   	}
+		\KwOut{The maximum element in $\var{A}$}
+		$\var{max}\gets\var{A[0]}$\;
+		\For{$i=1$ \KwTo $n-1$} {
+			\If{$\var{A[i]}>\var{max}$} {
+				$\var{max}\gets\var{A[i]}$
+			}
+		}
 		\Return{$\var{max}$}
-	    \caption{Algorithm to find the maximum element in an array}\label{algo: maximum element in array}
+		\caption{Algorithm to find the maximum element in an array}\label{algo: maximum element in array}
 	\end{algorythm}
 	
 	The bits used to represent each $\var{A}[i]$ is $\log m$. We are assuming that comparison takes constant time. Technically the following algorithm is $\mathcal{O}(n \log m)$, but we often blur the details slightly. To be completely correct, we should say that the algorithm performs $\mathcal{O}(n)$ \textit{comparisons}.
@@ -76,19 +76,19 @@ We give a few examples with the aim of hopefully making the above notation more 
 	\begin{algorythm}
 		\DontPrintSemicolon
 		\KwIn{$n\geq 2$ points $p_1=(x_1,y_1),\ldots,p_n=(x_n,y_n)$}
-	    \KwOut{$i,j\in[n]$ such that the distance between $p_i$ and $p_j$ is minimum}
-	   	$\var{i_1},\var{i_2}\gets 0,1$\;
-	   	$\var{min}\gets (x_1-x_2)^2+(y_1-y_2)^2$\;
-	   	\For{$i=1$ \KwTo $n$} {
-	   		\For{$j=i+1$ \KwTo $n$} {
-	   			$\var{d}\gets (x_i-x_j)^2+(y_i-y_j)^2$\;
-	   			\If{$\var{d}<\var{min}$} {
-	   				$\var{min}\gets\var{d}$\;
-	   				$i_1,j_1\gets i,j$\;
-	   			}
-	   		}
-	   	}
-	   	\Return{$\var{i_1},\var{i_2}$}
+		\KwOut{$i,j\in[n]$ such that the distance between $p_i$ and $p_j$ is minimum}
+		$\var{i_1},\var{i_2}\gets 0,1$\;
+		$\var{min}\gets (x_1-x_2)^2+(y_1-y_2)^2$\;
+		\For{$i=1$ \KwTo $n$} {
+			\For{$j=i+1$ \KwTo $n$} {
+				$\var{d}\gets (x_i-x_j)^2+(y_i-y_j)^2$\;
+				\If{$\var{d}<\var{min}$} {
+					$\var{min}\gets\var{d}$\;
+					$i_1,j_1\gets i,j$\;
+				}
+			}
+		}
+		\Return{$\var{i_1},\var{i_2}$}
 		\caption{Algorithm to find a closest pair of points}\label{algo: closest pair of points}
 	\end{algorythm}
 	This problem can in fact be solved in $\mathcal{O}(n\log n)$ time, which we shall see later (you can try thinking about it now).
@@ -110,26 +110,26 @@ Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ 
 	\begin{algorithm}
 		\DontPrintSemicolon
 		\KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
-	    \KwOut{A maxima in $\var{A}$}
-	    \SetKwProg{Fn}{}{}{}
-	    \SetKwFunction{FRecurs}{greedyStep}
-	    \SetKwFunction{Size}{size}
-	    \Fn{\FRecurs{$\var{B}$}}{
-	    	\If{$\var{size(B)}=1$} {
-	    		\Return{$\var{B}[0]$}
-	    	}
-	    	$\var{mid}\gets\Size{$\var{B}$}/2$\;
-	    	\If{$\var{B}[\var{mid}]>\var{B}[\var{mid}+1]$ and $\var{B}[\var{mid}]>\var{B}[\var{mid}-1]$} {
-	    		\Return{$\var{B}[\var{mid}]$}\;
-	    	}
-	    	\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}-1]$} {
-	    		\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
-	    	}
-	    	\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
-	    		\Return{$\FRecurs(\var{B}[1+\var{mid}/2:\Size{$\var{B}$}])$}
-	    	}
-	    }
-	    \Return{\FRecurs{$\var{A}$}}
+		\KwOut{A maxima in $\var{A}$}
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{FRecurs}{greedyStep}
+		\SetKwFunction{Size}{size}
+		\Fn{\FRecurs{$\var{B}$}}{
+			\If{$\var{size(B)}=1$} {
+				\Return{$\var{B}[0]$}
+			}
+			$\var{mid}\gets\Size{$\var{B}$}/2$\;
+			\If{$\var{B}[\var{mid}]>\var{B}[\var{mid}+1]$ and $\var{B}[\var{mid}]>\var{B}[\var{mid}-1]$} {
+				\Return{$\var{B}[\var{mid}]$}\;
+			}
+			\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}-1]$} {
+				\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
+			}
+			\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
+				\Return{$\FRecurs(\var{B}[1+\var{mid}/2:\Size{$\var{B}$}])$}
+			}
+		}
+		\Return{\FRecurs{$\var{A}$}}
 		\caption{Algorithm to find a maxima in an array}\label{algo: find maxima}
 	\end{algorithm}
 
@@ -148,14 +148,14 @@ We want maximality in terms of \textit{cardinality} of $S$ (the number of jobs s
 Consider the following greedy algorithms.
 
 \begin{enumerate}
- 	\item Choose a job with the earliest starting time. This basically says that we never want to leave the computer idle. It is easily seen that this need not work, since the job that starts soonest can take a very long time, obviously resulting in non-optimality.\\
- 	More concretely, let $J = \{(0,3),(1,2),(2,3)\}$.
+	\item Choose a job with the earliest starting time. This basically says that we never want to leave the computer idle. It is easily seen that this need not work, since the job that starts soonest can take a very long time, obviously resulting in non-optimality.\\
+	More concretely, let $J = \{(0,3),(1,2),(2,3)\}$.
 
- 	\item Choose the smallest available job. This needn't work either, since the smallest job could overshadow multiple longer jobs that intersect it.\\
- 	For example, let $J=\{(1,5),(4,6),(6,10)\}$.
+	\item Choose the smallest available job. This needn't work either, since the smallest job could overshadow multiple longer jobs that intersect it.\\
+	For example, let $J=\{(1,5),(4,6),(6,10)\}$.
 
- 	\item Choose the job with the earliest ending time. This \textit{does} work. The idea behind this is that it tries to keep as many resources free as possible. One can try playing around with a few examples to see that it does work.\\
- 	But how would we prove that it works?
+	\item Choose the job with the earliest ending time. This \textit{does} work. The idea behind this is that it tries to keep as many resources free as possible. One can try playing around with a few examples to see that it does work.\\
+	But how would we prove that it works?
 \end{enumerate}
 
 Let $\mathcal{A}$ be the set selected by the (last) greedy algorithm above and $\mathsf{OPT}$ denote an optimal solution. We wish to show that $|\mathcal{A}|=|\mathsf{OPT}|$.\\
@@ -168,4 +168,54 @@ For $r\in[k]$, $f(a_r) \leq f(b_r)$.
 This is easily shown via induction. For $r=1$, it holds by the definition of $\mathcal{A}$. For $r>1$, we have (by induction) $f(a_{r-1}) \leq f(b_{r-1}) \leq s(b_r)$. Then since $b_r$ itself can be chosen by the algorithm, we must have that $f(a_r) \leq f(b_r)$.
 \end{proof}
 
-This also implies that $\mathcal{A}$ is optimal since at each step, the job corresponding to $\mathsf{OPT}$ can be picked by $\mathcal{A}$.
+This also implies that $\mathcal{A}$ is optimal since at each step, the job corresponding to $\mathsf{OPT}$ can be picked by $\mathcal{A}$. Try showing why this implies $|\mathcal{A}|=|\mathsf{OPT}|$.\\
+What is the running time of this algorithm? We first sort the jobs according to their finish times, which takes $\mathcal{O}(n\log n)$ time. We then have to scan through all the jobs in this sorted list, which takes $\mathcal{O}(n)$ times. The total running time is $\mathcal{O}(n\log n)$.
+
+\subsubsection{Minimal Spanning Subgraph}
+
+Now, we consider the ``Minimal Spanning Subgraph'' problem. Given an undirected connected graph $G=(V,E)$ and a cost function $c:E\to\Zp$, find a subset $T\subseteq E$ such that $T$ spans all the vertices, $T$ is connected, and it is the set with the least such cost.
+
+It is easy to show that this $T$ must be a tree. Suppose it is connected, spanning and has a cycle $C$. If we delete the costliest edge $e$ on $C$, then on removing $e$ from $T$, $T$ remains connected and spanning, but the weight goes strictly down (since $c$ maps into $\Zp$).
+
+The brute force approach is to just iterate over all distinct spanning trees, but this is obviously quite terrible (exponential).
+
+As it turns out, nearly no matter what greedy strategy we choose, the optimal solution is attained. We give four such algorithms.
+\begin{enumerate}[(i)]
+	\item Choose an edge $\alpha$ such that $c(\alpha)$ is minimal. Each subsequent edge is chosen from the cheapest remaining edges of $G$ ensuring that we never form any cycles.
+	
+	\item At each step, delete a costliest edge that does not destroy the connectedness of the graph.
+	
+	\item Pick a vertex $x_1$ of $G$. Having found vertices $x_1,\ldots,x_k$ an an edge $x_ix_j$, $i<j$, for each vertex $j$ with $j\leq k$, select a cheapest edge of the form $x_ix$, say $x_i x_{k+1}$, where $1\leq i\leq k$ and $x_{k+1}\not\in\{x_1,\ldots,x_k\}$. The process terminates after we have selected $n-1$ edges.
+	
+	\item This only works if all the edge costs are distinct. First, for each vertex, select the cheapest edge. After this, repeatedly select a cheapest edge between two distinct connected components until the graph becomes connected.
+\end{enumerate}
+
+The first algorithm is also known as Kruskal's algorithm. More concretely, what it does is 
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
+	\KwOut{A minimal spanning subgraph of $G$}
+	\SetKwFunction{FRecurs}{sort}
+	\FRecurs{$E$,$c$}\; \tcp*{sort the elements of $\var{E}$ in non-decreasing cost}
+	$T\gets\emptyset$\;
+	\For{$1\leq i\leq m$} {
+		\If{$T\cup\{e_i\}$ doesn't have a cycle} {
+			$T\gets T\cup\{e_i\}$
+		}
+	}
+	\Return{$T$}
+	\caption{Algorithm to find a minimal spanning subgraph}\label{algo: kruskel's algorithm}
+\end{algorithm}
+
+The set thus formed clearly has no cycles by construction. Connectedness follows due to its maximality. Proving that it is a minimal spanning tree is quite easy in the case where all costs are distinct using the following property of any minimal spanning tree.
+
+\begin{lemma}[Cut Property]
+	Let $\emptyset\neq S\subsetneq V$. Let $e=vw$ be the minimal cost edge such that $v\in S$ and $w\in V\setminus S$. Then every minimal spanning tree of the graph must contain $e$.
+\end{lemma}
+
+To show that the required follows if we have the cut property, let $T$ be a minimal spanning tree and $T'$ the set output by the algorithm at some intermediate step. Let $e=vw$ be the first edge added to $T'$ in the subsequent steps. Let $S$ be the neighbourhood of $v$ in $T'$. Since the algorithm was able to add $e$ to $T'$, there is no edge in $T'$ connecting any node in $S$ to any node in $V\setminus S$. We already know that $e$ must be lowest cost such edge. But by the cut property, $e$ must be present in $T$!
+\begin{proof}
+	
+\end{proof}

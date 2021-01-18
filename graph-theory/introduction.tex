@@ -1,0 +1,248 @@
+\section{Introduction}
+
+\begin{definition}
+\end{definition}
+
+\begin{ftheo}
+A graph is bipartite iff it does not have an odd cycle.
+\end{ftheo}
+
+\begin{theorem}
+A graph is a forest iff for every pair $\{x,y\}$ of distinct vertices, it contains at most one $x-y$ path.
+\end{theorem}
+
+\begin{theorem}
+\label{tree equivalences}
+The following are equivalent for a graph $G$:
+\begin{enumerate}[(i)]
+    \item $G$ is a tree.
+    \item $G$ is a minimal connected graph. ($G$ is connected and for any $xy\in E(G)$, $G-xy$ is disconnected, every edge is a bridge)
+    \item $G$ is a maximum acyclic graph. ($G$ is acyclic and for any $xy\in \binom{V(G)}{2}\setminus E(G)$, $G+xy$ has a cycle)
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+Every connected graph contains a spanning tree.
+\end{corollary}
+
+\begin{corollary}
+\label{size of forest}
+A tree of order $n$ has size $n-1$; a forest of order $n$ with $k$ components has size $n-k$.
+\end{corollary}
+
+\begin{corollary}
+A tree of order $2$ contains at least $2$ vertices of degree $1$.
+\end{corollary}
+
+\begin{ftheo}
+Given a graph $G$ and a function $f:E(G)\to\mathbb{R}$, an economical spanning tree is a spanning tree $H$ of $G$ such that $\sum_{e\in H}f(e)$ is minimal. The following algorithms produce an economical spanning tree:
+\begin{enumerate}[(i)]
+    \item Given $G$ and $f:E(G)\to\mathbb{R}$, choose an edge $\alpha$ such that $f(\alpha)$ is minimal. Each subsequent edge is chosen from the cheapest remaining edges of $G$ ensuring that we never form any cycles.
+    
+    \item At each step, delete a costliest edge that does not destroy the connectedness of the graph.
+    
+    \item Pick a vertex $x_1$ of $G$. Having found vertices $x_1,\ldots,x_k$ an an edge $x_ix_j$, $i<j$, for each vertex $j$ with $j\leq k$, select a cheapest edge of the form $x_ix$, say $x_ix_{k+1}$, where $1\leq i\leq k$ and $x_{k+1}\not\in\{x_1,\ldots,x_k\}$. The process terminates after we have selected $n-1$ edges.
+    
+    \item This only works if all the edge costs are distinct. First, for each vertex, select the cheapest edge. After this, repeatedly select a cheapest edge between two distinct connected components until the graph becomes connected.
+\end{enumerate}
+\end{ftheo}
+
+The second algorithm is destructive in the sense that it removes edges from the original graph whereas the others are constructive, they create a tree by adding edges from the original graph.
+
+\begin{theorem}
+For $n\geq 3$, the complete graph $K^n$ is decomposable into edge-disjoint Hamiltonian cycles iff $n$ is odd. For $n\geq 2$, $K^n$ is decomposable into edge-disjoint Hamiltonian paths iff $n$ is even.
+\end{theorem}
+
+\begin{ftheo}
+A non-trivial connected graph has an Euler circuit if and only if each vertex has even degree. A connected graph has an Euler trail from vertex $x$ to $y\neq x$ iff $x$ and $y$ are the only vertices of odd degree.
+\end{ftheo}
+
+\begin{definition}
+A graph $G$ is said to be \textit{randomly Eulerian} from a vertex $v$ if every trail of $G$ with initial vertex $v$ can be extended to an Eulerian $v-v$ circuit of $G$.
+\end{definition}
+
+This means that it is impossible to ``get stuck" when trying to make an Eulerian circuit from $v$.
+
+\subsection{Planar Graphs}
+
+\begin{definition}
+A graph is a \textit{planar graph} if it can be drawn in the plane in such a way that no two edges intersect.
+\end{definition}
+
+\begin{theorem}[Euler's Polyhedron Theorem]
+If a connected planar graph $G$ has $n$ vertices, $m$ edges, and $f$ faces, then $n-m+f=2$.
+\end{theorem}
+
+\begin{definition}
+The \textit{girth} of a graph is defined to be the number of edges in the shortest cycle.
+\end{definition}
+
+\begin{theorem}
+Denote by $f_i$ the number of faces with exactly $i$ edges on their boundaries. Then if $G$ has no bridge,
+$$\sum_i if_i = 2m.$$
+\end{theorem}
+
+This is because every edge is in the boundary of two faces.
+
+\begin{ftheo}
+A planar graph of order $n\geq 3$ has at most $3n-6$ edges.  Furthermore, a planar graph of girth at least $g$, $3\leq g$, has size at most
+$$\max\left\{\frac{g}{g-2}(n-2), n-1\right\}.$$
+\end{ftheo}
+
+\subsection{Exercises}
+
+\begin{exercise}\phantom{owo}
+\begin{enumerate}[(i)]
+    \item Show that every graph contains two vertices of equal degree.
+    \item Determine all graphs with one pair of vertices of equal degree.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[(i)]
+    \item If every vertex has a distinct degree, then the degree sequence of the graph is $0\leq 1\leq\cdots\leq n-1$. However, the fact that the vertex of degree $n-1$ is connected to every other vertex, the vertex of degree $0$ in particular, yields a contradiction.
+    
+    \item Note that we can infer from the solution to part (i) that if there is only a single pair of vertices with the same degree, then there must be a vertex of degree $0$ or $n-1$ (but not both).\\
+    Also, note that there cannot be two vertices of equal degree $0$ or $n-1$. This is because the former would imply that $\Delta(G)$ is at most $n-3$ and the latter would imply that $\delta(G)$ is at least $2$ and we know that there exist vertices of degree $1$ and $n-2$. This argument would fail when $n=1$ or $2$, but in these cases we only have three permissible graphs anyway, namely $E^1$, $E^2$, and $K^2$. \\
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+Prove that the complement of a disconnected graph is connected.
+\end{exercise}
+\begin{solution}
+Let $x$, $y$ be two vertices. We must show that there is a walk from $x$ to $y$. Indeed, if $x$ and $y$ are in different connected components of $G$, then $xy$ is an edge in the complement. Otherwise, we can choose some $z$ that is in a different connected component and then we have the walk $x,z,y$ (such a $z$ exists since there are at least $2$ connected components).
+\end{solution}
+
+\begin{exercise}
+Show that in a graph $G$ there exists a set of cycles such that each edge of $G$ belongs
+to exactly one of these cycles iff every vertex has even degree.
+\end{exercise}
+
+\begin{solution}
+It is easy to show the forward implication.
+
+For the backward implication, We can assume that the graph is non-trivial and connected since otherwise, we can just solve each of the connected components separately. We can then consider an Euler circuit (which exists since every vertex has even degree). ``Splitting" this cycle into different cycles whenever a vertex is repeated completes the proof.
+\end{solution}
+
+\begin{exercise}
+Show that in an infinite graph $G$ with countably many edges, there exists a set of cycles such that each edge of $G$ belongs to exactly one of these cycles iff for every $X\subseteq V(G)$, the set of edges joining $X$ to $V(G)\setminus X$ is even or infinite.
+\end{exercise}
+\begin{solution}
+
+\end{solution}
+
+\begin{exercise}
+Show that $d_1\leq d_2\leq \cdots \leq d_n$ is the degree sequence of a tree iff $d_1\geq 1$ and $\sum_{i=1}^n d_i = 2n-2$.
+\end{exercise}
+\begin{solution}
+If it is the degree sequence of a tree $G$, then since the graph is connected, we have $d_1\geq 1$ and since $e(G)=n-1$, the sum of the degrees is $2e(G)=2n-2$.
+
+For the converse, we must show that a tree with the given degree sequence exists. For  Note that $\delta(G)\leq \frac{2n-2}{n}$, and thus $d_1=1$. Also note that $\Delta(G)\geq 2$ for $n>2$. We can then inductively prove that a tree with the given sequence exists. For $n=2$, the graph is just $K^2$. If such a graph exists for at most $n-1$ nodes for some $n>2$, then for a degree sequence of the form $1\leq d_2\leq\cdots\leq d_n$, we can construct a graph with degree sequence $d_2,\ldots,d_n-1$ (we omit the $\leq$ because $d_n-1$ may be less than $d_{n-1}$). We then add a new vertex that has a single edge to the vertex with degree $d_n-1$. This is well-defined since $d_n-1$ is positive ($d_n\geq 2$ for $n>2$).
+\end{solution}
+
+\begin{exercise}
+Show that every integer sequence $d_1 \leq d_2 \leq ... \leq d_n$ with $d_1\geq 1$ and $\sum_i d_i=2n-2k$, $k\ge 1$,is the degree sequence of a forest with $k$ components.
+\end{exercise}
+\begin{solution}
+
+\end{solution}
+
+\begin{exercise}
+Characterize the degree sequence of forests!
+\end{exercise}
+\begin{solution}
+ 
+\end{solution}
+
+\begin{exercise}
+Prove that a regular bipartite graph of degree at least $2$ does not have a bridge.
+\end{exercise}
+\begin{solution}
+Suppose that such a graph $G$ has a bridge $xy$ and degree $k\geq 2$. Consider the graph $G-xy$ and let the connected component of this graph that contains $x$ (and does not contain $y$) be $H$. Obviously, $H$ must be bipartite as well, let it have bipartitions $X$ and $Y$. Then, we have that $\sum_{v\in X}d(v) = k|X|-1$ and $\sum_{v\in Y}d(v)=k|Y|$. However, these two must be equal and we thus obtain a contradiction because $k$ cannot divide the former quantity (but it divides the latter).
+\end{solution}
+
+\begin{exercise}
+Let $G$ be a graph of order $n$. Prove the equivalence of the following.
+\begin{enumerate}[(i)]
+    \item $G$ is a tree.
+    \item $G$ is connected and has $n-1$ edges.
+    \item $G$ is acyclic and has $n-1$ edges.
+    \item $G=K^n$ for $n=1,2$, and if $n\geq 3$, then $G\neq K^n$ and the addition of an edge to $G$ produces exactly one new cycle.
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+\begin{enumerate}[]
+    \item (i)$\iff$(iv).
+    
+    By \cref{tree equivalences}, $G$ is a tree if and only if it is a maximum acyclic graph. This is equivalent to (iv).
+    
+    
+    \item (i)$\implies$(ii) and (i)$\implies$(iii).
+    
+    This is obvious. If $G$ is a tree, it is connected, acyclic, and has $n-1$ edges by corollary $\ref{size of forest}$.
+    
+    \item (iii)$\implies$(ii) and (iii)$\implies$(i).
+    
+    Since $G$ is acyclic, it is a forest. It then has $n-k$ edges where $k$ is the number of connected components. However, this implies that it has only $1$ connected component, that is, it is connected.\\
+    Also, connectedness and acyclicity implies (i).
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+Let $\mathscr{A}=\{A_1,\ldots,A_n\}$ be a family of $n(\geq 1)$ distinct subset of a set $X$ with $n$ elements. Define a graph $G$ with vertex set $\mathscr{A}$ in which $A_iA_j$ is an edge iff there exists $x\in X$ such that $A_i\triangle A_j=\{x\}$. Label the edge $A_iA_j$ with $x$. For $H\subseteq G$, let $\operatorname{Lab}(H)$ be the set of labels used for edges in $H$. Prove that there is a forest $F\subseteq G$ such that $\operatorname{Lab}(F)=\operatorname{Lab}(G)$.
+\end{exercise}
+\begin{solution}
+We shall show that if $B_1B_2\cdots B_l$ is a cycle, then two edges in the cycle have the same label. Repeatedly removing one of these edges from the graph until there are no cycles remaining gives a suitable $H$. Assume without loss of generality that $|B_2|=|B_1|+1$ and $\{x\}= B_2\setminus B_1$. Now, note that $$B_2\setminus\left(B_1\triangle B_l\cup\bigcup_{i=2}^{l-1} B_i\triangle B{i+1}\right)\subseteq B_1.$$
+However, as $x\not\in B_1$ and $x\in B_2$, this gives that $x$ is in the remaining part of the above expression, that is, there is another edge labelled $x$.
+
+Note that this not only proves the result, but also proves that every cycle in $G$ is of even length and labels within the cycle appear in pairs.
+\end{solution}
+
+\begin{exercise}
+($10$ continued) Deduce from the result in the previous exercise that there is an element $x\in X$ such that the sets $A_1\setminus\{x\},A_2\setminus\{x\},\ldots,A_n\setminus\{x\}$ are all distinct. Show that this need not hold for any $n$ if $|\mathscr{A}|=n+1$.
+\end{exercise}
+\begin{solution}
+To see this, note that there is an edge between sets $A$ and $B$ if and only if there is some $x$ such that $A\setminus\{x\}=B\setminus\{x\}$. However, there are $n$ elements in $X$ and at most $n-1$ edges. The result follows.
+
+To show that this need not be true if $|\mathscr{A}|=n+1$, take the counter-example with $X=\{1,2,\ldots,n\}$ and
+$$\mathscr{A} = \{\emptyset, \{1\}, \{1,2\}, \ldots, \{1,2,\ldots,n\}\}$$
+\end{solution}
+
+\begin{exercise}
+A \textit{tournament} is a complete oriented graph, that is, a directed graph where for any two distinct vertices $x$ and $y$, either there is an edge from $x$ to $y$ or there is an edge from $y$ to $x$, but not both. Prove that every tournament contains a (directed) Hamiltonian path.
+\end{exercise}
+
+\begin{solution}
+
+\end{solution}
+
+\begin{exercise}
+Let $G$ be a connected graph of order $1\leq k\leq n$. Show that $G$ contains a connected subgraph of order $k$.
+\end{exercise}
+
+\begin{solution}
+This is easily shown via induction. There is clearly a connected subgraph of order $1$. If there is a connected subgraph $H$ of order $k-1$ for some $2\leq k\leq n$, then there must be an edge from $H$ to some vertex in $G\setminus H$ (if there was not, connectivity would be contradicted). Add this vertex (and all its edges incident on vertices in $H$) to get a connected subgraph of order $k$.
+\end{solution}
+
+\begin{exercise}
+Prove that the radius and diameter of a graph satisfy the inequalities
+$$\rad G\leq \diam G\leq 2\rad G,$$
+and both inequalities are the best possible.
+\end{exercise}
+
+\begin{solution}
+We have
+$$\rad G = \min_x\max_y d(x,y)\leq \max_x\max_y d(x,y) = \diam G.$$
+On the other hand, let there be vertices $x,y$ such that $d(x,y)=\diam G$ and vertex $z$ such that $\max_w d(z,w) = \rad G$. Then,
+$$2\rad G\geq d(z,x)+d(z,y)\geq d(x,y) = \diam G.$$
+
+Equality is attained in the former case for the graph $K^n$ and in the latter case for the path graph of order $n$ $P^n$.
+\end{solution}
+
+\begin{exercise}
+Given $d\geq 1$, determine
+$$\max_{\diam G=d}\min\{\diam T: T\text{ is a spanning tree of }G\}$$
+\end{exercise}
+\begin{solution}
+
+\end{solution}
