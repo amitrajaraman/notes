@@ -197,8 +197,8 @@ The first algorithm is also known as Kruskal's algorithm. More concretely, what 
 	\SetNoFillComment
 	\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
 	\KwOut{A minimal spanning subgraph of $G$}
-	\SetKwFunction{FRecurs}{sort}
-	\FRecurs{$E$,$c$}\; \tcp*{sort the elements of $\var{E}$ in non-decreasing cost}
+	\SetKwFunction{Sort}{sort}
+	\Sort{$E$,$c$} \tcp*{sort the elements of $E$ in non-decreasing cost}
 	$T\gets\emptyset$\;
 	\For{$1\leq i\leq m$} {
 		\If{$T\cup\{e_i\}$ doesn't have a cycle} {
@@ -206,16 +206,59 @@ The first algorithm is also known as Kruskal's algorithm. More concretely, what 
 		}
 	}
 	\Return{$T$}
-	\caption{Algorithm to find a minimal spanning subgraph}\label{algo: kruskel's algorithm}
+	\caption{Kruskal's Algorithm}\label{algo: kruskel's algorithm}
 \end{algorithm}
 
-The set thus formed clearly has no cycles by construction. Connectedness follows due to its maximality. Proving that it is a minimal spanning tree is quite easy in the case where all costs are distinct using the following property of any minimal spanning tree.
+The set thus formed clearly has no cycles by construction. Spanningness follows due to its maximality. Proving that it is a minimal spanning tree is quite easy in the case where all costs are distinct using the following property of any minimal spanning tree.
 
 \begin{lemma}[Cut Property]
 	Let $\emptyset\neq S\subsetneq V$. Let $e=vw$ be the minimal cost edge such that $v\in S$ and $w\in V\setminus S$. Then every minimal spanning tree of the graph must contain $e$.
 \end{lemma}
 
-To show that the required follows if we have the cut property, let $T$ be a minimal spanning tree and $T'$ the set output by the algorithm at some intermediate step. Let $e=vw$ be the first edge added to $T'$ in the subsequent steps. Let $S$ be the neighbourhood of $v$ in $T'$. Since the algorithm was able to add $e$ to $T'$, there is no edge in $T'$ connecting any node in $S$ to any node in $V\setminus S$. We already know that $e$ must be lowest cost such edge. But by the cut property, $e$ must be present in $T$!
-\begin{proof}
-	
+To show that the required follows if we have the cut property, let $T$ be a minimal spanning tree and $T'$ the set output by the algorithm at some intermediate step.\\
+Let $e=vw$ be the first edge added to $T'$ in the subsequent steps and $S$ be the neighbourhood of $v$ in $T'$. Since the algorithm was able to add $e$ to $T'$, there is no edge in $T'$ connecting any node in $S$ to any node in $V\setminus S$ (we do not create cycles). We already know that $e$ must be the lowest cost such edge. Then by the cut property, $e$ must be present in $T$!\\
+The only issue arises when $v$ is not connected to any vertex in $T'$, but this case is easily resolved.\\
+Therefore, $T$ must be minimum spanning.\\
+
+Let us next show that $T$ is connected. Suppose otherwise. There must then be a non-empty $S$ such that no edge from $S$ to $V\setminus S$ is in $T$. However, as $G$ is connected, there is a minimum cost edge that connects $S$ and $V\setminus S$ and by the cut-property, this edge must be in $T$.
+
+\begin{proof}[Proof of the cut-property]
+	Suppose we have set $S$ and edge $e$ as in the cut-property. let $T$ be a spanning tree that does not contain $e$. Then adding $e$ to $T$ creates a cycle. Let $P$ be a path in $T$ that connects $v$ to $w$. Let $v'$ be the last vertex along this path in $S$ and $w'$ the first in $V\setminus S$. Let $e'=v'w'$.\\
+	Defining $T' = T\setminus\{e'\}\cup\{e\}$, we see that $T'$ has lower cost than $T$, thus completing the proof. 
 \end{proof}
+
+Observe that the second algorithm given above is essentially Kruskal's algorithm in reverse.\\
+
+Also note that the third algorithm given above aises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.\\
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
+	\KwOut{A minimal spanning subgraph of $G$}
+	$T\gets\emptyset, S\gets\{v\}$ \tcp*{$v$ is an arbitrary node}
+	\While{$|S|<n-1$}{
+		Compute $E_s = \{vw\in E:v\in S,w\not\in S\}$\;
+		$\tilde{e}\gets\argmin_{e\in E_s}c(e)$\;
+		$S\gets S\cup\{w\}$ \tcp*{$w$ is the vertex of $\tilde{e}$ that is in $V\setminus S$}
+		$T\gets T\cup\{\tilde{e}\}$\;
+	}
+	\Return{$T$}
+	\caption{Prim's Algorithm}\label{algo: prim's algorithm}
+\end{algorithm}
+
+Proving optimality of the set output by the above is easily shown using the cut-property.\\
+
+As a slight detour from what we have done thus far, how would one \textit{implement} Prim's algorithm? We are given an undirected graph $G=(V,E)$ with edge costs given in an adjacency list and a source vertex $s\in V$.\\
+We use a method similar to Djikstra's algorithm. Add an arbitary start vertex to the queue with key value $0$ and let all other key values to be $\infty$. At each step, we use a priority queue to extract node with the minimum key value from the queue. Explore the neighbourhood of the node, updating the key value. Here, the key value is the cost of the smallest cost edge leading to a node. The only change here is the update step, everything else is as in Djikstra's.\\
+The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)\log n)$.
+
+
+% \begin{exercise}
+% 	Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{i,1},t_{i,2}>0$. The part of duration $t_{i,1}$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{i,2}$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.\\
+% 	The problem can be stated more rigorously as: given $n$ and two functions $t_1,t_2:[n]\to\Rp$, find a permutation $\sigma$ of $[n]$ such that
+% 	\[ \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
+% 	is minimized.
+% \end{exercise}
+% \begin{solution}
+% \end{solution}
