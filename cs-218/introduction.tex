@@ -104,9 +104,9 @@ We give a few examples with the aim of hopefully making the above notation more 
 \begin{exercise}
 Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ is said to be a maxima in the array if $\var{A}[i-1]<\var{A}[i]$ and $\var{A}[i]>\var{A}[i+1]$. Also, $\var{A}[1]$ is a maxima if $\var{A}[2]<\var{A}[1]$ and $\var{A}[n]$ is a maxima if $\var{A}[n]>\var{A}[n-1]$. Find a maxima in the array in time $\mathcal{O}(\log n)$.
 \end{exercise}
-\begin{solution}
+\begin{solution*}
 	The basic idea behind this algorithm is to, at each step, greedily check the half of the array that contains the greater element among the two neighbours of the current element. It is described more precisely in \Cref{algo: find maxima}. We encourage the reader to prove the correctness of this algorithm.
-\end{solution}
+\end{solution*}
 	\begin{algorithm}
 		\DontPrintSemicolon
 		\KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
@@ -255,10 +255,35 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 
 
 % \begin{exercise}
-% 	Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{i,1},t_{i,2}>0$. The part of duration $t_{i,1}$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{i,2}$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.\\
+% 	Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{1}(i),t_{2}(i)>0$. The part of duration $t_{1}(i)$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{2}(i)$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.\\
 % 	The problem can be stated more rigorously as: given $n$ and two functions $t_1,t_2:[n]\to\Rp$, find a permutation $\sigma$ of $[n]$ such that
 % 	\[ \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
 % 	is minimized.
 % \end{exercise}
-% \begin{solution}
-% \end{solution}
+% \begin{solution*}
+% 	Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $k\in[n]$ attain the maximum described above. Let $\sigma$ be any permutation of $[n]$. 
+% \end{solution*}
+
+\begin{exercise}
+	Consider the following modified interval scheduling problem. There are $n$ jobs, each with a start and finish time $(s(i),f(i))$ and in addition, they have a (positive) weight $w(i)$. The problem is to maximize the total weight of the jobs scheduled on a (single) machine. For the sake of brevity, we denote the set of jobs $J$ by a set of tuples with the $i$th tuple being $(s(i),f(i),w(i))$.
+\end{exercise}
+\begin{enumerate}[(a)]
+	\item Show that the algorithm for the usual interval scheduling need not give an optimal solution for this problem.
+	\begin{solution*}
+		Consider the set of jobs $J=\{(1,2,5),(1,3,10)\}$. Then the algorithm chooses only the first job, while the optimal solution picks the second.
+	\end{solution*}
+	\item Suppose a greedy algorithm picks the largest weight job with the earliest finishing time among the available jobs at each step. Prove/disprove that this strategy works.
+	\begin{solution*}
+		Consider the set of jobs $J=\{(1,2,5),(2,3,5),(1,3,8)\}$. Then this algorithm chooses only the third job, whereas the optimal solution picks the first two.
+	\end{solution*}
+	\item We say that jobs $J$ and $J'$ \textit{overlap}, denoted $J\| J'$, if $J\cap J'\neq\emptyset$. For a job $J_i$, define $O_i = \sum_{i':J_{i'}\cap J_i} w(i')$, called the \textit{overlap-weight} of $J_i$. Consider a greedy algorithm that schedules a job with the smallest overlap-weight among the available jobs at each step. Prove/disprove that this algorithm gives the optimal solution.
+	\begin{solution*}
+		The algorithm is incorrect. Consider the counterexample
+		\[ J = \{(0,1,1),(1,2,1),(0,2,3)\}. \]
+		Then the algorithm chooses jobs $1$ and $2$, whereas the (unique) optimal solution picks job $3$.\\
+		The reader might be tempted to think that the algorithm would work if in the definition of $O_i$, we only consider those $i'\neq i$. However, this doesn't work either. Indeed, consider
+		\[ J = \{(1,3,5),(1,2,1),(2,4,5),(3,5,5),(4,5,1)\}. \]
+		The algorithm chooses jobs $2$, $3$, and $5$, whereas the (unique) optimal solution chooses jobs $1$ and $4$.\\
+		This idea is made more natural on rewriting the problem as finding $\mathcal{A}\subseteq[n]$ that minimizes $w\left(\bigcup_{i\in\mathcal{A}} O(i)\right)$,	where $O(i) = \{i'\in[n] : i'\neq i\text{ and }J_{i'}\|J_i\}$ and $w(S)=\sum_{s\in S}w(s)$ for any $S\subseteq[n]$. The issue arises because a single $j$ might appear in multiple $O(i)$. It is worth noting that there is a dynamic programming algorithm to solve this problem (which we shall study later).
+	\end{solution*}
+\end{enumerate}
