@@ -229,7 +229,7 @@ Let us next show that $T$ is connected. Suppose otherwise. There must then be a 
 
 Observe that the second algorithm given above is essentially Kruskal's algorithm in reverse.\\
 
-Also note that the third algorithm given above aises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.\\
+Also note that the third algorithm given above aises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -286,12 +286,12 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 \end{exercise}
 \begin{solution*}
 	The problem can be stated alternatively as: given $n$ and two functions $t_1,t_2:[n]\to\Rp$, find a permutation $\sigma$ of $[n]$ such that
-	\[ \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
+	\[ Q_\sigma = \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
 	is minimized. ($\sigma(i)$ denotes the position that is at the $i$th index after permuting)
 
-	Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $k\in[n]$ attain the maximum described above. Let $\sigma$ be any permutation of $[n]$. Denote by $Q_\sigma$ the quantity above and by $Q$ the corresponding quantity for the identity permutation.
+	Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $Q$ be the value of $Q_\sigma$ for the identity permutation and $k\in[n]$ attain the maximum involved. Let $\sigma$ be any permutation of $[n]$.
 
-	\textbf{Claim.} If $Q_\sigma\leq Q$, then for every $1\leq i\leq k$, $1\leq\sigma(i)\leq k$.\\
+	\textbf{Claim.} If $Q_\sigma\leq Q$, then for every $1\leq i\leq k$, $1\leq\sigma(i)\leq k$. This implies that the first $k$ positions permute among themselves in any optimal solution.\\
 	Suppose otherwise and let $r=\max\{j\in[n] : j=\sigma(i)\text{ for some }1\leq i\leq k\}> k$. Then since each of the $(f(i)-s(i))$ are positive,
 	\[ Q_\sigma \geq t_2(\sigma(r)) + \sum_{1\leq i\leq r} t_1(\sigma(i)) > t_2(k) + \sum_{1\leq i\leq k}t_1(i) = Q, \]
 	thus proving the claim.
