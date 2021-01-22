@@ -683,7 +683,7 @@ In \cite{dyer-frieze-sample-outside}, a more careful analysis is done to show th
 
 % We now state one of the most important conjectures in this field, commonly known as the KLS Conjecture (named after Kannan, Lov\'asz, and Simonovits).
 
-Over the course of the next few sections, we describe a $\mathcal{O}^*(n^7)$ volume estimation algorithm given in \cite{lov-sim-on7}.
+Over the course of the next few sections, we describe a $\mathcal{O}^*(^7)$ volume estimation algorithm given in \cite{lov-sim-on7}.
 
 \subsection{Measure-Theoretic Markov Chains and Conductance}
 \label{subsec: measure theoretic markov chains}
@@ -1061,32 +1061,6 @@ And as mentioned, this modified chain converges to a distribution proportional t
 
 Before we move on to the main algorithm, we set up some prerequisite results to make the discussion in the subsequent section more natural.
 
-\subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{} Algorithm using the Ball-Step}
-
-As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm described here was originally given in \cite{lov-sim-on7}.\\
-Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
-\[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
-is uniformly distributed in $B_2^n$.\\
-On a separate note, instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points from from a programming perspective. Our analysis shall be done using this general case.\\
-
-\subsubsection{The Walk}
-
-We modify the ball-walk into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
-\[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
-and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear what convex body we are talking about. First of all, we can use \Cref{find sphere volume} and \Cref{eqn: volume in terms of radial distance} to get
-\[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
-That is,
-\begin{equation}
-	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
-\end{equation}
-
-Now, define
-\[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
-\begin{lemma}
-	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
-	\[ H(v) = \lambda(\phi(v))v \]
-	is uniformly distributed on $K$.
-\end{lemma}
 
 \subsection{An Isoperimetric Inequality}
 
@@ -1133,8 +1107,127 @@ Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that t
 The main result of this section is the following result, which is an improvement of \Cref{conductance isoperimetric inequality}.
 
 \begin{ftheo}
-Let $g$ and $h$ be upper semi-continuous Lebesgue integrable functions on $\R^n$ such that their integrals on $\R^n$ are positive. Then there exist points $a,b\in\R^n$ and a linear function $\ell:[0,1]\to\Rp$ such that
-\[ \int_0^1 \ell(t)g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)h((1-t)a+tb)\d{t} > 0 \]
+\label{localization lemma}
+	Let $g$ and $h$ be upper semi-continuous Lebesgue integrable functions on $\R^n$ such that their integrals on $\R^n$ are positive. Then there exist points $a,b\in\R^n$ and a linear function $\ell:[0,1]\to\Rp$ such that
+	\[ \int_0^1 \ell(t)^{n-1}g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)^{n-1}h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
 
 Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{The segment joining $a$ and $b$ is the axis of the truncated cone and $\ell$ represents the radius at the appropriate point.} Before we prove this, let us discuss some consequences of the result.
+
+\begin{proof}
+	It suffices to consider the case where $g$ and $h$ are continuous. Indeed, if not, we can find some monotone (strictly) increasing sequence of continuous integrable functions $(g_k)$ and $(h_k)$ that converge to $g$ and $h$. We then have
+	\[ \lim_{k\to\infty}\int_{\Rn} g_k = \int_{\Rn} g > 0 \]
+	so for sufficiently large $k$, $\int_{\Rn} g_k > 0$ and likewise, $\int_{\Rn} h_k > 0$. It then suffices to show it for the $g_k$ and $h_k$ for sufficiently large $k$, so we may assume continuity.\\
+	Further, note that it suffices to show the inequality with a $\geq 0$ instead of $>0$. Indeed, we can then apply it to $(g-a)$ and $(h-a)$ for some function $a$ that is everywhere positive and continuous with a sufficiently small integral to get the strict inequality.\\
+	We complete the rest of the proof over a series of lemmas. 
+\end{proof}
+
+\begin{lemma}
+\label{localization lemma lemma 1}
+	There exists a sequence $K_0\supseteq K_1 \supseteq \cdots$ of convex bodies such that for each $i$,
+	\[ \int_{K_i} g(x)\d{x} > 0 \text{ and } \int_{K_i} h(x)\d{x} > 0 \]
+	and $K=\bigcap_i K_i$ is a point or a segment.
+\end{lemma}
+\begin{proof}
+	We may choose $K_0$ to be a sufficiently large ball. To find $K_{i+1}$ given $K_i$, we use a ``bisection argument''. We choose a halfspace $H$ such that
+	\[ \int_{K_i\cap H} g(x)\d{x} = \frac{1}{2} \int_{K_i} g(x)\d{x}. \]
+	The hyperplane supporting the halfspace is called a ``bisecting hyperplane''. It remains to show that it is possible to choose $H$ such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
+
+	\textbf{Claim.} Given any $(n-2)$-dimensional affine subspace $A$, there is a bisecting hyperplane containing it.\\
+	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the halfspace on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is trivial on modifying the function into a continuous one from $\R\to\R$ and then using the intermediate value property.
+	\footnote{This is a trivial application of the \href{https://en.wikipedia.org/wiki/Borsuk-Ulam_theorem}{Borsuk-Ulam Theorem}.}\\
+
+	Now, choose $A_0,A_1,\ldots$ to be a sequence of the $(n-2)$-dimensional affine subspaces such that at least one of them passes through any point with rational coordinates.\footnote{this is justified since $\Q^n$ is countable.} For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a halfspace with supporting hyperplane $P_i$.\\
+	We wish to show that $\bigcap_i K_i$ is at most $1$-dimensional. Suppose instead that it is (at least) $2$-dimensional. Then the projection of $K$ onto one of the planes spanned by two coordinates axes (say $x_1$ and $x_2$) must be two-dimensional, and therefore has a rational interior point $(r_1,r_2)$. However, the hyperplane defined by $x_1=r_1$, $x_2=r_2$ is one of the $A_i$, and in this case, $P_i$ bisects $K$, and therefore also $K_{i+1}$, which is a contradiction.
+\end{proof}
+
+In the case where the resulting $K$ is a point $a$, it follows that $g(a)\geq 0$ and $h(a)\geq 0$, so \Cref{localization lemma} follows for $b=a$ and $\ell\equiv 1$.\\
+Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of this segment.
+
+\begin{lemma}
+\label{localization lemma lemma 2}
+	There exists a concave function $\psi:[0,1]\to\Rp$, not identically zero, such that
+	\[ \int_0^1 \psi(t)^{n-1}g((1-t)a+tb)\d{t} \geq 0 \text{ and } \int_0^1 \psi(t)^{n-1}h((1-t)a+tb)\d{t} \geq 0. \]
+\end{lemma}
+\begin{proof}
+	Assume without loss of generality that $a=0$ and $b=e_1$. For $t\in\R$, set $Z_t = \{x\in\Rn : x_1=t\}$ and for each $i\in\N$,
+	\[ \psi_i(t) = \left(\frac{\vol_{n-1}(K_i\cap Z_t)}{\vol(K_i)}\right)^{1/(n-1)}. \]
+	Denote by $\alpha_i$ and $\beta_i$ the maximum and minimum of $x_1$ over $K_i$. Since $K\subseteq K_i$, $\alpha_i\geq 1$ and $\beta_i\leq 0$ for each $i$ and moreover, $\alpha_i\to 1$ and $\beta_i\to 0$. Also observe that by \nameref{brunn's theorem}, each $\psi_i$ is concave on $[\beta_i,\alpha_i]$.\\
+	% Now, we claim that the functions $\psi_i$ are uniformly equicontinuous on any interval $[0,1]$ with $0<s<t<1$. Indeed, we see that they are all continuous on $[0,1]$, which is a compact space, so they are all uniformly continuous.
+	Observe that the $(\psi_i)$ are uniformly bounded since
+	\[ \vol(K_i) \geq \frac{\vol_{n-1}(K_i\cap Z_t)}{2}(\beta_i-\alpha_i) \geq \frac{\vol_{n-1}(K_i\cap Z_t)}{2}. \]
+	Further, the $(\psi_i)$ are equicontinuous (Why?).\\
+	Therefore, by the Arzel\'a-Ascoli Theorem, the $(\psi_i)$ have a uniformly convergent subsequence; let $\psi$ be the resulting limit function. Clearly, $\psi$ is non-negative, concave, and
+	\[ \int_0^1 \psi(t)^{n-1}\d{t} = 1. \]
+	Now, setting $x=(t,y)$ for $t\in\R$ and $y\in\R^{n-1}$,
+	\begin{align*}
+		\int_{K_i} g(x)\d{x} &= \int_{\beta_i}^{\alpha_i} \int_{K_i\cap Z_t} g(t,y)\d{y}\d{t} \\
+			&= \int_{\beta_i}^{\alpha_i} \left( \frac{1}{\vol_{n-1}(K_i\cap Z_t)} \int_{K_i\cap Z_t} g(t,y)\d{y} \right) \vol(K_i) \psi_i(t)^{n-1} \d{t}. \\
+		\frac{1}{\vol(K_i)}\int_{K_i} g(x)\d{x} &= \int_{\beta_i}^{\alpha_i} \left( \frac{1}{\vol_{n-1}(K_i\cap Z_t)} \int_{K_i\cap Z_t} g(t,y)\d{y} \right) \psi_i(t)^{n-1} \d{t}.
+	\end{align*}
+	By definition, the left hand side is non-negative and
+	\[ \int_{\beta_i}^{\alpha_i} \left( \frac{1}{\vol_{n-1}(K_i\cap Z_t)} \int_{K_i\cap Z_t} g(t,y)\d{y} \right) \psi_i(t)^{n-1} \d{t} \to \int_0^1 g(t,0)\psi(t)^{n-1}\d{t}. \]
+	Therefore, this integral is non-negative and the claim is proved (the expression for $h$ is non-negative by an identical argument).
+\end{proof}
+
+Let us get back to the main proof equipped with the above two intermediate steps.\\
+We need to somehow get from the above concave function $\psi$ to a linear function.
+
+\begin{proof}[Continued Proof.]
+	Define $\psi$, $a$, and $b$ as in the previous lemma but further, let us choose $a,b\in K$ such that $\norm{a-b}$ is minimum. When we say ``minimum'', we mean that one of the two integrals involved is equal to $0$, so we cannot make the segment any shorter. Without loss of generality, assume $a=0$ and $b=e_1$.\\
+	For the sake of simplicity, define $\pi_1$ to be the projection of $x\in\Rn$ onto the first axis ($\pi_1(x)=x_1$). Define the functions $\hat{g},\hat{h}:\Rn\to\R$ by
+	\[ \hat{g}(x)=g(\pi_1(x)e_1) \text{ and } \hat{h}(x)=h(\pi_1(x)e_1). \]
+	Also, consider the convex body
+	\[ K' = \{x\in\Rn : 0\leq x_1\leq 1, x_2,\ldots,x_n\geq 0,\text{ and }x_2+\cdots+x_n\leq\psi(x_1)\}. \]
+	The body $K'$ can be visualized more naturally as taking the union of the $(n-1)$-dimensional simplex spanned by $te_1, te_1+\psi(t)e_2,\ldots,te_1+\psi(t)e_n$ over all $0\leq t\leq 1$. As a result,
+	\[ \vol_{n-1} (K'\cap Z_t) = \frac{\psi(t)^{n-1}}{n!}, \]
+	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\ 
+	Then observe that
+	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{n!} \int_0^1 \psi(t)^{n-1} g(t) \geq 0, \]
+	where the last inequality follows from the definition of $\psi$ in the previous lemma. We have a similar inequality for the integral of $\hat{h}$ as well.\\
+	Since we've taken $\norm{a-b}$ to be minimal, we may assume wlog that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
+
+	Now, for any convex body $L$, define the function
+	\[ \psi_L(x) = \vol(L\cap Z_t)^{1/(n-1)}. \]
+	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$. Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K$ into convex bodies $L_A$ and $L_A'$ such that
+	\[ \int_{L_A}\hat{g}(x)\d{x} = \int_{L_A'}\hat{g}(x)\d{x} = 0 \]
+	and 
+	\[ \int_{L_A}\hat{h}(x)\d{x} \geq 0. \]
+	Note that $L_A$ must intersect both $Z_0$ and $Z_1$, since otherwise, the minimality of $\norm{a-b}$ is contradicted. Therefore, $H$ cannot be orthogonal to the $x_1$-axis and it can be described as $x_2+\cdots+x_n=\ell(x_1)$ for some linear function $\ell$.
+\end{proof}
+
+
+% \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{} Algorithm using the Ball-Step}
+
+% As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done using this general case.\\
+% The basic walk $\mathcal{M}$ is as follows: when we are at $v_k$, we let $v_{k+1}=v_k$ with probability $1/2$. Otherwise, we generate a random vector $u$ from the uniform distribution on $G$. If $v_k+u\in K$, set $v_{k+1}=v_k+u$ and otherwise, set $v_{k+1}=v_k$. This is termed as the \textit{lazy random walk in $K$ with $G$-steps}.\\
+
+% Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
+% \[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
+% is uniformly distributed in $B_2^n$.\\
+
+% \subsubsection{The Walk}
+
+% We modify the $G$-walk described above into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
+% \[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
+% and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about. First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
+% \[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
+% That is,
+% \begin{equation}
+% 	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
+% \end{equation}
+
+% Now, define
+% \[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
+% \begin{lemma}
+% 	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
+% 	\[ H(v) = \lambda(\phi(v))v \]
+% 	is uniformly distributed on $K$.
+% \end{lemma}
+% \begin{proof}
+	
+% \end{proof}
+
+% \subsubsection{Bounding the Conductance of the Walk}
+
+% As before, we shall determine how rapidly the walk converges by bounding the conductance.
