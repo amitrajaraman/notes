@@ -200,7 +200,7 @@ Clearly, it suffices to show that
 \end{equation}
 since $C^*$ and $C$ are of the above considered forms.\\
 
-\subsubsection{Bounding \texorpdfstring{$V(n,m)$}{} and \texorpdfstring{$S(n,m)$}{}}
+\subsubsection{Bounding \texorpdfstring{$V(n,m)$}{V(nm)} and \texorpdfstring{$S(n,m)$}{S(nm)}}
 
 For $1\leq k\leq n$, define
 \[
@@ -541,7 +541,7 @@ If $\int f < \infty$, this produces a random walk with stationary distribution t
 
 So far, we have only tried finding uniform distributions within the body $K$ (and never return a point outside the body $K$). Often, however, we sacrifice this in favour of a distribution that can return a point outside of $K$ with not too high probability (say less than $\frac{1}{2}$) that mixes more rapidly. We detail one such algorithm, similar to that in \cite{dyer-frieze-sample-outside}, in the following section.
 
-\subsection{A Modified Grid Walk that Runs in \texorpdfstring{$\mathcal{O}^*(n^8)$}{}}
+\subsection{A Modified Grid Walk that Runs in \texorpdfstring{$\mathcal{O}^*(n^8)$}{O(n8)}}
 
 \subsubsection{A Description of the Walk}
 
@@ -967,7 +967,7 @@ Writing the above in a slightly more useful form,
 %     The inequality trivially holds for $x<s$ and $x>1-s$, since we have $h_0(x) \leq H_s$ by definition (with complementation in the second case) and $h_k(x) \leq h_0(x)$.
 % \end{proof}
 
-\subsubsection{An Important Inequality involving the operator \texorpdfstring{$M$}{}}
+\subsubsection{An Important Inequality involving the operator \texorpdfstring{$M$}{M}}
 
 A little bit of thought makes it quite clear that to analyze the speed of mixing of Markov chains, the spectrum of the operator $M$ is an important parameter.
 
@@ -1068,7 +1068,7 @@ Before we move on to the main algorithm, we set up some prerequisite results to 
 
 A function $f:\R^n\to\Rp$ is said to be \textit{log-concave} if for any $x,y\in\R^n$ and $0<\lambda<1$,
 \[ f(\lambda x + (1-\lambda)y) \leq f(x)^\lambda f(y)^{1-\lambda}. \]
-This just means that $\log f$ is concave. While we did not mention this by name, we discussed similar ideas back in the (multiplicative) Brunn-Minkowski inequality \Cref{eqn multiplicative brunn minkowski}.\\
+This just means that $\log f$ is concave. While we did not mention this by name, we discussed similar ideas back in the (multiplicative) Brunn-Minkowski inequality (\ref{eqn multiplicative brunn minkowski}).\\
 
 It is quite obvious that if $f$ and $g$ are log-concave functions, then so are $fg$ and $\min\{f,g\}$. The following is far less obvious however.
 
@@ -1112,15 +1112,14 @@ The main result of this section is the following result, which is an improvement
 	\[ \int_0^1 \ell(t)^{n-1}g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)^{n-1}h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
 
-Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{The segment joining $a$ and $b$ is the axis of the truncated cone and $\ell$ represents the radius at the appropriate point.} Before we prove this, let us discuss some consequences of the result.
+Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{The segment joining $a$ and $b$ is the axis of the truncated cone and $\ell$ represents the radius at the appropriate point.} It converts a \textit{global} phenomenon (the integrals over $\Rn$ being positive) to a \textit{local} phenomenon (the integrals over a truncated cone being positive).
 
-\begin{proof}
-	It suffices to consider the case where $g$ and $h$ are continuous. Indeed, if not, we can find some monotone (strictly) increasing sequence of continuous integrable functions $(g_k)$ and $(h_k)$ that converge to $g$ and $h$. We then have
-	\[ \lim_{k\to\infty}\int_{\Rn} g_k = \int_{\Rn} g > 0 \]
-	so for sufficiently large $k$, $\int_{\Rn} g_k > 0$ and likewise, $\int_{\Rn} h_k > 0$. It then suffices to show it for the $g_k$ and $h_k$ for sufficiently large $k$, so we may assume continuity.\\
-	Further, note that it suffices to show the inequality with a $\geq 0$ instead of $>0$. Indeed, we can then apply it to $(g-a)$ and $(h-a)$ for some function $a$ that is everywhere positive and continuous with a sufficiently small integral to get the strict inequality.\\
-	We complete the rest of the proof over a series of lemmas. 
-\end{proof}
+It suffices to consider the case where $g$ and $h$ are continuous. Indeed, if not, we can find some monotone (strictly) increasing sequence of continuous integrable functions $(g_k)$ and $(h_k)$ that converge to $g$ and $h$. We then have
+\[ \lim_{k\to\infty}\int_{\Rn} g_k = \int_{\Rn} g > 0 \]
+so for sufficiently large $k$, $\int_{\Rn} g_k > 0$ and likewise, $\int_{\Rn} h_k > 0$. It then suffices to show it for the $g_k$ and $h_k$ for sufficiently large $k$, so we may assume continuity.\\
+Further, note that it suffices to show the inequality with a $\geq 0$ instead of $>0$. Indeed, we can then apply it to $(g-a)$ and $(h-a)$ for some function $a$ that is everywhere positive and continuous with a sufficiently small integral to get the strict inequality.\\
+
+We continue the proof over two lemmas. In \Cref{localization lemma lemma 2}, we in fact obtain the exact required result with a concave function instead of a linear one. Over the remainder, we refine it to obtain linearity.
 
 \begin{lemma}
 \label{localization lemma lemma 1}
@@ -1129,15 +1128,15 @@ Alternatively, this means that if $g$ and $h$ have positive integrals, then ther
 	and $K=\bigcap_i K_i$ is a point or a segment.
 \end{lemma}
 \begin{proof}
-	We may choose $K_0$ to be a sufficiently large ball. To find $K_{i+1}$ given $K_i$, we use a ``bisection argument''. We choose a halfspace $H$ such that
+	We may choose $K_0$ to be a sufficiently large ball. To find $K_{i+1}$ given $K_i$, we use a ``bisection argument''. We choose a half-space $H$ such that
 	\[ \int_{K_i\cap H} g(x)\d{x} = \frac{1}{2} \int_{K_i} g(x)\d{x}. \]
-	The hyperplane supporting the halfspace is called a ``bisecting hyperplane''. It remains to show that it is possible to choose $H$ such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
+	The hyperplane supporting the half-space is called a ``bisecting hyperplane''. It remains to show that it is possible to choose $H$ such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
 
 	\textbf{Claim.} Given any $(n-2)$-dimensional affine subspace $A$, there is a bisecting hyperplane containing it.\\
-	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the halfspace on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is trivial on modifying the function into a continuous one from $\R\to\R$ and then using the intermediate value property.
+	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the half-space on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is trivial on modifying the function into a continuous one from $\R\to\R$ and then using the intermediate value property.
 	\footnote{This is a trivial application of the \href{https://en.wikipedia.org/wiki/Borsuk-Ulam_theorem}{Borsuk-Ulam Theorem}.}\\
 
-	Now, choose $A_0,A_1,\ldots$ to be a sequence of the $(n-2)$-dimensional affine subspaces such that at least one of them passes through any point with rational coordinates.\footnote{this is justified since $\Q^n$ is countable.} For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a halfspace with supporting hyperplane $P_i$.\\
+	Now, choose $A_0,A_1,\ldots$ to be a sequence of the $(n-2)$-dimensional affine subspaces such that at least one of them passes through any point with rational coordinates.\footnote{this is justified since $\Q^n$ is countable.} For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a half-space with supporting hyperplane $P_i$.\\
 	We wish to show that $\bigcap_i K_i$ is at most $1$-dimensional. Suppose instead that it is (at least) $2$-dimensional. Then the projection of $K$ onto one of the planes spanned by two coordinates axes (say $x_1$ and $x_2$) must be two-dimensional, and therefore has a rational interior point $(r_1,r_2)$. However, the hyperplane defined by $x_1=r_1$, $x_2=r_2$ is one of the $A_i$, and in this case, $P_i$ bisects $K$, and therefore also $K_{i+1}$, which is a contradiction.
 \end{proof}
 
@@ -1157,6 +1156,7 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 	Observe that the $(\psi_i)$ are uniformly bounded since
 	\[ \vol(K_i) \geq \frac{\vol_{n-1}(K_i\cap Z_t)}{2}(\beta_i-\alpha_i) \geq \frac{\vol_{n-1}(K_i\cap Z_t)}{2}. \]
 	Further, the $(\psi_i)$ are equicontinuous (Why?).\\
+	% *** HOW??? ***
 	Therefore, by the Arzel\'a-Ascoli Theorem, the $(\psi_i)$ have a uniformly convergent subsequence; let $\psi$ be the resulting limit function. Clearly, $\psi$ is non-negative, concave, and
 	\[ \int_0^1 \psi(t)^{n-1}\d{t} = 1. \]
 	Now, setting $x=(t,y)$ for $t\in\R$ and $y\in\R^{n-1}$,
@@ -1174,30 +1174,75 @@ Let us get back to the main proof equipped with the above two intermediate steps
 We need to somehow get from the above concave function $\psi$ to a linear function.
 
 \begin{proof}[Continued Proof.]
-	Define $\psi$, $a$, and $b$ as in the previous lemma but further, let us choose $a,b\in K$ such that $\norm{a-b}$ is minimum. When we say ``minimum'', we mean that one of the two integrals involved is equal to $0$, so we cannot make the segment any shorter. Without loss of generality, assume $a=0$ and $b=e_1$.\\
+	Define $\psi$, $a$, and $b$ as in the previous lemma but further, we make two assumptions: 
+	\begin{itemize}
+		\item Choose $a,b\in K$ such that $\norm{a-b}$ is minimum. When we say ``minimum'', we mean that one of the two integrals involved is equal to $0$, so we cannot make the segment any shorter. Without loss of generality, assume $a=0$ and $b=e_1$.
+		\item Let $[\alpha,\beta]\subseteq[0,1]$ be the largest interval that $\psi$ is linear on. That is, $\psi$ is linear on $[\alpha,\beta]$ and $|\beta-\alpha|$ is maximum -- in the case where $\psi$ is nowhere linear, $\beta-\alpha=0$ (How can we assume that such an interval exists?).
+	\end{itemize}
+
 	For the sake of simplicity, define $\pi_1$ to be the projection of $x\in\Rn$ onto the first axis ($\pi_1(x)=x_1$). Define the functions $\hat{g},\hat{h}:\Rn\to\R$ by
 	\[ \hat{g}(x)=g(\pi_1(x)e_1) \text{ and } \hat{h}(x)=h(\pi_1(x)e_1). \]
 	Also, consider the convex body
 	\[ K' = \{x\in\Rn : 0\leq x_1\leq 1, x_2,\ldots,x_n\geq 0,\text{ and }x_2+\cdots+x_n\leq\psi(x_1)\}. \]
-	The body $K'$ can be visualized more naturally as taking the union of the $(n-1)$-dimensional simplex spanned by $te_1, te_1+\psi(t)e_2,\ldots,te_1+\psi(t)e_n$ over all $0\leq t\leq 1$. As a result,
+	The body $K'$ can be visualized more naturally as taking the union of the $(n-1)$-dimensional simplices spanned by $te_1, te_1+\psi(t)e_2,\ldots,te_1+\psi(t)e_n$ over all $0\leq t\leq 1$. As a result,
 	\[ \vol_{n-1} (K'\cap Z_t) = \frac{\psi(t)^{n-1}}{n!}, \]
-	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\ 
+	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\
 	Then observe that
-	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{n!} \int_0^1 \psi(t)^{n-1} g(t) \geq 0, \]
+	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{(n-1)!} \int_0^1 \psi(t)^{n-1} g(te_1) \geq 0, \]
+	% *** PAPER SAYS n! ??? ***
 	where the last inequality follows from the definition of $\psi$ in the previous lemma. We have a similar inequality for the integral of $\hat{h}$ as well.\\
-	Since we've taken $\norm{a-b}$ to be minimal, we may assume wlog that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
+	Since we have taken $\norm{a-b}$ to be minimal, we may assume without loss of generality that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
 
-	Now, for any convex body $L$, define the function
-	\[ \psi_L(x) = \vol(L\cap Z_t)^{1/(n-1)}. \]
-	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$. Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K$ into convex bodies $L_A$ and $L_A'$ such that
-	\[ \int_{L_A}\hat{g}(x)\d{x} = \int_{L_A'}\hat{g}(x)\d{x} = 0 \]
-	and 
-	\[ \int_{L_A}\hat{h}(x)\d{x} \geq 0. \]
-	Note that $L_A$ must intersect both $Z_0$ and $Z_1$, since otherwise, the minimality of $\norm{a-b}$ is contradicted. Therefore, $H$ cannot be orthogonal to the $x_1$-axis and it can be described as $x_2+\cdots+x_n=\ell(x_1)$ for some linear function $\ell$.
+	% Now, for any convex body $L$, define the function
+	% \[ \psi_L(x) = \vol(L\cap Z_t)^{1/(n-1)}. \]
+	% Brunn's Theorem implies that $\psi_L$ is concave.\\
+	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$. Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K'$ into convex bodies $L_A$ and $L_A'$ such that
+	\[ \int_{L_A}\hat{g}(x)\d{x} = \int_{L_A'}\hat{g}(x)\d{x} = 0 \text{ and } \int_{L_A}\hat{h}(x)\d{x} \geq 0. \]
+	Note that
+	\begin{equation}
+	\tag{$*$}
+	\label{eqn: localization lemma intermediate 1}
+		L_A'\cap (Z_0\cap K')\neq\emptyset \text{ and } L_A'\cap (Z_1\cap K')\neq\emptyset
+	\end{equation}
+	since otherwise, the minimality of $\norm{a-b}$ is contradicted.\footnote{we can then restrict ourselves to $L_A$ instead of $K'$ while maintaining non-negativity of the two integrals.} As a consequence, $H$ cannot be orthogonal to the $x_1$-axis and so, it can be described as $x_2+\cdots+x_n=\ell(x_1)$ for some linear function $\ell$ (due to the structure of the $(n-2)$-dimensional affine space $A$ it contains). Due to (\ref{eqn: localization lemma intermediate 1}), this $\ell$ must also satisfy $\ell(0)\geq 0$ and $\ell(1)\geq 0$. Further, observe that we can succinctly describe $L_A\cap K'$ as
+	\[ \left\{x\in\Rn : 0 \leq x_1 \leq 1, x_2,\ldots,x_n\geq 0, \text{ and } x_2+\cdots+x_n \leq \psi'(t) \right\}, \]
+	where
+	\[ \psi'(t) = \min\{\psi(t),\ell(t)\} \]
+	is concave as well.\\
+
+	Now, since $\psi$ is concave on $[0,1]$, it is continuous on $(0,1)$. Therefore, if there is a discontinuity, it must be at either $0$ or $1$. Based on this, we take $3$ cases and in each, construct an $A$ that yields the desired linear function.
+	\begin{itemize}
+		\item \textbf{Case 1.} $\psi(0)=\psi(1)=0$. Consider the affine space $A$ for $\sigma=1/2$. Due to (\ref{eqn: localization lemma intermediate 1}), $1/2 e_1 \in L_A$ (Why?). Since $\ell(0),\ell(1)\geq 0$ and $\ell(1/2)=\tau$ As we take $\tau\to 0$, $\ell$ tends to $0$ \textit{uniformly} on $[0,1]$. Making $\tau$ sufficiently small, we see that $\psi'$ satisfies the required condition and becomes linear on a length tending to $1$ (it becomes equal to $\ell$ for a larger fraction as $\tau$ becomes smaller and smaller).
+
+		\item \textbf{Case 2.} $\psi(0)=0$ and $\psi(1)>0$ (the reversed case is nearly identical). Consider the affine space $A$ for $\tau=\psi(1)\sigma$. (\ref{eqn: localization lemma intermediate 1}) implies that $0\leq\ell(1)\leq\psi(1)$. However, in this case, $\psi'$ must be linear on $[\sigma,1]$, so we can obtain linearity on a length tending to $1$.
+
+		\item \textbf{Case 3.} $\psi(0),\psi(1)>0$.\footnote{While slightly irrelevant, it might be worth noting that we could try applying the same strategy as in Case 2; however, an issue arises because instead of $[\sigma,1]$, we only get the smaller of the two intervals $[0,\sigma]$ and $[\sigma,1]$.} Consider a convex(!) function $\eta:[0,1]\to\Rp$ such that
+		\begin{itemize}
+			\item $0\leq\eta(0)\leq\psi(0)$ and $0\leq\eta(1)\leq\psi(1)$,
+			\item the convex body $K_\eta$ defined by
+			\[ K_\eta = \{ x\in\Rn : 0\leq x_1\leq 1, x_2,\ldots,x_n\geq 0, \text{ and } \eta(x_1)\leq x_2+\cdots+x_n\leq\psi(x_1) \} \]
+			satisfies
+			\[ \int_{K_\eta} \hat{g}(x)\d{x} = 0 \text{ and } \int_{K_\eta} \hat{h}(x)\d{x}\geq 0, \text{ and } \]
+			\item $\displaystyle\int_0^1 \eta(x)\d{x}$ is maximal.
+		\end{itemize}
+		Such a function must exist since the zero function satisfies the first two conditions.\\
+		If $\psi(0)=0$ or $\psi(1)=1$, then we are done, since $\psi-\eta$ satisfies the original conditions (non-negative integrals), and it is already covered in the first two cases.\\
+		Otherwise, suppose $\eta(0)<\psi(0)$ and $\eta(1)<\psi(1)$. Let $(\sigma,\tau)$ be the intersection point of the segments joining $(0,\eta(0))$, $(1,\psi(1))$ and $(0,\psi(0))$, $(1,\eta(1))$ and $A$ be the corresponding affine space. Let $H$ be a hyperplane containing $A$ dividing space into two half-spaces $M$ and $M'$ such that
+		\[ \int_{K_\eta \cap M} \hat{g}(x)\d{x} = \int_{K_\eta \cap M'} \hat{g}(x)\d{x} = 0.  \]
+		Also, choose $M$ to be the half-space that contains $1/2 e_1$ (the one that ``faces down'').\\
+		It is clear from contruction that any $(n-1)$-dimensional hyperplane containing $A$, $H$ in particular, either intersects both $Z_0\cap K_\eta$ and $Z_1\cap K_\eta$ or neither. The latter cannot happen due to (\ref{eqn: localization lemma intermediate 1}) (or rather, the corresponding expression for $K_\eta$ rather than $K'$).\\
+		Now, note that
+		\[ \int_{M'} \hat{h}(x)\d{x} < 0. \]
+		Indeed, otherwise, the linear function $\ell$ corresponding to $H$ contradicts the maximality of $\eta$. However, this implies that
+		\[ \int_{M\cap K'} \hat{g}(x)\d{x} = \int_{K'} \hat{g}(x)\d{x} - \int_{M'}\hat{g}(x)\d{x} = 0 \]
+		and
+		\[ \int_{M\cap K'} \hat{h}(x)\d{x} = \int_{K'} \hat{h}(x)\d{x} - \int_{M'}\hat{h}(x)\d{x} = 0. \]
+		Finally, note that $M\cap K'$ is a truncated cone, thus completing the proof.
+	\end{itemize}
 \end{proof}
 
 
-% \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{} Algorithm using the Ball-Step}
+% \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
 
 % As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done using this general case.\\
 % The basic walk $\mathcal{M}$ is as follows: when we are at $v_k$, we let $v_{k+1}=v_k$ with probability $1/2$. Otherwise, we generate a random vector $u$ from the uniform distribution on $G$. If $v_k+u\in K$, set $v_{k+1}=v_k+u$ and otherwise, set $v_{k+1}=v_k$. This is termed as the \textit{lazy random walk in $K$ with $G$-steps}.\\
