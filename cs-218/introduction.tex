@@ -29,7 +29,7 @@ While analyzing algorithms in general, it is important to look at the input size
 $T(n)$ is said to be $\mathcal{O}(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\leq cf(n)$.
 \end{definition}
 
-This notation is abused to say, for example, that $\sqrt{n} = \mathcal{O}(n)$ (instead of the correct $\sqrt{n}\in\mathcal{O}(n)$. We also write $\sqrt{n} = 2^{\mathcal{O}(\log n)}$ sometimes, which means that there is some $f(n)\in\mathcal{O}(\log n)$ such that .
+This notation is often abused to say, for example, that $\sqrt{n} = \mathcal{O}(n)$ (instead of the correct $\sqrt{n}\in\mathcal{O}(n)$).
 
 \begin{definition}[Big-$\Omega$ notation]
 $T(n)$ is said to be $\Omega(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\geq cf(n)$.
@@ -39,8 +39,9 @@ Finally, we have
 
 \begin{definition}[$\Theta$ notation]
 $T(n)$ is said to be $\Theta(f(n))$ if there are some $c_1,c_2\geq 0$ and $N\in\N$ such that for all $n>N$, $c_1 f(n) \leq T(n)\leq c_2 f(n)$.\\
-Equivalently, $T(n) \in \Theta(f(n))$ if and only if $T(n) \in \mathcal{O}(f(n))$ and $T(n) \in \Omega(f(n))$.
 \end{definition}
+
+Equivalently, $T(n) \in \Theta(f(n))$ if and only if $T(n) \in \mathcal{O}(f(n))$ and $T(n) \in \Omega(f(n))$.
 
 \subsubsection{A Few Examples}
 
@@ -301,13 +302,23 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 	thus implying that the identity permutation is optimal. 
 \end{solution*}
 
-\begin{exercise}
-	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval not in the subset overlaps with at least one interval in the subset.
-\end{exercise}
-\begin{solution*}
-	Given a set $X$ of $n$ intervals, consider the graph $G$ whose vertices are elements of $X$ and with an edge between intervals that intersect. Now, recall that a subset of vertices of a graph is a vertex cover if and only if its complement is an independent set. In the context of this problem, an independent set is an interval scheduling whereas a vertex cover is precisely what this problem asks for. Therefore, it suffices to solve the interval scheduling problem on $X$ (in this context, it just corresponds to a maximum independent set) to get a set $\mathcal{A}$ of intervals, and return $X\setminus\mathcal{A}$.
-\end{solution*}
+% \begin{exercise}
+% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval not in the subset overlaps with at least one interval in the subset.
+% \end{exercise}
+% \begin{solution*}
+% 	Given a set $\mathcal{S}$ of $n$ intervals, consider the graph $G$ whose vertices are elements of $\mathcal{S}$ and with an edge between intervals that intersect. Now, recall that a subset of vertices of a graph is a vertex cover if and only if its complement is an independent set. In the context of this problem, an independent set is an interval scheduling whereas a vertex cover is precisely what this problem asks for. Therefore, it suffices to solve the interval scheduling problem on $\mathcal{S}$ (in this context, it just corresponds to a maximum independent set) to get a set $\mathcal{A}$ of intervals, and return $\mathcal{S}\setminus\mathcal{A}$.
+% \end{solution*}
 
 % \begin{exercise}
 % 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
 % \end{exercise}
+% \begin{solution*}
+% 	This problem can alternatively thought of as follows: given a finite set $X$ and a set $\mathcal{S}$ of subsets of $X$, determine the smallest $\mathcal{A}\subseteq\mathcal{S}$ such that $\bigcup_{A\in\mathcal{A}} A = X$. This reformulation can be done by setting $X$ to be the set of all finite intersections of elements of $\mathcal{S}$.
+% \end{solution*}
+
+% \begin{exercise}
+% 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
+% \end{exercise}
+% \begin{solution*}
+% 	Observe that the case $k=0$ is the usual interval scheduling problem.
+% \end{solution*}
