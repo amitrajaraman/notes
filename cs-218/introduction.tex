@@ -238,7 +238,7 @@ Also note that the third algorithm given above aises quite naturally from the cu
 	\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
 	\KwOut{A minimal spanning subgraph of $G$}
 	$T\gets\emptyset, S\gets\{v\}$ \tcp*{$v$ is an arbitrary node}
-	\While{$|S|<n-1$}{
+	\While{$|S|<n$}{
 		Compute $E_s = \{vw\in E:v\in S,w\not\in S\}$\;
 		$\tilde{e}\gets\argmin_{e\in E_s}c(e)$\;
 		$S\gets S\cup\{w\}$ \tcp*{$w$ is the vertex of $\tilde{e}$ that is in $V\setminus S$}
@@ -313,8 +313,34 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 % 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
 % \end{exercise}
 % \begin{solution*}
-% 	This problem can alternatively thought of as follows: given a finite set $X$ and a set $\mathcal{S}$ of subsets of $X$, determine the smallest $\mathcal{A}\subseteq\mathcal{S}$ such that $\bigcup_{A\in\mathcal{A}} A = X$. This reformulation can be done by setting $X$ to be the set of all finite intersections of elements of $\mathcal{S}$.
+% 	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
+% 	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<a_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.
 % \end{solution*}
+
+% \begin{algorithm}
+% 	\DontPrintSemicolon
+% 	\SetNoFillComment
+% 	\KwIn{A set $\mathcal{S}=\{A_1,A_2,\ldots,A_n\}$ of $n$ intervals such that $A_i=(a_i,b_i)$ for each $i$. Further, if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$.}
+% 	\KwOut{A minimal set cover of $\bigcup_{S\in\mathcal{S}} S$}
+% 	$\mathcal{A}\gets A_1, k\gets 1$\;
+% 	\For{$1< i\leq n$}{
+% 		$\var{maxFinish}\gets (0,0)$
+% 		\While {a_i < a_k} {
+% 			\If {$b_i > \var{maxFinish}[1]$} {
+% 				\var{maxFinish}\gets (b_i,i)\;
+% 			}
+% 			$i\gets i+1$\;
+% 		}
+% 		\eIf {$\var{maxFinish} = (0,0)$} {
+% 			$\mathcal{A}\gets\mathcal{A}\cup A_i$\;
+% 			$k\gets i$\;
+% 		} {
+% 			$\mathcal{A}\gets\mathcal{A}\cup A_{\var{maxFinish}[]}$
+% 		}
+% 	}
+% 	\Return{$T$}
+% 	\caption{Prim's Algorithm}\label{algo: prim's algorithm}
+% \end{algorithm}
 
 % \begin{exercise}
 % 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.

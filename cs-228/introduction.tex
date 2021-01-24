@@ -739,9 +739,10 @@ Substitution is an important part of logic. We should be able to substitute equi
 
 \begin{lemma}
 \label{lem: 6.2}
-	Suppose we have formulas $F(p)$, $G$, and $H$. Suppose for some model $m$, $m\vDash G\siff m\vDash H$. Then $m\vDash F(G) \siff m\vDash F(H)$.
+	Suppose we have formulas $F(p)$, $G$, and $H$. Suppose for \textit{some} model $m$, $m\vDash G\siff m\vDash H$. Then $m\vDash F(G) \siff m\vDash F(H)$.
 \end{lemma}
 This can be shown using structural induction, working it out for each connective.\\
+We shall use the above ``substitution theorem'' quite a lot in proofs.
 
 \begin{lemma}
 	If $F(p)\equiv G(p)$, then for each formula $H$, $F(H)\equiv G(H)$.
