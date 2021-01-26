@@ -844,3 +844,60 @@ Suppose $m\vDash F(p)\land(\neg p\lor G_1)\land\cdots\land(\neg p\lor G_n)$. We 
 	\item If $m\nvDash p$ and $m\nvDash G_1\land\cdots\land G_n$. Since $m\vDash F(p)$, we can directly apply the substitution theorem again.
 	\item If $m\nvDash p$ and $m\vDash G_1\land\cdots\land G_n$. Since $F(G_1\land\cdots\land G_n)$ is in NNF, $p$ must occur positively (no $\neg p$) in $F(p)$. Therefore, $m[p\mapsto 1]\vDash F(p)$. Since $p$ does not occur in any $G_i$, we also obviously have $m[p\mapsto 1]\vDash G_1\land\cdots\land G_n$. Therefore, $m\vDash F(G_1\land\cdots\land G_n)$ (we basically ignore the modification).
 \end{enumerate}
+
+\subsection{Lecture 8}
+
+\subsubsection{\texorpdfstring{$k$}{k}-sat}
+
+\begin{definition}
+	A $k$-sat formula is a CNF formula with at most $k$ literals in each clause.
+\end{definition}
+
+For example, $(p\wedge q\wedge \neg r)$ is $1$-sat.
+
+\begin{theorem}
+	For any $k$-sat formula $F$, there is a $3$-sat formula $F'$ with linear blow up such that $F$ and $F'$ are equisatisfiable.
+\end{theorem}
+\begin{proof}
+	Let $F$ be $k$-sat with $k\geq 4$. Let $G=(\ell_1\lor\cdots\ell_k)$ be a clause, where each $\ell_i$ is a literal.\\
+	Let $x_1,\ldots,x_{k-2}$ be variables that don't appear in $F$ and let $G'$ be the set of clauses
+	\[ (\ell_1\lor\ell_2\lor x_2) \land \bigwedge_{2\leq i\leq k-3} (\neg x_i \lor x_{i+1} \lor \ell_{i+1}) \land (\neg x_{k-2} \lor \ell_{k-2} \lor \ell_k). \]
+	We claim that $G$ and $G'$ are equisatisfiable. Let $m\vDash G'$. Assume instead that $m(\ell_i)=0$ for all $i$. We have $m(x_2) = 1$, and for each $2\leq i\leq k-3$, $m(x_{i+1}) = 1$ (by induction). This implies that $m(x_{i+2}) = 1$, which results in a contradiction in the final clause. Therefore, $m\vDash G$.\\
+	For the other direction, let $m(\ell_i)=1$. Then the model
+	\[ m' = \{x_2\mapsto 1, \ldots,x_{i-1}\mapsto 1,x_i\mapsto 0,\ldots,x_{k-2}\mapsto 0\} \]
+	satisfies $G$.
+\end{proof}
+
+Observe that $G'$ contains $3(k-2)$ literals, so there is a linear (up to $3$ times) blowup.
+
+\subsubsection{\texorpdfstring{$2$}{2}-sat}
+
+The \textit{implication graph} $(V,E)$ of a $2$-sat formula $F$ with $\Vars(F)=\{p_1,\ldots,p_n\}$ is defined by
+\[ V = \{p_1,\ldots,p_n,\neg p_1,\ldots,\neg p_n\}\text{ and }E=\{(\overline{\ell}_1,\ell_2),(\overline{\ell}_2,\ell_1) : (\ell_1\lor\ell_2\in F)\}, \]
+where $\overline{p} = \neg p$ and $\overline{\neg p} = p$.\\
+
+Observe that if there is a path from $\ell_1$ to $\ell_2$, there is a path from $\overline{\ell}_2$ to $\overline{\ell}_1$.\\
+Suppose that for every strongly connected component (scc) $S\subseteq V$ in $(V,E)$, there is a scc $S^c$, known as the \textit{complementary component}, with exactly the negations of the literals in $S$.
+
+For each $m\vDash F$, if there is a path from $\ell_1$ to $\ell_2$, then if $m(\ell_1)=1$, then $m(\ell_2)=1$. As a consequence, in a strongly connected component, either all $m(\ell)$ are $1$ or all are $0$.\\
+
+The \textit{reduced implication DAG} $(V^R,E^R)$ of an implication graph $(V,E)$ is defined by
+\[ V^R = \{S : S\text{is a scc in }(V,E)\}\text{ and }E^R = \{(S,S') : \exists \ell\in S,\ell'\in S' \text{ such that }(\ell,\ell')\in E \}. \]
+
+\begin{theorem}
+	A $2$-sat formula $F$ is unsat iff there is a scc $S$ in the implication graph such that $\{p,\neg p\}\subseteq S$ for some $p$.
+\end{theorem}
+
+	Suppose there is no such $S$. Define a model as follows. Assign all the literals of an unassigned scc $1$ if all its children (the vertices it has an edge to in the reduced implication DAG) are assigned $1$. Consequently, assign its complement $0$.
+
+It is seen from this theorem that a $2$-sat formula can be solved in linear time.
+
+\subsubsection{XOR-sat and Horn Clauses}
+
+A formula is \textit{XOR-sat} if it is a conjunction of xors of literals. Since xors are negations of equalities, we can eliminate via substitution.
+
+For a variable $p$ and formulas $F,G$, $(p\xor G)\land F$ and $F[\neg G/p]$ are equisatisfiable. This allows us to do substitution repeatedly after determine satisfiability in polynomial time.
+
+A \textit{Horn clause} is a cluase of the form $\neg p_1\lor \cdots\lor\neg p_n \lor q$, where $p_1,\ldots,p_n\in\Vars$ and $q\in\Vars\cup\{\perp\}$. A \textit{Horn formula} is a conjunction of Horn clauses. The clauses with $\perp$ literals are called \textit{goal clauses} and the others are called \textit{implication clauses}. Note that an horn clause is equivalent to
+\[ p_1 \land \cdots \land p_n \implies p. \]
+Start with a model all $0$. Pick an implication clause not satisfied yet. Set the right to true. If it causes a problem at some goal clause, then return unsat.

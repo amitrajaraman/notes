@@ -295,7 +295,7 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 	Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $Q$ be the value of $Q_\sigma$ for the identity permutation and $k\in[n]$ attain the maximum involved. Let $\sigma$ be any permutation of $[n]$.
 
 	\textbf{Claim.} If $Q_\sigma\leq Q$, then for every $1\leq i\leq k$, $1\leq\sigma(i)\leq k$. This implies that the first $k$ positions permute among themselves in any optimal solution.\\
-	Suppose otherwise and let $r=\max\{j\in[n] : j=\sigma(i)\text{ for some }1\leq i\leq k\}> k$. Then since each of the $(f(i)-s(i))$ are positive,
+	Suppose otherwise and let $r=\max\{j\in[n] : \sigma(j)=i\text{ for some }1\leq i\leq k\}> k$. Then,
 	\[ Q_\sigma \geq t_2(\sigma(r)) + \sum_{1\leq i\leq r} t_1(\sigma(i)) > t_2(k) + \sum_{1\leq i\leq k}t_1(i) = Q, \]
 	thus proving the claim.
 
