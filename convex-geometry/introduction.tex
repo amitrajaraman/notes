@@ -335,7 +335,7 @@ be an ellipsoid in $K$ for some orthonormal basis $(e_j)$ and positive $(\alpha_
 \end{itemize}
 Now, consider the \textit{dual} of $\mathcal{E}$ given by
 \[ \mathcal{E}^* = \left\{y\in\R^n:\sum_{i=1}^n \alpha_j^2\langle x,e_j\rangle^2 \leq 1\right\} \]
-Observe that we can more concisely describe $\mathcal{E}^*$ as $\{y\in\R^n:\langle y,x\rangle\leq 1\text{ for all }x\in\mathcal{E}\}$ (Why? Try using the Cauchy-Schwarz inequality)\footnote{Interested readers can go through \href{https://ocw.mit.edu/courses/mathematics/18-409-topics-in-theoretical-computer-science-an-algorithmists-toolkit-fall-2009/lecture-notes/MIT18_409F09_scribe11.pdf}{this source} as well.}.\\
+Observe that we can more concisely describe $\mathcal{E}^*$ as $\{y\in\R^n:\langle y,x\rangle\leq 1\text{ for all }x\in\mathcal{E}\}$ (Why?).\footnote{This becomes far easier to show when we apply a suitable linear transformation to reduce the problem to the case where $\mathcal{E}=B_2^n$.}\\
 Now, note that since $\mathcal{E}\subseteq K$, for any $x\in \mathcal{E}$ and any $i$, $\langle x,u_i\rangle\leq 1$ (as proved in the first part of \Cref{fritz john banach mazur distance}). This implies that for every $i$, $u_i\in\mathcal{E}^*$! We then have
 \begin{align*}
     \sum_j \alpha_j^2 &= \sum_j \alpha_j^2 \norm{e_j}^2 \\
