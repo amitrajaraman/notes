@@ -257,6 +257,34 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 \subsubsection{Tutorial 2}
 
 \begin{exercise}
+	Let $G=(V,E)$ be an undirected graph. Consider the following greedy algorithm:
+	\begin{algorithm*}
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
+		% \KwOut{A minimal spanning subgraph of $G$}
+		$M\gets\emptyset$. Let $V(M)$ be the set of vertices in $M$.\;
+		\ForEach{$uv\in E$}{
+			\If{$V(M)\cap \{u,v\}=\emptyset$}{
+				$M\gets M\cup\{uv\}$\;
+			}
+		}
+		\Return{$M$}
+		\caption{Exercise 1.5}\label{algo: ex 1.5}
+	\end{algorithm*}
+
+	\begin{enumerate}[(a)]
+		\item Give a graph $G$ such that the above algorithm may not output a perfect matching in $G$ even if it has a perfect matching.
+		\item Give a graph that has a perfect matching $M$ and a maximal matching $M'$ such that $M'\neq M$.
+		\item Prove that the above algorithm finds a maximal matching.
+	\end{enumerate}
+\end{exercise}
+\begin{solution}
+	For parts (a) and (b), consider the graph $G=(V,E)$ with $V=\{1,2,3,4\}$ and $E=\{\{1,2\},\{2,3\},\{3,4\},\{4,1\},\{1,3\}\}$. Then $\{\{1,3\}\}$ is a maximal matching but not a perfect matching and $\{\{1,2\},\{3,4\}\}$ is a maximal matching. The former may be output by the algorithm depending on which edge is chosen.\\
+	Part (c) is easily shown. If the output is not a maximal matching, then there is some edge $e=vw$ such that $E\cap\{v,w\}=\emptyset$ (by definition). However, this contradicts the termination of the algorithm, thus proving the required.
+\end{solution}
+
+\begin{exercise}
 	Consider the following modified interval scheduling problem. There are $n$ jobs, each with a start and finish time $(s(i),f(i))$ and in addition, they have a (positive) weight $w(i)$. The problem is to maximize the total weight of the jobs scheduled on a (single) machine. For the sake of brevity, we denote the set of jobs $J$ by a set of tuples with the $i$th tuple being $(s(i),f(i),w(i))$.
 	\begin{enumerate}[(a)]
 		\item Show that the algorithm for the usual interval scheduling need not give an optimal solution for this problem.
@@ -311,13 +339,18 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 % 	Given a set $\mathcal{S}$ of $n$ intervals, consider the graph $G$ whose vertices are elements of $\mathcal{S}$ and with an edge between intervals that intersect. Now, recall that a subset of vertices of a graph is a vertex cover if and only if its complement is an independent set. In the context of this problem, an independent set is an interval scheduling whereas a vertex cover is precisely what this problem asks for. Therefore, it suffices to solve the interval scheduling problem on $\mathcal{S}$ (in this context, it just corresponds to a maximum independent set) to get a set $\mathcal{A}$ of intervals, and return $\mathcal{S}\setminus\mathcal{A}$.
 % \end{solution*}
 
-% \begin{exercise}
-% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
-% \end{exercise}
-% \begin{solution*}
-% 	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
-% 	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<a_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.
-% \end{solution*}
+\begin{exercise}
+	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
+\end{exercise}
+\begin{solution*}
+	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
+	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<a_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
+
+	It is easy to see that any interval is contained in the union of these intervals. Let $\mathcal{A}=\{x_1,\ldots,x_k\}$ be the resulting set of chosen intervals and $\mathsf{OPT}=\{y_1,\ldots,y_m\}$ be an optimal solution (arranged in increasing order of $a_i$ and $b_i$).
+	% We wish to show that $m\geq r$ ($=$ instead of $\geq$, in fact).
+	This proof is nearly identical to the proof of correctness of our solution to the interval scheduling problem. For each $r\in[k]$, we claim that either $a_{y_r}<a_{x_{r-1}}$ and $b_{y_r}>b_{x_{r-1}}$, or $a_{y_r}\geq a_{x_{r-1}}$.\\ 
+	This is easily shown by induction. 
+\end{solution*}
 
 % \begin{algorithm}
 % 	\DontPrintSemicolon

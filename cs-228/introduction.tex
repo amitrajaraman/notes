@@ -50,7 +50,7 @@ Propositions are connected by \textit{logical arguments}. How can we connect pro
 \begin{center}
 \begin{tabular}{c|c|c}
 	 true & $\top$ & top  \\
-	 false & $\perp$ & bot \\
+	 false & $\bot$ & bot \\
 	 negation & $\neg$ & not \\
 	 conjunction & $\wedge$ & and \\
 	 disjunction & $\vee$ & or \\
@@ -68,7 +68,7 @@ A \textit{propositional formula} is a finite string containing symbols in $\math
 \begin{definition}
 The set of propositional formulas is the smallest set $P$ such that
 \begin{itemize}
-	\item $\top,\perp$ are in $P$,
+	\item $\top,\bot$ are in $P$,
 	\item $\mathsf{Vars}\subseteq P$,
 	\item if $F\in P$, then $\neg F\in P$, and
 	\item if $\circ$ is a binary symbol and $F,G\in P$, then $(F\circ G)\in P$.
@@ -76,18 +76,18 @@ The set of propositional formulas is the smallest set $P$ such that
 \end{definition}
 
 Alternatively, this can succinctly be written as ``$F \in P$ if
-\[F \coloneqq p\mid\top\mid\perp\mid \neg F \mid (F\vee F) \mid (F\wedge F) \mid (F\implies F) \mid (F\iff F) \mid (F\oplus F) \]
+\[F \coloneqq p\mid\top\mid\bot\mid \neg F \mid (F\vee F) \mid (F\wedge F) \mid (F\imp F) \mid (F\siff F) \mid (F\oplus F) \]
 where $p\in\mathsf{Vars}$."
 
 \begin{definition}
-$\top$, $\perp$, and any $p\in\mathsf{Vars}$ are known as \textit{atomic formulas}.
+$\top$, $\bot$, and any $p\in\mathsf{Vars}$ are known as \textit{atomic formulas}.
 \end{definition}
 
 \begin{definition}
 For each $F\in P$, $\mathsf{Vars}(F)$ is the set of variables appearing in $F$.
 \end{definition}
 
-It is important to note that parentheses are needed (only) between binary operations. So as of now, $(\perp\imp\top)$ is a formula but $\perp\imp\top$ isn't.\\
+It is important to note that parentheses are needed (only) between binary operations. So as of now, $(\bot\imp\top)$ is a formula but $\bot\imp\top$ isn't.\\
 Not all strings over $\mathsf{Vars}$ and logical connectives are in $P$.
 
 \subsubsection{Examples Encoding Arguments into Logic}
@@ -147,7 +147,7 @@ So how do we go about parsing a formula then? Suppose we have $F_0\circ_1 F_2\ci
 	\item Introduce parentheses around $F_{i-1}\circ F_i$ and call it $F_i'\coloneqq (F_{i-1}\circ_i F_i)$ so we now have
 	\[ F_0 \circ_1 \cdots \circ_{i-2} F_{i-2} \circ_{i-1} F_i' \circ_{i+1} F_{i+1} \circ_{i+2} \cdots \circ_n F_n. \]
 \end{itemize}
-Repeat the above until only one term remains ($n$ becomes $1$). We can then parse it normally. For example,
+Repeat the above until only one term remains. We can then parse it normally. For example,
 \[ p \wedge q \imp r \vee p \text{ to } (p\wedge q)\imp r\vee p \text{ to } (p\wedge q)\imp (r\vee p) \text{ to } ((p\wedge q)\imp (r\vee p)). \]
 Some formulas cannot be unambiguously parsed, for example $p\vee q\wedge r$, $p \vee q \vee r$, or $p\imp q\imp r$. But can we salvage any of them?\\
 Associativity preference may further reduce the need of parentheses. Let's make all our operators right associative (first group the rightmost occurrence). So for example, unless mentioned otherwise, we take $p\imp q\imp r$ as $(p\imp (q\imp r))$.
@@ -187,12 +187,17 @@ The \textit{satisfaction relation} $\vDash$ between models and formulas is the s
 \end{itemize}
 \end{definition}
 
-Observe that $\perp$ is not explicitly mentioned in the above definition since it follows from it being the \textit{smallest} relation.\\
+Observe that $\bot$ is not explicitly mentioned in the above definition since it follows from it being the \textit{smallest} relation.\\
 
 If $m\vDash F$, we say that $m$ \textit{satisfies} $F$.\\
 $F$ is \textit{satisfiable} if there is a model $m$ such that $m\vDash F$. This is often abbreviated as \textit{sat}.\\
 $F$ is \textit{valid} (written $\vDash F$) if for each model $m$, $m\vDash F$. A valid formula is also called a \textit{tautology}.\\
 $F$ is \textit{unsatisfiable} (written $\nvDash F$) if there is no model $m$ such that $m\vDash F$. This is often abbreviated as \textit{unsat}.\\
+
+A few things to note are:
+\begin{itemize}
+	\item A formula is valid iff its negation is unsat.
+\end{itemize}
 
 We can check if a certain formula satisfies a model by moving bottom-up in the parse tree.\\
 
@@ -282,7 +287,7 @@ Let $f:\B^n\to\B$. Let $p_i^0\coloneqq\neg p_i$ and $p_i^1\coloneqq p_i$. For ev
 	F_{(b_1,\ldots,b_n)} \coloneqq
 	\begin{cases}
 		(p_1^{b_1}\wedge\cdots\wedge p_n^{b_n}), & f(b_1,\ldots,b_n)=1 \\
-		\perp, & \text{otherwise.}
+		\bot, & \text{otherwise.}
 	\end{cases}
 \]
 We can then define the required formula $F$ by taking the conjunction over all boolean combinations,
@@ -298,7 +303,7 @@ For example, $\wedge$ alone cannot express all boolean functions. Consider the f
 We originally used $8$ connectives. This is not the minimal set required for maximum expressivity, however. For example, $\neg$ and $\vee$ can define the whole propositional logic. Indeed,
 \begin{itemize}
 	\item $\top \equiv p \vee \neg p$,
-	\item $\perp \equiv \neg \top$,
+	\item $\bot \equiv \neg \top$,
 	\item $(p \wedge q) \equiv \neg(p \vee q)$,
 	\item $(p\otimes q) \equiv (p \wedge \neg q) \vee (\neg p \wedge q)$,
 	\item $(p\imp q) \equiv (\neg p \vee q)$, and
@@ -739,7 +744,7 @@ Substitution is an important part of logic. We should be able to substitute equi
 
 \begin{lemma}
 \label{lem: 6.2}
-	Suppose we have formulas $F(p)$, $G$, and $H$. Suppose for \textit{some} model $m$, $m\vDash G\siff m\vDash H$. Then $m\vDash F(G) \siff m\vDash F(H)$.
+	Suppose we have formulas $F(p)$, $G$, and $H$. Suppose for some model $m$, $m\vDash G\siff m\vDash H$. Then $m\vDash F(G) \siff m\vDash F(H)$.
 \end{lemma}
 This can be shown using structural induction, working it out for each connective.\\
 We shall use the above ``substitution theorem'' quite a lot in proofs.
@@ -747,16 +752,16 @@ We shall use the above ``substitution theorem'' quite a lot in proofs.
 \begin{lemma}
 	If $F(p)\equiv G(p)$, then for each formula $H$, $F(H)\equiv G(H)$.
 \end{lemma}
-We may assume without loss of generality that $p$ does not appear in $H$. Consider a model $m$. Then define the model $m'$ by
+We may assume without loss of generality that $p$ does not appear in $H$ (Why?). Consider a model $m$. Then define the model $m'$ by
 \[
 	m'\coloneqq
 	\begin{cases}
 		m[p\mapsto 1], & m\vDash H, \\
-		m[p\mapsto 0], & m\vDash H.
+		m[p\mapsto 0], & m\nvDash H.
 	\end{cases}
 \]
 Observe that by construction, $m'\vDash p$ iff $m'\vDash H$.\\
-Further note that since $p$ does not appear in $\Vars(F(H))$, $m\vDash F(H)$ iff $m'\vDash F(H)$. By the earlier lemma, this implies that $m'\vDash F(H)$ iff $m'\vDash F(p)$.  Since $F(p)\equiv G(p)$, $m'\vDash F(p)$ iff $m'\vDash G(p)$.\\
+Further note that since $p$ does not appear in $F(H)$, $m\vDash F(H)$ iff $m'\vDash F(H)$. By the earlier lemma, $m'\vDash F(H)$ iff $m'\vDash F(p)$. Since $F(p)\equiv G(p)$, $m'\vDash F(p)$ iff $m'\vDash G(p)$.\\
 Again going backwards like we did now, we see that $m'\vDash G(p)$ iff $m'\vDash G(H)$ iff $m\vDash G(H)$. Therefore, $m\vDash F(H)$ iff $m\vDash G(H)$.
 
 \begin{theorem}
@@ -815,10 +820,10 @@ We must keep flattening to keep $F(G')$ in the considered form. Due to K\"{o}nig
 	For an infinite connected graph $G$, if each node has finite degree, then there is an infinite simple path from each node.
 \end{lemma}
 
-This implies the required since it says that if the parse tree is infinite at any step, then the height at that step must be infinite as well.\\
+% This implies the required since it says that if the parse tree is infinite at any step, then the height at that step must be infinite as well.\\
 
 A \textit{unit clause} contains only one literal. A \textit{binary clause} contains exactly two literals. A \textit{ternary clause} contains exactly three literals.\\
-We can also extend this to the empty set of literals. We take by convention that $\perp$ is the empty clause.
+We can also extend this to the empty set of literals. We take by convention that $\bot$ is the empty clause.
 
 \subsubsection{Tseitin's Encoding}
 
@@ -844,6 +849,16 @@ Suppose $m\vDash F(p)\land(\neg p\lor G_1)\land\cdots\land(\neg p\lor G_n)$. We 
 	\item If $m\nvDash p$ and $m\nvDash G_1\land\cdots\land G_n$. Since $m\vDash F(p)$, we can directly apply the substitution theorem again.
 	\item If $m\nvDash p$ and $m\vDash G_1\land\cdots\land G_n$. Since $F(G_1\land\cdots\land G_n)$ is in NNF, $p$ must occur positively (no $\neg p$) in $F(p)$. Therefore, $m[p\mapsto 1]\vDash F(p)$. Since $p$ does not occur in any $G_i$, we also obviously have $m[p\mapsto 1]\vDash G_1\land\cdots\land G_n$. Therefore, $m\vDash F(G_1\land\cdots\land G_n)$ (we basically ignore the modification).
 \end{enumerate}
+
+It is worth noting that going from a model that satisfies the encoding to one that satisfies the original formula is non-trivial (if it was, we might have $P=NP$ - Why?).
+
+\subsubsection{Disjunctive Normal Form}
+
+Similar to CNF, we define DNF as:
+
+\begin{definition}
+	A formula is said to be in Disjunctive Normal Form (DNF) if it is a disjunction of conjunctions of literals.
+\end{definition}
 
 \subsection{Lecture 8}
 
@@ -882,13 +897,14 @@ Suppose that for every strongly connected component (scc) $S\subseteq V$ in $(V,
 For each $m\vDash F$, if there is a path from $\ell_1$ to $\ell_2$, then if $m(\ell_1)=1$, then $m(\ell_2)=1$. As a consequence, in a strongly connected component, either all $m(\ell)$ are $1$ or all are $0$.\\
 
 The \textit{reduced implication DAG} $(V^R,E^R)$ of an implication graph $(V,E)$ is defined by
-\[ V^R = \{S : S\text{is a scc in }(V,E)\}\text{ and }E^R = \{(S,S') : \exists \ell\in S,\ell'\in S' \text{ such that }(\ell,\ell')\in E \}. \]
+\[ V^R = \{S : S\text{ is a scc in }(V,E)\}\text{ and }E^R = \{(S,S') : \exists \ell\in S,\ell'\in S' \text{ such that }(\ell,\ell')\in E \}. \]
 
 \begin{theorem}
 	A $2$-sat formula $F$ is unsat iff there is a scc $S$ in the implication graph such that $\{p,\neg p\}\subseteq S$ for some $p$.
 \end{theorem}
 
-	Suppose there is no such $S$. Define a model as follows. Assign all the literals of an unassigned scc $1$ if all its children (the vertices it has an edge to in the reduced implication DAG) are assigned $1$. Consequently, assign its complement $0$.
+	Suppose there is no such $S$. Define a model as follows. Assign all the literals of an unassigned scc $1$ if all its children (the vertices it has an edge to in the reduced implication DAG) are assigned $1$. Consequently, assign its complement $0$. One of the directions of the result follows.\\
+	For the other direction, if there is a path from $p$ to $\neg p$, we get a contradiction quite easily, resulting in unsatisfiability.\\
 
 It is seen from this theorem that a $2$-sat formula can be solved in linear time.
 
@@ -898,6 +914,93 @@ A formula is \textit{XOR-sat} if it is a conjunction of xors of literals. Since 
 
 For a variable $p$ and formulas $F,G$, $(p\xor G)\land F$ and $F[\neg G/p]$ are equisatisfiable. This allows us to do substitution repeatedly after determine satisfiability in polynomial time.
 
-A \textit{Horn clause} is a cluase of the form $\neg p_1\lor \cdots\lor\neg p_n \lor q$, where $p_1,\ldots,p_n\in\Vars$ and $q\in\Vars\cup\{\perp\}$. A \textit{Horn formula} is a conjunction of Horn clauses. The clauses with $\perp$ literals are called \textit{goal clauses} and the others are called \textit{implication clauses}. Note that an horn clause is equivalent to
+A \textit{Horn clause} is a cluase of the form $\neg p_1\lor \cdots\lor\neg p_n \lor q$, where $p_1,\ldots,p_n\in\Vars$ and $q\in\Vars\cup\{\bot\}$. A \textit{Horn formula} is a conjunction of Horn clauses. The clauses with $\bot$ literals are called \textit{goal clauses} and the others are called \textit{implication clauses}. Note that an horn clause is equivalent to
 \[ p_1 \land \cdots \land p_n \implies p. \]
 Start with a model all $0$. Pick an implication clause not satisfied yet. Set the right to true. If it causes a problem at some goal clause, then return unsat.
+
+\subsection{Lecture 9}
+
+\subsubsection{Resolution Proof Systems}
+
+For a clause $C$ and a literal $\ell$, $\ell\cup C$ denotes $\{\ell\}\cup C$.\\
+% Observe that the conjunction of CNF formulas is also a CNF formula.\\
+If we start with a set of CNF formulas, how many rules do we need? It turns out we only need two - \textsf{Assumption} and \textsf{Resolution}.\\
+When writing rules, we usually omit $\Sigma$ if it is clear from context. So for example, we can apply \textsf{Assumption} as
+\begin{prooftree}
+	\AxiomC{$p\lor C$}
+	\AxiomC{$\neg p\lor C$}
+	\BinaryInfC{$C\lor D$}
+\end{prooftree}
+The two on the top are called \textit{antecedent} and the bottom is called the \textit{resolvent}. $p$ is called the \textit{pivot} here.\\
+
+It is possible in some cases that we have multiple choices for the pivot. For example, consider
+\begin{prooftree}
+	\AxiomC{$p\lor q\lor r$}
+	\AxiomC{$\neg p\lor \neg q\lor r$}
+	\BinaryInfC{$q\lor\neg q\lor r$}
+\end{prooftree}
+and
+\begin{prooftree}
+	\AxiomC{$p\lor q\lor r$}
+	\AxiomC{$\neg p\lor \neg q\lor r$}
+	\BinaryInfC{$p\lor\neg p\lor r$}
+\end{prooftree}
+In one case, we take $p$ as the pivot and in the other, we take $q$. However, if we have a choice in the pivot, then it will be like the above, wherein both $p$ and $\neg p$ are in the resolvent. Therefore, any non-trivial resolution will have a unique pivot.
+
+The resolution proof method takes a set of clauses $\Sigma$ and produces a forest of clauses as a proof. The goal of the proof method is to find the empty clause (which signifies an inconsistency).\\
+
+For example, consider the context of the derivation to be $\Sigma=\{p\lor q,\neg p\lor q,\neg q\lor r,\neg r\}$. Then
+\begin{prooftree}
+	\AxiomC{$p\lor q$}
+	\AxiomC{$\neg p\lor q$}
+	\BinaryInfC{$q$}
+	\AxiomC{$\neg q\lor r$}
+	\BinaryInfC{$r$}
+	\AxiomC{$\neg r$}
+	\BinaryInfC{$\bot$}
+\end{prooftree}
+
+The lower we go, the more the \textit{depth} increases.\\
+Recall that formal proof systems do not explicitly refer to $\bot$, they encode $\bot$ by $F\land\neg F$ for some formula $F$. Even in the above system for example, we actually get $\Sigma\vdash\neg r$ and $\Sigma\vdash r$.\\
+Therefore, if a resolution proof system can derive $\Sigma\vdash\bot$, $\Sigma$ is unsatisfiable (due to the soundness of our system).
+
+Say we want to prove $\Sigma\vdash F$. We convert $\neg F\wedge\bigwedge\Sigma$ into a new set of clauses $\Sigma'$ and apply the resolution proof method on this instead. If we derive $\bot$, $\Sigma\vdash F$ is derivable.
+
+\subsubsection{Optimizations}
+
+How do we find resolution proofs? There are some issues in implementation.\\
+A proof method implicitly defines a non-deterministic proof search algorithm. To implement such an algorithm, we should ensure that we are not doing unnecessary work. For now, we only worry about a single rule.\\
+
+\begin{enumerate}
+	\item For clauses $C$ and $D$, if $D\subseteq C$ and $\bot$ can be derived using $C$, then it can be derived using $D$.\\
+	If $D\subseteq C$, $C$ is said to be \textit{redundant}. For example, $\neg q\lor r$ is redundant in $\{q,\neg q\lor r, r, \neg r\}$ (since $r\subseteq \neg q\lor r$). Shorter clauses help us get to the empty clause faster.
+
+	\item If a clause contains both $p$ and $\neg p$, it is valid.\\
+	If a valid clause contributes in deriving $\bot$, the descendants must participate in some resolution step with pivot $p$. This step is counterproductive (the resolvent is a superset of some antecedent). For example,
+	\begin{prooftree}
+		\AxiomC{$p\lor C$}
+		\AxiomC{$\neg p\lor p\lor D$}
+		\BinaryInfC{$p\lor C\lor D$}
+	\end{prooftree}
+	
+	\item If a literal occurs in a CNF formula and its negation does not, it is said to be a \textit{pure literal}. The removal of clauses containing pure literals in a CNF preserves satisfiability.
+
+	\item If $\ell$ occurs in a resolution proof, $\neg\ell$ can be removed from every clause.
+\end{enumerate}
+
+\subsection{Exercises}
+
+\begin{exercise}
+	Suppose we have $n$ variables in a $2$-sat problem. What is the maximal number of clauses in the formula such that the formula is satisfiable?
+\end{exercise}
+\begin{solution*}
+	Observe that it is possible to have $3n^2$ clauses. Indeed, consider the set of clauses
+	\[ \{\{p,\neg q\} : p,q\in\Vars\}\cup\{\{p,q\} : p,q\in\Vars\} \]
+	which is satisfiable by the model that takes $1$ everywhere.\\
+	We claim that this is the maximal number of clauses. Indeed, let us have an implication graph with $2k\geq 2$ strongly connected components. Also, we can use the notion of complementary components and let the sccs have $v_1,\ldots,v_k$ vertices (where there are two sccs corresponding to each $v_i$).\\
+	The number of edges is then at most
+	\[ 2\sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i<j\leq k} 4 v_i v_j. \]
+	The first term arises due to complete connectedness within each scc and the second and third terms arise by taking into consideration the maximal number of edges between sccs. The above is equal to
+	\[ 3\left(\sum_{1\leq i\leq k} v_i\right)^2 - 2\sum_{1\leq i<j\leq k} v_i v_j = 3n^2 - 2\sum_{1\leq i<j\leq k} v_i v_j \leq 3n^2, \]
+	thus proving the claim.
+\end{solution*}
