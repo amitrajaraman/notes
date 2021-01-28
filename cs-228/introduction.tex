@@ -883,7 +883,9 @@ For example, $(p\wedge q\wedge \neg r)$ is $1$-sat.
 	satisfies $G$.
 \end{proof}
 
-Observe that $G'$ contains $3(k-2)$ literals, so there is a linear (up to $3$ times) blowup.
+Observe that $G'$ contains $3(k-2)$ literals, so there is a linear (up to $3$ times) blowup.\\
+This can be enhanced to just $\log k$ new literals, by splitting the clause in half and introducing a new variable at each step. That is, write $(\ell_1\lor\cdots\lor\ell_k)$ as
+\[ (x_1\lor\ell_1\lor\cdots\lor\ell_{\frac{k}{2}})\land(\neg x_1\lor\ell_{1+\frac{k}{2}}\lor\cdots\lor\ell_{k}). \]
 
 \subsubsection{\texorpdfstring{$2$}{2}-sat}
 
@@ -903,7 +905,7 @@ The \textit{reduced implication DAG} $(V^R,E^R)$ of an implication graph $(V,E)$
 	A $2$-sat formula $F$ is unsat iff there is a scc $S$ in the implication graph such that $\{p,\neg p\}\subseteq S$ for some $p$.
 \end{theorem}
 
-	Suppose there is no such $S$. Define a model as follows. Assign all the literals of an unassigned scc $1$ if all its children (the vertices it has an edge to in the reduced implication DAG) are assigned $1$. Consequently, assign its complement $0$. One of the directions of the result follows.\\
+	Suppose there is no such $S$. Define a model as follows. Assign all the literals of an unassigned scc $1$ if all its children (the vertices it has an edge to in the reduced implication DAG) are assigned $1$. Consequently, assign its complement $0$ (this uses the fact that there is no such $S$). One of the directions of the result follows. There is no violation at any point -- this can easily be proved by induction (or the well-ordering principle).\\
 	For the other direction, if there is a path from $p$ to $\neg p$, we get a contradiction quite easily, resulting in unsatisfiability.\\
 
 It is seen from this theorem that a $2$-sat formula can be solved in linear time.
@@ -914,8 +916,9 @@ A formula is \textit{XOR-sat} if it is a conjunction of xors of literals. Since 
 
 For a variable $p$ and formulas $F,G$, $(p\xor G)\land F$ and $F[\neg G/p]$ are equisatisfiable. This allows us to do substitution repeatedly after determine satisfiability in polynomial time.
 
-A \textit{Horn clause} is a cluase of the form $\neg p_1\lor \cdots\lor\neg p_n \lor q$, where $p_1,\ldots,p_n\in\Vars$ and $q\in\Vars\cup\{\bot\}$. A \textit{Horn formula} is a conjunction of Horn clauses. The clauses with $\bot$ literals are called \textit{goal clauses} and the others are called \textit{implication clauses}. Note that an horn clause is equivalent to
+A \textit{Horn clause} is a cluase of the form $\neg p_1\lor \cdots\lor\neg p_n \lor q$, where $p_1,\ldots,p_n\in\Vars$ (where $n\geq 0$) and $q\in\Vars\cup\{\bot\}$. A \textit{Horn formula} is a conjunction of Horn clauses. The clauses with $\bot$ literals are called \textit{goal clauses} and the others are called \textit{implication clauses}. Note that an horn clause is equivalent to
 \[ p_1 \land \cdots \land p_n \implies p. \]
+Note that the trivial model that assigns $0$ to everything need not always work because $n$ can be $0$.\\
 Start with a model all $0$. Pick an implication clause not satisfied yet. Set the right to true. If it causes a problem at some goal clause, then return unsat.
 
 \subsection{Lecture 9}
