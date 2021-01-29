@@ -599,14 +599,14 @@ By \Cref{large conductance implies rapidly mixing}, it suffices to show that thi
 
 \begin{ftheo}
 \label{conductance isoperimetric inequality}
-Let $M\subseteq\R^n$ and $\mathcal{B}(M)$ be the $\sigma$-field of Borel subsets of $M$. Let $F:\Int M\to\Rp$ be a log-concave function and let $\mu$ be the measure on $\mathcal{B}(M)$ with density $F$
-\[ \mu(A) = \int_A F \]
-for $A\in\mathcal{B}(M)$. Then for $A_1,A_2\in\mathcal{B}(M)$,
-\[ \min(\mu(A_1),\mu(A_2)) \leq \frac{\diam M}{d(A_1,A_2)}\mu(M \setminus (A_1\cup A_2)), \]
-where $\diam M = \sup\{\norm{x-y}:x,y\in M\}$.
+	Let $M\subseteq\R^n$ and $\mathcal{B}(M)$ be the $\sigma$-field of Borel subsets of $M$. Let $F:\Int M\to\Rp$ be a log-concave function and let $\mu$ be the measure on $\mathcal{B}(M)$ with density $F$
+	\[ \mu_F(A) = \int_A F \]
+	for $A\in\mathcal{B}(M)$. Then for $A_1,A_2\in\mathcal{B}(M)$,
+	\[ \mu_F(M \setminus (A_1\cup A_2)) \geq \frac{d(A_1,A_2)}{\diam M} \min(\mu_F(A_1),\mu_F(A_2)), \]
+	where $\diam M = \sup\{\norm{x-y}:x,y\in M\}$.
 \end{ftheo}
 
-This inequality is slightly loose. The best possible constant on the right is $\frac{1}{2}$ and was proved in \cite{dyer-frieze-sample-outside}. We shall show now use this to show that the conductance of our random walk is large.\\
+This inequality is slightly loose. The best possible constant on the right has an extra multiplicative factor of $2$ and was proved in \cite{dyer-frieze-sample-outside}. We omit the proof of the above and later prove a better bound in \Cref{improvement of conductance isoperimetric inequality}. We shall now use this to show that the conductance of our random walk is large.\\
 Let us have $U\subseteq V$ with $0<\lambda(U)<\frac{1}{2}$ and let $\overline{U}=V\setminus U$. Also, let $\partial{U}$ be the set of vertices in $\overline{U}$ with at least one neighbour in $U$.\\
 Let $M$ be the union of the cubes of side length $1/2n$ centered at vertices of $V$ ($M$ is a solid cube) and $A_1$ be the union of cubes of side length $1/2n$ centered at vertices of $U$. Let $B$ be the union of cubes of volume $2/(2n)^n$ centered at vertices of $\partial U$ and $A_2 = M \setminus (A_1 \cup B)$. Obviously,
 \begin{equation}
@@ -625,7 +625,7 @@ for some suitable positive constant $c_1$. Also, for some positive constant $c_2
 We may assume that $\lambda(B)$ is small.
 Now, define a measure $\mu$ on $\mathcal{B}(M)$ as in \Cref{conductance isoperimetric inequality} with $F=2^{-\varphi_1}$, where $\varphi_1$ is the maximal convex function on $M$ bounded above by $\varphi$. Observe that $\lambda(u)$ is always within a constant factor of the $\mu$-measure of the unit cube centered at $u$. Thus, we have
 \begin{align}
-	\frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\
+	\frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\ % *** HOW??? ***
 	&= \frac{c_3}{n}\frac{\mu(M \setminus (A_1\cup A_2))}{\min\{\mu(A_1),\mu(A_2)\}} \nonumber \\
 	&\geq \frac{c_3}{n} \frac{d(A_1,A_2)}{\diam M} \nonumber \\
 	&= \Omega(n^{-4}) \label{eqn: number of steps}
@@ -1153,9 +1153,9 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 	Denote by $\alpha_i$ and $\beta_i$ the maximum and minimum of $x_1$ over $K_i$. Since $K\subseteq K_i$, $\alpha_i\geq 1$ and $\beta_i\leq 0$ for each $i$ and moreover, $\alpha_i\to 1$ and $\beta_i\to 0$. Also observe that by \nameref{brunn's theorem}, each $\psi_i$ is concave on $[\beta_i,\alpha_i]$.\\
 	Note that on any closed subinterval $[s,t]\subseteq(0,1)\subseteq[\beta_i,\alpha_i]$, the $(\psi_i)$ are Lipschitz (due to concavity).\footnote{See \href{https://math.stackexchange.com/a/2662341/447210}{this StackExchange answer} if you are unfamiliar with the result.} In particular, if $\delta\leq s\leq t\leq 1-\delta$, for any $s\leq x\leq y\leq t$,
 	\[ |\psi_i(y)-\psi_i(x)| \leq \frac{\sup_{x\in (0,1)} \psi_i(x)}{\delta} |y-x|. \]
-	The above implies that if we show uniform boundedness of the $(\psi_i)$ on $[s,t]$, then (uniform) equicontinuity follows as well. And indeed, the $(\psi_i)$ are uniformly bounded on any $[s,t]$ due to concavity together with the fact that
-	\[ \int_s^t \psi_i(t)^{n-1}\d{t} \leq 1. \]
-	% *** HOW??? ***
+	The above implies that if we show uniform boundedness of the $(\psi_i)$ on $[s,t]$, then (uniform) equicontinuity follows as well. And indeed, since the $(\psi_i)$ are concave, then letting $\psi_i$ attain its supremum in $[s,t]$ and $x_i$, we have 
+	\[ 1 \geq \int_s^t \psi_i(t)^{n-1}\d{t} \geq \int_{(s+x_i)/2}^{(x_i+t)/2} \left(\frac{\sup_{x\in[s,t]} \psi_i(x)}{2}\right)^{n-1}\d{t}, \]
+	which, after a straightforward simplification, implies uniform boundedness.\\
 	Therefore, by the Arzel\'a-Ascoli Theorem, the $(\psi_i)$ have a uniformly convergent subsequence on any $[s,t]$; let $\psi$ be the resulting limit function. Extending this appropriately to a function on $[0,1]$, we clearly have that $\psi$ is non-negative, concave, and
 	\[ \int_0^1 \psi(t)^{n-1}\d{t} = 1. \]
 	Now, setting $x=(t,y)$ for $t\in\R$ and $y\in\R^{n-1}$,
@@ -1196,11 +1196,11 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$. Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K'$ into convex bodies $L_A$ and $L_A'$ such that
 	\[ \int_{L_A}\hat{g}(x)\d{x} = \int_{L_A'}\hat{g}(x)\d{x} = 0 \text{ and } \int_{L_A}\hat{h}(x)\d{x} \geq 0. \]
 	Note that
-	\begin{equation}
+	\begin{equation*}
 	\tag{$*$}
 	\label{eqn: localization lemma intermediate 1}
 		L_A'\cap (Z_0\cap K')\neq\emptyset \text{ and } L_A'\cap (Z_1\cap K')\neq\emptyset
-	\end{equation}
+	\end{equation*}
 	since otherwise, the minimality of $\norm{a-b}$ is contradicted.\footnote{we can then restrict ourselves to $L_A$ instead of $K'$ while maintaining non-negativity of the two integrals.} As a consequence, $H$ cannot be orthogonal to the $x_1$-axis and so, it can be described as $x_2+\cdots+x_n=\ell(x_1)$ for some linear function $\ell$ (due to the structure of the $(n-2)$-dimensional affine space $A$ it contains). Due to (\ref{eqn: localization lemma intermediate 1}), this $\ell$ must also satisfy $\ell(0)\geq 0$ and $\ell(1)\geq 0$. Further, observe that we can succinctly describe $L_A\cap K'$ as
 	\[ \left\{x\in\Rn : 0 \leq x_1 \leq 1, x_2,\ldots,x_n\geq 0, \text{ and } x_2+\cdots+x_n \leq \psi'(t) \right\}, \]
 	where
@@ -1238,6 +1238,50 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 	\end{itemize}
 \end{proof}
 
+The above result has numerous interesting corollaries which are of interest to us. The first is an improvement (Why?) of \Cref{conductance isoperimetric inequality}.
+
+\begin{corollary}
+\label{improvement of conductance isoperimetric inequality}
+	Let $K\subseteq\Rn$ be a convex body, $0<t<1$, and $K_1,K_2$ be two measurable sets in $K$ such that for any $a,b\in K$, the distance between $K_1\cap[a,b]$ and $K_2\cap[a,b]$ is at least $t\norm{a-b}$. Then for any log-concave function $F$ with support $K$,
+	\[ \mu_F(M\setminus(K_1\cup K_2)) \geq \frac{2t}{1-t} \min\{\mu_F(K_1),\mu_F(K_2)\}. \]
+\end{corollary}
+
+The above bound is tight when $K$ is a cylinder and $F$ is identically $1$.
+
+\begin{proof}
+	Suppose otherwise. Assume that $K_1$ and $K_2$ are open (otherwise, we can delete the boundary and enlarge them slightly to open sets while preserving both the assumptions and the inequality). Denote $K_3 = M\setminus(K_1\cup K_2)$. Define
+	\[
+		g(x) = 
+		\begin{cases}
+			F(x), & x\in K_1, \\
+			\frac{1-t}{2t}F(x), & x\in K_3, \\
+			0, & \text{otherwise},
+		\end{cases}
+		\text{ and }
+		h(x) = 
+		\begin{cases}
+			F(x), & x\in K_2, \\
+			\frac{1-t}{2t}F(x), & x\in K_3, \\
+			0, & \text{otherwise}.
+		\end{cases}
+	\]
+	By our assumption, the integrals of $g$ and $h$ over $\Rn$ are positive. We can then apply \Cref{localization lemma} to get a linear functional $\ell$ and $a,b\in\Rn$ such that
+	\begin{equation}
+		\label{eqn: local lemma in cond iso ineq improvement}
+		\int_0^1 \ell(u)^{n-1}g(ua+(1-u)b) > 0 \text{ and } \int_0^1 \ell(u)^{n-1}h(ua+(1-u)b) > 0.
+	\end{equation}
+	For each $i$, define
+	\[ H_i = \{u : ua+(1-u)b \in K_i\} \text{ and } G = \ell(u)^{n-1}F(ua+(1-u)b). \]
+	Substituting $g$ and $h$ in \Cref{eqn: local lemma in cond iso ineq improvement}, we get
+	\begin{equation}
+	\label{eqn: cond iso ineq imp contradictory eqn}
+		\int_{H_3} G(u)\d{u} < \frac{2t}{1-t} \min\left\{\int_{H_1} G(u)\d{u}, \int_{H_2} G(u)\d{u}\right\}.
+	\end{equation}
+	We aim to get a contradiction to the above. Intuitively, the worst case appears to be when $H_3$ is a single interval -- even in general, we can reduce it to this case as we shall see later. Let us prove the following, which just asserts that \Cref{eqn: cond iso ineq imp contradictory eqn} is incorrect. Define $\mu_G$ to be measure on $[0,1]$ with density $G$.
+
+	\textbf{Claim.} For $0\leq s < s+t\leq 1$,
+	\[ \mu_G([s,s+t]) \geq \frac{2t}{1-t} \min\{\mu_G([0,s]),\mu_G([s+t,1])\}. \]
+\end{proof}
 
 % \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
 
