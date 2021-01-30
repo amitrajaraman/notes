@@ -606,7 +606,7 @@ By \Cref{large conductance implies rapidly mixing}, it suffices to show that thi
 	where $\diam M = \sup\{\norm{x-y}:x,y\in M\}$.
 \end{ftheo}
 
-This inequality is slightly loose. The best possible constant on the right has an extra multiplicative factor of $2$ and was proved in \cite{dyer-frieze-sample-outside}. We omit the proof of the above and later prove a better bound in \Cref{improvement of conductance isoperimetric inequality}. We shall now use this to show that the conductance of our random walk is large.\\
+This inequality is slightly loose. The best possible constant on the right has an extra multiplicative factor of $2$ and was proved in \cite{dyer-frieze-sample-outside}. We omit the proof of the above for now and later prove a better bound in \Cref{improvement of conductance isoperimetric inequality} (and in the process, prove \Cref{conductance isoperimetric inequality} as a simple consequence of \Cref{localization lemma}). We shall now use this to show that the conductance of our random walk is large.\\
 Let us have $U\subseteq V$ with $0<\lambda(U)<\frac{1}{2}$ and let $\overline{U}=V\setminus U$. Also, let $\partial{U}$ be the set of vertices in $\overline{U}$ with at least one neighbour in $U$.\\
 Let $M$ be the union of the cubes of side length $1/2n$ centered at vertices of $V$ ($M$ is a solid cube) and $A_1$ be the union of cubes of side length $1/2n$ centered at vertices of $U$. Let $B$ be the union of cubes of volume $2/(2n)^n$ centered at vertices of $\partial U$ and $A_2 = M \setminus (A_1 \cup B)$. Obviously,
 \begin{equation}
@@ -1089,12 +1089,13 @@ This is quite easily proved by setting $f=F$ and $g=\indic_K$ in \Cref{convoluti
 Setting $K$ to be a rectangle aligned with the axes having edges of length $\varepsilon$ in $k$ directions and $1/\varepsilon$ in the remaining directions gives
 
 \begin{corollary}
+	\label{cor: 4.30}
 	Let $F:\R^n\to\Rp$ be a log-concave function with finite integral. Then for any subset $\{x_1,\ldots,x_k\}$ of variables, the function
 	\[ \int_{\R} \int_{\R} \cdots \int_{\R} F \d{x}_1\ldots\d{x_k} \]
 	in the remaining variables is log-concave.
 \end{corollary}
 
-Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that the function $x\mapsto \vol((x+K')\cap K)$ is concave.
+Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that the function $x\mapsto \vol((x+K')\cap K)$ is log-concave.
 
 \begin{corollary}
 	Let $K$ and $K'$ be two convex bodies and $t>0$. If $\{x\in\R^n:\vol((x+K')\cap K)>t\}$ has an interior point, then it is convex. In particular, for any $0<s<1$,
@@ -1112,7 +1113,7 @@ The main result of this section is the following result, which is an improvement
 	\[ \int_0^1 \ell(t)^{n-1}g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)^{n-1}h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
 
-Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{Technically, this isn't completely accurate since we only really integrate along the axis of the cone. Using continuity (which, as we shall see, we can assume) and making the cone sufficiently thin (multiplying $\ell$ by some small factor) does bring it into this form however.} It converts a \textit{global} phenomenon (the integrals over $\Rn$ being positive) to a \textit{local} phenomenon (the integrals over a truncated cone being positive).\\
+Alternatively, this means that if $g$ and $h$ have positive integrals, then there is some truncated cone such that the restriction of $g$ and $h$ to this region have positive integrals.\footnote{Technically, this isn't completely accurate since we only really integrate along the axis of the cone.} It converts a \textit{global} phenomenon (the integrals over $\Rn$ being positive) to a \textit{local} phenomenon (the integrals over a truncated cone being positive).\\
 
 It suffices to consider the case where $g$ and $h$ are continuous. If not, we can find some monotone (strictly) increasing sequence of continuous integrable functions $(g_k)$ and $(h_k)$ that converge to $g$ and $h$. We then have
 \[ \lim_{k\to\infty}\int_{\Rn} g_k = \int_{\Rn} g > 0 \]
@@ -1153,7 +1154,7 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 	Denote by $\alpha_i$ and $\beta_i$ the maximum and minimum of $x_1$ over $K_i$. Since $K\subseteq K_i$, $\alpha_i\geq 1$ and $\beta_i\leq 0$ for each $i$ and moreover, $\alpha_i\to 1$ and $\beta_i\to 0$. Also observe that by \nameref{brunn's theorem}, each $\psi_i$ is concave on $[\beta_i,\alpha_i]$.\\
 	Note that on any closed subinterval $[s,t]\subseteq(0,1)\subseteq[\beta_i,\alpha_i]$, the $(\psi_i)$ are Lipschitz (due to concavity).\footnote{See \href{https://math.stackexchange.com/a/2662341/447210}{this StackExchange answer} if you are unfamiliar with the result.} In particular, if $\delta\leq s\leq t\leq 1-\delta$, for any $s\leq x\leq y\leq t$,
 	\[ |\psi_i(y)-\psi_i(x)| \leq \frac{\sup_{x\in (0,1)} \psi_i(x)}{\delta} |y-x|. \]
-	The above implies that if we show uniform boundedness of the $(\psi_i)$ on $[s,t]$, then (uniform) equicontinuity follows as well. And indeed, since the $(\psi_i)$ are concave, then letting $\psi_i$ attain its supremum in $[s,t]$ and $x_i$, we have 
+	The above implies that if we show uniform boundedness of the $(\psi_i)$ on $[s,t]$, then (uniform) equicontinuity follows as well. And indeed, since the $(\psi_i)$ are concave, then letting $\psi_i$ attain its supremum in $[s,t]$ at $x_i$, we have 
 	\[ 1 \geq \int_s^t \psi_i(t)^{n-1}\d{t} \geq \int_{(s+x_i)/2}^{(x_i+t)/2} \left(\frac{\sup_{x\in[s,t]} \psi_i(x)}{2}\right)^{n-1}\d{t}, \]
 	which, after a straightforward simplification, implies uniform boundedness.\\
 	Therefore, by the Arzel\'a-Ascoli Theorem, the $(\psi_i)$ have a uniformly convergent subsequence on any $[s,t]$; let $\psi$ be the resulting limit function. Extending this appropriately to a function on $[0,1]$, we clearly have that $\psi$ is non-negative, concave, and
@@ -1234,19 +1235,19 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 		\[ \int_{M\cap K'} \hat{g}(x)\d{x} = \int_{K'} \hat{g}(x)\d{x} - \int_{M'}\hat{g}(x)\d{x} = 0 \]
 		and
 		\[ \int_{M\cap K'} \hat{h}(x)\d{x} = \int_{K'} \hat{h}(x)\d{x} - \int_{M'}\hat{h}(x)\d{x} > 0. \]
-		Finally, note that $M\cap K'$ is a truncated cone, thus completing the proof.
+		Finally, note that $M\cap K'$ is a truncated cone, thus completing the proof.\qedhere
 	\end{itemize}
 \end{proof}
 
-The above result has numerous interesting corollaries which are of interest to us. The first is an improvement (Why?) of \Cref{conductance isoperimetric inequality}.
+The above result has some interesting corollaries, namely \Cref{improvement of conductance isoperimetric inequality,inequality integral setminus ball}, which are of interest to us. The following is an improvement of \Cref{conductance isoperimetric inequality}.
 
-\begin{corollary}
+\begin{ftheo}
 \label{improvement of conductance isoperimetric inequality}
 	Let $K\subseteq\Rn$ be a convex body, $0<t<1$, and $K_1,K_2$ be two measurable sets in $K$ such that for any $a,b\in K$, the distance between $K_1\cap[a,b]$ and $K_2\cap[a,b]$ is at least $t\norm{a-b}$. Then for any log-concave function $F$ with support $K$,
 	\[ \mu_F(M\setminus(K_1\cup K_2)) \geq \frac{2t}{1-t} \min\{\mu_F(K_1),\mu_F(K_2)\}. \]
-\end{corollary}
+\end{ftheo}
 
-The above bound is tight when $K$ is a cylinder and $F$ is identically $1$.
+The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note that $t \geq d(K_1, K_2)/\diam(K)$ (thus explaining why this is an improvement of \Cref{conductance isoperimetric inequality}).
 
 \begin{proof}
 	Suppose otherwise. Assume that $K_1$ and $K_2$ are open (otherwise, we can delete the boundary and enlarge them slightly to open sets while preserving both the assumptions and the inequality). Denote $K_3 = M\setminus(K_1\cup K_2)$. Define
@@ -1266,21 +1267,131 @@ The above bound is tight when $K$ is a cylinder and $F$ is identically $1$.
 		\end{cases}
 	\]
 	By our assumption, the integrals of $g$ and $h$ over $\Rn$ are positive. We can then apply \Cref{localization lemma} to get a linear functional $\ell$ and $a,b\in\Rn$ such that
-	\begin{equation}
-		\label{eqn: local lemma in cond iso ineq improvement}
-		\int_0^1 \ell(u)^{n-1}g(ua+(1-u)b) > 0 \text{ and } \int_0^1 \ell(u)^{n-1}h(ua+(1-u)b) > 0.
-	\end{equation}
+	\[ \int_0^1 \ell(u)^{n-1}g(ua+(1-u)b) > 0 \text{ and } \int_0^1 \ell(u)^{n-1}h(ua+(1-u)b) > 0. \]
 	For each $i$, define
 	\[ H_i = \{u : ua+(1-u)b \in K_i\} \text{ and } G = \ell(u)^{n-1}F(ua+(1-u)b). \]
-	Substituting $g$ and $h$ in \Cref{eqn: local lemma in cond iso ineq improvement}, we get
+	Substituting $g$ and $h$ in the above equation, we get
 	\begin{equation}
 	\label{eqn: cond iso ineq imp contradictory eqn}
 		\int_{H_3} G(u)\d{u} < \frac{2t}{1-t} \min\left\{\int_{H_1} G(u)\d{u}, \int_{H_2} G(u)\d{u}\right\}.
 	\end{equation}
-	We aim to get a contradiction to the above. Intuitively, the worst case appears to be when $H_3$ is a single interval -- even in general, we can reduce it to this case as we shall see later. Let us prove the following, which just asserts that \Cref{eqn: cond iso ineq imp contradictory eqn} is incorrect. Define $\mu_G$ to be measure on $[0,1]$ with density $G$.
+	Intuitively, the worst case to prove appears to be when $H_3$ is a single interval -- as we shall see later in the proof, we can reduce it to this case even in general. To prove this case, we show the following claim, which just asserts that \Cref{eqn: cond iso ineq imp contradictory eqn} is incorrect. Define $\mu_G$ to be measure on $[0,1]$ with density $G$.\\
 
 	\textbf{Claim.} For $0\leq s < s+t\leq 1$,
-	\[ \mu_G([s,s+t]) \geq \frac{2t}{1-t} \min\{\mu_G([0,s]),\mu_G([s+t,1])\}. \]
+	\begin{equation}
+	\label{eqn: 4.15}
+		\mu_G([s,s+t]) \geq \frac{2t}{1-t} \min\{\mu_G([0,s]),\mu_G([s+t,1])\}.	
+	\end{equation}
+
+	Before we move to the proof, note that \Cref{conductance isoperimetric inequality}, which has a $t$ in place of $2t/(1-t)$ above, is trivial now. Indeed, since $G$ is unimodal\footnote{there is some $m\in[0,1]$ such that $G$ is monotonically increasing for $x\leq m$ and monotonically decreasing for $x\geq m$.},
+	\[ \mu_G([s,s+t]) \geq t \inf_{x\in[s,s+t]} G(x) \geq t \max\{s, 1-s-t\}\inf_{x\in[s,s+t]}G(x) \geq t \min\{\mu_G([0,s]),\mu_G([s+t,1])\}. \]
+	First, note that since $G$ is the product of two log-concave functions, it is log-concave as well. Choose constants $c,c_0$ such that $G(s)=c_0 e^{cs}$ and $G(s+t)=c_0 e^{c(s+t)}$. By the log-concavity of $G$, $G(u)\geq c_0 e^{cu}$ for $s\leq u\leq s+t$ and $G(u)\leq c_0 e^{cu}$ elsewhere. As a consequence, observe that it suffices to show \Cref{eqn: 4.15} for the case where $G(u) = c_0 e^{cu}$. Further, we may assume that $c_0=1$. We wish to show that
+	\[ e^{c(s+t)}-e^{cs} \geq \frac{2t}{1-t} \min\left\{e^{cs}-1, e^c - e^{c(s+t)}\right\}. \]
+	The worst case is when $e^{cs}-1 = e^{c} - e^{c(s+t)}$ (Why?). That is,
+	\[ e^{cs} = \frac{1+e^c}{1+e^{ct}}. \]
+	We then aim to show that
+	\[ (e^{ct}-1)\frac{1+e^c}{1+e^{ct}} \geq \frac{2t}{1-t} \left(\frac{1+e^c}{1+e^{ct}} - 1\right). \]
+	Let $x=e^{ct}>1$ and $\lambda=1/t>1$. The equation then becomes
+	\[ (x-1)(1+x^\lambda) \geq \frac{2}{\lambda-1}(x^\lambda - x), \]
+	that is,
+	\[ (\lambda+1)(x-x^\lambda) + (\lambda-1)(x^{\lambda+1}-1) \geq 0. \]
+	Letting the expression on the left be $h(x)$, we get $h(1)=h'(1)=0$ and $h''(x)=(\lambda^2-1)\lambda(x^{\lambda-1}-x^{\lambda-2}) \geq 0$, thus proving the claim for all $x\geq 1$.\\
+
+	Now, how do we reduce the general case problem to this? For each maximal interval $I=(a,b)$ contained in $H_3$ of length at least $t$, colour $[0,a]$ red if $\mu_G([0,a])<\mu_G([b,1])$ and $[b,1]$ red otherwise. The above claim implies that each interval introduces a red set of ($\mu_G$) measure at most $\frac{1-t}{2t}\mu_G((a,b))$. The entirety of the red set then has measure at most $\frac{1-t}{2t}\mu_G(H_3)$. It then suffices to show that either $H_1$ or $H_2$ is completely red.\\
+	Suppose otherwise. Denote by $U$ the region that is uncoloured. We then have that $U$ intersects both $H_1$ and $H_2$. By construction, $U$ is an open interval. Since the distance between $H_1$ and $H_2$ is at least $t$, $U\cap H_3$ must contain a subinterval of length at least $t$. This is a contradiction because there is an adjacent red interval (that intersects $U$). 
+\end{proof}
+
+Setting $F$ to be identically $1$ on $K$ in the above result, we get the following.
+
+\begin{corollary}
+	Let $K\subseteq\Rn$ be a convex body, $0<t<1$, and $K_1,K_2$ be two measurable sets in $K$ such that for any $a,b\in K$, the distance between $K_1\cap[a,b]$ and $K_2\cap[a,b]$ is at least $t\norm{a-b}$. Then
+	\[ \vol(M\setminus(K_1\cup K_2)) \geq \frac{2t}{1-t} \min\{\vol(K_1),\vol(K_2)\}. \]
+	In particular, if $K$ has diameter $d$ and the distance between $K_1$ and $K_2$ is at least $1$,
+	\[ \vol(M\setminus(K_1\cup K_2)) \geq \frac{2}{d-1} \min\{\vol(K_1),\vol(K_2)\}. \]
+\end{corollary}
+
+\begin{theorem}
+\label{inequality integral setminus ball}
+	Let $F$ be a log-concave function on $\Rn$ and $\theta\leq 1$ such that
+	\[ \int_{\Rn \setminus B_2^n} F(x)\d{x} = \theta \int_{\Rn} F(x)\d{x}. \]
+	Then for every $u\geq 1$,
+	\[ \int_{\Rn \setminus uB_2^n} F(x)\d{x} \leq \theta^{(u+1)/2} \int_{\Rn} F(x)\d{x}. \]
+\end{theorem}
+\begin{proof}
+	Suppose otherwise. Then exactly as we did in the proof of \Cref{improvement of conductance isoperimetric inequality}, there exist $a,b\in\Rn$ and a linear function $\ell:[0,1]\to\Rp$ such that on setting
+	\begin{align*}
+		G(t) &= \ell(t)^{n-1}F((1-t)a+tb),\\
+		H_1 &= \{t\in[0,1]: (1-t)a+tb\in B_2^n\},\\
+		H_2 &= \{t\in[0,1]: (1-t)a+tb\in uB_2^n\setminus B_2^n\},\text{ and }\\
+		H_3 &= [0,1]\setminus(H_1\cup H_2),
+	\end{align*}
+	we have
+	\begin{equation}
+	\label{eqn: 4.16}
+		\int_{H_2\cup H_3} G(t)\d{t} \leq \theta\int_0^1 G(t)\d{t}
+	\end{equation}
+	and
+	\begin{equation}
+	\label{eqn: 4.17}
+		\int_{H_3} G(t)\d{t} > \theta^{(u+1)/2}\int_0^1 G(t)\d{t}
+	\end{equation}
+	As seen before, $G$ is log-concave. Further, note that $H_1$ is an interval and $H_2,H_3$ consist of $1$ or $2$ intervals.\\
+
+	If $0\not\in H_1$, we can choose a point $s\in H_1$ such that
+	\[ \frac{\int_{[0,s]\cap H_1} G(t)\d{t}}{\int_{[s,1]\cap H_1} G(t)\d{t}} = \frac{\int_{[0,s]} G(t)\d{t}}{\int_{[s,1]} G(t)\d{t}}. \]
+	We can then replace $[a,b]$ with one of $[a,(1-s)a+sb]$ and $[(1-s)a+sb,b]$ (that is, replace $[0,1]$ with $[0,s]$ or $[s,1]$).\footnote{Multiplying by the appropriate factors leaves the \Cref{eqn: 4.16} unchanged in the restricted segment, and one of the two intervals will also satisfy the (restriction of) \Cref{eqn: 4.17}.} Therefore, we may assume wlog that $0\in H_1$, that is, $a\in B_2^n$.\\
+	Let $H_1=[0,\alpha]$, $H_2=(\alpha,\beta]$, and $H_3=(\beta,1]$. It is easily shown that $\beta \geq (\frac{u+1}{2})\alpha$.\\
+
+	Now, choose constants $c$ and $c_0$ such that
+	\[ \int_0^\alpha G(t)\d{t} = \int_0^\alpha c_0e^{-ct}\d{t} \text{ and } \int_\beta^1 G(t)\d{t} = \int_\alpha^\infty c_0e^{-ct}\d{t}. \]
+	Note that the log-concavity (unimodality in particular) of $G$ implies that for all $\alpha\leq t\leq\beta$, $G(t)\geq c_0e^{-ct}$. Therefore,
+	\[ \int_0^1 G(t)\d{t} \geq \int_0^\infty c_0e^{-ct}\d{t}. \]
+	However, \Cref{eqn: 4.16} then implies that
+	\begin{align*}
+		\theta &\geq \frac{\int_\alpha^1 G(t)\d{t}}{\int_0^1 G(t)\d{t}} \\
+			&= 1 - \frac{\int_0^\alpha G(t)\d{t}}{\int_0^1 G(t)\d{t}} \\
+			&\geq 1 - \frac{\int_0^\alpha c_0e^{-ct}\d{t}}{\int_0^\infty c_0e^{-ct}\d{t}} \\
+			&= \frac{\int_\alpha^\infty c_0e^{-ct}\d{t}}{\int_0^\infty c_0e^{-ct}\d{t}} = e^{-c\alpha}.
+	\end{align*}
+	Using the above, we now have
+	\begin{align*}
+		\theta^{(u+1)/2} &\geq e^{-c\alpha(u+1)/2} \\
+			&\geq e^{-c\beta} \\
+			&= \frac{\int_\beta^\infty c_0e^{ct}\d{t}}{\int_0^\infty c_0e^{ct}\d{t}} \geq \frac{\int_\beta^1 G(t)\d{t}}{\int_0^1 G(t)\d{t}},
+	\end{align*}
+	thus resulting in a contradiction to \Cref{eqn: 4.17} and thus proving the claim.
+\end{proof}
+
+% Setting $F$ to be identically $1$ in the above result, we get the following.
+
+% \begin{corollary}
+% 	Let $K$ be a convex body in $\Rn$ and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $\vol(K\setminus uB_2^n)\leq\theta^{(u+1)/2}\vol(K)$.	
+% \end{corollary}
+% *** HOW??? ***
+
+Before we conclude this section, we give two more lemmas that will be useful in the future.
+
+\begin{lemma}
+	Let $K$ be a convex body and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $K\subseteq \frac{2n}{1-\theta}B_2^n$.
+\end{lemma}
+\begin{proof}
+	Let $x\in K$ be the point farthest from the origin and $R=\norm{x}$. It suffices to show the result for $\conv{(K\cap B_2^n)\cup\{x\}}$ (Why?). Therefore, assume $K$ to be of this form.\\
+	Note that $K$ is contained in
+	\[ \left\{x+\left(\frac{R+1}{R-1}\right) v : x+v\in K\setminus B_2^n\right\}. \]
+	Then,
+	\[ \vol(K) \leq \left(\frac{R+1}{R-1}\right)^n \vol(K\setminus B_2^n) \leq \left(\frac{R+1}{R-1}\right)^n \vol(K). \]
+	That is,
+	\[ R \leq \frac{2}{1-\theta^{1/n}} \leq \frac{2n}{1-\theta}.\qedhere \]
+\end{proof}
+
+\begin{lemma}
+	Let $0\leq t\leq 1$. If $\vol(K\setminus (x+K)) \leq 1/2 \vol(K)$, then $\vol(K\setminus (tx+K)) \leq (2t/3) \vol(K)$.
+\end{lemma}
+\begin{proof}
+	Define $\psi:[0,1]\to\R$ by
+	\[ \psi(u) = \frac{\vol(K\cap (ux+K))}{\vol(K)}. \]
+	\Cref{cor: 4.30} (or rather, the line right after it) implies that $\psi$ is log-concave. We have $\psi(0)=1$ and $\psi(1)\leq 1/2$. Therefore, $\psi(t) \leq 2^{-t}$ so
+	\[ \vol(K\setminus (tx+K)) = (1 - 2^{-t})\vol(K) \leq \frac{2t}{3}\vol(K).\qedhere \]
 \end{proof}
 
 % \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
