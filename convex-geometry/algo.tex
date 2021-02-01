@@ -779,10 +779,11 @@ Even conversely, if for some probability distribution $Q'$, the function $\Phi':
 is invariant under complementation, then $Q'$ is stationary.\\
 
 \begin{fdef}
-The \textit{conductance} of the Markov scheme is then defined as
-\[ \Phi = \inf_{0<Q(A)<1/2} \frac{\Phi(A)}{Q(A)}. \]
-For $0\leq s\leq 1$, the \textit{$s$-conductance} is defined as
-\[ \Phi_s = \inf_{s < Q(A) \leq 1/2} \frac{\Phi(A)}{Q(A)-s}. \]
+	\label{def: conductance}
+	The \textit{conductance} of the Markov scheme is then defined as
+	\[ \Phi = \inf_{0<Q(A)<1/2} \frac{\Phi(A)}{Q(A)}. \]
+	For $0\leq s\leq 1$, the \textit{$s$-conductance} is defined as
+	\[ \Phi_s = \inf_{s < Q(A) \leq 1/2} \frac{\Phi(A)}{Q(A)-s}. \]
 \end{fdef}
 
 The lower the conductance is, the more likely the Markov chain is to ``get stuck" somewhere.\\
@@ -922,20 +923,20 @@ The next result is analogous to \Cref{large conductance implies rapidly mixing} 
 
 \begin{ftheo}
 \label{decrease in markov distance}
-Let $0\leq s\leq 1/2$ and suppose we have $c_1,c_2$ such that for $s\leq x\leq 1-s$,
-\[ h_0(x) \leq c_1 + c_2\min\{\sqrt{x-s},\sqrt{1-s-x}\}. \]
-Then for every $k\geq 0$ and $s\leq x\leq 1-s$,
-\[ h_k(x) \leq c_1 + c_2\min\{\sqrt{x-s},\sqrt{1-s-x}\} \left(1-\frac{\Phi_s^2}{2}\right)^k. \]
+	Let $0\leq s\leq 1/2$ and suppose we have $c_1,c_2$ such that for $s\leq x\leq 1-s$,
+	\[ h_0(x) \leq c_1 + c_2\min\{\sqrt{x-s},\sqrt{1-s-x}\}. \]
+	Then for every $k\geq 0$ and $s\leq x\leq 1-s$,
+	\[ h_k(x) \leq c_1 + c_2\min\{\sqrt{x-s},\sqrt{1-s-x}\} \left(1-\frac{\Phi_s^2}{2}\right)^k. \]
 \end{ftheo}
 \begin{proof}
-We prove this via induction. It clearly holds for $k=0$. Suppose that $k\leq 1$ and $s\leq x\leq 1/2$. Using induction,
-\begin{align*}
-	h_k(x) &\leq \frac{1}{2} \left(h_{k-1}(x-2\Phi_s(x-s)) + h_{k-1}(x+2\Phi_s(x-s))\right) \\
-	&\leq c_1 + \frac{c_2}{2} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{x-2\Phi_s(x-s)-s} + \sqrt{x+2\Phi_s(x-s)-s}\right) \\
-	&= c_1 + \frac{c_2}{2} \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{1-2\Phi_s} + \sqrt{1+2\Phi_s}\right) \\
-	&\leq c_1 + \frac{c_2}{2}\sqrt{x-s}\left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(1-\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8} + 1+\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8}\right) \\
-	&= c_1 + c_2 \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^k \qedhere
-\end{align*}
+	We prove this via induction. It clearly holds for $k=0$. Suppose that $k\leq 1$ and $s\leq x\leq 1/2$. Using induction,
+	\begin{align*}
+		h_k(x) &\leq \frac{1}{2} \left(h_{k-1}(x-2\Phi_s(x-s)) + h_{k-1}(x+2\Phi_s(x-s))\right) \\
+		&\leq c_1 + \frac{c_2}{2} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{x-2\Phi_s(x-s)-s} + \sqrt{x+2\Phi_s(x-s)-s}\right) \\
+		&= c_1 + \frac{c_2}{2} \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(\sqrt{1-2\Phi_s} + \sqrt{1+2\Phi_s}\right) \\
+		&\leq c_1 + \frac{c_2}{2}\sqrt{x-s}\left(1-\frac{\Phi_s^2}{2}\right)^{k-1} \left(1-\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8} + 1+\frac{2\Phi_s}{2}-\frac{4\Phi_s^2}{8}\right) \\
+		&= c_1 + c_2 \sqrt{x-s} \left(1-\frac{\Phi_s^2}{2}\right)^k \qedhere
+	\end{align*}
 \end{proof}
 
 Writing the above in a slightly more useful form,
@@ -1032,6 +1033,7 @@ The next inequality can be thought of a central limit theorem style inequality.
 While we have used Metropolis chains previously, let us define them more formally for the sake of completeness.
 
 \begin{fdef}[Metropolis Chain]
+	\label{def: metropolis chain}
 	Let $\mathcal{M}$ be a time-reversible Markov chain on $(\Omega,\mathcal{A})$ and let $F:\Omega\to\R$ be a non-negative measurable function. Suppose that $\overline{F} = \displaystyle\int_\Omega F\d{Q}$ is finite. Denote by $\mu_F$ the measure with density $F$. We then define the \textit{filtering} of $\mathcal{M}$ by $F$, denoted $\mathcal{M}/F$, as the Markov scheme with transition probabilities
 	\[
 		P_u^F(A) = 
@@ -1394,10 +1396,38 @@ Before we conclude this section, we give two more lemmas that will be useful in 
 	\[ \vol(K\setminus (tx+K)) = (1 - 2^{-t})\vol(K) \leq \frac{2t}{3}\vol(K).\qedhere \]
 \end{proof}
 
-% \subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
 
-% As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done using this general case.\\
-% The basic walk $\mathcal{M}$ is as follows: when we are at $v_k$, we let $v_{k+1}=v_k$ with probability $1/2$. Otherwise, we generate a random vector $u$ from the uniform distribution on $G$. If $v_k+u\in K$, set $v_{k+1}=v_k+u$ and otherwise, set $v_{k+1}=v_k$. This is termed as the \textit{lazy random walk in $K$ with $G$-steps}.\\
+\subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
+
+As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done in this general case.
+
+\subsubsection{Ball-Step}
+
+The basic walk $\mathcal{M}$ is as follows: when we are at $v_k$, we let $v_{k+1}=v_k$ with probability $1/2$. Otherwise, we generate a random vector $u$ from the uniform distribution on $G$. If $v_k+u\in K$, set $v_{k+1}=v_k+u$ and otherwise, set $v_{k+1}=v_k$. This is termed as the \textit{lazy random walk in $K$ with $G$-steps}.\\
+In this particular algorithm, we further filter it to obtain a Metropolis chain (recall that we defined this in \Cref{def: metropolis chain}). That is, for any measurable $A$ such that $x\not\in A$,
+\[ P_x(A) = \frac{1}{2\vol(G)} \int_{(x+G)\cap A} \min\left\{1,\frac{F(y)}{F(x)}\right\}\d{y} = \frac{1}{2\vol(G)} \int_{(x+G)\cap A} \min\left\{\frac{1}{F(y)},\frac{1}{F(x)}\right\}\d{\mu}_F(y) \]
+and
+\[ P_x(x) = \frac{1}{2} + \frac{1}{2\vol(G)} \int_{x+G} \max\left\{0,1-\frac{F(y)}{F(x)}\right\}\d{y}. \]
+The stationary distribution of the above chain is that 
+
+Recall from the discussion after \Cref{def: conductance} that we denote by $H_t$ (for $0\leq t\leq 1/2$) the set of points such that
+\[ \int_{x+G} \min\{F(x),F(y)\}\d{y} < tF(x)\vol(G). \]
+We also saw that the $(Q_F(H_t)/2)$-conductance of the chain is at most $2t$.\\
+
+The main result of this section, which is a sort of localization lemma in the context of this problem, says that if the local conductance is large and the diameter (not the usual diameter) of $K$ is small, then the overall conductance is large.
+
+\begin{ftheo}
+	Let $0\leq t\leq 1/2$, $0<\theta<1$, and $s=Q_F(H_t)$. Assume that for all $x,y\in K$,
+	\[ \vol(G\cap (\theta(x-y)+G)) \geq \frac{1}{2}\vol(G). \]
+	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $(1/6)t^2\theta$.
+\end{ftheo}
+
+\begin{proof}
+	Alternatively, the above result states that
+	\[ \int_{S_1} \int_{S_2\cap (x+G)} \min\{F(x),F(y)\}\d{y}\d{x} \geq \frac{t^2\theta\vol(G)}{6} \min\left\{Q_F(S_1)-\frac{7s}{t}, Q_F(S_2)-\frac{7s}{t}\right\}. \]
+	We may assume that $Q_F(S_1)$ and $Q_F(S_2)$ are both greater than $7s/t$.
+\end{proof}
+
 
 % Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
 % \[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
