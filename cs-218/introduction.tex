@@ -312,7 +312,7 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 \end{solution*}
 
 \begin{exercise}
-	You are given a set $S$ of $n$ pairs of numbers $(\ell_1,c_1),(\ell_2,c_2),\ldots,(\ell_n,c_n)$ and some $C$ (all positive). You are required to find a subset $T$ of $[n]$ such that $\sum_{i\in T} c_i \leq C$ while maximizing the sum $\sum_{i\in T}\ell_i$. Consider the algorithm to do the same that picks jobs with the largest values of $\ell_i/c_i$ until the sum of the $c_i$ crosses the limit $C$ (if the current sum is greater than $C$, immediately return).
+	You are given a set $S$ of $n$ pairs of numbers $(\ell_1,c_1),(\ell_2,c_2),\ldots,(\ell_n,c_n)$ and some $C$ (all positive). You are required to find a subset $T$ of $[n]$ such that $\sum_{i\in T} c_i \leq C$ while maximizing the sum $\sum_{i\in T}\ell_i$. Consider the algorithm to do the same that picks jobs with the largest values of $\ell_i/c_i$. This is described in \Cref{algo: ex 1.4}.
 	\begin{enumerate}[(a)]
 		\item Show that this algorithm need not find the optimal subset.
 		\item Can you suggest any other greedy strategy to come up with the optimal subset in the above setting?
@@ -320,19 +320,6 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 	\end{enumerate}
 	The above problem is more often known as the ``knapsack problem''.
 \end{exercise}
-\begin{solution*}
-	% \phantom{pog}
-	\begin{enumerate}[(a)]
-		\item Consider the set of tuples $\{(100,10),(10,5)\}$ with $C=5$. The algorithm returns the empty subset since the job with the highest $\ell_i/c_i$ crosses the limit $C$. However, it is obvious that we can choose $(10,5)$.
-
-		\item Rather than immediately returning if the sum crosses $C$, continue the iteration discarding the current job. This is described more concretely in \Cref{algo: sol 1.4(b)}. Correctness is easily proved as well since the problem boils down to choosing $x_i\in\{0,1\}$ for each $i$ such that
-		\[ \sum_{1\leq i\leq n} x_i c_i \left(\frac{\ell_i}{c_i}\right) \]
-		is maximized subject to the constraint $\sum_{1\leq i\leq n} x_i c_i \leq C$.
-
-		\item In the context of part (b), this just means that instead of choosing an $x_i\in\{0,1\}$ for each $i$, we choose $f_i\in[0,1]$ for each $i$. The algorithm is very similar in spirit to that given in the problem statement (of (a)). It is described explicitly in \Cref{algo: sol 1.4(c)}.
-
-	\end{enumerate}
-\end{solution*}
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -340,7 +327,7 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 	\KwIn{A set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
 	\KwOut{$T\subseteq[n]$ that maximizes $\sum_{i\in S}\ell_i$ subject to the constraint $\sum_{i\in S}c_i\leq C$}
 	\SetKwFunction{Sort}{merge-sort}
-	\Sort{$S$, $\ell_i/c_i$}\;
+	\Sort{$S$, $\ell_i/c_i$} \tcp*{Arrange in non-increasing order of $(\ell_i/c_i)$}
 	$S\gets\emptyset$, $\var{cost}\gets 0$\;
 	\For{$1\leq i\leq n$}{
 		\If{$\var{cost}+c_i\leq C$}{
@@ -349,8 +336,21 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 		}
 	}
 	\Return{$S$}
-	\caption{Solution 1.4(b)}\label{algo: sol 1.4(b)}
+	\caption{Exercise 1.4}\label{algo: ex 1.4}
 \end{algorithm}
+
+\begin{solution*}
+	% \phantom{pog}
+	\begin{enumerate}[(a)]
+		\item Consider the set of tuples $\{(6,2),(9,3),(6,3),(8,4)\}$ with $C=7$. The algorithm returns the set $\{(6,2),(9,3)\}$ with $\sum_i \ell_i=15$ whereas the optimal solution is $\{(9,3),(8,4)\}$ with $\sum_i \ell_i = 17$.
+
+		\item 
+
+		\item In the context of part (b), this just means that instead of choosing an $x_i\in\{0,1\}$ for each $i$, we choose $f_i\in[0,1]$ for each $i$. The algorithm is very similar in spirit to that given in the problem statement (of (a)). It is described explicitly in \Cref{algo: sol 1.4(c)}. Correctness is easily shown.
+
+	\end{enumerate}
+\end{solution*}
+
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -367,7 +367,6 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 			$\var{cost}\gets\var{cost}+c_i$\;
 		} {
 			$f_i \gets (C - \var{cost})/c_i$\;
-			$\var{cost} = C$\;
 			break\;
 		}
 	}
@@ -402,18 +401,18 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 % 	Given a set $\mathcal{S}$ of $n$ intervals, consider the graph $G$ whose vertices are elements of $\mathcal{S}$ and with an edge between intervals that intersect. Now, recall that a subset of vertices of a graph is a vertex cover if and only if its complement is an independent set. In the context of this problem, an independent set is an interval scheduling whereas a vertex cover is precisely what this problem asks for. Therefore, it suffices to solve the interval scheduling problem on $\mathcal{S}$ (in this context, it just corresponds to a maximum independent set) to get a set $\mathcal{A}$ of intervals, and return $\mathcal{S}\setminus\mathcal{A}$.
 % \end{solution*}
 
-\begin{exercise}
-	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
-\end{exercise}
-\begin{solution*}
-	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
-	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<a_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
+% \begin{exercise}
+% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
+% \end{exercise}
+% \begin{solution*}
+% 	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
+% 	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<a_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
 
-	It is easy to see that any interval is contained in the union of these intervals. Let $\mathcal{A}=\{x_1,\ldots,x_k\}$ be the resulting set of chosen intervals and $\mathsf{OPT}=\{y_1,\ldots,y_m\}$ be an optimal solution (arranged in increasing order of $a_i$ and $b_i$).
-	% We wish to show that $m\geq r$ ($=$ instead of $\geq$, in fact).
-	This proof is nearly identical to the proof of correctness of our solution to the interval scheduling problem. For each $r\in[k]$, we claim that either $a_{y_r}<a_{x_{r-1}}$ and $b_{y_r}>b_{x_{r-1}}$, or $a_{y_r}\geq a_{x_{r-1}}$.\\ 
-	This is easily shown by induction. 
-\end{solution*}
+% 	It is easy to see that any interval is contained in the union of these intervals. Let $\mathcal{A}=\{x_1,\ldots,x_k\}$ be the resulting set of chosen intervals and $\mathsf{OPT}=\{y_1,\ldots,y_m\}$ be an optimal solution (arranged in increasing order of $a_i$ and $b_i$).
+% 	% We wish to show that $m\geq r$ ($=$ instead of $\geq$, in fact).
+% 	This proof is nearly identical to the proof of correctness of our solution to the interval scheduling problem. For each $r\in[k]$, we claim that either $a_{y_r}<a_{x_{r-1}}$ and $b_{y_r}>b_{x_{r-1}}$, or $a_{y_r}\geq a_{x_{r-1}}$.\\ 
+% 	This is easily shown by induction. 
+% \end{solution*}
 
 % \begin{algorithm}
 % 	\DontPrintSemicolon
