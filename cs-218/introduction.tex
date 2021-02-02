@@ -311,6 +311,69 @@ The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)
 	\end{enumerate}
 \end{solution*}
 
+\begin{exercise}
+	You are given a set $S$ of $n$ pairs of numbers $(\ell_1,c_1),(\ell_2,c_2),\ldots,(\ell_n,c_n)$ and some $C$ (all positive). You are required to find a subset $T$ of $[n]$ such that $\sum_{i\in T} c_i \leq C$ while maximizing the sum $\sum_{i\in T}\ell_i$. Consider the algorithm to do the same that picks jobs with the largest values of $\ell_i/c_i$ until the sum of the $c_i$ crosses the limit $C$ (if the current sum is greater than $C$, immediately return).
+	\begin{enumerate}[(a)]
+		\item Show that this algorithm need not find the optimal subset.
+		\item Can you suggest any other greedy strategy to come up with the optimal subset in the above setting?
+		\item Suppose that a ``fractional'' part of each of the $n$ pairs can be taken. Choosing a fraction $f_i$ of the item $c_i$ adds cost $c_i f_i$. Give an optimal algorithm in this case. That is, we want to maximize $\sum_{i\in [n]} f_i \ell_i$ constrained by $\sum_{i\in[n]} f_i c_i \leq C$.
+	\end{enumerate}
+	The above problem is more often known as the ``knapsack problem''.
+\end{exercise}
+\begin{solution*}
+	% \phantom{pog}
+	\begin{enumerate}[(a)]
+		\item Consider the set of tuples $\{(100,10),(10,5)\}$ with $C=5$. The algorithm returns the empty subset since the job with the highest $\ell_i/c_i$ crosses the limit $C$. However, it is obvious that we can choose $(10,5)$.
+
+		\item Rather than immediately returning if the sum crosses $C$, continue the iteration discarding the current job. This is described more concretely in \Cref{algo: sol 1.4(b)}. Correctness is easily proved as well since the problem boils down to choosing $x_i\in\{0,1\}$ for each $i$ such that
+		\[ \sum_{1\leq i\leq n} x_i c_i \left(\frac{\ell_i}{c_i}\right) \]
+		is maximized subject to the constraint $\sum_{1\leq i\leq n} x_i c_i \leq C$.
+
+		\item In the context of part (b), this just means that instead of choosing an $x_i\in\{0,1\}$ for each $i$, we choose $f_i\in[0,1]$ for each $i$. The algorithm is very similar in spirit to that given in the problem statement (of (a)). It is described explicitly in \Cref{algo: sol 1.4(c)}.
+
+	\end{enumerate}
+\end{solution*}
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\KwIn{A set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
+	\KwOut{$T\subseteq[n]$ that maximizes $\sum_{i\in S}\ell_i$ subject to the constraint $\sum_{i\in S}c_i\leq C$}
+	\SetKwFunction{Sort}{merge-sort}
+	\Sort{$S$, $\ell_i/c_i$}\;
+	$S\gets\emptyset$, $\var{cost}\gets 0$\;
+	\For{$1\leq i\leq n$}{
+		\If{$\var{cost}+c_i\leq C$}{
+			$S\gets S\cup\{i\}$\;
+			$\var{cost}\gets\var{cost}+c_i$\;
+		}
+	}
+	\Return{$S$}
+	\caption{Solution 1.4(b)}\label{algo: sol 1.4(b)}
+\end{algorithm}
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\KwIn{An set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
+	\KwOut{An $f_i\in[0,1]$ for each $i$ that maximizes $\sum_{i\in S} f_i \ell_i$ subject to the constraint $\sum_{i\in S} f_i c_i\leq C$}
+	\SetKwFunction{Sort}{merge-sort}
+	\Sort{$S$, $\ell_i/c_i$}\;
+	$S\gets\emptyset$, $\var{cost}\gets 0$\;
+	$f_i\gets 0$ for each $i$\;
+	\For{$1\leq i\leq n$}{
+		\eIf {$\var{cost}+c_i\leq C$} {
+			$f_i\gets 1$\;
+			$\var{cost}\gets\var{cost}+c_i$\;
+		} {
+			$f_i \gets (C - \var{cost})/c_i$\;
+			$\var{cost} = C$\;
+			break\;
+		}
+	}
+	\Return{$(f_i)$}
+	\caption{Solution 1.4(c)}\label{algo: sol 1.4(c)}
+\end{algorithm}
 
 \begin{exercise}
 	Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{1}(i),t_{2}(i)>0$. The part of duration $t_{1}(i)$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{2}(i)$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.
