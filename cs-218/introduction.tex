@@ -581,6 +581,6 @@ Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ 
 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval not in the subset overlaps with at least one interval in the subset.
 \end{exercise}
 \begin{solution*}
-	Consider the graph $G=(V,E)$ where $V$ is the set of intervals and there is an edge between any two intervals intersect. This problem merely asks for the smallest dominating set of $G$.\footnotemark{} Further, the interval scheduling problem gives the largest independent set of $G$. Recall from graph theory that a minimal dominating set of a graph is equal to a maximal independent set. Therefore, it suffices to just give the same output as the interval scheduling problem,
+	Consider the graph $G=(V,E)$ where $V$ is the set of intervals and there is an edge between any two intervals intersect. This problem merely asks for the smallest dominating set of $G$.\footnotemark{} Further, the interval scheduling problem gives the largest independent set of $G$. Recall from graph theory that a minimal dominating set of a graph is equal to a maximal independent set. Therefore, it suffices to just give the same output as the interval scheduling problem.
 \end{solution*}
 \footnotetext{A dominating set of a graph $G=(V,E)$ is a set $S\subseteq V$ such that the neighbourhood of $S$ is $V$.}
