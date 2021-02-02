@@ -556,19 +556,6 @@ How many ``cross-pairs'' need to be checked though? Observe that we don't need t
 	
 % \end{solution*}
 
-% \begin{exercise}
-% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
-% \end{exercise}
-% \begin{solution*}
-% 	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
-% 	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<b_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
-
-% 	It is easy to see that any interval is contained in the union of these intervals. Let $\mathcal{A}=\{x_1,\ldots,x_k\}$ be the resulting set of indices chosen intervals and $\mathsf{OPT}=\{y_1,\ldots,y_m\}$ be an optimal solution.
-% 	% We wish to show that $m\geq r$ ($=$ instead of $\geq$, in fact).
-% 	It suffices to consider the first case of the algorithm (Why? It splits into smaller disjoint problems). \\ 
-% 	This is easily shown by induction. 
-% \end{solution*}
-
 % \begin{algorithm}
 % 	\DontPrintSemicolon
 % 	\SetNoFillComment
@@ -606,4 +593,16 @@ How many ``cross-pairs'' need to be checked though? Observe that we don't need t
 		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
 	\end{itemize}
 	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
+\end{solution*}
+
+\begin{exercise}
+	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
+\end{exercise}
+\begin{solution*}
+	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
+	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<b_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
+	It is easy to see that any interval is contained in the union of these intervals.\\
+
+	To show correctness, it suffices to consider the first case of the algorithm alone (Why? It splits into smaller disjoint problems). Let $S_i$ be the set of indices chosen by the algorithm so far when we are at index $i$. We shall show that for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, it is trivial since $\emptyset$ is a subset of any optimal solution $\mathsf{OPT}$. Suppose it is true for some $r-1\geq 0$. If the algorithm does not choose $r$, then $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$ will work. Now, let $r$ be chosen and $k$ be the most recently chosen index. It is easily shown that $\mathsf{OPT}_{r-1}$ must contain some $j$ such that $a_j<b_k<b_j$ (How?). We can then set $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{k\}$, thus proving the claim.\\
+	The required follows by the above claim (because the output of the algorithm is a valid solution).
 \end{solution*}
