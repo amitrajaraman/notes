@@ -367,8 +367,13 @@ Suppose we split it into two halves based on their $x$-coordinates. Recursively 
 How many ``cross-pairs'' need to be checked though? Observe that we don't need to check anything for the points that are farther than $d$ from the central separating line (Why?). But in the worst case, we might still need to check several points.
 
 \begin{lemma}
-	Let $S_y$ be the points in the distance $d$ region sorted in decreasing order of their $y$ coordinates. Let these points be $(q_1,\ldots,q_m)$. We claim that if the distance between $q_i$ and $q_j$ is less than $d$, then $j-i\leq 15$.
+	Let $S_y=(q_1,\ldots,q_m)$ be the points in the distance $d$ region sorted in decreasing order of their $y$ coordinates. If the distance between $q_i$ and $q_j$ is less than $d$, then $j-i\leq 11$.
 \end{lemma}
+\begin{proof}
+	Consider the distance $d$ region split into (closed) squares of side length $(d/2)$. In each row, there are $4$ squares. Note that in each box, there is at most $1$ point (if there was more than one, the minimum distance in one of the halves would be less than $d$). Suppose that there are more than $11$ indices between $i$ and $j$. Then at least $2$ full rows separate the boxes containing $q_i$ and $q_j$. However, this would imply that the distance between $q_i$ and $q_j$ is $\geq d$, thus giving a contradiction and proving the claim.
+\end{proof}
+
+This then gives an $\mathcal{O}(n\log n)$ algorithm -- the combining step takes $\mathcal{O}(n)$ time (for each point in $S_y$, check the points that are at most 11 indices away) thus giving an overall recursion $T(n)=2T(n/2)+\mathcal{O}(n)$.
 
 \subsection{Exercises}
 
