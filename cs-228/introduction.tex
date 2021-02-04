@@ -1007,3 +1007,99 @@ A proof method implicitly defines a non-deterministic proof search algorithm. To
 	\[ 3\left(\sum_{1\leq i\leq k} v_i\right)^2 - 2\sum_{1\leq i<j\leq k} v_i v_j = 3n^2 - 2\sum_{1\leq i<j\leq k} v_i v_j \leq 3n^2, \]
 	thus proving the claim.
 \end{solution*}
+
+\subsection{Lecture 10}
+
+\subsubsection{Completeness of the resolution proof system}
+
+If $\Sigma$ is unsatisfiable, are we guaranteed to derive $\Sigma\vdash\bot$ via resolution?\\
+
+We define the set $\Res^n(\Sigma)$ of clauses that are derivable via resolution proofs of depth $n$ from the set of clauses $\Sigma$. So $\Res^0(\Sigma)\coloneqq\Sigma$ and
+\[ \Res^{n+1}(\Sigma)\coloneqq\Res^n(\Sigma)\cup\{C : C\text{ is a resolvent of clauses }C_1,C_2\in\Res^n(\Sigma)\} \]
+
+For example,
+\[ \Res^1(\{p\lor q, \neg p\lor q, \neg q\lor r, \neg r\}) = \Sigma\cup\{q, p\lor r, \neg p\lor r,\neg q\}. \]
+
+Since there are only finitely many variables in $\Sigma$, we can only derive finitely many clauses.
+
+\begin{definition}
+	Let $\Sigma$ be a finite set of clauses. There exists an $m$ such that
+	\[ \Res^{m+1}(\Sigma) = \Res^m(\Sigma). \]
+	We define $\Res^*(\Sigma)\coloneqq\Res^m(\Sigma)$.
+\end{definition}
+
+\begin{theorem}
+	If a finite set of clauses $\Sigma$ is unsatisfiable, $\bot\in\Res^*(\Sigma)$.
+\end{theorem}
+\begin{proof}
+	We prove this by induction over the cardinality of $\Sigma$. We assume there are no tautology classes in $\Sigma$.\\
+	Let $\Sigma=\{p\}$. If it is unsat, then $\{p,\neg p\}\subseteq\Sigma$. The derivation to get $\bot$ is obvious.\\
+	Suppose it holds for all formulas containing variables $p_1,\ldots,p_n$. Let $\Sigma$ be an unsat set of clauses with variables $p_1,\ldots,p_n,p$. Let $\Sigma_0$ and $\Sigma_1$ be the set of clauses from $\Sigma$ that have $p$ and $\neg p$ respectively. Let $\Sigma_*$ be the remaining clauses. Clearly, $\Sigma=\Sigma_0\land\Sigma_1\land\Sigma_*$. Now, define $\Sigma_0'=\{C\setminus\{p\} : C\in\Sigma_0\}$. Similarly define $\Sigma_1'$ by removing $\neg p$.\\
+	It may be shown that $\Sigma_0'\vDash\Sigma_0$ and $\Sigma_1'\vDash\Sigma_1$.\\
+
+	Consider the formula $(\Sigma_0'\land\Sigma_*)\lor(\Sigma_1'\land\Sigma_*)$. Clearly, $p$ is not in this formula.\\
+	We claim that if this formula is sat, so is $\Sigma$. Let $m$ satisfy this formula. Then $m\vDash\Sigma_*$. If $m\vDash(\Sigma_1'\land\Sigma_*)$, then since all the clauses of $\Sigma_0$ have $p$, $m[p\mapsto 1]\vDash\Sigma_0$ and since $\Sigma_1'$ and $\Sigma_*$ don't have $p$, $m[p\mapsto 1]\vDash\Sigma_1'$ and $m[p\mapsto 1]\vDash\Sigma_*$. Since $\Sigma_1'\vDash\Sigma_1$, $m[p\mapsto 1]\vDash\Sigma_1$. Therefore, $m[\mapsto 1]\vDash (\Sigma_0\land\Sigma_1\land\Sigma_*)$. Similarly, if $m\vDash(\Sigma_0'\land\Sigma_*)$, then $m[p\mapsto 0]\vDash(\Sigma_0\land\Sigma_1\land\Sigma_*)$.\\
+	Now, since $\Sigma$ is unsat, so is $(\Sigma_0'\land\Sigma_*)\lor(\Sigma_1'\land\Sigma_*)$.\\
+
+	Since they don't have $p$, $\bot\in\Res^*(\Sigma_0'\land\Sigma_*)$ and $\bot\in\Res^*(\Sigma_1'\land\Sigma_*)$. Choose a derivation of $\bot$ from both.\\
+	If $\bot$ was derived using only clauses from $\Sigma_*$ from either proof. Then we are done.\\
+	If $\Sigma_0'$ and $\Sigma_1'$ are involved in each of the derivations, then $p\in\Res^*(\Sigma_0\land\Sigma_*)$ and $\neg p\in\Res^*(\Sigma_1\land\Sigma_*)$ (``add'' $p$ and $\neg p$ to each of the clauses that involve $\Sigma_0'$ and $\Sigma_1'$ respectively). Again, the required follows, thus proving the theorem.
+\end{proof}
+
+\subsubsection{Compactness and Implication}
+
+Let $\Sigma$ be a finite set of formulas and $F$ be a formula. The following are equivalent.
+\begin{enumerate}[(i)]
+	\item $\Sigma\vdash F$.
+	\item $\emptyset\in\Res^*(\Sigma')$, where $\Sigma'$ is the CNF of $\bigwedge\Sigma\land\neg F$.
+	\item $\Sigma\vDash F$.
+\end{enumerate}
+
+(i) to (iii) says that proof rules are sound. (ii) to (i) says that a proof can be generated. (iii) to (ii) is what we showed in the previous theorem.\\
+
+But what do we do in the case where $\Sigma$ is infinite?
+
+Suppose $\Sigma''\vDash F$ and $\Sigma''$ is infinite. We shall show that this implies that this is truee iff there is some finite $\Sigma\subseteq\Sigma''$ such that $\Sigma\vDash F$.\\
+% If $\Sigma''\cup\{\neg F\}$ is sat, then every finite subset of $$
+
+\begin{theorem}
+	Let $S$ be an infinite set of finite binary string. There exists an infinite string $w$ such that
+	\[ |\{w'\in S : w_n \text{ is a prefix of }w'\}|=\infty \]
+	for all $n$ where $w_n$ is a prefix of $w$ of length $n$.
+\end{theorem}
+\begin{proof}
+	We inductively consutrct $w$ and keep shrinking $S$. Initially, $w=\epsilon$. Let $S_0=\{u\in S : u\text{ starts with }0\}$, $S_1 = \{u\in S : u \text{ starts with }1\}$, and $S_\epsilon = S \cap \{w\}$. Clearly, $S=S_\epsilon\cup S_0\cup S_1$. At least one of $S_0$ and $S_1$ is infinite. Suppose $S_0$ is infinite. Then ``expand'' $w$ to $0$ and restrict to $S=S_0$.\\
+	Suppose we have $w$ of length $n$ and $w$ is a prefix of all string in $S$. Again, let $S_0=\{u\in S : u\text{ has }0\text{ at the $n$th position}\}$, $S_1 = \{u\in S : u \text{ has }1\text{ at the $n$th position}\}$, and $S_\epsilon = S\cap\{w\}$. If $S_0$ is infinite, expand $w$ to $w0$ and $S=S_0$. Otherwise, $w=w1$ and $S=S_1$.\\
+	The result follows.
+\end{proof}
+
+\begin{theorem}
+	A set $\Sigma$ of formulas is satisfiable iff every finite subset of $\Sigma$ is satisfiable.
+\end{theorem}
+
+\begin{proof}
+	The forward direction is trivial.\\
+	Order the formulas of $\Sigma$ as $\Sigma=\{F_1,F_2,\ldots\}$. Let $\{p_1,p_2,\ldots\}$ be an ordered list of variables from $\Vars(\Sigma)$ such that we first write formulas in $\Vars(F_1)$, then $\Vars(F_2)\setminus\Vars(F_1)$, and so on.\\
+	We have models $m_n$ such that $m_n\vDash\bigwedge_{i=1}^n F_i$.\\
+	We assume $m_n : \Vars\left(\bigwedge_{i=1}^n F_i\right)\to\B$. We can think of the $(m_n)$ as finite binary strings since the variables are ordered $p_1,p_2,\ldots$ and $m_n$ assigns values to the first $k$ variables as a string. let $S=\{m_n\text{ as a string}:n>0\}$. Let $m$ be the infinite string as mentioned in the previous theorem.\\
+	If we then interpret $m$ as a model, then $m\vDash\Sigma$. Consider a formula $F_n\in\Sigma$ and suppose there are $k$ variables up to $F_n$. Let $m'$ be the prefix of length $k$ of $m$. There must be $m_j\in S$ such that $m'$ is a prefix of $m_j$ and $j>n$. Since $m_j$ satisfies the conjunction of the $n$ formulas, $m_j\vDash F_n$. Therefore, $m'\vDash F_n$ and $m\vDash F_n$. 
+\end{proof}
+
+If we can enumerate a set using some algorithm, it is said to be \textit{effectively enumerable}.\\
+
+A yes/no problem is \textit{semi-decidable} if we have an algorithm for only one side of the problem is decidable (either yes or no).
+
+\begin{theorem}
+	If $\Sigma$ is effectively enumerable, $\Sigma\vDash F$ is semi-decidable.
+\end{theorem}
+\begin{proof}
+	If $\Sigma\vDash F$, there is a finite set $\Sigma_0\subseteq\Sigma$ such that $\Sigma_0\vDash F$. Since $\Sigma$ is effectively enumerable, let $G_1,G_2,\ldots$ be an enumeration of it. Let $S_n = \{G_1,\ldots,G_n\}$.\\
+	There is then some $k$ such that $S_k\vDash F$. We may enumerate $S_n$ and check if $S_n\vDash F$ (which is decidable by virtue of truth tables). Therefore, if $\Sigma\vDash F$, we will eventually say yes. So it is decidable if the answer is yes, but not if no.
+\end{proof}
+
+\subsection{Lecture 11}
+
+\subsubsection{DPLL (Davis-Putnam-Loveland-Logemann) Method}
+
+
+

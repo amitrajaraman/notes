@@ -370,10 +370,30 @@ How many ``cross-pairs'' need to be checked though? Observe that we don't need t
 	Let $S_y=(q_1,\ldots,q_m)$ be the points in the distance $d$ region sorted in decreasing order of their $y$ coordinates. If the distance between $q_i$ and $q_j$ is less than $d$, then $j-i\leq 11$.
 \end{lemma}
 \begin{proof}
-	Consider the distance $d$ region split into (closed) squares of side length $(d/2)$. In each row, there are $4$ squares. Note that in each box, there is at most $1$ point (if there was more than one, the minimum distance in one of the halves would be less than $d$). Suppose that there are more than $11$ indices between $i$ and $j$. Then at least $2$ full rows separate the boxes containing $q_i$ and $q_j$. However, this would imply that the distance between $q_i$ and $q_j$ is $\geq d$, thus giving a contradiction and proving the claim.
+	Consider the distance $d$ region split into (closed) squares of side length $(d/2)$. In each row, there are $4$ squares. Note that in each box, there is at most $1$ point (if there was more than one, the minimum distance in one of the halves would be less than $d$). Suppose that there are more than $11$ indices between $i$ and $j$. Then at least $2$ full rows separate the boxes containing $q_i$ and $q_j$. However, this would imply that the distance between $q_i$ and $q_j$ is $\geq d$, thus yielding a contradiction and proving the claim.
 \end{proof}
 
-This then gives an $\mathcal{O}(n\log n)$ algorithm -- the combining step takes $\mathcal{O}(n)$ time (for each point in $S_y$, check the points that are at most 11 indices away) thus giving an overall recursion $T(n)=2T(n/2)+\mathcal{O}(n)$.
+This then gives an $\mathcal{O}(n\log n)$ algorithm. Computing the first half of $P_x$ (or $P_y$) takes $\mathcal{O}(n)$, and computing the answers by comparing the distances with the middle band takes $\mathcal{O}(n)$. Therefore, 
+\[ t(n) \leq 2t(n/2) + \mathcal{O}(n)\text{ and the running time is }T(n)=t(n)+\mathcal{O}(n\log n), \]
+where the extra $\mathcal{O}(n\log n)$ factors comes from having to sort the points based on $x$ and $y$ coordinate ahead of time.
+
+\subsubsection{Univariate polynomial multiplication}
+
+The input is two univariate polynomials $A,B$ of degree $n-1$, which are described by coefficient vectors $(a_i)$ and $(b_i)$ of length $n$. The desired output is $C(x)=A(x)B(x)$ as a coefficient vector $(c_i)$ of length $2n-1$.\\
+This problem is also known as the ``convolution problem''.
+
+It is seen that
+\[ c_k = \sum_{\substack{i,j<n \\ i+j=k}} a_i b_j, \]
+so a na\"ive $\mathcal{O}(n^2)$ algorithm is easy to come up with. Note that here, we sweep the time taken to actually multiply integers under the rug, assuming that they can be done in constant time.
+
+This problem feels quite similar in spirit to the integer polynomial multiplication algorithm that we have already seen. While something faintly similar to Karatsuba's would work, we need to make several significant changes to modify it into this (slightly more general) context.\\
+Inspired by what we got in Karatsuba's, can we get an $\mathcal{O}(n\log n)$ algorithm?\\
+
+Rather than multiplying $A$ and $B$ symbolically, consider evaluation of these polynomials. First, choose $2n$ values $\alpha_1,\ldots,\alpha_{2n}$, evaluate $A$ and $B$ at these points and then compute $C(\alpha_j)=A(\alpha_j)B(\alpha_j)$ for each $j$. Next, recover $C(x)$ from the evaluations by interpolating.\\
+Obviously, we have skimmed over most of the details here.
+
+Since we have assumed that integer multiplication takes constant time, computing all the $C(\alpha_j)$ given $A(\alpha_j)$ and $B(\alpha_j)$ takes $\mathcal{O}(n\log n)$ time.\\
+However, evaluating a polynomial at a single value takes $\Omega(n)$ time and we need to do so $\mathcal{O}(n\log n)$ time! We can't just separately evaluate each of the $A(\alpha_j)$ and $B(\alpha_j)$ hoping for it to work.
 
 \subsection{Exercises}
 
