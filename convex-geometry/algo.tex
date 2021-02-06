@@ -625,7 +625,7 @@ for some suitable positive constant $c_1$. Also, for some positive constant $c_2
 We may assume that $\lambda(B)$ is small.
 Now, define a measure $\mu$ on $\mathcal{B}(M)$ as in \Cref{conductance isoperimetric inequality} with $F=2^{-\varphi_1}$, where $\varphi_1$ is the maximal convex function on $M$ bounded above by $\varphi$. Observe that $\lambda(u)$ is always within a constant factor of the $\mu$-measure of the unit cube centered at $u$. Thus, we have
 \begin{align}
-	\frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\ % *** HOW??? ***
+	\frac{\sum_{u\in U} \sum_{v\in\overline{U}} \lambda(u)p(u,v)}{\lambda(U)} &\geq \frac{c_3}{n}\frac{\mu(B)}{\min\{\lambda(U),\lambda(\overline{U}\setminus\partial U)\}} \nonumber \\ % *** HOW???
 	&= \frac{c_3}{n}\frac{\mu(M \setminus (A_1\cup A_2))}{\min\{\mu(A_1),\mu(A_2)\}} \nonumber \\
 	&\geq \frac{c_3}{n} \frac{d(A_1,A_2)}{\diam M} \nonumber \\
 	&= \Omega(n^{-4}) \label{eqn: number of steps}
@@ -1190,7 +1190,7 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\
 	Then observe that
 	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{(n-1)!} \int_0^1 \psi(t)^{n-1} g(te_1) \geq 0, \]
-	% *** PAPER SAYS n! ??? ***
+	% *** PAPER SAYS n! ???
 	where the last inequality follows from the definition of $\psi$ in the previous lemma. We have a similar inequality for the integral of $\hat{h}$ as well.\\
 	Since we have taken $\norm{a-b}$ to be minimal, we may assume without loss of generality that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
 	% Now, for any convex body $L$, define the function
@@ -1369,7 +1369,7 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 % \begin{corollary}
 % 	Let $K$ be a convex body in $\Rn$ and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $\vol(K\setminus uB_2^n)\leq\theta^{(u+1)/2}\vol(K)$.	
 % \end{corollary}
-% *** HOW??? ***
+% *** HOW???
 
 Before we conclude this section, we give two more lemmas that will be useful in the future.
 
@@ -1387,6 +1387,7 @@ Before we conclude this section, we give two more lemmas that will be useful in 
 \end{proof}
 
 \begin{lemma}
+	\label{lemma 4.39}
 	Let $0\leq t\leq 1$. If $\vol(K\setminus (x+K)) \leq 1/2 \vol(K)$, then $\vol(K\setminus (tx+K)) \leq (2t/3) \vol(K)$.
 \end{lemma}
 \begin{proof}
@@ -1401,60 +1402,117 @@ Before we conclude this section, we give two more lemmas that will be useful in 
 
 As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done in this general case.
 
-\subsubsection{Ball-Step}
+\subsubsection{Ball-Step and Bounding Conductance}
 
 The basic walk $\mathcal{M}$ is as follows: when we are at $v_k$, we let $v_{k+1}=v_k$ with probability $1/2$. Otherwise, we generate a random vector $u$ from the uniform distribution on $G$. If $v_k+u\in K$, set $v_{k+1}=v_k+u$ and otherwise, set $v_{k+1}=v_k$. This is termed as the \textit{lazy random walk in $K$ with $G$-steps}.\\
 In this particular algorithm, we further filter it to obtain a Metropolis chain (recall that we defined this in \Cref{def: metropolis chain}). That is, for any measurable $A$ such that $x\not\in A$,
 \[ P_x(A) = \frac{1}{2\vol(G)} \int_{(x+G)\cap A} \min\left\{1,\frac{F(y)}{F(x)}\right\}\d{y} = \frac{1}{2\vol(G)} \int_{(x+G)\cap A} \min\left\{\frac{1}{F(y)},\frac{1}{F(x)}\right\}\d{\mu}_F(y) \]
 and
 \[ P_x(x) = \frac{1}{2} + \frac{1}{2\vol(G)} \int_{x+G} \max\left\{0,1-\frac{F(y)}{F(x)}\right\}\d{y}. \]
-The stationary distribution of the above chain is that 
+% The stationary distribution of the above chain is that 
 
 Recall from the discussion after \Cref{def: conductance} that we denote by $H_t$ (for $0\leq t\leq 1/2$) the set of points such that
-\[ \int_{x+G} \min\{F(x),F(y)\}\d{y} < tF(x)\vol(G). \]
+\[ \int_{x+G} \min\{F(x),F(y)\}\d{y} < tF(x)\vol(G), \]
+the set of points where the probability of moving out is less than $t$.
 We also saw that the $(Q_F(H_t)/2)$-conductance of the chain is at most $2t$.\\
 
-The main result of this section, which is a sort of localization lemma in the context of this problem, says that if the local conductance is large and the diameter (not the usual diameter) of $K$ is small, then the overall conductance is large.
+The main result of this section, which is a sort of localization lemma in the context of this problem, says that if the local conductance is large and the ``diameter'' (not the usual diameter) of $K$ is small, then the overall conductance is large.
 
 \begin{ftheo}
 	Let $0\leq t\leq 1/2$, $0<\theta<1$, and $s=Q_F(H_t)$. Assume that for all $x,y\in K$,
-	\[ \vol(G\cap (\theta(x-y)+G)) \geq \frac{1}{2}\vol(G). \]
+	\begin{equation}
+		\label{theo 4.40 eqn main}
+		 \vol(G\cap (\theta(x-y)+G)) \geq \frac{1}{2}\vol(G).
+	\end{equation}
 	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $(1/6)t^2\theta$.
 \end{ftheo}
 
+Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value satisfying the required in the above theorem). It is seen that $1/\theta$ is the usual diameter under the norm whose unit ball is $\{x : \vol(G\cap(x+G))\geq\vol(G)/2\}$. If $G$ is the Euclidean ball, then $1/\theta$ grows as $\sqrt{n}d$, where $d$ is the usual Euclidean diameter of $K$.
+
 \begin{proof}
-	Alternatively, the above result states that
+	% Assume that $\overline{F}=1/2$.
+	Then alternatively, the above result states that if we split $K$ into measurable sets $S_1$ and $S_2$,
 	\[ \int_{S_1} \int_{S_2\cap (x+G)} \min\{F(x),F(y)\}\d{y}\d{x} \geq \frac{t^2\theta\vol(G)}{6} \min\left\{Q_F(S_1)-\frac{7s}{t}, Q_F(S_2)-\frac{7s}{t}\right\}. \]
-	We may assume that $Q_F(S_1)$ and $Q_F(S_2)$ are both greater than $7s/t$.
+	% *** SHOULDN'T THERE BE AN EXTRA 2\overline{F} ON THE RIGHT??? 
+	We may assume that $Q_F(S_1)$ and $Q_F(S_2)$ are both greater than $7s/t$. The expression on the left can easily be bounded above by $\vol(G)\min\{\mu_F(S_1),\mu_F(S_2)\}$.\\
+	For $i=1,2$, define
+	\begin{align*}
+		S_i' &= \left\{x\in S_i : \mu_F((x+G)\cap S_{3-i}) \geq \frac{t}{3}\vol(G)F(x) \right\}, \\
+		S_i'' &= S_i \setminus S_i' \setminus H_t,\text{ and} \\
+		S_3 &= S_1'\cup S_2'\cup H_t.
+	\end{align*}
+	Note that $S_1''$, $S_2''$, and $S_3$ are disjoint (and cover the entirety of $K$). $S_i'$ represents the points in $S_1$ where the probability of leaving to $S_2$ is (some factor) higher than the probability of even being at that point in the first place.\\
+
+	\textbf{Claim.} If $x_1\in S_1''$ and $x_2\in S_2''$, then $\vol((x_1+G)\setminus(x_2+G))>\frac{t}{3}\vol(G)$.\\
+	Suppose otherwise. Observe that the expression under consideration is symmetric in $x_1$ and $x_2$ so we may assume that $F(x_1)\leq F(x_2)$. Define $G_i=x_i+G$ for $i=1,2$. Then since $S_i''$ and $H_t$ are disjoint,
+	\[ \int_{G_i} \min\{F(x_i), F(y)\}\d{y} \geq t\vol(G)F(x_i). \]
+	We also have (by the contradiction assumption) that
+	\[ \int_{G_2\setminus G_1} \min\{F(x_2),F(y)\}\d{y} < \frac{t}{3}\vol(G)F(x_2). \]
+	Therefore,
+	\[ \int_{G_2\cap G_1} \min\{F(x_2),F(y)\}\d{y} \geq \frac{2t}{3} \vol(G)F(x_2). \]
+	Since $S_2''$ and $S_2'$ are disjoint,
+	\[ \int_{G_2\cap G_1\cap S_1} \min\{F(x_2),F(y)\}\d{y} \leq \int_{G_2\cap S_1} \min\{F(x_2),F(y)\}\d{y} < \frac{t}{3}\vol(G)F(x_2). \]
+	Thus, since $S_1\cup S_2 = K$,
+	\[ \int_{G_2\cap G_1\cap S_2} \min\{F(x_2),F(y)\}\d{y} > \frac{t}{3}\vol(G)F(x_2). \]
+	Multiplying by $F(x_1)/F(x_2)$ on either side,
+	\[ \int_{G_2\cap G_1\cap S_2} \min\{F(x_1),F(y)\}\d{y} > \frac{t}{3}\vol(G)F(x_1) \]
+	and as a result,
+	\[ \int_{G_1\cap S_2} \min\{F(x_1),F(y)\}\d{y} > \frac{t}{3}\vol(G)F(x_1). \]
+	However, this implies that $x_1\in S_2'$ and the claim is proved.\\
+
+	Observe that the above claim is equivalent to saying that if $x_1\in S_1''$ and $x_2\in S_2''$, $\vol(G\cap ((x_2-x_1) + G)) > \frac{t}{3}\vol(G)$. Therefore, \Cref{lemma 4.39} implies that
+	\[ \vol\left(G\cap \left(\frac{2}{t}(x_2-x_1) + G\right)\right) > \frac{1}{2}\vol(G). \]
+	If we have some $a,b\in K$ such that $S_1''\cap[a,b]$ and $S_2''\cap[a,b]$ are non-empty and the distance between them is $\rho\norm{b-a}$. Then the claim above together with \Cref{theo 4.40 eqn main} imply that $\rho>t\theta/2$. Using \Cref{improvement of conductance isoperimetric inequality} (or rather, \Cref{conductance isoperimetric inequality}) gives that
+	\[ \mu_F(S_3) \geq \frac{t\theta}{2} \min\{\mu_F(S_1''), \mu_F(S_2'')\}. \]
+	Further note that
+	\[ \mu_F(S_i'') \geq \mu_F(S_i) - \mu_F(S_i') - \mu_F(H_t) \geq \mu_F(S_i) - \mu_F(S_3) - s \]
+	% *** WHERE DID THE s COME FROM???
+	That is,
+	\[ \left(1+\frac{t\theta}{2}\right) \mu_F(S_3) \geq \frac{t\theta}{2} \min\{\mu_F(S_1)-s, \mu_F(S_2)-s\}. \]
+	Since $t\theta < 1$ ($\leq 1/2$, in fact),
+	\[ \mu_F(S_3) \geq \frac{t\theta}{3} \min\{\mu_F(S_1)-s, \mu_F(S_2)-s\}. \]
+	To conclude, note that
+	\begin{align*}
+		\int_{S_1} \int_{S_2\cap (x+G)} \min\{F(x), F(y)\} \d{y}\d{x} &\geq \int_{S_1'} \int_{S_2\cap (x+G)} \min\{F(x),F(y)\} \d{y}\d{x} \\
+			&\geq \int_{S_1'} \frac{t}{3} \vol(G) F(x) \d{x} = \frac{t}{3}\vol(G)\mu_F(S_1'). 
+	\end{align*}
+	A similar inequality holds with $\mu_F(S_2')$ instead of $\mu_F(S_1')$ as well (invoking time-reversibility). Therefore,
+	\begin{align*}
+		\int_{S_1} \int_{S_2\cap (x+G)} &\geq \frac{t}{6}\vol(G)\mu_F(S_1'\cup S_2') \\
+			&= \frac{t}{6}\vol(G)\mu_F(S_3\setminus H_t) \\
+			&\geq \frac{t}{6}\vol(G)(\mu_F(S_3) - s) \\
+			&\geq \frac{t}{6}\vol(G)\left(\frac{t\theta}{3}\min\{\mu_F(S_1)-s,\mu_F(S_2)-s\} - s\right) \\
+			&\geq \frac{t^2\theta}{18} 
+	\end{align*}
+	% *** wtf @ the last line
+	%  bruh do I even need s-conductance
 \end{proof}
 
+\subsubsection{The Walk}
 
-% Drawing uniformly randomly from the ball is not too difficult. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
-% \[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
-% is uniformly distributed in $B_2^n$.\\
+A simple albeit important problem is that of deciding how to sample from the body $G$ we are considering. As mentioned at the beginning of this section, the cube is quite easy from a programmer's perspective. The Euclidean ball is not too difficult either. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
+\[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
+is uniformly distributed in $B_2^n$.\\
 
-% \subsubsection{The Walk}
+We modify the $G$-walk described above into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
+\[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
+and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about. First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
+\[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
+That is,
+\begin{equation}
+	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
+\end{equation}
 
-% We modify the $G$-walk described above into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
-% \[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
-% and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about. First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
-% \[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
-% That is,
-% \begin{equation}
-% 	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
-% \end{equation}
-
-% Now, define
-% \[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
-% \begin{lemma}
-% 	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
-% 	\[ H(v) = \lambda(\phi(v))v \]
-% 	is uniformly distributed on $K$.
-% \end{lemma}
-% \begin{proof}
-	
-% \end{proof}
-
-% \subsubsection{Bounding the Conductance of the Walk}
-
-% As before, we shall determine how rapidly the walk converges by bounding the conductance.
+Now, define
+\[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
+\begin{lemma}
+	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
+	\[ H(v) = \lambda(\phi(v))v \]
+	is uniformly distributed on $K$.
+\end{lemma}
+\begin{proof}
+	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$. Obviously, the probability of $s\lambda(s)K$ under the uniform distribution (on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
+	\[ \int_{sK} \frac{e^{-\phi(x)}}{(n-1)!} \d{x} = \int_0^s h(t) t^{n-1} \d{t}. \]
+	By the definition of $\lambda$, these two quantities are equal. Since we can similarly restrict ourselves to any fixed cone similarly, the assertion holds and $H(v)$ is uniform.
+	% *** How does restricting to the cone prove the result???
+\end{proof}
