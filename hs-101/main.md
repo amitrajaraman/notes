@@ -146,9 +146,10 @@ As an aside, it is worth noting that in digital markets, since information trans
 
 <!-- Price is the explanatory variable and supply/demand is the dependent variable. If the curve is mapped with price on the X-axis, it is sometimes known as the inverse supply/demand curve. -->
 
-The _price elasticity of supply_ measures how much the quantity supplied changes with the price. If the supply changes substantially with a change in price, it is said to be _elastic_. If not, it is called _inelastic_.     
-A _perfectly inelastic supply_ is one where the quantity supplied does not depend on the price at all. An example of this is beach-front land - irrespective of the price, there is a constant total amount.     
+If we map the demand/supply curve with the price on the X-axis instead of the Y-axis, it is sometimes known as the inverse demand/supply curve.
 
+The _price elasticity of supply_ measures how much the quantity supplied changes with the price. If the supply changes substantially with a change in price, it is said to be _elastic_. If not, it is called _inelastic_.     
+A _perfectly inelastic supply_ is one where the quantity supplied does not depend on the price at all. An example of this is beach-front land - irrespective of the price, there is a constant total amount.
 
 <!-- The _price elasticity of supply_ is a measure of how much the quantity produced changes with the price. It is equal to the percentage change in quantity supplied divided by percentage change in price. Observe that it is always negative. This can be rewritten as $$(\Delta y/\Delta x)/(y/x)$$.    
 A _perfectly inelastic_ supply is one where the quantity supplied does not depend on the price at all. For example, beach-front land.    
@@ -159,7 +160,7 @@ It quantifies how much the sellers can change the amount of goods they produce.
 # Lecture 7
 
 Similar to the price elasticity of supply, we define the _price elasticity of demand_. There are several factors that must be taken into account when analyzing it:
-* Availability of subtitutes - Goods with close substitutes tend to have higher elasticity because consumers can easily switch between goods.
+* Availability of substitutes - Goods with close substitutes tend to have higher elasticity because consumers can easily switch between goods.
 * Necessities v. luxuries - Necessities usually have inelastic demands whereas luxuries have elastic demands. Whether something is a necessity or a luxury depends on the properties of the buyer, it is not some intrinsic property of the good.
 * Definition of the market - By "definition", we mean where we draw the boundaries of the market. Narrowly defined markets such as vanilla ice-cream may be very elastic whereas broadly defined markets such as food are inelastic.
 * Time horizon - If we have a longer time to adjust, the demand tends to be more elastic.
@@ -188,4 +189,3 @@ Note that in a perfectly inelastic situation, reducing the price results in the 
 If the demand decreases linearly with price, then it goes from elastic to unitary to inelastic as demand increases.
 
 The _income elasticity of demand_ measures how much the quantity demanded changes with the income of the consumer. Similar to before, it is calculated by dividing the percentage changes in each. Income elasticity is positive for normal goods and negative for inferior goods.
-
