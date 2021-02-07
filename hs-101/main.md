@@ -7,7 +7,17 @@ title: Compiled
 
 Most of the content and all images used are from the book "Principles of Economics" by Gregory Mankiw.
 
-## Lecture 1
+<!-- MarkdownTOC autolink="true" -->
+
+- [Lecture 1](#lecture-1)
+- [Lecture 2](#lecture-2)
+- [Lecture 3](#lecture-3)
+- [Lecture 4](#lecture-4)
+- [Lecture 5](#lecture-5)
+
+<!-- /MarkdownTOC -->
+
+# Lecture 1
 
 _Economics_ is the study of how society manages its scarce resources.
 
@@ -35,7 +45,7 @@ _Market failure_ is said to occur when the market fails to allocate resources ef
     * _market power_, which is the ability of a single person/firm to influence market prices. An example is monopolization.
 
 
-## Lecture 2
+# Lecture 2
 
 Economists make assumptions to simplify the study of the surrounding world. For example, we may assume that prices don't change too much in the short run.
 
@@ -59,3 +69,73 @@ The _production possibilities frontier_ is a graph that shows the combinations o
 An outcome is _efficient_ if the economy is getting all it can given the constraints. Points on (not inside) the PPF such as A, B, E, F represent efficient outcomes. Note that the PPF shows one of the trade-offs we may face. It also shows the opportunity cost of one good measured in terms of another good.    
 Further note that if we are at, say, F, then the workers who are skilled in car-related areas are also working on computers. The PPF usually has this shape and is steeper towards the middle. If the techonology for something becomes better, then the PPF will expand along the corresponding axis.    
 Obviously, it is extremely difficult to get the exact PPF. It is the duty of the government to introduce suitable taxes/subsidies to ensure that the outcome is efficient.
+
+# Lecture 3
+
+_Microeconomics_ focuses on the individual parts of the economy and how households/firms make decisions and interact in specific markets, whereas _macroeconomics_ looks at the economy as a whole, looking at economy-wide phenomena such as inflation, unemployment, and economic growth.    
+Since macroeconomics is essentially made up of a large number of microeconomic systems, it is impossible to understand the former without the latter.
+
+_Positive statements_ are descriptive and attempt to describe the world as it is, whereas _normative statements_ are prescriptive and are statements about how the world should be.    
+The validity of positive statements can be decided by observing the facts already present, whereas the validity of normative statements are far more subjective in nature.    
+Economists may disagree about the validity of different positive theories on how the world works. They may also have different ideals and thus different normative views.
+
+A _market_ is a group of buyers and sellers of a particular good/service.    
+A _competitive market_ is one where are there are many buyers and sellers so that each has a negligible impact on the market price. A seller has little reason to sell at a lower price than the market price and he cannot sell at a higher price because then, buyers will go elsewhere. In _perfectly competitive markets_ (all the goods are the same and no individual buyer/seller can influence the market), buyers and sellers are said to be _price takers_.     
+A _monopoly_ on the other end of the spectrum is is a single seller who sets the price.    
+An _oligopoly_ means there are not many sellers and the competition is not very aggressive. For example, the telecom market.      
+_Monopolistic competition_ (monopoly+competition) has many sellers and slightly differentiated products. Each seller may set price for its own product. For example, the hotel market.
+
+The _quantity demanded_ is the amount of a good that buyers are willing and able to purchase.    
+The _law of demand_ states that, other things equal, the quantity demanded of a good falls when the price of the good rises.    
+The law of demand doesn't always hold. For example, in the stock market, the usual rule of thumb is to buy more when the price of the stocks increases. Another example is paintings/antiques in auctions.    
+The _demand schedule_ is a table showing the relation between the price and the quantity demanded. When the law of demand holds, the two have an inverse relationship.    
+The _demand curve_ is a graph of the two (with the price on vertical axis and the quantity demanded on the horizontal).    
+The following is an example of a demand schedule and curve (following the law of demand).
+
+<p align="center">
+<img src="./demand-curve-schedule.png" alt="Catherine's icecream demand schedule and demand curve" width="500"/>
+</p>
+
+# Lecture 4
+
+The _market demand_ refers to the sum of all the individual demands for a particular good. The market demand curve can be obtained by horizontally summing the individual demand curves.
+
+If a change in some factor shifts the demand curve to the right, it corresponds to an increase in demand (and a shift to the left corresponds to a decrease in demand). Recall that we said "other things constant" while stating the law of demand. What are these other things?
+
+* Income - A _normal good_ is a good for which the demand increases as consumer income increases. A good for which demand falls as income rises is called an _inferior good_.
+* Prices of related goods - When a fall in the price of one good reduces the demand for another good, they are called _substitutes_. When a fall in the price of one good increases the demand of another, they are called _complements_.
+* Tastes - If the tastes become more tailored towards the product, then demand increases. We don't often try to explain tastes since they are heavily influenced by more psychological factors.
+* Expectations - If expectations for the future increase, then demand increases (_self-fulfilling expectations_), even if there is no logical reason for the rise of expectation in the first place. For example, if we expect an increase in our income, we might save less now and spend more.
+* Number of buyers - As the number of buyers increases, the demand increases.
+
+It is important to note that changing the price of some good does not result in a shift of the curve, it merely means that we are moving along the curve.
+
+Similar to the definitions for demand, we have various parameters related to supply - quantity supplied, the law of supply, supply schedule, supply curve, and market supply. The law of supply states that other things constant, the quantity supplied of a good rises when its price rises.
+
+# Lecture 5
+
+If a change in some factor shifts the supply curve to the right, it corresponds to an increase in supply (and a shift to the left corresponds to a decrease in supply). What are the factors that can cause a shift in the curve?
+
+* Input Prices - If the prices of goods that serve as input (say sugar for ice-cream) in making the good increase, then the curve shifts to the left.
+* Technology - If the technology advances, the curve shifts to the right.
+* Expectations - If the price of some good is expected (by the firm) to increase in the future, the curve shifts to the left because they start hoarding the product. This assumes the good is durable. If it is perishable then we need to sell it by the expiry date anyway.
+* Number of sellers - If the number of sellers increases, the curve shifts to the right.
+
+The supply (demand) curve does not take demand (supply) into consideration explicitly, but they are intrinsically linked.
+
+_Equilibrium_ is the situation where the quantity supplied is equal to the quantity demanded. The _equilibrium price_ and _equilibtium quantity_ are the corresponding price and quantity. Observe that this is just the point of intersection of the supply and demand curves. The equilibrium price is also known as the "market-clearing price". 
+
+If the price is higher than the equilibrium price, then the supply is high and the demand is low. This is known as an _excess-supply_ situation. The excess supply is known as a _surplus_. Since the sellers need to clear their excess, the price decreases until the equilibrium is reached.    
+Similarly, if the price is lower than the equilibrium price, we are in an _excess-demand_ situation. The excess demand is known as a _shortage_. Here, the sellers realize that they need to sell more and they drive up the price until the equilibrium is reached.    
+Therefore, regardless of how the original situation is, we converge to the equilibrium assuming there are no barriers to this. This phenomenon is known as the _law of supply and demand_ - the price of any good adjusts to bring the quantity supplied and demanded into balance.
+
+Note that this phenomenon is just Adam Smith's "invisible hand" mentioned in the first lecture and the price system is how it influences the economy.
+Also note that the equilibrium is determined by both the supply and demand curves, not just one of them.
+
+The earlier discussion about shifts of the supply and demand curves can be used to analyze the shift in equilibria as well. The following table describes how it changes with shift in the curves.
+
+<p align="center">
+<img src="./equilibrium-supply-demand-shift.png" alt="Change in equilibrium with shift of curves" width="500"/>
+</p>
+
+As an aside, it is worth noting that in digital markets, since information transfer is very fast, it doesn't take too long to attain the new equilibrium if the equilibrium shifts.
