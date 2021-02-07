@@ -149,42 +149,42 @@ It is easy to see that a cap of radius $r$ is a $(1-\frac{r^2}{2})$-cap.
 As we shall see in the proof of \Cref{approximating sphere to polytope}, it is useful to know some upper and lower bounds on the area of an $\varepsilon$-cap.
 
 \begin{lemma}[Lower bound on the area of spherical caps]
-\label{spherical cap lower bound}
-For $r\in[0,2]$, a cap of radius $r$ on $S^{n-1}$ has measure (under $\sigma_{n-1}$) at least $\frac{1}{2}(r/2)^{n-1}$.
+\   label{spherical cap lower bound}
+    For $r\in[0,2]$, a cap of radius $r$ on $S^{n-1}$ has measure (under $\sigma_{n-1}$) at least $\frac{1}{2}(r/2)^{n-1}$.
 \end{lemma}
 \begin{proof}
-Suppose $n\geq 2$ and let $\alpha =2\sin^{-1}(r/2)$. We can assume that $\alpha\in [0,\frac{\pi}{2}]$ since we can prove the other case similarly. Then the measure of the cap is given by
-\begin{align*}
-    A(n,\alpha) &= \int_0^\alpha \frac{(n-1)v_{n-1}}{nv_n} (\sin\theta)^{n-2}\d\theta\\
-        &= \frac{(n-1)\Gamma\left(\frac{n}{2}+1\right)}{n\Gamma\left(\frac{n-1}{2}+1\right)\sqrt{\pi}}\int_0^\alpha \sin^{n-2}(\theta)\d\theta \\
-        &= \frac{\Gamma\left(\frac{n}{2}\right)}{\Gamma\left(\frac{n-1}{2}\right)\sqrt{\pi}}\int_0^\alpha \sin^{n-2}(\theta)\d\theta \\
-        &\geq \frac{1}{\sqrt{\pi}}\int_0^\alpha \left(\frac{2\theta}{\pi}\right)^{n-2} \d\theta \\
-        &= \frac{1}{\sqrt{\pi}}\cdot \left(\frac{2}{\pi}\right)^{n-2}\frac{\alpha^{n-1}}{n-1} \\
-        &= \frac{4}{\sqrt{\pi}(n-1)} \left(\frac{4}{\pi}\right)^{n-2}\cdot \frac{1}{2}\left(\alpha/2\right)^{n-1} \\
-        &\geq \frac{4}{\sqrt{\pi}(n-1)} \left(\frac{4}{\pi}\right)^{n-2}\cdot \frac{1}{2}(r/2)^{n-1} \\
-        &= \frac{\sqrt{\pi}}{n-1} \left(\frac{4}{\pi}\right)^{n-1}\cdot \frac{1}{2}(r/2)^{n-1}
-\end{align*}
-It is easily shown that
-\[ \frac{\sqrt{\pi}}{n-1} \left(\frac{4}{\pi}\right)^{n-1} \geq 1\]
-for all $n\geq 2$, thus proving the inequality.
+    Suppose $n\geq 2$ and let $\alpha =2\sin^{-1}(r/2)$. We can assume that $\alpha\in [0,\frac{\pi}{2}]$ since we can prove the other case similarly. Then the measure of the cap is given by
+    \begin{align*}
+        A(n,\alpha) &= \int_0^\alpha \frac{(n-1)v_{n-1}}{nv_n} (\sin\theta)^{n-2}\d\theta\\
+            &= \frac{(n-1)\Gamma\left(\frac{n}{2}+1\right)}{n\Gamma\left(\frac{n-1}{2}+1\right)\sqrt{\pi}}\int_0^\alpha \sin^{n-2}(\theta)\d\theta \\
+            &= \frac{\Gamma\left(\frac{n}{2}\right)}{\Gamma\left(\frac{n-1}{2}\right)\sqrt{\pi}}\int_0^\alpha \sin^{n-2}(\theta)\d\theta \\
+            &\geq \frac{1}{\sqrt{\pi}}\int_0^\alpha \left(\frac{2\theta}{\pi}\right)^{n-2} \d\theta \\
+            &= \frac{1}{\sqrt{\pi}}\cdot \left(\frac{2}{\pi}\right)^{n-2}\frac{\alpha^{n-1}}{n-1} \\
+            &= \frac{4}{\sqrt{\pi}(n-1)} \left(\frac{4}{\pi}\right)^{n-2}\cdot \frac{1}{2}\left(\alpha/2\right)^{n-1} \\
+            &\geq \frac{4}{\sqrt{\pi}(n-1)} \left(\frac{4}{\pi}\right)^{n-2}\cdot \frac{1}{2}(r/2)^{n-1} \\
+            &= \frac{\sqrt{\pi}}{n-1} \left(\frac{4}{\pi}\right)^{n-1}\cdot \frac{1}{2}(r/2)^{n-1}
+    \end{align*}
+    It is easily shown that
+    \[ \frac{\sqrt{\pi}}{n-1} \left(\frac{4}{\pi}\right)^{n-1} \geq 1\]
+    for all $n\geq 2$, thus proving the inequality.
 \end{proof}
 
 
 \begin{lemma}[Upper bound on the area of spherical caps]
-\label{spherical cap upper bound}
-For $\varepsilon\in[0,1)$, the cap $C(\varepsilon,u)$ on $S^{n-1}$ has measure (under $\sigma_{n-1}$) at most $e^{-n\varepsilon^2/2}$.
+    \label{spherical cap upper bound}
+    For $\varepsilon\in[0,1)$, the cap $C(\varepsilon,u)$ on $S^{n-1}$ has measure (under $\sigma_{n-1}$) at most $e^{-n\varepsilon^2/2}$.
 \end{lemma}
 \begin{proof}
-Let $\alpha=\cos^{-1}(\varepsilon)$. We may assume that $\alpha\in[0,\pi/2]$. Instead of finding the fraction of area of the spherical cap, we shall instead find the fraction of volume subtended at the center by the cap.\\
-When $\varepsilon\leq\frac{1}{\sqrt{2}}$, note that the entire volume is contained in the ball of radius $\sqrt{1-\varepsilon^2}$ centered at $\varepsilon u$. The fraction of volume of this ball is equal to $\left(\sqrt{1-\varepsilon^2}\right)^n\leq e^{-n\varepsilon^2/2}$.\\
-On the other hand, when $\varepsilon>\frac{1}{\sqrt{2}}$, this entire volume is contained in the ball of radius $\frac{1}{2\varepsilon}$ centered at $\frac{1}{2\varepsilon} u$. The fraction of volume of this ball is equal to $(2\varepsilon)^{-n} \leq e^{-n\varepsilon^2/2}$.
+    Let $\alpha=\cos^{-1}(\varepsilon)$. We may assume that $\alpha\in[0,\pi/2]$. Instead of finding the fraction of area of the spherical cap, we shall instead find the fraction of volume subtended at the center by the cap.\\
+    When $\varepsilon\leq\frac{1}{\sqrt{2}}$, note that the entire volume is contained in the ball of radius $\sqrt{1-\varepsilon^2}$ centered at $\varepsilon u$. The fraction of volume of this ball is equal to $\left(\sqrt{1-\varepsilon^2}\right)^n\leq e^{-n\varepsilon^2/2}$.\\
+    On the other hand, when $\varepsilon>\frac{1}{\sqrt{2}}$, this entire volume is contained in the ball of radius $\frac{1}{2\varepsilon}$ centered at $\frac{1}{2\varepsilon} u$. The fraction of volume of this ball is equal to $(2\varepsilon)^{-n} \leq e^{-n\varepsilon^2/2}$.
 \end{proof}
 
 \subsubsection{Bounds on Almost-Spherical Polytopes}
 
 \begin{ftheo}
-\label{approximating sphere to polytope}
-Let $K$ be a symmetric polytope in $\R^n$ with $d(K,B_2^n)=d$. Then $K$ has at least $\exp(n/2d^2)$ facets. On the other hand, for each $n$, there is a polytope with $4^n$ facets whose distance from the ball is at most $2$.
+    \label{approximating sphere to polytope}
+    Let $K$ be a symmetric polytope in $\R^n$ with $d(K,B_2^n)=d$. Then $K$ has at least $\exp(n/2d^2)$ facets. On the other hand, for each $n$, there is a polytope with $4^n$ facets whose distance from the ball is at most $2$.
 \end{ftheo}
 Before proving the above theorem, let us reformulate what a symmetric polytope is in another way. Suppose you have a symmetric polytope $K$ with $m$ pairs of facets. Then it is basically the intersection of $m$ slabs in $\R^n$ each of the form $\{x:|\langle x, v_i\rangle| \leq 1\}$ for some $v_i\in\R^n$. That is,
 \begin{equation}

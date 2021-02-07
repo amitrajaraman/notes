@@ -1374,6 +1374,7 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 Before we conclude this section, we give two more lemmas that will be useful in the future.
 
 \begin{lemma}
+	\label{lemma 4.38}
 	Let $K$ be a convex body and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $K\subseteq \frac{2n}{1-\theta}B_2^n$.
 \end{lemma}
 \begin{proof}
@@ -1496,7 +1497,7 @@ is uniformly distributed in $B_2^n$.\\
 
 We modify the $G$-walk described above into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
 \[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
-and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about. First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
+and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about (this is almost always $K$). First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
 \[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
 That is,
 \begin{equation}
@@ -1514,5 +1515,52 @@ Now, define
 	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$. Obviously, the probability of $s\lambda(s)K$ under the uniform distribution (on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
 	\[ \int_{sK} \frac{e^{-\phi(x)}}{(n-1)!} \d{x} = \int_0^s h(t) t^{n-1} \d{t}. \]
 	By the definition of $\lambda$, these two quantities are equal. Since we can similarly restrict ourselves to any fixed cone similarly, the assertion holds and $H(v)$ is uniform.
-	% *** How does restricting to the cone prove the result???
+\end{proof}
+
+
+
+While we used usual (deterministic) sandwiching in our earlier algorithm, it tends to be the case that we sacrifice precision in favour of speed, more so when we aim to get a \textit{fast} algorithm and not just any polynomial time algorithm. While we say ``sacrifice precision'', this isn't really the case at all, as we shall see later.\\
+
+The sandwiching we take is such that More than $2/3$ of the volume of $B_2^n$ is in $K$. For some $1\leq m\leq n^{3/2}$, more than $2/3$ of the volume of $K$ is contained in the convex body $mB_2^n$.\\
+There exists a randomized algorithm to obtain a constant of $n$ in the above, but for now we shall analyze it for a general $m$.\\
+
+Set $q=2mn\log(4/\varepsilon)$ and $t=10^{10}nq^2(n\log n + \log(2/\varepsilon))$.\\
+In the walk, we start from the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as described earlier in the section). Compute $w=H(v_t)$. Our goal is to see how close the distribution $H(v_t)$ is to the uniform distribution. The main result of this section is the following.
+
+\begin{ftheo}
+	For any (Lebesgue) measurable set $A\subseteq K$, the random point $w$ described above satisfies
+	\[ \left| \Pr\left[w\in A\right] - \frac{\vol(A)}{\vol(K)} \right| < \varepsilon. \]
+	Moreover, it requires $\mathcal{O}(n^3m^2\log^2(1/\varepsilon)(n\log n + \log(1/\varepsilon)))$ membership tests and $\mathcal{O}(n^4 m^2 \log(1/\varepsilon) (n\log n + \log(1/\varepsilon)))$ arithmetic operations involving numbers of $\mathcal{O}(\log n)$ bits.
+\end{ftheo}
+
+The remainder of this section is dedicated to proving the above.
+
+\begin{lemma}
+	\label{better bound on spherical caps}
+	Let $H$ be a halfspace in $\Rn$ and $B$ a unit ball whose center is at distance $t$ from $H$. Then
+	\begin{enumerate}[(i)]
+		\item if $t\leq 1/\sqrt{n}$,
+		\[ \vol(B\cap H) > \left(\frac{1}{2} - \frac{t\sqrt{n}}{2}\right)\vol(B_2^n). \]
+		\item if $t>1/\sqrt{n}$,
+		\[ \frac{1}{10t\sqrt{n}}(1-t^2)^{(n+1)/2}\vol(B_2^n) < \vol(H\cap B) < \frac{1}{t\sqrt{n}}(1-t^2)^{(n+1)/2}\vol(B_2^n). \]
+	\end{enumerate}
+\end{lemma}
+
+Observe that the above is just a (better) bound on the volume of a spherical cap, which we rudimentarily bounded back in \Cref{spherical cap lower bound,spherical cap upper bound}. We omit the proof of the above.
+
+Note that it implies that $n^{-1/2}/3 B_2^n \subseteq K$. Also, \Cref{lemma 4.38} implies that $K\subseteq 3nmB_2^n$. Therefore, for any $x\in K$,
+\[ \frac{\norm{x}}{3nm} \leq \phi(x) \leq 3\sqrt{n}\norm{x}. \]
+The first lemma justifies why we can restrict ourselves to $qB_2^n$.
+
+\begin{lemma}
+	Given the above,
+	\[ \left(1-\frac{\varepsilon}{4}\right)\vol(K) < \frac{1}{n!} \int_{qB_2^n} F(x)\d{x}. \]
+\end{lemma}
+\begin{proof}
+	Let $\overline{K}=K\cap mB_2^n$. Note that $F_{\overline{K}}(x) < F(x)$. We then have
+	\begin{align*}
+		\int_{2nmB_2^n} F(x)\d{x} &\geq \int_{2n\overline{K}} F(x)\d{x} \\
+			&\geq \int_{2n\overline{K}} \overline{F}(x)\d{x} \\
+			&= n\vol(\overline{K}) \int_0^{2n} e^{-t}t^{n-1}\d{t}
+	\end{align*}
 \end{proof}

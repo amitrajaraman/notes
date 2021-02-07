@@ -274,15 +274,22 @@ Observe that any optimal tree must be a full binary tree (any internal node has 
 \begin{proof}
 	Let $a$ and $b$ be two letters at the lowest level of an optimal tree $T$ that are siblings of each other. Let their frequencies be $f_a$ and $f_b$. Assume $f_x\leq f_y$ and $f_a\leq f_b$.\\
 	Let $T'$ be a tree formed from $T$ by exchanging $a$ and $x$. We know that $d_T(a)\geq d_T(x)$ and $d_T(b)\geq d_T(y)$. By definition, we have $c(T)\leq c(T')$. This implies that
-	\[ c(T) \leq c(T) - \left(d_T(x)f_x + d_T(a)f_a - d_{T'}(x)f_x - d_{T'}(a)f_a\right) = c(T) - \left(d_T(x)f_x (f_x-f_a) + d_T(a)(f_a-f_x)\right). \]
-	We may further assume that there is a strict inequality in the first step (if there was not, we are done), thus resulting in a contradiction.
+	\[ c(T) \leq c(T) - \left(d_T(x)f_x + d_T(a)f_a - d_{T'}(x)f_x - d_{T'}(a)f_a\right) = c(T) - \left(d_T(x)f_x (f_x-f_a) + d_T(a)(f_a-f_x)\right), \]
+	thus proving the claim.
 \end{proof}
 
-We shall next show that if the first step is optimal, the next step is optimal. That is,
+We shall next show that if a step in the algorithm is correct, the next step is also correct (the above lemma says that the first step is correct). That is,
 
 \begin{lemma}
 	Let $T$ be a tree corresponding to an optimal encoding of $\Sigma$. Let $x,y$ be sibling leaves of $T$ and $z$ their parent in $T$. Let $f_z=f_x+f_y$, $T'=T\setminus\{x,y\}$, and $\Sigma'=\Sigma\setminus\{x,y\}\cup\{z\}$. Then $T'$ corresponds to an optimal encoding of $\Sigma'$.
 \end{lemma}
+\begin{proof}
+	We have
+	\[ c(T') = c(T) - d_T(x)(f_x+f_y) + (d_T(x)-1)f_z = c(T) - f_z. \]
+	Non-optimality of $T'$ is seen to result in non-optimality of $T$ (if it is not optimal, then substituting $z$ back with $x$ and $y$ in an optimal solution results in an encoding of $\Sigma$ with cost strictly less than that of $T$), thus proving the claim.
+\end{proof}
+
+Why does correctness follow? At each step, we are restricting ourselves to a smaller set while maintaining the presence of an optimal solution with the current (partial) mapping. At the end, the current mapping is a complete mapping, thus implying optimality.
 
 \subsection{Divide and Conquer Algorithms}
 
@@ -342,13 +349,12 @@ Is this an improvement over the na\"ive grade school algorithm? To perform the t
 We have assumed that addition/subtraction take $\mathcal{O}(n)$.\\
 Using the master theorem, it is easy to conclude that $T(n)=\mathcal{O}(n^{\log 3}) = \mathcal{O}(n^{1.584})$.\\ Note that if we instead calculate $a\times d$ and $b\times c$ separately (instead of calculating $Z$), there are $4$ tasks of size $n/2$ at each step which results in an overall time of $\mathcal{O}(n^2)$.\\
 
+Later, Andrei Toom broke the numbers into $3$ parts and showed that $5$ multiplications are enough. This gives $T(n)=5T(n/3)+\mathcal{O}(n)$, resulting in a time complexity of $\mathcal{O}(n^{\log_3 5}) = \mathcal{O}(n^{1.465})$.\\
 
-Later, Andrei Toom broke the numbers into $3$ parts and showed that $5$ multiplications are enough. This gives $T(n)=5T(n/3)+\mathcal{O}(n)$, resulting in a time complexity of $\mathcal{O}(n^{\log_3 5}) = \mathcal{O}(n^1.465)$\\
-
-Stephen Cook attempted to generalize this idea even further. Breaking it into $r$ parts reduces it to $\mathcal{O}(C(r)n^{\log_r(2r-1)})$.\\
-Later, Sch\"onhage and Strassen managed to breach the $n^{1+\varepsilon}$ barrier and got it down to $\mathcal{O}(n \log n \log\log n)$.\\
-Martin F\"urer got it down to $\mathcal{O}(n\log n 2^{\log^* n})$ in 2007.\\
-In 2019, Harvey and Hoeven managed to get the ``perfect'' method which takes $\mathcal{O}(n\log n)$, thus attaining the bound in a result that says that this is optimal.\\
+Stephen Cook attempted to generalize this idea even further. Breaking it into $r$ parts reduces it to $\mathcal{O}(C(r)n^{\log_r(2r-1)})$, where $C(r)$ is some constant depending on $r$.\\
+Later, Sch\"onhage and Strassen managed to breach the $n^{1+\varepsilon}$ barrier and got it down to $\mathcal{O}(n \log n \log\log n)$. They also conjectured that $\mathcal{O}(n\log n)$ is the best possible running time.\\
+Martin F\"urer got it down to $\mathcal{O}(n2^{\log^* n}\log n )$ in 2007.\\
+In 2019, Harvey and Hoeven managed to get the ``perfect'' method which takes $\mathcal{O}(n\log n)$. Soon after, a team at Aarhus University managed to prove that given the (unproven) Valiant's conjecture, this is indeed the best we can do.
 
 \subsubsection{Closest points in a plane}
 
@@ -372,6 +378,8 @@ How many ``cross-pairs'' need to be checked though? Observe that we don't need t
 \begin{proof}
 	Consider the distance $d$ region split into (closed) squares of side length $(d/2)$. In each row, there are $4$ squares. Note that in each box, there is at most $1$ point (if there was more than one, the minimum distance in one of the halves would be less than $d$). Suppose that there are more than $11$ indices between $i$ and $j$. Then at least $2$ full rows separate the boxes containing $q_i$ and $q_j$. However, this would imply that the distance between $q_i$ and $q_j$ is $\geq d$, thus yielding a contradiction and proving the claim.
 \end{proof}
+
+It is worth noting that the constant can be better than $11$, but this is just a constant factor change and doesn't change the actual running time of the algorithm.
 
 This then gives an $\mathcal{O}(n\log n)$ algorithm. Computing the first half of $P_x$ (or $P_y$) takes $\mathcal{O}(n)$, and computing the answers by comparing the distances with the middle band takes $\mathcal{O}(n)$. Therefore, 
 \[ t(n) \leq 2t(n/2) + \mathcal{O}(n)\text{ and the running time is }T(n)=t(n)+\mathcal{O}(n\log n), \]
