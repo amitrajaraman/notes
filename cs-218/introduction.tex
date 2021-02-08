@@ -395,13 +395,67 @@ It is seen that
 so a na\"ive $\mathcal{O}(n^2)$ algorithm is easy to come up with. Note that here, we sweep the time taken to actually multiply integers under the rug, assuming that they can be done in constant time.
 
 This problem feels quite similar in spirit to the integer polynomial multiplication algorithm that we have already seen. While something faintly similar to Karatsuba's would work, we need to make several significant changes to modify it into this (slightly more general) context.\\
-Inspired by what we got in Karatsuba's, can we get an $\mathcal{O}(n\log n)$ algorithm?\\
+Inspired by what we got in Karatsuba's, can we do better than $\mathcal{O}(n^2)$?\\
 
 Rather than multiplying $A$ and $B$ symbolically, consider evaluation of these polynomials. First, choose $2n$ values $\alpha_1,\ldots,\alpha_{2n}$, evaluate $A$ and $B$ at these points and then compute $C(\alpha_j)=A(\alpha_j)B(\alpha_j)$ for each $j$. Next, recover $C(x)$ from the evaluations by interpolating.\\
-Obviously, we have skimmed over most of the details here.
+We have skimmed over most details here.\\
+Since we have assumed that integer multiplication takes constant time, computing all the $C(\alpha_j)$ given $A(\alpha_j)$ and $B(\alpha_j)$ takes only $\mathcal{O}(n)$ time.\\
+However, evaluating a polynomial at a single value takes $\Omega(n)$ time and we need to do so $\mathcal{O}(n)$ times! This gives a total time of $\mathcal{O}(n^2)$, which we still can't afford. We can't just separately evaluate each of the $A(\alpha_j)$ and $B(\alpha_j)$ hoping for it to work fast.\\
 
-Since we have assumed that integer multiplication takes constant time, computing all the $C(\alpha_j)$ given $A(\alpha_j)$ and $B(\alpha_j)$ takes $\mathcal{O}(n\log n)$ time.\\
-However, evaluating a polynomial at a single value takes $\Omega(n)$ time and we need to do so $\mathcal{O}(n\log n)$ time! We can't just separately evaluate each of the $A(\alpha_j)$ and $B(\alpha_j)$ hoping for it to work.
+What is a more systematic and fast way of calculating $A(\alpha_i)$ and $B(\alpha_i)$? Perhaps we could somehow use values already calculated to speed up the current calculation.
+
+Split the polynomial $A$ into two parts:
+\[ A_0(x) = a_0 + a_2x + a_4x^2 + \cdots + a_{n-2} x^{(n-2)/2} \]
+and
+\[ A_1(x) = a_1 + a_3x + a_5x^2 + \cdots + a_{n-1}x^{(n-2)/2}. \]
+Observe that $A(x)=A_0(x^2)+xA_1(x^2)$ and the degree of each is around half the degree of $A$. Also observe that the values of $A_0(x)$ and $A_1(x)$, we can calculate $A(x)$ in a constant number of operations. 
+
+The $2n$ values we choose should be related to each other to make the evaluations reusable. Consider the $k$th roots of unity given by $\omega_{j,k}=e^{(2\pi i)j/k}$ for $0\leq j\leq k-1$. For our $2n$ evaluations, we shall use the $2n$th roots of unity.\\
+The useful thing to note is that $\omega_{j,2n}^2 = \omega_{j,n}$.\\
+
+Using this in our equation,
+\[ A(\omega_{j,2n}) = A_0(\omega_{j,n}) + \omega_{j,2n} A_1(\omega_{j,n}). \]
+This is exactly what we desire from a divide and conquer algorithm! To calculate the value of $A$ at the $2n$th roots of unity, we reduce it to evaluating the value of two polynomials of half the degree at the $n$th roots of unity.\\
+Since it takes constant time to combine the evaluations, the recursion is just
+\[ T(n-1) = 2T\left(\frac{n-2}{2}\right) + \mathcal{O}(n) = \mathcal{O}(n\log n). \]
+This rough idea is known as the \textit{Fast Fourier Transform} and is extremely powerful (in fact, it is used in the faster algorithms in integer multiplication as well).
+
+The final step in the algorithm, recovering $C$ from its evaluations at $2n-1$ points, can be done in $\mathcal{O}(n\log n)$ using \textit{Lagrange interpolation}.\\
+
+We essentially have the following.
+
+\[
+	\begin{pmatrix}
+		1 & \alpha_1 & \cdots & \alpha_1^{2n-1} \\
+		1 & \alpha_2 & \cdots & \alpha_2^{2n-1} \\
+		\vdots & \vdots & \ddots & \vdots \\
+		1 & \alpha_{2n-1} & \cdots & \alpha_{2n-1}^{2n-1}
+	\end{pmatrix}
+	\begin{pmatrix}
+		c_0 \\
+		c_1 \\
+		\vdots \\
+		c_{2n-1}
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		C(\alpha_1) \\
+		C(\alpha_2) \\
+		\vdots \\
+		C(\alpha_n)
+	\end{pmatrix}
+	.
+\]
+In general, solving this set of equations takes $\mathcal{O}(n^3)$ by inverting the Vandermonde matrix on the left. However, we do not have any arbitrary points. Can we do better?
+
+We shall reduce the problem of \textit{interpolation} of $C$ to the \textit{evaluation} of another polynomial $D$.
+
+\begin{lemma}
+	Let $C(x)=\sum_{s=0}^{2n-1} c_s x^s$ and $D(x)=\sum_{s=0}^{2n-1} d_s x^s$, where for each $s$, $d_s = C(\omega_{s,2n})$. Then for each $s$,
+	\[ c_s = \frac{1}{2n} D(\omega_{2n-s,2n}). \]
+\end{lemma}
+
+This allows us to evaluate the $(c_s)$ in $\mathcal{O}(n\log n)$ time by evaluating $D$ at the required points as we have already seen. 
 
 \subsection{Exercises}
 

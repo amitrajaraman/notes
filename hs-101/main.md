@@ -16,6 +16,8 @@ Most of the content and all images used are from the book "Principles of Economi
 - [Lecture 5](#lecture-5)
 - [Lecture 6](#lecture-6)
 - [Lecture 7](#lecture-7)
+- [Lecture 8](#lecture-8)
+- [Lecture 9](#lecture-9)
 
 <!-- /MarkdownTOC -->
 
@@ -162,7 +164,7 @@ It quantifies how much the sellers can change the amount of goods they produce.
 Similar to the price elasticity of supply, we define the _price elasticity of demand_. There are several factors that must be taken into account when analyzing it:
 * Availability of substitutes - Goods with close substitutes tend to have higher elasticity because consumers can easily switch between goods.
 * Necessities v. luxuries - Necessities usually have inelastic demands whereas luxuries have elastic demands. Whether something is a necessity or a luxury depends on the properties of the buyer, it is not some intrinsic property of the good.
-* Definition of the market - By "definition", we mean where we draw the boundaries of the market. Narrowly defined markets such as vanilla ice-cream may be very elastic whereas broadly defined markets such as food are inelastic.
+* Definition of the market - By "definition", we mean where we draw the boundaries of the market. Narrowly defined markets such as that of vanilla ice-cream may be very elastic whereas broadly defined markets such as that of food are inelastic.
 * Time horizon - If we have a longer time to adjust, the demand tends to be more elastic.
 
 How do we calculate the price elasticity of demand/supply? We divide the percentage change in the demand/supply by the percentage change in the price. To bring about symmetry, we take the percentage change about the midpoint. So for demand, the price elasticity between two points $$(P_1,Q_1)$$ and $$(P_2,Q_2)$$ is
@@ -189,3 +191,28 @@ Note that in a perfectly inelastic situation, reducing the price results in the 
 If the demand decreases linearly with price, then it goes from elastic to unitary to inelastic as demand increases.
 
 The _income elasticity of demand_ measures how much the quantity demanded changes with the income of the consumer. Similar to before, it is calculated by dividing the percentage changes in each. Income elasticity is positive for normal goods and negative for inferior goods.
+
+# Lecture 8
+
+The _cross-price elasticity of demand_ measures how the quantity demanded of one good responds to a change in the price of another good. It can be calculated by dividing the percentage change in quantity demanded of the first good by the percentage change in the price of the other good.    
+Substitutes have positive cross-price elasticity and complements have negative cross-price elasticity.
+
+Until now, we haven't involved the government at all. In a free, unregulated system, the market forces establish equilibria. While they may be efficient, it needn't be true that everyone is satisfied in this case. It is the economists' duty to use theories to assist the development of policies.    
+Price control is enacted only when these policy-makers believe that the market price is unfair to either the buyers or the sellers. This results in price _ceilings_ (legal maximum price) and _floors_ (legal minimum price).    
+The price ceiling is said to be _binding_ if it is set below the equilibrium price and _not binding_ if it is set above the equilibrium price. In a competitive market, a binding ceiling results in a shortage and the sellers must ration the scarce goods among the large number of potential buyers.
+
+For example, rent control policy helps the poor by making pricing more affordable (for the poor).    
+It is worth noting that rent control is usually considered terrible by economists (despite it sounding good to the general public). As with any binding price ceiling, rent control results in a shortage in the long run. On the supply side, landlords are unmotivated to build new apartments and do not maintain the existing ones. On the demand side, people are encouraged to go out and find a place to live. Further, since there is no incentive for landlords to respond to their tenants' demands, the quality of housing goes down as well. This problem does not show itself in the short run.    
+An example of a price floor is the minimum wage that is usually present. Similar to rent control, this causes unemployment in the long run. This might be the only reason internships even exist; inexperienced people (teenagers) are willing to work for nothing (since this circumvents minimum wage).
+
+# Lecture 9
+
+Governments levy _taxes_ to raise revenue for public projects. Taxes discourage market activity. When a good is taxed, the quantity sold is reduced.    
+However, the question is: when a tax is levied, who bears the burden of the tax?    
+_Tax incidence_ studies this. A tax on the sellers shifts the supply curve (downward/to the left) and a tax on the buyers shifts the demand curve (upward/to the left). In the longer run, taxing the sellers results in the price of the good increasing and taxing the buyers results in the price of the good decreasing (but the price of the good plus the tax increases). This allows us to analyze how the equilibrium changes.    
+It should be noted that regardless, buyers end up paying more and sellers receive less. So no matter how the tax is levied, the buyers and sellers share the burden, either directly or indirectly. The two taxes are equivalent!
+
+For a payroll tax, the difference between the wage the firm pays and what the worker receives is called the _tax wedge_, which is just the volume of the tax that goes to the government.
+
+The burden usually ends up being heavier on the side of the market that is less elastic. Indeed, a small elasticity means that the people don't really have any alternatives, so they stick with the good even if they are worse off for it.    
+So for a payroll tax, the workers bear most of the burden, not the firms.
