@@ -454,8 +454,93 @@ We shall reduce the problem of \textit{interpolation} of $C$ to the \textit{eval
 	Let $C(x)=\sum_{s=0}^{2n-1} c_s x^s$ and $D(x)=\sum_{s=0}^{2n-1} d_s x^s$, where for each $s$, $d_s = C(\omega_{s,2n})$. Then for each $s$,
 	\[ c_s = \frac{1}{2n} D(\omega_{2n-s,2n}). \]
 \end{lemma}
+\begin{proof}
 
-This allows us to evaluate the $(c_s)$ in $\mathcal{O}(n\log n)$ time by evaluating $D$ at the required points as we have already seen. 
+\end{proof}
+
+This allows us to evaluate the $(c_s)$ in $\mathcal{O}(n\log n)$ time by evaluating $D$ at the required points (using the methods we have already seen).
+
+\subsection{Dynamic Programming}
+
+\subsubsection{The Paradigm}
+
+Dynamic programming has a very standard template.
+
+\begin{enumerate}
+	\item Figure out the types of sub-problems.
+	\item Define a recursive procedure.
+	\item Decide on the memoization strategy\footnote{No, there is no typo here.}, which involves keeping a memo of things we've done so far.
+	\item Check that the sub-problem dependencies are acyclic (we don't get stuck in cycles in the recursion).
+	\item Analyze the time complexity using the recursion.
+\end{enumerate}
+
+This is hopefully made more clear by the following several examples.
+
+\subsubsection{Fibonacci Numbers}
+
+Say we wish to find the $k$th Fibonacci number $F_k$.\\
+
+The na\"ive algorithm where we recursively calculate $F_{k-1}$ and $F_{k-2}$ takes running time
+\[ T(k) = T(k-1) + T(k-2) + 1 = \mathcal{O}(2^n). \]
+
+This algorithm is obviously extremely inefficient. Observe that each $F_r$ is calculated multiple times, resulting in a lot of redundancy. Since we've already calculated it, we don't really need to recurse. How do we implement this?
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	% \KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
+	% \KwOut{A maxima in $\var{A}$}
+	\SetKwProg{Fn}{}{}{}
+	\SetKwFunction{FRecurs}{Fibo}
+	\Fn{\FRecurs{r}} {
+		\If{Table contains \FRecurs{$r$}}{
+			\Return{the table value}\;
+		}
+		\eIf{$r=0$ or $r=1$}{
+			$\var{val}\gets k$\;
+			Store $\var{val}$ as the $k$th entry
+		} {
+			$\var{val}\gets \FRecurs{$r-1$}+\FRecurs{$r-2$}$\;
+			Store $\var{val}$ as the $r$th entry in the table\;
+			\Return{$\var{val}$}\;
+		}
+	}
+
+	\Return{\FRecurs($k$)}\;
+	\caption{Calculating the $k$th Fibonacci number}\label{algo: fibo 1}
+\end{algorithm}
+
+\subsubsection{Weighted Interval Scheduling}
+
+This problem is quite similar to the usual interval scheduling problem we studied, except that instead of maximizing the cardinality of the chosen set, we want to maximize the sum of the weights of the chosen set.\\
+There is no nice greedy heuristic for this, can we design a recursive algorithm that works well?\\
+
+Sort the jobs in decreasing order of finishing time. For each $i$, denote by $p(i)$ the last job $j$ with $j<i$ that does not conflict with $i$.\\
+Suppose we iterate backwards and we are currently and index $j$. Then note that if the $j$th job is in an optimal solution $\var{OPT}$, then no job $i$ with $i>p(n)$ cannot belong to $\var{OPT}$. If $j\not\in\var{OPT}$, then we can recurse on $\{1,\ldots,j-1\}$.\\
+
+\begin{algorithm}
+	\DontPrintSemicolon
+	\KwIn{A set of $n$ tasks, each with a start time $s(i)$, finish time $f(i)$, and weight $w(i)$ ordered in non-increasing finish time.}
+	\KwOut{An optimal solution to the weighted interval scheduling problem}
+	\SetKwProg{Fn}{}{}{}
+	\SetKwFunction{main}{WtIntSc}
+	\Fn{\main{$i$}} {
+		\eIf{$i=0$}{
+			\Return{$i$}\;
+		}{
+		\eIf{$\var{Table}(i)$ is non-empty}
+			\Return{$\var{Table}(i)$}\;
+		} {
+			$\var{Table}(i)\gets\max\{w(i)+\main{$p(i)$},\main{$i-1$}\}$\;
+		}
+	}
+	\Return{\main($n$)}\;
+	\caption{Weighted Interval Scheduling Problem}\label{algo: weighted interval sched}
+\end{algorithm}
+
+Correctness is easily quite shown using strong induction on $i$ -- that $\texttt{WtIntSc($i$)}$ omputes the optimal solution for the subproblem containing tasks $\{1,\ldots,i\}$, where the jobs are ordered according to their finish times.\\
+
+The sorting takes $\mathcal{O}(n\log n)$ time. Computing the $p(i)$ takes $\mathcal{O}(n\log n)$ using binary search. The number of calls made to the subroutine $\texttt{WtIntSc}$ is $\mathcal{O}(n)$. Therefore, the overall time is $\mathcal{O}(n\log n)$.
+
 
 \subsection{Exercises}
 
