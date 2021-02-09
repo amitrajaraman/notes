@@ -788,7 +788,7 @@ is invariant under complementation, then $Q'$ is stationary.\\
 
 The lower the conductance is, the more likely the Markov chain is to ``get stuck" somewhere.\\
 
-For any $u$, $1-P_u(\{u\})$ is called the \textit{local conductance} of the Markov chain at $u$. If $Q(u)>0$,\footnote{it is an atom.} then the local conductance is an upper bound on the conductance.\\
+For any $u$, $1-P_u(\{u\})$ is called the \textit{local conductance} of the Markov chain at $u$. If $Q(u)>0$, then the local conductance is an upper bound on the conductance.\\
 More generally, let
 \[ H_t = \{u\in\Omega:P_u(\{u\}) > 1-t\} \]
 and $s=Q(H_t)$. Then
@@ -1420,13 +1420,16 @@ We also saw that the $(Q_F(H_t)/2)$-conductance of the chain is at most $2t$.\\
 The main result of this section, which is a sort of localization lemma in the context of this problem, says that if the local conductance is large and the ``diameter'' (not the usual diameter) of $K$ is small, then the overall conductance is large.
 
 \begin{ftheo}
+	\label{ftheo to bound conductance}
 	Let $0\leq t\leq 1/2$, $0<\theta<1$, and $s=Q_F(H_t)$. Assume that for all $x,y\in K$,
 	\begin{equation}
 		\label{theo 4.40 eqn main}
 		 \vol(G\cap (\theta(x-y)+G)) \geq \frac{1}{2}\vol(G).
 	\end{equation}
-	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $(1/6)t^2\theta$.
+	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $t^2\theta/6$.
 \end{ftheo}
+
+% *** They have proved t^2\theta / 18 ???
 
 Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value satisfying the required in the above theorem). It is seen that $1/\theta$ is the usual diameter under the norm whose unit ball is $\{x : \vol(G\cap(x+G))\geq\vol(G)/2\}$. If $G$ is the Euclidean ball, then $1/\theta$ grows as $\sqrt{n}d$, where $d$ is the usual Euclidean diameter of $K$.
 
@@ -1483,11 +1486,34 @@ Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value sat
 			&= \frac{t}{6}\vol(G)\mu_F(S_3\setminus H_t) \\
 			&\geq \frac{t}{6}\vol(G)(\mu_F(S_3) - s) \\
 			&\geq \frac{t}{6}\vol(G)\left(\frac{t\theta}{3}\min\{\mu_F(S_1)-s,\mu_F(S_2)-s\} - s\right) \\
-			&\geq \frac{t^2\theta}{18} 
+			&= \frac{t^2\theta}{18}  \min\left\{\mu_F(S_1)-s\left(1+\frac{3}{t\theta}\right), \mu_F(S_2)-s\left(1+\frac{3}{t\theta}\right)\right\} \\
+			&= \frac{t^2\theta}{18}  \min\left\{\mu_F(S_1)-\frac{7s}{t}, \mu_F(S_2)-\frac{7s}{t}\right\}.
 	\end{align*}
-	% *** wtf @ the last line
-	%  bruh do I even need s-conductance
+	% Since $t\theta \leq 1/2$,
+	% \[ \mu_F(S_3) \geq \frac{2t\theta}{5} \min\{\mu_F(S_1)-s, \mu_F(S_2)-s\}. \]
+	% To conclude, note that
+	% \begin{align*}
+	% 	\int_{S_1} \int_{S_2\cap (x+G)} \min\{F(x), F(y)\} \d{y}\d{x} &\geq \int_{S_1'} \int_{S_2\cap (x+G)} \min\{F(x),F(y)\} \d{y}\d{x} \\
+	% 		&\geq \int_{S_1'} \frac{t}{3} \vol(G) F(x) \d{x} = \frac{t}{3}\vol(G)\mu_F(S_1'). 
+	% \end{align*}
+	% A similar inequality holds with $\mu_F(S_2')$ instead of $\mu_F(S_1')$ as well (invoking time-reversibility). Therefore,
+	% \begin{align*}
+	% 	\int_{S_1} \int_{S_2\cap (x+G)} &\geq \frac{t}{6}\vol(G)\mu_F(S_1'\cup S_2') \\
+	% 		&= \frac{t}{6}\vol(G)\mu_F(S_3\setminus H_t) \\
+	% 		&\geq \frac{t}{6}\vol(G)(\mu_F(S_3) - s) \\
+	% 		&\geq \frac{t}{6}\vol(G)\left(\frac{2t\theta}{5}\min\{\mu_F(S_1)-s,\mu_F(S_2)-s\} - s\right) \\
+	% 		&= \frac{t^2\theta}{15}  \min\{\mu_F(S_1)-s\left(1+\frac{5}{2t\theta}\right), \mu_F(S_2)-s\left(1+\frac{5}{2t\theta}\right)\} \\
+	% 		&= \frac{t^2\theta}{15}  \min\{\mu_F(S_1)-\frac{6s}{t}, \mu_F(S_2)-\frac{6s}{t}\}.
+	% \end{align*}
+	% *** paper has typo in the second/third-to-last expression
 \end{proof}
+
+Using the fact that $t\theta\leq 1/2$ (in the step where we used that $t\theta<1$), we can bound the $(6s/t)$-conductance by $t^2\theta/15$.
+
+\begin{corollary}
+	\label{cor to bound conductance}
+	If the local conductance of $\mathcal{M}(K,G)$ is at least $t$ at each point, its conductance is at least $t^2\theta/18$.
+\end{corollary}
 
 \subsubsection{The Walk}
 
@@ -1498,11 +1524,11 @@ is uniformly distributed in $B_2^n$.\\
 We modify the $G$-walk described above into a suitable Metropolis chain, with the primary function being quite similar to that we used in the $\mathcal{O}^*(n^8)$ algorithm described in a previous section. Define
 \[ \phi_K(x) = \min\{t\geq 0 : x\in tK\} \]
 and $F_K(x)=e^{-\phi_K(x)}$. Clearly, $0<F_K \leq 1$. We often refer to these functions as just $\phi$ and $F$ if it is clear from context what convex body we are talking about (this is almost always $K$). First of all, we can use \Cref{find sphere volume,eqn: volume in terms of radial distance} to get
-\[ \int_{\R^n} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
+\[ \int_{\Rn} F = n\vol(K)\int_0^\infty t^{n-1}e^{-t}\d{t}. \]
 
 That is,
 \begin{equation}
-	\vol(K) = \frac{1}{n!} \int_{\R^n} F.
+	\vol(K) = \frac{1}{n!} \int_{\Rn} F.
 \end{equation}
 
 Let $h:\Rp\to\R$ be any function such that $\displaystyle\int_0^\infty h(t)t^{n-1}\d{t}$ exists. Then another useful corollary of \Cref{find sphere volume,eqn: volume in terms of radial distance} is that
@@ -1520,11 +1546,10 @@ Now, define
 	is uniformly distributed on $K$.
 \end{lemma}
 \begin{proof}
-	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$. Obviously, the probability of $s\lambda(s)K$ under the uniform distribution (on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
+	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$.\footnote{if $x\in s\partial K$, then $H(x)=\lambda(s)x$.} Obviously, the probability of $s\lambda(s)K$ under the uniform distribution (on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
 	\[ \int_{sK} \frac{e^{-\phi(x)}}{(n-1)!} \d{x} = \int_0^s h(t) t^{n-1} \d{t}. \]
 	By the definition of $\lambda$, these two quantities are equal. Since we can similarly restrict ourselves to any fixed cone similarly, the assertion holds and $H(v)$ is uniform.
 \end{proof}
-
 
 
 While we used usual (deterministic) sandwiching in our earlier algorithm, it tends to be the case that we sacrifice precision in favour of speed, more so when we aim to get a \textit{fast} algorithm and not just any polynomial time algorithm. While we say ``sacrifice precision'', this isn't really the case at all, as we shall see later.\\
@@ -1533,7 +1558,7 @@ The sandwiching we take is such that More than $2/3$ of the volume of $B_2^n$ is
 There exists a randomized algorithm to obtain a $m=n$ in the above, but for now we shall analyze it for a general $m$.\\
 
 Set $q=2mn\log(4/\varepsilon)$ and $t=10^{10}nq^2(n\log n + \log(2/\varepsilon))$.\\
-In the walk, we start from the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as described earlier in the section). Compute $w=H(v_t)$. Our goal is to see how close the distribution $H(v_t)$ is to the uniform distribution. The main result of this section is the following.
+In the algorithm, start with the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as described earlier in the section). Compute $w=H(v_t)$. We claim that $w$ is close to being drawn from the uniform distribution. This is stated more rigorously in the following, which is the main result of this section.
 
 \begin{ftheo}
 	For any (Lebesgue) measurable set $A\subseteq K$, the random point $w$ described above satisfies
@@ -1565,10 +1590,32 @@ The first lemma justifies why we can restrict ourselves to $qB_2^n$.
 	\[ \left(1-\frac{\varepsilon}{4}\right)\vol(K) < \frac{1}{n!} \int_{qB_2^n} F(x)\d{x}. \]
 \end{lemma}
 \begin{proof}
-	Let $\overline{K}=K\cap 2mB_2^n$. Note that for any $x$, $F_{\overline{K}}(x) \leq F(x)$. We then have
+	Let $\overline{K}=K\cap m B_2^n$. Note that for any $x$, $F_{\overline{K}}(x) \leq F(x)$. We then have
 	\begin{align*}
-		\int_{2nmB_2^n} F(x)\d{x} &\geq \int_{2n\overline{K}} F(x)\d{x} \\
+		\int_{2nmB_2^n} F(x)\d{x} &\geq \int_{2n\overline{K}} F(x)\d{x} & (2n\overline{K}\subseteq 2nmB_2^n) \\
 			&\geq \int_{2n\overline{K}} \overline{F}(x)\d{x} \\
-			&= n\vol(\overline{K}) \int_0^{2n} e^{-t}t^{n-1}\d{t}
+			&= n\vol(\overline{K}) \int_0^{2n} e^{-t}t^{n-1}\d{t} & \left(\text{using \Cref{eqn: 4.20} on $h(t) = \begin{cases} e^{-t}, & 0\leq t\leq 2n, \\ 0, & \text{otherwise.} \end{cases}$}\right) \\
+			&> \frac{39}{40} n! \vol(\overline{K}) \\
+			&\geq \frac{13}{20} n!\vol(K) & (\text{at least $2/3$ of the volume of $K$ is in $mB_2^n$})
 	\end{align*}
+	for sufficiently large $n$.
+
+	Alternatively,
+	\[ \int_{\Rn \setminus 2nmB_2^n} F(x)\d{x} < \frac{7}{20} n! \vol(K) = \frac{7}{20} \int_{\Rn} F(x)\d{x}. \]
+	We can then use \Cref{inequality integral setminus ball} to get
+	\[ \int_{\Rn\setminus 2nm\log(4/\varepsilon)B_2^n} F(x)\d{x} < \left(\frac{7}{20}\right)^{\log(4/\varepsilon)} \int_{\Rn} F(x)\d{x} \leq \frac{\varepsilon}{4} n! \vol(K) \]
+	for $\varepsilon\leq 4$ (because $-\log(7/20)>1$), thus proving the required.
 \end{proof}
+
+The second lemma bounds the conductance of the chain.
+
+\begin{lemma}
+	If $p\geq 10\sqrt{n}$, then the conductance of $\mathcal{M}(pB_2^n, B_2^n)/F_K$ is at least $1/(20000p\sqrt{n})$.
+\end{lemma}
+
+\begin{proof}
+	The first step is bounding the local conductance, much like we did for the earlier algorithm. Let $x\in pB_2^n$ and $y$ be chosen randomly from $x+B_2^n$. By the condition that $p\geq 10\sqrt{n}$, $y\not\in pB_2^n$ with probability at most $5/9$. Since $2/3$ of the volume of $B_2^n$ is in $K$, $y\not\in K$ with probability at most $1/3$. Therefore, $y\in pB_2^n\cap K$ with probability at least $1/9$. Fix such a $y$. Then
+	\[ y\in x+K\subseteq \phi(x)K + K = (\phi(x)+1)K, \]
+	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.} (using \Cref{better bound on spherical caps}). \Cref{cor to bound conductance} then yields the result.
+\end{proof}
+
