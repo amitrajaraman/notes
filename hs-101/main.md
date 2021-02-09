@@ -34,17 +34,17 @@ _Economics_ is the study of how society manages its scarce resources.
 4. People respond to incentives. When policymakers fail to consider how their policies affect incentives, there are often unintended consequences. Example: see page 8 (seatbelt law)
 
 5. Trade can make everyone better off. People gain from their ability to trade and competition results in gains from trading. Trade allows people to specialize in what they want.
-There is something called the Robinson Crusoe economy wherein there is no possibility of trade (Robinson Crusoe was the only person on the island). He had to produce all the goods for all his needs. This is a _protectionist_ approach and tries to make the units completely self-reliant. On the other hand, _liberalism_ asks people to focus on their strength and encourages trade.
+There is something called the Robinson Crusoe economy wherein there is no possibility of trade (Robinson Crusoe was the only person on the island so he had to produce all the goods for all his needs). This is a _protectionist_ approach and tries to make the units completely self-reliant. On the other hand, _liberalism_ asks people to focus on their strengths and encourages trade.
 
 6. Markets are (usually) a good way to organize economic activity. A _market economy_ allocates resources through the decentralized decisions of many firms as they interact in markets. It is a decentralist approach. Households/firms _separately_ decide who/what to hire/work for/buy/produce.
 Adam Smith observed that households/firms act as if they are guided by an "invisible hand". Althought they act separately, the system doesn't crash. This invisible hand is just supply and demand and prices are the instrument using which 「the hand」 directs market activity.
-Because households/firms look at prices when they make decisions, they unkowingly account for the social costs of their actions. Individual supply and demands get converted to social supply and demands, which results in the aggregating of individual entities. This results in decision makers to reach outcomes that maximise the welfare of society.
+Because households/firms look at prices when they make decisions, they unkowingly account for the social costs of their actions. Individual supply and demands get converted to social supply and demands, which results in the aggregating of individual entities. This results in decision makers reaching outcomes that maximise the welfare of society.
 When this invisible hand is disrupted (perhaps by the government), there can be adverse affects such as how taxes adversely affect resource allocation.
 
 7. Governments can improve market outcomes. The invisible hand only works if the government enforces the rules and maintains the key institutions. If left to their own, it is possible that agents reach inferior solutions. After independence, it was nearly completely centralized. Markets work only if property rights are introduced. For free market economies to work and maximise societal welfare, it is paramount to ensure that the citizens' property rights are upheld.
 _Market failure_ is said to occur when the market fails to allocate resources efficiently. If it fails, the government can intervene to promote efficiency. Failure could occur due to 
 	* lack of property rights.
-	* an _externality_ - the impact of one person/firm's action on the well-being of a bystander. If we have an Adam Smith structure, it is difficult for externalities to occur. Externalities in general can be good or bad. Example. Passive smoking.
+	* an _externality_ - the impact of one person/firm's action on the well-being of a bystander. If we have an Adam Smith structure, it is difficult for externalities to occur. Externalities in general can be good or bad. An example is passive smoking, which is a bad externality.
 		<!-- Passive smoking of bystanders can be thought of as a bad externality. This isn't reflected in the private market as the price of cigarettes (in a free market economy), but is occurring nevertheless with bystanders being adversely affected. -->
     * _market power_, which is the ability of a single person/firm to influence market prices. An example is monopolization.
 
@@ -62,7 +62,7 @@ The _circular flow diagram_ is a visual model of the economy that shows how mone
 </p>
 <!-- ![circular flow diagram](./circular-flow.png "Circular Flow Diagram") -->
 
-The circular flow diagram doesn't show everything, factors such as the government and international trade are not shown at all.
+The circular flow diagram doesn't show everything, factors such as the government and international trade are not considered at all.
 
 The _production possibilities frontier_ is a graph that shows the combinations of output that the economy can produce given the available factors of production and technology.
 
@@ -71,7 +71,7 @@ The _production possibilities frontier_ is a graph that shows the combinations o
 </p>
 
 An outcome is _efficient_ if the economy is getting all it can given the constraints. Points on (not inside) the PPF such as A, B, E, F represent efficient outcomes. Note that the PPF shows one of the trade-offs we may face. It also shows the opportunity cost of one good measured in terms of another good.    
-Further note that if we are at, say, F, then the workers who are skilled in car-related areas are also working on computers. The PPF usually has this shape and is steeper towards the middle. If the techonology for something becomes better, then the PPF will expand along the corresponding axis.    
+Further note that if we are at, say, F, then the workers who are skilled in car-related areas are also working on computers. The PPF usually has this shape and is steeper towards the middle. If the technology for something becomes better, then the PPF will expand along the corresponding axis.    
 Obviously, it is extremely difficult to get the exact PPF. It is the duty of the government to introduce suitable taxes/subsidies to ensure that the outcome is efficient.
 
 # Lecture 3
@@ -85,9 +85,9 @@ Economists may disagree about the validity of different positive theories on how
 
 A _market_ is a group of buyers and sellers of a particular good/service.    
 A _competitive market_ is one where are there are many buyers and sellers so that each has a negligible impact on the market price. A seller has little reason to sell at a lower price than the market price and he cannot sell at a higher price because then, buyers will go elsewhere. In _perfectly competitive markets_ (all the goods are the same and no individual buyer/seller can influence the market), buyers and sellers are said to be _price takers_.     
-A _monopoly_ on the other end of the spectrum is is a single seller who sets the price.    
+A _monopoly_ on the other end of the spectrum is a single seller who sets the price.    
 An _oligopoly_ means there are not many sellers and the competition is not very aggressive. For example, the telecom market.      
-_Monopolistic competition_ (monopoly+competition) has many sellers and slightly differentiated products. Each seller may set price for its own product. For example, the hotel market.
+_Monopolistic competition_ (monopoly + competition) has many sellers and slightly differentiated products. Each seller may set the price for their own product. For example, the hotel market.
 
 The _quantity demanded_ is the amount of a good that buyers are willing and able to purchase.    
 The _law of demand_ states that, other things equal, the quantity demanded of a good falls when the price of the good rises.    
@@ -108,8 +108,8 @@ If a change in some factor shifts the demand curve to the right, it corresponds 
 
 * Income - A _normal good_ is a good for which the demand increases as consumer income increases. A good for which demand falls as income rises is called an _inferior good_.
 * Prices of related goods - When a fall in the price of one good reduces the demand for another good, they are called _substitutes_. When a fall in the price of one good increases the demand of another, they are called _complements_.
-* Tastes - If the tastes become more tailored towards the product, then demand increases. We don't often try to explain tastes since they are heavily influenced by more psychological factors.
-* Expectations - If expectations for the future increase, then demand increases (_self-fulfilling expectations_), even if there is no logical reason for the rise of expectation in the first place. For example, if we expect an increase in our income, we might save less now and spend more.
+* Tastes - If general tastes become more tailored towards the product, then demand increases. We don't often try to explain tastes since they are heavily influenced by factors psychological in nature.
+* Expectations - If expectations for the future increase, then demand increases, even if there is no logical reason for the rise of expectation in the first place (_self-fulfilling expectations_). For example, if we expect an increase in our income, we might save less now and spend more.
 * Number of buyers - As the number of buyers increases, the demand increases.
 
 It is important to note that changing the price of some good does not result in a shift of the curve, it merely means that we are moving along the curve.
@@ -120,23 +120,22 @@ Similar to the definitions for demand, we have various parameters related to sup
 
 If a change in some factor shifts the supply curve to the right, it corresponds to an increase in supply (and a shift to the left corresponds to a decrease in supply). What are the factors that can cause a shift in the curve?
 
-* Input Prices - If the prices of goods that serve as input (say sugar for ice-cream) in making the good increase, then the curve shifts to the left.
+* Input Prices - If the prices of goods that serve as input (say sugar for ice-cream) in making the good increase, the curve shifts to the left.
 * Technology - If the technology advances, the curve shifts to the right.
-* Expectations - If the price of some good is expected (by the firm) to increase in the future, the curve shifts to the left because they start hoarding the product. This assumes the good is durable. If it is perishable then we need to sell it by the expiry date anyway.
+* Expectations - If the price of some good is expected (by the firm) to increase in the future, the curve shifts to the left because they start hoarding the product. This assumes the good is durable. If it is perishable, we need to sell it by the expiry date anyway.
 * Number of sellers - If the number of sellers increases, the curve shifts to the right.
 
-The supply (demand) curve does not take demand (supply) into consideration explicitly, but they are intrinsically linked.
+It should be noted that the supply (demand) curve does not take demand (supply) into consideration explicitly.
 
-_Equilibrium_ is the situation where the quantity supplied is equal to the quantity demanded. The _equilibrium price_ and _equilibtium quantity_ are the corresponding price and quantity. Observe that this is just the point of intersection of the supply and demand curves. The equilibrium price is also known as the "market-clearing price". 
+_Equilibrium_ is the situation where the quantity supplied is equal to the quantity demanded. The _equilibrium price_ and _equilibtium quantity_ are the corresponding price and quantity. This is just the point of intersection of the supply and demand curves. The equilibrium price is also known as the "market-clearing price". 
 
 If the price is higher than the equilibrium price, then the supply is high and the demand is low. This is known as an _excess-supply_ situation. The excess supply is known as a _surplus_. Since the sellers need to clear their excess, the price decreases until the equilibrium is reached.    
 Similarly, if the price is lower than the equilibrium price, we are in an _excess-demand_ situation. The excess demand is known as a _shortage_. Here, the sellers realize that they need to sell more and they drive up the price until the equilibrium is reached.    
 Therefore, regardless of how the original situation is, we converge to the equilibrium assuming there are no barriers to this. This phenomenon is known as the _law of supply and demand_ - the price of any good adjusts to bring the quantity supplied and demanded into balance.
 
 Note that this phenomenon is just Adam Smith's "invisible hand" mentioned in the first lecture and the price system is how it influences the economy.
-Also note that the equilibrium is determined by both the supply and demand curves, not just one of them.
 
-The earlier discussion about shifts of the supply and demand curves can be used to analyze the shift in equilibria as well. The following table describes how it changes with shift in the curves.
+The earlier discussion about shifts of the supply and demand curves can now be used to analyze the shift in equilibria as well. The following table describes how it changes with shift in the curves.
 
 <p align="center">
 <img src="./equilibrium-supply-demand-shift.png" alt="Change in equilibrium with shift of curves" width="500"/>
