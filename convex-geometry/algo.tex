@@ -942,6 +942,7 @@ The next result is analogous to \Cref{large conductance implies rapidly mixing} 
 Writing the above in a slightly more useful form,
 
 \begin{corollary}
+	\label{cor 4.23}
 	Let $M=\sup_A Q_0(A)/Q(A)$. Then for every $A\in\mathcal{A}$,
 	\[ |Q_k(A) - Q(A)| \leq \sqrt{M}\left(1-\frac{\Phi_s^2}{2}\right)^k. \]
 \end{corollary}
@@ -1039,11 +1040,9 @@ While we have used Metropolis chains previously, let us define them more formall
 		P_u^F(A) = 
 		\begin{cases}
 			\displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v), & u\not\in A, \\
-			\displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \ell(u), & u\in A,
+			\displaystyle\int_A \min\left\{1,\frac{F(v)}{F(u)}\right\}\d{P}_u(v) + \int_{\Omega} \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(v),  & u\in A.
 		\end{cases}
 	\]
-	where
-	\[ \ell(u) = \int_\Omega \max\left\{0,1-\frac{F(v)}{F(u)}\right\}\d{P}_u(u). \]
 \end{fdef}
 
 And as mentioned, this modified chain converges to a distribution proportional to $F$.
@@ -1489,6 +1488,7 @@ Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value sat
 			&= \frac{t^2\theta}{18}  \min\left\{\mu_F(S_1)-s\left(1+\frac{3}{t\theta}\right), \mu_F(S_2)-s\left(1+\frac{3}{t\theta}\right)\right\} \\
 			&\geq \frac{t^2\theta}{18}  \min\left\{\mu_F(S_1)-\frac{7s}{t}, \mu_F(S_2)-\frac{7s}{t}\right\}.
 	\end{align*}
+	% *** how does the last step come lol, you get anything but that (unless I'm an idiot)
 	% Since $t\theta \leq 1/2$,
 	% \[ \mu_F(S_3) \geq \frac{2t\theta}{5} \min\{\mu_F(S_1)-s, \mu_F(S_2)-s\}. \]
 	% To conclude, note that
@@ -1541,6 +1541,7 @@ Let $h:\Rp\to\R$ be any function such that $\displaystyle\int_0^\infty h(t)t^{n-
 Now, define
 \[ \lambda(s) = \frac{1}{s}\left(\frac{1}{(n-1)!}\int_0^s e^{-t}t^{n-1}\d{t}\right)^{1/n}. \]
 \begin{lemma}
+	\label{final thing uniformly distrib}
 	Let $v$ be randomly distributed in $\R^n$ with density $e^{-\phi(v)}/(n-1)!$. Then
 	\[ H(v) = \lambda(\phi(v))v \]
 	is uniformly distributed on $K$.
@@ -1582,10 +1583,14 @@ The remainder of this section is dedicated to proving the above.
 Observe that the above is just a (better) bound on the volume of a spherical cap, which we rudimentarily bounded back in \Cref{spherical cap lower bound,spherical cap upper bound}. We omit the proof of the above.\\
 
 The above with the sandwiching we are taking implies that $(n^{-1/2}/3) B_2^n \subseteq K$. Also, \Cref{lemma 4.38} implies that $K\subseteq 3nmB_2^n$. Therefore, for any $x\in K$,
-\[ \frac{\norm{x}}{3nm} \leq \phi(x) \leq 3\sqrt{n}\norm{x}. \]
+\begin{equation}
+	\label{eqn: 4.21}
+	\frac{\norm{x}}{3nm} \leq \phi(x) \leq 3\sqrt{n}\norm{x}.
+\end{equation}
 The first lemma justifies why we can restrict ourselves to $qB_2^n$.
 
 \begin{lemma}
+	\label{lem 4.45}
 	Given the above,
 	\[ \left(1-\frac{\varepsilon}{4}\right)\vol(K) < \frac{1}{n!} \int_{qB_2^n} F(x)\d{x}. \]
 \end{lemma}
@@ -1610,12 +1615,51 @@ The first lemma justifies why we can restrict ourselves to $qB_2^n$.
 The second lemma bounds the conductance of the chain.
 
 \begin{lemma}
+	\label{lem 4.46}
 	If $p\geq 10\sqrt{n}$, then the conductance of $\mathcal{M}(pB_2^n, B_2^n)/F_K$ is at least $1/(20000p\sqrt{n})$.
 \end{lemma}
 
 \begin{proof}
 	The first step is bounding the local conductance, much like we did for the earlier algorithm. Let $x\in pB_2^n$ and $y$ be chosen randomly from $x+B_2^n$. By the condition that $p\geq 10\sqrt{n}$, $y\not\in pB_2^n$ with probability at most $5/9$. Since $2/3$ of the volume of $B_2^n$ is in $K$, $y\not\in K$ with probability at most $1/3$. Therefore, $y\in pB_2^n\cap K$ with probability at least $1/9$. Fix such a $y$. Then
 	\[ y\in x+K\subseteq \phi(x)K + K = (\phi(x)+1)K, \]
-	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.} (using \Cref{better bound on spherical caps}). \Cref{cor to bound conductance} then yields the result.
+	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$ (using \Cref{better bound on spherical caps}\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.}). \Cref{cor to bound conductance} then yields the result.
 \end{proof}
 
+Let us now move on to the proof of the main theorem.
+
+For $A\subseteq\Rn$, define
+\[ Q_F(A) = \frac{\int_A F(u)\d{u}}{\int_{\Rn} F(u)\d{u}} \]
+and
+\[ Q_F'(A) = \frac{\int_{A\cap qB_2^n} F(u)\d{u}}{\int_{qB_2^n} F(u)\d{u}. } \]
+
+For measurable $A\subseteq K$,
+\[ \Pr[w\in A] = \Pr[v_t \in H^{-1}(A)] = Q_t(H^{-1}(A)). \]
+By \Cref{final thing uniformly distrib},
+\[ Q_F(H^{-1}(A)) = \frac{\vol(A)}{\vol(K)}. \]
+Clearly, it suffices to show that for any measurable $U\subseteq\Rn$,
+\[ |Q_F(U) - Q_t(U)| \leq \varepsilon. \]
+Using \Cref{lem 4.45}, we then have
+\begin{align*}
+	Q_F(U) - Q_F'(U) &= \frac{\mu_F(U)}{\mu_F(\Rn)} - \frac{\mu_F(U\cap q B_2^n)}{\mu_F(q B_2^n)}  \\
+		&\leq \frac{\mu_F(U)}{\mu_F(\Rn)} - \frac{\mu_F(U\cap q B_2^n)}{\mu_F(\Rn)} \\
+		&= \frac{\mu_F(U\setminus qB_2^n)}{\mu_F(\Rn)} \\
+		&\leq \frac{\mu_F(\Rn\setminus qB_2^n)}{\mu_F(\Rn)} \leq \frac{\varepsilon}{4} \\
+	Q_F'(U) - Q_F(U) &= \frac{\mu_F(U\cap q B_2^n)}{\mu_F(q B_2^n)} - \frac{\mu_F(U)}{\mu_F(\Rn)} \\
+		&\leq \frac{\mu_F(U\cap q B_2^n)}{\mu_F(qB_2^n)} - \frac{\mu_F(U\cap q B_2^n)}{\mu_F(\Rn)} \\
+		&= \frac{\mu_F(U\cap q B_2^n)\mu_F(\Rn\setminus qB_2^n)}{\mu_F(qB_2^n)\mu_F(\Rn)} \\
+		&\leq \frac{\mu_F(\Rn\setminus qB_2^n)}{\mu_F(\Rn)} \leq \frac{\varepsilon}{4}
+\end{align*}
+Therefore, it suffices to bound $|Q_F'(U)-Q_t(U)|$ by $3\varepsilon/4$. By \Cref{cor 4.23},
+\[ |Q_t(U) - Q_F'(U)| \leq \sqrt{M}\left(1-\frac{\Phi^2}{2}\right)^t. \]
+Recall that we start with the uniform distribution on $B_2^n$. To estimate $M$,
+\begin{align*}
+	M 	&= \sup_{A} \frac{Q_0(A)}{Q_F'(A)} \\
+		&= \sup_{A} \frac{\mu_F(q B_2^n)}{\vol(B_2^n)}\cdot\frac{\vol(A\cap B_2^n)}{\mu_F(A\cap q B_2^n)} \\
+		&= \frac{\mu_F(q B_2^n)}{\mu_F(B_2^n)} \\
+		&\leq \frac{n!\vol(K)}{e^{-3\sqrt{n}\vol(B_2^n)}} & (\text{\Cref{eqn: 4.21}}) \\
+		&\leq n^{4n} \left(n!\leq n^n, \frac{\vol(K)}{\vol(B_2^n)} \leq \frac{3}{2}m^n\right, e^{-3\sqrt{n}}\leq\frac{2}{3}n^{n/2})
+\end{align*}
+for sufficiently large $n$. By \Cref{lem 4.46},
+\[ \Phi \geq \frac{1}{20000q\sqrt{n}}. \]
+Therefore,
+\[ |Q_t(U) - Q_F'(U)| \leq n^{2n}\left(1-\frac{\Phi^2}{2}\right)^t \]
