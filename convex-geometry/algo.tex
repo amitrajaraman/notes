@@ -57,6 +57,7 @@ A \textit{weak membership oracle} is similar, where if it is within $\varepsilon
 The complexity of the algorithm is measured in the number of calls to the oracle, since this is usually the most expensive step.
 
 \subsubsection{Sandwiching}
+\label{sandwiching}
 
 We earlier mentioned that we only consider well-guaranteed bodies. As might be expected, the ratio $R/r$ is quite important. Defining it slightly more concretely,
 
@@ -80,22 +81,22 @@ We first introduce the following common tool.
 \begin{lemma}[Basic ellipsoid method]
 For a convex body $K\subseteq\R^n$ along with some $R>0$ such that $K\subseteq RB_2^n$ and a weak separation oracle, it is possible to find a point in $K$ in polynomial time.
 \end{lemma}
-We prove it for the case where we have a \textit{strong} separation oracle. The algorithm basically works by cutting down our search space until we find a point.
+	We prove it for the case where we have a \textit{strong} separation oracle. The algorithm basically works by cutting down our search space until we find a point.
 \begin{proof}
-We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0 = R B_2^n$. Given $\mathcal{E}_r$, check if its center $x_r$ is contained in $K$. Otherwise, we have a half-space $H_r$ such that $K\subseteq H_r$. We set $\mathcal{E}_{r+1}$ to be the ellipsoid of minimal volume that contains $K\cap H_r$. The sequence terminates when the center of an ellipsoid is contained in $K$.
+	We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0 = R B_2^n$. Given $\mathcal{E}_r$, check if its center $x_r$ is contained in $K$. Otherwise, we have a half-space $H_r$ such that $K\subseteq H_r$. We set $\mathcal{E}_{r+1}$ to be the ellipsoid of minimal volume that contains $K\cap H_r$. The sequence terminates when the center of an ellipsoid is contained in $K$.
 
-It may be shown\footnote{We explicitly give the update formula without proof on the next page. See \href{https://web.stanford.edu/class/ee364b/lectures/ellipsoid_method_notes.pdf}{this}.} that
-\[ \vol(\mathcal{E}_{r+1}) = \left(\frac{n}{n+1}\right)^{(n+1)/2}\left(\frac{n}{n-1}\right)^{(n-1)/2} \vol(\mathcal{E}_{r}). \]
-Rewriting it more suggestively,
-\begin{align*}
-	\vol(\mathcal{E}_{r+1}) &= \left(\frac{n^2}{n^2-1}\right)^{(n-1)/2} \frac{n}{n+1} \vol(\mathcal{E}_{r}) \\
-	&< \left(1+\frac{1}{n^2}\right)^{(n-1)/2} \vol(\mathcal{E}_r) < e^{-1/2n} \vol(\mathcal{E}_r).
-\end{align*}
-The thing to note here is that $e^{-1/2n}$ is independent of the ellipsoids involved. Since we have $K\subseteq \mathcal{E}_k$,
-\[ \vol (K)\leq \vol(\mathcal{E}_k) \leq e^{-k/2n}(2R)^n.  \]
-That is,
-\[ k \leq 2n^2 \log(2R) - 2n \log(\vol (K)) \]
-so there is a polynomial upper bound on the number of steps.
+	It may be shown that
+	\[ \vol(\mathcal{E}_{r+1}) = \left(\frac{n}{n+1}\right)^{(n+1)/2}\left(\frac{n}{n-1}\right)^{(n-1)/2} \vol(\mathcal{E}_{r}). \]
+	Rewriting it more suggestively,
+	\begin{align*}
+		\vol(\mathcal{E}_{r+1}) &= \left(\frac{n^2}{n^2-1}\right)^{(n-1)/2} \frac{n}{n+1} \vol(\mathcal{E}_{r}) \\
+		&< \left(1+\frac{1}{n^2}\right)^{(n-1)/2} \vol(\mathcal{E}_r) < e^{-1/2n} \vol(\mathcal{E}_r).
+	\end{align*}
+	The thing to note here is that $e^{-1/2n}$ is independent of the ellipsoids involved. Since we have $K\subseteq \mathcal{E}_k$,
+	\[ \vol (K)\leq \vol(\mathcal{E}_k) \leq e^{-k/2n}(2R)^n.  \]
+	That is,
+	\[ k \leq 2n^2 \log(2R) - 2n \log(\vol (K)) \]
+	so there is a polynomial upper bound on the number of steps.
 \end{proof}
 
 If each ellipsoid is given by
@@ -110,26 +111,30 @@ Since there is rounding anyway (irrationals might become involved due to the $\s
 A pair of ellipsoids like that in \Cref{eqn weak lowner john ellipsoid} is often known as a \textit{weak L\"owner-John pair} for $K$ (the sandwiching ratio must be $(n+1)\sqrt n$). 
 
 \begin{ftheo}
-\label{lovasz pre-sandwich}
-Let $K\subseteq\R^n$ be a convex body given by a weak separation oracle. Then a weak L\"owner-John pair for $K$ can be computed in polynomial time. 
+	\label{lovasz pre-sandwich}
+	Let $K\subseteq\R^n$ be a convex body given by a weak separation oracle. Then a weak L\"owner-John pair for $K$ can be computed in polynomial time. 
 \end{ftheo}
 Again, we prove it for the case where we have a strong separation oracle instead. This algorithm is nearly identical to that of basic ellipsoid method, but at each step we perform a little extra computation to check if the corresponding ellipsoid scaled down by a factor of $(n+1)\sqrt{n}$ is contained in $K$.
 \begin{proof}
-We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0=R B_2^n$. Given $\mathcal{E}_r$, first check if its center $x_r$ is contained in $K$. if it is not, then use the basic ellipsoid method to get an ellipsoid that does; we abuse notation and refer to this as $\mathcal{E}_r$ as well.\\
-Next, let the endpoints of the axes of the ellipsoid be given by $x_r \pm a_i$ (for $1\leq i\leq n$). Check if the $2n$ points $x_r \pm \frac{1}{n+1} a_i$ are in $K$ for each $i$. If they all are, then we are done, since this implies that the convex hull of these points is contained in $K$ as well, and the maximal ellipsoid contained in the convex hull is just $\mathcal{E}_r$ scaled down by a factor of $(n+1)\sqrt{n}$.\\
-Otherwise, suppose that $x_r+\frac{1}{n+1}a_1$ is not in $K$ and $H_r$ is the half-space returned by the oracle that contains $K$. Similar to the basic ellipsoid method, find the minimal ellipsoid $\mathcal{E}_{r+1}$ that contains $\mathcal{E}_r\cap H_r$.\\
-The sequence terminates when we have found a weak L\"owner-John pair.
+	We construct a sequence $\mathcal{E}_0,\ldots,\mathcal{E}_k$ of ellipsoids with $\mathcal{E}_0=R B_2^n$. Given $\mathcal{E}_r$, first check if its center $x_r$ is contained in $K$. if it is not, then use the basic ellipsoid method to get an ellipsoid that does; we abuse notation and refer to this as $\mathcal{E}_r$ as well.\\
+	Next, let the endpoints of the axes of the ellipsoid be given by $x_r \pm a_i$ (for $1\leq i\leq n$). Check if the $2n$ points $x_r \pm \frac{1}{n+1} a_i$ are in $K$ for each $i$. If they all are, then we are done, since this implies that the convex hull of these points is contained in $K$ as well, and the maximal ellipsoid contained in the convex hull is just $\mathcal{E}_r$ scaled down by a factor of $(n+1)\sqrt{n}$.\\
+	Otherwise, suppose that $x_r+\frac{1}{n+1}a_1$ is not in $K$ and $H_r$ is the half-space returned by the oracle that contains $K$. Similar to the basic ellipsoid method, find the minimal ellipsoid $\mathcal{E}_{r+1}$ that contains $\mathcal{E}_r\cap H_r$.\\
+	It may be shown that in this case,
+	\[ \vol(\mathcal{E}_{r+1}) < e^{-3/2(n+1)(2n+1)^2}\vol(\mathcal{E}_r). \]
+	The sequence terminates when we have found a weak L\"owner-John pair.
 \end{proof}
 
 % It may be shown that this sandwiching algorithm can be run in $\tilde{\mathcal{O}}(n^4)$.\footnote{the $\tilde{O}$ notation means that we suppress powers of $\log n$.}\\
 
-One might be tempted to increase the $\frac{1}{n+1}$ factor we use to get something even better, but it is worth noting the reason for both this algorithm working in the first place is that the volume of the ellipsoid decreases at each step.\\
+% One might be tempted to increase the $\frac{1}{n+1}$ factor we use to get something even better, but it is worth noting the reason for this algorithm working in the first place is that the volume of the ellipsoid decreases at each step.\\
 
 It is also notable that for certain types of special convex bodies, we can improve the bound beyond $(n+1)\sqrt{n}$.\\
 In particular, if $K$ is symmetric, we can attain a factor of $n$, if $K$ is a polytope given as the convex hull of a set of vectors, we can attain $n+1$, and if $K$ is a symmetric polytope given as above, we can attain $\sqrt{n+1}$.\\
 
 Typically, we assume that after performing sandwiching, we perform a linear transformation such that $B_2^n$ becomes the maximal ellipsoid of the transformed body. That is, the problem boils down computing the volume of a body $K$ with
 \[ B_2^n \subseteq K \subseteq (n+1)\sqrt{n} B_2^n. \]
+
+Readers interested in oracles and sandwiching are highly recommended to take a look at \cite{GroetschelLovaszSchrijver1993}.
 
 \subsubsection{The Problem and Deterministic Attempts}
 
@@ -145,19 +150,19 @@ while minimizing $\frac{\ovol(K)}{\uvol(K)}$.
 for every convex body $K$. The reason for this is that the convex hull of polynomially many points in $B_2^n$ is always bound to be far smaller than $B_2^n$ itself -- we've already seen this all the way back in \Cref{approximating sphere to polytope}. Let us now prove \Cref{eqn elekes deterministic SUCKS}.
 
 \begin{lemma}[Elekes' Theorem]
-Every deterministic algorithm to estimate the volume of an arbitrary convex body $K\subseteq\R^n$ that uses $q$ oracle queries has $\frac{\ovol(K)}{\uvol(K)} \geq \frac{2^n}{q}$ for some $K$ given by a well-guaranteed weak separation oracle.
+	Every deterministic algorithm to estimate the volume of an arbitrary convex body $K\subseteq\R^n$ that uses $q$ oracle queries has $\frac{\ovol(K)}{\uvol(K)} \geq \frac{2^n}{q}$ for some $K$ given by a well-guaranteed weak separation oracle.
 \end{lemma}
 
 What exactly do we mean by a deterministic algorithm? Roughly, it means that if we pass the same body into the algorithm twice, we will get the exact same result. More specifically, if we pass two bodies $K_1$ and $K_2$ such that $(x_i)$ and $(y_i)$ are the queried points respectively, the first point where they differ, say $x_i\neq y_i$, must be such that $x_{i-1}=y_{i-1}$ is in $K_1\triangle K_2$. We abuse this fact.
 
 \begin{proof}
-Let $\mathcal{A}$ be some deterministic algorithm to estimate the volume of a convex body. Fix $\varepsilon=2^n$ for the separation oracle. When we run $\mathcal{A}$ on $B_2^n$, suppose that the points queried are $x_1,\ldots,x_q$. Let $C$ be the convex hull of these $q$ points. Now, note that if we run $\mathcal{A}$ on $C$, the same points $(x_i)$ will be queried and as a result, the volume estimates $\uvol$ and $\ovol$ that are returned are the same as well!\\
-To conclude the argument, note that
-\[ C \subseteq \bigcup_{i=1}^q B\left(\frac{x_i}{2},\frac{1}{2}\right). \]
-Therefore,
-\[ \frac{\vol(C)}{\vol(B_2^n)} \leq \frac{q}{2^n}. \]
-We then have
-\[ \frac{\ovol}{\uvol} \geq \frac{\vol(B_2^n)}{\vol(C)} \geq \frac{2^n}{q}. \]
+	Let $\mathcal{A}$ be some deterministic algorithm to estimate the volume of a convex body. Fix $\varepsilon=2^n$ for the separation oracle. When we run $\mathcal{A}$ on $B_2^n$, suppose that the points queried are $x_1,\ldots,x_q$. Let $C$ be the convex hull of these $q$ points. Now, note that if we run $\mathcal{A}$ on $C$, the same points $(x_i)$ will be queried and as a result, the volume estimates $\uvol$ and $\ovol$ that are returned are the same as well!\\
+	To conclude the argument, note that
+	\[ C \subseteq \bigcup_{i=1}^q B\left(\frac{x_i}{2},\frac{1}{2}\right). \]
+	Therefore,
+	\[ \frac{\vol(C)}{\vol(B_2^n)} \leq \frac{q}{2^n}. \]
+	We then have
+	\[ \frac{\ovol}{\uvol} \geq \frac{\vol(B_2^n)}{\vol(C)} \geq \frac{2^n}{q}. \]
 \end{proof}
 
 \subsubsection{The B\'ar\'any-F\"uredi Theorem}
@@ -165,25 +170,25 @@ We then have
 We now give a stronger result known as the B\'ar\'any-F\"uredi Theorem (given in \cite{no-deterministic-algo-barany-furedi}), which shows that deterministic algorithms in general aren't much better than even the estimate with an $n^n$ error returned by basic sandwiching.
 
 \begin{ftheo}[B\'ar\'any-F\"uredi Theorem]
-There is no deterministic polynomial time algorithm that computes a lower bound $\uvol(K)$ and an upper bound $\ovol(K)$ for the volume of every convex body $K\subseteq\R^n$ given by some oracle such that for every convex body,
-\[ \frac{\ovol(K)}{\uvol(K)} \leq \left(c \frac{n}{\log n}\right)^n \]
+	There is no deterministic polynomial time algorithm that computes a lower bound $\uvol(K)$ and an upper bound $\ovol(K)$ for the volume of every convex body $K\subseteq\R^n$ given by some oracle such that for every convex body,
+	\[ \frac{\ovol(K)}{\uvol(K)} \leq \left(c \frac{n}{\log n}\right)^n \]
 \end{ftheo}
 
 The basic outline of the proof is as follows.\\
 
 \begin{proof}
-Rather than considering a simple separation oracle, we consider an even stronger oracle. First of all, we know beforehand that the convex body $K$ is such that $B_1^n\subseteq K\subseteq B_\infty^n$.\\
-For $x\in\R^n$, denote $x^\circ = x/\norm{x}$, $H^+(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \leq 1 \}$ and $H^-(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \geq 1 \}$.\\
+	Rather than considering a simple separation oracle, we consider an even stronger oracle. First of all, we know beforehand that the convex body $K$ is such that $B_1^n\subseteq K\subseteq B_\infty^n$.\\
+	For $x\in\R^n$, denote $x^\circ = x/\norm{x}$, $H^+(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \leq 1 \}$ and $H^-(x^\circ) = \{ z\in\R^d:\langle z,x^\circ \rangle \geq 1 \}$.\\
 
-When we query $x\in\R^n$, in addition to the information given by the separation oracle, we also receive ``$x^\circ\in K$ and $-x^\circ\in K$ and $K\subseteq H^-(x^\circ)$ and $K\subseteq H^+(x^\circ)$". That is, if $x\not\in K$, in addition to a separating hyperplane, we also receive information as to whether the hyperplanes at $\pm x^\circ$ that are orthogonal to $x$ are tangential to $K$.\\
+	When we query $x\in\R^n$, in addition to the information given by the separation oracle, we also receive ``$x^\circ\in K$ and $-x^\circ\in K$ and $K\subseteq H^-(x^\circ)$ and $K\subseteq H^+(x^\circ)$". That is, if $x\not\in K$, in addition to a separating hyperplane, we also receive information as to whether the hyperplanes at $\pm x^\circ$ that are orthogonal to $x$ are tangential to $K$.\\
 
-Now, for the main part of the proof, suppose we have some deterministic polyomial time algorithm $\mathcal{A}$ that returns a lower and upper bound $\uvol(K)$ and $\ovol(K)$ for any body $K$. The basic idea is roughly similar to that of Elekes' Theorem. Suppose we run $\mathcal{A}$ on $B_2^n$ until $m\leq n^a - n$ questions have been asked for some $a\geq 2$ (due to the polynomial nature of the algorithm) and $x_1,\ldots,x_m$ are the points queried. Define
-\[ C = \conv(\pm e_1, \pm e_2, \ldots, \pm e_n, x_1^\circ, \ldots, x_m^\circ). \]
-Now, consider the dual $C^*$ of $C$ (recall what a dual is from the proof of \Cref{fritz johns theorem part 1}). Observe that for any of the $x_i$, the output of the oracle on passing $x_i$ (or $\pm e_i$) must be the same whether we pass it with regards to $C$, $C^*$, or $B_2^n$.\footnote{if $x_i\in B_2^n$, we receive a \texttt{yes}. Otherwise, we receive a \texttt{no} along with the information that the hyperplanes at the $x_i^\circ$ are tangential.} Indeed, each $H^+(x_i^\circ)$ and $H^-(x_i^\circ)$ is a supporting hyperplane of all three bodies. This implies that the estimates returned by $\mathcal{A}$ are the same for all three bodies!\\
-We then have
-\[ \ovol(B_2^n) \geq \vol(C^*)\text{ and }\uvol(B_2^n) \leq \vol(C). \]
-Therefore,
-\[ \frac{\ovol(C)}{\uvol(C)} = \frac{\ovol(C^*)}{\uvol(C^*)} = \frac{\ovol(B_2^n)}{\uvol(B_2^n)} \geq \frac{\vol(C^*)}{\vol(C)}. \]
+	Now, for the main part of the proof, suppose we have some deterministic polyomial time algorithm $\mathcal{A}$ that returns a lower and upper bound $\uvol(K)$ and $\ovol(K)$ for any body $K$. The basic idea is roughly similar to that of Elekes' Theorem. Suppose we run $\mathcal{A}$ on $B_2^n$ until $m\leq n^a - n$ questions have been asked for some $a\geq 2$ (due to the polynomial nature of the algorithm) and $x_1,\ldots,x_m$ are the points queried. Define
+	\[ C = \conv(\pm e_1, \pm e_2, \ldots, \pm e_n, x_1^\circ, \ldots, x_m^\circ). \]
+	Now, consider the dual $C^*$ of $C$ (recall what a dual is from the proof of \Cref{fritz johns theorem part 1}). Observe that for any of the $x_i$, the output of the oracle on passing $x_i$ (or $\pm e_i$) must be the same whether we pass it with regards to $C$, $C^*$, or $B_2^n$.\footnote{if $x_i\in B_2^n$, we receive a \texttt{yes}. Otherwise, we receive a \texttt{no} along with the information that the hyperplanes at the $x_i^\circ$ are tangential.} Indeed, each $H^+(x_i^\circ)$ and $H^-(x_i^\circ)$ is a supporting hyperplane of all three bodies. This implies that the estimates returned by $\mathcal{A}$ are the same for all three bodies!\\
+	We then have
+	\[ \ovol(B_2^n) \geq \vol(C^*)\text{ and }\uvol(B_2^n) \leq \vol(C). \]
+	Therefore,
+	\[ \frac{\ovol(C)}{\uvol(C)} = \frac{\ovol(C^*)}{\uvol(C^*)} = \frac{\ovol(B_2^n)}{\uvol(B_2^n)} \geq \frac{\vol(C^*)}{\vol(C)}. \]
 \end{proof}
 
 Over the rest of this section, we show that there is some constant $c$ such that
@@ -1312,7 +1317,7 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 \end{corollary}
 
 \begin{theorem}
-\label{inequality integral setminus ball}
+	\label{inequality integral setminus ball}
 	Let $F$ be a log-concave function on $\Rn$ and $\theta\leq 1$ such that
 	\[ \int_{\Rn \setminus B_2^n} F(x)\d{x} = \theta \int_{\Rn} F(x)\d{x}. \]
 	Then for every $u\geq 1$,
@@ -1365,9 +1370,10 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 
 % Setting $F$ to be identically $1$ in the above result, we get the following.
 
-% \begin{corollary}
-% 	Let $K$ be a convex body in $\Rn$ and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $\vol(K\setminus uB_2^n)\leq\theta^{(u+1)/2}\vol(K)$.	
-% \end{corollary}
+\begin{corollary}
+	\label{inequality integral setminus ball restricted to K}
+	Let $K$ be a convex body in $\Rn$ and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $\vol(K\setminus uB_2^n)\leq\theta^{(u+1)/2}\vol(K)$.	
+\end{corollary}
 % *** HOW???
 
 Before we conclude this section, we give two more lemmas that will be useful in the future.
@@ -1516,6 +1522,7 @@ Using the fact that $t\theta\leq 1/2$ (in the step where we used that $t\theta<1
 \end{corollary}
 
 \subsubsection{The Walk}
+\label{the walk}
 
 A simple albeit important problem is that of deciding how to sample from the body $G$ we are considering. As mentioned at the beginning of this section, the cube is quite easy from a programmer's perspective. The Euclidean ball is not too difficult either. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
 \[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
@@ -1562,6 +1569,7 @@ Set $q=2mn\log(4/\varepsilon)$ and $t=10^{10}nq^2(n\log n + \log(2/\varepsilon))
 In the algorithm, start with the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as described earlier in the section). Compute $w=H(v_t)$. We claim that $w$ is close to being drawn from the uniform distribution. This is stated more rigorously in the following, which is the main result of this section.
 
 \begin{ftheo}
+	\label{LovS algorithm works!}
 	For any (Lebesgue) measurable set $A\subseteq K$, the random point $w$ described above satisfies
 	\[ \left| \Pr\left[w\in A\right] - \frac{\vol(A)}{\vol(K)} \right| < \varepsilon. \]
 	Moreover, it requires $\mathcal{O}(n^3m^2\log^2(1/\varepsilon)(n\log n + \log(1/\varepsilon)))$ membership tests and $\mathcal{O}(n^4 m^2 \log(1/\varepsilon) (n\log n + \log(1/\varepsilon)))$ arithmetic operations involving numbers of $\mathcal{O}(\log n)$ bits.
@@ -1622,7 +1630,7 @@ The second lemma bounds the conductance of the chain.
 \begin{proof}
 	The first step is bounding the local conductance, much like we did for the earlier algorithm. Let $x\in pB_2^n$ and $y$ be chosen randomly from $x+B_2^n$. By the condition that $p\geq 10\sqrt{n}$, $y\not\in pB_2^n$ with probability at most $5/9$. Since $2/3$ of the volume of $B_2^n$ is in $K$, $y\not\in K$ with probability at most $1/3$. Therefore, $y\in pB_2^n\cap K$ with probability at least $1/9$. Fix such a $y$. Then
 	\[ y\in x+K\subseteq \phi(x)K + K = (\phi(x)+1)K, \]
-	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$ (using \Cref{better bound on spherical caps}\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.}). \Cref{cor to bound conductance} then yields the result.
+	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$ (using \Cref{better bound on spherical caps})\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.}. \Cref{cor to bound conductance} then yields the result.
 \end{proof}
 
 Let us now move on to the proof of the main theorem.
@@ -1655,11 +1663,70 @@ Recall that we start with the uniform distribution on $B_2^n$. To estimate $M$,
 \begin{align*}
 	M 	&= \sup_{A} \frac{Q_0(A)}{Q_F'(A)} \\
 		&= \sup_{A} \frac{\mu_F(q B_2^n)}{\vol(B_2^n)}\cdot\frac{\vol(A\cap B_2^n)}{\mu_F(A\cap q B_2^n)} \\
-		&= \frac{\mu_F(q B_2^n)}{\mu_F(B_2^n)} \\
-		&\leq \frac{n!\vol(K)}{e^{-3\sqrt{n}\vol(B_2^n)}} & (\text{\Cref{eqn: 4.21}}) \\
-		&\leq n^{4n} \left(n!\leq n^n, \frac{\vol(K)}{\vol(B_2^n)} \leq \frac{3}{2}m^n\right, e^{-3\sqrt{n}}\leq\frac{2}{3}n^{n/2})
+		&= \frac{\mu_F(q B_2^n)}{\vol(B_2^n)} \sup_{A\subseteq B_2^n}\frac{\vol(A)}{\mu_F(A)} \\
+		&= \frac{\mu_F(q B_2^n)}{\mu_F(B_2^n)} & (\text{the supremum is attained for }A=B_2^n) \\
+		&\leq \frac{n!\vol(K)}{e^{-3\sqrt{n}}\vol(B_2^n)} & (\text{\Cref{eqn: 4.21}}) \\
+		&\leq n^{3n} & \left(n!\leq n^n, \frac{\vol(K)}{\vol(B_2^n)} \leq \frac{3}{2}m^n, e^{-3\sqrt{n}}\leq\frac{2}{3}n^{n/2}\right)
 \end{align*}
+% *** WHY IS SUPREMUM ATTAINED FOR B_2^n?
 for sufficiently large $n$. By \Cref{lem 4.46},
 \[ \Phi \geq \frac{1}{20000q\sqrt{n}}. \]
 Therefore,
-\[ |Q_t(U) - Q_F'(U)| \leq n^{2n}\left(1-\frac{\Phi^2}{2}\right)^t \]
+\begin{align*}
+	|Q_t(U) - Q_F'(U)| &\leq n^{3n/2}\left(1-\frac{\Phi^2}{2}\right)^t \\
+		&= n^{3n/2} \left(1 - \frac{25}{2t} \left(n\log(n) + \log(2/\varepsilon)\right)\right)^t \\
+		&\leq n^{3n/2} \exp\left(-\frac{25}{2}\left(n\log(n) + \log(2/\varepsilon)\right)\right) \leq \frac{\varepsilon}{2}.
+\end{align*}
+
+This proves \Cref{LovS algorithm works!}.\\
+It is actually possible to perform the above algorithm with a far smaller value of $t$ ($\mathcal{O}^*(n^4m^2)$) while taking $\frac{\varepsilon}{1000n}B_2^n$-steps, but the analysis is more complicated so we omit it (we would have to use $s$-conductance instead). 
+
+\subsubsection{Better Sandwiching and Ignoring the Error Probability}
+\label{pro sandwiching}
+
+One of the basic assumptions in our algorithm was that of the sandwiching. Our body $K$ is such that
+\begin{itemize}
+	\item At least $2/3$ of the volume of $B_2^n$ is in $K$.
+	\item At least $2/3$ of the volume of $K$ is in $mB_2^n$ for some $1\leq m\leq n^{3/2}$.
+\end{itemize}
+
+We have already seen in \Cref{sandwiching} that it is possible to deterministically obtain get $n^{3/2}B_2^n\subseteq K\subseteq B_2^n$.
+% First, we sketch an alternate algorithm to obtain $m=n^{3/2}$. At each step of \Cref{lovasz pre-sandwich}, if we have $\mathcal{E}_r\supseteq K$, we check if $(1/2n)\mathcal{E}_r$ is contained in $K$.
+Sticking with $n^{3/2}$ would cost us a running time of $n$ in the main part, so how do we do better?
+
+Suppose we have $n^{-1/2}B_2^n\subseteq K\subseteq nB_2^n$ First, we randomly select $T=3\log n$ points in $B_2^n$ independently and then check if they are in $K$. If one of them is not, we have a point in $B_2^n\setminus K$ to perform the ellipsoid step. Otherwise, we shall conclude that at least $2/3$ of the volume of $B_2^n$ is in $K$. Indeed, if not, the probability that we do not find a point in $B\setminus K$ is less than $(2/3)^{3\log n} \leq 1/(100n^2\log n)$. The procedure itself lasts at most $25n^2\log n$ steps, so the probability that it halts with $K$ containing less than $2/3$ of $B_2^n$ (which it has) is less than $1/4$.
+
+This gives a randomized algorithm that achieves the required with error probability less than $1/4$.\\
+It is worth noting that here, we have the second condition for $m=n$ in a stronger sense with at least $2/3$ of the volume of $B_2^n$ in $K$ and $K\subseteq m B_2^n$.\\
+
+We now discuss another tactic to obtain the first condition in a strong sense and the second condition in a weaker sense using the polar.
+
+Suppose we have $B_2^n\subseteq K\subseteq n^{3/2}B_2^n$. If $K$ contains some point $x$ with $\norm{x}>6n$, then we first expand the body by a factor of $(1+1/n)$ in all directions orthogonal to $x$, shrink it by a factor of $3$ along $x$, and then translate it by $(-2/3)(x/\norm{x})$. This affine transformation of $K$ still contains $B_2^n$ (Why?). We can repeat this until we get $B_2^n\subseteq K\subseteq 6B_2^n$ (or rather, some affine transformation of $K$). However, there is one massive detail that we have not analyzed -- how do we find a valid $x$ or determine that no such $x$ exists? That is, we wish to determine if $K\subseteq 6nB_2^n$ and if not, find a point in $6B_2^n\setminus K$. We can do this by generating $\log_{3/2} (10n\log n)$ independent random points in $K$(!) and test if they belong to $6nB_2^n$. If one of them does, we have a point to carry out the ellipsoid step. If all of them belong to $6nB_2^n$, then we shall conclude that at least $2/3$ of the volume is in $6nB_2^n$. Indeed, if not, the probability of not finding a point in $6nB_2^n\setminus K$ is less than $(2/3)^{\log_{3/2} (10n\log n)} \leq 1/(10n\log n)$.
+
+Generating points in $K$ is quite expensive however. If we use the sampling algorithm discussed in \Cref{LovS algorithm works!}, we require $\mathcal{O}(n^4 m^2 \log n)$ membership test and $\mathcal{O}(n^5 m^2 \log n)$ arithmetic operations.\\
+With a neat little trick however, we may in fact take $m=\mathcal{O}(n)$ here. Let $K'=K\cap 18n B_2^n$. If $\vol(K\setminus 6nB_2^n)=\theta\vol(K)$ ($\theta>1/3$), then by \Cref{inequality integral setminus ball restricted to K}, $\vol(K\setminus 18nB_2^n)\leq\theta^2\vol(K)$. Therefore,
+\begin{align*}
+	\vol(K'\setminus 6nB_2^n) &= \vol(K\cap 18nB_2^n) - \vol(K\cap 6nB_2^n) \\
+		&\geq (1-\theta^2)\vol(K) - (1-\theta)\vol(K) \\
+		&= (\theta-\theta^2)\vol(K) \\
+		&= \theta\vol(K\cap 6nB_2^n) = \theta\vol(K'\cap 6nB_2^n) \\
+	(1+\theta)\vol(K'\setminus 6nB_2^n) &= \theta\vol(K') \\
+	\vol(K'\setminus 6nB_2^n) &\geq \frac{\theta}{1+\theta} \vol(K') \geq \frac{1}{4} \vol(K').
+\end{align*}
+
+We need to generate $\mathcal{O}(n\log^2 n)$ random points overall, which makes the cost of this phase $\mathcal{O}(n^7\log^3 n)$, which is at most a $\log$ factor more than that of the main part.\\
+
+Right around now, the reader might be wondering why we even introduced this alternate way to obtain a sandwiching; it does not seem to be any better than what we did earlier with the strong satisfaction of the second condition. In special cases however, this method turns out to be extremely powerful.\\
+If $K$ is a polytope with $n^c$ facets, the two conditions can be attained with $m=\mathcal{O}(\sqrt{n}\log n)$. If $K$ is a symmetric polytope with a polynomial number of facets, then we can in fact achieve $m=\mathcal{O}(\log n)$!\\
+
+We mentioned in \Cref{the walk} that while it seems like we sacrifice precision and get a bad error probability $\delta$, this is not really the case. This is due to a neat statistical trick from \cite{JerrumValiantVazirani1986} which claims that it suffices to solve the problem for $\delta=1/3$. Fix some $\varepsilon>0$ and suppose we have some algorithm that calculates a $\zeta$ such that $\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]$ with probability at least $2/3$. Let $s=10\log(1/\delta)$ and repeat the algorithm $2s+1$ times to obtain $\zeta_1,\zeta_2,\ldots,\zeta_{2s+1}$. Arranging the $(\zeta_i)$ in increasing order, let $\zeta=\zeta_{s+1}$ (the median).
+
+We claim that $\Pr[\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]] \geq 1-\delta$.\\
+Suppose otherwise. Then at least $s+1$ of the $2s+1$ $\zeta_i$ are outside the interval. We can then use Chernoff's inequality, which yields that out of $2s+1$ independent events, each having a probability at most $1/3$ of occurring, the probability that more than half occur is at most $e^{-s/10}\leq\delta$.
+
+\subsubsection{Bringing Everything Together and a Final Analysis}
+
+We have now built the various parts of the algorithm, and all that remains is to put the pieces together.
+
+Let $K$ be a convex body with $(2/3)\vol(B_2^n) \leq \vol(K\cap B_2^n)$ and $(2/3)\vol(K) \leq \vol(K\cap mB_2^n)$. We have described how to attain this (in a randomized manner) in \Cref{pro sandwiching}.
+
