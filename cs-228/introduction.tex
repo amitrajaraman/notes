@@ -116,7 +116,7 @@ A \textit{parse tree} of a formula $F\in P$ is a tree such that
 \end{itemize}
 \end{definition}
 
-We have the following 
+We have the following
 
 \begin{theorem}
 $F\in P$ iff there is a parse tree of $F$. Further, if $F\in P$, it has a \textit{unique} parse tree.
@@ -153,7 +153,7 @@ Some formulas cannot be unambiguously parsed, for example $p\vee q\wedge r$, $p 
 Associativity preference may further reduce the need of parentheses. Let's make all our operators right associative (first group the rightmost occurrence). So for example, unless mentioned otherwise, we take $p\imp q\imp r$ as $(p\imp (q\imp r))$.
 
 \begin{definition}
-For $F\in P$ and $p_1,\ldots,p_k\in\Vars$, we denote by $F[G_1/p_1,\ldots,G_k/p_k]$ the formula obtained by \textit{simultaneously} replacing all occurrences of $p_i$ by the formula $G_i$ for each $i\in[k]$. 
+For $F\in P$ and $p_1,\ldots,p_k\in\Vars$, we denote by $F[G_1/p_1,\ldots,G_k/p_k]$ the formula obtained by \textit{simultaneously} replacing all occurrences of $p_i$ by the formula $G_i$ for each $i\in[k]$.
 \end{definition}
 
 So for example,
@@ -255,7 +255,7 @@ We wish to assign a truth value to every formula $F$.
 
 Given a model $m:\Vars\to\B$, we can naturally extend it to $m:P\to \B$ as
 \[
-	m(F) = 
+	m(F) =
 	\begin{cases}
 	1, & m\vDash F, \\
 	0, & \text{otherwise.}
@@ -441,7 +441,7 @@ Except for the last two (which are like De Morgan's law), the rules for the disj
 Let us give another example, which is basically equivalent to the distributive law. Suppose we have $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$, we want to show that we can derive $\Sigma\vdash F\wedge(G\vee H)$. Indeed,
 \begin{enumerate}
 	\item $\Sigma\vdash (F\wedge G)\vee(F\wedge H)$ \hfill (\rul{Premise})%1
-	
+
 	\item $\Sigma\cup\{F\wedge G\} \vdash F\wedge G$ \hfill (\rul{Assumption})%2
 	\item $\Sigma\cup\{F\wedge G\} \vdash F$ \hfill (\rul{$\wedge$-Elim} applied to 2)%3
 	\item $\Sigma\cup\{F\wedge G\} \vdash G\wedge F$ \hfill (\rul{$\wedge$-Symm} applied to 2)%4
@@ -455,7 +455,7 @@ Let us give another example, which is basically equivalent to the distributive l
 	\item $\Sigma\cup\{F\wedge H\} \vdash H$ \hfill (\rul{$\wedge$-Elim} applied to 10)%11
 	\item $\Sigma\cup\{F\wedge H\}\vdash H\vee G$ \hfill (\rul{$\vee$-Intro} applied to 11)%12
 	\item $\Sigma\cup\{F\wedge H\}\vdash G\vee H$ \hfill (\rul{$\vee$-Symm} applied to 11)%13
-	\item $\Sigma\cup\{F\wedge G\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 9,13)%14
+	\item $\Sigma\cup\{F\wedge H\}\vdash F\wedge(G\vee H)$ \hfill (\rul{$\wedge$-Intro} applied to 9,13)%14
 
 	\item $\Sigma\vdash F\wedge(G\vee H)$ \hfill (\rul{$\vee$-Elim} applied to 1,7,14)%15
 \end{enumerate}
@@ -510,7 +510,7 @@ As another example, let us show that $\emptyset\vdash(p\imp q)\vee p$.
 
 	\item $\emptyset\vdash (p\imp p)$ \hfill (\rul{$\imp$-Intro} applied to 5)
 	\item $\emptyset\vdash (\neg p\vee p)$ \hfill (\rul{$\imp$-Def} applied to 8)
-	
+
 	\item $\emptyset\vdash (p\imp q)\vee p$ \hfill (\rul{$\vee$-Elim} applied to 4,7,9)
 	% \item $\emptyset\vdash (\neg p)\imp (p\imp q)$ \hfill (\rul{$\imp$-Intro} applied to 3)
 	% \item $\emptyset\vdash (\neg \neg p) \vee (p\imp q)$ \hfill (\rul{$\imp$-Def} applied to 4)
@@ -568,7 +568,7 @@ The proof is as follows.
 	\item $\Sigma\vdash\neg F\vee G$ \hfill (\rul{Premise})
 	\item $\Sigma\vdash (F\imp G)$ \hfill (\rul{$\imp$-Def} applied to 1)
 	\item $\Sigma\vdash F$ \hfill (\rul{Premise})
-	\item $\Sigma\vdash G$ \hfill (\rul{$\imp$-Elim} applied to 2,3) 
+	\item $\Sigma\vdash G$ \hfill (\rul{$\imp$-Elim} applied to 2,3)
 \end{enumerate}
 
 \paragraph{Tautology.} %For any $F$ and set $\Sigma$ of formulas, we can derive $\Sigma\vdash \neg F\vee F$. That is,
@@ -621,7 +621,7 @@ This is proved as
 
 \subsubsection{More Derived Rules}
 
-\paragraph{Proof by cases.} %If we have $\Sigma\cup\{F\}\vdash G$ and $\Sigma\cup\{\neg F\}\vdash G$, then $\Sigma\vdash G$. That is, 
+\paragraph{Proof by cases.} %If we have $\Sigma\cup\{F\}\vdash G$ and $\Sigma\cup\{\neg F\}\vdash G$, then $\Sigma\vdash G$. That is,
 \begin{prooftree}
 	\LeftLabel{\rul{ByCases}}
 	\AxiomC{$\Sigma\cup\{F\}\vdash G$}
@@ -985,7 +985,7 @@ A proof method implicitly defines a non-deterministic proof search algorithm. To
 		\AxiomC{$\neg p\lor p\lor D$}
 		\BinaryInfC{$p\lor C\lor D$}
 	\end{prooftree}
-	
+
 	\item If a literal occurs in a CNF formula and its negation does not, it is said to be a \textit{pure literal}. The removal of clauses containing pure literals in a CNF preserves satisfiability.
 
 	\item If $\ell$ occurs in a resolution proof, $\neg\ell$ can be removed from every clause.
@@ -1082,7 +1082,7 @@ Suppose $\Sigma''\vDash F$ and $\Sigma''$ is infinite. We shall show that this i
 	Order the formulas of $\Sigma$ as $\Sigma=\{F_1,F_2,\ldots\}$. Let $\{p_1,p_2,\ldots\}$ be an ordered list of variables from $\Vars(\Sigma)$ such that we first write formulas in $\Vars(F_1)$, then $\Vars(F_2)\setminus\Vars(F_1)$, and so on.\\
 	We have models $m_n$ such that $m_n\vDash\bigwedge_{i=1}^n F_i$.\\
 	We assume $m_n : \Vars\left(\bigwedge_{i=1}^n F_i\right)\to\B$. We can think of the $(m_n)$ as finite binary strings since the variables are ordered $p_1,p_2,\ldots$ and $m_n$ assigns values to the first $k$ variables as a string. let $S=\{m_n\text{ as a string}:n>0\}$. Let $m$ be the infinite string as mentioned in the previous theorem.\\
-	If we then interpret $m$ as a model, then $m\vDash\Sigma$. Consider a formula $F_n\in\Sigma$ and suppose there are $k$ variables up to $F_n$. Let $m'$ be the prefix of length $k$ of $m$. There must be $m_j\in S$ such that $m'$ is a prefix of $m_j$ and $j>n$. Since $m_j$ satisfies the conjunction of the $n$ formulas, $m_j\vDash F_n$. Therefore, $m'\vDash F_n$ and $m\vDash F_n$. 
+	If we then interpret $m$ as a model, then $m\vDash\Sigma$. Consider a formula $F_n\in\Sigma$ and suppose there are $k$ variables up to $F_n$. Let $m'$ be the prefix of length $k$ of $m$. There must be $m_j\in S$ such that $m'$ is a prefix of $m_j$ and $j>n$. Since $m_j$ satisfies the conjunction of the $n$ formulas, $m_j\vDash F_n$. Therefore, $m'\vDash F_n$ and $m\vDash F_n$.
 \end{proof}
 
 If we can enumerate a set using some algorithm, it is said to be \textit{effectively enumerable}.\\
