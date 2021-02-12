@@ -16,5 +16,5 @@ Several of the notes contained in this repository haven't been explicitly linked
     - CS 218: Design and Analysis of Algorithms
     - CS 224: Computer Networks
     - CS 226: Digital Logic Design
-    - CS 228: Logic for Computer Science
+    - CS 228: Logic for Computer Science (Discontinued)
     - CS 251: Software Systems Lab
