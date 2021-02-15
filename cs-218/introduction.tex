@@ -723,19 +723,19 @@ Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ 
 \end{solution*}
 
 
-% \begin{exercise}
-% 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
-% \end{exercise}
-% \begin{solution*}
-% 	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
-% 	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
-% 	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
-% 	\begin{itemize}
-% 		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
-% 		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
-% 	\end{itemize}
-% 	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
-% \end{solution*}
+\begin{exercise}
+	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
+\end{exercise}
+\begin{solution*}
+	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
+	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
+	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
+	\begin{itemize}
+		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
+		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
+	\end{itemize}
+	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
+\end{solution*}
 
 \begin{exercise}
 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.

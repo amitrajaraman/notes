@@ -335,11 +335,11 @@ Usually, we take $K_i = K \cap 2^{i/n}B_2^n$. Note that because $K_{i}\subseteq 
 \[ \Lambda_i = \frac{\vol(K_i)}{\vol(K_{i-1})} \leq 2 \]
 is not large at all.\\
 The value of $\vol(K_0)$ is already known. But how do we estimate $\Lambda_i$?\\
-As observed earlier, since $1/\Lambda_i$ is not small, we can just stick with Monte Carlo methods, the basic idea being to somehow generate a uniform random distribution on $K_i$ and find the fraction of points generated within $K_{i-1}$. Here on out, our main interest is just to figure out a way of efficiently uniformly randomly generating points from $K_i$.\\
+As observed earlier, since $1/\Lambda_i$ is not small, we can just stick with Monte Carlo methods, the basic idea being to somehow generate a uniform random distribution on $K_i$ and find the fraction of points generated that are within $K_{i-1}$. Here on out, our main interest is just to figure out a way of efficiently uniformly randomly generating points from $K_i$.\\
 
 To do this, we synthesize a Markov chain whose stationary distribution is the uniform distribution on $K_i$. We run the chain for polynomially many steps, and take the resultant state as a point uniformly randomly generated from $K_i$.\\
 
-Obviously, we want Markov chains that converge to the stationary distribution very rapidly (in polynomial time) since that is the main part of the algorithm that must be made efficient. To restrict ourselves to finding the uniform distribution \textit{within} $K_i$, we skip any move where the random walk attempts to leave $K_i$.\footnote{For the hit-and-run strategy we describe later, this is unimportant since it never even tries to leave the body.} At the same time, we count how often we are in $K_{i-1}\subseteq K_i$.\\
+Obviously, we want Markov chains that converge to the stationary distribution very rapidly (in polynomial time) since that is the main part of the algorithm that must be made efficient. To restrict ourselves to finding the uniform distribution \textit{within} $K_i$, we skip any move where the random walk attempts to leave $K_i$.\footnote{For the hit-and-run strategy we describe later, this is unimportant since it never even tries to leave the body.} At the same time, we count how often we are in $K_{i-1}\subseteq K_i$. In the two algorithms we discuss, we modify this to a Metropolis chain, the idea of which is discussed at the end of \Cref{sec: 4.2.4} \\
 
 Succinctly, we use ``Multiphase Monte Carlo Markov Chain methods" for volume computation. We call the random walk ``rapidly mixing" if it gets sufficiently close to the stationary distribution in polynomially many steps.\\
 
@@ -507,6 +507,7 @@ In particular,
 \end{ftheo}
 
 \subsubsection{An Overview of Random Walks for Uniform Distributions}
+\label{sec: 4.2.4}
 
 The basic algorithm used in most algorithms that attempt to solve this problem, which we mentioned at the beginning of this section, was proposed by Dyer, Frieze, and Kannan in \cite{dyer-frieze-kannan} and has remained largely unchanged.\\
 This algorithm is $\mathcal{O}(n^{23}(\log n)^5\varepsilon^{-2}\log(1/\varepsilon)\log(1/\eta))$. Henceforth, to make things relatively simple, we use the $\mathcal{O}^*$ notation that suppresses any powers of $\log n$ and polynomials of $(1/\varepsilon)$ and $\log(1/\eta)$. With this notation, the algorithm is $\mathcal{O}^*(n^{23})$.\\
@@ -696,7 +697,7 @@ Over the course of the next few sections, we describe a $\mathcal{O}^*(^7)$ volu
 \subsubsection{Some Basic Definitions}
 
 \begin{fdef}
-Let $\Omega$ be a non-empty set and $\mathcal{A}$ a $\sigma$-algebra on $\Omega$. For every $u\in\Omega$, let $P_u$ be a probability measure on $\Omega$. Also assume that as a function of $u$, $P_u(A)$ is measurable for any $A\in\mathcal{A}$. We call the triple $(\Omega,\mathcal{A},\{P_u:u\in\Omega\})$ a \textit{Markov scheme}. Together, with an initial distribution $Q_0$ on $\Omega$, this defines a \textit{Markov chain}.
+	Let $\Omega$ be a non-empty set and $\mathcal{A}$ a $\sigma$-algebra on $\Omega$. For every $u\in\Omega$, let $P_u$ be a probability measure on $\Omega$. Also assume that as a function of $u$, $P_u(A)$ is measurable for any $A\in\mathcal{A}$. We call the triple $(\Omega,\mathcal{A},\{P_u:u\in\Omega\})$ a \textit{Markov scheme}. Together, with an initial distribution $Q_0$ on $\Omega$, this defines a \textit{Markov chain}.
 \end{fdef}
 
 A Markov chain is just a sequence of random variables $w_0,w_1,\ldots$ such that $w_0$ is drawn from $Q_0$ and $w_{i+1}$ is drawn from $P_{w_i}$ (independently of the values of $w_0,\ldots,w_{i-1}$). Therefore,
@@ -869,23 +870,21 @@ This definition might seem quite artificial at the moment, but we hope to give m
 \end{lemma}
 
 This follows directly from the previous lemma.\\
+If $Q$ is atom-free, note that
+\begin{equation}
+	\label{eqn: hk and one norm}
+	\sup_{x} h_k(x) = \sup_{A\in\mathcal{A}} |Q_k(A) - Q(A)| = \frac{1}{2}\norm{Q_k - Q}_1.
+\end{equation}
+
 Although we did say what a rapidly mixing random walk is earlier in \Cref{def: rapidly mixing random walks}, we now define it more generally.\\
-
-\begin{lemma}
-	
-\end{lemma}
-
-First, observe that
-
-\[ \sup_{x} h_k(x) = \sup_{A\in\mathcal{A}} |Q_k(A) - Q(A)| = \frac{1}{2}\norm{Q_k - Q}_1. \]
-
-Let us now get on to the main subject of this section, namely that of bounding the speed of convergence of rapidly mixing Markov chains.
 
 \subsubsection{Rapidly Mixing Markov Chains}
 
 \begin{fdef}[Rapidly Mixing Markov Chain]
 A Markov chain is said to be \textit{rapidly mixing} if for some $\theta<1$, $\sup_x h_k(x)$ is $\mathcal{O}(\theta)^k$.
 \end{fdef}
+
+Let us now get on to the main subject of this section, namely that of bounding the speed of convergence of rapidly mixing Markov chains.
 
 \begin{theorem}
 For $k\geq 1$, if $s\leq x\leq 1/2$, then
@@ -1019,6 +1018,7 @@ We omit the proof of the above.\footnote{It may be shown by considering $\tilde{
 The next inequality can be thought of a central limit theorem style inequality.
 
 \begin{theorem}
+	\label{bounding variance}
 	Let $\mathcal{M}$ be a time-reversible Markov scheme with stationary distribution $Q$ and let $w_1,w_2,\ldots$ be a Markov chain generated by $\mathcal{M}$ with initial distribution $Q$. Let $F\in L^2$ and $\xi = \sum_{i=0}^{T-1}F(w_i)$ for some $T$. Then,
 	\[ \Var[\xi] \leq \frac{4T}{\Phi^2}\norm{F}^2 \]
 \end{theorem}
@@ -1716,17 +1716,213 @@ With a neat little trick however, we may in fact take $m=\mathcal{O}(n)$ here. L
 
 We need to generate $\mathcal{O}(n\log^2 n)$ random points overall, which makes the cost of this phase $\mathcal{O}(n^7\log^3 n)$, which is at most a $\log$ factor more than that of the main part.\\
 
-Right around now, the reader might be wondering why we even introduced this alternate way to obtain a sandwiching; it does not seem to be any better than what we did earlier with the strong satisfaction of the second condition. In special cases however, this method turns out to be extremely powerful.\\
+The reader might be wondering why we even introduced this alternate way to obtain a sandwiching; it does not seem to be any better than what we did earlier with the strong satisfaction of the second condition. In special cases however, this method turns out to be extremely powerful.\\
 If $K$ is a polytope with $n^c$ facets, the two conditions can be attained with $m=\mathcal{O}(\sqrt{n}\log n)$. If $K$ is a symmetric polytope with a polynomial number of facets, then we can in fact achieve $m=\mathcal{O}(\log n)$!\\
 
 We mentioned in \Cref{the walk} that while it seems like we sacrifice precision and get a bad error probability $\delta$, this is not really the case. This is due to a neat statistical trick from \cite{JerrumValiantVazirani1986} which claims that it suffices to solve the problem for $\delta=1/3$. Fix some $\varepsilon>0$ and suppose we have some algorithm that calculates a $\zeta$ such that $\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]$ with probability at least $2/3$. Let $s=10\log(1/\delta)$ and repeat the algorithm $2s+1$ times to obtain $\zeta_1,\zeta_2,\ldots,\zeta_{2s+1}$. Arranging the $(\zeta_i)$ in increasing order, let $\zeta=\zeta_{s+1}$ (the median).
 
 We claim that $\Pr[\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]] \geq 1-\delta$.\\
-Suppose otherwise. Then at least $s+1$ of the $2s+1$ $\zeta_i$ are outside the interval. We can then use Chernoff's inequality, which yields that out of $2s+1$ independent events, each having a probability at most $1/3$ of occurring, the probability that more than half occur is at most $e^{-s/10}\leq\delta$.
+Suppose $\zeta$ is not in the interval. Then at least $s+1$ of the $2s+1$ $(\zeta_i)$ are outside the interval. We can then use Chernoff's inequality, which yields that out of $2s+1$ independent events, each having a probability at most $1/3$ of occurring, the probability that more than half occur is at most $e^{-s/10}\leq\delta$.
 
 \subsubsection{Bringing Everything Together and a Final Analysis}
 
 We have now built the various parts of the algorithm, and all that remains is to put the pieces together.
 
-Let $K$ be a convex body with $(2/3)\vol(B_2^n) \leq \vol(K\cap B_2^n)$ and $(2/3)\vol(K) \leq \vol(K\cap mB_2^n)$. We have described how to attain this (in a randomized manner) in \Cref{pro sandwiching}.
+Let $K$ be a convex body with $(2/3)\vol(B_2^n) \leq \vol(K\cap B_2^n)$ and $(2/3)\vol(K) \leq \vol(K\cap mB_2^n)$. We have described how to attain this (in a randomized manner) in \Cref{pro sandwiching}.\\
 
+Although we have described the primary algorithm in detail before, we restate it here because it is slightly different.\\
+Set $q=4mn\log(1/\varepsilon)$, $k=4n\log n$, and $t=10^{11}nkq^2\varepsilon^{-2}$.\\
+For each $i$, define
+\[ F_i(x) = \min\{F(x), \exp(-|x|n^{1/2}2^{-i/n})\} \]
+where $F$ is defined as in the beginning of \Cref{the walk}.\\
+% To compute $\vol(K)$, we (attempt to) integrate $F$ --  as we have seen,
+% \[ \vol(K) = \frac{1}{n!} \int_{\Rn} F(x)\d{x}. \]
+Now, for each $i$, perform a lazy walk taking $3t$ steps in $qB_2^n$ with $B_2^n$-steps, filtered by $F_i$. Let these steps be $v_{i,1},\ldots,v_{3t}$. The stationary distribution of this walk $Q_{F_i}$ is such that $Q_{F_i}(A) = \mu_F(A)/\mu_F(qB_2^n)$. Here, the first $t$ steps are to get close to the stationary distribution, the next $t$ are what we use, and the last $t$ are to ensure independence from the next phase. \\
+The $i$th walk begins where the $(i-1)$th ends. For each $i$, compute
+\[ \Lambda_i = \frac{1}{t} \sum_{j=t+1}^{2t} \frac{F_{i-1}(v_{i,j})}{F_i(v_{i,j})}. \]
+Note that
+\[ \Lambda_i \approx \int_{qB_2^n} \frac{F_{i-1}(x)}{F_i(x)} \d{Q}_{F_i}(x) = \frac{\int_{qB_2^n} F_{i-1}(x) \d{x}}{\int_{qB_2^n} F_i(x) \d{x}} \approx \frac{\vol(K_{i-1})}{\vol(K_i)}, \]
+where $K_i = 2^{i/n} B_2^n \cap K$. Finally, we return our estimate of $\vol(K)$ as
+\[ \evol(K) = (\Lambda_1\Lambda_2\cdots\Lambda_k)^{-1} \vol(B_2^n). \]
+
+Let us now analyze this beast.
+
+\begin{ftheo}
+	If $K$ is a convex body such that $\vol(K\cap B_2^n) \geq (2/3) \vol(B_2^n)$ and $\vol(K\cap mB_2^n) \geq (2/3) \vol(K)$ and $\zeta$ is the estimate returned by the above algorithm, then
+	\[ \Pr[(1-\varepsilon)\zeta \leq \vol(K) \leq (1+\varepsilon)\zeta] \geq 3/4. \]
+	Further, the algorithm uses
+	\[ \mathcal{O}\left(n^3m^2\varepsilon^{-2} (n+\log(1/\varepsilon))^2 (\log m + \log\log(1/\varepsilon))^2 \log^2(1/\varepsilon) \right) \]
+	membership oracle calls.
+\end{ftheo}
+
+\begin{corollary}
+	Let $K$ be a convex body given by a well-guaranteed membership oracle. Then it is possible to compute a $\zeta$ such that
+	\[ \Pr[(1-\varepsilon)\zeta \leq \vol(K) \leq (1+\varepsilon)\zeta] \geq 1-\delta \]
+	in
+	\[ \mathcal{O}\left(n^7 \varepsilon^{-2} \log^2 (n) \log^2(1/\varepsilon) \log(1/\delta) \right) \]
+	oracle calls. Further, if $K$ is a polytope with a polynomially many (in $K$) number of facets, we only require $\mathcal{O}\left(n^6 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$	oracle calls and if $K$ is a centrally symmetric polytope with a polynomially many number of facets, we only require $\mathcal{O}\left(n^5 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$ oracle calls.
+\end{corollary}
+
+The rest of this section is dedicated to proving the above, which we have already done most of the work for over the past 3 subsections. For each $i$, let $W_i = \int_{qB_2^n} F_i$. By \Cref{lem 4.46}, 
+\[ \left(1-\frac{\varepsilon}{4}\right) \vol(K) \leq \frac{1}{n!}W_i \leq \vol(K). \]
+
+First, we claim that for any $i$,
+\[ \frac{1}{2} \leq \frac{W_{i-1}}{W_i} \leq 1. \]
+Indeed, the latter inequality is trivial and for the former,
+\begin{align*}
+	W_i &= \int_{qB_2^n} F_i(x)\d{x} \\
+		&\leq \int_{2^{i/n}qB_2^n} F_i(x)\d{x} \\
+		&= \frac{1}{2} \int_{qB_2^n} F_i(2^{i/n}x)\d{x} \\
+		&\leq \frac{1}{2} \int_{qB_2^n} F_{i-1}(x)\d{x} = \frac{1}{2} W_{i-1}.
+\end{align*}
+
+We also see that $W_0$ is easily computed to be $n^{-n/2}n!\vol(B_2^n)$.\\
+
+What are the possible (probabilistic) sources of error in our algorithm?
+\begin{enumerate}
+	\item The distribution of the point $v_{i,t+1}$ generated is not exactly $(1/W_i)Q_{F_i}$.
+	\item The points $v_{i,t+1}$ are not independent.
+	\item The sum used to estimate $W_{i-1}/W_i$ has variance.
+\end{enumerate}
+
+Let us look at each of these separately, starting with the first.
+
+Let $P_{i,p}$ represent the distribution of $v_{i,p}$. As defined in \Cref{subsec: measure theoretic markov chains}, let $h_{i,p}$ be the distance function between $P_{i,p}$ and $Q_{F_i}$. Because $Q_{F_i}$ is atom-free,
+\[ h_{i,p}(x) = \sup_{\substack{A\subseteq qB_2^n \\ Q_{F_i}(A) = x}} P_{i,p}(A) - x. \]
+Also let $h_{0,p}(x)=0$. Define $\Phi=\min_i\Phi_i$. By \Cref{lem 4.46}, $\Phi \geq 1/(20000q\sqrt{n})$. Also define
+\[ \eta = \left(1-\frac{\Phi^2}{2}\right)^t < e^{-t\Phi^2/2} \leq  \]
+
+\begin{lemma}
+	\label{analysis lemma 1}
+	For every $0\leq x\leq 1$,% and $t\leq p\leq 3t$,
+	\[
+		h_{i,p}(x) \leq
+		\begin{cases}
+			2\eta\min\{\sqrt{x},\sqrt{1-x}\}, & \text{if } t\leq p\leq 3t, \\
+			4\min\{\sqrt{x},\sqrt{1-x}\} & \text{otherwise.}
+			% can't we do 2\min\{\sqrt{x},\sqrt{1-x}\} ???
+		\end{cases}
+	\]
+\end{lemma}
+\begin{proof}
+	We prove this with induction on $i$. The claim is trivially true for $i=0$. Let $i>0$. Then for some $A\subseteq qB_2^n$ with $Q_{F_i}(A)=x$,
+	\[ h_{i,0}(x) = P_{i,0}(A) - x. \]
+	Let $y=Q_{F_{i-1}}(A)$. Then
+	\[ y = \frac{1}{W_{i-1}} \int_{A} F_{i-1}(u)\d{u} \leq \frac{2}{W_i}\int_{A} F_i(u)\d{u} = 2x. \]
+	Therefore, using the inductive hypothesis,
+	\begin{align*}
+		h_{i,0}(x) &= P_{i,0}(A) - x \\
+			&= P_{i-1,3t}(A) - x \\
+			&= (P_{i-1,3t}(A) - y) + (y-x) \\
+			&\leq h_{i-1,3t}(y) + \min\{x,1-x\} & (y-x\leq x) \\
+			&\leq 2\eta\min\{\sqrt{y},\sqrt{1-y}\} + \min\{\sqrt{x},\sqrt{1-x}\} \\
+			&\leq (1+2\sqrt{2}\eta) \min\{\sqrt{x},\sqrt{1-x}\} < (1+4\eta)\min\{sqrt{x},\sqrt{1-x}\}.
+	\end{align*}
+	We can then use \Cref{decrease in markov distance} to conclude that for $p\geq t$,
+	\begin{align*}
+		h_{i,p}(x) &< (1+4\eta) \min\{\sqrt{x},\sqrt{1-x}\}\left(1-\frac{\Phi^2}{2}\right)^p \\
+			&\leq (\eta+4\eta^2) \min\{\sqrt{x},\sqrt{1-x}\} \leq 2\eta \min\{\sqrt{x},\sqrt{1-x}\}.
+	\end{align*}
+	The case for $p<t$ follows similarly (with the last two inequalities above slightly modified).
+\end{proof}
+
+The above lemma resolves the first of the issues by bounding how far the distribution of $v_{i,t+1}$ can get from the required.\\
+
+Next, let us look at the second issue. Let $u=v_{i,a}$ and $w=v_{j,b}$ for some $i<j$ and $t<a,b\leq 2t$. Let $f(u)=F_{i-1}(u)/F_i(u)$ and $g(w)=F_{j-1}(w)/F_j(w)$. We wish to bound the correlation between the two random variables.
+
+\begin{lemma}
+	\label{analysis lemma 2}
+	Let $f$, $g$, $u$, and $w$ be defined as above. Then
+	\[ \left|\expec[f(u)g(w)] - \expec[f(u)]\expec[g(w)] \right| \leq 4\eta. \]
+\end{lemma}
+
+\begin{proof}
+	Let us consider another random walk $\overline{v}_{i,a},\ldots,\overline{v}_{j,b}$ defined as follows. The transition probability from a $\overline{v}$ to another is exactly the same as that for the $v$, but the distribution of the starting point $\overline{v}_{i,a}$ is slightly different. Set
+	\[ c_f = \frac{1}{\int_{qB_2^n} f\d{P}_{i,a}} = \frac{W_i}{W_{i-1}}. \]
+	Further, let
+	\[ \overline{P}_{i,a}(A) = \Pr[\overline{v}_{i,a}] = \frac{\int_A f\d{P}_{i,a}}{\int_{qB_2^n} f\d{P}_{i,a}} = c_f\int_A f\d{P}_{i,a}. \]
+	Similarly, for each $i\leq k\leq j$ and $0\leq r\leq 2t$, let $\overline{P}_{k,r}$ be the distribution of $\overline{v}_{k,r}$. Then
+	\begin{align*}
+		\expec[f(u)g(w)] &= \int_{qB_2^n} \expec[f(u)g(w)\mid u=x] \d{P}_{i,a}(x) \\
+			&= \int_{qB_2^n} \expec[g(w)\mid u=x] f(x)\d{P}_{i,a}(x) \\
+			&= \int_{qB_2^n} \expec[g(w)\mid u=x] \d{\overline{P}}_{i,a}(x) \int_{qB_2^n} f(x)\d{P}_{i,a}(x) \\
+			&= \expec[g(\overline{v}_{j,b})]\expec[f(u)].
+	\end{align*}
+	Therefore,
+	\begin{align*}
+		\left| \expec[f(u)g(w)] - \expec[f(u)]\expec[g(w)] \right| &= \expec[f(u)] \left| \expec[g(\overline{v}_{j,b}) - g(v_{j,b})] \right| \\
+			&= \expec[f(u)] \left| \int_{qB_2^n} g(y) \left(\d{\overline{P}}_{j,b} - \d{P}_{j,b}\right) \right| \\
+			&\leq \sup_{A\in\mathcal{A}} |\overline{P}_{j,b}(A) - P_{j,b}(A)| & \left(\frac{1}{2}\leq \expec[f(u)] \leq 1 \text{ and \Cref{eqn: hk and one norm}} \right) \\
+			&\leq \sup_{A\in\mathcal{A}} |\overline{P}_{j,b}(A) - Q_{F_i}(A)| + |Q_{F_i}(A) - P_{j,b}(A)|
+	\end{align*}
+	By \Cref{analysis lemma 1}, the second quantity is at most $2\eta$. % *** HOW???
+	For each $i\leq k\leq j$ and $0\leq r\leq 2t$, let $\overline{h}_{k,r}$ be the distance between $\overline{P}_{k,r}$ and $Q_{F_k}$ To bound the first quantity, let $A\subseteq qB_2^n$ with $Q_{F_i}(A)=z$. Let $y=\int_A f\d{Q}_{F_i}$. Then
+	\begin{align*}
+		\overline{P}_{i,a}(A) - Q_{F_i}(A) &= \int_A c_f f \d{P}_{i,a} - z \\
+			&= \int_A c_f f \left(\d{P}_{i,a} - \d{Q}_{F_i}\right) + \int_A c_f f \d{Q}_{F_i} - z \\
+			&\leq c_f h_{i,a}(y) + c_f y - z. 
+	\end{align*}
+	% *** HOW DID THEY CONTINUE LOL
+\end{proof}
+
+The third issue has already been taken care of in \Cref{bounding variance}.\\
+
+
+For each $i$, let $1+\beta_i = \Lambda_i / \expec[\Lambda_i]$. We shall then show that
+\begin{equation}
+	\Pr\left[1-\frac{\varepsilon}{2} \leq \prod_{i=1}^k (1+\beta_i) \leq 1+\frac{\varepsilon}{2}\right] > \frac{3}{4}.
+\end{equation}
+Obviously, $\expec[\beta_i]=0$ for any $i$. We split the proof into two cases.\\
+\begin{enumerate}
+	\item $\sum_{i=1}^k \beta_i^2 > \varepsilon/8$. By Markov's inequality,
+	\[ \Pr\left[\sum_{i=1}^k \beta_i^2 > \frac{\varepsilon}{8}\right] \leq \frac{\expec\left[\sum_{i=1}^k \beta_i^2\right]}{\varepsilon/8}. \]
+	Let $F=F_{i-1}/F_i$. Applying \Cref{bounding variance},
+	\[ \Var[t\Lambda_i] \leq \frac{4t}{\Phi^2} \leq \frac{4t}{\Phi^2}. \]
+	Therefore,
+	\[ \expec[\beta_i^2] = \frac{\Var[\Lambda_i]}{\expec[\Lambda_i]^2} \leq \frac{4t/\Phi^2}{1/4} \leq \frac{\varepsilon^2}{8k} \]
+	and
+	\[ \Pr\left[\sum_{i=1}^k \beta_i^2 > \frac{\varepsilon}{8}\right] \leq \frac{1}{8}. \]
+
+	\item $\sum_{i=1}^k \beta_i^2 \leq \varepsilon/8$. We may assume that each $|\beta_i|\leq\frac{1}{2}$.\\
+	Suppose that $\left| \prod_i\left(1+\beta_i\right) - 1 \right| > \varepsilon/2$. Then,
+	\[ \log\left(1-\frac{\varepsilon}{2}\right) > \sum_i \log(1+\beta_i) \text{ or } \sum_i \log(1+\beta_i) > \log\left(1+\frac{\varepsilon}{2}\right) \]
+	so
+	\[ \left| \sum_{i=1}^k \log(1+\beta_i) \right| > \frac{\varepsilon}{4}. \]
+	Then note that $|\log(1+\beta_i) - \beta_i| < \beta_i^2$. Therefore,
+	\begin{align*}
+		\sum_i \beta_i^2 &> \sum_i \left| \log(1+\beta_i) - \beta_i \right| \\
+			&\geq \sum_i \left| \log(1+\beta_i) \right| - \sum_i \left| \beta_i \right| \\
+			&\geq \left| \sum_i \log(1+\beta_i) \right| - \left| \sum_i \beta_i \right| \\
+		\left| \sum_i \beta_i \right| &> \left| \sum_i \log(1+\beta_i) \right| - \left| \sum_i \beta_i^2 \right| \geq \frac{\varepsilon}{8}.
+	\end{align*}
+	The probability of this occurring can be computed using Chebyshev's inequality. We have
+	\begin{align*}
+		\Var\left(\sum_i \beta_i\right) &= \expec\left[\left(\sum_i\beta_i\right)^2\right] \\
+			 &= \sum_i \expec[\beta_i^2] + 2 \sum_{1\leq i<j\leq n} \expec[\beta_i\beta_j] \\
+			 &\leq \frac{\varepsilon^2}{8} + 2 \sum_{1\leq i<j\leq n} \expec[\beta_i\beta_j]. \\
+		\expec[\beta_i\beta_j] &= \frac{\expec[\Lambda_i\Lambda_j]}{\expec[\Lambda_i]\expec[\Lambda_j]} - 1.
+	\end{align*}
+	Using \Cref{analysis lemma 2},
+	\begin{align*}
+		\expec[\Lambda_i\Lambda_j] &= \frac{1}{t^2} \sum_{a=t+1}^{2t} \sum_{b=t+1}^{2t} \expec\left[f(v_{i,a})g(v_{j,b})\right] \\
+			&\leq \frac{1}{t^2} \sum_{a=t+1}^{2t} \sum_{b=t+1}^{2t} \expec[f(v_{i,a})]\expec[g(v_{j,b})] + 4\eta \\
+			&= \expec[\Lambda_i]\expec[\Lambda_j] + 4\eta.
+	\end{align*}
+	Because $\expec[\Lambda_i] \geq \frac{1}{2}$, $\expec[\beta_i\beta_j] \leq 16\eta < \varepsilon^2/8k^2$. Therefore,
+	\[ \Var\left(\sum_i \beta_i\right) \leq \frac{\varepsilon^2}{4}. \]
+	Using Chebyshev's inequality,
+	\[ \Pr\left[\left|\sum_i \beta_i\right| > \frac{\varepsilon}{8}\right] \leq \frac{64\Var\left[\sum_i\beta_i\right]}{\varepsilon^2} \leq  \]
+\end{enumerate}
+
+This proves the required.
+
+How large is the running time? We make $kt$ ``moves'', where each move constitutes
+\begin{itemize}
+	\item An update of $n$ coordinates.
+	\item One test of membership in $qB_2^n$.
+	\item The evaluation of $\phi(x)$.
+	\item Some constant number of arithmetic operations.
+\end{itemize}
+
+We can evaluate $\phi(x)$ using binary search with error $\varepsilon/n^2$ in $\mathcal{O}(\log n + \log(1/\varepsilon))$ membership tests. Thus, the algorithm makes $\mathcal{O}(kt(\log n + \log(1/\varepsilon)))$ membership tests.\\
+It is worth noting that we have assumed that we can compute membership in an affine image of $K$ in a single step. This is indeed true for sensible encodings such as linear or algebraic inequalities, but it may become important if it takes $n^2$ or more operations.
