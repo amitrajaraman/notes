@@ -485,7 +485,7 @@ The na\"ive algorithm where we recursively calculate $F_{k-1}$ and $F_{k-2}$ tak
 
 This algorithm is obviously extremely inefficient. Observe that each $F_r$ is calculated multiple times, resulting in a lot of redundancy. Since we've already calculated it, we don't really need to recurse. How do we implement this?
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\DontPrintSemicolon
 	% \KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
 	% \KwOut{A maxima in $\var{A}$}
@@ -517,7 +517,7 @@ There is no nice greedy heuristic for this, can we design a recursive algorithm 
 Sort the jobs in decreasing order of finishing time. For each $i$, denote by $p(i)$ the last job $j$ with $j<i$ that does not conflict with $i$.\\
 Suppose we iterate backwards and we are currently and index $j$. Then note that if the $j$th job is in an optimal solution $\var{OPT}$, then no job $i$ with $i>p(n)$ cannot belong to $\var{OPT}$. If $j\not\in\var{OPT}$, then we can recurse on $\{1,\ldots,j-1\}$.\\
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\DontPrintSemicolon
 	\KwIn{A set of $n$ tasks, each with a start time $s(i)$, finish time $f(i)$, and weight $w(i)$ ordered in non-increasing finish time.}
 	\KwOut{An optimal solution to the weighted interval scheduling problem}
@@ -541,6 +541,47 @@ Correctness is easily quite shown using strong induction on $i$ -- that $\texttt
 
 The sorting takes $\mathcal{O}(n\log n)$ time. Computing the $p(i)$ takes $\mathcal{O}(n\log n)$ using binary search. The number of calls made to the subroutine $\texttt{WtIntSc}$ is $\mathcal{O}(n)$. Therefore, the overall time is $\mathcal{O}(n\log n)$.
 
+\subsubsection{String-Related Problems}
+
+There are numerous interesting problems that are related to strings/sequences which can be solved using dynamic programming.
+\begin{enumerate}
+	\item Figure out the \textit{parenthesization} of an expression that minimizes the overall cost of evaluating the expression.
+	\item Given a string of positive numbers, find the \textit{longest increasing subsequence}.
+	\item Given a long string of letters, find a way (if one exists) to \textit{segment} the string into chunks such that the segmented string is a statement that makes sense (in a particular language).
+	\item Given two strings, find the \textit{longest subsequence} common to both.
+	\item Given two string $x$ and $y$, find the smallest number of \textit{updates} (deletions, insertions, and swaps) needed to convert $x$ into $y$.
+\end{enumerate}
+
+In string-related problems, the sub-problem tends to be something of the form $\texttt{suff}[1,i]$, $\texttt{pre}[i,n]$, or sometimes $\texttt{substring}[i,j]$.
+
+Let us look at the parenthesization problem for example. Suppose we have a $n\times 1$ matrix $A$, a $1\times n$ matrix $B$, and a $n\times 1$ matrix $C$ and we want to compute $A\times B\times C$. If we parenthesize it as $(A\times B)\times C$, it will cost $\mathcal{O}(n^2)$ operations. If we compute it as $A\times (B\times C)$ on the other hand, it will cost $\mathcal{O}(n)$ operations. In general, we want the intermediate steps to result in small matrices.
+
+Suppose we have a string of matrices $A_1,\ldots,A_n$, where each $A_i$ is of size $c_i\times r_i$.
+\begin{enumerate}
+	\item Figure out the types of sub-problems. If we guess the topmost multiplication (the outermost one) of an optimal solution, then the sub-problems are the two smaller multiplications. So if we split it as $(A_1\times\cdots\times A_k)\times(A_{k+1}\times\cdots\times A_n)$, the two expressions are the sub-problems. Subdividing further, the sub-problems are intervals. Let us denote $A_i\times\cdots\times A_j$ as $A_{[i,j]}$.
+
+	\item Define a recursive procedure. Denote by $\texttt{para}(i,j)$ the problem of computing the minimum cost parenthesization of $A_{[i,j]}$. We see that
+	\[ \texttt{para}(i,j) = \min_{i\leq k<j} \left\{\texttt{para}(i,k) + \texttt{para}(k+1,j) + \texttt{cost}(i,k,j) \right\}, \]
+	where $\texttt{cost}(i,k,j)$ is the cost of computing the product of a $c_i\times r_k$ matrix ($A_{[i,k]}$) and a $c_{k+1}\times r_j$ matrix ($A_{[k+1,j]}$).
+
+	\item Decide on the memoization strategy. This can be done in the fly since $\texttt{cost}(i,j,k)$ can be computed in $\mathcal{O}(1)$ time. We recursively store the computed values of $\texttt{para}(i,j)$, starting from small intervals and building up to larger intervals.
+
+	\item Check that the problems are acyclic. There's nothing much to argue here, the $\texttt{para}$ routine uses smaller intervals for larger intervals.
+
+	\item Analyze the time complexity using the recursion. The total number of sub-problems in $\mathcal{O}(n^2)$. For each sub-problem, the time required is the time needed to compute a minimum over a set of values. Interval $[i,j]$ takes $\mathcal{O}(j-i)=\mathcal{O}(n)$ time. Therefore, the total time required is $\mathcal{O}(n^3)$.
+\end{enumerate}
+
+\subsubsection{The Shortest Path Problem}
+
+Given a directed graph $G=(V,E)$ and a weight function $w:E\to\Z$ and two designated vertices $s,t\in V$, find the length of the shortest path from $s$ to $t$.\\
+
+This is slightly different from the usual problem that Djikstra's algorithm solves because weights can be negative.\\
+What happens if the graph has cycles? It is possible to have a cycle with overall negative weight, so we could just loop in the cycle for an arbitrary amount of time, thus resulting in arbitrarily low (very negative) cost. Such a cycle is known as a ``negative cycle''.\\
+Therefore, let us restrict ourselves to directed \textit{acyclic} graphs for now.\\
+
+Can we apply Djikstra's algorithm directly? No, we cannot. Consider the graph with $V=\{a,b,c\}$, $E=\{ac,ab,bc\}$, $s=a$, $t=c$, and $w=\{ac\mapsto 1, ab\mapsto 2, bc\mapsto-5\}$.
+
+It is solved using \textit{Bellman and Ford's Algorithm}.
 
 \subsection{Exercises}
 
