@@ -1194,7 +1194,6 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\
 	Then observe that
 	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{(n-1)!} \int_0^1 \psi(t)^{n-1} g(te_1) \geq 0, \]
-	% *** PAPER SAYS n! ???
 	where the last inequality follows from the definition of $\psi$ in the previous lemma. We have a similar inequality for the integral of $\hat{h}$ as well.\\
 	Since we have taken $\norm{a-b}$ to be minimal, we may assume without loss of generality that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
 	% Now, for any convex body $L$, define the function
@@ -1431,10 +1430,8 @@ The main result of this section, which is a sort of localization lemma in the co
 		\label{theo 4.40 eqn main}
 		 \vol(G\cap (\theta(x-y)+G)) \geq \frac{1}{2}\vol(G).
 	\end{equation}
-	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $t^2\theta/6$.
+	Then the $(7s/t)$-conductance of $\mathcal{M}(K,G)/F$ is at least $t^2\theta/18$.
 \end{ftheo}
-
-% *** They have proved t^2\theta / 18 ???
 
 Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value satisfying the required in the above theorem). It is seen that $1/\theta$ is the usual diameter under the norm whose unit ball is $\{x : \vol(G\cap(x+G))\geq\vol(G)/2\}$. If $G$ is the Euclidean ball, then $1/\theta$ grows as $\sqrt{n}d$, where $d$ is the usual Euclidean diameter of $K$.
 
@@ -1474,8 +1471,7 @@ Our idea of diameter here is $1/\theta$ (where $\theta$ is the maximal value sat
 	If we have some $a,b\in K$ such that $S_1''\cap[a,b]$ and $S_2''\cap[a,b]$ are non-empty and the distance between them is $\rho\norm{b-a}$. Then the claim above together with \Cref{theo 4.40 eqn main} imply that $\rho>t\theta/2$. Using \Cref{improvement of conductance isoperimetric inequality} (or rather, \Cref{conductance isoperimetric inequality}) gives that
 	\[ \mu_F(S_3) \geq \frac{t\theta}{2} \min\{\mu_F(S_1''), \mu_F(S_2'')\}. \]
 	Further note that
-	\[ \mu_F(S_i'') \geq \mu_F(S_i) - \mu_F(S_i') - \mu_F(H_t) \geq \mu_F(S_i) - \mu_F(S_3) - s \]
-	% *** WHERE DID THE s COME FROM???
+	\[ \mu_F(S_i'') \geq \mu_F(S_i) - \mu_F(S_i') - \mu_F(H_t) \geq \mu_F(S_i) - \mu_F(S_3) - s. \]
 	That is,
 	\[ \left(1+\frac{t\theta}{2}\right) \mu_F(S_3) \geq \frac{t\theta}{2} \min\{\mu_F(S_1)-s, \mu_F(S_2)-s\}. \]
 	Since $t\theta < 1$ ($\leq 1/2$, in fact),
