@@ -46,3 +46,96 @@
 	It is easily seen that $\mathcal{T}'_Y$ is finer than $\mathcal{T}_Y$. We further see that it need not be strictly finer by considering the example $X=\{a,b,c\}$, $Y=\{a,b\}$, $\mathcal{T}=\{\emptyset,X,\{a\},\{b\},\{a,b\}\}$, and $\mathcal{T}'$ as the discrete topology on $X$.
 \end{solution*}
 
+\begin{exercise}
+	Consider $Y=[-1,1]$ as a subspace of $\R$. Which of the following is open in $Y$? Which are open in $\R$?
+	\begin{align*}
+		A &= \left\{ x : \frac{1}{2} < x < 1 \right\} \\
+		B &= \left\{ x : \frac{1}{2} < x \leq 1 \right\} \\
+		C &= \left\{ x : \frac{1}{2} \leq x < 1 \right\} \\
+		D &= \left\{ x : \frac{1}{2} \leq x \leq 1 \right\} \\
+		E &= \left\{ x : 0 < x < 1 \text{ and } 1/x\not\in\Zp \right\}
+	\end{align*}
+\end{exercise}
+\begin{solution*}
+	$A$ and $B$ are open in $Y$ and only $A$ is open in $\R$. This is reasonably straightforward to prove.\\
+	$C$ is not open in $Y$ (and so not $\R$ either) because there is no basis element $U$ of the order topology such that $1/2 \in U \subseteq C$. A similar argument holds for $D$ as well.\\
+	$E$ is open in both $\R$ and $Y$ because it can be written as a union of basis elements
+	\[ E = \bigcap_{n\in\Zp} \left(\frac{1}{n+1},\frac{1}{n}\right). \]
+\end{solution*}
+
+\begin{exercise}
+	A map $f:X\to Y$ is said to be an open map if for every open $U$ of $X$, $f(U)$ is open in $Y$. Show that $\pi_1:X\times Y\to X$ and $\pi_2:X\times Y\to Y$ are open. 
+\end{exercise}
+\begin{solution*}
+	We shall only show that $\pi_1$ is open, the other case is nearly identical. Let
+	\[ U = \bigcup_{i\in I} U_i \times V_i \]
+	be open in $X\times Y$ for some indexing set $I$, where each $U_i$ and $V_i$ are open in $X$ and $Y$ respectively. Then,
+	\[ \pi_1(U) = \pi_1 \left(\bigcup_{i\in I} U_i\times V_i = \bigcup_{i\in I} \pi_1(U_i\times V_i) = \bigcup_{i\in I} U_i \right) \]
+	is open in $X$.
+\end{solution*}
+
+\setcounter{subsection}{16}
+\subsection{Closed Sets and Limit Points}
+
+\begin{exercise}
+	Let $\mathcal{C}$ be a collection of subsets of set $X$. Suppose that $\emptyset$ and $X$ are in $\mathcal{C}$ and that finite unions and arbitrary intersections of elements of $\mathcal{C}$ are in $C$. Show that the collection $\mathcal{T}=\{X\setminus C:C\in\mathcal{C}\}$ is a topology on $X$.
+\end{exercise}
+\begin{solution*}
+	Let $(U_i)_{i\in I}$ be in $\mathcal{T}$ with $U_i = X\setminus C_i$ for each $i$. Then
+	\[ \bigcup_{i\in I} U_i = X \setminus \bigcap_{i\in I} C_i = X\setminus C \in \mathcal{T} \]
+	for some $C\in\mathcal{C}$. Closure under finite intersections is shown similarly. We trivially have $\emptyset,X\in\mathcal{T}$ because $X,\emptyset\in\mathcal{C}$.
+\end{solution*}
+
+\begin{exercise}
+	Show that if $A$ is closed in $Y$ and $Y$ is closed in $X$, then $A$ is closed in $X$.
+\end{exercise}
+\begin{solution*}
+	Let $U$ be open in $X$ such that $Y\setminus A = U\cap Y$. Then, we can write $A$ as $X\setminus ((X\setminus Y)\cup U)$. Since $X\setminus Y$ and $U$ are open in $X$, $A$ is closed in $X$.
+\end{solution*}
+
+\begin{exercise}
+	Show that if $A$ is closed in $X$ and $B$ is closed in $Y$, $A\times B$ is closed in $X\times Y$.
+\end{exercise}
+\begin{solution*}
+	Observe that
+	\[ (X\times Y) \setminus (A\times B) = ((X\setminus A)\times (Y\setminus B)) \cup ((X\setminus A)\times Y) \cup (A\times (Y\setminus B)). \]
+	Since each of the sets on the right are open in $X\times Y$, $A\times B$ is closed.
+\end{solution*}
+
+\begin{exercise}
+	Show that if $U$ is open in $X$ and $A$ is closed in $X$, $U\setminus A$ is open in $X$ and $A\setminus U$ is closed in $Y$.
+\end{exercise}
+\begin{solution*}
+	This is easily seen on writing $U\setminus A = U \cap (X\setminus A)$ and $A\setminus U = A \cap (X\setminus U)$.
+\end{solution*}
+
+\setcounter{exercise}{18}
+\begin{exercise}
+	If $A\subseteq X$, define the boundary of $A$ by
+	\[ \Bd A = \overline{A} \cap \overline{X\setminus A}.  \]
+	\begin{enumerate}[(a)]
+		\item Show that $A^\circ$ and $\Bd A$ are disjoint, and $\overline{A} = A^\circ \cup \Bd A$.
+		\item Show that $\Bd A = \emptyset$ iff $A$ is both open and closed.
+		\item Show that $U$ is open iff $\Bd U = \overline{U}\setminus U$.
+		\item If $U$ is open, is it true that $U = \overline{U}^\circ$? Justify your answer.
+	\end{enumerate}
+\end{exercise}
+\begin{solution*}
+	\begin{enumerate}[(a)]
+		\item Let $x\in A\setminus A^\circ$. Then for any open $U\ni x$, $U\not\subseteq A$ (otherwise, $A^\circ\cup U\supsetneq A^\circ$ is open and contained in $A$). That is, $U\cap (X\setminus A) \neq \emptyset$. However, this implies that $x\in \overline{X\setminus A}$, that is, $A\setminus A^\circ\subseteq \overline{X\setminus A}$. Therefore,
+		\begin{align*}
+			\overline{A}\setminus A^\circ &= (\overline{A}\setminus A) \cup (A\setminus A^\circ) \subseteq \overline{X\setminus A} \\
+			\overline{A} &\subseteq A^\circ \cup \overline{X\setminus A} \\
+				&= \overline{A} \cap (A^\circ \cup \overline{X\setminus A}) \\
+				&= A^\circ \cup (\overline{A} \cup \overline{X\setminus A}) = A^\circ \cup \Bd A.
+		\end{align*} 
+
+		\item If $A$ is not closed, $\overline{A}\supsetneq A$ intersects $X\setminus A\subseteq \overline{X\setminus A}$, contradicting $\Bd A = \emptyset$. Similarly, $X\setminus A$ is closed as well, so $A$ is both open and closed.\\
+		The other direction is similarly straightforward.
+
+		\item If $U$ is open, $X\setminus U$ is closed so $\Bd U = \overline{U} \cap (X\setminus U) = \overline{U} \setminus U$.\\
+		On the other hand, if $\overline{U}\cap (X\setminus U) = \overline{U}\cap \overline{X\setminus U}$, $X\setminus U$ must be closed. Indeed, otherwise, $\overline{X\setminus U} \setminus (X\setminus U) \subseteq U \subseteq \overline{U}$, contradicting the equality.
+
+		\item No, this is not the case. Consider the open set $U=(1,2)\cup(2,3)\subseteq\R$. Then $\overline{U}^\circ=(1,3)$.
+	\end{enumerate}
+\end{solution*}
