@@ -577,11 +577,53 @@ Given a directed graph $G=(V,E)$ and a weight function $w:E\to\Z$ and two design
 
 This is slightly different from the usual problem that Djikstra's algorithm solves because weights can be negative.\\
 What happens if the graph has cycles? It is possible to have a cycle with overall negative weight, so we could just loop in the cycle for an arbitrary amount of time, thus resulting in arbitrarily low (very negative) cost. Such a cycle is known as a ``negative cycle''.\\
-Therefore, let us restrict ourselves to directed \textit{acyclic} graphs for now.\\
+Therefore, let us restrict ourselves to directed \textit{acyclic} graphs for now (a more logical restriction would be to one only without negative cycles, but let us stick with this).\\
 
-Can we apply Djikstra's algorithm directly? No, we cannot. Consider the graph with $V=\{a,b,c\}$, $E=\{ac,ab,bc\}$, $s=a$, $t=c$, and $w=\{ac\mapsto 1, ab\mapsto 2, bc\mapsto-5\}$.
+Can we apply Djikstra's algorithm directly? No, we cannot. Consider the graph with $V=\{a,b,c\}$, $E=\{\vv{ac},\vv{ab},\vv{bc}\}$, $s=a$, $t=c$, and $w=\{\vv{ac}\mapsto 1, \vv{ab}\mapsto 2, \vv{bc}\mapsto-5\}$.
 
-It is solved using \textit{Bellman and Ford's Algorithm}.
+It is solved using \textit{Bellman and Ford's Algorithm}.\\
+Let $\mathsf{OPT}(v,t)$ be the minimum weight of $v$ to $t$ path. We want to compute $\mathsf{OPT}(s,t)$.
+% For some $v$, let $P$ denote the optimal path from $v$ to $t$ corresponding to $\mathsf{OPT}(v,t)$.
+Observe that
+\[ \mathsf{OPT}(s,t) = \min_{u: \vv{su}\in E} \{ w(\vv{su}) + \mathsf{OPT}(u,t) \}. \]
+This easily yields itself to a dynamic programming algorithm, with the above being the central recursion.\\
+The memoization strategy involves remembering previously computed $\mathsf{OPT}(u,t)$.
+The problems are acyclic because the graph is acyclic.\\
+What is the time complexity? There are at most $|V|$ sub-problems and each sub-problem takes time $\mathcal{O}(|V|)$ (we need to find the minimum of at most $|V|-1$ elements). So the algorithm is overall $\mathcal{O}(|V|+|E|)$.\\
+
+Now what happens if the algorithm has cycles, but no negative weight cycles? Is it possible to modify the above existing algorithm? Maybe we can use some sort of ``time-stamp'' idea.\\
+For each $i$, denote by $\mathsf{OPT}(v,i)$ the minimum weight path from $v$ to $t$ that uses at most $i$ edges. We want to compute $\mathsf{OPT}(s,n-1)$ (because all cycles are negative cycles).\\
+The recursion is given by
+\begin{equation}
+	\label{eqn: bellman and ford}
+	\mathsf{OPT}(v,i) = \min \left\{ \mathsf{OPT}(v,i-1), \min_{u: \vv{vu}\in E} \{ w(\vv{su}) + \mathsf{OPT}(u,i-1)\} \right\}.
+\end{equation}
+The memoization strategy involves creating a table $M$ with $n$ rows and $n$ columns, where the $(v,i)$th entry contains the weight of $\mathsf{OPT}(v,i)$.\\
+The sub-problem dependencies are acyclic because $i$ decreases at every step.\\
+
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\KwIn{A set of $n$ tasks, each with a start time $s(i)$, finish time $f(i)$, and weight $w(i)$ ordered in non-increasing finish time.}
+	\KwOut{An optimal solution to the weighted interval scheduling problem}
+	\SetKwProg{Fn}{}{}{}
+	\SetKwFunction{main}{ShortestPath}
+	\Fn{\main{$G$, $s$, $t$}} {
+		$M[t,0]\gets 0$\;
+		\For{$v\in V\setminus\{t\}$ and $i\in[n-1]$} {
+			$M[v,i]\gets\infty$
+		}
+		\For{$i=1$ \KwTo $n-1$} {
+			\For{$v\in V$} {
+				Compute $M[v,i]$ using \Cref{eqn: bellman and ford}\;
+			}
+		}
+		\Return{$M[s,n-1]$}
+	}
+	\caption{Bellman and Ford's Algorithm}\label{algo: bellman and ford}
+\end{algorithm}
+
+The table has $\mathcal{O}(n^2)$ entries and each entry is filled in $\mathcal{O}(n)$. Therefore, the total running time is $\mathcal{O}(n^3)$.
+
 
 \subsection{Exercises}
 
@@ -764,19 +806,19 @@ Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ 
 \end{solution*}
 
 
-\begin{exercise}
-	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
-\end{exercise}
-\begin{solution*}
-	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
-	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
-	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
-	\begin{itemize}
-		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
-		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
-	\end{itemize}
-	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
-\end{solution*}
+% \begin{exercise}
+% 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
+% \end{exercise}
+% \begin{solution*}
+% 	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
+% 	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
+% 	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
+% 	\begin{itemize}
+% 		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
+% 		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
+% 	\end{itemize}
+% 	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
+% \end{solution*}
 
 \begin{exercise}
 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
