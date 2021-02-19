@@ -1,0 +1,61 @@
+\section{The KLS Conjecture}
+
+\subsection{An Isoperimetric Problem}
+
+\subsubsection{Introduction}
+
+Suppose we have a convex body $K$ and we want to find a surface that divides $K$ into two parts, whose measure is minimum relative to that of the two parts.
+
+\begin{fdef}
+	The \textit{isoperimetric coefficient} of a convex body $K\subseteq\Rn$ is the largest number $\psi=\psi(K)$ such that for any measurable $S\subseteq K$,
+	\[ \vol_{n-1}(\partial S) \geq \psi \frac{\vol(S)\vol(K\setminus S)}{\vol(K)}. \]
+	Often, the above is replaced with
+	\[ \vol_{n-1}(\partial S) \geq \psi \min\{\vol(S), \vol(K\setminus S)\} \]
+	and this is the form we shall use throughout the rest of the section.
+\end{fdef}
+
+Since the two $\psi$s are within a factor of $2$, estimates are not influenced very drastically on making this change. This problem turns out to be very intimately related to that of volume computation we explored in the previous section.\\
+\cite{lovasz-simonovits-mixing-rate-isoperimetric} bounds the isoperimetric coefficient below by $1/d$, where $d$ is the diameter of the body. Note that this is quite obvious if the separating surface $\partial S$ is a (section of a) hyperplane.\\
+\cite{applegate-kannan-cube-sandwich} gives a more general result where the measure is replaced by that with density equal to any log-concave function and bounds it below by $2/d$. This is in fact as tight as we can get in terms of the diameter and indeed, the bound is attained for a thin long cylinder.\\
+However, the bodies we are interested in (in say, volume computation) tend to have a certain structure to them. In particular, sandwiching makes the bodies somewhat round.\\
+Throughout the rest of this section, denote the average distance of a point $K$ from its center of gravity by $M_1(K)$. The main result of this section is that for every convex body $K$,
+\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}. \]
+
+To begin, consider the following motivated by \Cref{localization lemma}.
+
+\begin{definition}
+	A \textit{needle} is a segment $[a,b]\in\Rn$ together with a non-negative linear function $\ell:I\to\R^{\geq 0}$ not identically $0$. If $N=(I,\ell)$ is a needle and $f$ is an integrable function define on $I$, denote
+	\[ \int_N f = \int_{a}^{b} f(t)\ell(tu)^{n-1} \d{t}. \]
+\end{definition}
+
+\begin{lemma}
+	\label{lem: 5.1}
+	Let $f_1$, $f_2$, $f_3$, $f_4$ be non-negative continuous functions defined on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
+	\begin{itemize}
+		\item For every convex body $K$ in $\Rn$,
+			\[ \left(\int_K f_1\right)^\alpha \left(\int_K f_2\right)^\beta \leq \left(\int_K f_3\right)^\alpha \left(\int_K f_4\right)^\beta. \]
+		\item For every needle $N$ in $\Rn$,
+			\[ \left(\int_N f_1\right)^\alpha \left(\int_N f_2\right)^\beta \leq \left(\int_N f_3\right)^\alpha \left(\int_N f_4\right)^\beta. \]
+	\end{itemize}
+\end{lemma}
+\begin{proof}
+	The first implying the second is quite easy. For the converse, suppose that the second holds but the first does not.
+	Adding a sufficiently small quantity to $f_3$ and $f_4$, we may further assume that they are (strictly) positive. We may also assume that $f_1$ and $f_2$ are positive (Why?). Choose some $A$ such that
+	\[ \frac{\left(\int_K f_1\right)^\alpha}{\left(\int_K f_3\right)^\alpha} > A > \frac{\left(\int_K f_4\right)^\beta}{\left(\int_K f_2\right)^\beta}. \]
+	Then,
+	\[ \int_K f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_K A^{1/\beta}f_2 - f_4 > 0. \]
+	Using \Cref{localization lemma}, there is some needle $N$ such that
+	\[ \int_N f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_N A^{1/\beta}f_2 - f_4 > 0. \]
+	This implies that
+	\[ \frac{\left(\int_N f_1\right)^\alpha}{\left(\int_N f_3\right)^\alpha} > A > \frac{\left(\int_N f_4\right)^\beta}{\left(\int_N f_2\right)^\beta}, \]
+	thus proving the claim.
+\end{proof}
+
+\begin{corollary}
+	Let $T$ be a bounded open convex set in $\Rn$, $g$ a bounded lower semicontinuous function on $T$, and $h$ a continuous function on $T$ such that
+	\[ \int_T g(x)\d{x} > 0 \text{ and } \int_T h(x)\d{x} = 0. \]
+	Then there is a needle $N=(I,\ell)$ with $I\subseteq T$ such that
+	\[ \int_N g(x)\d{x} > 0 \text{ and } \int_N h(x)\d{x} = 0. \]
+\end{corollary}
+
+The above is easily proved using the contrapositive of the upward direction of \Cref{lem: 5.1}.

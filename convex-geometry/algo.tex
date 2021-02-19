@@ -1109,13 +1109,13 @@ Slightly more generally, setting $f=\indic_{K'}$ and $g=\indic_K$, we get that t
 	is a convex body.
 \end{corollary}
 
-\subsubsection{A Localization Lemma}
+\subsubsection{An improvement of a past result}
 
 The main result of this section is the following result, which is an improvement of \Cref{conductance isoperimetric inequality}.
 
 \begin{ftheo}
 \label{localization lemma}
-	Let $g$ and $h$ be upper semi-continuous Lebesgue integrable functions on $\R^n$ such that their integrals on $\R^n$ are positive. Then there exist points $a,b\in\R^n$ and a linear function $\ell:[0,1]\to\Rp$ such that
+	Let $g$ and $h$ be lower semicontinuous Lebesgue integrable functions on $\R^n$ such that their integrals on $\R^n$ are positive. Then there exist points $a,b\in\R^n$ and a linear function $\ell:[0,1]\to\R^{\geq 0}$ such that
 	\[ \int_0^1 \ell(t)^{n-1}g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)^{n-1}h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
 
@@ -1421,7 +1421,7 @@ Recall from the discussion after \Cref{def: conductance} that we denote by $H_t$
 the set of points where the probability of moving out is less than $t$.
 We also saw that the $(Q_F(H_t)/2)$-conductance of the chain is at most $2t$.\\
 
-The main result of this section, which is a sort of localization lemma in the context of this problem, says that if the local conductance is large and the ``diameter'' (not the usual diameter) of $K$ is small, then the overall conductance is large.
+The main result of this section, which is an improvement of a previous result, says that if the local conductance is large and the ``diameter'' (not the usual Euclidean diameter) of $K$ is small, then the overall conductance is large.
 
 \begin{ftheo}
 	\label{ftheo to bound conductance}
