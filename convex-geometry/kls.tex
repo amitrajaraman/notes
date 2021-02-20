@@ -24,8 +24,9 @@ Throughout the rest of this section, denote the average distance of a point $K$ 
 To begin, consider the following motivated by \Cref{localization lemma}.
 
 \begin{definition}
-	A \textit{needle} is a segment $[a,b]\in\Rn$ together with a non-negative linear function $\ell:I\to\R^{\geq 0}$ not identically $0$. If $N=(I,\ell)$ is a needle and $f$ is an integrable function define on $I$, denote
-	\[ \int_N f = \int_{a}^{b} f(t)\ell(tu)^{n-1} \d{t}. \]
+	A \textit{needle} is a segment $[a,b]\in\Rn$ together with a non-negative linear function $\ell:I\to\R^{\geq 0}$ not identically $0$. If $N=(I,\ell)$ is a needle and $f$ is an integrable function defined on $I$, denote
+	\[ \int_N f = \int_{0}^{|b-a|} f(a+tu)\ell(a+tu)^{n-1} \d{t}, \]
+	where $u=(b-a)/|b-a|$.
 \end{definition}
 
 \begin{lemma}
@@ -51,11 +52,37 @@ To begin, consider the following motivated by \Cref{localization lemma}.
 	thus proving the claim.
 \end{proof}
 
+Observe that we can extend this more generally to the case where $f_1$ and $f_2$ are upper semicontinuous and $f_3$ and $f_4$ are lower semicontinuous. Indeed, we may consider an appropriate sequence of continuous function. In particular, this allows us to restrict ourselves from $\Rn$ to some subset $T$ of $\Rn$ by multiplying the functions with the indicator function $\indic_T$ (the functions extend to upper semicontinuous functions if $T$ is closed and lower semicontinuous functions if $T$ is open).
+% *** Why?
+
 \begin{corollary}
 	Let $T$ be a bounded open convex set in $\Rn$, $g$ a bounded lower semicontinuous function on $T$, and $h$ a continuous function on $T$ such that
-	\[ \int_T g(x)\d{x} > 0 \text{ and } \int_T h(x)\d{x} = 0. \]
+	\[ \int_T g > 0 \text{ and } \int_T h = 0. \]
 	Then there is a needle $N=(I,\ell)$ with $I\subseteq T$ such that
-	\[ \int_N g(x)\d{x} > 0 \text{ and } \int_N h(x)\d{x} = 0. \]
+	\[ \int_N g > 0 \text{ and } \int_N h = 0. \]
 \end{corollary}
+\begin{proof}
+	Choose some $0<\delta<\int_T g$ and let $\varepsilon>0$. Then,
+	\[ \int_T \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_T (\varepsilon-h) > 0. \]
+	Extending these functions to functions on $\Rn$ (multiplying with the indicator function) and using \Cref{localization lemma}, we get a needle $N_\varepsilon=(I_\varepsilon,\ell_\varepsilon)$ with $I_\varepsilon\subseteq T$ (Why?) such that
+	\begin{equation}
+		\label{eqn: 5.1}
+		\int_{N_\varepsilon} \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_{N_\varepsilon} (\varepsilon-h) > 0.
+	\end{equation}
+	Letting $M$ to be the supremum of $g$ on $\Rn$,
+	\begin{equation}
+		\label{eqn: 5.2}
+		-M\varepsilon\int_{N_\varepsilon} 1 < \int_{N_\varepsilon} h < \varepsilon \int_{N_\varepsilon} 1.
+	\end{equation}
+	Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required.
+\end{proof}
 
-The above is easily proved using the contrapositive of the upward direction of \Cref{lem: 5.1}.
+While these results are quite nice, exponents of a linear function are not very convenient to deal with. Therefore, define the following.
+
+\begin{definition}
+	An \textit{exponential needle} is a segment $[a,b]\in\Rn$ together with a real $\gamma$. If $E=(I,\gamma)$ is a needle and $f$ is an integrable function defined on $I$, denote
+	\[ \int_E f = \int_{0}^{|b-a|} f(a+tu)e^{\gamma t} \d{t}, \]
+	where $u=(b-a)/|b-a|$.
+\end{definition}
+
+If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
