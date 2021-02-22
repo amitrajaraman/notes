@@ -244,6 +244,3 @@ The average total cost rises (falls) when the marginal cost is greater (less) th
 The marginal cost curve crosses the average total cost curve at the _efficient scale_ . This is the minimum of the average total cost.
 
 In the long run, all fixed costs become variable costs. As a result, the long run cost curves differ a lot from the short run cost curves.
-
-<!-- Marginal cost eventually rises with the quantity of output due to this, diminishing marginal product will set in at some point of time.     -->
-<!-- If the marginal cost is greater than the average total cost, the average goes up. -->

@@ -26,7 +26,10 @@ The _marginal cost_ is the slope of the total cost function (if it is a continuo
 
 Marginal cost increases with the amount of output produced - this reflects the concept of diminishing marginal product.    
 The average total cost curve is U-shaped. This is because the average fixed cost decreases whereas the average variable cost increases due to diminishing marginal product.    
-The average total cost rises (falls) when the marginal cost is greater (less) than than the average total cost.
+The average total cost rises (falls) when the marginal cost is greater (less) than than the average total cost.    
+The marginal cost curve crosses the average total cost curve at the _efficient scale_ . This is the minimum of the average total cost.
+
+In the long run, all fixed costs become variable costs. As a result, the long run cost curves differ a lot from the short run cost curves.
 
 <!-- Typically, the goal of the firm is to maximize profits. Sometimes, it may not be - consider the Indian railways. It may also be the goal to maximize sales (equivalently, revenue).    
 A firm's cost of production includes all the opportunity costs of making the output. The cost of production for an accountant is thus quite different from that for an economist (since we include opportunity costs).    
