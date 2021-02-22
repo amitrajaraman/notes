@@ -19,6 +19,11 @@ Most of the content and all images used are from the book "Principles of Economi
 - [Lecture 8](#lecture-8)
 - [Lecture 9](#lecture-9)
 - [Lecture 10](#lecture-10)
+- [Lecture 11](#lecture-11)
+- [Lecture 12](#lecture-12)
+- [Lecture 13](#lecture-13)
+- [Lecture 14](#lecture-14)
+- [Lecture 15](#lecture-15)
 
 <!-- /MarkdownTOC -->
 
@@ -238,9 +243,131 @@ The _marginal cost_ is the amount the cost increases on increasing production by
 
 The _marginal cost_ is the slope of the total cost function (if it is a continuous cost).
 
-Marginal cost increases with the amount of output produced - this reflects the concept of diminishing marginal product.    
+Marginal cost eventually increases with the amount of output produced - this reflects the concept of diminishing marginal product.    
 The average total cost curve is U-shaped. This is because the average fixed cost decreases whereas the average variable cost increases due to diminishing marginal product.    
 The average total cost rises (falls) when the marginal cost is greater (less) than than the average total cost.    
 The marginal cost curve crosses the average total cost curve at the _efficient scale_ . This is the minimum of the average total cost.
 
-In the long run, all fixed costs become variable costs. As a result, the long run cost curves differ a lot from the short run cost curves.
+# Lecture 11
+
+In the short run, some costs are fixed. In the long run, all fixed costs become variable costs.    
+As a result, a firm's long-run cost curves differ from its short-run cost curves. The lower envelope of the short-run total average cost curve forms the long-run total average cost curve. 
+
+
+_Economies of scale_ refer to the property whereby long-run average total cost falls as the quantity of output increases.    
+_Diseconomies of scale_ refer to the property whereby long-run average total cost rises as the quantity of output increases.    
+_Constant economies of scale_ refer to the property whereby long-run average total cost stays constant as the quantity of output increases.
+
+<p align="center">
+<img src="./atc-short-long.png" alt="Average Total Cost in the short and long run" width="500"/>
+</p>
+
+Economies of scale usually occur due to the workers specializing in particular areas. Diseconomies of scale on the other hand might occur due to coordination problems.
+
+In a _competitive market_,
+* There are many buyers and sellers
+* The goods offered by the various sellers are largely the same
+
+Each buyer and seller is a price taker. They must accept the price determined by the market.
+
+In a _perfectly competitive market_, in addition to the above two conditions, firms can further freely enter/exit the market.    
+So, the actions of any single buyer/seller have negligible impact on the market price. The average revenue for any firm is equal to the price of the good. The marginal revenue is also equal to the price of the good and the total revenue is proportional to the quantity of output.     
+Any firm decides to increase/decrease its output depending on whether the marginal revenue is greater/less than the marginal cost. Because the firm's marginal cost curve determines the quantity of good the firm is willing to supply at any price, the marginal cost curve is equal to the supply curve.
+
+In the short run, it is difficult to leave the market whereas it is easy in the long run.     
+A _shutdown_ refers to a short run decision to not produce anything in some period of time due to market conditions. In the short run, the fixed costs cannot be avoided so they continue to be incurred even if a shutdown occurs. This fixed cost is said to be a _sunk cost_.    
+ _Exit_ refers to a long run decision to leave the market. When a firm exits the market, it needs to incur neither fixed nor variable costs.    
+The firm shuts down if the revenue it would earn from producing is less than the variable costs of production. Alternatively, it shuts down if the price is less than the average variable cost.    
+The firm decides to exit if the revenue is less than the average total cost or alternatively, the price is less than the average total cost.
+
+Therefore, the firm's short run supply curve is that portion of the marginal cost curve which is above the average variable cost curve.    
+The long run supply curve has the portion of the marginal cost curve which is above the average total cost curve.
+
+# Lecture 12
+
+In the long run, the price becomes equal to the minimum of the average total cost (across firms).    
+As a result, at the end, firms that remain in the market must be making zero economic profit. Firms stop entering/exiting the market only when price and the average total cost are forced to become equal. They are then operating at efficient scale.    
+This makes sense because the opportunity costs which are taken into account cover other things. The economic profit is zero, not the accounting profit!    
+In the short run, an increase in demand raises price and quantity supplied (and they make positive economic profit). The resulting influx of firms would force the cost back down, which again results in the long run average total cost being stationary.
+
+While a competitive firm is a price taker, a monopoly firm is a _price maker_.    
+A firm is considered a monopoly if it is the sole seller of its product and its product does not have any close substitutes. Monopolies arise when there is a barrier to entry such as
+* Ownership of a key resource.
+* Government regulation - the government gives a single firm the exclusive right to produce some good.
+* The production process - A single firm can supply a good or service to an entire market at a smaller cost than could two or more firms. Costs of production make a single producer more efficient than a large number of producers. In this case, the industry is said to be a _natural monopoly_. Consider the railways in India.
+
+# Lecture 13
+
+If a firm has the first mover's advantage, they have a good chance of naturally establishing a monopoly. It becomes quite difficult for new people to enter the market.    
+
+Because a monopoly has market power, price would rise if they decide to produce less (as opposed to a competitive market where the price remains constant irrespective of quantity produced). The demand curve is downwards sloping.
+
+A monopoly's marginal revenue curve always lies below its demand curve.
+
+For monopolies, the marginal revenue curve is far below the average revenue curve. Profit is maximized when the marginal cost is equal to the marginal revenue. For a monopolistic firm, the price exceeds the marginal cost.
+
+Remember that all profit-maximizing curves try to equalize the marginal revenue and marginal cost. The monopoly profits as long as the price is greater than the average total cost.
+
+_Price discrimination_ is the practice of selling the same good at different prices to different customers, even though the costs of production are the same.    
+To price discriminate, the firm must have market power. In perfect price discrimination, the monopolist knows the willingness to pay of each customer and charges each customer a different price.    
+It is not possible in a competitive market since the seller requires market power to enforce it.
+Price discrimination increases profits for the monopolist.
+
+_Welfare economics_ studies how the allocation of resources affects economic wellbeing.    
+Equilibrium in the market ensures maximum welfare for both the consumers and the producer.    
+The _willingness to pay_ is the maximum amount that a buyer will pay for a good. The _consumer surplus_ is the buyer's willingness to pay for a good minus the amount they actually pay for it. The area below the demand curve and above the price measures the consumer surplus.
+
+# Lecture 14
+
+Consumer surplus measures the benefit the buyer receives from a good as they perceive it.
+
+_Producer surplus_ is the amount a seller is paid for a good minus the cost. Just like before, the area above the supply curve and below the price measures the producer surplus.
+
+The _total surplus_ is the sum of the consumer surplus and producer surplus. A resource allocation is said to exhibit _efficiency_ if it maximizes total surplus. _Equality_ (or equity) checks whether the producers and consumers have similar levels of economic wellbeing.
+
+* Free markets allocate the supply to buyers who value them most (as measured by their willingness to pay).
+* Free markets allocate the demand to sellers who can produce them at the lowest cost.
+* Free markets produce the quantity of goods that maximizes the sum of consumer and producer surplus.
+
+Therefore, a social planner should leave a free market alone. This is referred to as _laissez faire_ - letting people do as they will.    
+This is not the case when there is a market failure due to externalities or market power.    
+The resulting inefficiency shows itself as _deadweight loss_, which is equal to the corresponding fall in total surplus.    
+Imposing a tax can manifest in a deadweight loss.
+When buyers/sellers do not take externalities into account, the equilibrium could be inefficient. 
+
+The theory of consumer choice asks
+* whether all demand curves slope downward,
+* how wages affect labor supply, and
+* how interest rates affect household saving.
+
+_Budget constraint_ depicts the limit on the consumption bundles that a consumer can afford.    
+It limits the various combinations of goods that the consumer can afford given their income and the prices. A budget constraint curve looks like:
+
+<p align="center">
+<img src="./budget-constraint-curve.png" alt="Budget constraint curve" width="500"/>
+</p>
+
+The slope of the curve is equal to the ratio of the two prices, the _relative price_.    
+We should also take preferences into account. For this, we draw the indifference curve.
+
+An _indifference curve_ shows consumption bundles that give the consumer the same level of satisfaction. The slope at any point represents how much of one good the consumer is willing to give up for one unit of the other - this is known as the _marginal rate of substitution_.
+
+The slope at any point on an indifference curve is the _marginal rate of substitution_. It represents how much of one good the consumer is willing to give up for one unit of the other.
+
+# Lecture 15
+
+* Higher indifference curves are preferred to lower ones - consumers prefer to have more of something.
+* Indifference curves are downward supplying - consumers are willing to give up some good only if they get some other good in return.
+* Indifference curves do not cross.
+* Indifference curves are bowed inwards - consumers are more willing to trade away goods they have in abundance.
+
+_Perfect substitutes_ are goods with straight-line indifference curves. As a result, the marginal rate of substitution is constant. For example, nickels and dimes.    
+Goods with right-angle indifference curves are _perfect complements_. For example, left shoes and right shoes.
+
+A point at which the budget constraint curve and indifference curve touch (tangentially) is known as the _optimum_.    
+Therefore, the consumer chooses to consume such that the marginal rate of substitution is equal to the relative price. We are just equating the slope of the indifference curve and the slope of the budget constraint. At the optimum, the valuation of the two goods equals the market's valuation.
+
+An increase in income shifts the budget constraint curve outwards.
+
+The _substitution effect_ is the change in consumption that occurs when a price change moves the consumer along an indifference curve to a point with a different marginal rate of substitution (along the indifference curve).    
+The _income effect_ is the change in consumption that occurs when a price change moves the consumer to a higher or lower indifference curve.
