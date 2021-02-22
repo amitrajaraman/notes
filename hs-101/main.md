@@ -344,7 +344,7 @@ _Budget constraint_ depicts the limit on the consumption bundles that a consumer
 It limits the various combinations of goods that the consumer can afford given their income and the prices. A budget constraint curve looks like:
 
 <p align="center">
-<img src="./budget-constraint-curve.png" alt="Budget constraint curve" width="500"/>
+<img src="./budget-constraint-curve.png" alt="Budget constraint curve" width="300"/>
 </p>
 
 The slope of the curve is equal to the ratio of the two prices, the _relative price_.    
