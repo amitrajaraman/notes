@@ -16,15 +16,14 @@ We study theories with basic assumptions or \textit{axioms}. Using these axioms,
 \begin{theorem}[G\"odel's Incompleteness Theorem]
 There are theories whose assumptions cannot be listed.
 \end{theorem}
-\begin{proof}
-Suppose that there exists such a list for the number theory. Consider the \textbf{true} statement
+
+The proof roughly goes by considering the self-referential true sentence
 \begin{quote}
 	This sentence cannot be proven by the list.
 \end{quote}
-The list cannot imply the sentence. This yields a contradiction.
-\end{proof}
+and arriving at a contradiction.
 
-This theorem shows that logic has all but failed as a tool to do math. From this failure, rose computer science. We discuss G\"odel's Incompleteness more concretely later.
+% This theorem shows that logic has all but failed as a tool to do math. From this failure, rose computer science. We discuss G\"odel's Incompleteness more concretely later.
 
 \subsection{Lecture 2}
 
@@ -991,23 +990,6 @@ A proof method implicitly defines a non-deterministic proof search algorithm. To
 	\item If $\ell$ occurs in a resolution proof, $\neg\ell$ can be removed from every clause.
 \end{enumerate}
 
-\subsection{Exercises}
-
-\begin{exercise}
-	Suppose we have $n$ variables in a $2$-sat problem. What is the maximal number of clauses in the formula such that the formula is satisfiable?
-\end{exercise}
-\begin{solution*}
-	Observe that it is possible to have $3n^2$ clauses. Indeed, consider the set of clauses
-	\[ \{\{p,\neg q\} : p,q\in\Vars\}\cup\{\{p,q\} : p,q\in\Vars\} \]
-	which is satisfiable by the model that takes $1$ everywhere.\\
-	We claim that this is the maximal number of clauses. Indeed, let us have an implication graph with $2k\geq 2$ strongly connected components. Also, we can use the notion of complementary components and let the sccs have $v_1,\ldots,v_k$ vertices (where there are two sccs corresponding to each $v_i$).\\
-	The number of edges is then at most
-	\[ 2\sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i<j\leq k} 4 v_i v_j. \]
-	The first term arises due to complete connectedness within each scc and the second and third terms arise by taking into consideration the maximal number of edges between sccs. The above is equal to
-	\[ 3\left(\sum_{1\leq i\leq k} v_i\right)^2 - 2\sum_{1\leq i<j\leq k} v_i v_j = 3n^2 - 2\sum_{1\leq i<j\leq k} v_i v_j \leq 3n^2, \]
-	thus proving the claim.
-\end{solution*}
-
 \subsection{Lecture 10}
 
 \subsubsection{Completeness of the resolution proof system}
@@ -1096,10 +1078,3 @@ A yes/no problem is \textit{semi-decidable} if we have an algorithm for only one
 	If $\Sigma\vDash F$, there is a finite set $\Sigma_0\subseteq\Sigma$ such that $\Sigma_0\vDash F$. Since $\Sigma$ is effectively enumerable, let $G_1,G_2,\ldots$ be an enumeration of it. Let $S_n = \{G_1,\ldots,G_n\}$.\\
 	There is then some $k$ such that $S_k\vDash F$. We may enumerate $S_n$ and check if $S_n\vDash F$ (which is decidable by virtue of truth tables). Therefore, if $\Sigma\vDash F$, we will eventually say yes. So it is decidable if the answer is yes, but not if no.
 \end{proof}
-
-\subsection{Lecture 11}
-
-\subsubsection{DPLL (Davis-Putnam-Loveland-Logemann) Method}
-
-
-

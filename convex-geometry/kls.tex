@@ -21,6 +21,8 @@ However, the bodies we are interested in (in say, volume computation) tend to ha
 Throughout the rest of this section, denote the average distance of a point $K$ from its center of gravity by $M_1(K)$. The main result of this section is that for every convex body $K$,
 \[ \psi(K) \geq \frac{\ln 2}{M_1(K)}. \]
 
+\subsubsection{Needles and Localization Lemmas}
+
 To begin, consider the following motivated by \Cref{localization lemma}.
 
 \begin{definition}
@@ -86,3 +88,19 @@ While these results are quite nice, exponents of a linear function are not very 
 \end{definition}
 
 If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
+
+\begin{theorem}
+	Let $f_1$, $f_2$, $f_3$, and $f_4$ be four non-negative continuous functions defined on an interval $[a,b]$ and $\alpha,\beta>0$. Then the following are equivalent.
+	\begin{itemize}
+		\item For every log-concave function $F$ defined on $\R$, 
+		\[ \left(\int_a^b F(t)f_1(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_2(t)\d{t}\right)^\beta \leq \left(\int_a^b F(t)f_3(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_4(t)\d{t}\right)^\beta. \]
+
+		\item For every subinterval $[a',b']\subseteq[a,b]$ and real $\gamma$,
+		\[ \left(\int_{a'}^{b'} e^{\gamma t}f_1(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_2(t)\d{t}\right)^\beta \leq \left(\int_{a'}^{b'} e^{\gamma t}f_3(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_4(t)\d{t}\right)^\beta. \]
+	\end{itemize}
+\end{theorem}
+
+\begin{proof}
+	The first implying the second is obvious (on setting $F=\indic_{[a',b']}e^{\gamma t}$).\\
+	Suppose the second holds and the first does not for some log-concave function $F$. We may assume that $F$ is strictly positive. Otherwise, we can replace it with its convolution with $e^{-ct^2}$ for some large $c$, which is still log-concave by \Cref{convolution of log concave functions is log concave}.
+\end{proof}

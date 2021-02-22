@@ -82,8 +82,10 @@
 \newtheorem*{example}{Example}
 
 \theoremstyle{remark}
-\numberwithin{exercise}{section}
-
+{
+  \renewcommand{\thesubsection}{subsection}
+  \numberwithin{exercise}{subsection}
+}
 \mdfdefinestyle{solutionstyle}{%
 	% linecolor=gray,linewidth=1pt,%
 	% frametitlerule=true,%

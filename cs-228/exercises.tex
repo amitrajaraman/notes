@@ -1,0 +1,16 @@
+\section{Exercises}
+
+\begin{exercise}
+	Suppose we have $n$ variables in a $2$-sat problem. What is the maximal number of clauses in the formula such that the formula is satisfiable?
+\end{exercise}
+\begin{solution*}
+	Observe that it is possible to have $3n^2$ clauses. Indeed, consider the set of clauses
+	\[ \{\{p,\neg q\} : p,q\in\Vars\}\cup\{\{p,q\} : p,q\in\Vars\} \]
+	which is satisfiable by the model that takes $1$ everywhere.\\
+	We claim that this is the maximal number of clauses. Indeed, let us have an implication graph with $2k\geq 2$ strongly connected components. Also, we can use the notion of complementary components and let the sccs have $v_1,\ldots,v_k$ vertices (where there are two sccs corresponding to each $v_i$).\\
+	The number of edges is then at most
+	\[ 2\sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i\leq k} v_i^2 + \sum_{1\leq i<j\leq k} 4 v_i v_j. \]
+	The first term arises due to complete connectedness within each scc and the second and third terms arise by taking into consideration the maximal number of edges between sccs. The above is equal to
+	\[ 3\left(\sum_{1\leq i\leq k} v_i\right)^2 - 2\sum_{1\leq i<j\leq k} v_i v_j = 3n^2 - 2\sum_{1\leq i<j\leq k} v_i v_j \leq 3n^2, \]
+	thus proving the claim.
+\end{solution*}
