@@ -26,19 +26,19 @@ No! It is polynomial in $n$, but \textit{not} polynomial in the input size $\log
 While analyzing algorithms in general, it is important to look at the input size, the number of bits that constitute the input.
 
 \begin{definition}[Big-$\mathcal{O}$ notation]
-$T(n)$ is said to be $\mathcal{O}(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\leq cf(n)$.
+$T(n)$ is said to be $\mathcal{O}(f(n))$ if there is some $c> 0$ and $N\in\N$ such that for all $n>N$, $T(n)\leq cf(n)$.
 \end{definition}
 
 This notation is often abused to say, for example, that $\sqrt{n} = \mathcal{O}(n)$ (instead of the correct $\sqrt{n}\in\mathcal{O}(n)$).
 
 \begin{definition}[Big-$\Omega$ notation]
-$T(n)$ is said to be $\Omega(f(n))$ if there is some $c\geq 0$ and $N\in\N$ such that for all $n>N$, $T(n)\geq cf(n)$.
+$T(n)$ is said to be $\Omega(f(n))$ if there is some $c> 0$ and $N\in\N$ such that for all $n>N$, $T(n)\geq cf(n)$.
 \end{definition}
 
 Finally, we have
 
 \begin{definition}[$\Theta$ notation]
-$T(n)$ is said to be $\Theta(f(n))$ if there are some $c_1,c_2\geq 0$ and $N\in\N$ such that for all $n>N$, $c_1 f(n) \leq T(n)\leq c_2 f(n)$.\\
+$T(n)$ is said to be $\Theta(f(n))$ if there are some $c_1,c_2> 0$ and $N\in\N$ such that for all $n>N$, $c_1 f(n) \leq T(n)\leq c_2 f(n)$.\\
 \end{definition}
 
 Equivalently, $T(n) \in \Theta(f(n))$ if and only if $T(n) \in \mathcal{O}(f(n))$ and $T(n) \in \Omega(f(n))$.
@@ -78,27 +78,27 @@ We give a few examples with the aim of hopefully making the above notation more 
 		\DontPrintSemicolon
 		\KwIn{$n\geq 2$ points $p_1=(x_1,y_1),\ldots,p_n=(x_n,y_n)$}
 		\KwOut{$i,j\in[n]$ such that the distance between $p_i$ and $p_j$ is minimum}
-		$\var{i_1},\var{i_2}\gets 0,1$\;
+		$i_1,i_2\gets 0,1$\;
 		$\var{min}\gets (x_1-x_2)^2+(y_1-y_2)^2$\;
 		\For{$i=1$ \KwTo $n$} {
 			\For{$j=i+1$ \KwTo $n$} {
 				$\var{d}\gets (x_i-x_j)^2+(y_i-y_j)^2$\;
 				\If{$\var{d}<\var{min}$} {
 					$\var{min}\gets\var{d}$\;
-					$i_1,j_1\gets i,j$\;
+					$i_1,i_2\gets i,j$\;
 				}
 			}
 		}
-		\Return{$\var{i_1},\var{i_2}$}
+		\Return{$i_1,i_2$}
 		\caption{Algorithm to find a closest pair of points}\label{algo: closest pair of points}
 	\end{algorythm}
-	This problem can in fact be solved in $\mathcal{O}(n\log n)$ time, which we shall see later (you can try thinking about it now).
+	This problem can in fact be solved in $\mathcal{O}(n\log n)$ time, as we shall see in \Cref{subsubsec: closest points in a plane}.
 
 	\item $\mathcal{O}(n^k)$. Given a graph $G=(V,E)$, find a $S\subseteq V$ such that $|S|=k$ and there is no edge between any two nodes in $S$.\\
 	The above is known as the ``independent set problem''. The counterpart with an edge between any two nodes is known as the ``clique problem''.\\
 	This is easily done by just checking every subset of size $k$, of which there are $\binom{n}{k}\mathcal{O}(k^2)=\mathcal{O}(n^k k^2)$ (there are $\mathcal{O}(k^2)$ comparisons for each subset). Since $k$ is constant, this is just $\mathcal{O}(n^k)$.
 
-	So for constant $k$, this \textit{is} technically polynomial, but for reasonably large $k$, this is terrible. In fact, if we want to find the largest clique, then a polynomial time algorithm (in $n$) is not known. Indeed, this is an ``NP-hard'' problem, which we shall read more about later.
+	So for constant $k$, this \textit{is} technically polynomial, but for reasonably large $k$, this is terrible. In fact, if we want to find the largest clique/independent set in a graph, then a polynomial time algorithm (in $n$) is not known at all. Indeed, this is an ``NP-hard'' problem, which we shall read more about later.
 
 \end{enumerate}
 
@@ -108,23 +108,23 @@ We give a few examples with the aim of hopefully making the above notation more 
 Greed is good, and sometimes, it's even optimal.\\
 
 What is a greedy algorithm? It essentially builds a solution in tiny steps, performing some sort of \textit{local} optimization, which ends up optimizing the problem requirement \textit{globally}.\\
-It's quite clear that greedy algorithms needn't always work, we have to pick a local criterion that fits our requirements.\\
+It is quite clear that greedy algorithms needn't always work, we must pick a local criterion that fits our requirements.\\
 
 \subsubsection{Interval Scheduling}
 
-Consider the ``interval-scheduling problem''. We have a supercomputer on which jobs need to be scheduled. We are given $n$ jobs specified by their start and finish times. That is, for $i\in[n]$, we are given $J_i = (s(i),f(i))$. We wish to schedule as many jobs as possible on the computer. That is, given $J = \{J_i = (s(i),f(i)) : i\in[n]\}$, find the largest subset $S\subseteq J$ such that no two intervals in $S$ overlap.\\
+Consider the ``interval-scheduling problem''. We have a supercomputer on which jobs need to be scheduled. We are given $n$ jobs specified by their start and finish times. That is, for $i\in[n]$, we are given $J_i = (s(i),f(i))$. We wish to schedule as many jobs as possible on the computer. That is, given $J = \{J_i = (s(i),f(i)) : i\in[n]\}$, find a largest subset $S\subseteq J$ such that no two intervals in $S$ overlap.\\
 We want maximality in terms of \textit{cardinality} of $S$ (the number of jobs scheduled), not the total time covered.
 
 Consider the following greedy algorithms.
 
 \begin{enumerate}
-	\item Choose a job with the earliest starting time. This basically says that we never want to leave the computer idle. It is easily seen that this need not work, since the job that starts soonest can take a very long time, obviously resulting in non-optimality.\\
+	\item Choose a job with the earliest starting time. This basically says that we never want to leave the computer idle. It is easily seen that this need not work, since the job that starts soonest can take a very long time, resulting in non-optimality.\\
 	More concretely, let $J = \{(0,3),(1,2),(2,3)\}$.
 
-	\item Choose the smallest available job. This needn't work either, since the smallest job could overshadow multiple longer jobs that intersect it.\\
+	\item Choose the smallest available job. This needn't work either, since the smallest job could overshadow multiple (longer) jobs that intersect it.\\
 	For example, let $J=\{(1,5),(4,6),(6,10)\}$.
 
-	\item Choose the job with the earliest ending time. This \textit{does} work. The idea behind this is that it tries to keep as many resources free as possible. One can try playing around with a few examples to see that it does work.\\
+	\item Choose the job with the earliest ending time. This \textit{does} work. The idea behind this is that it tries to keep as many resources free as possible. One can try playing around with a few examples to convince oneself that it does work.\\
 	But how would we prove that it works?
 \end{enumerate}
 
@@ -138,29 +138,29 @@ For $r\in[k]$, $f(a_r) \leq f(b_r)$.
 This is easily shown via induction. For $r=1$, it holds by the definition of $\mathcal{A}$. For $r>1$, we have (by induction) $f(a_{r-1}) \leq f(b_{r-1}) \leq s(b_r)$. Then since $b_r$ itself can be chosen by the algorithm, we must have that $f(a_r) \leq f(b_r)$.
 \end{proof}
 
-This also implies that $\mathcal{A}$ is optimal since at each step, the job corresponding to $\mathsf{OPT}$ can be picked by $\mathcal{A}$. Try showing why this implies $|\mathcal{A}|=|\mathsf{OPT}|$.\\
-What is the running time of this algorithm? We first sort the jobs according to their finish times, which takes $\mathcal{O}(n\log n)$ time. We then have to scan through all the jobs in this sorted list, which takes $\mathcal{O}(n)$ times. The total running time is $\mathcal{O}(n\log n)$.
+This also implies that $\mathcal{A}$ is optimal since at each step, the job corresponding to $\mathsf{OPT}$ can be picked by $\mathcal{A}$. Try showing why this implies $|\mathcal{A}|=|\mathsf{OPT}|$.\footnote{Attempt to prove that at any step of the algorithm, if $S_i$ is the current set, then there is an optimal solution $\mathsf{OPT}\supseteq S_i$. Why does the required follow from this?}\\
+What is the running time of this algorithm? We first sort the jobs according to their finish times, which takes $\mathcal{O}(n\log n)$ comparisons. We then have to scan through all the jobs in this sorted list, which takes $\mathcal{O}(n)$ time. The total running time is thus $\mathcal{O}(n\log n)$.
 
 \subsubsection{Minimal Spanning Subgraph}
 
-Now, we consider the ``Minimal Spanning Subgraph'' problem. Given an undirected connected graph $G=(V,E)$ and a cost function $c:E\to\Zp$, find a subset $T\subseteq E$ such that $T$ spans all the vertices, $T$ is connected, and it is the set with the least such cost.
+Now, we consider the ``Minimal Spanning Subgraph'' problem. Given an undirected connected graph $G=(V,E)$ and a cost function $c:E\to\Zp$, find a subset $T\subseteq E$ such that $T$ spans all the vertices, $T$ is connected, and it is the set with the least cost among such sets.
 
-It is easy to show that this $T$ must be a tree. Suppose it is connected, spanning and has a cycle $C$. If we delete the costliest edge $e$ on $C$, then on removing $e$ from $T$, $T$ remains connected and spanning, but the weight goes strictly down (since $c$ maps into $\Zp$).
+It is easy to show that this $T$ must be a tree. Indeed, suppose instead that it is connected, spanning and has a cycle $C$. If we delete the costliest edge $e$ on $C$, then on removing $e$ from $T$, $T$ remains connected and spanning, but the weight goes strictly down (since $c$ maps into $\Zp$).
 
 The brute force approach is to just iterate over all distinct spanning trees, but this is obviously quite terrible (exponential).
 
-As it turns out, nearly no matter what greedy strategy we choose, the optimal solution is attained. We give four such algorithms.
+As it turns out, nearly any greedy strategy we come up with will work for this problem. We give four such algorithms.
 \begin{enumerate}[(i)]
-	\item Choose an edge $\alpha$ such that $c(\alpha)$ is minimal. Each subsequent edge is chosen from the cheapest remaining edges of $G$ ensuring that we never form any cycles.
+	\item Choose an edge $\alpha$ such that $c(\alpha)$ is minimal. Each subsequent edge is chosen to be the cheapest among the remaining edges of $G$ while ensuring that we do not form any cycles.
 	
 	\item At each step, delete a costliest edge that does not destroy the connectedness of the graph.
 	
-	\item Pick a vertex $x_1$ of $G$. Having found vertices $x_1,\ldots,x_k$ an an edge $x_ix_j$, $i<j$, for each vertex $j$ with $j\leq k$, select a cheapest edge of the form $x_ix$, say $x_i x_{k+1}$, where $1\leq i\leq k$ and $x_{k+1}\not\in\{x_1,\ldots,x_k\}$. The process terminates after we have selected $n-1$ edges.
+	\item Pick a vertex $x_1$ of $G$. Having found vertices $x_1,\ldots,x_k$ and an edge $x_ix_j$, $i<j$, for each vertex $j$ with $j\leq k$, select a cheapest edge of the form $x_ix$, say $x_i x_{k+1}$, where $1\leq i\leq k$ and $x_{k+1}\not\in\{x_1,\ldots,x_k\}$. The process terminates after we have selected $n-1$ edges.
 	
 	\item This only works if all the edge costs are distinct. First, for each vertex, select the cheapest edge. After this, repeatedly select a cheapest edge between two distinct connected components until the graph becomes connected.
 \end{enumerate}
 
-The first algorithm is also known as Kruskal's algorithm. More concretely, what it does is 
+The first algorithm is also known as Kruskal's algorithm. More concretely, what it does is shown in \Cref{algo: kruskal's algorithm}
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -176,7 +176,7 @@ The first algorithm is also known as Kruskal's algorithm. More concretely, what 
 		}
 	}
 	\Return{$T$}
-	\caption{Kruskal's Algorithm}\label{algo: kruskel's algorithm}
+	\caption{Kruskal's Algorithm}\label{algo: kruskal's algorithm}
 \end{algorithm}
 
 The set thus formed clearly has no cycles by construction. Spanningness follows due to its maximality. Proving that it is a minimal spanning tree is quite easy in the case where all costs are distinct using the following property of any minimal spanning tree.
@@ -199,7 +199,7 @@ Let us next show that $T$ is connected. Suppose otherwise. There must then be a 
 
 Observe that the second algorithm given above is essentially Kruskal's algorithm in reverse.\\
 
-Also note that the third algorithm given above aises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.
+The third algorithm given above arises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -220,15 +220,15 @@ Also note that the third algorithm given above aises quite naturally from the cu
 Proving optimality of the set output by the above is easily shown using the cut-property.\\
 
 As a slight detour from what we have done thus far, how would one \textit{implement} Prim's algorithm? We are given an undirected graph $G=(V,E)$ with edge costs given in an adjacency list and a source vertex $s\in V$.\\
-We use a method similar to Djikstra's algorithm. Add an arbitary start vertex to the queue with key value $0$ and let all other key values to be $\infty$. At each step, we use a priority queue to extract node with the minimum key value from the queue. Explore the neighbourhood of the node, updating the key value. Here, the key value is the cost of the smallest cost edge leading to a node. The only change here is the update step, everything else is as in Djikstra's.\\
+We use a method similar to Djikstra's algorithm. Add an arbitary start vertex to the queue with key value $0$ and let all other key values to be $\infty$. At each step, we use a priority queue to extract the node with the minimum key value from the queue. Explore the neighbourhood of the node, updating the key value. Here, the key value is the cost of the smallest cost edge leading to a node. The only change here is the update step, everything else is as in Djikstra's.\\
 The time complexity of this is the same as Djikstra's, namely $\mathcal{O}((m+n)\log n)$.
 
 \subsubsection{Huffman Coding}
 
 Given a file with data from an alphabet, convert it to a binary alphabet using as few bits as possible while keeping it uniquely decodable. For example, if we had $\Sigma=\{a,b,c,d,e\}$, using $3$ bits would definitely get the job done since $\lceil \log_2(5)\rceil = 3$.\\
-Suppose $a,b,c,d,e$ occur with frequencies $100,3,5,45,20$ respectively. Then using $3$ bits for each, it would result in $519$ bits.\\
+Suppose further that $a,b,c,d,e$ occur with frequencies $100,3,5,45,20$ respectively. Using $3$ bits for each would result in a total of $519$ bits.\\
 What if instead, we use fewer bits for letters that occur frequently? For example, what if we encode it as
-\[ \{a\mapsto 0),b\mapsto 100,c\mapsto 010,d\mapsto 1,e\mapsto 01\}? \] This would only use $209$ bits, which is obviously a huge improvement. However, this is \textit{not} uniquely decodable (consider $0101$).\\
+\[ \{a\mapsto 0),b\mapsto 100,c\mapsto 010,d\mapsto 1,e\mapsto 01\}? \] This would only use $209$ bits, which is obviously a huge improvement. However, this is \textit{not} uniquely decodable (consider $0101$).
 
 \paragraph{Prefix-free encoding.} It turns out that we must encode the letters such that each has a unique prefix (to ensure unique decoding). Consider
 \[ \{a\mapsto 1, b\mapsto 0000, c\mapsto 0001, d\mapsto 01, e\mapsto 001\}. \]
@@ -268,14 +268,15 @@ where $d_T(a_i)$ is the depth of $a_i$ in $T$.\\
 Observe that any optimal tree must be a full binary tree (any internal node has $2$ children) -- if not, we can shift leaves lower down to a higher position and decrease the cost.\\
 
 \begin{lemma}
-	Consider the two letters $x$ and $y$ with the smallest frequencies. There is an optimal code tree $T^*$ in which these tw letters are sibling leaves at the lowest level.
+	Consider the two letters $x$ and $y$ with the smallest frequencies. There is an optimal code tree $T^*$ in which these two letters are sibling leaves at the lowest level.
 \end{lemma}
 
 \begin{proof}
-	Let $a$ and $b$ be two letters at the lowest level of an optimal tree $T$ that are siblings of each other. Let their frequencies be $f_a$ and $f_b$. Assume $f_x\leq f_y$ and $f_a\leq f_b$.\\
+	Let $a$ and $b$ be two letters at the lowest level of an optimal tree $T$ that are siblings of each other. Let their frequencies be $f_a$ and $f_b$. Assume $f_x\leq f_y$ and $f_a\leq f_b$. We may further assume that $f_x<f_a$.\\
 	Let $T'$ be a tree formed from $T$ by exchanging $a$ and $x$. We know that $d_T(a)\geq d_T(x)$ and $d_T(b)\geq d_T(y)$. By definition, we have $c(T)\leq c(T')$. This implies that
-	\[ c(T) \leq c(T) - \left(d_T(x)f_x + d_T(a)f_a - d_{T'}(x)f_x - d_{T'}(a)f_a\right) = c(T) - \left(d_T(x)f_x (f_x-f_a) + d_T(a)(f_a-f_x)\right), \]
-	thus proving the claim.
+	\[ c(T') \leq c(T) - \left(d_T(x)f_x + d_T(a)f_a - d_{T'}(x)f_x - d_{T'}(a)f_a\right) = c(T) - \left(d_T(x)(f_x-f_a) + d_T(a)(f_a-f_x)\right) < c(T), \]
+	thus yielding a contradiction and proving the claim.\\
+	Now, we have $x$ and $b$ as neighbours at the lowest level. We may assume $f_y<f_b$. Switching $y$ and $b$ as before, we get the required.
 \end{proof}
 
 We shall next show that if a step in the algorithm is correct, the next step is also correct (the above lemma says that the first step is correct). That is,
@@ -309,7 +310,7 @@ We \textit{divide}, \textit{delegate}, and \textit{combine}. Once we have the an
 This can be unrolled using the Master Theorem:
 
 \begin{theorem}[Master Theorem]
-	Let $T(n)=a T(n/b) + \theta(n^c)$, where $a,b,c\in\N$, $a\geq 1$, $b>1$, and $c\geq 0$. Then
+	Let $T(n)=a T(n/b) + \Theta(n^c)$, where $a,b,c\in\N$, $a\geq 1$, $b>1$, and $c\geq 0$. Then
 	\begin{itemize}
 		\item $T(n)=\Theta(n^c)$ if $a<b^c$,
 		\item $T(n)=\Theta(n^c\log n)$ if $a=b^c$, and
@@ -339,7 +340,7 @@ In general, suppose we split $x$ and $y$ as $a,b$ and $c,d$ respectively. We com
 
 \begin{align*}
 	x\times y &= (10^{n/2}a+b)\times(10^{n/2}c+d) \\
-		&= 10^n (a\times c) + 10^{n/2} (a\times d+b\times c) + bd \\
+		&= 10^n (a\times c) + 10^{n/2} (a\times d+b\times c) + b\times d \\
 		&= 10^n\cdot X + 10^{n/2}\cdot W + Y,
 \end{align*}
 so the algorithm is correct (we must use an inductive argument to conclude since calculating each of $X, Z, Y$ use the same algorithm).
@@ -357,6 +358,7 @@ Martin F\"urer got it down to $\mathcal{O}(n2^{\log^* n}\log n )$ in 2007.\\
 In 2019, Harvey and Hoeven managed to get the ``perfect'' method which takes $\mathcal{O}(n\log n)$. Soon after, a team at Aarhus University managed to prove that assuming the (unproven) Valiant's conjecture, this is indeed the best we can do.
 
 \subsubsection{Closest points in a plane}
+\label{subsubsec: closest points in a plane}
 
 Suppose we have $n$ points $p_1=(x_1,y_1),\ldots,p_n=(x_n,y_n)$. We want to find $i,j$ such that the distance between $p_i$ and $p_j$ is minimum.\\
 
@@ -365,10 +367,10 @@ There is obviously a na\"ive $\mathcal{O}(n^2)$ algorithm which does pairwise co
 In the one-dimensional case, we can sort the points in $\mathcal{O}(n\log n)$ and then iterate through the points in $\mathcal{O}(n)$ to find the closest pair, which takes an overall time of $\mathcal{O}(n\log n)$.\\
 How would we extend this to two dimensions? There is no ordering for the points in $\R^2$, so a similar idea will not work.\\
 
-Divide the points into two halves. Recursively find the points in two halves. Recursively find the closest pair in each half. Finally, combine. The problematic part here is the recombination, which should take $\mathcal{O}(n)$.\\
-If we just compare every pair across halves, it still takes $\Omega(n^2)$.\\
+Divide the points into two halves. Recursively find the closest pair in each half. Finally, combine. The problematic part here is the recombination, which we want to take $\mathcal{O}(n)$.\\
+If we just compare every pair across halves however, it takes $\Omega(n^2)$.\\
 
-Suppose we split it into two halves based on their $x$-coordinates. Recursively compute the closest pair in each of the two halves. Let the minimum of these two distances is $d$. If the first division does not separate the closest pair, then $d$ is the answer.
+Suppose we split it into two halves based on the $x$-coordinates. Recursively compute the closest pair in each of the two halves. Let the minimum of these two distances be $d$. If the first division does not separate the closest pair, then $d$ is the answer.
 
 How many ``cross-pairs'' need to be checked though? Observe that we don't need to check anything for the points that are farther than $d$ from the central separating line (Why?). But in the worst case, we might still need to check several points.
 
@@ -383,7 +385,7 @@ It is worth noting that the constant can be better than $11$, but this is just a
 
 This then gives an $\mathcal{O}(n\log n)$ algorithm. Computing the first half of $P_x$ (or $P_y$) takes $\mathcal{O}(n)$, and computing the answers by comparing the distances with the middle band takes $\mathcal{O}(n)$. Therefore, 
 \[ t(n) \leq 2t(n/2) + \mathcal{O}(n)\text{ and the running time is }T(n)=t(n)+\mathcal{O}(n\log n), \]
-where the extra $\mathcal{O}(n\log n)$ factors comes from having to sort the points based on $x$ and $y$ coordinate ahead of time.
+where the extra $\mathcal{O}(n\log n)$ comes from having to sort the points based on $x$ and $y$ coordinate ahead of time.
 
 \subsubsection{Univariate polynomial multiplication}
 
@@ -394,12 +396,12 @@ It is seen that
 \[ c_k = \sum_{\substack{i,j<n \\ i+j=k}} a_i b_j, \]
 so a na\"ive $\mathcal{O}(n^2)$ algorithm is easy to come up with. Note that here, we sweep the time taken to actually multiply integers under the rug, assuming that they can be done in constant time.
 
-This problem feels quite similar in spirit to the integer polynomial multiplication algorithm that we have already seen. While something faintly similar to Karatsuba's would work, we need to make several significant changes to modify it into this (slightly more general) context.\\
+This problem feels quite similar in spirit to the integer polynomial multiplication algorithm that we have already seen. While something faintly similar to Karatsuba's would work, we need to make several significant changes to modify it into this (more general) context.\\
 Inspired by what we got in Karatsuba's, can we do better than $\mathcal{O}(n^2)$?\\
 
 Rather than multiplying $A$ and $B$ symbolically, consider evaluation of these polynomials. First, choose $2n$ values $\alpha_1,\ldots,\alpha_{2n}$, evaluate $A$ and $B$ at these points and then compute $C(\alpha_j)=A(\alpha_j)B(\alpha_j)$ for each $j$. Next, recover $C(x)$ from the evaluations by interpolating.\\
 We have skimmed over most details here.\\
-Since we have assumed that integer multiplication takes constant time, computing all the $C(\alpha_j)$ given $A(\alpha_j)$ and $B(\alpha_j)$ takes only $\mathcal{O}(n)$ time.\\
+Since integer multiplication is assumed to take constant time, computing all the $C(\alpha_j)$ given $A(\alpha_j)$ and $B(\alpha_j)$ takes only $\mathcal{O}(n)$ time.\\
 However, evaluating a polynomial at a single value takes $\Omega(n)$ time and we need to do so $\mathcal{O}(n)$ times! This gives a total time of $\mathcal{O}(n^2)$, which we still can't afford. We can't just separately evaluate each of the $A(\alpha_j)$ and $B(\alpha_j)$ hoping for it to work fast.\\
 
 What is a more systematic and fast way of calculating $A(\alpha_i)$ and $B(\alpha_i)$? Perhaps we could somehow use values already calculated to speed up the current calculation.
@@ -408,7 +410,7 @@ Split the polynomial $A$ into two parts:
 \[ A_0(x) = a_0 + a_2x + a_4x^2 + \cdots + a_{n-2} x^{(n-2)/2} \]
 and
 \[ A_1(x) = a_1 + a_3x + a_5x^2 + \cdots + a_{n-1}x^{(n-2)/2}. \]
-Observe that $A(x)=A_0(x^2)+xA_1(x^2)$ and the degree of each is around half the degree of $A$. Also observe that the values of $A_0(x)$ and $A_1(x)$, we can calculate $A(x)$ in a constant number of operations. 
+Observe that $A(x)=A_0(x^2)+xA_1(x^2)$ and the degree of each is around half the degree of $A$. Also observe that if we know $A_0$ and $A_1$, we can evaluate $A$ in a constant number of operations. 
 
 The $2n$ values we choose should be related to each other to make the evaluations reusable. Consider the $k$th roots of unity given by $\omega_{j,k}=e^{(2\pi i)j/k}$ for $0\leq j\leq k-1$. For our $2n$ evaluations, we shall use the $2n$th roots of unity.\\
 The useful thing to note is that $\omega_{j,2n}^2 = \omega_{j,n}$.\\
@@ -515,7 +517,7 @@ This problem is quite similar to the usual interval scheduling problem we studie
 There is no nice greedy heuristic for this, can we design a recursive algorithm that works well?\\
 
 Sort the jobs in decreasing order of finishing time. For each $i$, denote by $p(i)$ the last job $j$ with $j<i$ that does not conflict with $i$.\\
-Suppose we iterate backwards and we are currently and index $j$. Then note that if the $j$th job is in an optimal solution $\var{OPT}$, then no job $i$ with $i>p(n)$ cannot belong to $\var{OPT}$. If $j\not\in\var{OPT}$, then we can recurse on $\{1,\ldots,j-1\}$.\\
+Suppose we iterate backwards and we are currently at index $j$. Then if the $j$th job is in an optimal solution $\var{OPT}$, then no job $i$ with $j>i>p(n)$ cannot belong to $\var{OPT}$. If $j\not\in\var{OPT}$, then we can recurse on $\{1,\ldots,j-1\}$.\\
 
 \begin{algorithm}[H]
 	\DontPrintSemicolon
@@ -564,9 +566,9 @@ Suppose we have a string of matrices $A_1,\ldots,A_n$, where each $A_i$ is of si
 	\[ \texttt{para}(i,j) = \min_{i\leq k<j} \left\{\texttt{para}(i,k) + \texttt{para}(k+1,j) + \texttt{cost}(i,k,j) \right\}, \]
 	where $\texttt{cost}(i,k,j)$ is the cost of computing the product of a $c_i\times r_k$ matrix ($A_{[i,k]}$) and a $c_{k+1}\times r_j$ matrix ($A_{[k+1,j]}$).
 
-	\item Decide on the memoization strategy. This can be done in the fly since $\texttt{cost}(i,j,k)$ can be computed in $\mathcal{O}(1)$ time. We recursively store the computed values of $\texttt{para}(i,j)$, starting from small intervals and building up to larger intervals.
+	\item Decide on the memoization strategy. This can be done on the fly since $\texttt{cost}(i,j,k)$ can be computed in $\mathcal{O}(1)$ time. We recursively store the computed values of $\texttt{para}(i,j)$, starting from small intervals and building up to larger intervals.
 
-	\item Check that the problems are acyclic. There's nothing much to argue here, the $\texttt{para}$ routine uses smaller intervals for larger intervals.
+	\item Check that the problems are acyclic. There is nothing much to argue here, the $\texttt{para}$ routine uses smaller intervals for larger intervals.
 
 	\item Analyze the time complexity using the recursion. The total number of sub-problems in $\mathcal{O}(n^2)$. For each sub-problem, the time required is the time needed to compute a minimum over a set of values. Interval $[i,j]$ takes $\mathcal{O}(j-i)=\mathcal{O}(n)$ time. Therefore, the total time required is $\mathcal{O}(n^3)$.
 \end{enumerate}
@@ -592,7 +594,7 @@ The problems are acyclic because the graph is acyclic.\\
 What is the time complexity? There are at most $|V|$ sub-problems and each sub-problem takes time $\mathcal{O}(|V|)$ (we need to find the minimum of at most $|V|-1$ elements). So the algorithm is overall $\mathcal{O}(|V|+|E|)$.\\
 
 Now what happens if the algorithm has cycles, but no negative weight cycles? Is it possible to modify the above existing algorithm? Maybe we can use some sort of ``time-stamp'' idea.\\
-For each $i$, denote by $\mathsf{OPT}(v,i)$ the minimum weight path from $v$ to $t$ that uses at most $i$ edges. We want to compute $\mathsf{OPT}(s,n-1)$ (because all cycles are negative cycles).\\
+For each $i$, denote by $\mathsf{OPT}(v,i)$ the minimum weight path from $v$ to $t$ that uses at most $i$ edges. We want to compute $\mathsf{OPT}(s,n-1)$ (because all cycles are non-negative cycles).\\
 The recursion is given by
 \begin{equation}
 	\label{eqn: bellman and ford}
