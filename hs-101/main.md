@@ -270,15 +270,15 @@ In a _competitive market_,
 
 Each buyer and seller is a price taker. They must accept the price determined by the market.
 
-In a _perfectly competitive market_, in addition to the above two conditions, firms can further freely enter/exit the market.    
+In a _perfectly competitive market_, in addition to the above two conditions, firms can freely enter/exit the market.    
 So, the actions of any single buyer/seller have negligible impact on the market price. The average revenue for any firm is equal to the price of the good. The marginal revenue is also equal to the price of the good and the total revenue is proportional to the quantity of output.     
 Any firm decides to increase/decrease its output depending on whether the marginal revenue is greater/less than the marginal cost. Because the firm's marginal cost curve determines the quantity of good the firm is willing to supply at any price, the marginal cost curve is equal to the supply curve.
 
 In the short run, it is difficult to leave the market whereas it is easy in the long run.     
 A _shutdown_ refers to a short run decision to not produce anything in some period of time due to market conditions. In the short run, the fixed costs cannot be avoided so they continue to be incurred even if a shutdown occurs. This fixed cost is said to be a _sunk cost_.    
- _Exit_ refers to a long run decision to leave the market. When a firm exits the market, it needs to incur neither fixed nor variable costs.    
+ _Exit_ refers to a long run decision to leave the market. After a firm exits the market, it incurs neither fixed nor variable costs.    
 The firm shuts down if the revenue it would earn from producing is less than the variable costs of production. Alternatively, it shuts down if the price is less than the average variable cost.    
-The firm decides to exit if the revenue is less than the average total cost or alternatively, the price is less than the average total cost.
+The firm decides to exit if the revenue is less than the total cost or alternatively, the price is less than the average total cost.
 
 Therefore, the firm's short run supply curve is that portion of the marginal cost curve which is above the average variable cost curve.    
 The long run supply curve has the portion of the marginal cost curve which is above the average total cost curve.
@@ -302,9 +302,13 @@ If a firm has the first mover's advantage, they have a good chance of naturally 
 
 Because a monopoly has market power, price would rise if they decide to produce less (as opposed to a competitive market where the price remains constant irrespective of quantity produced). The demand curve is downwards sloping.
 
-A monopoly's marginal revenue curve always lies below its demand curve.
+A monopoly's marginal revenue is always less than the price (so the marginal revenue curve is always below the demand/average revenue curve). This is because if it wants to sell more units, it should reduce the price it charges to the customers.    
+When the quantity supplied by a monopoly increases, the quantity sold increases (_output effect_) but the price falls as well (_price effect_).    
+Profit is maximized when the marginal cost is equal to the marginal revenue. At this point, for a monopolistic firm, the price exceeds the marginal cost.
 
-For monopolies, the marginal revenue curve is far below the average revenue curve. Profit is maximized when the marginal cost is equal to the marginal revenue. For a monopolistic firm, the price exceeds the marginal cost.
+<p align="center">
+<img src="./monopoly-cost-revenue.png" alt="Various curves for a monopoly" width="500"/>
+</p>
 
 Remember that all profit-maximizing curves try to equalize the marginal revenue and marginal cost. The monopoly profits as long as the price is greater than the average total cost.
 
@@ -357,14 +361,14 @@ The slope at any point on an indifference curve is the _marginal rate of substit
 # Lecture 15
 
 * Higher indifference curves are preferred to lower ones - consumers prefer to have more of something.
-* Indifference curves are downward supplying - consumers are willing to give up some good only if they get some other good in return.
+* Indifference curves are downward sloping - consumers are willing to give up some good only if they get some other good in return.
 * Indifference curves do not cross.
 * Indifference curves are bowed inwards - consumers are more willing to trade away goods they have in abundance.
 
 _Perfect substitutes_ are goods with straight-line indifference curves. As a result, the marginal rate of substitution is constant. For example, nickels and dimes.    
 Goods with right-angle indifference curves are _perfect complements_. For example, left shoes and right shoes.
 
-A point at which the budget constraint curve and indifference curve touch (tangentially) is known as the _optimum_.    
+A point at which the budget constraint curve and an indifference curve touch (tangentially) is known as the _optimum_.    
 Therefore, the consumer chooses to consume such that the marginal rate of substitution is equal to the relative price. We are just equating the slope of the indifference curve and the slope of the budget constraint. At the optimum, the valuation of the two goods equals the market's valuation.
 
 An increase in income shifts the budget constraint curve outwards.
@@ -391,7 +395,7 @@ Now, we can derive the demand curve of the consumer using the budget constraint 
 </p>
 
 It is also possible for the demand curve to slope upwards if the income effect strongly dominates the substitution effect for an inferior good. Such a good that violates the law of demand is known as a _Giffen good_. As the cost increases, the quantity demanded increases as well.    
-For normal good, the income effect results in an increase in consumption whereas for an inferior good, it results in a decrease in consumption. Therefore, for normal goods, both the effects work in the same direction and the consumption increases when price increases. For an inferior good, they work in opposite directions.
+For a normal good, the income effect results in an increase in consumption whereas for an inferior good, it results in a decrease in consumption. Therefore, for normal goods, both the effects work in the same direction and the consumption increases when price increases. For an inferior good, they work in opposite directions.
 
 # Lecture 17
 
