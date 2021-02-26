@@ -135,7 +135,7 @@ If a change in some factor shifts the supply curve to the right, it corresponds 
 
 It should be noted that the supply (demand) curve does not take demand (supply) into consideration explicitly.
 
-_Equilibrium_ is the situation where the quantity supplied is equal to the quantity demanded. The _equilibrium price_ and _equilibtium quantity_ are the corresponding price and quantity. This is just the point of intersection of the supply and demand curves. The equilibrium price is also known as the "market-clearing price". 
+_Equilibrium_ is the situation where the quantity supplied is equal to the quantity demanded. The _equilibrium price_ and _equilibrium quantity_ are the corresponding price and quantity. This is just the point of intersection of the supply and demand curves. The equilibrium price is also known as the "market-clearing price". 
 
 If the price is higher than the equilibrium price, then the supply is high and the demand is low. This is known as an _excess-supply_ situation. The excess supply is known as a _surplus_. Since the sellers need to clear their excess, the price decreases until the equilibrium is reached.    
 Similarly, if the price is lower than the equilibrium price, we are in an _excess-demand_ situation. The excess demand is known as a _shortage_. Here, the sellers realize that they need to sell more and they drive up the price until the equilibrium is reached.    
@@ -246,7 +246,7 @@ The _marginal cost_ is the amount the cost increases on increasing production by
 Marginal cost eventually increases with the amount of output produced - this reflects the concept of diminishing marginal product.    
 The average total cost curve is U-shaped. This is because the average fixed cost decreases whereas the average variable cost increases due to diminishing marginal product.    
 The average total cost rises (falls) when the marginal cost is greater (less) than than the average total cost.    
-The marginal cost curve crosses the average total cost curve at the _efficient scale_ . This is the minimum of the average total cost.
+The marginal cost curve crosses the average total cost curve at the _efficient scale_. This is the minimum of the average total cost.
 
 # Lecture 11
 
