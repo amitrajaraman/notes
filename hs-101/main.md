@@ -79,7 +79,7 @@ The _production possibilities frontier_ is a graph that shows the combinations o
 </p>
 
 An outcome is _efficient_ if the economy is getting all it can given the constraints. Points on (not inside) the PPF such as A, B, E, F represent efficient outcomes. Note that the PPF shows one of the trade-offs we may face. It also shows the opportunity cost of one good measured in terms of another good.    
-Further note that if we are at, say, F, then the workers who are skilled in car-related areas are also working on computers. The PPF usually has this shape and is steeper towards the middle. If the technology for something becomes better, then the PPF will expand along the corresponding axis.    
+Further note that if we are at say, F, then the workers who are skilled in car-related areas are also working on computers. The PPF usually has this shape and is steeper towards the middle. If the technology for something becomes better, then the PPF will expand along the corresponding axis.    
 Obviously, it is extremely difficult to get the exact PPF. It is the duty of the government to introduce suitable taxes/subsidies to ensure that the outcome is efficient.
 
 # Lecture 3
@@ -93,7 +93,7 @@ Economists may disagree about the validity of different positive theories on how
 
 A _market_ is a group of buyers and sellers of a particular good/service.    
 A _competitive market_ is one where are there are many buyers and sellers so that each has a negligible impact on the market price. A seller has little reason to sell at a lower price than the market price and he cannot sell at a higher price because then, buyers will go elsewhere. In _perfectly competitive markets_ (all the goods are the same and no individual buyer/seller can influence the market), buyers and sellers are said to be _price takers_.     
-A _monopoly_ on the other end of the spectrum is a single seller who sets the price.    
+A _monopoly_ on the other end of the spectrum comprises a single seller who sets the price.    
 An _oligopoly_ means there are not many sellers and the competition is not very aggressive. For example, the telecom market.      
 _Monopolistic competition_ (monopoly + competition) has many sellers and slightly differentiated products. Each seller may set the price for their own product. For example, the hotel market.
 
@@ -171,7 +171,7 @@ It quantifies how much the sellers can change the amount of goods they produce.
 Similar to the price elasticity of supply, we define the _price elasticity of demand_. There are several factors that must be taken into account when analyzing it:
 * Availability of substitutes - Goods with close substitutes tend to have higher elasticity because consumers can easily switch between goods.
 * Necessities v. luxuries - Necessities usually have inelastic demands whereas luxuries have elastic demands. Whether something is a necessity or a luxury depends on the properties of the buyer, it is not some intrinsic property of the good.
-* Definition of the market - By "definition", we mean where we draw the boundaries of the market. Narrowly defined markets such as that of vanilla ice-cream may be very elastic whereas broadly defined markets such as that of food are inelastic.
+* Definition of the market - By "definition", we mean where we draw the boundaries of the market. Narrowly defined markets such as that of vanilla ice-cream are very elastic whereas broadly defined markets such as that of food are inelastic.
 * Time horizon - If we have a longer time to adjust, the demand tends to be more elastic.
 
 How do we calculate the price elasticity of demand/supply? We divide the percentage change in the demand/supply by the percentage change in the price. To bring about symmetry, we take the percentage change about the midpoint. So for demand, the price elasticity between two points $$(P_1,Q_1)$$ and $$(P_2,Q_2)$$ is
@@ -210,18 +210,18 @@ The price ceiling is said to be _binding_ if it is set below the equilibrium pri
 
 For example, rent control policy helps the poor by making pricing more affordable (for the poor).    
 It is worth noting that rent control is usually considered terrible by economists (despite it sounding good to the general public). As with any binding price ceiling, rent control results in a shortage in the long run. On the supply side, landlords are unmotivated to build new apartments and do not maintain the existing ones. On the demand side, people are encouraged to go out and find a place to live. Further, since there is no incentive for landlords to respond to their tenants' demands, the quality of housing goes down as well. This problem does not show itself in the short run.    
-An example of a price floor is the minimum wage that is usually present. Similar to rent control, this causes unemployment in the long run. This might be the only reason internships even exist; inexperienced people (teenagers) are willing to work for nothing (since this circumvents minimum wage).
+An example of a price floor is the minimum wage that is usually present. Similar to rent control, this causes unemployment in the long run. This might be the only reason unpaid internships even exist; inexperienced people (teenagers) are willing to work for nothing (since this circumvents minimum wage).
 
 # Lecture 9
 
 Governments levy _taxes_ to raise revenue for public projects. Taxes discourage market activity. When a good is taxed, the quantity sold is reduced.    
 However, the question is: when a tax is levied, who bears the burden of the tax?    
-_Tax incidence_ studies this. A tax on the sellers shifts the supply curve (downward/to the left) and a tax on the buyers shifts the demand curve (upward/to the left). In the longer run, taxing the sellers results in the price of the good increasing and taxing the buyers results in the price of the good decreasing (but the price of the good plus the tax increases). This allows us to analyze how the equilibrium changes.    
+_Tax incidence_ studies this. A tax on the sellers shifts the supply curve (to the left) and a tax on the buyers shifts the demand curve (to the left). In the longer run, taxing the sellers results in the price of the good increasing and taxing the buyers results in the price of the good decreasing (but the price of the good plus the tax increases). This allows us to analyze how the equilibrium changes.    
 It should be noted that regardless, buyers end up paying more and sellers receive less. So no matter how the tax is levied, the buyers and sellers share the burden, either directly or indirectly. The two taxes are equivalent!
 
 For a payroll tax, the difference between the wage the firm pays and what the worker receives is called the _tax wedge_, which is just the volume of the tax that goes to the government.
 
-The burden usually ends up being heavier on the side of the market that is less elastic. Indeed, a small elasticity means that the people don't really have any alternatives, so they stick with the good even if they are worse off for it.    
+The burden usually ends up being heavier on the side of the market that is less elastic. Indeed, a small elasticity means that the people don't really have any alternatives, so they stick with the good even if it is actually a bad.    
 So for a payroll tax, the workers bear most of the burden, not the firms.
 
 # Lecture 10
@@ -231,19 +231,17 @@ The _total revenue_ is the amount a firm receives for the sale of its output.
 The _total cost_ is the market value of the inputs the firm uses in production.    
 The _profit_ is the total revenue minus the total cost.
 
-_Explicit costs_ are costs that require money, whereas _implicit costs_ are costs that do not (such as opportunity costs). As a result, the _accounting profit_ is thus quite different from the _economic profit_ (since we include opportunity costs in the latter).    
+_Explicit costs_ are costs that require money, whereas _implicit costs_ are costs that do not (such as opportunity costs). As a result, the _accounting profit_ is quite different from the _economic profit_ (since we include opportunity costs in the latter).    
 When the total revenue exceeds both explicit and implicit costs, the firm earns economic profit. The economic profit is lower than the accounting profit due to the extra opportunity costs incurred.
 
 The relationship between quantity of input and quantity of output is called the _production function_.
 
-The _marginal product_ of any input in the production process is the increase in output obtained from one additional unit of input. As input increases, the marginal product decreases. This property is known as _diminishing marginal product_. This is similar to the idiom "Too many cooks spoil the broth". As marginal product declines, the production function grows flatter.
+The _marginal product_ of any input in the production process is the increase in output obtained from one additional unit of input. As input increases, the marginal product decreases - this property is known as _diminishing marginal product_. This phenomenon is similar to the idiom "Too many cooks spoil the broth". As marginal product declines, the production function grows flatter.
 
 _Fixed costs_ do not vary with the quantity of output (for example, office space rent) whereas _variable costs_ depend on the quantity of output (for example, the total salaries of workers). The total cost is equal to the sum of the two.
 
 The _average total cost_ is the total cost divided by the quantity of output $$\text{TC}/\text{Q}$$. Similarly, we can define _average fixed cost_ and _average variable cost_.    
-The _marginal cost_ is the amount the cost increases on increasing production by one unit of output. It is equal to the slope of the total cost function $$\Delta\text{TC}/\Delta\text{Q}$$.
-
-The _marginal cost_ is the slope of the total cost function (if it is a continuous cost).
+The _marginal cost_ is the amount the cost increases on increasing production by one unit of output. It is equal to the slope of the total cost function $$\Delta\text{TC}/\Delta\text{Q}$$. It is equal to the slope of the total cost function (if it is a continuous cost).
 
 Marginal cost eventually increases with the amount of output produced - this reflects the concept of diminishing marginal product.    
 The average total cost curve is U-shaped. This is because the average fixed cost decreases whereas the average variable cost increases due to diminishing marginal product.    
