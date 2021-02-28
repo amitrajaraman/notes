@@ -63,7 +63,9 @@
 		\[ E = \bigcap_{n\in\Zp} \left(\frac{1}{n+1},\frac{1}{n}\right). \]
 	\end{solution*}
 
+	% 16.4
 	\begin{exercise}
+		\label{ex: 16.4}
 		A map $f:X\to Y$ is said to be an open map if for every open $U$ of $X$, $f(U)$ is open in $Y$. Show that $\pi_1:X\times Y\to X$ and $\pi_2:X\times Y\to Y$ are open. 
 	\end{exercise}
 	\begin{solution*}
@@ -211,10 +213,36 @@
 	\end{exercise}
 	\begin{solution*}
 		\begin{enumerate}[(a)]
-			\item It suffices to show that $V = \{x : f(x) > g(x)\}$ is open in $X$. Let $x\in V$. Since $Y$ is Hausdorff, there are open sets $U_1, U_2$ such that $f(x)\in U_1$, $g(x)\in U_2$, and $U_1\cap U_2 = \emptyset$. We may assume that $U_1$ and $U_2$ are basis elements and thus of the form $(a,\infty)$ and $(-\infty,b)$, where $a>b$.\\
-			Now, let $U=f^{-1}(U_1)\cap g^{-1}(U_2)\ni x$. $f$ and $g$ are continuous so $U$ is open. Further, for any $y\in U$, $f(y)>g(y)$ (by the basis element assumption), that is, $U\subseteq V$.\\
+			\item It suffices to show that $V = \{x : f(x) > g(x)\}$ is open in $X$. Let $x\in V$. Since $Y$ is Hausdorff, there are open sets $U_1, U_2$ such that $f(x)\in U_1$, $g(x)\in U_2$, and $U_1\cap U_2 = \emptyset$.\\
+			We can consider a basis element $B_1\subseteq U_1$ that contains $f(x)$ in lieu of $U_1$. That is, we may suppose wlog that $U_1$ and $U_2$ are disjoint basis elements. Further, we may assume that $U_1$ is of the form $(a,\infty)$ (if it is of the form $(a,c)$ instead, we can replace it with $(a,\infty)$). Due to the disjointness assumption, this means that we can consider $U_1$ to be of the form $(a,\infty)$ and $U_2$ of the form $(-\infty,b)$ such that for any $c\in U_1, d\in U_2$, $c>d$\\
+			Now, let $U=f^{-1}(U_1)\cap g^{-1}(U_2)\ni x$. $f$ and $g$ are continuous so $U$ is open. Further, for any $y\in U$, $f(y)>g(y)$ (by the above assumption), that is, $U\subseteq V$.\\
 			It follows that $V$ is open (for any $x\in V$, there is an open $V\subseteq U$ such that $x\in V$).
 
 			\item Let $U_1 = \{x : f(x) \geq g(x)\}$ and $U_2 = \{x : f(x) \leq g(x)\}$. By (a), $U_1$ and $U_2$ are both closed. Since $g$ is continuous on $U_1$, $f$ is continuous on $U_2$, and $f=g$ on $U_1\cap U_2$, we can use the pasting lemma to conclude that $h$ is continuous ($h(x)=g(x)$ on $U_1$ and $f(x)$ on $U_2$).
 		\end{enumerate}
 	\end{solution*}
+
+
+\subsection{The Product Topology}
+
+	% 18.4
+	\setcounter{exercise}{3}
+	\begin{exercise}
+		Show that $(X_1\times \cdots\times X_{n-1})\times X_n$ is homeomorphic to $X_1\times\cdots\times X_n$.
+	\end{exercise}
+	\begin{solution*}
+		Let the two topological spaces above be denoted by $X$ and $Y$ respectively. Consider the map $f:X\to Y$ with
+		\[ f(x) = (\pi_1(\pi_1(x)), \ldots, \pi_{n-1}(\pi_1(x)), \pi_2(x)). \]
+		We claim that $f$ is a homomorphism.\\
+		If $U_i$ is open in $X_i$ for each $i$, then $f^{-1}(U_1\times\cdots\times U_n)=(U_1\times\cdots\times U_{n-1})\times U_n$ is open in $X$ ($U_1\times\cdots\times U_{n-1}$ is open in $X_1\times\cdots\times X_{n-1}$ and $U_n$ is open in $X_n$). Therefore, $f$ is continuous.\\
+		On the other hand, if $U$ is open in $X_1\times\cdots\times X_{n-1}$ and $U_n$ is open in $X_n$, then $f(U\times U_n) = U_1\times\cdots\times U_n$, where each $U_i$ is open in $X_i$ by \Cref{ex: 16.4}.
+	\end{solution*}
+
+	% 18.6
+	\setcounter{exercise}{5}
+	\begin{exercise}
+		Let $x_1,x_2,\ldots$ be a sequence of points in the product space $\prod X_\alpha$. Show that this sequence converges to the point $x$ iff the sequence $\pi_\alpha(x_1),\pi_\alpha(x_2),\ldots$ converges to $\pi_\alpha(x)$ for each $\alpha$. Is this true if we use the box topology instead of the product topology?
+	\end{exercise}
+	\begin{solution*}
+		We first show the easier backward direction. Suppose 
+	\end{solution*}	
