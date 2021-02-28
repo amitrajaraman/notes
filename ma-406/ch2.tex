@@ -84,6 +84,7 @@
 \setcounter{subsection}{16}
 \subsection{Closed Sets and Limit Points}
 
+	% 17.1
 	\begin{exercise}
 		Let $\mathcal{C}$ be a collection of subsets of set $X$. Suppose that $\emptyset$ and $X$ are in $\mathcal{C}$ and that finite unions and arbitrary intersections of elements of $\mathcal{C}$ are in $C$. Show that the collection $\mathcal{T}=\{X\setminus C:C\in\mathcal{C}\}$ is a topology on $X$.
 	\end{exercise}
@@ -93,6 +94,7 @@
 		for some $C\in\mathcal{C}$. Closure under finite intersections is shown similarly. We trivially have $\emptyset,X\in\mathcal{T}$ because $X,\emptyset\in\mathcal{C}$.
 	\end{solution*}
 
+	% 17.2
 	\begin{exercise}
 		Show that if $A$ is closed in $Y$ and $Y$ is closed in $X$, then $A$ is closed in $X$.
 	\end{exercise}
@@ -100,6 +102,7 @@
 		Let $U$ be open in $X$ such that $Y\setminus A = U\cap Y$. Then, we can write $A$ as $X\setminus ((X\setminus Y)\cup U)$. Since $X\setminus Y$ and $U$ are open in $X$, $A$ is closed in $X$.
 	\end{solution*}
 
+	% 17.3
 	\begin{exercise}
 		Show that if $A$ is closed in $X$ and $B$ is closed in $Y$, $A\times B$ is closed in $X\times Y$.
 	\end{exercise}
@@ -109,6 +112,7 @@
 		Since each of the sets on the right are open in $X\times Y$, $A\times B$ is closed.
 	\end{solution*}
 
+	% 17.4
 	\begin{exercise}
 		Show that if $U$ is open in $X$ and $A$ is closed in $X$, $U\setminus A$ is open in $X$ and $A\setminus U$ is closed in $Y$.
 	\end{exercise}
@@ -116,6 +120,25 @@
 		This is easily seen on writing $U\setminus A = U \cap (X\setminus A)$ and $A\setminus U = A \cap (X\setminus U)$.
 	\end{solution*}
 
+	% 17.13
+	\setcounter{exercise}{12}
+	\begin{exercise}
+		Show that if $X$ is Hausdorff iff the \textit{diagonal} $\Delta=\{x\times x : x\in X\}$ is closed in $X\times X$.
+	\end{exercise}
+	\begin{solution*}
+		Let us first show the forward direction. Let $(x,y)\in (X\times X)\setminus \Delta$. Then since $X$ is Hausdorff, there are some open $U_1\ni x$, $U_2\ni y$ such that $U_1\cap U_2 = \emptyset$. Since the open set $U_1\times U_2 \ni (x,y)$ does not intersect $\Delta$, $\Delta$ is closed (no other point is in its closure).\\
+		For the backward direction, this means that for any $(x,y)\in X\times X$ with $x\neq y$, there exists an open set $U\ni (x,y)$ such that $U\cap\Delta=\emptyset$. We may further assume that $U$ is a basis element of the product topology and can be written as $U_1\times U_2$. However, $(U_1\times U_2)\cap\Delta=\emptyset$ iff $U_1\cap U_2 = \emptyset$, so the required follows. 
+	\end{solution*}
+
+	% 17.14
+	\begin{exercise}
+		In the finite complement topology on $\R$, what point or points does the sequence $x_n=1/n$ converge to?
+	\end{exercise}
+	\begin{solution*}
+		We claim that $x_n$ converges to any point in $\R$. Let $x\in\R$ and $U\ni x$ be open. $U$ contains all but finitely many $x_i$ since we are in the finite complement topology and therefore, $x_n$ converges to $x$.
+	\end{solution*}
+
+	% 17.19
 	\setcounter{exercise}{18}
 	\begin{exercise}
 		If $A\subseteq X$, define the boundary of $A$ by
@@ -189,7 +212,6 @@
 
 
 
-
 \subsection{Continuous Functions}
 
 	% 18.2
@@ -244,10 +266,9 @@
 		Let $x_1,x_2,\ldots$ be a sequence of points in the product space $\prod X_\alpha$. Show that this sequence converges to the point $x$ iff the sequence $\pi_\alpha(x_1),\pi_\alpha(x_2),\ldots$ converges to $\pi_\alpha(x)$ for each $\alpha$. Is this true if we use the box topology instead of the product topology?
 	\end{exercise}
 	\begin{solution*}
-		We first show the backward direction. Suppose $(\pi_\alpha(x_i))$ converges to $\pi_\alpha(x)$. Let $U$ be an open set containing $x$ and $B\subseteq U$ be a basis element of the product topology containing $x$. Let $B=\prod_\alpha U_\alpha$ where $U_\alpha\neq X_\alpha$ for the finite set $\{\alpha_1,\ldots,\alpha_n\}$. Since $(\pi_{\alpha_j}(x_i))$ converges to $\pi_{\alpha_j}(x)$ for each $j$, each $U_{\alpha_j}$ contains all but finitely many $\pi_\alpha(x_i)$. As a result, $B$ contains all but finitely many $x_i$ and therefore, $(x_i)$ converges to $x$.
+		We first show the backward direction. Suppose $(\pi_\alpha(x_i))$ converges to $\pi_\alpha(x)$. Let $U$ be an open set containing $x$ and $B\subseteq U$ be a basis element of the product topology containing $x$. Let $B=\prod_\alpha U_\alpha$ where $U_\alpha\neq X_\alpha$ for the finite set $\{\alpha_1,\ldots,\alpha_n\}$. Since $(\pi_{\alpha_j}(x_i))$ converges to $\pi_{\alpha_j}(x)$ for each $j$, each $U_{\alpha_j}$ contains all but finitely many $\pi_\alpha(x_i)$. As a result, $B$ contains all but finitely many $x_i$ and therefore, $(x_i)$ converges to $x$.\\
 
 		On the other hand, let $(x_i)$ converge to $x$. Let $U_\alpha$ be an open set in $X_\alpha$ containing $\pi_\alpha(x)$. We wish to show that it contains all but finitely many $\pi_\alpha(x_i)$. Let $U'=\prod U'_\beta$ be a basis element containing $x$ and $V=\prod V_\beta$, where $V_\beta=U'_\beta$ for $\beta\neq\alpha$ and $V_\alpha=U_\alpha\cap U'_\alpha$. Since $V$ is an open set containing $x$, it contains all but finitely many $x_i$. In particular, $V_\alpha$ contains all but finitely many $\pi_\alpha(x_i)$. The required follows.
-
 
 		Observe that the forward proof works even if we use the box topology instead, but the backward direction breaks. To see that the result need not hold for the box, let the product space be $\R^\omega$, $\pi_n(x_i)=n/i$ and $\pi_n(x)=0$ for each $i,n$.
 	\end{solution*}
@@ -261,8 +282,6 @@
 
 		For the box topology, we claim that $\R^\infty$ is closed. Indeed, for any $x\in\R^\omega\setminus\R^\infty$, consider the open set $U=\prod U_n$, where $U_n=(x_n/2, 3x_n/2)$ if $x_n\neq 0$ and $\R$ otherwise. Then $U\cap\R^\infty$ is empty, completing the proof.
 	\end{solution*}
-
-
 
 
 \subsection{The Metric Topology}
@@ -287,29 +306,29 @@
 		\end{enumerate}
 	\end{solution*}	
 
-	% 20.4
-	\begin{exercise}
-		Consider the product, uniform, and box topologies on $\R^\omega$. 
-		\begin{enumerate}[(a)]
-			\item In which topologies are the following functions from $\R$ to $\R^\omega$ continuous?
-			\begin{align*}
-				f(t) &= (t,2t,3t,\ldots) \\
-				g(t) &= (t,t,t,\ldots) \\
-				h(t) &= \left(t, \frac{1}{2}t, \frac{1}{3}t\right, \ldots)
-			\end{align*}
-			\item Let $X'$ denote a space having the same underlying set as $X$. Show that if $d:X'\times X'\to\R$ is continuous, the topology of $X'$ is finer than the topology of $X$.
-		\end{enumerate}
-		This means that if $X$ has a metric $d$, the metric topology induced by it is the coarsest topology with respect to which $d$ is continuous.
-	\end{exercise}
-	\begin{solution*}
-		\begin{enumerate}[(a)]
-			\item Let $x=(x_1,x_2)\in X\times X$ and for some $\varepsilon>0$, $U=B(f(x),\varepsilon)$ be a basis element of $\R$ containing $f(x)$. Consider the open sets $U_1 = B_d(x_1,\varepsilon/4)$ and $U_2 = B_d(x_2,\varepsilon/4)$. If $y_1\in U_1$ and $y_2\in U_2$, then
-			\[ d(y_1,y_2) \leq d(x_1,x_2) + d(x_1,y_1) + d(x_2,y_2) \leq f(x) + \varepsilon/2. \]
-			Therefore, $d(y_1,y_2)\in U$. As a result, $U_1\times U_2$ is an open set such that $x\in f(U_1\times U_2) \subseteq U$ and $d$ is continuous.
+	% % 20.4
+	% \begin{exercise}
+	% 	Consider the product, uniform, and box topologies on $\R^\omega$. 
+	% 	\begin{enumerate}[(a)]
+	% 		\item In which topologies are the following functions from $\R$ to $\R^\omega$ continuous?
+	% 		\begin{align*}
+	% 			f(t) &= (t,2t,3t,\ldots) \\
+	% 			g(t) &= (t,t,t,\ldots) \\
+	% 			h(t) &= \left(t, \frac{1}{2}t, \frac{1}{3}t\right, \ldots)
+	% 		\end{align*}
+	% 		\item Let $X'$ denote a space having the same underlying set as $X$. Show that if $d:X'\times X'\to\R$ is continuous, the topology of $X'$ is finer than the topology of $X$.
+	% 	\end{enumerate}
+	% 	This means that if $X$ has a metric $d$, the metric topology induced by it is the coarsest topology with respect to which $d$ is continuous.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	\begin{enumerate}[(a)]
+	% 		\item Let $x=(x_1,x_2)\in X\times X$ and for some $\varepsilon>0$, $U=B(f(x),\varepsilon)$ be a basis element of $\R$ containing $f(x)$. Consider the open sets $U_1 = B_d(x_1,\varepsilon/4)$ and $U_2 = B_d(x_2,\varepsilon/4)$. If $y_1\in U_1$ and $y_2\in U_2$, then
+	% 		\[ d(y_1,y_2) \leq d(x_1,x_2) + d(x_1,y_1) + d(x_2,y_2) \leq f(x) + \varepsilon/2. \]
+	% 		Therefore, $d(y_1,y_2)\in U$. As a result, $U_1\times U_2$ is an open set such that $x\in f(U_1\times U_2) \subseteq U$ and $d$ is continuous.
 			
-			\item Consider the continuous function $g : X'\to X'\times X'$ given by $y\mapsto (x,y)$ (we proved continuity in \Cref{ex: 16.4}). Since the composition of continuous functions is continuous, so is $d\circ g : X'\to\R$. Note that for any $\varepsilon>0$, $(d\circ g)^{-1}((0,\varepsilon)) = B_d(x,\varepsilon)$. It follows that $B_d(x,\varepsilon)$ is open in $X'$ and therefore, the topology on $X'$ is finer than that on $X$.
-		\end{enumerate}
-	\end{solution*}	
+	% 		\item Consider the continuous function $g : X'\to X'\times X'$ given by $y\mapsto (x,y)$ (we proved continuity in \Cref{ex: 16.4}). Since the composition of continuous functions is continuous, so is $d\circ g : X'\to\R$. Note that for any $\varepsilon>0$, $(d\circ g)^{-1}((0,\varepsilon)) = B_d(x,\varepsilon)$. It follows that $B_d(x,\varepsilon)$ is open in $X'$ and therefore, the topology on $X'$ is finer than that on $X$.
+	% 	\end{enumerate}
+	% \end{solution*}	
 
 
 	% 20.5
@@ -324,6 +343,30 @@
 			\item Case 2. The sequence $x$ converges to $x$. Let $B_{\overline{\rho}}(x,\varepsilon)$ be an arbitrary basis element containing $x$. Then there exists $N\in\N$ such that for all $n>N$, $|x_n|<\varepsilon/2$. Consider the element $y\in\R^\infty$ such that $y_n=x_n$ for $n\leq N$ and $y_n=0$ otherwise. Then $y\in B_{\overline{\rho}}(x,\varepsilon)$, thus proving that $x\in\overline{\R^\infty}$.
 		\end{itemize}
 	\end{solution*}
+
+	% 20.6
+	\begin{exercise}
+		Let $\overline{\rho}$ be the uniform metric on $\R^\omega$. Given $x=(x_1,x_2,\ldots)\in\R^\omega$ and $0<\varepsilon<1$, let
+		\[ U(x,\varepsilon) = (x_1-\varepsilon, x_1+\varepsilon) \times \cdots \times (x_n-\varepsilon, x_n+\varepsilon) \times \cdots. \]
+		\begin{enumerate}[(a)]
+			\item Show that $U(x,\varepsilon)$ is not equal to $B_{\overline{\rho}}(x,\varepsilon)$.
+			\item Show that $U(x,\varepsilon)$ is not even open in the uniform topology.
+			\item Show that
+			\[ B_{\overline{\rho}}(x,\varepsilon) = \bigcup_{\delta < \varepsilon} U(x,\delta). \]
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Consider
+			\[ x'=(x_1+\varepsilon/2, x_2+2\varepsilon/3, \ldots, x_n+n\varepsilon/(n+1), \ldots). \]
+			Obviously, $x'\in U(x,\varepsilon)$. However, $\overline{\rho}(x,x') = \sup\{n\varepsilon/(n+1) : n\in\N\} = \varepsilon$, so $x'\not\in B_{\overline{\rho}}(x,\varepsilon)$.
+
+			\item Let $x'$ be as in the previous part. Suppose that $U(x,\varepsilon)$ is open in the uniform topology. Then, there is a $\delta>0$ such that $B_{\overline{\rho}}(x',\delta)\subseteq U(x,\varepsilon)$. In particular, $(x'_n-\delta,x'_n+\delta)\subseteq (x-\varepsilon,x+\varepsilon)$ for any $n$. This yields a contradiction since it would imply that $\delta < \varepsilon/(n+1)$ for any $n$ and therefore, $U(x,\varepsilon)$ is not open in the uniform topology.
+
+			\item Let $y\in U(x,\delta)$ for some $\delta<\varepsilon$. Then $\overline{\rho}(x,y) \leq \delta < \varepsilon$, so $y\in B_{\overline{\rho}}(x,\varepsilon)$. One direction of the inclusion follows.\\
+			For the other, let $y\in B_{\overline{\rho}}(x,\varepsilon)$ and $\delta=\overline{\rho}(x,y)$. Since $\delta<\varepsilon$, we can choose a $\delta'$ such that $\delta<\delta'<\varepsilon$. Then, $y\in U(x,\delta')$, thus proving the result.
+		\end{enumerate}
+	\end{solution*}	
 
 \subsection{The Metric Topology (continued)}
 
