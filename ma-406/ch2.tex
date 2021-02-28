@@ -267,6 +267,26 @@
 
 \subsection{The Metric Topology}
 
+	% 20.3
+	\setcounter{exercise}{2}
+	\begin{exercise}
+		Let $X$ be a metric space with metric $d$.
+		\begin{enumerate}[(a)]
+			\item Show that $d:X\times X\to\R$ is continuous.
+			\item Let $X'$ denote a space having the same underlying set as $X$. Show that if $d:X'\times X'\to\R$ is continuous, the topology of $X'$ is finer than the topology of $X$.
+		\end{enumerate}
+		This means that if $X$ has a metric $d$, the metric topology induced by it is the coarsest topology with respect to which $d$ is continuous.
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Let $x=(x_1,x_2)\in X\times X$ and for some $\varepsilon>0$, $U=B(f(x),\varepsilon)$ be a basis element of $\R$ containing $f(x)$. Consider the open sets $U_1 = B_d(x_1,\varepsilon/4)$ and $U_2 = B_d(x_2,\varepsilon/4)$. If $y_1\in U_1$ and $y_2\in U_2$, then
+			\[ d(y_1,y_2) \leq d(x_1,x_2) + d(x_1,y_1) + d(x_2,y_2) \leq f(x) + \varepsilon/2. \]
+			Therefore, $d(y_1,y_2)\in U$. As a result, $U_1\times U_2$ is an open set such that $x\in f(U_1\times U_2) \subseteq U$ and $d$ is continuous.
+			
+			\item Consider the continuous function $g : X'\to X'\times X'$ given by $y\mapsto (x,y)$ (we proved continuity in \Cref{ex: 16.4}). Since the composition of continuous functions is continuous, so is $d\circ g : X'\to\R$. Note that for any $\varepsilon>0$, $(d\circ g)^{-1}((0,\varepsilon)) = B_d(x,\varepsilon)$. It follows that $B_d(x,\varepsilon)$ is open in $X'$ and therefore, the topology on $X'$ is finer than that on $X$.
+		\end{enumerate}
+	\end{solution*}	
+
 	% 20.5
 	\setcounter{exercise}{4}
 	\begin{exercise}
@@ -294,7 +314,6 @@
 	\end{solution*}
 
 	% 21.3
-	\setcounter{exercise}{1}
 	\begin{exercise}
 		Let $X_n$ be a metric space with metric $d_n$ for each $n\in\Zp$.
 		% \begin{enumerate}[(a)]
