@@ -225,7 +225,7 @@
 
 \subsection{The Product Topology}
 
-	% 18.4
+	% 19.4
 	\setcounter{exercise}{3}
 	\begin{exercise}
 		Show that $(X_1\times \cdots\times X_{n-1})\times X_n$ is homeomorphic to $X_1\times\cdots\times X_n$.
@@ -238,11 +238,84 @@
 		On the other hand, if $U$ is open in $X_1\times\cdots\times X_{n-1}$ and $U_n$ is open in $X_n$, then $f(U\times U_n) = U_1\times\cdots\times U_n$, where each $U_i$ is open in $X_i$ by \Cref{ex: 16.4}.
 	\end{solution*}
 
-	% 18.6
+	% 19.6
 	\setcounter{exercise}{5}
 	\begin{exercise}
 		Let $x_1,x_2,\ldots$ be a sequence of points in the product space $\prod X_\alpha$. Show that this sequence converges to the point $x$ iff the sequence $\pi_\alpha(x_1),\pi_\alpha(x_2),\ldots$ converges to $\pi_\alpha(x)$ for each $\alpha$. Is this true if we use the box topology instead of the product topology?
 	\end{exercise}
 	\begin{solution*}
-		We first show the easier backward direction. Suppose 
-	\end{solution*}	
+		We first show the backward direction. Suppose $(\pi_\alpha(x_i))$ converges to $\pi_\alpha(x)$. Let $U$ be an open set containing $x$ and $B\subseteq U$ be a basis element of the product topology containing $x$. Let $B=\prod_\alpha U_\alpha$ where $U_\alpha\neq X_\alpha$ for the finite set $\{\alpha_1,\ldots,\alpha_n\}$. Since $(\pi_{\alpha_j}(x_i))$ converges to $\pi_{\alpha_j}(x)$ for each $j$, each $U_{\alpha_j}$ contains all but finitely many $\pi_\alpha(x_i)$. As a result, $B$ contains all but finitely many $x_i$ and therefore, $(x_i)$ converges to $x$.
+
+		On the other hand, let $(x_i)$ converge to $x$. Let $U_\alpha$ be an open set in $X_\alpha$ containing $\pi_\alpha(x)$. We wish to show that it contains all but finitely many $\pi_\alpha(x_i)$. Let $U'=\prod U'_\beta$ be a basis element containing $x$ and $V=\prod V_\beta$, where $V_\beta=U'_\beta$ for $\beta\neq\alpha$ and $V_\alpha=U_\alpha\cap U'_\alpha$. Since $V$ is an open set containing $x$, it contains all but finitely many $x_i$. In particular, $V_\alpha$ contains all but finitely many $\pi_\alpha(x_i)$. The required follows.
+
+
+		Observe that the forward proof works even if we use the box topology instead, but the backward direction breaks. To see that the result need not hold for the box, let the product space be $\R^\omega$, $\pi_n(x_i)=n/i$ and $\pi_n(x)=0$ for each $i,n$.
+	\end{solution*}
+
+	% 19.7
+	\begin{exercise}
+		Let $\R^\infty$ be the subset of $\R^\omega$ consisting of all sequences that are eventually $0$ ($x_i\neq 0$ for finitely many $i$). What is the closure of $\R^\infty$ in $\R^\omega$ in the box and product topologies?
+	\end{exercise}
+	\begin{solution*}
+		We claim that the closure under the product topology is $\R^\omega$. Let $x\in\R^\omega$ and $U=\prod U_n$ be a basis element containing $x$. We wish to determine when $U\cap\R^\infty\neq\emptyset$. Consider $y\in\R^\infty$ such that $y_n = x_n$ if $U_n\neq\R$ and $0$ otherwise. Then $y\in U\cap\R^\infty$, thus proving the result.
+
+		For the box topology, we claim that $\R^\infty$ is closed. Indeed, for any $x\in\R^\omega\setminus\R^\infty$, consider the open set $U=\prod U_n$, where $U_n=(x_n/2, 3x_n/2)$ if $x_n\neq 0$ and $\R$ otherwise. Then $U\cap\R^\infty$ is empty, completing the proof.
+	\end{solution*}
+
+
+
+
+\subsection{The Metric Topology}
+
+	% 20.5
+	\setcounter{exercise}{4}
+	\begin{exercise}
+		Let $\R^\infty$ be the subset of $\R^\omega$ consisting of all infinite sequences that are eventually $0$. What is the closure of $\R^\infty$ in $\R^\omega$ in the uniform topology?
+	\end{exercise}
+	\begin{solution*}
+		We claim that the closure of $\R^\infty$ is the set of all sequences that converge to $0$. Let $x\in\R^\omega$.
+		\begin{itemize}
+			\item Case 1. The sequence $x$ does not converge to $0$. There is then some $\varepsilon>0$ such that for infinitely many $n$, $|x_n|>\varepsilon$. We may assume that $\varepsilon<1$. Consider the open set $U = B_{\overline{\rho}}(x,\varepsilon)$. We claim that $U\cap\R^\infty = \emptyset$. Indeed, for any $y\in\R^\infty$, $|x_n-y|>\varepsilon$ for infinitely many $n$ so $y\not\in B_{\overline{d}}(x,\varepsilon)$, thus proving that $x\not\in\overline{\R^\infty}$.
+			\item Case 2. The sequence $x$ converges to $x$. Let $B_{\overline{\rho}}(x,\varepsilon)$ be an arbitrary basis element containing $x$. Then there exists $N\in\N$ such that for all $n>N$, $|x_n|<\varepsilon/2$. Consider the element $y\in\R^\infty$ such that $y_n=x_n$ for $n\leq N$ and $y_n=0$ otherwise. Then $y\in B_{\overline{\rho}}(x,\varepsilon)$, thus proving that $x\in\overline{\R^\infty}$.
+		\end{itemize}
+	\end{solution*}
+
+\subsection{The Metric Topology (continued)}
+
+	% 21.2
+	\setcounter{exercise}{1}
+	\begin{exercise}
+		Let $X$ and $Y$ be metric spaces with metrics $d_X$ and $d_Y$ respectively. Let $f:X\to Y$ such that for any $x_1,x_2\in X$,
+		\[ d_Y(f(x_1), f(x_2)) = d_X(x_1,x_2). \]
+		Show that $f$ is an imbedding. It is called the \textit{isometric imbedding} of $X$ in $Y$.
+	\end{exercise}
+	\begin{solution*}
+		Let $x\in X$ and $V = B_{d_Y}(f(x),\varepsilon)$ be a basis element in $Y$ containing $f(x)$. Then $U = B_{d_X}(x,\varepsilon)$ is an open set in $X$ containing $x$ such that $f(U)\subseteq V$. Therefore, $f$ is continuous. Showing that $f$ is open is similarly straight-forward.
+	\end{solution*}
+
+	% 21.3
+	\setcounter{exercise}{1}
+	\begin{exercise}
+		Let $X_n$ be a metric space with metric $d_n$ for each $n\in\Zp$.
+		% \begin{enumerate}[(a)]
+		% 	\item Show that
+		% 	\[ \rho(x,y) = \max\{d_1(x_1,y_1,\ldots,d_n(x_n,y_n))\} \]
+		% 	is a metric for the product space $X_1\times\cdots\times X_n$.
+		% 	\item 
+			Let $\overline{d}_i=\min\{d_i,1\}$. Show that
+			\[ D(x,y) = \sup \{\overline{d}_i(x_i,y_i)/i\} \]
+			is a metric for the product space $\prod X_i$.
+		% \end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		% \begin{enumerate}[(a)]
+		% 	\item The first two conditions are very easy to check. For the last,
+		% 	\[ d(x,z) + d(z,y) = \max\{d_1(x_1,z_1),\ldots,d_n(x_n,z_n)\} + \max\{d_1(z_1,y_1),\ldots,d_n(z_n,y_n)\} \geq \max\{d_1(x_1,z_1)+d_1(z_1,y_1),\ldots,d_n(x_n,z_n)+d(z_n,y_n)\} \geq d(x,y). \]
+
+		% 	\item
+			Let $U = \prod U_i$ be a basis element of the product topology, where $U_i\neq X_i$ for $i=\alpha_1,\ldots,\alpha_n$. Let $x\in U$. For each $j$, let $B_{\overline{d}_{\alpha_j}}(x_{\alpha_j},\varepsilon_j)\subseteq U_{\alpha_j}$. Let $\varepsilon = \min\{\varepsilon_j/2\alpha_j\}$. Then $x\in B_{D}(x,\varepsilon)\subseteq U$, so the metric topology is finer than the product topology.\\
+			For the other direction, let $\varepsilon>0$ and $U=B_D(x,\varepsilon)$. We want to show that there is an element of the product topology containing $x$ that is contained in $U$. Let $V=\prod V_i$, where $V_i = B_{\overline{d}_i}(x_i, i\varepsilon/2)$ for each $i$. Note that $V$ is a basis element of the product topology since $V_i=X_i$ for $i>2/\varepsilon$. Since $x\in V\subseteq U$, the product topology is finer than the metric topology, thus proving the result.
+		% \end{enumerate}
+	\end{solution*}
+
+
