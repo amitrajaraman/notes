@@ -58,6 +58,7 @@ Observe that we can extend this more generally to the case where $f_1$ and $f_2$
 % *** Why?
 
 \begin{corollary}
+	\label{cor: if positive on convex set convex on some needle}
 	Let $T$ be a bounded open convex set in $\Rn$, $g$ a bounded lower semicontinuous function on $T$, and $h$ a continuous function on $T$ such that
 	\[ \int_T g > 0 \text{ and } \int_T h = 0. \]
 	Then there is a needle $N=(I,\ell)$ with $I\subseteq T$ such that
@@ -79,7 +80,9 @@ Observe that we can extend this more generally to the case where $f_1$ and $f_2$
 	Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required.
 \end{proof}
 
-While these results are quite nice, exponents of a linear function are not very convenient to deal with. Therefore, define the following.
+While these results are quite nice, exponents of a linear function are not very convenient to deal with. This motivates the following.
+
+\subsubsection{Exponential Needles}
 
 \begin{definition}
 	An \textit{exponential needle} is a segment $[a,b]\in\Rn$ together with a real $\gamma$. If $E=(I,\gamma)$ is a needle and $f$ is an integrable function defined on $I$, denote
@@ -89,7 +92,7 @@ While these results are quite nice, exponents of a linear function are not very 
 
 If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
 
-\begin{theorem}
+\begin{lemma}
 	Let $f_1$, $f_2$, $f_3$, and $f_4$ be four non-negative continuous functions defined on an interval $[a,b]$ and $\alpha,\beta>0$. Then the following are equivalent.
 	\begin{itemize}
 		\item For every log-concave function $F$ defined on $\R$, 
@@ -98,9 +101,70 @@ If we manage to prove our results for an exponential needle instead, it is extre
 		\item For every subinterval $[a',b']\subseteq[a,b]$ and real $\gamma$,
 		\[ \left(\int_{a'}^{b'} e^{\gamma t}f_1(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_2(t)\d{t}\right)^\beta \leq \left(\int_{a'}^{b'} e^{\gamma t}f_3(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_4(t)\d{t}\right)^\beta. \]
 	\end{itemize}
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
-	The first implying the second is obvious (on setting $F=\indic_{[a',b']}e^{\gamma t}$).\\
-	Suppose the second holds and the first does not for some log-concave function $F$. We may assume that $F$ is strictly positive. Otherwise, we can replace it with its convolution with $e^{-ct^2}$ for some large $c$, which is still log-concave by \Cref{convolution of log concave functions is log concave}.
+	The first implying the second is obvious (on setting $F=\indic_{[a',b']}e^{\gamma t}$).
+
+	Note that if for some $t_0\in[a,b]$, $f_1(t_0)^\alpha f_2(t_0)^\beta > f_3(t_0)^\alpha f_4(t_0)^\beta$, then both the assertions above fail since we can consider
+	\begin{itemize}
+		\item the log-concave function $e^{-c(t-t_0)^2}$ for a sufficiently large $c$, or
+		\item a sufficiently small interval containing $t_0$.
+	\end{itemize}
+	Therefore, we may assume that for all $t\in[a,b]$,
+	\begin{equation*}
+		\label{eqn: init observation exp needle conv body}
+		\tag{$*$}
+		f_1(t)^\alpha f_2(t)^\beta \leq f_3(t)^\alpha f_4(t)^\beta.
+	\end{equation*}
+
+	Suppose the second holds and the first does not for some log-concave function $F$.\\
+	We may assume that $F\neq 0$ (so $F>0$) on $[a,b]$. Otherwise, we can replace it with its convolution with $e^{-ct^2}$ for a sufficiently large $c$, which is still log-concave by \Cref{convolution of log concave functions is log concave} and would still satisfy the inequality (Why?). We may also assume that $F\geq 1$ on $[a,b]$ by scaling up appropriately. Let $F=e^G$, where $G$ is a non-negative concave function on $[a,b]$.\\
+	For each $n$, define $K_n\subseteq\R^{n+1}$ by
+	\[ K_n = \left\{ (t,x) : t\in[a,b], x\in\Rn, \norm{x} \leq 1 + \frac{G(t)}{n} \right\}. \]
+	Let $\hat{f}_i:\R^{n+1}\to\R$ by defined by $\hat{f}_i(t,x)=f_i(t)$.\\
+	For sufficiently large $n$, we have $(1+G(t)/n)\approx e^{G(t)} = F(t)$, so we can write\footnote{The $F$ disappears from the integral when integrating over $\{t\}\times B_2^n$.}
+	\[ \left(\int_{K_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{K_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
+	Using \Cref{lem: 5.1}, let $N_n$ be a needle such that
+	\[ \left(\int_{N_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{N_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
+
+	If $N_n$ is orthogonal to the $t$-axis, then (\ref{eqn: init observation exp needle conv body}) immediately breaks so we arrive at a contradiction. Otherwise, we may project the needle onto the $t$-axis to get some $[a_n,b_n]\subseteq[a,b]$ and a linear function $\ell_n$ such that
+	\begin{equation}
+		\label{eqn: 5.3}
+		\left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_4(t)\d{t}\right)^\beta.
+	\end{equation}
+	By the Bolzano-Weierstrass Theorem, there is a subsequence such that $a_{n_k}$, $b_{n_k}$ converge, to say $a_0$ and $b_0$. By (\ref{eqn: init observation exp needle conv body}), $a_0 < b_0$. Suppose that $\ell_n(a_0) < \ell_n(b_0)$ for infinitely many indices -- if not, then exchange $a_0$ and $b_0$ in the following argument. Now, let each $\ell_n$ be normalized such that $\ell_n(b_0)=1$. Let $\gamma_n = \ell_n(a_0)$ for each $n$.\\
+	For some subsequence, let $\gamma_n\to\gamma$ and $n(1-\gamma_n)\to\gamma'$, where $0\leq\gamma\leq 1$ and $0\leq\gamma'\leq\infty$. Henceforth, we restrict ourselves to this subsequence.
+	\begin{itemize}
+		\item If $\gamma\neq 1$, $\ell_n(t)^n\to 0$ for all $a_0\leq t<b_0$. Dividing \Cref{eqn: 5.3} by $\left(\int_{a_n}^{b_n}\ell_n(t)^n\d{t}\right)^{\alpha+\beta}$ and letting $n\to\infty$, we get
+		\[ f_1(b_0)^\alpha f_2(b_0)^\beta \geq f_3(b_0)^\alpha f_4(b_0)^\beta. \]
+		If instead of $f_3$ and $f_4$ everywhere in the proof above, we instead take $f_3+\varepsilon$ and $f_4+\varepsilon$ for a sufficiently small $\varepsilon$, we arrive at a contradiction to \Cref{eqn: init observation exp needle conv body}.
+
+		\item Therefore, $\gamma=1$. We then have
+		\[ \ell_n(t)^n = \left((1 - (1-\ell_n(t)))^{1/(1-\ell_n(t))}\right)^{n(1-\ell_n(t))}. \]
+		The expression within the topmost exponent on the right goes to $1/e$. If $\gamma'=\infty$, then we again get $\ell_n(t)^n\to 0$ for $t < b_0$, so we arrive at a contradiction similar to the first case above.\\
+		Otherwise, we have
+		\[ \ell_n(t) \to e^{\gamma'(t-b_0)/(b_0-a_0)}. \]
+		Letting $\gamma''=\gamma'/(b_0-a_0)$ and letting $n\to\infty$, we get
+		\[ \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_1(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_2(t)\d{t}\right)^\beta > \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_3(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_4(t)\d{t}\right)^\beta. \]
+		However, this (after multiplying by an appropriate factor on either side to remove the $b_0$ in the exponent) contradicts the original assumption that the opposite inequality holds for any exponential needle, thus completing the proof.
+	\end{itemize}
+\end{proof}
+
+Next, we shall show the counterpart of \Cref{lem: 5.1} for exponential needles.
+
+\begin{ftheo}
+	Let $f_1$, $f_2$, $f_3$, and $f_4$ be non-negative functions on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
+	\begin{itemize}
+		\item For every log-concave function $F$ on $\Rn$ with compact support,
+			\[ \left(\int_\Rn F(t) f_1(t)\d{t}\right)^\alpha \left(\int_\Rn F(t) f_2(t)\d{t}\right)^\beta \leq \left(\int_\Rn F(t) f_3(t)\d{t}\right)^\alpha \left(\int_\Rn F(t) f_4(t)\d{t}\right)^\beta. \]
+		\item For every exponential needle $E$ in $\Rn$,
+			\[ \left(\int_E f_1\right)^\alpha \left(\int_E f_2\right)^\beta \leq \left(\int_E f_3\right)^\alpha \left(\int_E f_4\right)^\beta. \]
+	\end{itemize}
+\end{ftheo}
+\begin{proof}
+	Going from the first to the second isn't too difficult. Given the exponential needle over $[a,b]$ and constant $\gamma$, consider the function $F$ defined by $t\mapsto e^{\gamma \langle t-b, u\rangle}$, where $u=(b-a)/\norm{b-a}$ restricted to some $\varepsilon$-neighbourhood of $[a,b]$. Letting $\varepsilon\to 0$, we get the required.\\
+	On the other hand, let the second hold but not the first for some function $F$. Then applying \Cref{lem: 5.1} on the $Ff_i$, we get some $[a,b]$ and linear function $\ell$ on $[a,b]$ such that
+	\[ \left(\int_0^{|b-a|} f_1(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\alpha \left(\int_0^{|b-a|} f_2(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\beta > \left(\int_0^{|b-a|} f_3(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\alpha \left(\int_0^{|b-a|} f_4(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\beta. \]
+	However, $F\ell^{n-1}$ is concave, so 
 \end{proof}

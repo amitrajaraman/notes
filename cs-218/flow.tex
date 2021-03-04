@@ -1,0 +1,41 @@
+\section{Flow}
+
+Where there are graphs, we tend to see flow networks quite a lot.
+
+\begin{fdef}[Flow Network]
+	A directed graph $G=(V,E)$ together with a \textit{capacity} function $c:E\to\Zp$, a designated \textit{source} $s$, and a designated \textit{sink} $t$ is known as a \textit{flow network}.
+\end{fdef}
+
+We shall assume that there are no edges entering $s$ and no edges leaving $t$.\\
+We can think of $s$ as a source of water, with the intermediate edges being pipes that have some limit to how much they can carry and the intermediate nodes being junctions that transmit water, and $t$ as a reservoir.
+
+The main question we wish to answer is:
+\begin{quote}
+	What is the maximum rate that can be sent from the source to the sink without violating any capacity constraints?
+\end{quote}
+
+This is modelled more concretely using the following definition.
+
+\begin{fdef}[Flow]
+	A \textit{flow} in a flow network is a function $f:E\to\R^{\geq 0}$ that satisfies
+	\begin{itemize}
+		\item Capacity constraints: For each $e\in E$, $f(e)\leq c(e)$.
+		\item Flow conservation: For each $v\in V\setminus\{s,t\}$,
+		\[ \sum_{\vv{uv}\in E} f(\vv{uv}) = \sum_{\vv{vw}\in E} f(\vv{vw}). \]
+	\end{itemize}
+	The \textit{value of the flow} $f$, denoted $|f|$, is given by
+	\[ |f| = \sum_{\substack{v\in V \\ \vv{sv}\in E}} f(\vv{sv}). \]
+\end{fdef}
+
+The flow conservation rule written above is also known as \textit{Kirchhoff's law}. For the sake of brevity, we denote
+\begin{align*}
+	f^{\ot}(v) &= \sum_{\vv{uv}\in E} f(\vv{uv}) \text{ and} \\
+	f^{\to}(v) &= \sum_{\vv{vw}\in E} f(\vv{vw}).
+\end{align*}
+We then have $|f|=f^{\to}(s)$.\\
+For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow from $V\setminus U$ to $U$ and $U$ to $V\setminus U$ respectively.
+
+\begin{lemma}
+	For any flow $f$ on a flow network with source $s$ and sink $t$,
+	\[ |f| = \sum_{\vv{sv}\in E}f(\vv{sv}) = f^{\to}(s) = \sum_{\vv{vt}\in E}f(\vv{vt}) = f^{\ot}(t). \]
+\end{lemma}

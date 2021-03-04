@@ -131,9 +131,9 @@ Consider the following greedy algorithms.
 Let $\mathcal{A}$ be the set selected by the (last) greedy algorithm above and $\mathsf{OPT}$ denote an optimal solution. We wish to show that $|\mathcal{A}|=|\mathsf{OPT}|$.\\
 Let $\mathcal{A}=\{a_1,\ldots,a_k\}$ and $\mathsf{OPT}=\{b_1,\ldots,b_m\}$.
 
-\begin{lemma}
+\begin{lemma*}
 For $r\in[k]$, $f(a_r) \leq f(b_r)$.
-\end{lemma}
+\end{lemma*}
 \begin{proof}
 This is easily shown via induction. For $r=1$, it holds by the definition of $\mathcal{A}$. For $r>1$, we have (by induction) $f(a_{r-1}) \leq f(b_{r-1}) \leq s(b_r)$. Then since $b_r$ itself can be chosen by the algorithm, we must have that $f(a_r) \leq f(b_r)$.
 \end{proof}
@@ -181,9 +181,9 @@ The first algorithm is also known as Kruskal's algorithm. More concretely, what 
 
 The set thus formed clearly has no cycles by construction. Spanningness follows due to its maximality. Proving that it is a minimal spanning tree is quite easy in the case where all costs are distinct using the following property of any minimal spanning tree.
 
-\begin{lemma}[Cut Property]
+\begin{lemma*}[Cut Property]
 	Let $\emptyset\neq S\subsetneq V$. Let $e=vw$ be the minimal cost edge such that $v\in S$ and $w\in V\setminus S$. Then every minimal spanning tree of the graph must contain $e$.
-\end{lemma}
+\end{lemma*}
 
 To show that the required follows if we have the cut property, let $T$ be a minimal spanning tree and $T'$ the set output by the algorithm at some intermediate step.\\
 Let $e=vw$ be the first edge added to $T'$ in the subsequent steps and $S$ be the neighbourhood of $v$ in $T'$. Since the algorithm was able to add $e$ to $T'$, there is no edge in $T'$ connecting any node in $S$ to any node in $V\setminus S$ (we do not create cycles). We already know that $e$ must be the lowest cost such edge. Then by the cut property, $e$ must be present in $T$!\\
@@ -267,9 +267,9 @@ How do we prove correctness? For a tree $T$ corresponding to a prefix-free encod
 where $d_T(a_i)$ is the depth of $a_i$ in $T$.\\
 Observe that any optimal tree must be a full binary tree (any internal node has $2$ children) -- if not, we can shift leaves lower down to a higher position and decrease the cost.\\
 
-\begin{lemma}
+\begin{lemma*}
 	Consider the two letters $x$ and $y$ with the smallest frequencies. There is an optimal code tree $T^*$ in which these two letters are sibling leaves at the lowest level.
-\end{lemma}
+\end{lemma*}
 
 \begin{proof}
 	Let $a$ and $b$ be two letters at the lowest level of an optimal tree $T$ that are siblings of each other. Let their frequencies be $f_a$ and $f_b$. Assume $f_x\leq f_y$ and $f_a\leq f_b$. We may further assume that $f_x<f_a$.\\
@@ -281,9 +281,9 @@ Observe that any optimal tree must be a full binary tree (any internal node has 
 
 We shall next show that if a step in the algorithm is correct, the next step is also correct (the above lemma says that the first step is correct). That is,
 
-\begin{lemma}
+\begin{lemma*}
 	Let $T$ be a tree corresponding to an optimal encoding of $\Sigma$. Let $x,y$ be sibling leaves of $T$ and $z$ their parent in $T$. Let $f_z=f_x+f_y$, $T'=T\setminus\{x,y\}$, and $\Sigma'=\Sigma\setminus\{x,y\}\cup\{z\}$. Then $T'$ corresponds to an optimal encoding of $\Sigma'$.
-\end{lemma}
+\end{lemma*}
 \begin{proof}
 	We have
 	\[ c(T') = c(T) - d_T(x)(f_x+f_y) + (d_T(x)-1)f_z = c(T) - f_z. \]
@@ -374,9 +374,9 @@ Suppose we split it into two halves based on the $x$-coordinates. Recursively co
 
 How many ``cross-pairs'' need to be checked though? Observe that we don't need to check anything for the points that are farther than $d$ from the central separating line (Why?). But in the worst case, we might still need to check several points.
 
-\begin{lemma}
+\begin{lemma*}
 	Let $S_y=(q_1,\ldots,q_m)$ be the points in the distance $d$ region sorted in decreasing order of their $y$ coordinates. If the distance between $q_i$ and $q_j$ is less than $d$, then $j-i\leq 11$.
-\end{lemma}
+\end{lemma*}
 \begin{proof}
 	Consider the distance $d$ region split into (closed) squares of side length $(d/2)$. In each row, there are $4$ squares. Note that in each box, there is at most $1$ point (if there was more than one, the minimum distance in one of the halves would be less than $d$). Suppose that there are more than $11$ indices between $i$ and $j$. Then at least $2$ full rows separate the boxes containing $q_i$ and $q_j$. However, this would imply that the distance between $q_i$ and $q_j$ is $\geq d$, thus yielding a contradiction and proving the claim.
 \end{proof}
@@ -452,10 +452,10 @@ In general, solving this set of equations takes $\mathcal{O}(n^3)$ by inverting 
 
 We shall reduce the problem of \textit{interpolation} of $C$ to the \textit{evaluation} of another polynomial $D$.
 
-\begin{lemma}
+\begin{lemma*}
 	Let $C(x)=\sum_{s=0}^{2n-1} c_s x^s$ and $D(x)=\sum_{s=0}^{2n-1} d_s x^s$, where for each $s$, $d_s = C(\omega_{s,2n})$. Then for each $s$,
 	\[ c_s = \frac{1}{2n} D(\omega_{2n-s,2n}). \]
-\end{lemma}
+\end{lemma*}
 \begin{proof}
 
 \end{proof}
@@ -624,8 +624,24 @@ The sub-problem dependencies are acyclic because $i$ decreases at every step.\\
 	\caption{Bellman and Ford's Algorithm}\label{algo: bellman and ford}
 \end{algorithm}
 
-The table has $\mathcal{O}(n^2)$ entries and each entry is filled in $\mathcal{O}(n)$. Therefore, the total running time is $\mathcal{O}(n^3)$.
+The table has $\mathcal{O}(n^2)$ entries and each entry is filled in $\mathcal{O}(n)$. Therefore, the total running time is $\mathcal{O}(n^3)$.\\
 
+A problem related to the one we have studied here is $\texttt{Cycle}(G,t)$, where given a directed graph $G=(V,E)$, a function $w:E\to\Z$, and a designated vertex $t\in V$, we output yes iff there is a negative cycle with a path reaching $t$.
+
+Another is $\texttt{Cycle}(G)$, where we return yes iff there is a negative cycle in the graph.\\
+
+$\texttt{Cycle}(G,t)$ and $\texttt{Cycle}(G)$ are closely interrelated. If we solve $\texttt{Cycle}(G,t)$, then we claim to be able to solve $\texttt{Cycle}(G)$. This is known as a \textit{reduction}, which we shall look at in more detail later on.\\
+Given a graph $G=(V,E)$, add a new vertex $t_0$ to it. Add directed edges from every $v\in V$ to $t_0$ of weight $0$. Let this graph be $G'$. Then solving $\texttt{Cycle}(G',t_0)$ is equivalent to solving $\texttt{Cycle}(G)$! This reduction is symbolically represented as $\texttt{Cycle}(G)\leq \texttt{Cycle}(G',t_0)$.\\
+It only remains to solve $\texttt{Cycle}(G,t)$.
+
+\begin{lemma*}
+	There is no negative cycle in $G$ with a path to $t$ iff $\mathsf{OPT}(v,i)=\mathsf{OPT}(v,n-1)$ for every $v\in V$ and $i\geq n$.
+\end{lemma*}
+Above, $\mathsf{OPT}$ is the same as what we defined in Bellman and Ford's Algorithm. The proof for the above is quite clear. If a node $v$ can reach $t$ and is part of a negative cycle, then increasing $i$, $\mathsf{OPT}(v,i)$ can be made arbitrarily small.
+
+\begin{lemma*}
+	There is no negative cycle in $G$ with a path to $t$ iff $\mathsf{OPT}(v,n)=\mathsf{OPT}(v,n-1)$ for each $v\in V$.
+\end{lemma*}
 
 \subsection{Exercises}
 
