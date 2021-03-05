@@ -93,6 +93,7 @@ While these results are quite nice, exponents of a linear function are not very 
 If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
 
 \begin{lemma}
+	\label{localized exponential needle interconversion}
 	Let $f_1$, $f_2$, $f_3$, and $f_4$ be four non-negative continuous functions defined on an interval $[a,b]$ and $\alpha,\beta>0$. Then the following are equivalent.
 	\begin{itemize}
 		\item For every log-concave function $F$ defined on $\R$, 
@@ -151,9 +152,10 @@ If we manage to prove our results for an exponential needle instead, it is extre
 	\end{itemize}
 \end{proof}
 
-Next, we shall show the counterpart of \Cref{lem: 5.1} for exponential needles.
+Next, we shall show the counterpart of \Cref{lem: 5.1} for exponential needles. This is essentially a generalized version of the above lemma, so is relatively straight-forward to prove.
 
 \begin{ftheo}
+	\label{generalized exponential needle interconversion}
 	Let $f_1$, $f_2$, $f_3$, and $f_4$ be non-negative functions on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
 	\begin{itemize}
 		\item For every log-concave function $F$ on $\Rn$ with compact support,
@@ -165,6 +167,36 @@ Next, we shall show the counterpart of \Cref{lem: 5.1} for exponential needles.
 \begin{proof}
 	Going from the first to the second isn't too difficult. Given the exponential needle over $[a,b]$ and constant $\gamma$, consider the function $F$ defined by $t\mapsto e^{\gamma \langle t-b, u\rangle}$, where $u=(b-a)/\norm{b-a}$ restricted to some $\varepsilon$-neighbourhood of $[a,b]$. Letting $\varepsilon\to 0$, we get the required.\\
 	On the other hand, let the second hold but not the first for some function $F$. Then applying \Cref{lem: 5.1} on the $Ff_i$, we get some $[a,b]$ and linear function $\ell$ on $[a,b]$ such that
-	\[ \left(\int_0^{|b-a|} f_1(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\alpha \left(\int_0^{|b-a|} f_2(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\beta > \left(\int_0^{|b-a|} f_3(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\alpha \left(\int_0^{|b-a|} f_4(a+tu) F(a+tu)\ell(a+tu)\ell(a+tu)\right)^\beta. \]
-	However, $F\ell^{n-1}$ is concave, so 
+	\begin{multline*}
+		\left(\int_0^{|b-a|} f_1(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{|b-a|} f_2(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta \\
+		> \left(\int_0^{|b-a|} f_3(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{|b-a|} f_4(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta.
+	\end{multline*}
+
+	However, $F\ell^{n-1}$ is concave, so by \Cref{localized exponential needle interconversion}, there exists an exponential needle that violates the assumption.
 \end{proof}
+
+\subsubsection{An Example Using the Equivalences}
+
+Let $K$ be a convex body $f:K\to\R$ be integrable. Define its $L_p$ norm by
+\[ \norm{f}_p = \left(\frac{1}{\vol K} \int_{K} |f(x)|^p \d{x} \right)^{1/p}. \]
+It is easy to see that if $0<p<q$, $\norm{f}_p \leq \norm{f}_q$.
+
+\begin{theorem}
+	Let $0<p<q$. There exists a constant $c_{p,q}$ such that for any dimension $n$, convex body $K\subseteq\Rn$ and linear function $f:K\to\R$,
+	\[ \norm{f}_q \leq c_{p,q}\norm{f}_p \]
+\end{theorem}
+\begin{proof}
+	We wish to show that for any $K$,
+	\[ \left(\int_K |f|^q\right)^{1/q} \left(\int_K 1\right)^{1/p} \leq c_{p,q} \left(\int_K 1\right)^{1/q} \left(\int_K |f|^p\right)^{1/p}. \]
+	Equivalently, we wish to show that for any exponential needle $E$,
+	\[ \left(\int_E |f|^q\right)^{1/q} \left(\int_E 1\right)^{1/p} \leq c_{p,q} \left(\int_E 1\right)^{1/q} \left(\int_E |f|^p\right)^{1/p}. \]
+	Let $E$ be an arbitrary exponential needle on interval $[a,b]$ with constant $\gamma$. That is, we wish to show that for any linear function $f$, $a,b\in\R$, and real $\gamma$,
+	\[ \left( \frac{\int_a^b e^{\gamma t} |f(t)|^q\d{t}}{\int_a^b e^{\gamma t}\d{t}} \right)^{1/q} \leq c_{p,q} \left( \frac{\int_a^b e^{\gamma t} |f(t)|^p\d{t}}{\int_a^b e^{\gamma t}\d{t}}\right)^{1/p}, \]
+	Since $f$ is linear, we may assume without loss of generality that $f(a+tu)=t$ on $[a,b]$ and that $\gamma=1$; for the general case where $\gamma\neq 0$, we can just substitute appropriately. The cases where $\gamma=0$ or $f$ is constant on $[a,b]$ are easily shown.\\
+	\[ \varphi(a,b) = \left( \frac{\int_a^b e^{t} |f(t)|^q\d{t}}{\int_a^b e^{t}\d{t}} \right)^{1/q} \left( \frac{\int_a^b e^{t} |f(t)|^p\d{t}}{\int_a^b e^{t}\d{t}} \right)^{-1/p}. \]
+	We wish to show that $c_{p,q} = \sup_{a<b} \varphi(a,b)$ is finite. Note that $\varphi$ is continuous for $a<b$. Further, for any $\alpha$, $\varphi(a,b)\to 1$ as $a,b\to\alpha$. That is, we may extend the function continuously to $a\leq b$ defining $\varphi(a,a)=1$.\\
+	Now, observe that for $b\to\infty$, $\varphi(a,b)\to 1$.\footnote{$\int_a^b e^t |f(t)|^p\d{t}$ grows as $e^{-b}b^p$ and $\int_a^b e^t\d{t}$ grows as $e^b$.} On the other hand, for fixed $b$ and $a\to\infty$, $\varphi(a,b)$ remains bounded. The continuity implies that $\varphi$ is bounded and its supremum is finite.
+\end{proof}
+
+The actual calculation of the supremum above is quite tedious, however.
+
