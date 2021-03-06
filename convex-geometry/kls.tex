@@ -236,7 +236,7 @@ First, let us show how isotropic position is related to sandwiching.
 \end{ftheo}
 
 Observe that these inequalities are tight for the regular simplex and also imply the second part of \Cref{fritz john banach mazur distance}. If $K$ is in isotropic position, then for any unit $u$,
-\[ \int_K (u^\top x)^2 \d{x} = \vol(K). \]
+\[ \int_K \langle u,x\rangle^2 \d{x} = \vol(K). \]
 
 \begin{proof}
 	\phantom{agh}
@@ -251,11 +251,11 @@ Observe that these inequalities are tight for the regular simplex and also imply
 		\[ \vol(K) = \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1}\d{t}\d{u} = \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \d{u}. \]
 		We also have
 		\begin{align*}
-			1 &= \frac{1}{\vol(K)} \int_K (v^{\circ \top} x)^2 \d{x} \\
-			 &=  \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_0^{\varphi(u)} t^{n-1} (v^{\circ \top} (v+tu))^2 \d{t}\d{u} \\
-			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n}\norm{v}^2 + 2\frac{\varphi(u)^{n+1}}{n+1} (v^{\circ \top}u) + \frac{\varphi(u)^{n+2}}{n+2} (v^{\circ \top}u)^2 \right) \d{u} \\
-			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)(v^{\circ \top} u)\right)^2 + \frac{\varphi(u)^n}{n(n+1)^2}\norm{v}^2 \right) \d{u} \\
-			 &= \frac{1}{\vol(K)} \left( \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)(v^{\circ \top} u)\right)^2 \d{u} \right) + \frac{\norm{v}^2}{(n+1)^2}
+			1 &= \frac{1}{\vol(K)} \int_K \langle v^\circ, x\rangle^2 \d{x} \\
+			 &=  \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_0^{\varphi(u)} t^{n-1} \langle v^\circ, v+tu\rangle^2 \d{t}\d{u} \\
+			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n}\norm{v}^2 + 2\frac{\varphi(u)^{n+1}}{n+1} \langle v^\circ, u\rangle + \frac{\varphi(u)^{n+2}}{n+2} \langle v^\circ, u\rangle^2 \right) \d{u} \\
+			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ, u\rangle\right)^2 + \frac{\varphi(u)^n}{n(n+1)^2}\norm{v}^2 \right) \d{u} \\
+			 &= \frac{1}{\vol(K)} \left( \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) + \frac{\norm{v}^2}{(n+1)^2}
 		\end{align*}
 		Note that this gives a bound of $\norm{v}\leq n+1$. To get the bound mentioned in the theorem, it remains to bound the integral by a suitable positive quantity. Now, we have
 		\begin{align*}
@@ -265,11 +265,11 @@ Observe that these inequalities are tight for the regular simplex and also imply
 		\end{align*}
 		Therefore,
 		\begin{multline*}
-			\frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)(v^{\circ \top} u)\right) \d{u} \\
+			\frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ,u\rangle\right) \d{u} \\
 			= \left(\frac{\sqrt{n(n+2)}}{n+1} - \frac{n+1}{\sqrt{n(n+2)}}\right)\norm{v} = -\frac{1}{(n+1)\sqrt{n(n+2)}}\norm{v}.
 		\end{multline*}
 		We can then use the Cauchy-Schwarz inequality to get
-		\[ \left( \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)(v^{\circ \top} u)\right)^2 \d{u} \right) \cdot 1 \geq \frac{1}{(n+1)^2n(n+2)}\norm{v}^2. \]
+		\[ \left( \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) \cdot 1 \geq \frac{1}{(n+1)^2n(n+2)}\norm{v}^2. \]
 		That is,
 		\[ 1 \geq \left(\frac{1}{(n+1)^2n(n+2)} + \frac{1}{(n+1)^2}\right)\norm{v}^2 = \frac{\norm{v}^2}{n(n+2)}, \]
 		proving the result.
@@ -338,16 +338,20 @@ Note that $\chi(K)=\diam(K \cap (2x-K))$.
 
 The two bounds \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2} are not comparable however. For example, \Cref{isoperimetric coefficient bound 1} gives $\psi(K)=\Omega(n^{-1/2})$ for any body in isotropic position whereas \Cref{isoperimetric coefficient bound 2} gives $\Omega(1)$ for the isotropic ball and $\Omega(n^{-1})$ for the isotropic simplex.\\
 
-For any convex body, let $\alpha(K)$ be the largest eigenvalue of $A(K)$.
-
 \begin{ftheo}
-	For any convex body $K\subseteq\Rn$,
+	Let $K$ be a convex body and $\alpha(K)$ be the largest eigenvalue of $A(K)$. Then,
 	\[ \psi(K) \leq \frac{10}{\sqrt{\alpha(K)}}. \]
 \end{ftheo}
 
 This is proved using the following result.
 
 \begin{theorem}
-	Let $K$ be a convex body in $\Rn$ and assume that $b(K)=0$. Let $u\in\Rn$ have unit norm and $\beta=\expec_K((u^\top x)^2)$. Then
-	\[ \vol(K \cap \{x : u^\top x < 0\}) \vol(K \cap \{x : u^\top x > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : u^\top x = 0\}). \]
+	Let $K$ be a convex body in $\Rn$ and assume that $b(K)=0$. Let $u\in\Rn$ have unit norm and $\beta=\expec_K(\langle u,x\rangle^2)$. Then
+	\[ \vol(K \cap \{x : \langle u,x\rangle < 0\}) \vol(K \cap \{x : \langle u,x\rangle > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : \langle u,x\rangle = 0\}). \]
 \end{theorem}
+\begin{proof}
+	Similar to earlier, let us take an $\varepsilon/2$-neighbourhood of the surface. Let $K_3 = K \cap \{x : |\langle u,x\rangle|<\varepsilon/2\}$, $K_1 = K\cap\{x: \langle u,x\rangle > \varepsilon\}$, and $K_2 = K\cap\{x: \langle u,x\rangle < -\varepsilon\}$. We wish to show that
+	\[ \vol(K_1)\vol(K_2) \geq \frac{\sqrt{\beta}}{10\varepsilon} \vol(K)\vol(K_3). \]
+	Let $f_1=\indic_{K_1}$, $f_2=\indic_{K_2}$, $f_3 = \indic_{K_3}$, and $f_4(x) = \langle u,x\rangle^2/10\varepsilon$. We aim to show that
+	\[ \int_K f_1 \int_K f_2 \leq \int_K f_3 \int_K f_4. \]
+\end{proof}
