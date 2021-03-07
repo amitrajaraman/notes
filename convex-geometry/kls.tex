@@ -4,7 +4,10 @@
 
 \subsubsection{Introduction}
 
-The results in this section are the same as those discussed in \cite{KLSConjecture}.
+In the context of ball-step, let us look at the mixing time of the chain for a general (not necessarily convex) body.\\
+As discussed, it suffices to look at the conductance of the chain, which relates to finding a ``cut'' of the body of relatively small surface area. For example, in a dumbbell, we could have a cut down the central bottleneck, which would result in a very low conductance.\\
+What about convex bodies? It is seen that hyperplanes are not bad (this is made precise in \Cref{kls conj hyperplane}). A natural next question is: could we have some convoluted cut that ends up being a bottleneck? In \cite{KLSConjecture}, Kannan, Lov\`asz, and Simonovits conjectured that this in fact cannot happen. In particular, they claim that up to a constant factor, hyperplane cuts are in fact the ``worst'' cuts.\\
+We first formalize this notion of a cut to get an expression similar to that of conductance, discuss some localization lemmata similar to those discussed earlier (to reduce $n$-dimensional integrals to $1$-dimensional integrals), prove an improvement of \Cref{improvement of conductance isoperimetric inequality} in \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2}, and finish off with the statement of the conjecture.
 
 Suppose we have a convex body $K$ and we want to find a surface that divides $K$ into two parts, whose measure is minimum relative to that of the two parts.
 
@@ -305,7 +308,7 @@ In \Cref{def: isoperimetric coefficient}, let $K_3$ be the intersection of $K$ w
 	\[ \int_a^s e^t\d{t} \int_{s+\varepsilon}^b e^t\d{t} \leq \int_s^{s+\varepsilon}e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
 	Equivalently,
 	\[ \int_a^s e^t\d{t} \int_\varepsilon^{b-s} e^t\d{t} \leq \int_0^\varepsilon e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
-	Now, note that the expression on the left is minimized when $s=(a+b-\varepsilon)/2$ and that on the right when $u=\ln((e^a+e^b)/2)$. Substituting these values on each side and simplifying, it suffices to show that
+	Now, note that the expression on the left is maximized when $s=(a+b-\varepsilon)/2$ and that on the right is minimized when $u=\ln((e^a+e^b)/2)$. Substituting these values on each side and simplifying, it suffices to show that
 	\[ (e^{(b-a)/2} - e^{\varepsilon/2})^2 \leq \frac{1}{\ln 2} \frac{e^\varepsilon-1}{\varepsilon} \left(-\ln\left(\frac{e^{a-b}-1}{2}\right)e^{b-a} + \ln\left(\frac{e^{b-a}-1}{2}\right)\right). \]
 	On decreasing $\varepsilon$, the left increases whereas the right decreases. Therefore, it suffices to prove the above in the limit case where $\varepsilon=0$. Letting $z=e^{(b-a)/2}\geq 1$, we want to prove that
 	\[ \ln 2 (z - 1)^2 + z^2\ln\left(\frac{z^{-2}-1}{2}\right) - \ln\left(\frac{z^2-1}{2}\right) \leq 0. \]
@@ -338,10 +341,13 @@ Note that $\chi(K)=\diam(K \cap (2x-K))$.
 
 The two bounds \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2} are not comparable however. For example, \Cref{isoperimetric coefficient bound 1} gives $\psi(K)=\Omega(n^{-1/2})$ for any body in isotropic position whereas \Cref{isoperimetric coefficient bound 2} gives $\Omega(1)$ for the isotropic ball and $\Omega(n^{-1})$ for the isotropic simplex.\\
 
-\begin{ftheo}
-	Let $K$ be a convex body and $\alpha(K)$ be the largest eigenvalue of $A(K)$. Then,
+For any convex body $K$, let $\alpha(K)$ be the largest eigenvalue of $A(K)$. 
+
+\begin{theorem}
+	\label{kls conj hyperplane}
+	For any convex body $K$,
 	\[ \psi(K) \leq \frac{10}{\sqrt{\alpha(K)}}. \]
-\end{ftheo}
+\end{theorem}
 
 This is proved using the following result.
 
@@ -349,9 +355,13 @@ This is proved using the following result.
 	Let $K$ be a convex body in $\Rn$ and assume that $b(K)=0$. Let $u\in\Rn$ have unit norm and $\beta=\expec_K(\langle u,x\rangle^2)$. Then
 	\[ \vol(K \cap \{x : \langle u,x\rangle < 0\}) \vol(K \cap \{x : \langle u,x\rangle > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : \langle u,x\rangle = 0\}). \]
 \end{theorem}
-\begin{proof}
-	Similar to earlier, let us take an $\varepsilon/2$-neighbourhood of the surface. Let $K_3 = K \cap \{x : |\langle u,x\rangle|<\varepsilon/2\}$, $K_1 = K\cap\{x: \langle u,x\rangle > \varepsilon\}$, and $K_2 = K\cap\{x: \langle u,x\rangle < -\varepsilon\}$. We wish to show that
-	\[ \vol(K_1)\vol(K_2) \geq \frac{\sqrt{\beta}}{10\varepsilon} \vol(K)\vol(K_3). \]
-	Let $f_1=\indic_{K_1}$, $f_2=\indic_{K_2}$, $f_3 = \indic_{K_3}$, and $f_4(x) = \langle u,x\rangle^2/10\varepsilon$. We aim to show that
-	\[ \int_K f_1 \int_K f_2 \leq \int_K f_3 \int_K f_4. \]
-\end{proof}
+
+\begin{fcon}[KLS Conjecture]
+	\label{con: kls conjecture}
+	$\psi(K) = \Theta(\alpha(K)^{-1/2})$.
+\end{fcon}
+
+\Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cuts is the ``worst'' cut involved in the isoperimetric coefficient.\\
+
+\cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
+\[ \psi(K) \geq \frac{1}{\sqrt{ d^{c\left(\log\log d/\log d\right)^{1/2}} \alpha(K)}}. \]
