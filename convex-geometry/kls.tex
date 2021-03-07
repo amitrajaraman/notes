@@ -250,7 +250,7 @@ Observe that these inequalities are tight for the regular simplex and also imply
 		\[ \int_a^b x_1\ell(x_1)^{n-1} = 0 \text{ and } \int_a^b x_1^2\ell(x_1)^{n-1} \geq \int_a^b \ell(x_1)^{n-1}. \]
 		We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually compute the integrals which results in a contradiction.
 
-		\item Let $v$ be the point in $K$ furthest from $0$ (assume that $K$ is closed so this is well-defined). We wish to show that $\norm{v}\leq\sqrt{n(n+2)}$. Let $v^{circ} = v/\norm{v}$ and for each unit $u$, let $\varphi(u) = \sup\{t\geq 0 : v+tu\in K\}$. Then,
+		\item Let $v$ be the point in $K$ furthest from $0$ (assume that $K$ is closed so this is well-defined). We wish to show that $\norm{v}\leq\sqrt{n(n+2)}$. Let $v^{\circ} = v/\norm{v}$ and for each unit $u$, let $\varphi(u) = \sup\{t\geq 0 : v+tu\in K\}$. Then,
 		\[ \vol(K) = \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1}\d{t}\d{u} = \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \d{u}. \]
 		We also have
 		\begin{align*}
@@ -364,4 +364,4 @@ This is proved using the following result.
 \Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cuts is the ``worst'' cut involved in the isoperimetric coefficient.\\
 
 \cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
-\[ \psi(K) \geq \frac{1}{\sqrt{ d^{c\left(\log\log d/\log d\right)^{1/2}} \alpha(K)}}. \]
+\[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
