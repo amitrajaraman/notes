@@ -39,3 +39,29 @@ For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow 
 	For any flow $f$ on a flow network with source $s$ and sink $t$,
 	\[ |f| = \sum_{\vv{sv}\in E}f(\vv{sv}) = f^{\to}(s) = \sum_{\vv{vt}\in E}f(\vv{vt}) = f^{\ot}(t). \]
 \end{lemma}
+\begin{proof}
+	We have
+	\begin{align*}
+		|f| &= f^{\to}(s) + \sum_{v\in V\setminus\{s,t\}} (f^\to(v) - f^\ot(v)) \\
+			&= \sum_{v\in V\setminus \{t\}} (f^\to(v) - f^\ot(v)) & (f^\ot(s)=0) \\
+			&= f^\to(V\setminus\{t\}) - f^\ot(V\setminus\{t\}) \\
+			&= f^\ot(t) - f^\to(t) = f^\ot(t). & (\text{there no outgoing edges from the sink})
+	\end{align*}
+\end{proof}
+
+In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.
+
+\begin{fdef}
+	Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
+	\begin{itemize}
+		\item $s\in S$, $t\in T$,
+		\item $S\cup T=V$, and $S\cap T=\emptyset$.
+	\end{itemize}
+	Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity}
+	\[ \texttt{cap}(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
+\end{fdef}
+
+That is, the capacity of the cut is essentially the capacity of the edges across the cut.\\
+In the \textit{minimum cut problem} (shortened as min-cut), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output is the cut that has minimum capacity.
+
+The max-flow and min-cut problems are in fact very closely related. When a minimization problem and maximization problem are related, we usually refer to it as a min-max relationship.
