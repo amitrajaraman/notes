@@ -33,7 +33,8 @@ The flow conservation rule written above is also known as \textit{Kirchhoff's la
 	f^{\to}(v) &= \sum_{\vv{vw}\in E} f(\vv{vw}).
 \end{align*}
 We then have $|f|=f^{\to}(s)$.\\
-For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow from $V\setminus U$ to $U$ and $U$ to $V\setminus U$ respectively.
+For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow from $V\setminus U$ to $U$ and $U$ to $V\setminus U$ respectively. That is,
+\[ f^\to(U) = \sum_{\substack{u\in U, v\in V\setminus U \\ \vv{uv}\in E}} f(\vv{uv}). \]
 
 \begin{lemma}
 	For any flow $f$ on a flow network with source $s$ and sink $t$,
@@ -45,11 +46,11 @@ For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow 
 		|f| &= f^{\to}(s) + \sum_{v\in V\setminus\{s,t\}} (f^\to(v) - f^\ot(v)) \\
 			&= \sum_{v\in V\setminus \{t\}} (f^\to(v) - f^\ot(v)) & (f^\ot(s)=0) \\
 			&= f^\to(V\setminus\{t\}) - f^\ot(V\setminus\{t\}) \\
-			&= f^\ot(t) - f^\to(t) = f^\ot(t). & (\text{there no outgoing edges from the sink})
+			&= f^\ot(t) - f^\to(t) = f^\ot(t). & (\text{there are no outgoing edges from the sink})
 	\end{align*}
 \end{proof}
 
-In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.
+In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in flow value) to the maximum flow. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
 
 \begin{fdef}
 	Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
@@ -58,10 +59,24 @@ In the \textit{maximum flow problem} (shortened as max-flow), we are given a flo
 		\item $S\cup T=V$, and $S\cap T=\emptyset$.
 	\end{itemize}
 	Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity}
-	\[ \texttt{cap}(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
+	\[ \capp(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
 \end{fdef}
 
 That is, the capacity of the cut is essentially the capacity of the edges across the cut.\\
 In the \textit{minimum cut problem} (shortened as min-cut), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output is the cut that has minimum capacity.
 
 The max-flow and min-cut problems are in fact very closely related. When a minimization problem and maximization problem are related, we usually refer to it as a min-max relationship.
+
+\begin{lemma}
+	Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut.
+\end{lemma}
+\begin{proof}
+	We have
+	\begin{align*}
+		|f| &= f^\to(s) \\
+			&= f^\to(S) - f^\ot(S) \\
+			&\leq f^\to(S) \\
+			&= \sum_{\substack{u\in S \\ v\in T}} f(\vv{uv}) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E) \\
+			&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E). \\
+	\end{align*}
+\end{proof}
