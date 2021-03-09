@@ -689,7 +689,7 @@ In \cite{dyer-frieze-sample-outside}, a more careful analysis is done to show th
 
 % We now state one of the most important conjectures in this field, commonly known as the KLS Conjecture (named after Kannan, Lov\'asz, and Simonovits).
 
-Over the course of the next few sections, we describe a $\mathcal{O}^*(^7)$ volume estimation algorithm given in \cite{lov-sim-on7}.
+Over the course of the next few sections, we describe a $\mathcal{O}^*(n^7)$ volume estimation algorithm given in \cite{lov-sim-on7}.
 
 \subsection{Measure-Theoretic Markov Chains and Conductance}
 \label{subsec: measure theoretic markov chains}
@@ -697,18 +697,18 @@ Over the course of the next few sections, we describe a $\mathcal{O}^*(^7)$ volu
 \subsubsection{Some Basic Definitions}
 
 \begin{fdef}
-	Let $\Omega$ be a non-empty set and $\mathcal{A}$ a $\sigma$-algebra on $\Omega$. For every $u\in\Omega$, let $P_u$ be a probability measure on $\Omega$. Also assume that as a function of $u$, $P_u(A)$ is measurable for any $A\in\mathcal{A}$. We call the triple $(\Omega,\mathcal{A},\{P_u:u\in\Omega\})$ a \textit{Markov scheme}. Together, with an initial distribution $Q_0$ on $\Omega$, this defines a \textit{Markov chain}.
+	Let $\Omega$ be a non-empty set and $\mathcal{A}$ a $\sigma$-algebra on $\Omega$. For every $u\in\Omega$, let $P_u$ be a probability measure on $\Omega$. Also assume that as a function of $u$, $P_u(A)$ is measurable for any $A\in\mathcal{A}$. We call the triple $(\Omega,\mathcal{A},\{P_u:u\in\Omega\})$ a \textit{Markov scheme}. Together with an initial distribution $Q_0$ on $\Omega$, this defines a \textit{Markov chain}.
 \end{fdef}
 
-A Markov chain is just a sequence of random variables $w_0,w_1,\ldots$ such that $w_0$ is drawn from $Q_0$ and $w_{i+1}$ is drawn from $P_{w_i}$ (independently of the values of $w_0,\ldots,w_{i-1}$). Therefore,
+A Markov chain is essentially just a sequence of random variables $w_0,w_1,\ldots$ such that $w_0$ is drawn from $Q_0$ and $w_{i+1}$ is drawn from $P_{w_i}$ (independently of the values of $w_0,\ldots,w_{i-1}$). Therefore,
 \[ \Pr[w_{i+1}\in A \mid w_1=u_1,\ldots,w_i=u_i] = \Pr[w_{i+1}\in A\mid w_i=u_i] = P_{u_i}(A). \]
 Let $f:\Omega\times\Omega\to\R$ be an integrable function (with respect to the product measure $\mu\times\mu$) such that $\int_\Omega f(u,v)\d{\mu}(v)=1$ for all $u\in\Omega$. $f$ then defines a Markov scheme as
 \[ P_u(A) = \int_A f(u,v)\d{\mu}(v). \]
-In this case, $f$ is known as the \textit{transition function} of the Markov scheme. The transition function is said to be \textit{symmetric} if $f(x,y)=f(y,x)$.\\
+In this case, $f$ is known as the \textit{transition function} of the Markov scheme. The transition function is said to be \textit{symmetric} if for all $x,y$, $f(x,y)=f(y,x)$.\\
 
-A probability measure $Q$ on $\Omega$ is said to be the \textit{stationary distribution} of the Markov scheme if for all $A\in\mathcal{A}$,
+A probability measure $Q$ on $\Omega$ is said to be the \textit{stationary distribution} of a Markov scheme if for all $A\in\mathcal{A}$,
 \[ \int_{\Omega}P_u(A)\d{Q}(u) = Q(A). \]
-This just means that every $w_i$ has the same distribution as that of $Q$.\\
+This just means that every $w_i$ has the same distribution as $Q$.\\
 
 Now, consider the inner product space $L^2 = L^2 (\Omega,\mathcal{A},Q)$ with inner product
 \[ \langle f,g\rangle = \int_\Omega f g\d{Q}. \]
@@ -716,23 +716,26 @@ Suppose we have some function $g\in L^2$. Then note that the expectation of $g(w
 \[ (Mg)(u) = \int_\Omega g(v)\d{P_u}(v). \]
 Further note that $(M^k g)(u)$ represents the expectation of $g(w_{i+k})$ given that $w_i=u$.
 
-Now, consider a Markov chain where the first element is drawn from the stationary distribution. Then observe that for any function $g\in L^2$,
+Now, consider a Markov chain where the first element is drawn from the stationary distribution. Then for any function $g\in L^2$,
 \begin{align*}
 	\expec[g(w_i)] &= \expec[g(w_0)] = \langle g,1\rangle \\
 	\expec[g(w_i)^2] &= \expec[g(w_0)^2] = \langle g,g\rangle \\
 	\expec[g(w_i)g(w_{i+k)}] &= \expec[g(w_0)g(w_k)] = \langle g,M^k g\rangle
 \end{align*}
 
-A Markov chain is said to be \textit{time-reversible} if for any $A,B\in\mathcal{A}$, the probability of going from $A$ to $B$ is the same as that of going from $B$ to $A$. That is,
+A Markov chain is said to be \textit{time-reversible} if for any $A,B\in\mathcal{A}$, the probability of going from $B$ to $A$ is the same as that of going from $A$ to $B$. That is,
 \[ \int_B P_u(A)\d{Q}(u) = \int_A P_u(B) \d{Q}(u). \]
-It is easy to see that it suffices to have the above for all disjoint sets $A$ and $B$. The above can be rewritten in an even more symmetric fashion as
-\[ \int_B \int_A 1\d{P}_u(v)\d{Q}(u) = \int_A \int_B 1\d{P}_u(v)\d{Q}(u). \]
+It is easy to see that it suffices to have the above for all disjoint sets $A$ and $B$. The above can be rewritten in a more symmetric fashion as
+\begin{equation}
+	\label{eqn: 4.12}
+	\int_B \int_A 1\d{P}_u(v)\d{Q}(u) = \int_A \int_B 1\d{P}_u(v)\d{Q}(u).
+\end{equation}
 This is equivalent to saying that for any function $g:\Omega\times\Omega\to\R$ (assuming both sides are well-defined),
 \begin{equation}
 \label{eqn: time reversible function formulation}
-	\int_\Omega \int_\Omega F(u,v)\d{P}_u(v)\d{Q}(u) = \int_\Omega \int_\Omega F(v,u)\d{P}_u(v)\d{Q}(u).
+	\int_\Omega \int_\Omega g(u,v)\d{P}_u(v)\d{Q}(u) = \int_\Omega \int_\Omega g(v,u)\d{P}_u(v)\d{Q}(u).
 \end{equation}
-It is equivalent to say that the operator $M$ is self-adjoint.\footnote{an operator $A$ such that $\langle Ax,y\rangle=\langle x,A y\rangle$ for any $x,y$.} If the Markov scheme can be described by a transition function $f$ (with respect to $Q$), then time-reversibility is equivalent to the symmetry of $f$.\\
+It is also equivalent to say that the operator $M$ is self-adjoint.\footnote{an operator $A$ such that $\langle Ax,y\rangle=\langle x,A y\rangle$ for any $x,y$.} If the Markov scheme can be described by a transition function $f$ (with respect to $Q$), then time-reversibility is equivalent to the symmetry of $f$ (this isn't too difficult to prove using \Cref{eqn: 4.12} and Fubini's Theorem).\\
 If the Markov scheme is time-reversible, then for any $g\in L^2$,
 \begin{align}
 	\langle g,g\rangle - \langle g,M g\rangle &= \int_{\Omega} g^2\d{Q} - \int_\Omega\int_\Omega g(u)g(v)\d{P_u}(v)\d{Q}(u) \nonumber \\
@@ -752,8 +755,8 @@ There are two main, albeit minor and technical, reasons for desiring laziness:
 	\item Sometimes, a lack of laziness can cause parity issues which result in the limit distribution of a chain not converging to the stationary distribution.
 	\item In the time-reversible case, it makes the operator $M$ positive semidefinite, thus making it far easier to analyze.
 \end{itemize}
-To see why the latter occurs, note that if $M$ is self-adjoint, then so is $2M-I$ and by a proof exactly like that of \Cref{eqn: self-adjoint spectral radius 1},
-\[ \langle f,M f\rangle = \frac{1}{2}\langle f,f\rangle + \frac{1}{2}\langle f,(2M-I)f\rangle \geq 0. \]
+To see why the latter occurs, observe that if $M$ is self-adjoint, then so is $2M-I$ (and is thus associated with a Markov scheme) and thus,
+\[ \langle f,M f\rangle \geq \frac{1}{2}\langle f,f\rangle - \frac{1}{2}\langle f,(2M-I)f\rangle \geq 0. \]
 Any Markov scheme can be made lazy easily by flipping a (fair) coin at each step and making a move only if it lands on tails.
 
 \begin{lemma}
@@ -774,14 +777,14 @@ Define the \textit{ergodic flow} $\Phi:\mathcal{A}\to[0,1]$ of a Markov scheme b
 
 \end{definition}
 
-This just measures how likely $w_1$ is to leave the subset $A$ if $w_0$ is initially drawn from $Q$. Observe that since $Q$ is stationary,
+This just measures how likely the Markov chain is to leave $A$ if it is initially in $A$ (and drawn from $Q$). Since $Q$ is stationary,
 \begin{align*}
 	\Phi(A) - \Phi(\Omega\setminus A) &= \int_A P_u(\Omega\setminus A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) \\
 	&= Q(A) - \int_A P_u(A)\d{Q}(u) - \int_{\Omega\setminus A} P_u(A)\d{Q}(u) & (\text{since } P_u(\Omega\setminus A)=1-P_u(A)) \\
 	&= Q(A) - \int_\Omega P_u(A)\d{Q}(u) = 0.
 \end{align*}
 Even conversely, if for some probability distribution $Q'$, the function $\Phi':\mathcal{A}\to[0,1]$ defined by
-\[ A\mapsto \int_A P_u(\Omega\setminus A)\d{Q}(u) \]
+\[ A\mapsto \int_A P_u(\Omega\setminus A)\d{Q}'(u) \]
 is invariant under complementation, then $Q'$ is stationary.\\
 
 \begin{fdef}
@@ -792,18 +795,18 @@ is invariant under complementation, then $Q'$ is stationary.\\
 	\[ \Phi_s = \inf_{s < Q(A) \leq 1/2} \frac{\Phi(A)}{Q(A)-s}. \]
 \end{fdef}
 
-The lower the conductance is, the more likely the Markov chain is to ``get stuck" somewhere.\\
+The lower the conductance is, the more likely the Markov chain is to ``get stuck" somewhere. Loosely, $Q(A)$ represents the probability of entering a ``bad region'' whereas $\Phi(A)$ represents the probability of leaving it. \\
 
 For any $u$, $1-P_u(\{u\})$ is called the \textit{local conductance} of the Markov chain at $u$. If $Q(u)>0$, then the local conductance is an upper bound on the conductance.\\
 More generally, let
 \[ H_t = \{u\in\Omega:P_u(\{u\}) > 1-t\} \]
 and $s=Q(H_t)$. Then
-\[ \Phi(H_t) = \int_{H_t} P_u(\Omega\setminus H_t)\d{Q}(u) < t Q(H_t). \]
+\[ \Phi(H_t) = \int_{H_t} P_u(\Omega\setminus H_t)\d{Q}(u) \leq t Q(H_t). \]
 Therefore, the $(s/2)$-conductance is at most $2t$.
 
 The main use of defining conductance is that it is closely related to how fast Markov chains converge to their stationary distribution.\\
-Suppose that $Q_k$ is the distribution in the $k$th step of the chain ($Q_k(A)=\Pr[w_k\in A]$). It turns out that if for all $A\in\mathcal{A}$ such that $Q(A)>0$, $\Phi(A)>0$, then $Q_k\to Q$ (in the $\ell_1$ distance\footnote{given by $\norm{f}_1 = \int_\Omega |f|\d{Q}$}.). This naturally provides a bound on the speed of convergence.\\
-Let us consider the following particular distance function.
+Suppose that $Q_k$ is the distribution in the $k$th step of the chain ($Q_k(A)=\Pr[w_k\in A]$). It turns out that if for all $A\in\mathcal{A}$ such that $Q(A)>0$, $\Phi(A)>0$, then $Q_k\to Q$ (in the $\ell_1$ distance\footnote{given by $\norm{f}_1 = \int_\Omega |f|\d{Q}$}). This manifests as an associated bound in the speed of convergence.\\
+To make concrete this notion of ``speed of convergence'', let us define the following specific distance function.
 
 \subsubsection{A Distance Function}
 
@@ -819,18 +822,19 @@ For example, it is easily shown that for a finite Markov chain with $N$ states a
 There are a few things to note.
 \begin{itemize}
 	\item For any $x$, $0\leq h_k\leq 1-x$. The lower bound is because one can consider the constant function $x$ on $\Omega$. The upper bound is because $\int_\Omega g\d{Q}_k$ is bounded above by $1$. In particular, $h_k(1)=0$.
-	\item $h_k$ is a convex function of $x$. We shall see below in \Cref{hk distance supremum attained} that the supremum in the definition of $h_k$ is attained. Then, for any $a,b,\lambda\in[0,1]$, set $x=\lambda a+(1-\lambda)b$ and let $g_1,g_2$ be the functions that attain the supremums for $h_k(a)$ and $h_k(b)$. Then,
+	\item $h_k$ is a concave function of $x$. We shall see below in \Cref{hk distance supremum attained} that the supremum in the definition of $h_k$ is attained. Then, for any $a,b,\lambda\in[0,1]$, set $x=\lambda a+(1-\lambda)b$ and let $g_1,g_2$ be the functions that attain the supremums for $h_k(a)$ and $h_k(b)$. Then,
 	\[ \sup_g \int_\Omega g\d{Q}_k - x \geq \int_\Omega (\lambda g_1 + (1-\lambda)g_2) \d{Q}_k = \lambda h_k(a) + (1-\lambda) h_k(b). \]
 \end{itemize}
 
-This definition might seem quite artificial at the moment, but we hope to give more context to it with the following few lemmas.
+The definition of $h_k$ is similar to a continuous analogue of the fractional knapsack problem wherein the sum weights correspond to integration with respect to $Q$, the sum of values corresponds to integration with respect to $Q_k$, and the weight capacity is $x$. This also lends itself very naturally in the proof of \Cref{hk distance supremum attained}, where we ``assign $g$'' to the points which have a high value-weight ratio -- this corresponds to the Radon-Nikodym derivative in the continuous case.\\
+This definition might still seem slightly artificial at the moment, but we hope to give more context to it with the following few lemmas.
 
 \begin{lemma}
 	For every set $A\in\mathcal{A}$ with $Q(A)=x$,
 	\[ -h_k(1-x) \leq Q_k(A) - Q(A) \leq h_k(x). \]
 \end{lemma}
 \begin{proof}
-	The upper bound is immediate from the definition of the distance function by taking $g = \indic_A$ (the indicator function on $A$). The similar upper bound for $\Omega\setminus A$ immediately gives the result.
+	The upper bound is immediate from the definition of the distance function by taking $g = \indic_A$ (the indicator function on $A$). The similar upper bound for $\Omega\setminus A$ gives the result.
 \end{proof}
 
 \begin{lemma}
@@ -838,7 +842,7 @@ This definition might seem quite artificial at the moment, but we hope to give m
 	For every $0<x<1$, there exists a function $G$ that is $0$-$1$ valued except possibly on a $Q$-atom\footnote{a $Q$-atom is a set $V\in\mathcal{A}$ such that $Q(V)>0$ and for any $V'\subseteq V$, either $Q(V')=Q(V)$ or $Q(V')=0$.} that attains the supremum in the definition of $h_k(x)$.
 \end{lemma}
 \begin{proof}
-	Let $U\in\mathcal{A}$ such that $Q(U)=0$ and $Q_k(U)$ is maximum. Let $Q'$ and $Q_k'$ be the restrictions of $Q$ and $Q_k$ to $\Omega\setminus U$. Clearly, the way we have defined $U$ implies that $Q_k'$ is absolutely continuous with respect to $Q'$. Thus, let $\phi$ be the Radon-Nikodym derivative of $Q_k'$ with respect to $Q'$.\\
+	Let $U\in\mathcal{A}$ such that $Q(U)=0$ and $Q_k(U)$ is maximum. Let $Q'$ and $Q_k'$ be the restrictions of $Q$ and $Q_k$ to $\Omega\setminus U$ respectively. Clearly, the way we have defined $U$ implies that $Q_k'$ is absolutely continuous with respect to $Q'$. Thus, let $\phi$ be the Radon-Nikodym derivative of $Q_k'$ with respect to $Q'$.\\
 	Now, let $x\in[0,1]$ and $g:\Omega\to[0,1]$ such that $\int_\Omega g\d{Q} = x$.\\
 	For $t\geq 0$, define
 	\[ A_t = U \cup \{u \in \Omega\setminus U : \phi(u) \geq t\}\text{ and }s=\inf\{t\geq 0 : Q(A_t) \leq x\}. \]
@@ -855,7 +859,7 @@ This definition might seem quite artificial at the moment, but we hope to give m
 		&= Q_k(B) + s(x - Q(B)) = Q_k(B).
 	\end{align*}
 	We also see that the supremum is attained when $g=\indic_B$.\\
-	Next, assume that $Q(B)<x$. Then for every $W\subseteq A_s\setminus B$, either $Q(W)=0$ or $Q(W)>x-Q(B)$. That is, the measure on $A'\setminus B$ is concentrated at atoms. Let $V$ be one such atom. As shown above,
+	Next, assume that $Q(B)<x$. Then for every $W\subseteq A_s\setminus B$, either $Q(W)=0$ or $Q(W)>x-Q(B)$. That is, the measure on $A'\setminus B$ is concentrated on atoms. Let $V$ be one such atom. As shown above,
 	\[ \int_\Omega g\d{Q}_k \leq Q_k(B) + s(x-Q(B)). \]
 	To show that this bound is attained, let $g=\indic_B+\lambda\indic_{V}$ where $\lambda = (x-Q(B))/Q(V)$. Clearly, $0\leq g\leq 1$. Further,
 	\[ \int_\Omega g\d{Q} = Q(B) + \lambda Q(V) = x \]
@@ -881,7 +885,7 @@ Although we did say what a rapidly mixing random walk is earlier in \Cref{def: r
 \subsubsection{Rapidly Mixing Markov Chains}
 
 \begin{fdef}[Rapidly Mixing Markov Chain]
-A Markov chain is said to be \textit{rapidly mixing} if for some $\theta<1$, $\sup_x h_k(x)$ is $\mathcal{O}(\theta)^k$.
+A Markov chain is said to be \textit{rapidly mixing} if for some $\theta<1$, $\sup_x h_k(x)$ is $\mathcal{O}(\theta^k)$.
 \end{fdef}
 
 Let us now get on to the main subject of this section, namely that of bounding the speed of convergence of rapidly mixing Markov chains.

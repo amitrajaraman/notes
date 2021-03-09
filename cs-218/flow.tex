@@ -50,7 +50,7 @@ For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow 
 	\end{align*}
 \end{proof}
 
-In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in flow value) to the maximum flow. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
+In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above by the sum of capacities, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in value) to the maximum flow value. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
 
 \begin{fdef}
 	Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
@@ -58,7 +58,7 @@ In the \textit{maximum flow problem} (shortened as max-flow), we are given a flo
 		\item $s\in S$, $t\in T$,
 		\item $S\cup T=V$, and $S\cap T=\emptyset$.
 	\end{itemize}
-	Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity}
+	Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity} by
 	\[ \capp(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
 \end{fdef}
 
@@ -67,8 +67,10 @@ In the \textit{minimum cut problem} (shortened as min-cut), we are given a flow 
 
 The max-flow and min-cut problems are in fact very closely related. When a minimization problem and maximization problem are related, we usually refer to it as a min-max relationship.
 
+For a flow $f$ and some edge $e$, we say that $f$ \textit{saturates} $e$ if $f(e)=c(e)$ and \textit{avoids} $e$ if $f(e)=0$.
+
 \begin{lemma}
-	Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut.
+	Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut. Moreover, $|f|=\capp(S,T)$ if and only if $f$ saturates every edge from $S$ to $T$ and avoids every edge from $T$ to $S$.
 \end{lemma}
 \begin{proof}
 	We have
@@ -79,4 +81,88 @@ The max-flow and min-cut problems are in fact very closely related. When a minim
 			&= \sum_{\substack{u\in S \\ v\in T}} f(\vv{uv}) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E) \\
 			&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E). \\
 	\end{align*}
+	The second part is easily seen from the above series of inequalities, where equality holds iff $f^\ot(S)=0$ and for each $u\in S$, $v\in T$, $f(\vv{uv})=c(\vv{uv})$.
+\end{proof}
+
+Let us try to come up with an algorithm to solve the max-flow problem.\\
+Let us start with $f(e)=0$ for all $e\in E$. We then try to ``push'' some flow along an $s$-$t$ path allowed by the capacity constraints. We then ask if this is the maximum flow possible. We try to push more flow along another path. However, we might face a problem wherein a previous flow restricts the new flow we are trying to push. We then want to ``undo'' the previous flow. How do we formalize this notion?
+
+\begin{definition}[Residual Graph]
+	Given a graph $G$ with capacity function $c:E\to\N$ and a flow $f$, a \textit{residual graph} $G$ with respect to $f$, denoted $G_f$ is such that
+	\begin{itemize}
+		\item its vertex set is the same as that of $G$.
+		\item if $e$ is an edge in $G$ such that $f(e)<c(e)$, then $G_f$ has the edge $e$ with capacity $c(e)-f(e)$.
+		\item if $e=\vv{uv}$ is such that $f(e)>0$, we add an edge $\vv{vu}$ in $G_f$ with capacity $f(e)$ on it. This is called a \textit{backward edge}.
+	\end{itemize}
+\end{definition}
+
+In the above, ``undoing'' a flow just means sending flow along a backward edge and adding more flow corresponds to sending a flow along a normal edge (with a lowered capacity). This behaves as an intermediate step to finding the optimal flow.
+
+For each edge of $G$, note that there at most two edges in $G_f$. So, the size of $G_f$ is at most twice that of $G$.
+
+Let $\pi$ be any $s$-$t$ path in $G_f$. Denote by $\theta(\pi,f)$ the smallest residual capacity (smallest capacity among the relevant edges in the residual graph) along $\pi$ in $G_f$.
+
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\SetKwProg{Fn}{}{}{}
+	\SetKwFunction{aug}{Aug}
+	\Fn{\aug{$\pi,f$}} {
+		$b\gets\theta(\pi,f)$\;
+		\ForEach{$e=\vv{uv}\in\pi$} {
+			\eIf{$e$ is a forward edge} {
+				increase $f(\vv{uv})$ in $G$ by $b$
+			} {
+				decrease $f(\vv{vu})$ in $G$ by $b$
+			}
+		}
+	}
+	\caption{Finding an Augmenting Path}\label{algo: aug path}
+\end{algorithm}
+
+\begin{algorithm}[H]
+	\DontPrintSemicolon
+	\SetNoFillComment
+	\SetKwProg{Fn}{}{}{}
+	\SetKwFunction{aug}{Aug}
+	\For{$e\in E$} {
+		$f(e)\gets 0$
+	}
+	Compute $G_f$\;
+	\While{there is an $s$-$t$ path $\pi$ in $G_f$} {
+		$f'\gets\aug{$\pi,f$}$\;
+		$f\gets f'$\;
+		Compute $G_f$
+	}
+	\Return{$f$}\;
+	\caption{Ford and Fulkerson's Algorithm}\label{algo: max flow}
+\end{algorithm}
+
+\Cref{algo: max flow} finds a flow with the maximum flow value in the network!\\
+There are a couple of questions we must answer.
+\begin{itemize}
+	\item Why does the algorithm terminate?
+	\item Why is the algorithm even correct in the first place?
+	\item What is the time complexity?
+	\item Does it matter which $s$-$t$ path we choose in the residual graph?
+	\item Could we extend this to the case where capacities are not integers?
+\end{itemize}
+
+Also, what is the relationship between max-flow and min-cut?
+
+\paragraph{Termination.} Note that at each step of the algorithm, the new flow $f'$ satisfies $|f'|=|f|+\theta(\pi,f)$. Since the capacities are always integral (even in the residual graph), the flow value increases by at least $1$ at each step. It is also easy to see that the maximum flow is at most $C_{\text{max}}$, which is the sum of the capacity of every edge.\\
+Therefore, the algorithm terminates.
+
+\begin{lemma}
+	The running time of the algorithm is bounded by $\mathcal{O}(C_{\text{max}}|E|)$.
+\end{lemma}
+\begin{proof}
+	
+\end{proof}
+
+\begin{lemma}
+	The Ford and Fulkerson algorithm returns a flow with maximum value.
+\end{lemma}
+\begin{proof}
+	To prove this, we shall show that there is some cut such that the flow is equal to the capacity of this cut.
 \end{proof}
