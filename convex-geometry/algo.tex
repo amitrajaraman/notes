@@ -772,9 +772,9 @@ Applying this to $(g - \expec[g(w_0)])$ yields the result.
 \subsubsection{Conductance}
 
 \begin{definition}[Ergodic Flow]
-Define the \textit{ergodic flow} $\Phi:\mathcal{A}\to[0,1]$ of a Markov scheme by
-\[ \Phi(A) = \int_A P_u(\Omega \setminus A) \d{Q}(u). \]
-
+	\label{def: ergodic flow}
+	Define the \textit{ergodic flow} $\Phi:\mathcal{A}\to[0,1]$ of a Markov scheme by
+	\[ \Phi(A) = \int_A P_u(\Omega \setminus A) \d{Q}(u). \]
 \end{definition}
 
 This just measures how likely the Markov chain is to leave $A$ if it is initially in $A$ (and drawn from $Q$). Since $Q$ is stationary,
@@ -826,7 +826,7 @@ There are a few things to note.
 	\[ \sup_g \int_\Omega g\d{Q}_k - x \geq \int_\Omega (\lambda g_1 + (1-\lambda)g_2) \d{Q}_k = \lambda h_k(a) + (1-\lambda) h_k(b). \]
 \end{itemize}
 
-The definition of $h_k$ is similar to a continuous analogue of the fractional knapsack problem wherein the sum weights correspond to integration with respect to $Q$, the sum of values corresponds to integration with respect to $Q_k$, and the weight capacity is $x$. This also lends itself very naturally in the proof of \Cref{hk distance supremum attained}, where we ``assign $g$'' to the points which have a high value-weight ratio -- this corresponds to the Radon-Nikodym derivative in the continuous case.\\
+The definition of $h_k$ is similar to a continuous analogue of the fractional knapsack problem wherein the sum of the weights corresponds to integration with respect to $Q$, the sum of values corresponds to integration with respect to $Q_k$, and the weight capacity is $x$. This analogy also lends itself very naturally in the proof of \Cref{hk distance supremum attained}, where we ``assign $g$'' to the points which have a high value-weight ratio -- this corresponds to the Radon-Nikodym derivative in the continuous case.\\
 This definition might still seem slightly artificial at the moment, but we hope to give more context to it with the following few lemmas.
 
 \begin{lemma}
@@ -888,6 +888,8 @@ Although we did say what a rapidly mixing random walk is earlier in \Cref{def: r
 A Markov chain is said to be \textit{rapidly mixing} if for some $\theta<1$, $\sup_x h_k(x)$ is $\mathcal{O}(\theta^k)$.
 \end{fdef}
 
+For our needs, the stationary distribution $Q$ is usually atom-free. Unless mentioned otherwise, we assume henceforth that this is the case. We also assume that the chains are lazy.
+
 Let us now get on to the main subject of this section, namely that of bounding the speed of convergence of rapidly mixing Markov chains.
 
 \begin{theorem}
@@ -918,13 +920,13 @@ Also, let $x_1 = \int_\Omega g_1\d{Q}$ and $x_2 = \int_\Omega g_2\d{Q}$. Observe
 \begin{align*}
 	h_k(x) &= Q_k(A) - Q(A) \\
 	&= \frac{1}{2} \left( \left(\int_\Omega g_1\d{Q}_{k-1} - x_1\right) + \left( \int_\Omega g_2\d{Q}_{k-1} - x_2 \right) \right) \\
-	&\leq h_{k-1}(x_1) + h_{k-1}(x_2).
+	&\leq \frac{1}{2} \left( h_{k-1}(x_1) + h_{k-1}(x_2) \right).
 \end{align*}
 We also have
 \[ x_2-x = x-x_1 = \int_A (2-2P_u(A))\d{Q}(u) = 2\Phi(A) \geq 2\Phi_s(x-s). \]
 Then with the above, the concavity of $h_{k-1}$ then implies that
 \[ h_{k-1}(x_1)+h_{k-1}(x_2) \leq h_{k-1}(x - \Phi_s(x-s)) + h_{k-1}(x+\Phi_s(x-s)), \]
-which is what we want.
+completing the proof.
 \end{proof}
 
 The next result is analogous to \Cref{large conductance implies rapidly mixing} and is our main tool in bounding the speed of convergence using the conductance.
@@ -990,13 +992,13 @@ A little bit of thought makes it quite clear that to analyze the speed of mixing
 \begin{proof}
 	As might be expected, we use \Cref{eqn: self-adjoint spectral radius 1} in this proof. It suffices to show that if $\expec[g]=0$,
 	\[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \Phi^2 \norm{g}^2. \]
-	Choose a median $r$ of $Q$, that is, a real number such that $Q(\{x:g(x)>r\}) \leq 1/2$ and $Q(\{x:g(x)<r\}) \leq 1/2$. Let $h(x)=\max\{g(x)-r,0\}$. Observe that
+	Choose a median $r$ of $g$, that is, a real number such that $Q(\{x:g(x)>r\}) \leq 1/2$ and $Q(\{x:g(x)<r\}) \leq 1/2$. Let $h(x)=\max\{g(x)-r,0\}$. Observe that
 	\[ \int_\Omega \int_\Omega (g(u)-g(v))^2 \d{P}_u(v)\d{Q}(u) \geq \int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) \]
 	Therefore, it suffices to bound the quantity on the right suitably. To do this, use the Cauchy-Schwarz inequality to get
 	\begin{align*}
 		\int_\Omega \int_\Omega (h(u)-h(v))^2 \d{P}_u(v)\d{Q}(u) &\geq \frac{\left(\int_\Omega \int_\Omega |h^2(u)-h^2(v)| \d{P}_u(v)\d{Q}(u)\right)^2}{\int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u)}
 	\end{align*}
-	Now, by definition, $Q(\{h\geq 0\})\leq 1/2$. Therefore,
+	Now, by definition, $Q(\{h\geq 0\}) \geq 1/2$. Therefore,
 	\[ \int_\Omega h^2\d{Q} \geq \frac{1}{2} \int_\Omega (g(x)-r)^2 = \frac{\norm{g}^2+r^2}{2} \geq \frac{\norm{g}^2}{2}. \]
 	To bound the denominator,
 	\[ \int_\Omega \int_\Omega (h(u)+h(v))^2 \d{P}_u(v)\d{Q}(u) \leq 2 \int_\Omega \int_\Omega (h^2(u)+h^2(v)) \d{P}_u(v)\d{Q}(u) = 2\norm{h} \]
@@ -1017,7 +1019,7 @@ A little bit of thought makes it quite clear that to analyze the speed of mixing
 	\[ \langle f,M^k f\rangle \leq \left(1-\frac{\Phi^2}{2}\right)^k\norm{f}^2. \]
 \end{corollary}
 
-We omit the proof of the above.\footnote{It may be shown by considering $\tilde{M}$, the restriction of $M$ to the invariant subspace $\expec[f]=0$. By the above lemma, $\norm{\tilde{M}}\leq 1-\Phi^2/2$. Then $\norm{\tilde{M}^k} \leq \norm{\tilde{M}}^k$, which imediately gives the result.} This quite neatly captures the fact that rapid mixing depends heavily on conductance. Indeed, it implies that $\norm{M^k f} \leq (1-\Phi^2/2)^k \norm{f}$, so as time progresses, $f$ ``flattens out" and goes closer to $0$.
+We omit the proof of the above.\footnote{It may be shown by considering $\tilde{M}$, the restriction of $M$ to the invariant subspace $\expec[f]=0$. By the above lemma, $\norm{\tilde{M}}\leq 1-\Phi^2/2$. Then $\norm{\tilde{M}^k} \leq \norm{\tilde{M}}^k$, which immediately gives the result.} This quite neatly captures the fact that rapid mixing depends heavily on conductance. Indeed, it implies that $\norm{M^k f} \leq (1-\Phi^2/2)^k \norm{f}$, so as time progresses, $f$ ``flattens out" and goes closer to $0$.
 
 The next inequality can be thought of a central limit theorem style inequality.
 
@@ -1030,8 +1032,7 @@ The next inequality can be thought of a central limit theorem style inequality.
 	We may assume that $\expec[\xi] = 0$. Then \Cref{rapid mixing expec 0} implies that
 	\begin{align*}
 		\Var[\xi] = \expec[\xi^2] &= \sum_{0\leq i,j\leq T-1} \expec[F(w_i)F(w_j)] \\
-			&= T\expec[F(w_0)^2] + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
-			&= T\norm{F}^2 + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|}] \\
+			&= T\norm{F}^2 + 2 \sum_{0\leq i<j\leq T-1} \expec[F(w_0)F(w_{|i-j|})] \\
 			&= T\norm{F}^2 + 2 \sum_{k=1}^{T-1} (T-k) \langle F,M^{k}F\rangle \\
 			&\leq \norm{F}^2 \left(T + 2 \sum_{k=1}^{T-1} (T-k)\left(1-\frac{\Phi^2}{2}\right)^k\right) \\
 			&< 2T\norm{F}^2 \sum_{k=0}^{T-1} \left(1-\frac{\Phi^2}{2}\right)^k \leq \frac{4T}{\Phi^2} \norm{F}^2.
@@ -1060,7 +1061,7 @@ And as mentioned, this modified chain converges to a distribution proportional t
 	If $\mathcal{M}$ is time-reversible, then $\mathcal{M}/F$ is also time-reversible and has stationary distribution $Q_F = (1/\overline{F})\mu_F$.
 \end{theorem}
 \begin{proof}
-	It suffices to show that for any disjoint measurable sets $A$ and $B$,
+	From the remark after \Cref{def: ergodic flow}, it suffices to show that for any disjoint measurable sets $A$ and $B$ ($B=\Omega\setminus A$ in particular),
 	\[ \int_B P_u^F(A)\d{Q}_F(u) = \int_A P_u^F(B) \d{Q}_F(u), \]
 	that is,
 	\[ \int_B \int_A \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u) = \int_A \int_B \min\left\{1,\frac{F(v)}{F(u)}\right\} \frac{F(u)}{\overline{F}} \d{P}_u(v) \d{Q}(u). \]
@@ -1076,9 +1077,9 @@ Before we move on to the main algorithm, we set up some prerequisite results to 
 
 \subsubsection{Log-Concave Functions}
 
-A function $f:\R^n\to\Rp$ is said to be \textit{log-concave} if for any $x,y\in\R^n$ and $0<\lambda<1$,
+A function $f:\R^n\to\R^{\geq 0}$ is said to be \textit{log-concave} if for any $x,y\in\R^n$ and $0<\lambda<1$,
 \[ f(\lambda x + (1-\lambda)y) \leq f(x)^\lambda f(y)^{1-\lambda}. \]
-This just means that $\log f$ is concave. While we did not mention this by name, we discussed similar ideas back in the (multiplicative) Brunn-Minkowski inequality (\ref{eqn multiplicative brunn minkowski}).\\
+If $f$ is positive, this just means that $\log f$ is concave. While we did not mention this by name, we discussed similar ideas back in the (multiplicative) Brunn-Minkowski inequality (\ref{eqn multiplicative brunn minkowski}).\\
 
 It is quite obvious that if $f$ and $g$ are log-concave functions, then so are $fg$ and $\min\{f,g\}$. The following is far less obvious however.
 
@@ -1096,7 +1097,7 @@ Let $F$ be a non-negative integrable funciton on $\R^n$. As in \Cref{conductance
 
 This is quite easily proved by setting $f=F$ and $g=\indic_K$ in \Cref{convolution of log concave functions is log concave}.\\
 
-Setting $K$ to be a rectangle aligned with the axes having edges of length $\varepsilon$ in $k$ directions and $1/\varepsilon$ in the remaining directions gives
+Setting $K$ to be a rectangle aligned with the axes having edges of length $\varepsilon$ in $k$ directions and $1/\varepsilon$ in the remaining directions and then taking $\varepsilon\to 0$ gives
 
 \begin{corollary}
 	\label{cor: 4.30}
@@ -1123,12 +1124,12 @@ The main result of this section is \Cref{improvement of conductance isoperimetri
 	\[ \int_0^1 \ell(t)^{n-1}g((1-t)a+tb)\d{t} > 0 \text{ and } \int_0^1 \ell(t)^{n-1}h((1-t)a+tb)\d{t} > 0 \]
 \end{ftheo}
 
-The above result is quite useful and reduces integrals in $n$-dimensional integrals to a single dimension. We shall in fact solidify this relationship further and give a few related results in \Cref{sec: 5.1.2,sec: 5.1.3}. \\
+The above result is quite useful and reduces integrals in $n$-dimensions to a single dimension. We shall solidify this relationship further and give a few related results in \Cref{sec: 5.1.2,sec: 5.1.3}. \\
 
 It suffices to consider the case where $g$ and $h$ are continuous. If not, we can find some monotone (strictly) increasing sequence of continuous integrable functions $(g_k)$ and $(h_k)$ that converge to $g$ and $h$. We then have
 \[ \lim_{k\to\infty}\int_{\Rn} g_k = \int_{\Rn} g > 0 \]
 so for sufficiently large $k$, $\int_{\Rn} g_k > 0$ and likewise, $\int_{\Rn} h_k > 0$. It then suffices to show it for the $g_k$ and $h_k$ for sufficiently large $k$, so we may assume continuity.\\
-Further, note that it suffices to show the inequality with $\geq 0$ instead of $>0$. Indeed, we can then apply it to $(g-a)$ and $(h-a)$ for some function $a$ that is everywhere positive and continuous with a sufficiently small integral to get the strict inequality.\\
+Further, note that it suffices to show the inequality with $\geq 0$ instead of $>0$. Indeed, if we prove it for the weak inequality, we can apply it to $(g-a)$ and $(h-a)$ for some function $a$ that is everywhere positive and continuous with a sufficiently small integral to get the strict inequality.\\
 
 We continue the proof over two lemmas. In \Cref{localization lemma lemma 2}, we in fact obtain the exact required result with a concave function instead of a linear one. Over the remainder, we refine it to obtain linearity.
 
@@ -1139,14 +1140,14 @@ We continue the proof over two lemmas. In \Cref{localization lemma lemma 2}, we 
 	and $K=\bigcap_i K_i$ is a point or a segment.
 \end{lemma}
 \begin{proof}
-	We may choose $K_0$ to be a sufficiently large ball. To find $K_{i+1}$ given $K_i$, we use a ``bisection argument''. We choose a half-space $H$ such that
+	We may choose $K_0$ to be a sufficiently large ball. To find $K_{i+1}$ given $K_i$, we use a bisection argument. We choose a half-space $H$ such that
 	\[ \int_{K_i\cap H} g(x)\d{x} = \frac{1}{2} \int_{K_i} g(x)\d{x}. \]
-	The hyperplane supporting the half-space is called a ``bisecting hyperplane''. It remains to show that it is possible to choose $H$ such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
+	The hyperplane supporting the half-space is referred to as a \textit{bisecting hyperplane}. It remains to show that it is possible to choose a $H$ at each step such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
 
 	\textbf{Claim.} Given any $(n-2)$-dimensional affine subspace $A$, there is a bisecting hyperplane containing it.\\
 	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the half-space on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is trivial on modifying the function into a continuous one from $\R\to\R$ and then using the intermediate value property.\footnote{Alternatively, this is a trivial application of the \href{https://en.wikipedia.org/wiki/Borsuk-Ulam_theorem}{Borsuk-Ulam Theorem}.}\\
 
-	Now, choose $A_0,A_1,\ldots$ to be a sequence of the $(n-2)$-dimensional affine subspaces such that at least one of them passes through any point with rational coordinates.\footnote{this is justified since $\Q^n$ is countable.} For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a half-space with supporting hyperplane $P_i$.\\
+	Now, choose $A_0,A_1,\ldots$ to be a sequence of $(n-2)$-dimensional affine subspaces such that at least one of them passes through any point with rational coordinates.\footnote{This is justified since $\Q^n$ is countable.} For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a half-space with supporting hyperplane $P_i$.\\
 	We wish to show that $\bigcap_i K_i$ is at most $1$-dimensional. Suppose instead that it is (at least) $2$-dimensional. Then the projection of $K$ onto one of the planes spanned by two coordinates axes (say $x_1$ and $x_2$) must be two-dimensional, and therefore has a rational interior point $(r_1,r_2)$. However, the hyperplane defined by $x_1=r_1$, $x_2=r_2$ is one of the $A_i$, and in this case, $P_i$ bisects $K$, and therefore also $K_{i+1}$, which is a contradiction.
 \end{proof}
 
@@ -1161,7 +1162,7 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 \begin{proof}
 	Assume without loss of generality that $a=0$ and $b=e_1$. For $t\in\R$, set $Z_t = \{x\in\Rn : x_1=t\}$ and for each $i\in\N$,
 	\[ \psi_i(t) = \left(\frac{\vol_{n-1}(K_i\cap Z_t)}{\vol(K_i)}\right)^{1/(n-1)}. \]
-	Denote by $\alpha_i$ and $\beta_i$ the maximum and minimum of $x_1$ over $K_i$. Since $K\subseteq K_i$, $\alpha_i\geq 1$ and $\beta_i\leq 0$ for each $i$ and moreover, $\alpha_i\to 1$ and $\beta_i\to 0$. Also observe that by \nameref{brunn's theorem}, each $\psi_i$ is concave on $[\beta_i,\alpha_i]$.\\
+	Denote by $\alpha_i$ and $\beta_i$ the maximum and minimum of $x_1$ over $K_i$. Since $K\subseteq K_i$, $\alpha_i\geq 1$ and $\beta_i\leq 0$ for each $i$ and moreover, $\alpha_i\to 1$ and $\beta_i\to 0$. By \nameref{brunn's theorem}, each $\psi_i$ is concave on $[\beta_i,\alpha_i]$.\\
 	Note that on any closed subinterval $[s,t]\subseteq(0,1)\subseteq[\beta_i,\alpha_i]$, the $(\psi_i)$ are Lipschitz (due to concavity).\footnote{See \href{https://math.stackexchange.com/a/2662341/447210}{this StackExchange answer} if you are unfamiliar with the result.} In particular, if $\delta\leq s\leq t\leq 1-\delta$, for any $s\leq x\leq y\leq t$,
 	\[ |\psi_i(y)-\psi_i(x)| \leq \frac{\sup_{x\in (0,1)} \psi_i(x)}{\delta} |y-x|. \]
 	The above implies that if we show uniform boundedness of the $(\psi_i)$ on $[s,t]$, then (uniform) equicontinuity follows as well. And indeed, since the $(\psi_i)$ are concave, then letting $\psi_i$ attain its supremum in $[s,t]$ at $x_i$, we have 
@@ -1180,11 +1181,11 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 	Therefore, this integral is non-negative and the claim is proved (the expression for $h$ is non-negative by an identical argument).
 \end{proof}
 
-Let us get back to the main proof equipped with the above two intermediate steps.\\
+Let us now get back to the main proof equipped with the above two intermediate steps.\\
 We need to somehow get from the above concave function $\psi$ to a linear function.
 
 \begin{proof}[Continued Proof.]
-	Define $\psi$, $a$, and $b$ as in the previous lemma but further, we make two assumptions: 
+	Define $\psi$, $a$, and $b$ as in the previous lemma but further, make two assumptions: 
 	\begin{itemize}
 		\item Choose $a,b\in K$ such that $\norm{a-b}$ is minimum. When we say ``minimum'', we mean that one of the two integrals involved is equal to $0$, so we cannot make the segment any shorter. Without loss of generality, assume $a=0$ and $b=e_1$.
 		\item Let $[\alpha,\beta]\subseteq[0,1]$ be the largest interval that $\psi$ is linear on. That is, $\psi$ is linear on $[\alpha,\beta]$ and $|\beta-\alpha|$ is maximum -- in the case where $\psi$ is nowhere linear, $\beta-\alpha=0$ (How can we assume that such an interval exists?).
@@ -1196,14 +1197,14 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 	The body $K'$ can be visualized more naturally as taking the union of the $(n-1)$-dimensional simplices spanned by $te_1, te_1+\psi(t)e_2,\ldots,te_1+\psi(t)e_n$ over all $0\leq t\leq 1$. As a result,
 	\[ \vol_{n-1} (K'\cap Z_t) = \frac{\psi(t)^{n-1}}{n!}, \]
 	where $Z_t=\pi_1^{-1}(t)$ is defined as in the previous lemma.\\
-	Then observe that
+	Then,
 	\[ \int_{K'} \hat{g}(x)\d{x} = \int_0^1 \vol(K' \cap Z_t) g(t e_1) \d{t} = \frac{1}{(n-1)!} \int_0^1 \psi(t)^{n-1} g(te_1) \geq 0, \]
 	where the last inequality follows from the definition of $\psi$ in the previous lemma. We have a similar inequality for the integral of $\hat{h}$ as well.\\
 	Since we have taken $\norm{a-b}$ to be minimal, we may assume without loss of generality that $\int_{K'}\hat{g}(x)\d{x}=0$.\\
 	% Now, for any convex body $L$, define the function
 	% \[ \psi_L(x) = \vol(L\cap Z_t)^{1/(n-1)}. \]
 	% Brunn's Theorem implies that $\psi_L$ is concave.\\
-	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$. Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K'$ into convex bodies $L_A$ and $L_A'$ such that
+	Consider the $(n-2)$-dimensional affine space $A$ defined by $x_1=\sigma$ and $x_2+\cdots+x_n=\tau$ for some $0<\sigma<1$ and $\tau>1$ (which we shall fix later). Suppose that $A$ intersects the interior of $K'$. Then by \Cref{localization lemma lemma 1}, there exists a hyperplane $H$ through $A$ that splits $K'$ into convex bodies $L_A$ and $L_A'$ such that
 	\[ \int_{L_A}\hat{g}(x)\d{x} = \int_{L_A'}\hat{g}(x)\d{x} = 0 \text{ and } \int_{L_A}\hat{h}(x)\d{x} \geq 0. \]
 	Note that
 	\begin{equation*}
@@ -1223,7 +1224,8 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 
 		\item \textbf{Case 2.} $\psi(0)=0$ and $\psi(1)>0$ (the reversed case is nearly identical). Consider the affine space $A$ for $\tau=\psi(1)\sigma$. (\ref{eqn: localization lemma intermediate 1}) implies that $0\leq\ell(1)\leq\psi(1)$. However, in this case, $\psi'$ must be linear on $[\sigma,1]$, so we can obtain linearity on a length tending to $1$.
 
-		\item \textbf{Case 3.} $\psi(0),\psi(1)>0$.\footnote{While slightly irrelevant, it might be worth noting that we could try applying the same strategy as in Case 2; however, an issue arises because instead of $[\sigma,1]$, we only get the smaller of the two intervals $[0,\sigma]$ and $[\sigma,1]$.} Consider a convex(!) function $\eta:[0,1]\to\R^{\geq 0}$ such that
+		\item \textbf{Case 3.} $\psi(0),\psi(1)>0$.%\footnote{While slightly irrelevant, it might be worth noting that we could try applying the same strategy as in Case 2; however, an issue arises because instead of $[\sigma,1]$, we only get the smaller of the two intervals $[0,\sigma]$ and $[\sigma,1]$.}
+		Consider a convex(!) function $\eta:[0,1]\to\R^{\geq 0}$ such that
 		\begin{itemize}
 			\item $0\leq\eta(0)\leq\psi(0)$ and $0\leq\eta(1)\leq\psi(1)$,
 			\item the convex body $K_\eta$ defined by
@@ -1233,18 +1235,18 @@ We need to somehow get from the above concave function $\psi$ to a linear functi
 			\item $\displaystyle\int_0^1 \eta(x)\d{x}$ is maximal.
 		\end{itemize}
 		Such an $\eta$ must exist since the zero function satisfies the first two conditions.\\
-		If $\psi(0)=0$ or $\psi(1)=1$, then we are done, since $\psi-\eta$ satisfies the original conditions (non-negative integrals), and it is already covered in the first two cases.\\
+		If $\psi(0)=\eta(0)$ or $\psi(1)=\eta(1)$, then we are done, since $\psi-\eta$ satisfies the original conditions (non-negative integrals), and it is already covered in the first two cases.\\
 		Otherwise, we have $\eta(0)<\psi(0)$ and $\eta(1)<\psi(1)$. Let $(\sigma,\tau)$ be the intersection point of the segments joining $(0,\eta(0))$, $(1,\psi(1))$ and $(0,\psi(0))$, $(1,\eta(1))$ and $A$ be the corresponding affine space. Let $H$ be a hyperplane containing $A$ dividing space into two half-spaces $M$ and $M'$ such that
 		\[ \int_{K_\eta \cap M} \hat{g}(x)\d{x} = \int_{K_\eta \cap M'} \hat{g}(x)\d{x} = 0.  \]
 		Also, choose $M$ to be the half-space that contains $(1/2) e_1$ (the one that ``faces down'').\\
 		It is clear from contruction that any $(n-1)$-dimensional hyperplane containing $A$, $H$ in particular, either intersects both $Z_0\cap K_\eta$ and $Z_1\cap K_\eta$ or neither. The latter cannot happen due to (\ref{eqn: localization lemma intermediate 1}) (or rather, the corresponding expression for $K_\eta$ rather than $K'$).\\
-		Now, note that
+		Now,
 		\[ \int_{M'} \hat{h}(x)\d{x} < 0. \]
 		Indeed, otherwise, the linear function $\ell$ corresponding to $H$ contradicts the maximality of $\eta$. However, this implies that
 		\[ \int_{M\cap K'} \hat{g}(x)\d{x} = \int_{K'} \hat{g}(x)\d{x} - \int_{M'}\hat{g}(x)\d{x} = 0 \]
 		and
 		\[ \int_{M\cap K'} \hat{h}(x)\d{x} = \int_{K'} \hat{h}(x)\d{x} - \int_{M'}\hat{h}(x)\d{x} > 0. \]
-		Finally, note that $M\cap K'$ is a truncated cone, thus completing the proof.\qedhere
+		Finally, $M\cap K'$ is a truncated cone, thus completing the proof.\qedhere
 	\end{itemize}
 \end{proof}
 
@@ -1256,7 +1258,7 @@ The above result has some interesting corollaries, namely \Cref{improvement of c
 	\[ \mu_F(M\setminus(K_1\cup K_2)) \geq \frac{2t}{1-t} \min\{\mu_F(K_1),\mu_F(K_2)\}. \]
 \end{ftheo}
 
-The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note that $t \geq d(K_1, K_2)/\diam(K)$ (thus explaining why this is an improvement of \Cref{conductance isoperimetric inequality}).
+The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note that $t \geq d(K_1, K_2)/\diam(K)$ (which explains why this is an improvement of \Cref{conductance isoperimetric inequality}).
 
 \begin{proof}
 	Suppose otherwise. Assume that $K_1$ and $K_2$ are open (otherwise, we can delete the boundary and enlarge them slightly to open sets while preserving both the assumptions and the inequality). Denote $K_3 = M\setminus(K_1\cup K_2)$. Define
@@ -1264,27 +1266,29 @@ The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note
 		g(x) = 
 		\begin{cases}
 			F(x), & x\in K_1, \\
-			\frac{1-t}{2t}F(x), & x\in K_3, \\
+			-\frac{1-t}{2t}F(x), & x\in K_3, \\
 			0, & \text{otherwise},
 		\end{cases}
 		\text{ and }
 		h(x) = 
 		\begin{cases}
 			F(x), & x\in K_2, \\
-			\frac{1-t}{2t}F(x), & x\in K_3, \\
+			-\frac{1-t}{2t}F(x), & x\in K_3, \\
 			0, & \text{otherwise}.
 		\end{cases}
 	\]
 	By our assumption, the integrals of $g$ and $h$ over $\Rn$ are positive. We can then apply \Cref{localization lemma} to get a linear functional $\ell$ and $a,b\in\Rn$ such that
-	\[ \int_0^1 \ell(u)^{n-1}g(ua+(1-u)b) > 0 \text{ and } \int_0^1 \ell(u)^{n-1}h(ua+(1-u)b) > 0. \]
-	For each $i$, define
-	\[ H_i = \{u : ua+(1-u)b \in K_i\} \text{ and } G = \ell(u)^{n-1}F(ua+(1-u)b). \]
+	\[ \int_0^1 \ell(u)^{n-1}g(ua+(1-u)b) \d{u} > 0 \text{ and } \int_0^1 \ell(u)^{n-1}h(ua+(1-u)b) \d{u} > 0. \]
+	For each $1\leq i\leq 3$, define
+	\[ H_i = \{u\in[0,1] : ua+(1-u)b \in K_i\} \text{ and } G(u) = \ell(u)^{n-1}F(ua+(1-u)b). \]
 	Substituting $g$ and $h$ in the above equation, we get
 	\begin{equation}
 	\label{eqn: cond iso ineq imp contradictory eqn}
 		\int_{H_3} G(u)\d{u} < \frac{2t}{1-t} \min\left\{\int_{H_1} G(u)\d{u}, \int_{H_2} G(u)\d{u}\right\}.
 	\end{equation}
-	Intuitively, the worst case to prove appears to be when $H_3$ is a single interval -- as we shall see later in the proof, we can reduce it to this case even in general. To prove this case, we show the following claim, which just asserts that \Cref{eqn: cond iso ineq imp contradictory eqn} is incorrect. Define $\mu_G$ to be measure on $[0,1]$ with density $G$.\\
+	Intuitively, the worst case to prove appears to be when $H_3$ is a single interval -- as we shall see later in the proof, we can reduce it to this case even in general. We show the following claim, which just asserts that \Cref{eqn: cond iso ineq imp contradictory eqn} is incorrect (for the single-interval case).
+	% Observe that $G$ is log-concave.
+	Define $\mu_G$ to be measure on $[0,1]$ with density $G$.\\
 
 	\textbf{Claim.} For $0\leq s < s+t\leq 1$,
 	\begin{equation}
@@ -1294,7 +1298,7 @@ The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note
 
 	Before we move to the proof, note that \Cref{conductance isoperimetric inequality}, which has a $t$ in place of $2t/(1-t)$ above, is trivial now. Indeed, since $G$ is unimodal\footnote{there is some $m\in[0,1]$ such that $G$ is monotonically increasing for $x\leq m$ and monotonically decreasing for $x\geq m$.},
 	\[ \mu_G([s,s+t]) \geq t \inf_{x\in[s,s+t]} G(x) \geq t \max\{s, 1-s-t\}\inf_{x\in[s,s+t]}G(x) \geq t \min\{\mu_G([0,s]),\mu_G([s+t,1])\}. \]
-	First, note that since $G$ is the product of two log-concave functions, it is log-concave as well. Choose constants $c,c_0$ such that $G(s)=c_0 e^{cs}$ and $G(s+t)=c_0 e^{c(s+t)}$. By the log-concavity of $G$, $G(u)\geq c_0 e^{cu}$ for $s\leq u\leq s+t$ and $G(u)\leq c_0 e^{cu}$ elsewhere. As a consequence, observe that it suffices to show \Cref{eqn: 4.15} for the case where $G(u) = c_0 e^{cu}$. Further, we may assume that $c_0=1$. We wish to show that
+	First, note that since $G$ is the product of two log-concave functions, it is log-concave as well. Choose constants $c,c_0$ such that $G(s)=c_0 e^{cs}$ and $G(s+t)=c_0 e^{c(s+t)}$. By the log-concavity of $G$, $G(u)\geq c_0 e^{cu}$ for $s\leq u\leq s+t$ and $G(u)\leq c_0 e^{cu}$ elsewhere. As a consequence, it suffices to show \Cref{eqn: 4.15} for the case where $G(u) = c_0 e^{cu}$. Further, we may assume that $c_0=1$. We wish to show that
 	\[ e^{c(s+t)}-e^{cs} \geq \frac{2t}{1-t} \min\left\{e^{cs}-1, e^c - e^{c(s+t)}\right\}. \]
 	The worst case is when $e^{cs}-1 = e^{c} - e^{c(s+t)}$ (Why?). That is,
 	\[ e^{cs} = \frac{1+e^c}{1+e^{ct}}. \]
@@ -1306,8 +1310,8 @@ The above bound is tight when $K$ is a cylinder and $F$ is identically $1$. Note
 	\[ (\lambda+1)(x-x^\lambda) + (\lambda-1)(x^{\lambda+1}-1) \geq 0. \]
 	Letting the expression on the left be $h(x)$, we get $h(1)=h'(1)=0$ and $h''(x)=(\lambda^2-1)\lambda(x^{\lambda-1}-x^{\lambda-2}) \geq 0$, thus proving the claim for all $x\geq 1$.\\
 
-	Now, how do we reduce the general case problem to this? For each maximal interval $I=(a,b)$ contained in $H_3$ of length at least $t$, colour $[0,a]$ red if $\mu_G([0,a])<\mu_G([b,1])$ and $[b,1]$ red otherwise. The above claim implies that each interval introduces a red set of ($\mu_G$) measure at most $\frac{1-t}{2t}\mu_G((a,b))$. The entirety of the red set then has measure at most $\frac{1-t}{2t}\mu_G(H_3)$. It then suffices to show that either $H_1$ or $H_2$ is completely red.\\
-	Suppose otherwise. Denote by $U$ the region that is uncoloured. We then have that $U$ intersects both $H_1$ and $H_2$. By construction, $U$ is an open interval. Since the distance between $H_1$ and $H_2$ is at least $t$, $U\cap H_3$ must contain a subinterval of length at least $t$. This is a contradiction because there is an adjacent red interval (that intersects $U$). 
+	Now, how do we reduce the general case problem to this? For each maximal interval $I=(a,b)$ contained in $H_3$ of length at least $t$, colour $[0,a]$ red if $\mu_G([0,a])<\mu_G([b,1])$ and $[b,1]$ red otherwise. The above claim implies that each interval introduces a red set of $\mu_G$-measure at most $\frac{1-t}{2t}\mu_G((a,b))$. The entirety of the red set then has measure at most $\frac{1-t}{2t}\mu_G(H_3)$. It then suffices to show that either $H_1$ or $H_2$ is completely red.\\
+	Suppose otherwise. Denote by $U$ the region that is uncoloured. We then have that $U$ intersects both $H_1$ and $H_2$. By construction, $U$ is an open interval. Since the distance between $H_1$ and $H_2$ is at least $t$, $U\cap H_3$ must contain a subinterval (of length at least $t$). This is a contradiction because there is an adjacent red interval (that intersects $U$). 
 \end{proof}
 
 Setting $F$ to be identically $1$ on $K$ in the above result, we get the following.
@@ -1348,7 +1352,7 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 
 	If $0\not\in H_1$, we can choose a point $s\in H_1$ such that
 	\[ \frac{\int_{[0,s]\cap H_1} G(t)\d{t}}{\int_{[s,1]\cap H_1} G(t)\d{t}} = \frac{\int_{[0,s]} G(t)\d{t}}{\int_{[s,1]} G(t)\d{t}}. \]
-	We can then replace $[a,b]$ with one of $[a,(1-s)a+sb]$ and $[(1-s)a+sb,b]$ (that is, replace $[0,1]$ with $[0,s]$ or $[s,1]$).\footnote{Multiplying by the appropriate factors leaves the \Cref{eqn: 4.16} unchanged in the restricted segment, and one of the two intervals will also satisfy the (restriction of) \Cref{eqn: 4.17}.} Therefore, we may assume wlog that $0\in H_1$, that is, $a\in B_2^n$.\\
+	We can then replace $[a,b]$ with one of $[a,(1-s)a+sb]$ and $[(1-s)a+sb,b]$ (that is, replace $[0,1]$ with $[0,s]$ or $[s,1]$).\footnote{Multiplying by the appropriate factors leaves \Cref{eqn: 4.16} unchanged in the restricted segment, and one of the two intervals will also satisfy the restriction of \Cref{eqn: 4.17}.} Therefore, we may assume wlog that $0\in H_1$, that is, $a\in B_2^n$.\\
 	Let $H_1=[0,\alpha]$, $H_2=(\alpha,\beta]$, and $H_3=(\beta,1]$. It is easily shown that $\beta \geq (\frac{u+1}{2})\alpha$.\\
 
 	Now, choose constants $c$ and $c_0$ such that
@@ -1368,7 +1372,7 @@ Setting $F$ to be identically $1$ on $K$ in the above result, we get the followi
 			&\geq e^{-c\beta} \\
 			&= \frac{\int_\beta^\infty c_0e^{ct}\d{t}}{\int_0^\infty c_0e^{ct}\d{t}} \geq \frac{\int_\beta^1 G(t)\d{t}}{\int_0^1 G(t)\d{t}},
 	\end{align*}
-	thus resulting in a contradiction to \Cref{eqn: 4.17} and thus proving the claim.
+	thus resulting in a contradiction to \Cref{eqn: 4.17} and proving the claim.
 \end{proof}
 
 % Setting $F$ to be identically $1$ in the above result, we get the following.
@@ -1386,12 +1390,12 @@ Before we conclude this section, we give two more lemmas that will be useful in 
 	Let $K$ be a convex body and $\theta=\vol(K\setminus B_2^n)/\vol(K)$. Then $K\subseteq \frac{2n}{1-\theta}B_2^n$.
 \end{lemma}
 \begin{proof}
-	Let $x\in K$ be the point farthest from the origin and $R=\norm{x}$. It suffices to show the result for $\conv{(K\cap B_2^n)\cup\{x\}}$ (Why?). Therefore, assume $K$ to be of this form.\\
+	Let $x\in K$ be the point farthest from the origin and $R=\norm{x}$. It suffices to show the result for $\conv{(K\cap B_2^n)\cup\{x\}}$ (Why?). Assume $K$ to be of this form.\\
 	Note that $K$ is contained in
 	\[ \left\{x+\left(\frac{R+1}{R-1}\right) v : x+v\in K\setminus B_2^n\right\}. \]
 	Then,
-	\[ \vol(K) \leq \left(\frac{R+1}{R-1}\right)^n \vol(K\setminus B_2^n) \leq \left(\frac{R+1}{R-1}\right)^n \vol(K). \]
-	That is,
+	\[ \vol(K) \leq \left(\frac{R+1}{R-1}\right)^n \vol(K\setminus B_2^n) \leq \theta\left(\frac{R+1}{R-1}\right)^n \vol(K). \]
+	Therefore,
 	\[ R \leq \frac{2}{1-\theta^{1/n}} \leq \frac{2n}{1-\theta}.\qedhere \]
 \end{proof}
 
@@ -1402,14 +1406,14 @@ Before we conclude this section, we give two more lemmas that will be useful in 
 \begin{proof}
 	Define $\psi:[0,1]\to\R$ by
 	\[ \psi(u) = \frac{\vol(K\cap (ux+K))}{\vol(K)}. \]
-	\Cref{cor: 4.30} (or rather, the line right after it) implies that $\psi$ is log-concave. We have $\psi(0)=1$ and $\psi(1)\leq 1/2$. Therefore, $\psi(t) \leq 2^{-t}$ so
-	\[ \vol(K\setminus (tx+K)) = (1 - 2^{-t})\vol(K) \leq \frac{2t}{3}\vol(K).\qedhere \]
+	\Cref{cor: 4.30} (or rather, the line right after it) implies that $\psi$ is log-concave. We have $\psi(0)=1$ and $\psi(1)\geq 1/2$. Therefore, $\psi(t) \geq 2^{-t}$ so
+	\[ \vol(K\setminus (tx+K)) \leq (1 - 2^{-t})\vol(K) \leq \frac{2t}{3}\vol(K).\qedhere \]
 \end{proof}
 
 
-\subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using the Ball-Step}
+\subsection{An \texorpdfstring{$\mathcal{O}^*(n^7)$}{O(n7)} Algorithm using Ball-Step}
 
-As in nearly all volume estimation algorithms, the basic idea remains the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done in this general case.
+As in most volume estimation algorithms, the basic idea remains nearly the same, the changes being only in the walk. The algorithm used here involves the ``ball-step'' mentioned earlier. It is worth noting instead of the ``ball'' in ball-step, one could use any other symmetric convex body $G$. An obvious choice is the cube, which is quite convenient to draw points uniformly randomly from from a programming perspective. Our analysis shall be done in this general case.
 
 \subsubsection{Ball-Step and Bounding Conductance}
 
