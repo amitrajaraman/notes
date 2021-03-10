@@ -18,3 +18,4 @@ Several of the notes contained in this repository haven't been explicitly linked
     - CS 226: Digital Logic Design
     - CS 228: Logic for Computer Science (Discontinued)
     - CS 251: Software Systems Lab
+    - HS 101: Economics
