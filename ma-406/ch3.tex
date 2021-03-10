@@ -1,0 +1,47 @@
+\section{Connectedness and Compactness}
+
+\setcounter{subsection}{22}
+\subsection{Connected Spaces}
+
+	% 23.1
+	\begin{exercise}
+		Let $\mathcal{T}$ and $\mathcal{T}'$ be two topologies on $X$. If $\mathcal{T}'\supseteq\mathcal{T}$, what does connectedness of $X$ in one topology mean about connectedness in the other?
+	\end{exercise}
+	\begin{solution*}
+		If $\mathcal{T}'$ is connected, then so is $\mathcal{T}$. Indeed, if $\mathcal{T}$ is disconnected and has separation $X=U\cup V$, then $U\cup V$ serves as a separation of $X$ under $\mathcal{T}'$ as well. The converse need not be true, as can be seen on considering the discrete and indiscrete topology on $X$.
+	\end{solution*}
+
+	% 23.2
+	\begin{exercise}
+		Let $\{A_n\}$ be a sequence of connected subspaces of $X$ such that $A_n\cap A_{n+1}\neq\emptyset$ for all $n$. Show that $\bigcup A_n$ is connected.
+	\end{exercise}
+	\begin{solution*}
+		Let $A = \bigcup A_n$. Suppose instead that $A=U\cup V$ is a separation. Since $A_1$ is connected, we may assume without loss of generality that $A_1\subseteq U$. We shall now show by induction that for any $n$, $A_n\subseteq U$. Indeed, if $A_n\subseteq U$ for some $n\geq 1$, then since $A_n\cup A_{n+1}$ is connected (the two sets have non-empty intersection), $A_n\cup A_{n+1}\subseteq U$ or $A_n\cup A_{n+1}\subseteq V$. However, $A_n\subseteq U$, so $A_{n+1}\subseteq U$ as well. This contradicts the non-emptiness of $V$, completing the proof.
+	\end{solution*}
+
+	% 23.4
+	\setcounter{exercise}{3}
+	\begin{exercise}
+		Show that if $X$ is an infinite set, it is connected in the finite complement topology.
+	\end{exercise}
+	\begin{solution*}
+		Suppose otherwise and let $X=U\cup V$ be a separation. Then $X\setminus U$ and $X\setminus V$ are finite, so $(X\setminus U)\cup (X\setminus V)$ is finite. Then, its complement $U\cap V$ is infinite (in particular, non-empty), contradicting the disjointedness of $U$ and $V$. 
+	\end{solution*}
+
+	% 23.8
+	\setcounter{exercise}{7}
+	\begin{exercise}
+		Determine whether or not $\R^\omega$ is connected in the uniform topology.
+	\end{exercise}
+	\begin{solution*}
+		Let $S$ be the set of all bounded sequences. Then it is not too difficult to show that both $S$ and $\R^\omega\setminus S$ are open, so $\R^\omega$ is disconnected.
+	\end{solution*}
+
+
+	% 23.9
+	\begin{exercise}
+		Let $A\subsetneq X$ and $B\subsetneq Y$. If $X$ and $Y$ are connected, show that $(X\times Y)\setminus(A\times B)$ is connected.
+	\end{exercise}
+	\begin{solution*}
+		Denote the space of interest by $S$. Suppose instead that $S = U\cup V$ is a separation. Let $x\times y, z\times w\in S$. Suppose that $x\times y\in U$ Consider the connected subspaces $A = \{x\}\times Y \subseteq S$ and $B = X\times \{w\}\subseteq S$. Since their intersection is non-empty (it contains $x\times w$), their union is connected as well. Further, because $x\times y\in U$, $A\cup B\subseteq U$. In particular, $w\times z \in U$. Since our choice of $w\times z$ was arbitrary, this contradicts the non-emptiness of $V$, proving the result.
+	\end{solution*}

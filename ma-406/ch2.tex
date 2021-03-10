@@ -406,3 +406,32 @@
 	\end{solution*}
 
 
+\subsection{The Quotient Topology}
+
+	% 22.2
+	\setcounter{exercise}{1}
+	\begin{exercise}
+		\phantom{.}
+		\begin{enumerate}[(a)]
+			\item Let $p:X\to Y$ be a continuous map. Show that if there is a continuous map $f:Y\to X$ such that $p\circ f$ equals the identity map on $Y$, then $p$ is a quotient map.
+			\item If $A\subseteq X$, a \textit{retraction} of $X$ onto $A$ is a continuous map $r:X\to A$ such that $r(a)=a$ for all $a\in A$. Show that a retraction is a quotient map.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item It is obvious that $p$ is surjective since for any $y\in Y$, $p(f(y))=y$. Let $U\subseteq Y$. We want to show that if $p^{-1}(U)$ is open, then so is $U$. Indeed, we then have $U = (p\circ f)^{-1}(U) = f^{-1}(p^{-1}(U))$ is open since $p^{-1}(U)$ is open and $f$ is continuous.
+			\item It is clear that $r$ is surjective. Let $U\subseteq A$. We want to show that if $r^{-1}(U)$ is open, then $U$ is open in $A$. Indeed, note that $U = r^{-1}(U) \cap A$, so is open in $A$ by definition.
+		\end{enumerate}
+	\end{solution*}
+
+	% 22.3
+	\begin{exercise}
+		Let $\pi_1:\R\times\R\to\R$ be the projection on the first coordinate. Let $A$ be the subspace of $\R\times\R$ consisting of all points $x\times y$ for which $x\geq 0$ or $y=0$. Let $q:A\to\R$ be obtained by restricting $\pi_1$. Show that $q$ is a quotient map that is neither open nor closed.
+	\end{exercise}
+	\begin{solution*}
+		Consider the function $r:A\to \R\times\{0\}$ that maps $x\times y\in A$ to $x\times 0\in\R^2$ is a retraction, and therefore a quotient map. Also note that $r = g \circ q$, where $g$ is the trivial (identity-like) homemorphism from $\R$ to $\R\times\{0\}$, proving the result.
+
+		Consider the open set $[1,2)\times(1,2)$ in $A$. Then $q(A) = [1,2)$ is not open. On the other hand, consider the closed set $\{x\times y\in\R^2 : xy=1\text{ and }x>0\}$ in $A$, having image $(0,\infty]$, which is open (Projection maps need not be closed in general and this counter-example works even for $\pi_1$).
+	\end{solution*}
+
+	
