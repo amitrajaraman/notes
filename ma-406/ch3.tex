@@ -19,8 +19,16 @@
 		Let $A = \bigcup A_n$. Suppose instead that $A=U\cup V$ is a separation. Since $A_1$ is connected, we may assume without loss of generality that $A_1\subseteq U$. We shall now show by induction that for any $n$, $A_n\subseteq U$. Indeed, if $A_n\subseteq U$ for some $n\geq 1$, then since $A_n\cup A_{n+1}$ is connected (the two sets have non-empty intersection), $A_n\cup A_{n+1}\subseteq U$ or $A_n\cup A_{n+1}\subseteq V$. However, $A_n\subseteq U$, so $A_{n+1}\subseteq U$ as well. This contradicts the non-emptiness of $V$, completing the proof.
 	\end{solution*}
 
+	% 23.3
+	\begin{exercise}
+		Let $\{A_\alpha\}$ be a collection of connected subspaces of $X$ and $A$ a connected subspace of $X$. Show that if $A_\alpha\cap A\neq\emptyset$ for all $\alpha$, then $A\cup\bigcup A_\alpha$ is connected.
+	\end{exercise}
+	\begin{solution*}
+		Denote the space by $Y$. Suppose instead that $Y=U\cup V$ is a separation. Since $A$ is connected, we may assume wlog that $A\subseteq U$. For any $\alpha$, $A_\alpha\subseteq U$ or $A_\alpha\subseteq V$. However, $A\cap A_\alpha \neq \emptyset$ so $A_\alpha\subseteq U$. This contradicts the non-emptiness of $V$, proving the result.
+	\end{solution*}
+
+
 	% 23.4
-	\setcounter{exercise}{3}
 	\begin{exercise}
 		Show that if $X$ is an infinite set, it is connected in the finite complement topology.
 	\end{exercise}
@@ -43,5 +51,21 @@
 		Let $A\subsetneq X$ and $B\subsetneq Y$. If $X$ and $Y$ are connected, show that $(X\times Y)\setminus(A\times B)$ is connected.
 	\end{exercise}
 	\begin{solution*}
-		Denote the space of interest by $S$. Suppose instead that $S = U\cup V$ is a separation. Let $x\times y, z\times w\in S$. Suppose that $x\times y\in U$ Consider the connected subspaces $A = \{x\}\times Y \subseteq S$ and $B = X\times \{w\}\subseteq S$. Since their intersection is non-empty (it contains $x\times w$), their union is connected as well. Further, because $x\times y\in U$, $A\cup B\subseteq U$. In particular, $w\times z \in U$. Since our choice of $w\times z$ was arbitrary, this contradicts the non-emptiness of $V$, proving the result.
+		Denote the space of interest by $S$. Suppose instead that $S = U\cup V$ is a separation. Let $x\times y, z\times w\in S$. Suppose that $x\times y\in U$. Consider the connected subspaces $A = \{x\}\times Y \subseteq S$ and $B = X\times \{w\}\subseteq S$. Since their intersection is non-empty (it contains $x\times w$), their union is connected as well. Further, because $x\times y\in U$, $A\cup B\subseteq U$. In particular, $w\times z \in U$. Since our choice of $w\times z$ was arbitrary, this contradicts the non-emptiness of $V$, proving the result.
 	\end{solution*}
+
+	% 23.11
+	\setcounter{exercise}{10}
+	\begin{exercise}
+		Let $p:X\to Y$ be a quotient map. Show that if each $p^{-1}(\{y\})$ is connected and $Y$ is connected, then $X$ is connected.
+	\end{exercise}
+	\begin{solution*}
+		Suppose otherwise and let $X=U\cup V$ be a separation. For any $y$, either $p^{-1}(\{y\})\subseteq U$ or $p^{-1}(\{y\})\subseteq Y$ (due to connectedness). That is, $U$ and $V$ are saturated. But then, $Y = p(X) = p(U) \cup p(V)$ is a separation of $Y$, yielding a contradiction and proving the result.
+	\end{solution*}
+
+	% \begin{exercise}
+	% 	Let $Y\subseteq X$; let $X$ and $Y$ be connected. Show that if $A$ and $B$ form a separation of $X\setminus Y$, then $Y\cup A$ and $Y\cup B$ are connected.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	We show that $Y\cup A$ is connected. Since $B$ is open in $X\setminus Y$, let $B = B'\cap (X\setminus Y)$ for some open $B'$.
+	% \end{solution*}
