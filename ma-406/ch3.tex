@@ -16,7 +16,7 @@
 		Let $\{A_n\}$ be a sequence of connected subspaces of $X$ such that $A_n\cap A_{n+1}\neq\emptyset$ for all $n$. Show that $\bigcup A_n$ is connected.
 	\end{exercise}
 	\begin{solution*}
-		Let $A = \bigcup A_n$. Suppose instead that $A=U\cup V$ is a separation. Since $A_1$ is connected, we may assume without loss of generality that $A_1\subseteq U$. We shall now show by induction that for any $n$, $A_n\subseteq U$. Indeed, if $A_n\subseteq U$ for some $n\geq 1$, then since $A_n\cup A_{n+1}$ is connected (the two sets have non-empty intersection), $A_n\cup A_{n+1}\subseteq U$ or $A_n\cup A_{n+1}\subseteq V$. However, $A_n\subseteq U$, so $A_{n+1}\subseteq U$ as well. This contradicts the non-emptiness of $V$, completing the proof.
+		Let $A = \bigcup A_n$. Suppose instead that $A=U\cup V$ is a separation. Since $A_1$ is connected, we may assume without loss of generality that $A_1\subseteq U$. We shall now show by induction that for any $n$, $A_n\subseteq U$. Indeed, if $A_n\subseteq U$ for some $n\geq 1$, then since $A_{n+1}$ is connected, $A_{n+1}\subseteq U$ or $A_{n+1}\subseteq V$. However, $\emptyset\neq A_n\cap A_{n+1}\subseteq U$, so $A_{n+1}\subseteq U$ as well. This contradicts the non-emptiness of $V$, completing the proof.
 	\end{solution*}
 
 	% 23.3
