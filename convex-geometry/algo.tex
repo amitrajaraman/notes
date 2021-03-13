@@ -1515,7 +1515,7 @@ Our idea of diameter here is $1/\theta$ (where $\theta$ is the minimal value sat
 \subsubsection{The Walk}
 \label{the walk}
 
-A simple albeit important problem is that of deciding how to sample from the body $G$ we are considering. As mentioned at the beginning of this section, the cube is quite easy from a programmer's perspective. The Euclidean ball is not too difficult either. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
+A simple albeit important problem is that of deciding how to sample from the body $G$ we are considering. As mentioned at the beginning of this section, a cube is quite convenient from a programmer's perspective. The Euclidean ball is not too problematic either. Letting $\xi_1,\ldots,\xi_n$ be iid standard normal distributions and $\eta$ be uniformly distributed in $[0,1]$, we see that
 \[ v_0 = \left( \eta^{1/n} \frac{\xi_1}{\sqrt{\sum_i \xi_i^2}}, \ldots, \eta^{1/n} \frac{\xi_n}{\sqrt{\sum_i \xi_i^2}} \right) \]
 is uniformly distributed in $B_2^n$.\\
 
@@ -1546,19 +1546,19 @@ The reason for choosing such a convoluted function is made clear by the followin
 	is uniformly distributed on $K$.
 \end{lemma}
 \begin{proof}
-	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$.\footnote{if $x\in s\partial K$, then $H(x)=\lambda(s)x$.} Obviously, the probability of $s\lambda(s)K$ under the uniform distribution (on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
+	Set $h(t)=e^{-t}/(n-1)!$ and fix some $0\leq s\leq 1$. Observe that the set $sK$ is mapped by $H$ to $s\lambda(s)K$.\footnote{if $x\in s\partial K$, then $H(x)=\lambda(s)x$.} Obviously, the probability of $s\lambda(s)K$ under the uniform distribution on $K$ is $(s\lambda(s))^n$. The probability of $sK$ under the given density $h$ is
 	\[ \int_{sK} \frac{e^{-\phi(x)}}{(n-1)!} \d{x} = \int_0^s h(t) t^{n-1} \d{t}. \]
 	By the definition of $\lambda$, these two quantities are equal. Since we can similarly restrict ourselves to any fixed cone similarly, the assertion holds and $H(v)$ is uniform.
 \end{proof}
 
 
-While we used usual (deterministic) sandwiching in our earlier algorithm, it tends to be the case that we sacrifice precision in favour of speed, more so when we aim to get a \textit{fast} algorithm and not just any polynomial time algorithm. While we say ``sacrifice precision'', this isn't really the case at all, as we shall see later.\\
+While we used usual (deterministic) sandwiching in our earlier algorithm, it turns out that we can get an algorithm that gives a better sandwiching ratio without being too costly in terms of time by introducing randomness.\\
 
-The sandwiching we take is such that More than $2/3$ of the volume of $B_2^n$ is in $K$. For some $1\leq m\leq n^{3/2}$, more than $2/3$ of the volume of $K$ is contained in the convex body $mB_2^n$.\\
-There exists a randomized algorithm to obtain a $m=n$ in the above, but for now we shall analyze it for a general $m$.\\
+The sandwiching we take is such that more than $2/3$ of the volume of $B_2^n$ is in $K$ and for a $1\leq m\leq n^{3/2}$, more than $2/3$ of the volume of $K$ is contained in the convex body $mB_2^n$.\\
+There exists a randomized algorithm to obtain a $m=n$ in the above (which we describe later), but for now, we shall analyze it for a general $m$.\\
 
 Set $q=2mn\log(4/\varepsilon)$ and $t=10^{10}nq^2(n\log n + \log(2/\varepsilon))$.\\
-In the algorithm, start with the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as described earlier in the section). Compute $w=H(v_t)$. We claim that $w$ is close to being drawn from the uniform distribution. This is stated more rigorously in the following, which is the main result of this section.
+In the algorithm, start with the uniform distribution on $B_2^n$ and do a lazy random walk in $qB_2^n$ up till time $t$ with $B_2^n$-steps, filtered by $F$ (as defined earlier in the section). Compute $w=H(v_t)$. We claim that $w$ is close to being drawn from the uniform distribution. This is stated more rigorously in the following, which is the main result of this section.
 
 \begin{ftheo}
 	\label{LovS algorithm works!}
@@ -1582,7 +1582,7 @@ The remainder of this section is dedicated to proving the above.
 
 Observe that the above is just a (better) bound on the volume of a spherical cap, which we rudimentarily bounded back in \Cref{spherical cap lower bound,spherical cap upper bound}. We omit the proof of the above.\\
 
-The above with the sandwiching we are taking implies that $(n^{-1/2}/3) B_2^n \subseteq K$. Also, \Cref{lemma 4.38} implies that $K\subseteq 3nmB_2^n$. Therefore, for any $x\in K$,
+The above with the sandwiching we are taking implies that $(1/3n^{1/2}) B_2^n \subseteq K$. Also, \Cref{lemma 4.38} implies that $K\subseteq 3nmB_2^n$. Therefore, for any $x\in K$,
 \begin{equation}
 	\label{eqn: 4.21}
 	\frac{\norm{x}}{3nm} \leq \phi(x) \leq 3\sqrt{n}\norm{x}.
@@ -1609,7 +1609,7 @@ The first lemma justifies why we can restrict ourselves to $qB_2^n$.
 	\[ \int_{\Rn \setminus 2nmB_2^n} F(x)\d{x} < \frac{7}{20} n! \vol(K) = \frac{7}{20} \int_{\Rn} F(x)\d{x}. \]
 	We can then use \Cref{inequality integral setminus ball} to get
 	\[ \int_{\Rn\setminus 2nm\log(4/\varepsilon)B_2^n} F(x)\d{x} < \left(\frac{7}{20}\right)^{\log(4/\varepsilon)} \int_{\Rn} F(x)\d{x} \leq \frac{\varepsilon}{4} n! \vol(K) \]
-	for $\varepsilon\leq 4$ (because $-\log(7/20)>1$), thus proving the required.
+	for sufficiently small $\varepsilon$, thus proving the required.
 \end{proof}
 
 The second lemma bounds the conductance of the chain.
@@ -1622,7 +1622,7 @@ The second lemma bounds the conductance of the chain.
 \begin{proof}
 	The first step is bounding the local conductance, much like we did for the earlier algorithm. Let $x\in pB_2^n$ and $y$ be chosen randomly from $x+B_2^n$. By the condition that $p\geq 10\sqrt{n}$, $y\not\in pB_2^n$ with probability at most $5/9$. Since $2/3$ of the volume of $B_2^n$ is in $K$, $y\not\in K$ with probability at most $1/3$. Therefore, $y\in pB_2^n\cap K$ with probability at least $1/9$. Fix such a $y$. Then
 	\[ y\in x+K\subseteq \phi(x)K + K = (\phi(x)+1)K, \]
-	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$ (using \Cref{better bound on spherical caps})\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.}. \Cref{cor to bound conductance} then yields the result.
+	so $\phi(y)\leq\phi(x)+1$. Therefore, $F_K(y)\geq F_K(x)/e$. This bounds the local conductance below by $1/9e > 1/25$. In the context of \Cref{cor to bound conductance}, the minimum value of $\theta$ is bounded below by $2/3pn^{1/2}$ (using \Cref{better bound on spherical caps}).\footnote{try bounding the distance $d$ such that $\vol(B_2^n \cap (de_1 + B_2^n)) \geq \vol(B_2^n)/2$ and going from there.} \Cref{cor to bound conductance} then yields the result.
 \end{proof}
 
 Let us now move on to the proof of the main theorem.
@@ -1637,8 +1637,8 @@ For measurable $A\subseteq K$,
 By \Cref{final thing uniformly distrib},
 \[ Q_F(H^{-1}(A)) = \frac{\vol(A)}{\vol(K)}. \]
 Clearly, it suffices to show that for any measurable $U\subseteq\Rn$,
-\[ |Q_F(U) - Q_t(U)| \leq \varepsilon. \]
-Using \Cref{lem 4.45}, we then have
+\[ |Q_F(U) - Q_t(U)| < \varepsilon. \]
+Using \Cref{lem 4.45},
 \begin{align*}
 	Q_F(U) - Q_F'(U) &= \frac{\mu_F(U)}{\mu_F(\Rn)} - \frac{\mu_F(U\cap q B_2^n)}{\mu_F(q B_2^n)}  \\
 		&\leq \frac{\mu_F(U)}{\mu_F(\Rn)} - \frac{\mu_F(U\cap q B_2^n)}{\mu_F(\Rn)} \\
@@ -1649,9 +1649,9 @@ Using \Cref{lem 4.45}, we then have
 		&= \frac{\mu_F(U\cap q B_2^n)\mu_F(\Rn\setminus qB_2^n)}{\mu_F(qB_2^n)\mu_F(\Rn)} \\
 		&\leq \frac{\mu_F(\Rn\setminus qB_2^n)}{\mu_F(\Rn)} \leq \frac{\varepsilon}{4}
 \end{align*}
-Therefore, it suffices to bound $|Q_F'(U)-Q_t(U)|$ by $3\varepsilon/4$. By \Cref{cor 4.23},
-\[ |Q_t(U) - Q_F'(U)| \leq \sqrt{M}\left(1-\frac{\Phi^2}{2}\right)^t. \]
-Recall that we start with the uniform distribution on $B_2^n$. To estimate $M$,
+Therefore, it suffices to bound $|Q_F'(U)-Q_t(U)|$ by $3\varepsilon/4$. To do so, we use \Cref{cor 4.23}.
+% \[ |Q_t(U) - Q_F'(U)| \leq \sqrt{M}\left(1-\frac{\Phi^2}{2}\right)^t. \]
+Recall that we start with the uniform distribution on $B_2^n$. To estimate $M$ (in the context of \Cref{cor 4.23}),
 \begin{align*}
 	M 	&= \sup_{A} \frac{Q_0(A)}{Q_F'(A)} \\
 		&= \sup_{A} \frac{\mu_F(q B_2^n)}{\vol(B_2^n)}\cdot\frac{\vol(A\cap B_2^n)}{\mu_F(A\cap q B_2^n)} \\
@@ -1671,7 +1671,7 @@ Therefore,
 \end{align*}
 
 This proves \Cref{LovS algorithm works!}.\\
-It is actually possible to perform the above algorithm with a far smaller value of $t$ ($\mathcal{O}^*(n^4m^2)$) while taking $\frac{\varepsilon}{1000n}B_2^n$-steps, but the analysis is more complicated so we omit it (we would have to use $s$-conductance instead). 
+It is actually possible to perform the above algorithm with a far smaller value of $t$ ($\mathcal{O}^*(n^4m^2)$) while taking $\frac{\varepsilon}{1000n}B_2^n$-steps, but the analysis is more complicated so we omit it (we would have to use $s$-conductance in the proof instead). 
 
 \subsubsection{Better Sandwiching and Ignoring the Error Probability}
 \label{pro sandwiching}
@@ -1682,39 +1682,42 @@ One of the basic assumptions in our algorithm was that of the sandwiching. Our b
 	\item At least $2/3$ of the volume of $K$ is in $mB_2^n$ for some $1\leq m\leq n^{3/2}$.
 \end{itemize}
 
-We have already seen in \Cref{sandwiching} that it is possible to deterministically obtain get $n^{3/2}B_2^n\subseteq K\subseteq B_2^n$.
+We have already seen in \Cref{sandwiching} that it is possible to deterministically obtain get $B_2^n\subseteq K\subseteq n^{3/2}B_2^n$.
 % First, we sketch an alternate algorithm to obtain $m=n^{3/2}$. At each step of \Cref{lovasz pre-sandwich}, if we have $\mathcal{E}_r\supseteq K$, we check if $(1/2n)\mathcal{E}_r$ is contained in $K$.
 Sticking with $n^{3/2}$ would cost us a running time of $n$ in the main part, so how do we do better?
 
-Suppose we have $n^{-1/2}B_2^n\subseteq K\subseteq nB_2^n$ First, we randomly select $T=3\log n$ points in $B_2^n$ independently and then check if they are in $K$. If one of them is not, we have a point in $B_2^n\setminus K$ to perform the ellipsoid step. Otherwise, we shall conclude that at least $2/3$ of the volume of $B_2^n$ is in $K$. Indeed, if not, the probability that we do not find a point in $B\setminus K$ is less than $(2/3)^{3\log n} \leq 1/(100n^2\log n)$. The procedure itself lasts at most $25n^2\log n$ steps, so the probability that it halts with $K$ containing less than $2/3$ of $B_2^n$ (which it has) is less than $1/4$.
+Suppose we have $n^{-1/2}B_2^n\subseteq K\subseteq nB_2^n$. First, we randomly select $T=3\log n$ points in $B_2^n$ independently and then check if they are in $K$. If one of them is not, we have a point in $B_2^n\setminus K$ to perform the ellipsoid step. Otherwise, we shall conclude that at least $2/3$ of the volume of $B_2^n$ is in $K$. Indeed, if not, the probability that we do not find a point in $B\setminus K$ is less than $(2/3)^{3\log n} \leq 1/(100n^2\log n)$. The procedure itself lasts at most $25n^2\log n$ steps, so the probability that it halts with $K$ containing less than $2/3$ of $B_2^n$ (which it has) is less than $1/4$.
 
 This gives a randomized algorithm that achieves the required with error probability less than $1/4$.\\
 It is worth noting that here, we have the second condition for $m=n$ in a stronger sense with at least $2/3$ of the volume of $B_2^n$ in $K$ and $K\subseteq m B_2^n$.\\
 
 We now discuss another tactic to obtain the first condition in a strong sense and the second condition in a weaker sense using the polar.
 
-Suppose we have $B_2^n\subseteq K\subseteq n^{3/2}B_2^n$. If $K$ contains some point $x$ with $\norm{x}>6n$, then we first expand the body by a factor of $(1+1/n)$ in all directions orthogonal to $x$, shrink it by a factor of $3$ along $x$, and then translate it by $(-2/3)(x/\norm{x})$. This affine transformation of $K$ still contains $B_2^n$ (Why?). We can repeat this until we get $B_2^n\subseteq K\subseteq 6B_2^n$ (or rather, some affine transformation of $K$). However, there is one massive detail that we have not analyzed -- how do we find a valid $x$ or determine that no such $x$ exists? That is, we wish to determine if $K\subseteq 6nB_2^n$ and if not, find a point in $6B_2^n\setminus K$. We can do this by generating $\log_{3/2} (10n\log n)$ independent random points in $K$(!) and test if they belong to $6nB_2^n$. If one of them does, we have a point to carry out the ellipsoid step. If all of them belong to $6nB_2^n$, then we shall conclude that at least $2/3$ of the volume is in $6nB_2^n$. Indeed, if not, the probability of not finding a point in $6nB_2^n\setminus K$ is less than $(2/3)^{\log_{3/2} (10n\log n)} \leq 1/(10n\log n)$.
+Suppose we have $B_2^n\subseteq K\subseteq n^{3/2}B_2^n$. If $K$ contains some point $x$ with $\norm{x}>6n$, then we first expand the body by a factor of $(1+1/n)$ in all directions orthogonal to $x$, shrink it by a factor of $3$ along $x$, and then translate it by $(-2/3)(x/\norm{x})$. This affine transformation of $K$ still contains $B_2^n$ (Why?). We can repeat this until we get $B_2^n\subseteq K\subseteq 6nB_2^n$ (or rather, some affine transformation of $K$).\\
 
-Generating points in $K$ is quite expensive however. If we use the sampling algorithm discussed in \Cref{LovS algorithm works!}, we require $\mathcal{O}(n^4 m^2 \log n)$ membership test and $\mathcal{O}(n^5 m^2 \log n)$ arithmetic operations.\\
+However, there is still one problem -- how do we find a valid $x$ or determine that no such $x$ exists? That is, we wish to determine if $K\subseteq 6nB_2^n$ and if not, find a point in $6B_2^n\setminus K$. We can do this by generating $\log_{3/2} (10n\log n)$ independent random points in $K$(!) and test if they belong to $6nB_2^n$. If one of them does, we have a point to carry out the ellipsoid step. If all of them belong to $6nB_2^n$, then we shall conclude that at least $2/3$ of the volume is in $6nB_2^n$. Indeed, if not, the probability of not finding a point in $6nB_2^n\setminus K$ is less than $(2/3)^{\log_{3/2} (10n\log n)} \leq 1/(10n\log n)$.
+
+Generating points in $K$ is quite expensive however, especially because the whole reason we are sandwiching is to make generating points easy.\\
+If we use the sampling algorithm discussed in \Cref{LovS algorithm works!}, we require $\mathcal{O}(n^4 m^2 \log n)$ membership test and $\mathcal{O}(n^5 m^2 \log n)$ arithmetic operations.\\
 With a neat little trick however, we may in fact take $m=\mathcal{O}(n)$ here. Let $K'=K\cap 18n B_2^n$. If $\vol(K\setminus 6nB_2^n)=\theta\vol(K)$ ($\theta>1/3$), then by \Cref{inequality integral setminus ball restricted to K}, $\vol(K\setminus 18nB_2^n)\leq\theta^2\vol(K)$. Therefore,
 \begin{align*}
 	\vol(K'\setminus 6nB_2^n) &= \vol(K\cap 18nB_2^n) - \vol(K\cap 6nB_2^n) \\
 		&\geq (1-\theta^2)\vol(K) - (1-\theta)\vol(K) \\
 		&= (\theta-\theta^2)\vol(K) \\
 		&= \theta\vol(K\cap 6nB_2^n) = \theta\vol(K'\cap 6nB_2^n) \\
-	(1+\theta)\vol(K'\setminus 6nB_2^n) &= \theta\vol(K') \\
+	(1+\theta)\vol(K'\setminus 6nB_2^n) &\geq \theta\vol(K') \\
 	\vol(K'\setminus 6nB_2^n) &\geq \frac{\theta}{1+\theta} \vol(K') \geq \frac{1}{4} \vol(K').
 \end{align*}
 
 We need to generate $\mathcal{O}(n\log^2 n)$ random points overall, which makes the cost of this phase $\mathcal{O}(n^7\log^3 n)$, which is at most a $\log$ factor more than that of the main part.\\
 
 The reader might be wondering why we even introduced this alternate way to obtain a sandwiching; it does not seem to be any better than what we did earlier with the strong satisfaction of the second condition. In special cases however, this method turns out to be extremely powerful.\\
-If $K$ is a polytope with $n^c$ facets, the two conditions can be attained with $m=\mathcal{O}(\sqrt{n}\log n)$. If $K$ is a symmetric polytope with a polynomial number of facets, then we can in fact achieve $m=\mathcal{O}(\log n)$!\\
+If $K$ is a polytope with polynomially many (in $n$) facets, the two conditions can be attained with $m=\mathcal{O}(\sqrt{n}\log n)$. If $K$ is a symmetric polytope with polynomially many facets, then we can in fact achieve $m=\mathcal{O}(\log n)$!\\
 
 We mentioned in \Cref{the walk} that while it seems like we sacrifice precision and get a bad error probability $\delta$, this is not really the case. This is due to a neat statistical trick from \cite{JerrumValiantVazirani1986} which claims that it suffices to solve the problem for $\delta=1/3$. Fix some $\varepsilon>0$ and suppose we have some algorithm that calculates a $\zeta$ such that $\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]$ with probability at least $2/3$. Let $s=10\log(1/\delta)$ and repeat the algorithm $2s+1$ times to obtain $\zeta_1,\zeta_2,\ldots,\zeta_{2s+1}$. Arranging the $(\zeta_i)$ in increasing order, let $\zeta=\zeta_{s+1}$ (the median).
 
 We claim that $\Pr[\zeta\in[(1-\varepsilon)\vol(K),(1+\varepsilon)\vol(K)]] \geq 1-\delta$.\\
-Suppose $\zeta$ is not in the interval. Then at least $s+1$ of the $2s+1$ $(\zeta_i)$ are outside the interval. We can then use Chernoff's inequality, which yields that out of $2s+1$ independent events, each having a probability at most $1/3$ of occurring, the probability that more than half occur is at most $e^{-s/10}\leq\delta$.
+If $\zeta$ is not in the interval, at least $(s+1)$ of the $(2s+1)$ $(\zeta_i)$ are outside the interval. We can then use Chernoff's inequality, which yields that out of $2s+1$ independent events, each having a probability at most $1/3$ of occurring, the probability that more than half occur is at most $e^{-s/10}\leq\delta$.
 
 \subsubsection{Bringing Everything Together and a Final Analysis}
 
@@ -1725,11 +1728,12 @@ Let $K$ be a convex body with $(2/3)\vol(B_2^n) \leq \vol(K\cap B_2^n)$ and $(2/
 Although we have described the primary algorithm in detail before, we restate it here because it is slightly different.\\
 Set $q=4mn\log(1/\varepsilon)$, $k=4n\log n$, and $t=10^{11}nkq^2\varepsilon^{-2}$.\\
 For each $i$, define
-\[ F_i(x) = \min\{F(x), \exp(-|x|n^{1/2}2^{-i/n})\} \]
+\[ F_i(x) = \min\{F(x), \exp(-\norm{x}n^{1/2}2^{-i/n})\} \]
 where $F$ is defined as in the beginning of \Cref{the walk}.\\
+% *** Why is there an n^{1/2}? Aren't we just taking the minimum where K_i is K \cap 2^{i/n} B_2^n?
 % To compute $\vol(K)$, we (attempt to) integrate $F$ --  as we have seen,
 % \[ \vol(K) = \frac{1}{n!} \int_{\Rn} F(x)\d{x}. \]
-Now, for each $i$, perform a lazy walk taking $3t$ steps in $qB_2^n$ with $B_2^n$-steps, filtered by $F_i$. Let these steps be $v_{i,1},\ldots,v_{3t}$. The stationary distribution of this walk $Q_{F_i}$ is such that $Q_{F_i}(A) = \mu_F(A)/\mu_F(qB_2^n)$. Here, the first $t$ steps are to get close to the stationary distribution, the next $t$ are what we use, and the last $t$ are to ensure independence from the next phase. \\
+Now, for each $i$, perform a lazy walk taking $3t$ steps in $qB_2^n$ with $B_2^n$-steps, filtered by $F_i$. Let these steps be $v_{i,1},\ldots,v_{i,3t}$. The stationary distribution of this walk $Q_{F_i}$ is such that $Q_{F_i}(A) = \mu_F(A)/\mu_F(qB_2^n)$. Here, the first $t$ steps are to get close to the stationary distribution, the next $t$ are what we use for the algorithm, and the last $t$ are to ensure independence from the next phase. \\
 The $i$th walk begins where the $(i-1)$th ends. For each $i$, compute
 \[ \Lambda_i = \frac{1}{t} \sum_{j=t+1}^{2t} \frac{F_{i-1}(v_{i,j})}{F_i(v_{i,j})}. \]
 Note that
@@ -1752,7 +1756,7 @@ Let us now analyze this beast.
 	\[ \Pr[(1-\varepsilon)\zeta \leq \vol(K) \leq (1+\varepsilon)\zeta] \geq 1-\delta \]
 	in
 	\[ \mathcal{O}\left(n^7 \varepsilon^{-2} \log^2 (n) \log^2(1/\varepsilon) \log(1/\delta) \right) \]
-	oracle calls. Further, if $K$ is a polytope with a polynomially many (in $K$) number of facets, we only require $\mathcal{O}\left(n^6 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$	oracle calls and if $K$ is a centrally symmetric polytope with a polynomially many number of facets, we only require $\mathcal{O}\left(n^5 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$ oracle calls.
+	oracle calls. Further, if $K$ is a polytope with polynomially many (in $n$) facets, we only require $\mathcal{O}\left(n^6 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$	oracle calls and if $K$ is a centrally symmetric polytope with polynomially many facets, we only require $\mathcal{O}\left(n^5 \varepsilon^{-2} \log^4 (n) \log^2(1/\varepsilon) \log(1/\delta) \right)$ oracle calls.
 \end{corollary}
 
 The rest of this section is dedicated to proving the above, which we have already done most of the work for over the past 3 subsections. For each $i$, let $W_i = \int_{qB_2^n} F_i$. By \Cref{lem 4.46}, 
@@ -1782,7 +1786,7 @@ Let us look at each of these separately, starting with the first.
 Let $P_{i,p}$ represent the distribution of $v_{i,p}$. As defined in \Cref{subsec: measure theoretic markov chains}, let $h_{i,p}$ be the distance function between $P_{i,p}$ and $Q_{F_i}$. Because $Q_{F_i}$ is atom-free,
 \[ h_{i,p}(x) = \sup_{\substack{A\subseteq qB_2^n \\ Q_{F_i}(A) = x}} P_{i,p}(A) - x. \]
 Also let $h_{0,p}(x)=0$. Define $\Phi=\min_i\Phi_i$. By \Cref{lem 4.46}, $\Phi \geq 1/(20000q\sqrt{n})$. Also define
-\[ \eta = \left(1-\frac{\Phi^2}{2}\right)^t < e^{-t\Phi^2/2} \leq  \]
+\[ \eta = \left(1-\frac{\Phi^2}{2}\right)^t < e^{-t\Phi^2/2} \] % \leq m^{-128n/\varepsilon^2} \]
 
 \begin{lemma}
 	\label{analysis lemma 1}
