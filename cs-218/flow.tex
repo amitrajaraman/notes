@@ -70,6 +70,7 @@ The max-flow and min-cut problems are in fact very closely related. When a minim
 For a flow $f$ and some edge $e$, we say that $f$ \textit{saturates} $e$ if $f(e)=c(e)$ and \textit{avoids} $e$ if $f(e)=0$.
 
 \begin{lemma}
+	\label{ff-algo lemma 1}
 	Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut. Moreover, $|f|=\capp(S,T)$ if and only if $f$ saturates every edge from $S$ to $T$ and avoids every edge from $T$ to $S$.
 \end{lemma}
 \begin{proof}
@@ -157,12 +158,27 @@ Therefore, the algorithm terminates.
 	The running time of the algorithm is bounded by $\mathcal{O}(C_{\text{max}}|E|)$.
 \end{lemma}
 \begin{proof}
-	
+	In each loop, we require $\mathcal{O}(m)$ time to maintain the residual graph. The time to find the $s$-$t$ path $\pi$ takes $\mathcal{O}(m+n)$ and augmenting takes $\mathcal{O}(n)$ (there are at most $n-1$ vertices on $\pi$). Since the loop runs for at most $C_{\text{max}}$ iterations, the bound follows.\\
+	In fact, we can bound it better as $\mathcal{O}(f|E|)$, where $f$ is the maximal flow value.
 \end{proof}
 
 \begin{lemma}
 	The Ford and Fulkerson algorithm returns a flow with maximum value.
 \end{lemma}
-\begin{proof}
-	To prove this, we shall show that there is some cut such that the flow is equal to the capacity of this cut.
-\end{proof}
+
+\paragraph{Correctness.} Denote by $\mathfrak{f}$ be the flow returned by the Ford-Fulkerson algorithm. Let
+\[ A = \{v\in V : \text{there is a path to $v$ from $s$ in $G_{\mathfrak{f}}$ }\} \]
+and $B=V\setminus A$. Observe that $s\in A$ and $t\in B$. Further, when the algorithm terminates, there is no path from $s$ to $t$ in $G_\mathfrak{f}$. Since the two sets are disjoint, $(A,B)$ is a cut on $G$ (this makes sense because the two graphs have the same vertex set).
+
+To show optimality, it suffices to show (using \Cref{ff-algo lemma 1}) that $\mathfrak{f}$ saturates every edge from $A$ to $B$ and avoids every edge from $B$ to $A$.
+\begin{itemize}
+	\item Suppose instead that there is an edge $\vv{uv}\in E$ such that $u\in A$, $v\in B$, and $\mathfrak{f}(\vv{uv}) < c(\vv{uv})$. However, then, $\vv{uv}$ is a forward edge in $G_\mathfrak{f}$, so $v\in A$. This is a contradiction and therefore, $\mathfrak{f}$ saturates every edge from $A$ to $B$.
+	\item On the other hand, suppose there is an edge $\vv{uv}\in E$ with $u\in B$ and $v\in A$ with $\mathfrak{f}(\vv{uv})>0$. Then $\vv{vu}$ will be a backward edge in $G_\mathfrak{f}$, so $u\in A$. This is again a contradiction, so $\mathfrak{f}$ saturates every edge from $B$ to $A$.
+\end{itemize}
+
+Our analysis shows that the $(A,B)$ cut has capacity equal to $|\mathfrak{f}|$. Therefore, $|\mathfrak{f}|$ is the maximal flow in $G$ and further, $\capp(A,B)$ is the minimum capacity cut in $G$ (this follows from the fact that we have attained this flow value, so it cannot exceed the capacity of any cut).
+
+\paragraph{Importance of chosen paths.} The chosen path turns out to be quite important. An example to highlight this fact can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Integral_example}{here}.
+
+\paragraph{Non-integral costs.} It is not too difficult to show that there is no problem if the costs are rational -- the flow increases by at least $1/q$, where $q$ is the maximum denominator of any cost when written as a fraction.\\
+However, it need not terminate when the costs are irrational. A standard counterexample to show this can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Non-terminating_example}{here}.

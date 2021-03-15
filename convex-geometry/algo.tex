@@ -1651,11 +1651,11 @@ Using \Cref{lem 4.45},
 \end{align*}
 Therefore, it suffices to bound $|Q_F'(U)-Q_t(U)|$ by $3\varepsilon/4$. To do so, we use \Cref{cor 4.23}.
 % \[ |Q_t(U) - Q_F'(U)| \leq \sqrt{M}\left(1-\frac{\Phi^2}{2}\right)^t. \]
-Recall that we start with the uniform distribution on $B_2^n$. To estimate $M$ (in the context of \Cref{cor 4.23}),
+To estimate $M$ (in the context of \Cref{cor 4.23}),
 \begin{align*}
 	M 	&= \sup_{A} \frac{Q_0(A)}{Q_F'(A)} \\
-		&= \sup_{A} \frac{\mu_F(q B_2^n)}{\vol(B_2^n)}\cdot\frac{\vol(A\cap B_2^n)}{\mu_F(A\cap q B_2^n)} \\
-		&= \frac{\mu_F(q B_2^n)}{\vol(B_2^n)} \sup_{A\subseteq B_2^n}\frac{\vol(A)}{\mu_F(A)} \\
+			% &= \sup_{A} \frac{\mu_F(q B_2^n)}{\vol(B_2^n)}\cdot\frac{\vol(A\cap B_2^n)}{\mu_F(A\cap q B_2^n)} \\
+			% &= \frac{\mu_F(q B_2^n)}{\vol(B_2^n)} \sup_{A\subseteq B_2^n}\frac{\vol(A)}{\mu_F(A)} \\
 		&= \frac{\mu_F(q B_2^n)}{\mu_F(B_2^n)} & (\text{the supremum is attained for }A=B_2^n) \\
 		&\leq \frac{n!\vol(K)}{e^{-3\sqrt{n}}\vol(B_2^n)} & (\text{\Cref{eqn: 4.21}}) \\
 		&\leq n^{3n} & \left(n!\leq n^n, \frac{\vol(K)}{\vol(B_2^n)} \leq \frac{3}{2}m^n, e^{-3\sqrt{n}}\leq\frac{2}{3}n^{n/2}\right)
@@ -1786,7 +1786,7 @@ Let us look at each of these separately, starting with the first.
 Let $P_{i,p}$ represent the distribution of $v_{i,p}$. As defined in \Cref{subsec: measure theoretic markov chains}, let $h_{i,p}$ be the distance function between $P_{i,p}$ and $Q_{F_i}$. Because $Q_{F_i}$ is atom-free,
 \[ h_{i,p}(x) = \sup_{\substack{A\subseteq qB_2^n \\ Q_{F_i}(A) = x}} P_{i,p}(A) - x. \]
 Also let $h_{0,p}(x)=0$. Define $\Phi=\min_i\Phi_i$. By \Cref{lem 4.46}, $\Phi \geq 1/(20000q\sqrt{n})$. Also define
-\[ \eta = \left(1-\frac{\Phi^2}{2}\right)^t < e^{-t\Phi^2/2} \] % \leq m^{-128n/\varepsilon^2} \]
+\[ \eta = \left(1-\frac{\Phi^2}{2}\right)^t \leq e^{-t\Phi^2/2} \] % \leq m^{-128n/\varepsilon^2} \]
 
 \begin{lemma}
 	\label{analysis lemma 1}
@@ -1812,7 +1812,7 @@ Also let $h_{0,p}(x)=0$. Define $\Phi=\min_i\Phi_i$. By \Cref{lem 4.46}, $\Phi \
 			&= (P_{i-1,3t}(A) - y) + (y-x) \\
 			&\leq h_{i-1,3t}(y) + \min\{x,1-x\} & (y-x\leq x) \\
 			&\leq 2\eta\min\{\sqrt{y},\sqrt{1-y}\} + \min\{\sqrt{x},\sqrt{1-x}\} \\
-			&\leq (1+2\sqrt{2}\eta) \min\{\sqrt{x},\sqrt{1-x}\} < (1+4\eta)\min\{sqrt{x},\sqrt{1-x}\}.
+			&\leq (1+2\sqrt{2}\eta) \min\{\sqrt{x},\sqrt{1-x}\} < (1+4\eta)\min\{\sqrt{x},\sqrt{1-x}\}.
 	\end{align*}
 	We can then use \Cref{decrease in markov distance} to conclude that for $p\geq t$,
 	\begin{align*}
@@ -1852,13 +1852,24 @@ Next, let us look at the second issue. Let $u=v_{i,a}$ and $w=v_{j,b}$ for some 
 			&\leq \sup_{A\in\mathcal{A}} |\overline{P}_{j,b}(A) - Q_{F_i}(A)| + |Q_{F_i}(A) - P_{j,b}(A)|
 	\end{align*}
 	By \Cref{analysis lemma 1}, the second quantity is at most $2\eta$. % *** HOW???
-	For each $i\leq k\leq j$ and $0\leq r\leq 2t$, let $\overline{h}_{k,r}$ be the distance between $\overline{P}_{k,r}$ and $Q_{F_k}$ To bound the first quantity, let $A\subseteq qB_2^n$ with $Q_{F_i}(A)=z$. Let $y=\int_A f\d{Q}_{F_i}$. Then
+	For each $i\leq k\leq j$ and $0\leq r\leq 2t$, let $\overline{h}_{k,r}$ be the distance between $\overline{P}_{k,r}$ and $Q_{F_k}$. To bound the first quantity, let $A\subseteq qB_2^n$ with $Q_{F_i}(A)=z$. Let $y=\int_A f\d{Q}_{F_i}\leq z$. Then
 	\begin{align*}
 		\overline{P}_{i,a}(A) - Q_{F_i}(A) &= \int_A c_f f \d{P}_{i,a} - z \\
 			&= \int_A c_f f \left(\d{P}_{i,a} - \d{Q}_{F_i}\right) + \int_A c_f f \d{Q}_{F_i} - z \\
-			&\leq c_f h_{i,a}(y) + c_f y - z. 
+			&\leq c_f h_{i,a}(y) + c_f y - z \\
+			&\leq 2 h_{i,a}(y) + 2 y - z. 
 	\end{align*}
-	% *** HOW DID THEY CONTINUE LOL
+	By \Cref{analysis lemma 1} and because $1\leq c_f\leq 2$,
+	\begin{align*}
+		\overline{h}_{i,a}(z) &\leq 4\eta\min\{\sqrt{y},\sqrt{1-y}\} + 2y - z \\
+			&\leq 4\eta\sqrt{z} + z \leq 5\sqrt{z}.
+	\end{align*}
+	We also trivially have
+	\[ \overline{h}_{i,a}(z) \leq 1-z \leq 5\sqrt{1-z}. \]
+	Applying the proof of \Cref{analysis lemma 1} to the alternate chain,
+	\[ \overline{h}_{j,b}(z) \leq 2\eta\min\{\sqrt{z},\sqrt{1-z}\} \leq 2\eta, \]
+	completing the proof.
+	% *** Result says 6\eta (but 4\eta is used later). doesn't the ``proof of \Cref{analysis lemma 1}'' work for any similar chain? Paper says only constant 4 (in the sqrt x sqrt 1-x) (then proceeds to use it for 5 as written above), 
 \end{proof}
 
 The third issue has already been taken care of in \Cref{bounding variance}.\\
@@ -1909,6 +1920,7 @@ Obviously, $\expec[\beta_i]=0$ for any $i$. We split the proof into two cases.\\
 	Using Chebyshev's inequality,
 	\[ \Pr\left[\left|\sum_i \beta_i\right| > \frac{\varepsilon}{8}\right] \leq \frac{64\Var\left[\sum_i\beta_i\right]}{\varepsilon^2} \leq  \]
 \end{enumerate}
+% *** yeah, I have no idea
 
 This proves the required.
 

@@ -24,8 +24,9 @@ Since the two $\psi$s are within a factor of $2$, estimates are not influenced v
 \cite{lovasz-simonovits-mixing-rate-isoperimetric} bounds the isoperimetric coefficient below by $1/d$, where $d$ is the diameter of the body. Note that this is quite obvious if the separating surface $\partial S$ is a (section of a) hyperplane.\\
 \cite{applegate-kannan-cube-sandwich} gives a more general result where the measure is replaced by that with density equal to any log-concave function and bounds it below by $2/d$. This is in fact as tight as we can get in terms of the diameter and indeed, the bound is attained for a thin long cylinder.\\
 However, the bodies we are interested in (in say, volume computation) tend to have a certain structure to them. In particular, sandwiching makes the bodies somewhat round.\\
-Throughout the rest of this section, denote the average distance of a point $K$ from its center of gravity by $M_1(K)$. The main result of this section is that for every convex body $K$,
-\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}. \]
+The main result of this section is that for every convex body $K$,
+\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}, \]
+where $M_1(K)$ is the average distance of a point in $K$ from the center of gravity of $K$. 
 
 \subsubsection{Needles and Localization Lemmas}
 \label{sec: 5.1.2}
@@ -61,7 +62,7 @@ To begin, consider the following motivated by \Cref{localization lemma}.
 	thus proving the claim.
 \end{proof}
 
-Observe that we can extend this more generally to the case where $f_1$ and $f_2$ are upper semicontinuous and $f_3$ and $f_4$ are lower semicontinuous by considering an appropriate sequence of continuous function. In particular, this allows us to restrict ourselves from $\Rn$ to some subset $T$ of $\Rn$ by multiplying the functions with the indicator function $\indic_T$ (the functions extend to upper semicontinuous functions if $T$ is closed and lower semicontinuous functions if $T$ is open).
+Observe that we can extend this more generally to the case where $f_1$ and $f_2$ are upper semicontinuous and $f_3$ and $f_4$ are lower semicontinuous by considering an appropriate sequence of continuous functions. In particular, this allows us to restrict ourselves from $\Rn$ to some subset $T$ of $\Rn$ by multiplying the functions with the indicator function $\indic_T$ (the functions extend to upper semicontinuous functions if $T$ is closed and lower semicontinuous functions if $T$ is open).
 % *** Why?
 
 \begin{corollary}
@@ -85,7 +86,7 @@ Observe that we can extend this more generally to the case where $f_1$ and $f_2$
 		\label{eqn: 5.2}
 		-M\varepsilon\int_{N_\varepsilon} 1 < \int_{N_\varepsilon} h < \varepsilon^2 \int_{N_\varepsilon} 1.
 	\end{equation}
-	Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required (we get $\int_N (g-\delta) \geq 0$ and $\int_N h = 0$).
+	Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each linear function $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required (we get $\int_N (g-\delta) \geq 0$ and $\int_N h = 0$).
 \end{proof}
 
 While these results are quite nice, exponents of a linear function are not very convenient to deal with. This motivates the following.
@@ -133,7 +134,7 @@ If we manage to prove our results for an exponential needle instead, it is extre
 	For each $n$, define $K_n\subseteq\R^{n+1}$ by
 	\[ K_n = \left\{ (t,x) : t\in[a,b], x\in\Rn, \norm{x} \leq 1 + \frac{G(t)}{n} \right\}. \]
 	Let $\hat{f}_i:\R^{n+1}\to\R$ by defined by $\hat{f}_i(t,x)=f_i(t)$.\\
-	For sufficiently large $n$, we have $(1+G(t)/n)\approx e^{G(t)} = F(t)$, so we can write\footnote{The $F$ disappears from the integral when integrating over the ``discs'' orthogonal to the $t$-axis.}
+	For sufficiently large $n$, we have $(1+G(t)/n)^n\approx e^{G(t)} = F(t)$, so we can write%\footnote{The $F$ disappears from the integral when integrating over the ``discs'' orthogonal to the $t$-axis.}
 	\[ \left(\int_{K_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{K_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
 	Using \Cref{lem: 5.1}, there exists a needle $N_n$ such that
 	\[ \left(\int_{N_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{N_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
@@ -152,8 +153,7 @@ If we manage to prove our results for an exponential needle instead, it is extre
 
 		\item Therefore, $\gamma=1$. We then have
 		\[ \ell_n(t)^n = \left((1 - (1-\ell_n(t)))^{1/(1-\ell_n(t))}\right)^{n(1-\ell_n(t))}. \]
-		The inner expression goes to $1/e$. If $\gamma'=\infty$, then we again get $\ell_n(t)^n\to 0$ for $t < b_0$, so we arrive at a contradiction similar to the first case above.\\
-		Otherwise, we have
+		The inner expression goes to $1/e$. If $\gamma'=\infty$, then we again get $\ell_n(t)^n\to 0$ for $t < b_0$, so we arrive at a contradiction similar to the first case above. Otherwise, we have
 		\[ \ell_n(t) \to e^{\gamma'(t-b_0)/(b_0-a_0)}. \]
 		Letting $\gamma''=\gamma'/(b_0-a_0)$ and letting $n\to\infty$, we get
 		\[ \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_1(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_2(t)\d{t}\right)^\beta > \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_3(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_4(t)\d{t}\right)^\beta. \]
@@ -187,10 +187,11 @@ The next result is essentially a generalized version of the above lemma, so is r
 
 \subsubsection{An Example Using the Equivalences}
 
-Let $K$ be a convex body $f:K\to\R$ be integrable. Define its $L_p$ norm by
+Let $K$ be a convex body and $f:K\to\R$ be integrable. Define its $L_p$ norm by
 \[ \norm{f}_p = \left(\frac{1}{\vol K} \int_{K} |f(x)|^p \d{x} \right)^{1/p}. \]
 It is easy to see that if $0<p<q$, $\norm{f}_p \leq \norm{f}_q$.
-
+% Use H\"{o}lder's
+% \int (f^p)^{1/p} \leq (\int (f^p)^{q/p})^{p/q} \norm{1}_{1/(1-p/q)}, which is exactly what you want after shifting around some stuff
 \begin{theorem}
 	Let $0<p<q$. There exists a constant $c_{p,q}$ such that for any dimension $n$, convex body $K\subseteq\Rn$ and linear function $f:K\to\R$,
 	\[ \norm{f}_q \leq c_{p,q}\norm{f}_p \]
@@ -248,7 +249,7 @@ Observe that these inequalities are tight for the regular simplex and also imply
 		\[ \int_K x_1 = 0 \text{ and } \int_K (x_1^2 - 1) = 0. \]
 		Using \Cref{cor: if positive on convex set convex on some needle} (or rather, an extension of it with a weak inequality on $\int g$), we get some needle $N=([a,b],\ell)$. We may assume that $[a,b]$ is contained in the $x_1$ axis. so that
 		\[ \int_a^b x_1\ell(x_1)^{n-1} = 0 \text{ and } \int_a^b x_1^2\ell(x_1)^{n-1} \geq \int_a^b \ell(x_1)^{n-1}. \]
-		We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually compute the integrals which results in a contradiction.
+		We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually (and tediously) compute the integrals to arrive at a contradiction.
 
 		\item Let $v$ be the point in $K$ furthest from $0$ (assume that $K$ is closed so this is well-defined). We wish to show that $\norm{v}\leq\sqrt{n(n+2)}$. Let $v^{\circ} = v/\norm{v}$ and for each unit $u$, let $\varphi(u) = \sup\{t\geq 0 : v+tu\in K\}$. Then,
 		\[ \vol(K) = \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1}\d{t}\d{u} = \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \d{u}. \]
@@ -296,7 +297,7 @@ In \Cref{def: isoperimetric coefficient}, let $K_3$ be the intersection of $K$ w
 	\[ \vol(K_1)\vol(K_2) \leq \frac{M_1(K)}{\varepsilon\ln 2} \vol(K)\vol(K_3). \]
 \end{ftheo}
 \begin{proof}
-	We may assume that $K_1$ and $K_2$ are closed since taking the closure or interior does not change volume. Assume that $b(K)=0$. Let $f_1$, $f_2$, and $f_3$ be the indicator functions on $K_1$, $K_2$, and $K_3$ respectively and $f_4(x) = \norm{x}/\varepsilon\ln 2$. We then wish to show that
+	We may assume that $K_1$ and $K_2$ are closed. Assume that $b(K)=0$. Let $f_1$, $f_2$, and $f_3$ be the indicator functions on $K_1$, $K_2$, and $K_3$ respectively and $f_4(x) = \norm{x}/\varepsilon\ln 2$. We then wish to show that
 	\[ \int_K f_1 \int_K f_2 \leq \int_K f_3 \int_K f_4. \]
 	By \Cref{localized exponential needle interconversion}, it suffices to show that for any exponential needle $E$,
 	\[ \int_E f_1 \int_E f_2 \leq \int_E f_3 \int_E f_4. \]

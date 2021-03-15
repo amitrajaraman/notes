@@ -1,0 +1,30 @@
+\section{Singular Homology Theory}
+
+\begin{definition}
+	A \textit{$p$-simplex} in $\Rn$ is the convex hull of $p+1$ points $\{x_0,\ldots,x_p\}$ such that $\{x_1-x_0,\ldots,x_p-x_0\}$ forms a linearly indepedent set. The points $(x_i)$ are then called the \textit{vertices} of the simplex. Further, if the vertices of a simplex are given in a specific order, it is called an \textit{ordered simplex}.
+\end{definition}
+
+The following equivalent formulation is easily proved.
+
+\begin{lemma}
+	Let $x_0,\ldots,x_p\in\Rn$. The following are equivalent.
+	\begin{itemize}
+		\item $\{x_1-x_0,\ldots,x_p-x_0\}$ is a linearly independent set.
+		\item If $\sum_i s_i x_i = \sum_i t_i x_i$ and $\sum_i s_i = \sum_i t_i$, then for each $i$, $s_i=t_i$.
+	\end{itemize}
+\end{lemma}
+
+It follows that any point in a $p$-simplex can be represented uniquely as a convex combination of the points forming it.\\
+Now, let $s$ be an ordered $p$-simplex with vertices $x_0,\ldots,x_p$. Define
+\[ \sigma_p = \{(t_0,\ldots,t_p)\in\R^p : \sum_i t_i = 1 \text{ and for each }i, t_i\geq 0\} \]
+and the function $f:\sigma_p\to s$ given by $(t_0,\ldots,t_p)\mapsto \sum_i t_i x_i$. Since $f$ is continuous, and $\sigma_p$ and $s$ are compact and Hausdorff, $f$ is in fact a homeomorphism.\\
+Viewing $\sigma_p$ as a simplex with vertices $e_1,\ldots,e_p$, it is known as the \textit{standard $p$-simplex} with natural ordering.
+
+\begin{definition}
+	Let $X$ be a topological space. A \textit{singular $p$-simplex} is a continuous map $\phi:\sigma_p\to X$. If $\phi$ is a singular $p$-simplex and $0\leq i\leq p$ is an integer, define $\partial_i\phi$, the \textit{$i$th face of $\phi$}, by the singular $(p-1)$-simplex
+	\[ \partial_i\phi(t_0,\ldots,t_{p-1}) = \phi(t_0,\ldots,t_{i-1},0,t_i,\ldots,t_{p-1}). \]
+\end{definition}
+
+If $f:X\to Y$ is a continuous map and $\phi$ is a singular $p$-simplex in $X$, we can define a singular $p$-simplex in $Y$ by $f_{\#}(\phi) = (f\circ\phi)$.
+
+Recall that an abelian group $G$ is a \textit{free group} if there exists $A\subseteq G$ such that any $g\in G$ can be uniquely represented as $g = \sum_{x\in A} n_x x$, where $n_x=0$ for all but finitely many $x$. In this context, $A$ is said to be a \textit{basis} for $G$.
