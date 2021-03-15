@@ -357,12 +357,14 @@ This is proved using the following result.
 	\[ \vol(K \cap \{x : \langle u,x\rangle < 0\}) \vol(K \cap \{x : \langle u,x\rangle > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : \langle u,x\rangle = 0\}). \]
 \end{theorem}
 
+The above can be proved by projecting the body onto the $u$-axis and considering the resulting log-concave function (using \nameref{brunn's theorem}).
+
 \begin{fcon}[KLS Conjecture]
 	\label{con: kls conjecture}
 	$\psi(K) = \Theta(\alpha(K)^{-1/2})$.
 \end{fcon}
 
-\Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cuts is the ``worst'' cut involved in the isoperimetric coefficient.\\
+\Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
 
 \cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
 \[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
