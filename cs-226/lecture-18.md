@@ -7,3 +7,5 @@ title: Lecture 18
 
 In a _serial adder_, we use a single full adder to compute the sum, controlling the timing of the input exactly. We feed the output carry back into the adder after 8 unit time along with the next bits, computing the next bit.    
 We require some temporary storage for the carry together with a clock. Suppose the clock timer is $$\tau$$. The storage element loads the value whenever the clock tick arrives, which is when the time is a multiple of $$\tau$$.
+
+<!-- PDA and stuff -->
