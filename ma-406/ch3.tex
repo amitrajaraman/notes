@@ -96,3 +96,16 @@
 	\begin{solution*}
 		Choose some $x,y\in\R^2\setminus A$.
 	\end{solution*}
+
+	% 24.8
+	\setcounter{exercise}{7}
+	\begin{exercise}
+		Let $p:X\to Y$ be a quotient map. Show that if $X$ is locally connected, so is $Y$.
+	\end{exercise}
+	\begin{solution*}
+		Let $y\in Y$ and $U$ be a neighbourhood of $Y$. Let $C$ be a component of $U$.\\
+		It suffices to show that $p^{-1}(C)$ is open in $X$.
+		Consider the collection of components of $p^{-1}(U)$ that intersect $p^{-1}(C)$. Observe that each of these components is open (by the local connectedness of $X$). Therefore, their union is open as well. Let $D$ be one of these components.\\
+		It suffices to show that $D\subseteq p^{-1}(C)$. Let $d\in D$. Then $p(d) \in p(D)\cap C$. However, $C$ is a component, so $p(D)\subseteq C$. It follows that $D\subseteq p^{-1}(p(D)) \subseteq p^{-1}(C)$, completing the proof.
+		% For each $x\in p^{-1}(y)$, let $V_x\subseteq p^{-1}(U)$ be a connected neighbourhood of $x$. Let $V = \bigcup_{x\in p^{-1}(y)} V_x$.
+	\end{solution*}

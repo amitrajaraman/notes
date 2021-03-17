@@ -13,14 +13,17 @@ Suppose we have a convex body $K$ and we want to find a surface that divides $K$
 
 \begin{fdef}
 	\label{def: isoperimetric coefficient}
-	The \textit{isoperimetric coefficient} of a convex body $K\subseteq\Rn$ is the largest number $\psi=\psi(K)$ such that for any measurable $S\subseteq K$,
-	\[ \vol_{n-1}(\partial S) \geq \psi \frac{\vol(S)\vol(K\setminus S)}{\vol(K)}. \]
-	Often, the above is replaced with
-	\[ \vol_{n-1}(\partial S) \geq \psi \min\{\vol(S), \vol(K\setminus S)\} \]
-	and this is the form we shall use throughout the rest of the section.
+	The \textit{isoperimetric coefficient} of a convex body $K\subseteq\Rn$ is defined as the largest number $\psi=\psi(K)$ such that for any measurable $S\subseteq K$,
+	\[ \psi = \inf_{S\subseteq K} \frac{\vol_{n-1}(\partial S)}{\min\{\vol(S),\vol(K\setminus S)\}} \]
+	More generally, for any log-concave density $p$ on $\Rn$ (instead of $\indic_K$ taken above), we can define $\psi_p$, the isoperimetric constant for $p$, as
+	\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}}. \]
 \end{fdef}
 
-Since the two $\psi$s are within a factor of $2$, estimates are not influenced very drastically on making this change. This problem turns out to be very intimately related to that of volume computation we explored in the previous section.\\
+In some texts, the above definition is replaced with
+\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{p(S)p(\Rn\setminus S)}. \]
+Since both definitions are within a factor of $2$ of each other, this does not make much difference in our estimations.\\
+
+This problem turns out to be very intimately related to that of volume computation we explored in the previous section.\\
 \cite{lovasz-simonovits-mixing-rate-isoperimetric} bounds the isoperimetric coefficient below by $1/d$, where $d$ is the diameter of the body. Note that this is quite obvious if the separating surface $\partial S$ is a (section of a) hyperplane.\\
 \cite{applegate-kannan-cube-sandwich} gives a more general result where the measure is replaced by that with density equal to any log-concave function and bounds it below by $2/d$. This is in fact as tight as we can get in terms of the diameter and indeed, the bound is attained for a thin long cylinder.\\
 However, the bodies we are interested in (in say, volume computation) tend to have a certain structure to them. In particular, sandwiching makes the bodies somewhat round.\\
@@ -361,10 +364,40 @@ The above can be proved by projecting the body onto the $u$-axis and considering
 
 \begin{fcon}[KLS Conjecture]
 	\label{con: kls conjecture}
-	$\psi(K) = \Theta(\alpha(K)^{-1/2})$.
+	There is a constant $c$ (independent of dimension) such that for any log-concave density $p$ on $\Rn$,
+	\[ \psi_p \geq c \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
 \end{fcon}
 
 \Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
 
 \cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
 \[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
+
+\subsection{A More Detailed Look}
+
+Henceforth, we write $a\gtrsim b$ if there is some constant $c$ (independent of dimension and all parameters under consideration) such that $a \geq c b$.\\
+Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by a similar proof), it just says that
+\[ \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}} \gtrsim \frac{1}{\sqrt{\opnorm{A}}}, \]
+where $A$ is the covariance matrix of $p$ and $\opnorm{A}$ is the largest eigenvalue of $A$.
+
+In this context, the \nameref{con: kls conjecture} says 
+
+\begin{fcon}[KLS Conjecture]
+	\label{con: kls conjecture reformulated}
+	For any log-concave density $p$ with covariance matrix $A$, $\psi_p \gtrsim \opnorm{A}^{-1/2}$. Equivalently, $\psi_p\gtrsim 1$ for any isotropic log-concave density $p$.
+\end{fcon}
+
+In this section, we look at a few consequences of the KLS Conjecture.
+
+\subsubsection{The Slicing Conjecture}
+
+The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.\\
+Equivalently, it says that there is not too much volume right around the origin.
+
+\begin{definition}[Isotropic Slicing Constant]
+	For any isotropic log-concave density $p$ on $\Rn$, define the \textit{isotropic (slicing) constant} by $L_p = p(0)^{1/n}$.
+\end{definition}
+
+\begin{fcon}[Slicing Conjecture]
+	For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p$ is $\mathcal{O}(1)$.
+\end{fcon}
