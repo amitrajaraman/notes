@@ -69,3 +69,30 @@
 	% \begin{solution*}
 	% 	We show that $Y\cup A$ is connected. Since $B$ is open in $X\setminus Y$, let $B = B'\cap (X\setminus Y)$ for some open $B'$.
 	% \end{solution*}
+
+\subsection{Connected Subspaces of the Real Line}
+
+	% 24.2
+	\setcounter{exercise}{1}
+	\begin{exercise}
+		Let $f:S^1\to\R$ be a continuous map. Show that there exist a point $x$ of $S_1$ such that $f(x)=f(-x)$.
+	\end{exercise}
+	\begin{solution*}
+		Consider the continuous map $g:S^1\to\R$ given by $x\mapsto f(x)-f(-x)$. Choose an arbitrary $x\in S_1$. If $g(x)=0$, then we are done. Otherwise, let $y=-x$ be the diametrically opposite point to $x$. Then $g(y)=-g(x)$. Since $S^1$ is connected and $0$ lies between $g(x)$ and $g(y)$, it follows that there exists some $x_0\in S^1$ such that $g(x_0)=0$.
+	\end{solution*}
+
+	% 24.3
+	\begin{exercise}
+		Let $f:X\to X$ be continuous. Show that if $X=[0,1]$, there is a point $x$ such that $f(x)=x$.
+	\end{exercise}
+	\begin{solution*}
+		Consider the continuous map $g:X\to\R$ given by $x\mapsto f(x)-x$. Observe that $g(0)\geq 0$ or $g(1)\leq 0$. If equality holds at either place, we are done. Otherwise, $0$ lies between them. Since $X$ is connected, the claim follows.
+	\end{solution*}
+
+	% 24.3
+	\begin{exercise}
+		Show that if $A$ is a countable subset of $\R^2$, $\R^2\setminus A$ is path-connected.
+	\end{exercise}
+	\begin{solution*}
+		Choose some $x,y\in\R^2\setminus A$.
+	\end{solution*}
