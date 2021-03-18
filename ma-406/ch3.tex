@@ -145,7 +145,7 @@
 	\phantom{bah}
 		\begin{enumerate}[(a)]
 			\item Show that in the finite complement topology on $\R$, every subspace is compact. 
-			\item If $\R$ has the topology consisting of all sets $A$ such that $\R\setminus A$ is either countable or all of $\R$, is $[0,1]$ a compact space.
+			\item If $\R$ has the topology consisting of all sets $A$ such that $\R\setminus A$ is either countable or all of $\R$, is $[0,1]$ a compact space?
 		\end{enumerate}
 	\end{exercise}
 	\begin{solution*}
@@ -179,5 +179,16 @@
 		Show that if $f:X\to Y$ is continuous, where $X$ is compact and $Y$ is Hausdorff, then $f$ is a closed map.
 	\end{exercise}
 	\begin{solution*}
-		
+		Let $A$ be a closed subspace of $X$. Then $A$ is compact, and since $f$ is continuous, so is $f(A)$. Recall that compact subspaces of Hausdorff spaces are closed. Therefore, $f(A)$ is closed, so $f$ is closed.
 	\end{solution*}
+
+	% 26.7
+	% \begin{exercise}
+	% 	Show that if $Y$ is compact, then the projection $\pi_1:X\times Y\to X$ is a closed map.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	Let $C$ be closed in $X\times Y$. Then $U = (X\times Y)\setminus C$ is open, so can be written as a union $U = \bigcup_{i\in I} U_i\times V_i$, where each $U_i,V_i$ is open in $X,Y$ respectively.
+	% 	% Since the projection map is open, $\{\pi_1(U)\times V_i : i\in I\}$ forms an open cover of $U$.
+	% \end{solution*}
+
+	
