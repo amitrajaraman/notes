@@ -83,13 +83,14 @@
 
 	% 24.3
 	\begin{exercise}
-		Let $f:X\to X$ be continuous. Show that if $X=[0,1]$, there is a point $x$ such that $f(x)=x$.
+		Let $f:X\to X$ be continuous. Show that if $X=[0,1]$, there is a point $x$ such that $f(x)=x$. What happens if $X=[0,1)$ or $(0,1]$?
 	\end{exercise}
 	\begin{solution*}
-		Consider the continuous map $g:X\to\R$ given by $x\mapsto f(x)-x$. Observe that $g(0)\geq 0$ or $g(1)\leq 0$. If equality holds at either place, we are done. Otherwise, $0$ lies between them. Since $X$ is connected, the claim follows.
+		Consider the continuous map $g:X\to\R$ given by $x\mapsto f(x)-x$. Observe that $g(0)\geq 0$ or $g(1)\leq 0$. If equality holds at either place, we are done. Otherwise, $0$ lies between them. Since $X$ is connected, the claim follows.\\
+		The claim need not hold if $X=[0,1)$ or $(0,1]$. Indeed, consider the functions $x\mapsto (x+1)/2$ and $x\mapsto x/2$.
 	\end{solution*}
 
-	% % 24.3
+	% % 24.4
 	% \begin{exercise}
 	% 	Show that if $A$ is a countable subset of $\R^2$, $\R^2\setminus A$ is path-connected.
 	% \end{exercise}
@@ -97,7 +98,18 @@
 	% 	Choose some $x,y\in\R^2\setminus A$.
 	% \end{solution*}
 
-	% 24.8
+\subsection{Components and Local Connectedness}
+
+	% 25.1
+	\begin{exercise}
+		What are the components and path components of $\R_\ell$? What are the continuous maps $\R\to\R_\ell$?
+	\end{exercise}
+	\begin{solution*}
+		It is obvious that any singleton in $\R_\ell$ is connected and path-connected. We claim that these are the only non-empty connected (and path-connected) subspaces. Let $A\subseteq\R_\ell$ have at least two elements. Let $x,y\in A$ with $x<y$. Then $(-\infty,y)\cap A$ and $[y,\infty)\cap A$ forms a separation of $A$, so it is not connected, and thus not a component. Therefore, the components of $\R_\ell$ are the singletons.\\
+		Recall that any continuous maps connected subspaces to connected subspaces. In particular, any continuous map $\R\to\R_\ell$ maps $\R$ to a connected subspace of $\R_\ell$. However, this must be a singleton and therefore, the continuous maps $\R\to\R_\ell$ are the singletons.
+	\end{solution*}
+
+	% 25.8
 	\setcounter{exercise}{7}
 	\begin{exercise}
 		Let $p:X\to Y$ be a quotient map. Show that if $X$ is locally connected, so is $Y$.
@@ -108,4 +120,64 @@
 		Consider the collection of components of $p^{-1}(U)$ that intersect $p^{-1}(C)$. Observe that each of these components is open (by the local connectedness of $X$). Therefore, their union is open as well. Let $D$ be one of these components.\\
 		It suffices to show that $D\subseteq p^{-1}(C)$. Let $d\in D$. Then $p(d) \in p(D)\cap C$. However, $C$ is a component, so $p(D)\subseteq C$. It follows that $D\subseteq p^{-1}(p(D)) \subseteq p^{-1}(C)$, completing the proof.
 		% For each $x\in p^{-1}(y)$, let $V_x\subseteq p^{-1}(U)$ be a connected neighbourhood of $x$. Let $V = \bigcup_{x\in p^{-1}(y)} V_x$.
+	\end{solution*}
+
+\subsection{Compact Spaces}
+
+	% 26.1
+	\begin{exercise}
+	\phantom{bah}
+		\begin{enumerate}[(a)]
+			\item Let $\mathcal{T}$ and $\mathcal{T}'$ be two topologies on the set $X$. Suppose that $\mathcal{T}'\supseteq\mathcal{T}$. What does compactness of $X$ under one of these topologies imply about compactness under the other?
+			\item Show that if $X$ is compact Hausdorff under both $\mathcal{T}$ and $\mathcal{T}'$, either $\mathcal{T}$ and $\mathcal{T}'$ are equal or they are not comparable.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item If $X$ is compact under $\mathcal{T}'$, then it is compact under $\mathcal{T}$. Indeed, any open cover under $\mathcal{T}$ is an open cover under $\mathcal{T}'$, and compactness implies the existence of a finite subcover.\\
+			The converse need not hold, as can be seen with the example of $X=\R$, $\mathcal{T}'$ as the discrete topology, and $\mathcal{T}$ as the indiscrete topology.
+			\item Suppose $\mathcal{T}\subseteq\mathcal{T}'$. Let $U\in\mathcal{T}'$. Then $X\setminus U$ is closed, and thus compact under $\mathcal{T}'$. By a method similar to part (a), $X\setminus U$ is also compact under $\mathcal{T}$, and thus closed in $\mathcal{T}$. This implies that $U$ is open in $\mathcal{T}$, and therefore $\mathcal{T}'\subseteq\mathcal{T}$, proving the claim.
+		\end{enumerate}
+	\end{solution*}
+
+	% 26.2
+	\begin{exercise}
+	\phantom{bah}
+		\begin{enumerate}[(a)]
+			\item Show that in the finite complement topology on $\R$, every subspace is compact. 
+			\item If $\R$ has the topology consisting of all sets $A$ such that $\R\setminus A$ is either countable or all of $\R$, is $[0,1]$ a compact space.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Let $A\subseteq\R$ and $\mathcal{A}$ be an open cover of $A$. Let $U\in\mathcal{A}$. Then $(\R\setminus U)\cap A$ is finite, suppose it is equal to $\{x_1,\ldots,x_n\}$. For each $1\leq i\leq n$, let $U_i\in\mathcal{A}$ such that $x_i\in U_i$. Then $\{U,U_1,\ldots,U_n\}$ forms a finite subcover of $A$.
+			\item No, consider the open cover
+			\[ \mathcal{A} = \{ \R\setminus (\Q\cap[0,1]) \cup\{x\} : x\in \Q\cap[0,1] \}. \]
+			It is easy to show that $\mathcal{A}$ has no finite subcover.
+		\end{enumerate}
+	\end{solution*}
+
+	% 26.3
+	\begin{exercise}
+		Show that a finite union of compact subspaces of $X$ is compact.
+	\end{exercise}
+	\begin{solution*}
+		Let $U_1,\ldots,U_n$ be compact subspaces of $X$, $U = \bigcup_{1\leq i\leq n} U_i$, and $\mathcal{A}$ be an open cover of $U$. For each $1\leq i\leq n$, let $\mathcal{A}_i$ be a finite subcover of $\mathcal{A}$ of $U_i$ (such a subcover exists because $U_i$ is compact and $\mathcal{A}$ is an open cover of $U_i$). Then $\bigcup_{1\leq i\leq n}\mathcal{A}_i$ forms a finite subcover of $U$, proving the required.
+	\end{solution*}
+
+	% 26.5
+	\setcounter{exercise}{4}
+	\begin{exercise}
+		Let $A$ and $B$ be disjoint compact subspaces of the Hausdorff subspace $X$. Show that there exist disjoint open subsets $U$ and $V$ containing $A$ and $B$ respectively.
+	\end{exercise}
+	\begin{solution*}
+		For each $a\in A$, let $U_a$ and $V_a$ be disjoint open subsets containing $\{a\}$ and $B$ respectively. Then $\{U_a : a\in A\}$ forms an open cover of $A$, so has a finite subcover, say $\{U_{a_1},\ldots,U_{a_n}\}$. Then $\bigcup_{1\leq i\leq n} U_{a_i}$ and $\bigcap_{1\leq i\leq n} V_{a_i}$ are disjoint open subsets containing $A$ and $B$ respecitvely, completing the proof.
+	\end{solution*}
+	
+	% 26.6
+	\begin{exercise}
+		Show that if $f:X\to Y$ is continuous, where $X$ is compact and $Y$ is Hausdorff, then $f$ is a closed map.
+	\end{exercise}
+	\begin{solution*}
+		
 	\end{solution*}
