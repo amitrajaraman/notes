@@ -1,0 +1,221 @@
+\section{Introduction to Probability}
+
+\subsection{Basic Definitions}
+
+\begin{definition}[Probability Space]
+    Let $(\Omega,\mathcal{A},\mu)$ be a measure space. If $\mu(\Omega)=1$, then $(\Omega,\mathcal{A},\mu)$ is called a \textit{probability space} and $\mu$ is called a \textit{probability measure}.
+\end{definition}
+
+In the above definition, $\Omega$ is called the \textit{sample space}, $\mathcal{A}$ is called the \textit{event space} (and its elements are called \textit{events}), and $\mu$ is called the \textit{probability function}.
+
+\vspace{1mm}
+While the above definition may appear to be completely unrelated to the intuitive notion of probability we have, the following example should hopefully make the meanings clear. 
+
+\vspace{1mm}
+Consider a coin toss. The sample space $\Omega$ has two elements, $\text{H}$ (for heads) and $\text{T}$ (for tails). The event space $\mathcal{A}$ then has four elements: $\emptyset$, $\{H\}$, $\{T\}$, and $\{H,T\}$. Each of these events have associated probabilities $0,\frac{1}{2},\frac{1}{2}$, and $1$ respectively. Note that $\{H,T\}$ represents the event that either a heads or a tails occurs.
+
+\vspace{2mm}
+The requirement of the event space to be a $\sigma$-algebra is quite natural as well.
+The event $\Omega$ corresponds to saying that \textit{something} happens, which must occur with certainty.
+Closedness under complements means that if we have an event $A$, we should have another event that corresponds to $A$ not occurring.
+Finally, $\sigma$-$\cup$-closedness corresponds to the occurrence of at least one of the events we are taking the union of.
+
+\begin{itemize}
+    \item \textit{Uniform distribution.} Let $\Omega$ be a finite nonempty set. Consider the function $\mu:2^\Omega\to[0,1]$ given by
+    $$\mu(A)=\frac{|A|}{|\Omega|}\text{ for each $A\subseteq\Omega$.}$$
+    This defines a probability measure on $2^\Omega$. This function $\mu$ is called the \textit{uniform distribution on $\Omega$} and is denoted $\mathcal{U}_\Omega$. As the reader might expect, it represents the case where any element of $\Omega$ is equally likely to occur. The resulting probability space $(\Omega,2^\Omega,\mathcal{U}_\Omega)$ is called a \textit{Laplace space}.
+    
+    \item \textit{Dirac measure.} Let $\omega\in\Omega$ and $\delta_\omega(A)=\indic(\{\omega\})$. Then $\delta_\omega$ is a probability measure on any $\sigma$-algebra $\mathcal{A}\subseteq2^\Omega$. $\delta_\omega$ is called the \textit{Dirac measure} for the point $\omega$.
+    
+    The Dirac measure is useful in constructing discrete probability distributions.
+    
+\end{itemize}
+
+
+\vspace{2mm}
+Let $\Omega$ be a countable non-empty set and $\mathcal{A}=2^\Omega$. Further let $(p_\omega)_{\omega\in\Omega}$ be non-negative numbers. The map given by $A\mapsto\mu(A)=\sum_{\omega\in A}p_\omega$ defines a $\sigma$-finite measure on $2^\Omega$. $p=(p_\omega)_{\omega\in\Omega}$ is called the \textit{weight function} of $\mu$. $p_\omega$ is called the \textit{weight of $\mu$ at point $\omega$}.
+
+In the case where $\sum_{\omega\in\Omega}p_\omega=1$, $\mu$ is a probability measure. Then the vector $(p_\omega)_{\omega\in\Omega}$ is called a \textit{probability vector}.
+
+\vspace{2mm}
+Given any probability space, we typically use the $\Pr$ or $\textbf{P}$ symbol to denote the universal object of a probability measure, and the probabilities $\Pr[\cdot]$ or $\textbf{P}[\cdot]$ are always written in (square) brackets.
+
+\begin{definition}[Probability Distribution Function]
+    A right continuous monotonically increasing function $F:\mathbb{R}\to[0,1]$ such that $\lim_{x\to-\infty}F(x)=0$ and $\lim_{x\to\infty}F(x)=1$ is called a \textit{(proper) probability distribution function}, often abbreviated as \textit{p.d.f.} If we instead have $\lim_{x\to\infty}F(x)\leq 1$, $F$ is called a \textit{(possibly) defective p.d.f.} If $\mu$ is a probability measure on $(\mathbb{R},\mathcal{B}(\mathbb{R}))$, then the function $F_\mu$ given by $x\mapsto \mu((-\infty,x])$ is called the \textit{distribution function} of $\mu$.
+\end{definition}
+
+A probability measure is uniquely determined by its distribution function. (Why?)
+
+\begin{fdef}[Random Variable]
+    Let $(\Omega,\mathcal{A},\textbf{P})$ be a probability space, $(\Omega',\mathcal{A}')$ a measurable space, and $X:\Omega\to\Omega'$ be measurable. Then $X$ is called a \textit{random variable} with values in $(\Omega',\mathcal{A}')$. If $(\Omega',\mathcal{A}') = (\mathbb{R},\mathcal{B}(\mathbb{R}))$, then $X$ is called a \textit{real random variable}. For $A'\in\mathcal{A}'$, we often denote
+        $$\textbf{P}[X^{-1}(A')]\text{ as }\textbf{P}[X\in A']\text{ and } X^{-1}(A')\text{ as }\{X\in A'\}.$$
+    In particular, we let $\{X\geq 0\}=X^{-1}([0,\infty))$ and define $\{X\leq b\}$ and other terms similarly.
+\end{fdef}
+
+
+As we shall primarily deal with real random variables in our study of probability, we often drop the ``real" and refer to them as just random variables.
+
+\begin{definition}
+    Let $X$ be a random variable with underlying probability space $(\Omega,\mathcal{A},\textbf{P})$.
+    \begin{enumerate}[(i)]
+        \item The probability measure $\textbf{P}_X=\textbf{P}\circ X^{-1}$ is called the \textit{distribution} of $X$.
+        \item For a real random variable $X$, the map $F_X$ given by $x\mapsto\textbf{P}[X\leq x]$ is called the \textit{distribution function} of $P_X$ (or $X$). If $\mu=\textbf{P}_X$, we write $X\sim\mu$ and say that $X$ has distribution $\mu$.
+        \item A family $(X_i)_{i\in I}$ of random variables is called \textit{identically distributed} if $\textbf{P}_{X_i}=\textbf{P}_{X_j}$ for all $i,j\in I$. We write $X\iddistrib Y$ if $\textbf{P}_X=\textbf{P}_Y$ ($\mathcal{D}$ for \textit{distribution}).
+    \end{enumerate}
+\end{definition}
+
+The distribution of a random variable essentially gives us a probability corresponding to each element of $\Omega'$. Two random variables being identically distributed means that they are essentially the same, in the sense that a die labelled from $1$ through $6$ is the same as one labelled from $a$ through $f$.
+
+\begin{theorem}
+    For any p.d.f. $F$, there exists a real random variable $X$ with $F_X=F$.
+\end{theorem}
+
+\begin{proof}
+    We shall explicitly construct a probability space $(\Omega,\mathcal{A},\textbf{P})$ and random variable $X:\Omega\to\mathbb{R}$ such that $F_X=F$.
+    
+    \vspace{1mm}
+    One choice that might come to mind is to take $(\Omega,\mathcal{A}) = (\mathbb{R},\mathcal{B}(\mathbb{R}))$, $X:\mathbb{R}\to\mathbb{R}$ as the identity function, and $\textbf{P}$ as the Lebesgue-Stieltjes measure with distribution function $F$.
+    
+    \vspace{1.5mm}
+    While this choice of ours works, let us attempt to construct another more ``standard" choice that is perhaps more enlightening. Let $\Omega=(0,1),\mathcal{A}=\left.\mathcal{B}(\mathbb{R})\right|_\Omega$ and $\textbf{P}$ be the Lebesgue measure on $(\Omega,\mathcal{A})$. This is standard in the sense that given any $F$, we construct a random variable over the same probability space. Define the left continuous inverse of $F$ as
+    $$F^{-1}(t)=\inf\{x\in\mathbb{R}:F(x)\geq t\}\text{ for }t\in (0,1).$$
+    Note that $F^{-1}(t)\leq x$ if and only if $F(x)\geq t$.
+    In particular,
+    $$\{t:F^{-1}(t)\leq x\}=(0,F(x)]\cap(0,1)$$
+    and so $F^{-1}:(\Omega,\mathcal{A})\to(\mathbb{R},\mathcal{B}(\mathbb{R}))$ is measurable. Thus
+    $$\textbf{P}\left[\{t:F^{-1}(t)\leq x\}\right]=F(x).$$
+    This implies that $F^{-1}$ is the random variable we wish to construct.
+\end{proof}
+
+Note that the above implies that there is a bijection between probability distribution functions and distribution functions corresponding to random variables.
+
+\begin{definition}
+    If a distribution $F:\mathbb{R}^n\to[0,1]$ is of the form
+    $$F(x)=\int_{-\infty}^{x_1}\d{t_1}\int_{-\infty}^{x_2}\d{t_2}\cdots\int_{-\infty}^{x_n}\d{t_n}\, f(t_1,t_2,\ldots,t_n)\text{ for }x\in\mathbb{R}^n$$
+    for some integrable function $f:\mathbb{R}^n\to[0,\infty)$, then $f$ is called the \textit{density of the distribution}.
+\end{definition}
+
+It is often easier to describe continuous probability distributions either in terms of their density or the corresponding probability distribution function. For example, if a random variable corresponds to picking a number uniformly randomly from $[0,1]$, then its density function is uniformly equal to $1$.
+
+\subsection{Important Examples of Random Variables}
+\label{examples of random variables}
+
+We now give several important examples of random variables that we shall encounter several times in our study of probability.
+
+\begin{enumerate}
+    \item \textit{Bernoulli Distribution.}
+    
+    Let $p\in[0,1]$ and $\textbf{P}[X=1]=p$, $P[X=0]=1-p$. Then $\textbf{P}_X$ is called the \textit{Bernoulli distribution with parameter $p$} and is denoted $\Ber_p$. More formally,
+    $$\Ber_p=(1-p)\delta_0 + p\delta_1.$$
+    Its distribution function is
+    $$
+    F_X(x) = 
+    \begin{cases}
+    0, &x<0 \\
+    1-p, &x\in[0,1) \\
+    1, &x\geq 1
+    \end{cases}
+    $$
+    
+    Note that the above can be likened to the outcome of a weighted coin, with heads and tails corresponding to $0$ and $1$.
+    
+    \vspace{2mm}
+    The distribution $\textbf{P}_Y$ of $Y=2X-1$ is called the \textit{Rademacher distribution with parameter $p$}. More formally,
+    $$\Rad_p = (1-p)\delta_{-1}+p\delta_1.$$
+    $\Rad_{1/2}$ is simply called the Rademacher distribution.
+    
+    \item \textit{Binomial Distribution.}
+    
+    Let $p\in[0,1]$ and $n\in\mathbb{N}$. Let $X:\Omega\to[n]_0$ be such that for each valid $k$,
+    $$\textbf{P}[X=k]=\binom{n}{k}p^k(1-p)^{n-k}.$$
+    Then $\textbf{P}_X$ is called the \textit{binomial distribution with parameters $n$ and $p$} and is denoted $b_{n,p}$. More formally,
+    $$b_{n,p}=\sum_{k=0}^n \binom{n}{k}p^k(1-p)^{n-k}\delta_k.$$
+    
+    \item \textit{Geometric Distribution.}
+    
+    Let $p\in(0,1]$ and $X:\Omega\to\mathbb{N}_0$ be such that for each $n\in\mathbb{N}_0$,
+    $$\textbf{P}[X=n]=p(1-p)^n.$$
+    Then $\textbf{P}_X$ is called the \textit{geometric distribution with parameter $p$} and is denoted $\gamma_p$ or $b_{1,p}^{-}$. More formally,
+    $$\gamma_p=\sum_{n=0}^\infty p(1-p)^n\delta_n.$$
+    The geometric distribution $\gamma_p$ represents the waiting time for a success in a series of independent random experiments, each of which succeeds with a probability $p$.
+    
+    \item \textit{Negative Binomial Distribution.}
+    
+    Let $r>0$ and $p\in(0,1]$. We denote by
+    $$b^{-}_{r,p}=\sum_{k=0}^\infty \binom{-r}{k}(-1)^kp^r(1-p)^k\delta_k$$
+    the \textit{negative binomial distribution} or \textit{Pascal distribution} with parameters $r$ and $p$. Note that $r$ need not be an integer.
+    The negative binomial distribution $b^-_{r,p}$ represents the waiting time for the $r$th success in a series of independent random experiments, each of which succeeds with a probability $p$. Based on this intuition, we expect there to be some relation between the geometric distribution and the negative binomial distribution. We shall explain this relation later in the notes.
+    
+    
+    \item \textit{Poisson Distribution.}
+    
+    Let $\lambda\in[0,\infty)$ and $X:\Omega\to\mathbb{N}_0$ be such that for each $n\in\mathbb{N}_0$,
+    $$P[X=n]=e^{-\lambda}\frac{\lambda^n}{n!}.$$
+    Then $\textbf{P}_X=\Poi_\lambda$ is called the \textit{Poisson distribution with parameter $\lambda$}.
+    
+    \item \textit{Hypergeometric Distribution.}
+    
+    Consider a basket with $B\in\mathbb{N}$ black balls and $W\in\mathbb{N}$ white balls. If we draw $n\in\mathbb{N}$ balls from the basket, some simple combinatorics shows that the probability of drawing (exactly) $b\in[n]_0$ black balls is given by the \textit{hypergeometric distribution with parameters $B,W,n$}:
+    $$\operatorname{Hyp}_{B,W;n}(\{b\})=\frac{\binom{B}{b}\binom{W}{n-b}}{\binom{B+W}{n}}.$$
+    In general, if we have $k$ colors with $B_i$ balls of colour $i$ for each $i$, the probability of drawing exactly $b_i$ balls of colour $i$ for each $i$ is given by the \textit{generalised hypergeometric distribution}:
+    $$\operatorname{Hyp}_{B_1,B_2,\ldots,B_k;n}(\left\{(b_1,b_2,\ldots,b_k)\right\}) = \frac{\binom{B_1}{b_1}\binom{B_2}{b_2}\cdots\binom{B_k}{b_k}}{\binom{B_1+B_2+\cdots+B_k}{n}}$$
+    where $n=b_1+b_2+\cdots+b_k$.
+    
+    \item \textit{Gaussian Normal Distribution.}
+    
+    Let $\mu\in\mathbb{R}, \sigma^2>0$. Let $X$ be a real random variable such that for $x\in\mathbb{R}$,
+    $$\textbf{P}[X\leq x]=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^x \exp\left(-\frac{(t-\mu)^2}{2\sigma^2}\right)\d{t}$$
+    Then $\textbf{P}_X$ is called the \textit{Gaussian normal distribution} (or just \textit{normal distribution}) \textit{with parameters $\mu$ and $\sigma^2$} and is denoted $\mathcal{N}_{\mu,\sigma^2}$. In particular, $\mathcal{N}_{0,1}$ is the standard normal distribution. 
+    
+    \item \textit{Exponential Distribution.}
+    
+    Let $\theta>0$ and $X$ be a nonnegative random variable such that for each $x\geq 0$,
+    $$\textbf{P}[X\leq x]=\textbf{P}\left[X\in[0,x]\right]=\int_{0}^x\theta e^{-\theta t}\d{t}.$$
+    Then $\textbf{P}_X$ is called the \textit{exponential distribution with parameter $\theta$} and is denoted $\exp_\theta$.
+    
+    % \item \textit{$d$-dimensional Normal Distribution.}
+    
+    % Let $\mu\in\mathbb{R}^d$ and $\Sigma$ be a positive definite symmetric $d\times d$ matrix. Let $X$ be an $\mathbb{R}^d$-valued random variable such that for each $x\in\mathbb{R}^d$,
+    % $$\textbf{P}[X\leq x] = \det(2\pi\Sigma)^{-1/2}\int_{-\infty}^x \exp\left(-\frac{1}{2}\langle t-\mu, \Sigma^{-1}(t-\mu)\rangle\right)\lambda^d\d{t}$$
+    % where $\langle\cdot,\cdot\rangle$ represents the standard inner product in $\mathbb{R}^d$. Then $\textbf{P}_X$ is called the \textit{$d$-dimensional normal distribution with parameters $\mu$ and $\Sigma$} and is denoted $\mathcal{N}_{\mu,\Sigma}$.
+    
+\end{enumerate}
+
+\subsection{The Product Measure}
+
+Let $E$ be a finite set and $\Omega=E^\mathbb{N}$. Let $(p_e)_{e\in E}$ be a probability vector. Define
+$$\mathcal{A}=\{[\omega_1,\ldots,\omega_n]:\omega_1,\ldots,\omega_n\text{ and }n\in\mathbb{N}\}$$
+and a content $\mu$ on $\mathcal{A}$ by
+$$\mu([\omega_1,\omega_2,\ldots,\omega_n])=\prod_{i=1}^n p_{\omega_i}$$
+We wish to extend $\mu$ to a measure on $\sigma(\mathcal{A})$. Similar to how we proved the existence of the Lebesgue-Stieltjes measure \cref{defLebStielMeasure}, we use a compactness argument to show that $\mu$ is $\sigma$-subadditive.
+
+Let $A,A_1,A_2,\ldots\in\mathcal{A}$ such that $A\subseteq\bigcup_{i=1}^\infty A_i$. We claim that there exists $n\in\mathbb{N}$ such that $A\subseteq\bigcup_{i=1}^n A_i.$
+
+For each $n\in\mathbb{N}$, let $B_n=A\setminus\bigcup_{i=1}^n A_i$. We assume that $B_n\neq\emptyset$ for all $n\in\mathbb{N}$ and prove the required by contradiction.
+
+Due to the pigeonhole principle, there exists some $\omega_1\in E$ such that $[\omega_1]\cap B_n\neq\emptyset$ for infinitely many $n\in\mathbb{N}$. Since $B_1\supseteq B_2\supseteq\cdots$, we have that
+$$[\omega_1]\cap B_n\neq\emptyset\text{ for all }n\in\mathbb{N}.$$
+Similarly, there exist $\omega_2,\omega_3,\ldots\in E$ such that
+$$[\omega_1,\ldots,\omega_k]\cap B_n\neq\emptyset\text{ for all }k,n\in\mathbb{N}.$$
+
+Each $B_n$ is a disjoint union of sets $C_{n,1},\ldots,C_{n,m_n}\in\mathcal{A}$. Thus for each $n\in\mathbb{N}$, there is some $i_n\in[m_n]$ such that
+$$[\omega_1,\omega_2,\ldots,\omega_k]\cap C_{n,i_n}\neq\emptyset\text{ for infinitely many }k\in\mathbb{N}.$$
+As $[\omega_1]\supseteq[\omega_1,\omega_2]\supseteq\cdots$, this implies that
+$$[\omega_1,\omega_2,\ldots,\omega_k]\cap C_{n,i_n}\neq\emptyset\text{ for all } k\in\mathbb{N}$$
+
+As $C_{n,i_n}\in\mathcal{A}$, for fixed $n$ and large $k$ ($k\geq m_n$), we have $$[\omega_1,\omega_2,\ldots,\omega_k]\subseteq C_{n,i_n}.$$
+This implies that $\omega=(\omega_1,\omega_2,\ldots)\in C_{n,i_n}\subseteq B_n$. This in turn implies that $\bigcap_{i=0}^\infty B_i\neq\emptyset$, which yields a contradiction.
+
+Therefore, $A\subseteq\bigcup_{i=1}^n A_n$ for some $n\in\mathbb{N}$. Since $\mu$ is known to be (finite) subadditive, we have
+$$\mu(A)\leq \sum_{i=1}^n\mu(A_i)\leq \sum_{i=1}^\infty \mu(A_i),$$
+which is the required result.
+
+\begin{definition}[Product Measure]
+\label{defProductMeasure}
+    Let $E$ be a finite nonempty set and $\Omega=E^\mathbb{N}$. Let $(p_e)_{e\in E}$ be a probability vector. There then is a unique probability measure $\mu$ on $\sigma(\mathcal{A})=\mathcal{B}(\Omega)$ (where $\mathcal{A}$ is defined as above) such that
+    $$\mu([\omega_1,\omega_2,\ldots,\omega_n])=\prod_{i=1}^n p_{\omega_i}\text{ for all $\omega_i\in E$ and $n\in\mathbb{N}$}.$$
+    $\mu$ is called the \textit{product measure} or \textit{Bernoulli measure} on $\Omega$ with weights $(p_e)_{e\in E}$ and is denoted by $\left(\sum_{e\in E}p_e\delta_e\right)^{\otimes\mathbb{N}}$. The $\sigma$-algebra $\sigma(\mathcal{A})$ is called the \textit{product $\sigma$-algebra on $\Omega$} and is denoted by $(2^E)^{\otimes\mathbb{N}}$.
+\end{definition}
+
+We explain the above more intuitively in the following section.
+\clearpage

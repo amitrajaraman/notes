@@ -1,0 +1,56 @@
+\section{The Wiener Process}
+
+Brownian motion, which is the main focus of this section, can be thought of as the limit of a random walk such that the time step and the mean square displacement both go to $0$. We wish to show that this is in fact well-defined.
+
+\subsection{Introduction and Definitions}
+
+Let $\xi_n$ be iid random variables each with $0$ mean and unit variance and define
+\[ x_t(N) = \sum_{n=1}^{\lfloor Nt\rfloor} \frac{\xi_n}{\sqrt{N}}. \]
+The Wiener process is just some suitable limit of this sequence. The mere existence of a stochastic process which is the limit of the above, as we have remarked already, is not obvious and we shall construct this process explicitly.
+
+The basic tool which comes to mind to do this is the central limit theorem. Unfortunately, that does not work here because we have an uncountable collection of random variables (since there is a random variable for each $t\in[0,T]$). We \textit{can} fix the limiting distribution at some finite number of time steps $x_{t_1}(N),\ldots,x_{t_n}(N)$ however. That is,
+
+\begin{lemma}
+	\label{finite wiener}
+	For any finite set of times $t_1<\cdots<t_n$ ($n<\infty$), the $n$-dimensional random variable $(x_{t_1}(N),\ldots,x_{t_n}(N))$ converges in law as $N\to\infty$ to an $n$-dimensional random variable $(x_{t_1},\ldots,x_{t_n})$ such that $x_{t_1}, x_{t_2}-x_{t_1},\ldots,x_{t_n}-x_{t_{n-1}}$ are each independent Gaussian random variables with $0$ mean and variance $t_1,t_2-t_1,\ldots,t_{n}-t_{n-1}$.
+\end{lemma}
+
+The above is easily proved since the increments $x_{t_k}(N) - x_{t_{k-1}}(N)$ are independent for any $N$.
+
+Before getting to the definition of a Wiener process, we state the following, which justifies why we can think of the Wiener process to be continuous.
+
+\begin{lemma}
+	Suppose we have constructed some stochastic process $x_t$ whose finite dimensional distributions as those of \Cref{finite wiener}. Then, $x_t$ has a modification $\tilde{x}_t$ such that $t\mapsto\tilde{x}_t$ is continuous.
+\end{lemma}
+
+The proof of the above is quite similar to the proof we give later of the existence of a Wiener process.
+
+\begin{fdef}
+	A stochastic process $W_t$ is called a \textit{Wiener process} if
+	\begin{itemize}
+		\item the finite dimensional distributions of $W_t$ are those of \Cref{finite wiener} and
+		\item the sample paths of $W_t$ are continuous.
+	\end{itemize}
+\end{fdef}
+
+An $\Rn$-valued process $W_t = (W_t^1,\ldots,W_t^n)$ is called an \textit{$n$-dimensional Wiener process} if $W_t^1,\ldots,W_t^n$ are independent Wiener processes.
+
+To show that a Wiener process is well-defined, we must establish existence and some sort of uniqueness. We first show uniqueness.
+
+\begin{lemma}
+	If $W_t$ and $W_t'$ are Wiener processes, then the $C([0,\infty))$-valued random variables $W_{\cdot},W'_{\cdot}:\Omega\to C([0,\infty))$ have the same law.
+\end{lemma}
+
+The reader might be wondering exactly what $\sigma$-algebra we are taking on $C([0,\infty))$. We have two options:
+\begin{itemize}
+	\item For each $t$, consider the evaluation map $\pi_t:C([0,\infty))\to\R$, $\pi_t(x)=x_t$. Then set the $\sigma$-algebra as $\mathcal{C}=\sigma\{\pi_t : t\in[0,\infty)\}$.
+	\item Take the natural topology on $C([0,\infty))$ as the topology of uniform convergence on compact intervals. Then, take $\mathcal{C}$ as the Borel $\sigma$-algebra with respect to this topology.
+\end{itemize}
+It turns out that these two topologies are the same, so our intention is unambiguous.
+
+\begin{proof}
+	First, we must show that $W_{\cdot}$ and $W_{\cdot}'$ are in fact measurable (and thus random variables). Since $W_t$ is measurable for every $t$ (it is a stochastic process), $W_t^{-1}(A)\in\mathcal{F}$ for any $A\in\mathcal{B}(\R)$. However, note that $W_t = \pi_t(W_\cdot)$, so $W^{-1}(B)\in\mathcal{F}$ for every $B$ of the form $\pi_t^{-1}(A)$.\\
+	Now, by our earlier remark, $\mathcal{C} = \sigma\{\pi_t^{-1}(A) : t\in[0,\infty)\}$, so
+	\[ W^{-1}(\mathcal{C}) = \sigma\{W_t^{-1}(A) : A\in\mathcal{B}(\R), t\in[0,\infty)\}\subseteq \mathcal{F}. \]
+	Therefore, $W_{\cdot}$ is a $[0,\infty)$-valued random variable (and so is $W_{\cdot}'$).
+\end{proof}

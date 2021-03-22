@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\title{Probability and Measure Theory}
+\author{Amit Rajaraman}
+\date{Summer 2020}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[tmargin=1in, bmargin=1in, lmargin=0.75in, rmargin=0.75in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{tikz}
+\usepackage{cleveref}
+\usetikzlibrary{arrows}
+\usepackage{mathtools}
+\usepackage{mdframed}
+\usepackage{doi}
+\usepackage[square, numbers]{natbib}
+
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\thesubsection.}{0.2cm}{\large}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{Probability Theory}}
+\chead{\sffamily{\thepage}}
+\rhead{\sffamily{-Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setlength\parindent{0pt}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+\newcommand{\indic}{\mathbbm{1}}
+\newcommand{\iddistrib}{\stackrel{\mathcal{D}}{=}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewcommand{\emptyset}{\varnothing}
+
+\newcommand{\Ber}{\operatorname{Ber}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\Poi}{\operatorname{Poi}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\mathchardef\mhyphen="2D
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\expec}{\textbf{E}}
+\newcommand{\Var}{\operatorname{\textbf{Var}}}
+\newcommand{\Cov}{\operatorname{\textbf{Cov}}}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newenvironment{ftheo}
+  {\begin{mdframed}\begin{theorem}}
+  {\end{theorem}\end{mdframed}}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newenvironment{fdef}
+  {\begin{mdframed}\begin{definition}}
+  {\end{definition}\end{mdframed}}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\numberwithin{exercise}{section}
+\newtheorem*{solution}{Solution}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\setcounter {section}{-1}
+
+\begin{center}
+    We primarily use \cite{klenke} as reference for these notes.
+\end{center}
+
+\tableofcontents
+\clearpage
+
+\input{sec0notation}
+\input{sec1measure}
+\input{sec2intro}
+\input{sec3independence}
+\input{sec4generatingFuncs}
+\input{sec5integrals}
+\input{sec6moments}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

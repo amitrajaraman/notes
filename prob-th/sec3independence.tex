@@ -1,0 +1,381 @@
+\section{Independence}
+
+\subsection{Independent Events}
+
+In the following, let $(\Omega,\mathcal{A},\textbf{P})$ be a probability space and the sets $A\in\mathcal{A}$ be events.
+    
+\begin{definition}
+    Two events $A$ and $B$ are said to be \textit{independent} if
+    $$\Pr[A\cap B] = \Pr[A]\Pr[B].$$
+\end{definition}
+
+For example, if we roll a die twice, the event of rolling a $6$ the first time is independent of the event of rolling a $6$ the second time.
+
+Here, $\Omega=[6]^2, \mathcal{A}=2^\Omega$ and the probability distribution is $\textbf{P}=\mathcal{U}_\Omega$. Our claim may be verified as follows. Towards showing that the outcome of the first roll is independent of that of the second, let $\tilde A,\tilde B\subseteq\Omega, A=\tilde A\times\Omega$ and $B=\Omega\times\tilde B$. We must show that $\Pr[A]\Pr[B]=\Pr[A\cap B]$. This is obvious as follows: 
+\begin{align*}
+    \Pr[A] &= \frac{|A|}{36}=\frac{|\tilde A|}{6} \\
+    \Pr[B] &= \frac{|B|}{36}=\frac{|\tilde B|}{6} \\
+    \Pr[A\cap B] &= \frac{|A\cap B|}{36} = \frac{|\tilde A||\tilde B|}{36} = \Pr[A]\Pr[B].
+\end{align*}
+
+While in the above example it is intuitively clear that the two events must be independent, we can have less obvious examples as well. For example, the event that the sum of the two rolls is odd and the event that the first roll gives at most a three are independent. We leave it to the reader to verify this claim.
+
+\vspace{2mm}
+We extend this definition of two independent events to any number of independent events as follows.
+
+\begin{definition}[Independence of Events]
+    Let $I$ be an index set and $(A_i)_{i\in I}$ be a family of events. The family $(A_i)_{i\in I}$ is called \textit{independent} if for any finite subset $J\subseteq I$, the following holds:
+    $$\Pr\left[\bigcap_{j\in J}A_j\right]=\prod_{j\in J}\Pr[A_j].$$
+\end{definition}
+
+Note that pairwise independence does not guarantee overall independence. For example, For example, consider $(X,Y,Z)$ chosen uniformly from $\{(0,0,0),(1,1,0),(1,0,1),(0,1,1)\}$. Then $X,Y,Z$ are pairwise independent but they are not overall independent.
+
+\vspace{2mm}
+Let us now return to the product measure defined in \cref{defProductMeasure}, which can be understood intuitively as follows. If $E$ is a finite set of outcomes, consider the probability space comprising $\Omega=E^\mathbb{N}$, the $\sigma$-algebra
+$$\mathcal{A}=\sigma([\omega_1,\ldots,\omega_n]:\omega_1,\ldots,\omega_n\in E\text{ and }n\in\mathbb{N})$$
+and the product measure $\textbf{P}=\left(\sum_{e\in E}p_e\delta_e\right)^{\otimes\mathbb{N}}$. This basically represents that we repeatedly conduct the experiment of choosing an outcome from $E$. Let $\tilde A_i\subseteq E$ for each $i\in\mathbb{N}$ and let $A_i$ be the event such that $\tilde A_i$ occurs in the $i$th experiment, given by
+$$A_i = \{\omega\in\Omega:\omega_i\in\tilde A_i\}
+  =\biguplus_{(\omega_1,\ldots,\omega_i)\in E^{i-1}\times \tilde A_i} [\omega_1,\ldots,\omega_i]$$
+
+Intuitively, the family $(A_i)_{i\in\mathbb{N}}$ should be independent, since the outcome of one of the conducted experiments does not depend on the outcomes of the other experiments.
+
+We shall check this. Let $J\subseteq\mathbb{N}$ and For $j\in J$, let $B_j=A_j$ and $\tilde B_j=\tilde A_j$ and for $j\in[n]\setminus J$, let $B_j=\Omega$ and $\tilde B_j=E$. Then
+\begin{align*}
+    \Pr\left[\bigcap_{j\in J}A_j\right] &= \Pr\left[\bigcap_{j=1}^n B_j\right] \\
+    &= \Pr\left[\left\{\omega\in\Omega:\omega_j\in\tilde B_j\text{ for each }j\in[n]\right\}\right] \\
+    &= \sum_{e_1\in\tilde B_1} \cdots \sum_{e_n\in\tilde B_n} \prod_{j=1}^n p_{e_j} \\
+    &= \prod_{j=1}^n \left(\sum_{e\in\tilde B_j}p_e\right) \\
+    &= \prod_{j\in J} \left(\sum_{e\in\tilde A_j}p_e\right)
+\end{align*}
+
+In particular, as this is true for $|J|=1$, we have for some fixed $i\in[n]$,
+$$\Pr[A_i] = \left(\sum_{e\in\tilde A_i}p_e\right).$$
+Substituting the above, we have
+$$
+\Pr\left[\bigcap_{j\in J}A_j\right] 
+= \prod_{j\in J} \left(\sum_{e\in\tilde A_j}p_e\right)
+= \prod_{j\in J} \Pr[A_j].
+$$
+This proves the result. We state the result for future reference as follows.
+
+\begin{theorem}
+\label{product measure independence}
+    Let $E$ be a finite set. Consider the probability space $(\Omega,\mathcal{A},\textbf{P})$ where $\Omega=E^\mathbb{N}$,
+    $$\mathcal{A}=\sigma([\omega_1,\ldots,\omega_n]:\omega_1,\ldots,\omega_n\in E\text{ and }n\in\mathbb{N})$$
+    and $\textbf{P}=\left(\sum_{e\in E}p_e\delta_e\right)^{\otimes\mathbb{N}}$. For each $i\in\mathbb{N}$, let $\tilde A_i\subseteq E$ and $A_i$ be the event such that $\tilde A_i$ occurs in the $i$th experiment, given by
+    $$A_i = \{\omega\in\Omega:\omega_i\in\tilde A_i\}
+    =\biguplus_{(\omega_1,\ldots,\omega_i)\in E^{i-1}\times \tilde A_i} [\omega_1,\ldots,\omega_i]$$
+  Then the family $(A_i)_{i\in\mathbb{N}}$ is independent.
+\end{theorem}
+
+
+\vspace{2mm}
+Note that if events $A$ and $B$ are independent, then the events $A^c$ and $B$ are independent as well. This can be described more precisely as follows.
+
+\begin{theorem}
+    Let $I$ be an index set and $(A_i)_{i\in I}$ be a family of events. Define $B_i^0 = A_i$ and $B_i^1 = A_i^c$ for each $i\in I$. Then the following statements are equivalent.
+    \begin{enumerate}[(a)]
+        \item The family $(A_i)_{i\in I}$ is independent.
+        \item There is some $\alpha\in\{0,1\}^I$ such that the family $(B_i^{\alpha_i})_{i\in I}$ is independent.
+        \item For all $\alpha\in\{0,1\}^I$, the family $(B_i^{\alpha_i})_{i\in I}$ is independent.
+    \end{enumerate}
+\end{theorem}
+
+We leave the proof of the above to the reader.
+
+Now, recall the limit superior defined in \cref{defLimes}. The limit superior represents the event that a particular event occurs an infinite amount of times (for example, the event that we roll a $4$ an infinite number of times when we roll a die a countably infinite number of times). This is formalized in the following.
+
+\begin{ftheo}[Borel-Cantelli Lemma]
+\label{borelCantelliLemma}
+    Let $A_1,A_2,\ldots$ be events and let $A^*=\limsup_{n\to\infty} A_n$. Then
+    \begin{enumerate}[(a)]
+        \item If $\sum_{n=1}^\infty \Pr[A_n]<\infty$, $\Pr[A^*]=0$.
+        \item If $(A_n)_{n\in\mathbb{N}}$ is independent and $\sum_{n=1}^\infty \Pr[A_n]=\infty$, then $\Pr[A^*]=1$.
+    \end{enumerate}
+\end{ftheo}
+\begin{proof}
+    By \cref{tripledoubleEquivalence}, $\textbf{P}$ is upper semicontinuous, lower semicontinuous and $\sigma$-subadditive.
+    \begin{enumerate}[(a)]
+        \item As $\textbf{P}$ is upper semicontinuous and $\sigma$-subadditive,
+        \begin{align*}
+            \Pr[A^*] &= \Pr\left[\bigcap_{n=1}^\infty\bigcup_{m=n}^\infty A_m\right] \\
+            \lim_{n\to\infty}\Pr\left[\bigcup_{m=n}^\infty A_m\right] \\
+            &\leq \lim_{n\to\infty} \sum_{m=n}^\infty \Pr[A_m] = 0
+        \end{align*}
+        The result follows.
+        
+        \item As $\textbf{P}$ is lower semicontinuous and the family $(A_n)_{n\in\mathbb{N}}$ is independent, we have
+        \begin{align*}
+            \Pr[(A^*)^c] &= \Pr\left[\bigcup_{n=1}^\infty\bigcap_{m=n}^\infty A_m^c\right] \\
+            &= \lim_{n\to\infty} \Pr\left[\bigcap_{m=n}^\infty A_m^c\right] \\
+            &= \lim_{n\to\infty} \prod_{m=n}^\infty \left(1-\Pr[A_m]\right) \\
+        \end{align*}
+        Now for any $n\in\mathbb{N}$, as $\log(1-x)\leq -x$
+        \begin{align*}
+            \prod_{m=n}^\infty \left(1-\Pr[A_m]\right)&= \exp\left(\sum_{m=n}^\infty \log(1-\Pr[A_m])\right) \\
+            &\leq \exp\left(-\sum_{m=n}^\infty \Pr[A_m]\right) = 0
+        \end{align*}
+        The result follows.
+    \end{enumerate}
+\end{proof}
+
+A saying the reader might have come across is that if a monkey is left with a typewriter for an infinite amount of time, it will eventually type the complete works of Shakespeare. This is in fact a consequence of the Borel-Cantelli Lemma, and is often referred to as the \href{https://en.wikipedia.org/wiki/Infinite_monkey_theorem}{Infinite Monkey Theorem}!
+
+\vspace{2mm}
+We now extend the definition of independence of a family of events as follows.
+
+\begin{definition}[Independence of classes of events]
+\label{independence of classes of events}
+    Let $I$ be an index set and $\mathcal{E}_i\subseteq\mathcal{A}$ for all $i\in I$. The family $(\mathcal{E}_i)_{i\in I}$ is called \textit{independent} if for any finite $J\subseteq I$ and any choice of $j\in J$ and $E_j\in\mathcal{E}_j$, the family $(E_j)_{j\in J}$ is independent.
+\end{definition}
+
+For example, if we roll a die an infinite number of times, for each $i\in\mathbb{N}$, consider the class of events given by $\mathcal{E}_i=\{\{\omega\in\Omega:\omega_i\in A\}:A\subseteq[6]\}$
+where $\Omega=[6]^\mathbb{N}$. Then the family $(\mathcal{E}_i)_{i\in I}$ is independent.
+
+\begin{ftheo}
+\label{independent set classes subset}
+~
+    Let $I$ be an index set and for each $i\in I$, let $\mathcal{E}_i\subseteq \mathcal{A}$. Then
+    \begin{enumerate}[(a)]
+        \item Let $I$ be finite. If $\Omega\in\mathcal{E}_i$ for each $i$, then $(\mathcal{E}_i)_{i\in I}$ is independent if and only if $(E_i)_{i\in I}$ is independent for any choice of $E_i\in\mathcal{E}_i, i\in I$.
+        
+        \item If $(\mathcal{E}_i\cup\{\emptyset\})$ is $\cap$-closed for each $i$, then $(\mathcal{E}_i)_{i\in I}$ is independent if and only if $(\sigma(\mathcal{E}_i))_{i\in I}$ is independent.
+        
+        \item Let $K$ be an arbitrary set and let $(I_k)_{k\in K}$ be mutually disjoint subsets of $I$. If $(\mathcal{E}_i)_{i\in I}$ is independent, then $\left(\bigcup_{i\in I_k}\mathcal{E}_i\right)_{k\in K}$ is also independent.
+    \end{enumerate}
+\end{ftheo}
+
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item The forward implication is obvious from the definition. To prove the backward implication, for $J\subseteq I$ and $j\in I\setminus J$, choose $E_j=\Omega$.
+        
+        \item The backward implication is obvious. Let us now prove the forward implication.
+        
+        First, we claim that for any $J\subseteq J'\subseteq I$ where $J$ is finite, 
+        $$\Pr\left[\bigcap_{i\in J'}E_i\right] = \prod_{i\in J'}\Pr[E_i]$$
+        for any choice of $E_i\in\sigma(\mathcal{E}_i)$ if $i\in J$ and
+        $E_i\in\mathcal{E}_i$ if $i\in J'\setminus J$.
+        
+        We shall prove the above claim by induction on $|J|$. If $|J|=0$, then the claim is true as $(\mathcal{E}_i)_{i\in I}$ is independent. Now assume that the claim is true for all $J\subseteq I$ with $|J|=n$ and all finite $J'\supseteq J$. Fix such a $J$. Let $j\in I\setminus J$. Define $\tilde J=J\cup\{j\}$ and choose some $J'\supseteq\tilde J$. We shall show that the claim is true if we replace $J$ with $\tilde J$, thus proving the inductive step.
+    
+        Fix $E_i\in\sigma(\mathcal{E}_i)$ for each $i\in J$ and $E_i\in\mathcal{E}_i$ for each $i\in J'\setminus\tilde J$. Consider measures $\mu,\nu$ on $(\Omega,\mathcal{A})$ such that
+        \begin{align*}
+            \mu &: E_j\mapsto \Pr\left[\bigcap_{i\in J'}E_i\right] \\
+            \nu &: E_j\mapsto \prod_{i\in J'}\Pr[E_i]
+        \end{align*}
+        By the induction hypothesis, $\mu(E_j)=\nu(E_j)$ for all $E_j\in\mathcal{E}_j\cup\{\emptyset,\Omega\}$. As $\mathcal{E}_j\cup\{\emptyset\}$ is $\cap$-closed, \cref{uniquely defined by base pi sys} implies that $\mu(E_j)=\nu(E_j)$ for all $E_j\in\sigma(\mathcal{E}_j)$.
+        
+        This proves our claim. Setting $J=J'$ yields the required result.
+    
+        \item This is trivial as in \cref{independence of classes of events}, we only need to consider $J\subseteq I$ such that $J\cap I_k\leq 1$ for any $k\in K$.
+    
+    \end{enumerate}
+\end{proof}
+
+\subsection{Independence of Random Variables}
+
+Let $I$ be an index set and $(\Omega,\mathcal{A})$ be measurable space. For each $i\in I$, let $(\Omega_i,\mathcal{A}_i)$ be a measurable space and $X_i:(\Omega,\mathcal{A})\to(\Omega_i,\mathcal{A}_i)$ be a random variable with generated $\sigma$-algebra $\sigma(X_i)$.
+
+\begin{definition}
+    The family $(X_i)_{i\in I}$ of random variables is said to be independent if the family $(\sigma(X_i))_{i\in I}$ of generated $\sigma$-algebras is independent.
+\end{definition}
+
+We say that a family $(X_i)_{i\in I}$ of random variables is said to be i.i.d. (independent and identically distributed) if the family $(X_i)_{i\in I}$ is independent and $\textbf{P}_{X_i}=\textbf{P}_{X_j}$ for any $i,j\in I$.
+
+\vspace{2mm}
+The meaning of independence of random variables might be more clear from the following restructuring of the definition. A family $(X_i)_{i\in I}$ of random variables is independent if and only if for any finite set $J\subseteq I$ and any choice of $A_j\in\mathcal{A}_j,j\in J$, we have
+$$\Pr\left[\bigcap_{j\in J}\{X_j\in A_j\}\right] = \prod_{j\in J}\Pr[X_j\in A_j].$$
+
+\vspace{1mm}
+For example, let us flip a coin four times. Let $X$ be the random variable be the number of heads that show up in the first two tosses and $Y$ be the random variable given by the number of tails that show up in the next two tosses. Then $X$ and $Y$ are independent.
+
+\vspace{2mm}
+For each $i\in I$, let $(\Omega_i',\mathcal{A}_i')$ be another measurable space and assume that $f_i:(\Omega,\mathcal{A})\to(\Omega_i',\mathcal{A}_i')$ is a measurable map. If $(X_i)_{i\in I}$ is independent, then $(f_i\circ X_i)_{i\in I}$ is independent as well. This is a consequence of the fact that $f_i\circ X_i$ is $\sigma(X_i)-\mathcal{A}_i'$-measurable.
+
+\begin{theorem}
+\label{independent if generators independent}
+    For each $i\in I$, let $\mathcal{E}_i$ be a $\pi$-system that generates $\mathcal{A}$. If $(X^{-1}(\mathcal{E}_i))$ is independent, then $(X_i)_{i\in I}$ is independent.
+\end{theorem}
+\begin{proof}
+    By \cref{generating pi system fixed under preimage}, $X^{-1}(\mathcal{E}_i)$ is a $\pi$-system that generates $X^{-1}(\mathcal{A}_i)=\sigma(X_i)$. The result follows from \cref{independent set classes subset}.
+\end{proof}
+
+\begin{theorem}
+    Let $E$ be a finite set $(p_e)_{e\in E}$ be a probability vector on $E$. There then exists a probability space $(\Omega,\mathcal{A},\textbf{P})$ and an independent family $(X_n)_{n\in\mathbb{N}}$ of $E$-valued random variables on $(\Omega,\mathcal{A},\textbf{P})$ such that $\Pr[X_n = e] = p_e$ for each $e\in E$.
+\end{theorem}
+\begin{proof}
+    We shall prove this by constructing the required probability space $(\Omega,\mathcal{A},\textbf{P})$. Let $\Omega=E^\mathbb{N}$ and $\mathcal{A}=\sigma\left(\{[\omega_1,\omega_2,\ldots,\omega_k]:\omega_i\in E\text{ for each }i\in[k]\text{ and }k\in\mathbb{N}\}\right)$. Let $\textbf{P}=\left(\sum_{e\in E}p_e\delta_e\right)^{\otimes\mathbb{N}}$ be the product measure. For each $n\in\mathbb{N}$, define the random variable $X_n:\Omega\to E$ by $\omega\mapsto \omega_n$, where $\omega_n$ represents the $n$th coordinate of $\omega$.
+    
+    As a consequence of \cref{product measure independence}, $(X_j)_{j\in\mathbb{N}}$ is independent. and the result is proved.
+\end{proof}
+
+\begin{definition}
+    Let $I$ be an index set and for each $i\in I$, let $X_i$ be a random variable. For any $J\subseteq I$, let $F_{(X_j)_{j\in J}}:\mathbb{R}^J\to[0,1]$ be given by
+    $$x\mapsto \Pr[X_j\leq x_j\text{ for each }j\in J]=\Pr\left[\bigcap_{j\in J} X_j\leq x_j\right].$$
+    This function is called the \textit{joint distribution function of $(X_j)_{j\in J}$} and is denoted $F_J$. The probability measure $\textbf{P}_{(X_j)_{j\in J}}$ on $\mathbb{R}^J$ is called the \textit{joint distribution of $(X_j)_{j\in J}$}.
+\end{definition}
+
+\begin{theorem}
+    A family $(X_i)_{i\in I}$ of random variables is independent if and only if for every finite $J\subseteq I$ and $x\in\mathbb{R}^J$,
+    $$F_J(x) = \prod_{j\in J}F_{\{j\}}(x_j).$$
+\end{theorem}
+\begin{proof}
+    The forward implication is obvious.
+    
+    The class of sets $\{(-\infty,a]:a\in\mathbb{R}\}$ is a $\cap$-closed generator of $\mathcal{B}(\mathbb{R})$. The given condition is equivalent to saying that the events $\{X_j\in(-\infty,x_j]\}$ are independent. By \cref{independent if generators independent}, the backward implication is proved.
+\end{proof}
+
+\begin{corollary}
+    If in addition to the conditions of the previous theorem, each $F_J$ has a continuous density function $f_J=f_{(X_j)_{j\in J}}$, then the family $(X_i)_{i\in I}$ is independent if and only if for any finite $J\subseteq I$ and $x\in\mathbb{R}^J$,
+    $$f_J(x) = \prod_{j\in J}f_{\{j\}}(x_j).$$
+\end{corollary}
+
+\begin{ftheo}
+\label{independent mutually disjoint set union}
+    Let $K$ be an arbitrary set and $I_k,k\in K$ be mutually disjoint sets. Define $I=\bigcup_{k\in K}I_k$. If a family $(X_i)_{i\in I}$ of random variables is independent, then the family of $\sigma$-algebras $(\bigcup_{i\in I_k}\sigma(X_i))_{k\in K}$ is independent.
+\end{ftheo}
+\begin{proof}
+    For $k\in K$, let
+    $$\mathcal{S}_k=\left\{\bigcap_{j\in I_k}A_j : A_j\in\sigma(X_j), |\{j\in I_k:A_k\neq\Omega\}|<\infty \right\}.$$
+    Note that $\mathcal{S}_k$ is a $\pi$-system and $\sigma(\mathcal{S}_k) = \sigma(X_j:j\in I_k)$. \Cref{independent set classes subset}(b) implies that we can just show that $(\mathcal{S}_k)_{k\in K}$ is independent and by \cref{independence of classes of events}, we can even assume that $K$ is finite.
+    
+    For each $k\in K$, let $B_k\in\mathcal{S}_k$ and $J_k\subseteq I_k$ be finite such that $B_k=\bigcap_{j\in J_k} A_j$ for some $A_j\in\sigma(X_j)$. Define $J=\bigcup_{k\in K} J_k$. Then
+    $$\Pr\left[\bigcap_{k\in K} B_k\right] = \Pr\left[\bigcap_{j\in J}A_j\right] = \prod_{j\in J}\Pr[A_j] = \prod_{k\in K}\Pr\left[\bigcap_{j\in J_k}A_j\right] = \prod_{k\in K}\Pr[B_k].$$
+\end{proof}
+
+\subsection{The Convolution}
+
+\begin{definition}
+    Let $\mu$ and $\nu$ be probability measures on $(\mathbb{Z},2^\mathbb{Z})$. The \textit{convolution $(\mu * \nu)$} is defined as the probability measure on $(\mathbb{Z},2^\mathbb{Z})$ given by
+    $$(\mu * \nu) (\{n\}) = \sum_{m=-\infty}^\infty \mu(\{m\})\nu(\{n-m\}).$$
+    
+\end{definition}
+
+We define the $n$th convolution power by $\mu^{*1}=\mu$ and $\mu^{*n}=\mu^{*(n-1)}*\mu$.
+
+\begin{theorem}
+    If $X$ and $Y$ are independent $\mathbb{Z}$-valued random variables, then $\textbf{P}_{X+Y}=\textbf{P}_X * \textbf{P}_Y$.
+\end{theorem}
+\begin{proof}
+    For any $n\in\mathbb{Z}$, we have
+    \begin{align*}
+        \textbf{P}_{X+Y}[\{n\}] &= \Pr[X+Y=n] \\
+        &= \Pr\left[\biguplus_{m=-\infty}^\infty \{X=m\}\cap\{Y=n-m\}\right] \\
+        &= \sum_{m=-\infty}^\infty \Pr[X=m]\Pr[Y=n-m] \\
+        &= \sum_{m=-\infty}^\infty \textbf{P}_X[\{m\}]\textbf{P}_Y[\{n-m\}] = (\textbf{P}_X * \textbf{P}_Y) [\{n\}]
+    \end{align*}
+\end{proof}
+
+Given the above theorem, we can generalise the convolution as follows.
+
+\begin{definition}[Convolution of Probability Measures]
+    Let $X$ and $Y$ be independent random variables on $\mathbb{R}^n$ such that $\mu=\textbf{P}_X$ and $\nu=\textbf{P}_Y$. The \textit{convolution $(\mu * \nu)$} is defined as $\textbf{P}_{X+Y}$.
+\end{definition}
+
+We define $\mu^{*k}$ for $k\in\mathbb{N}$ recursively similarly to the first case with $\mu^{*0}=\delta_0$.
+
+\vspace{2mm}
+For example, let $\lambda,\mu\in[0,\infty)$. Consider independent random variables $X,Y$ such that $X\sim\Poi_\mu$ and $Y\sim\Poi_\lambda$. Then for $n\in\mathbb{N}_0$
+\begin{align*}
+    \Pr[X+Y=n] &= e^{-\mu}e^{-\lambda}\sum_{m=0}^n \frac{\mu^m}{m!}\frac{\lambda^m}{(n-m)!} \\
+    &= e^{-(\mu+\lambda)}\frac{(\mu+\lambda)^n}{n!}.
+\end{align*}
+Thus $\Poi_\lambda * \Poi_\mu = \Poi_{\lambda+\mu}$.
+
+\subsection{Kolmogorov's \texorpdfstring{$0$}{TEXT}-\texorpdfstring{$1$}{TEXT} Law}
+
+The \hyperref[borelCantelliLemma]{Borel-Cantelli Lemma} was an example of a so-called $0$-$1$ law. In this subsection, we study another such $0$-$1$ law.
+
+\begin{definition}[Tail $\sigma$-algebra]
+    Let $I$ be a countably infinite index set and $(\mathcal{A}_i)_{i\in I}$ be a family of $\sigma$-algebras. Then
+    $$\mathcal{T}((\mathcal{A}_i)_{i\in I})=\bigcap_{\substack{J\subseteq I \\ |J|<\infty}} \sigma\left(\bigcup_{j\in I\setminus J}\mathcal{A}_j\right)$$
+    is called the \textit{tail $\sigma$-algebra} of $(\mathcal{A}_i)_{i\in I}$. If $(A_i)_{i\in I}$ is a family of events, we define
+    $$\mathcal{T}((A_i)_{i\in I}) = \mathcal{T}((\{\emptyset,A_i,A_i^c,\Omega\})_{i\in I}).$$
+    If $(X_i)_{i\in I}$ is a family of random variables, we define
+    $$\mathcal{T}((X_i)_{i\in I}) = \mathcal{T}((\sigma(X_i))_{i\in I}).$$
+\end{definition}
+
+If the meaning is clear from context, we represent the tail $\sigma$-algebra as just $\mathcal{T}$.
+
+Intuitively, the above means that we consider those events that are independent of the values of any finite subfamily of $(X_i)_{i\in I}$. This shall be made clearer as follows.
+
+\begin{theorem}
+    Let $J_1,J_2,\ldots$ be finite sets with $J_n\uparrow I$. Then
+    $$\mathcal{T}((\mathcal{A}_i)_{i\in I})=\bigcap_{n=1}^\infty \sigma\left(\bigcup_{m\in I\setminus J_n} \mathcal{A}_m\right).$$
+    If $I=\mathbb{N}$, then this says that
+    $$\mathcal{T}((\mathcal{A}_i)_{i\in\mathbb{N}}) = \bigcap_{n=1}^\infty \sigma\left(\bigcup_{m=n}^\infty \mathcal{A}_m\right).$$
+\end{theorem}
+\begin{proof}
+    It is obvious from the definition that $\mathcal{T}((\mathcal{A}_i)_{i\in I})$ is a subset of the expression on the right.
+    
+    Let $J_n\uparrow I$ and $J\subseteq I$ be a finite set. There exists some $n_0\in\mathbb{N}$ such that $J\subseteq J_{n_0}$. We then have
+    \begin{align*}
+        \bigcap_{n=1}^\infty \sigma\left(\bigcup_{m\in I\setminus J_n} \mathcal{A}_m\right) &\subseteq \bigcap_{n=1}^N \sigma\left(\bigcup_{m\in I\setminus J_n} \mathcal{A}_m\right) \\
+        &= \sigma\left(\bigcup_{m\in I\setminus J_N} \mathcal{A}_m\right) \\
+        &\subseteq \sigma\left(\bigcup_{m\in I\setminus J} \mathcal{A}_m\right)
+    \end{align*}
+    Noting that the expression on the left does not depend on $J$ and taking the intersection over all $J$ implies the reverse inclusion and the result follows.
+\end{proof}
+
+If we interpret $I=\mathbb{N}$ as a set of times, the above theorem essentially says that any event in $\mathcal{T}$ is independent of the first finitely many time points.
+
+\vspace{2mm}
+Now, it is not immediately clear whether $\mathcal{T}$ even contains any nontrivial events (events other than $\emptyset$ and $\Omega$).
+
+\vspace{2mm}
+For starters, if $A_1,A_2,\ldots$ are events, then $A^*=\limsup_{n\to\infty} A_n$ and $A_*=\liminf_{n\to\infty} A_n$ are both in $\mathcal{T}((A_i)_{i\in \mathbb{N}})$.
+
+\vspace{1mm}
+To see this for $A_*$, define $B_n=\bigcap_{m=n}^\infty A_m$ for $n\in\mathbb{N}$. We then have that $B_n\uparrow A_*$ and $B_n\in\sigma(\bigcup_{m=n_0}^\infty A_m)$ for any $n\geq n_0$. This implies that $A_*\in\sigma(\bigcup_{m=n_0}^\infty A_m)$ for any $n_0\in\mathbb{N}$ and thus, $A_*\in\mathcal{T}$.
+
+\vspace{1mm}
+For $A^*$, we must show that for any $m\in\mathbb{N}$, $\limsup_{n\to\infty}A_n \in \sigma(\bigcup_{n=m}^\infty \sigma(A_n))$. This is true as $\limsup_{n\to\infty}A_n=\limsup_{n\to\infty}A_{n+m}$. Since each $A_{n+m}$ is in $\sigma(\bigcup_{n=m}^\infty \sigma(A_{n}))$, the statement is true.
+
+\vspace{2mm}
+Let $(X_n)_{n\in\mathbb{N}}$ be real random variables. Then the Ces\`{a}ro limits
+$$\liminf_{n\to\infty} \frac{1}{n}\sum_{i=1}^n X_i\text{ and }\limsup_{n\to\infty} \frac{1}{n}\sum_{i=1}^n X_i$$
+are $\mathcal{T}((X_n)_{n\in\mathbb{N}})$-measurable.
+
+% To show this, choose some $n_0\in\mathbb{N}$ and note that
+% $$X_*=\liminf_{n\to\infty}\frac{1}{n}\sum_{i=1}^n X_i=\liminf_{n\to\infty}\frac{1}{n}\sum_{i=n_0}^n X_i$$
+% is $(\sigma((X_n)_{n\geq n_0}))$-measurable. 
+
+\begin{ftheo}[Kolmogorov's $0$-$1$ Law]
+    Let $I$ be a countable infinite index set and $((\mathcal{A}_i)_{i\in I})$ be an independent family of $\sigma$-algebras. Then the tail $\sigma$-algebra is $\textbf{P}$-trivial, that is,
+    $$\Pr[A]\in\{0,1\}\text{ for any }A\in\mathcal{T}((\mathcal{A}_i)_{i\in I}).$$
+\end{ftheo}
+\begin{proof}
+    Assume w.l.o.g. that $I=\mathbb{N}$. For each $i\in\mathbb{N}$, let
+    $$\mathcal{F}_n = \left\{\bigcap_{i=1}^n A_k: A_j\in\mathcal{A}_j\text{ for each }j\in[n]\right\}.$$
+    Let $\mathcal{F}=\bigcup_{i=1}^\infty \mathcal{F}_i$. Note that $\mathcal{F}$ is a semiring.
+    
+    \vspace{1mm}
+    Further, for any $m\in\mathbb{N}$ and $A_m\in\mathcal{A}_m$, we have $A_m\in\mathcal{F}$. This implies that $\sigma\left(\bigcup_{i=1}^\infty \mathcal{A}_i\right)\subseteq\sigma(\mathcal{F})$. We also have
+    $$\mathcal{F}_m\subseteq\sigma\left(\bigcup_{i=1}^m \mathcal{A}_i\right)\subseteq\sigma\left(\bigcup_{i=1}^\infty \mathcal{A}_i\right).$$
+    This implies that $\mathcal{F} = \sigma\left(\bigcup_{i=1}^\infty \mathcal{A}_i\right)$.
+    
+    Let $A\in\mathcal{T}((\mathcal{A}_n)_{n\in\mathbb{N}})$ and $\varepsilon>0$. By \cref{Approximation Thm for Measures}, there exists $n_0\in\mathbb{N}$ and mutually disjoint sets $F_1,F_2,\ldots,F_{n_0}$ such that $$\Pr\left[A\triangle \bigcup_{i=1}^{n_0}F_i\right]<\varepsilon.$$
+    Let $F=\bigcup_{i=1}^{n_0}F_i$. There must be some $n\in\mathbb{N}$ such that $F_1,\ldots,F_{n_0}\in \mathcal{F}_n$. This implies that $F\in\sigma(\bigcup_{i=1}^n \mathcal{A}_i)$. By the definition of the tail $\sigma$-algebra, $A\in\sigma(\bigcup_{i=n+1}^\infty\mathcal{A}_i)$ so $A$ must be independent of $F$. Therefore,
+    \begin{align*}
+        \varepsilon &> \Pr[A\setminus F] \\
+        &= \Pr[A](1-\Pr[F]) \\
+        &\geq \Pr[A](1-\Pr[A]-\varepsilon).
+    \end{align*}
+    As this is true for any $\varepsilon>0$, $0=\Pr[A](1-\Pr[A])$ and the result is proved.
+\end{proof}
+
+\begin{corollary}
+    Let $(A_n)_{n\in\mathbb{N}}$ be an independent family of events. Then
+    $$\Pr\left[\limsup_{n\to\infty} A_n\right]\text{ and }\Pr\left[\liminf_{n\to\infty} A_n\right]\text{ are in }\{0,1\}.$$
+\end{corollary}
+
+The above can be inferred from the fact that the $\limsup$ and $\liminf$ lie in the tail $\sigma$-algebra. It also follows from the \hyperref[borelCantelliLemma]{Borel-Cantelli Lemma}.
+
+\begin{corollary}
+    Let $(X_n)_{n\in\mathbb{N}}$ be an independent family of $\overline{\mathbb{R}}$-valued random variables. Then $X_*=\liminf_{n\to\infty}X_n$ and $X^*=\limsup_{n\to\infty} X_n$ are almost surely constant, that is, there exist $x_*,x^*\in\overline{\mathbb{R}}$ such that $\Pr[X_*=x_*]=1$ and $\Pr[X^*=x^*]=1$.
+\end{corollary}
+
+The above follows from the fact that for any $x\in\overline{\mathbb{R}}$, $\{X_*<x\}\in\mathcal{T}((X_n)_{n\in\mathbb{N}})$ and $\{X^*>x\}\in\mathcal{T}((X_n)_{n\in\mathbb{N}})$.
+
+\clearpage

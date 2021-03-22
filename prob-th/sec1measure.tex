@@ -1,0 +1,891 @@
+\section{Measure Theory}
+
+Before beginning a rigorous study of probability theory, it is necessary to understand some parts of basic measure theory.
+
+\subsection{Classes of Sets}
+
+\vspace{2mm}
+Let $\Omega$ be a non-empty set and $\mathcal{A}\subseteq2^\Omega$, where $2^\Omega$ is the power set of $\Omega$. Then
+
+\begin{definition}
+    $\mathcal{A}$ is called
+    \begin{itemize}
+        \item $\cap$-closed (closed under intersections) or a $\pi$-system if $A\cap B\in \mathcal{A}$ for all $A,B\in\mathcal{A}$.
+        \item $\sigma$-$\cap$-closed (closed under countable intersections) if $\bigcap_{i=1}^\infty A_i\in\mathcal{A}$ for any choice of countably many sets\\ $A_1, A_2, \ldots\in\mathcal{A}$.
+        \item $\cup$-closed (closed under unions) if $A\cup B\in \mathcal{A}$ for all $A,B\in\mathcal{A}$.
+        \item $\sigma$-$\cup$-closed (closed under countable unions) if $\bigcup_{i=1}^\infty A_i\in\mathcal{A}$ for any choice of countably many sets $A_1, A_2, \ldots\in\mathcal{A}$.
+        \item $\setminus$-closed (closed under differences) if $A\setminus B\in\mathcal{A}$ for all $A,B\in\mathcal{A}$.
+        \item closed under complements if $A^c=\Omega\setminus A\in\mathcal{A}$ for all $A\in\mathcal{A}$.
+    \end{itemize}
+\end{definition}
+
+\begin{theorem}
+\label{cupclosediffcapclosed}
+    Let $\mathcal{A}$ be closed under complements. Then $\mathcal{A}$ is $\cup$-closed ($\sigma$-$\cup$-closed) if and only if $\mathcal{A}$ is closed $\cap$-closed ($\sigma$-$\cap$-closed).
+\end{theorem}
+
+The above is relatively straightforward to prove using De Morgan's Laws.
+
+\begin{theorem}
+\label{if setminus closed}
+    Let $\mathcal{A}$ be $\setminus$-closed. Then
+    \begin{enumerate}[(a)]
+        \item $\mathcal{A}$ is $\cap$-closed,
+        \item if $\mathcal{A}$ is $\sigma$-$\cup$-closed, then $\mathcal{A}$ is $\sigma$-$\cap$-closed.
+        \item Any countable union of sets in $\mathcal{A}$ can be expressed as a countable union of pairwise disjoint sets in $\mathcal{A}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+~
+\begin{enumerate}[(a)]
+    \item For $A,B\in\mathcal{A}$, $A\cap B=A\setminus(A\setminus B)\in\mathcal{A}$.
+    \item Let $A_1,A_2,\ldots\in\mathcal{A}$. Then
+    \begin{align*}
+        \bigcap_{i=1}^\infty A_i &= \bigcap_{i=1}^\infty (A_1\cap A_i) \\
+        &= \bigcap_{i=1}^\infty A_1\setminus (A_1\setminus A_i) \\
+        &= A_1\setminus\bigcup_{i=1}^\infty (A_1\setminus A_i).
+    \end{align*}
+    \item Let $A_1,A_2,\ldots\in\mathcal{A}$. We then have
+    $$\bigcup_{i=1}^\infty A_i = A_1 \uplus (A_2\setminus A_1)\uplus ((A_3\setminus A_2)\setminus A_1)\uplus\cdots$$
+    The result follows.
+    \end{enumerate}
+\end{proof}
+
+This equivalence between $\cap$ and $\cup$ if the class is $\setminus$-closed is apparent from De Morgan's laws.
+
+\begin{definition}[Algebra]
+\label{defAlgebra}
+    A class of sets $\mathcal{A}\subseteq2^\Omega$ is called an \textit{algebra} if
+    \begin{enumerate}[(i)]
+        \item $\Omega\in\mathcal{A}$,
+        \item $\mathcal{A}$ is $\setminus$-closed, and
+        \item $\mathcal{A}$ is $\cup$-closed.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[$\sigma$-algebra]
+\label{defSigAlgebra}
+    A class of sets $\mathcal{A}\subseteq 2^\Omega$ is called a \textit{$\sigma$-algebra} if
+    \begin{enumerate}[(i)]
+        \item $\Omega\in\mathcal{A}$,
+        \item $\mathcal{A}$ is closed under complements, and
+        \item $\mathcal{A}$ is $\sigma$-$\cup$-closed.
+    \end{enumerate}
+\end{definition}
+
+$\sigma$-algebras are also known as \textit{$\sigma$-fields}.
+
+Note that any $\sigma$-algebra is an algebra (but the converse is not true).
+
+\begin{theorem}
+\label{algebra iff conditions}
+    A class of sets $\mathcal{A}\subseteq2^\Omega$ is an algebra if and only if
+    \begin{enumerate}[(a)]
+        \item $\Omega\in\mathcal{A}$,
+        \item $\mathcal{A}$ is closed under complements, and
+        \item $\mathcal{A}$ is $\cap$-closed.
+    \end{enumerate}
+\end{theorem}
+
+The proof of the above is left as an exercise to the reader.
+
+\begin{definition}[Ring]
+\label{defRing}
+    A class of sets $\mathcal{A}\subseteq2^\Omega$ is called a \textit{ring} if
+    \begin{enumerate}[(i)]
+        \item $\emptyset\in\mathcal{A}$,
+        \item $\mathcal{A}$ is $\setminus$-closed, and
+        \item $\mathcal{A}$ is $\cup$-closed.
+    \end{enumerate}
+\end{definition}
+
+Further, a ring is a \textit{$\sigma$-ring} if it is $\sigma$-$\cup$-closed.
+
+\begin{definition}[Semiring]
+\label{defSemiring}
+    A class of sets $\mathcal{A}\subseteq2^\Omega$ is called a \textit{semiring} if
+    \begin{enumerate}[(i)]
+        \item $\emptyset\in\mathcal{A}$, 
+        \item for any $A,B\in\mathcal{A}$, $A\setminus B$ is a finite union of mutually disjoint sets in $\mathcal{A}$, and
+        \item $\mathcal{A}$ is $\cap$-closed.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}[$\lambda$-system]
+\label{defLamSystem}
+    A class of sets $\mathcal{A}\subseteq2^\Omega$ is called a \textit{$\lambda$-system} (or \textit{Dynkin's $\lambda$-system}) if
+    \begin{enumerate}[(i)]
+        \item $\Omega\in\mathcal{A}$,
+        \item for any $A,B\in\mathcal{A}$ with $B\subseteq A$, $A\setminus B\in\mathcal{A}$, and
+        \item $\displaystyle\biguplus_{i=1}^\infty A_i\in\mathcal{A}$ for any choice of countably many pairwise disjoint sets $A_1,A_2,\ldots\in\mathcal{A}$.
+    \end{enumerate}
+\end{definition}
+
+Among the above classes of sets, $\sigma$-algebras in particular are extremely important as we shall use them when defining probability.
+
+\begin{theorem}
+~
+    \begin{enumerate}[(a)]
+        \item Every $\sigma$-algebra is also a $\lambda$-system, an algebra and a $\sigma$-ring.
+        \item Every $\sigma$-ring is a ring, and every ring is a semiring.
+        \item Every algebra is a ring. An algebra on a finite set $\Omega$ is a $\sigma$-algebra.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+~
+    \begin{enumerate}[(a)]
+        \item Let $\mathcal{A}$ be a $\sigma$-algebra. Then for any $A,B\in\mathcal{A}$, $A\setminus B = (A^c\cup B)^c \in \mathcal{A}$ and $A\cap B=(A^c\cup B^c)^c\in\mathcal{A}$, that is, $\mathcal{A}$ is $\setminus$-closed and $\cup$-closed. The result follows.
+        
+        \item Let $\mathcal{A}$ be a ring. Then \cref{cupclosediffcapclosed} implies that $\mathcal{A}$ is $\cap$-closed. The result follows.
+        
+        \item Let $\mathcal{A}$ be an algebra. With proof similar to the first part of this theorem, it is seen that $\mathcal{A}$ is $\setminus$-closed. We have $\emptyset=\Omega\setminus\Omega\in\mathcal{A}$ and thus, it is a ring. If $\Omega$ is finite, then $\mathcal{A}$ is finite. Thus any countable union of sets is a finite union of sets and the result follows.
+        \end{enumerate}
+\end{proof}
+
+\begin{definition}
+\label{defLimes}
+    Let $A_1,A_2,\ldots$ be subsets of $\Omega$. Then
+    $$\liminf_{n\to\infty}A_n:=\bigcup_{i=1}^\infty\bigcap_{j=i}^\infty A_j\text{ and }\limsup_{n\to\infty}A_n:=\bigcap_{i=1}^\infty\bigcup_{j=i}^\infty A_j$$
+    are respectively called the \textit{limit inferior} and \textit{limit superior}, of the sequence $(A_n)_{n\in\mathbb{N}}$.
+\end{definition}
+
+The above may be rewritten as
+\begin{align*}
+    A_*:=\liminf_{n\to\infty}A_n &= \{\omega\in\Omega : |n\in\mathbb{N}:\omega\not\in A_n|<\infty\} \\
+    A^*:=\limsup_{n\to\infty}A_n &= \{\omega\in\Omega : |n\in\mathbb{N}:\omega\in A_n|=\infty\}
+\end{align*}
+
+That is, $A_*$ represents the set of elements that do not appear in a finite number of sets and $A^*$ represents the set of elements that appear in an infinite number of sets. This implies that $A_*\subseteq A^*$. (Why is the opposite not necessarily true?)
+
+\begin{definition}[Indicator function]
+    Let $A$ be a subset of $\Omega$. The \textit{indicator function on $A$} is defined by
+    $$\indic_A(x)
+    =
+    \begin{cases}
+    1, & x\in A \\
+    0, & x\not\in A
+    \end{cases}
+    $$
+\end{definition}
+
+With the above notation, it may be shown that
+$$\indic_{A_*}=\liminf_{n\to\infty}\indic_{A_n}\text{ and }\indic_{A^*}=\limsup_{n\to\infty}\indic_{A_n}.$$
+
+If $\mathcal{A}\subseteq2^\Omega$ is a $\sigma$-algebra and if $A_n\in\mathcal{A}$ for every $n\in\mathbb{N}$, then $A_*\in\mathcal{A}$ and $A^*\in\mathcal{A}$. This is clear from the fact that $\sigma$-algebras are closed under countable unions and intersections.
+
+Proving the above statements is left as an exercise to the reader.
+
+\begin{theorem}
+\label{capofSigmaAisSigmaA}
+    Let $I$ be some index set and $\mathcal{A}_i$ be a $\sigma$-algebra for each $i\in I$. Then the intersection $\mathcal{A}_I=\bigcap_{i\in I}\mathcal{A}_i$ is also a $\sigma$-algebra.
+\end{theorem}
+\begin{proof}
+    We can prove this by using the three conditions in the definition of a $\sigma$-algebra.
+    \begin{enumerate}[(i)]
+        \item Since $\Omega\in \mathcal{A}_i$ for every $i\in I$, $\Omega\in \mathcal{A}_I$.
+        \item Let $A\in \mathcal{A}_I$. Then $A\in \mathcal{A}_i$ for each $i\in I$ and thus $A^c\in \mathcal{A}_i$ for each $i\in I$. Therefore, $A^c\in \mathcal{A}_I$.
+        \item Let $A_1,A_2,\ldots\in \mathcal{A}_I$. Then $A_n\in\mathcal{A}_i$ for each $n\in\mathbb{N}$ and $i\in I$. Thus $A=\bigcup_{n=1}^\infty A_n\in\mathcal{A}_i$ for each $i$ as well. The result follows.
+    \end{enumerate}
+\end{proof}
+
+A similar statement holds for $\lambda$-systems.
+
+\begin{theorem}
+    Let $\mathcal{E}\subseteq2^\Omega$. Then there exists a smallest $\sigma$-algebra $\sigma(\mathcal{E})$ with $\mathcal{E}\subseteq\sigma(\mathcal{E})$:
+    $$\sigma(\mathcal{E})=\bigcap_{\substack{\mathcal{A}\subseteq2^\Omega\text{ is a $\sigma$-algebra} \\ \mathcal{E}\subseteq\mathcal{A}}}\mathcal{A}.$$
+    $\sigma(\mathcal{E})$ is called the \textit{$\sigma$-algebra generated by $\mathcal{E}$} and $\mathcal{E}$ is called a \textit{generator of $\sigma(\mathcal{E})$}. 
+\end{theorem}
+\begin{proof}
+    $2^\Omega$ is a $\sigma$-algebra that contains $\mathcal{E}$ so the intersection is non-empty. By \cref{capofSigmaAisSigmaA}, $\sigma(\mathcal{E})$ is a $\sigma$-algebra.
+\end{proof}
+
+Similar to the above, $\delta(\mathcal{E})$ is defined as the $\lambda$-system generated by $\mathcal{E}$.
+
+\vspace{2mm}
+We always have the following:
+\begin{enumerate}
+    \item $\mathcal{E}\subseteq \sigma(\mathcal{E})$.
+    \item If $\mathcal{E}_1\subseteq\mathcal{E}_2$, then $\sigma(\mathcal{E}_1)\subseteq\sigma(\mathcal{E}_2)$.
+    \item $\mathcal{A}$ is a $\sigma$-algebra if and only if $\sigma(\mathcal{A})=\mathcal{A}$.
+\end{enumerate}
+Similar statements hold for $\lambda$-systems. Further, $\delta(\mathcal{E})\subseteq\sigma(\mathcal{E})$. This is to be expected as $\sigma$-algebras have more ``structure" than $\lambda$-systems.
+
+\begin{theorem}[$\cap$-closed $\lambda$-system]
+\label{cap closed lam sys}
+    Let $\mathcal{D}\subseteq2^\Omega$ be a $\lambda$-system. Then $\mathcal{D}$ is a $\pi$-system if and only if $\mathcal{D}$ is a $\sigma$-algebra.
+\end{theorem}
+\begin{proof}
+    If $\mathcal{D}$ is a $\sigma$-algebra, then it is obviously a $\pi$-system. Let $\mathcal{D}$ be a $\pi$-system. Then
+    \begin{enumerate}[(a)]
+        \item As $\mathcal{D}$ is a $\lambda$-system, $\Omega\in\mathcal{D}$.
+        \item Let $A\in\mathbb{D}$. Since $\Omega\in\mathcal{D}$ and $\mathcal{D}$ is a $\lambda$-system, $A^c=\Omega\setminus A\in\mathcal{D}$.
+        \item Let $A,B\in\mathcal{D}$. We have $A\cap B\in\mathcal{D}$. We now have $A\setminus B = A\setminus (A\cap B)\in\mathcal{D}$, that is, $\mathcal{D}$ is $\setminus$-closed.
+        
+        Let $A_1,A_2,\ldots\in\mathcal{D}$. Then by \cref{if setminus closed}, there exist $B_1,B_2,\ldots\in\mathcal{D}$ such that
+        $$\bigcup_{i=1}^\infty A_i=\biguplus_{i=1}^\infty B_i\in\mathcal{D}.$$
+    \end{enumerate}
+    This completes the proof.
+\end{proof}
+
+\begin{theorem}[Dynkin's $\pi$-$\lambda$ theorem]
+\label{dynkins pi lam theorem}
+    If $\mathcal{E}\subseteq2^\Omega$ is a $\pi$-system, then $\delta(\mathcal{E})=\sigma(\mathcal{E})$.
+\end{theorem}
+\begin{proof}
+    We already have $\delta(\mathcal{E})\subseteq\sigma(\mathcal{E})$. We must now prove the reverse inclusion. We shall show that $\delta(\mathcal{E})$ is a $\pi$-system.
+    
+    For each $E\in\delta(\mathcal{E})$, let
+    $$\mathcal{D}_E=\{A\in\delta(\mathcal{E}) : A\cap E\in\delta(\mathcal{E})\}.$$
+    
+    To show that $\delta(\mathcal{E})$ is a $\pi$-system, it suffices to show that $\delta(\mathcal{E})\subseteq\mathcal{D}_E$ for all $E\in\delta(\mathcal{E})$. We shall first show that $\mathcal{D}_E$ is a $\lambda$-system for each $E\in\mathcal{E}$ by checking each of the conditions in \cref{defLamSystem}.
+    \begin{enumerate}[(a)]
+        \item We clearly have $\Omega\in\mathcal{D}_E$ as $\Omega\cap E=E$.
+        \item For any $A,B\in\mathcal{D}_E$ with $A\subseteq B$, 
+        $$(B\setminus A)\cap E = (B\cap E)\setminus(A\cap E)\in\delta(\mathcal{E}).$$
+        \item Let $A_1,A_2,\ldots\in\mathcal{D}_E$ be mutually disjoint sets. Then
+        $$\left(\biguplus_{i=1}^\infty A_i\right)\cap E = \biguplus_{i=1}^\infty\left(A_i\cap E\right)\in\delta(\mathcal{E}).$$
+    \end{enumerate}
+    Now since $\mathcal{D}_E$ is a $\lambda$-system and $\mathcal{E}\subseteq\mathcal{D}_E$ (Why?), $\delta(\mathcal{E})\subseteq\mathcal{D}_E$.
+    
+    Now that we have shown that $\delta(\mathcal{E})$ is a $\pi$-system, the result follows by \cref{cap closed lam sys}.
+\end{proof}
+
+\begin{definition}[Topology]
+    Let $\Omega\neq\emptyset$ be an arbitrary set. A class of sets $\tau\subseteq2^\Omega$ is called a \textit{topology} on $2^\Omega$ if
+    \begin{enumerate}[(i)]
+        \item $\emptyset,\Omega\in\tau$,
+        \item $\tau$ is $\cap$-closed, and
+        \item for any $\mathcal{F}\subseteq\tau$, $\bigcup_{A\in\mathcal{F}}A\in\tau.$
+    \end{enumerate}
+\end{definition}
+
+In the above case, the pair $(\Omega,\tau)$ is called a \textit{topological space}. The sets $A\in\tau$ are called \textit{open} and the sets $A\subseteq\Omega$ with $A^c\in\tau$ are called \textit{closed}.
+
+\vspace{1mm}
+Note that in contrast with $\sigma$-algebras, topologies are closed under only finite intersections but are also closed under arbitrary unions.
+
+\vspace{2mm}
+For example, consider the natural topology on $\mathbb{R}$ which consists of all open intervals in $\mathbb{R}$ and any arbitrary union of them.
+
+\begin{definition}[Borel $\sigma$-algebra]
+    Let $(\Omega,\tau)$ be a topological space. The $\sigma$-algebra
+    $$\mathcal{B}(\Omega)=\mathcal{B}(\Omega,\tau)=\sigma(\tau)$$
+    that is generated by the open sets is called the \textit{Borel $\sigma$-algebra on $\Omega$}. The elements $A\in\mathcal{B}(\Omega,\tau)$ are called \textit{Borel sets} or \textit{Borel measurable sets}.
+\end{definition}
+
+
+A Borel $\sigma$-algebra that we shall often encounter is $\mathcal{B}(\mathbb{R}^n)$ for $n\in\mathbb{N}$. Consider the following classes of sets:
+\begin{align*}
+    \mathcal{A}_1 &= \{A\subseteq\mathbb{R}^n:A\text{ is open}\} \\
+    \mathcal{A}_2 &= \{A\subseteq\mathbb{R}^n:A\text{ is closed}\} \\
+    \mathcal{A}_3 &= \{A\subseteq\mathbb{R}^n:A\text{ is compact}\} \\
+    \mathcal{A}_4 &= \{(a,b):a,b\in\mathbb{Q}^n\text{ and }a<b\} \\
+    \mathcal{A}_5 &= \{(a,b]:a,b\in\mathbb{Q}^n\text{ and }a<b\} \\
+    \mathcal{A}_6 &= \{[a,b):a,b\in\mathbb{Q}^n\text{ and }a<b\} \\
+    \mathcal{A}_7 &= \{[a,b]:a,b\in\mathbb{Q}^n\text{ and }a<b\} \\
+    \mathcal{A}_8 &= \{(-\infty,b):b\in\mathbb{Q}^n\} \\
+    \mathcal{A}_9 &= \{(-\infty,b]:b\in\mathbb{Q}^n\} \\
+    \mathcal{A}_{10} &= \{(a,\infty):a\in\mathbb{Q}^n\} \\
+    \mathcal{A}_{11} &= \{[a,\infty):a\in\mathbb{Q}^n\} \\
+\end{align*}
+It may be proved that $\mathcal{B}(\mathbb{R}^n)$ is generated by any of the classes of sets $\mathcal{A}_1,\mathcal{A}_2,\ldots,\mathcal{A}_{11}$.
+
+\vspace{2mm}
+For $A\in\mathcal{B}(\mathbb{R})$, we represent by $\left.\mathcal{B}(\mathbb{R})\right|_{A}$ the restriction of $\mathcal{B}(\mathbb{R})$ to $A$. It may be proved that this is equal to $\mathcal{B}(A)$, the $\sigma$-algebra generated by the open subsets of $A$.
+
+\subsection{Measure}
+
+\begin{definition}
+    Let $\mathcal{A}\subseteq2^\Omega$ and let $\mu:\mathcal{A}\to[0,\infty]$ be a set function. We say that $\mu$ is
+    \begin{enumerate}[(i)]
+        \item \textit{monotone} if for any $A,B\in\mathcal{A}$, $A\subseteq B$ implies that $\mu(A)\leq\mu(B)$,
+        
+        \item \textit{additive} if for any choice of finitely many mutually disjoint sets $A_1,\ldots,A_n\in\mathcal{A}$ with $\biguplus_{i=1}^n A_i\in\mathcal{A}$,
+        $$\mu\left(\biguplus_{i=1}^nA_i\right)=\sum_{i=1}^n\mu(A_i),$$
+        
+        \item $\sigma$-additive if for any choice of countably many mutually disjoint sets $A_1,A_2,\ldots\in\mathcal{A}$ with $\biguplus_{i=1}^\infty A_i\in\mathcal{A}$,
+        $$\mu\left(\biguplus_{i=1}^\infty A_i\right)=\sum_{i=1}^\infty\mu(A_i),$$
+        
+        \item subadditive if for any choice of finitely many sets $A,A_1,A_2,\ldots,A_n\in\mathcal{A}$ with $A\subseteq\bigcup_{i=1}^nA_i$, we have $$\mu(A)\leq\sum_{i=1}^n\mu(A_i),\text{ and}$$
+        
+        \item $\sigma$-subadditive if for any choice of countably many sets $A,A_1,A_2,\ldots\in\mathcal{A}$ with $A\subseteq\bigcup_{i=1}^\infty A_i$, we have
+        $$\mu(A)\leq\sum_{i=1}^\infty \mu(A_i).$$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+\label{measureDef}
+    Let $\mathcal{A}$ be a semiring and $\mu:\mathcal{A}\to[0,\infty]$ be a set function with $\mu(\emptyset)=0$. $\mu$ is called a
+    \begin{enumerate}[(i)]
+        \item \textit{content} if $\mu$ is additive,
+        \item \textit{premeasure} if $\mu$ is $\sigma$-additive, and
+        \item \textit{measure} if $\mu$ is $\sigma$-additive and $\mathcal{A}$ is a $\sigma$-algebra.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Properties of contents]
+\label{properties of content}
+    Let $\mathcal{A}$ be a semiring and $\mu$ be a content on $\mathcal{A}$. Then
+    \begin{enumerate}[(a)]
+        \item If $\mathcal{A}$ is a ring, then $\mu(A\cup B)+\mu(A\cap B)=\mu(A)+\mu(B)$ for any $A,B\in\mathcal{A}$.
+        
+        \item $\mu$ is monotone. If $\mathcal{A}$ is a ring, then $\mu(B)=\mu(A)+\mu(B\setminus A)$ for any $A,B\in\mathcal{A}$ with $A\subseteq B$.
+        
+        \item $\mu$ is subadditive. If $\mu$ is $\sigma$-additive, then it is also $\sigma$-subadditive.
+        
+        \item If $\mathcal{A}$ is a ring, then $$\sum_{n=1}^\infty \mu(A_n)\leq\mu\left(\bigcup_{n=1}^\infty A_n\right)$$ for any choice of countably many mutually disjoint sets $A_1,A_2,\ldots\in\mathcal{A}$ with $\bigcup_{i=1}^\infty A_i\in\mathcal{A}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+~
+    \begin{enumerate}[(a)]
+        \item Note that $A\cup B=A\uplus (B\setminus A)$ and $B=(A\cap B)\uplus (B\setminus A)$. As $\mu$ is additive,
+        $$\mu(A\cup B)=\mu(A)+\mu(B\setminus A)\text{ and }\mu(B)=\mu(A\cap B)+\mu(B\setminus A).$$
+        The result follows.
+        
+        \item Let $A\subseteq B$. If $B\setminus A\in\mathcal{A}$ (which is true in the case of a ring), we have $B=A\uplus (B\setminus A)$ and thus
+        $$\mu(B)=\mu(A)+\mu(B\setminus A).$$
+        If $\mathcal{A}$ is just a semiring, then there exist $n\in\mathbb{N}$ and mutually disjoint sets $C_1,C_2,\ldots,C_n\in\mathcal{A}$ such that $$B\setminus A=\biguplus_{i=1}^n C_i.$$
+        In either case, we have $\mu(A)\leq \mu(B)$.
+        
+        \item Let $A, A_1,A_2,\ldots,A_n\in\mathcal{A}$ such that $A\subseteq\bigcup_{i=1}^n A_i$. Let $B_1=A_1$ and for each $k=2,3,\ldots,n$, let
+        $$B_k = A_k\setminus\left(\bigcup_{i=1}^{k-1}A_i\right).$$
+        Note that any two $B_i$s are disjoint. As $\mu$ is additive and monotone, we have
+        \begin{align*}
+            \mu(A) &\leq \mu\left(\bigcup_{i=1}^n A_i\right) \\
+            &= \mu\left(\biguplus_{i=1}^n B_i\right) \\
+            &= \sum_{i=1}^n \mu(B_i) \leq \sum_{i=1}^n \mu(A_i).
+        \end{align*}
+        We can similarly prove that if $\mu$ is $\sigma$-additive, then it is $\sigma$-subadditive.
+        
+        \item Let $A=\bigcup_{i=1}^\infty A_i\in\mathcal{A}$. Since $\mu$ is additive and monotone,
+        $$\sum_{i=1}^m\mu(A_i)=\mu\left(\biguplus_{i=1}^m A_i\right)\leq \mu(A)\text{ for any $m\in\mathbb{N}$.}$$
+        The result follows.
+    \end{enumerate}
+\end{proof}
+
+Note that if equality holds in the fourth part of the above theorem, $\mu$ is a premeasure.
+
+\begin{definition}[Finite content]
+    Let $\mathcal{A}$ be a semiring. A content $\mu$ on $A$ is called
+    \begin{enumerate}[(i)]
+        \item \textit{finite} if $\mu(A)<\infty$ for all $A\in\mathcal{A}$ and
+        \item \textit{$\sigma$-finite} if there exists a sequence of sets $\Omega_1,\Omega_2,\ldots\in\mathcal{A}$ such that $\Omega=\bigcup_{i=1}^\infty\Omega_i$ and $\mu(\Omega_i)<\infty$ for every $i\in\mathbb{N}$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    Let $A,A_1,A_2,\ldots$ be sets. We write
+    \begin{enumerate}[(i)]
+        \item $A_n\uparrow A$ if $A_1\subseteq A_2\subseteq A_3\subseteq\cdots$ and $\bigcup_{i=1}^\infty A_i=A$. In this case, we say that $A_n$ increases to $A$.
+        \item $A_n\downarrow A$ if $A_1\supseteq A_2\supseteq A_3\supseteq\cdots$ and $\bigcap_{i=1}^\infty A_i=A$. In this case, we say that $A_n$ decreases to $A$.
+    \end{enumerate}
+\end{definition}
+
+For example, if $A_n=\left(-\frac{1}{n},\frac{1}{n}\right)$ for $n\in\mathbb{N}$, then $A_n\downarrow \{0\}$.
+
+\begin{definition}[Continuity of contents]
+    Let $\mu$ be a content on the ring $\mathcal{A}$. $\mu$ is called
+    \begin{enumerate}[(i)]
+        \item \textit{lower semicontinuous} if $\lim_{n\to\infty}\mu(A_n)=\mu(A)$ for any $A\in\mathcal{A}$ and sequence $(A_n)_{n\in\mathbb{N}}$ such that $A_n\uparrow A$,
+        \item \textit{upper semicontinuous} if $\lim_{n\to\infty}\mu(A_n)=\mu(A)$ for any $A\in\mathcal{A}$ and sequence $(A_n)_{n\in\mathbb{N}}$ such that $\mu(A_n)<\infty$ for some $n$ (this implies that it holds for all $n\in\mathbb{N}$) and $A_n\downarrow A$,
+        \item \textit{$\emptyset$-continuous} if (ii) holds for $A=\emptyset$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+\label{tripledoubleEquivalence}
+    Let $\mu$ be a content on the ring $\mathcal{A}$. The following properties are equivalent:
+    \begin{enumerate}[(a)]
+        \item $\mu$ is $\sigma$-additive (and hence a premeasure).
+        \item $\mu$ is $\sigma$-subadditive.
+        \item $\mu$ is lower semicontinuous.
+        \item $\mu$ is $\emptyset$-continuous.
+        \item $\mu$ is upper semicontinuous.
+    \end{enumerate}
+    Then (a)$\iff$(b)$\iff$(c)$\implies$(d)$\iff$(e).
+    If $\mu$ is finite, then all five statements are equivalent.
+\end{theorem}
+\begin{proof}
+~
+    \begin{itemize}
+        \item (a)$\implies$(b) ($\sigma$-additivity implies $\sigma$-subadditivity).
+        
+        This follows from \cref{properties of content}(c).
+        
+        \item (b)$\implies$(a) ($\sigma$-subadditivity implies $\sigma$-additivity).
+        
+        This follows from \cref{properties of content}(d).
+        
+        \item (a)$\implies$(c) ($\sigma$-additivity implies lower semicontinuity).
+        
+        Let $\mu$ be a premeasure and $A\in\mathcal{A}$. Let $A_1,A_2,\ldots\in\mathcal{A}$ such that $A_n\uparrow A$ and let $A_0=\emptyset$. Then
+        $$\mu(A)=\sum_{i=1}^\infty \mu(A_i\setminus A_{i-1})=\lim_{n\to\infty}\sum_{i=1}^n\mu(A_i\setminus A_{i-1})=\lim_{n\to\infty}\mu(A_n).$$
+        
+        \item (c)$\implies$(a) (lower semicontinuity implies $\sigma$-additivity).
+        
+        Let $B_1,B_2,\ldots\in\mathcal{A}$ be mutually disjoint and let $B=\biguplus_{n=1}^\infty B_n\in\mathcal{A}$. Let $A_n=\biguplus_{i=1}^n B_i$ for each $n\in\mathbb{N}$. Then
+        $$\mu(B)=\lim_{n\to\infty}\mu(A_n)=\sum_{i=1}^\infty\mu(B_i).$$
+        Thus $\mu$ is $\sigma$-additive.
+        
+        \item (d)$\implies$(e) ($\emptyset$-continuity implies upper semicontinuity).
+        
+        Let $A,A_1,A_2,\ldots\in\mathcal{A}$ with $A_n\downarrow A$ and $\mu(A_1)<\infty$. Define $B_n=A_n\setminus A\in\mathcal{A}$ for valid $n$. Then $B_n\downarrow\emptyset$. Thus
+        $$\lim_{n\to\infty}\mu(A_n)-\mu(A)=\lim_{n\to\infty}\mu(B_n)=0$$
+        and the result is proved.
+        
+        \item (e)$\implies$(d) (upper semicontinuity implies $\emptyset$-continuity).
+        
+        This is obvious.
+        
+        \item (c)$\implies$(d) (lower semicontinuity implies $\emptyset$-continuity).
+        
+        Let $A_1,A_2,\ldots\in\mathcal{A}$ with $A_n\downarrow\emptyset$ and $\mu(A_1)<\infty$. Then $A_1\setminus A_n\in\mathcal{A}$ for all $n\in\mathbb{N}$ and $A_1\setminus A_n\uparrow A_1$. Thus
+        $$\mu(A_1)=\lim_{n\to\infty}\mu(A_1)-\mu(A_n).$$
+        Since $\mu(A_1)<\infty$, $\lim_{n\to\infty}A_n=0$ and the result is proved.
+        
+        \item (d)$\implies$(c) ($\emptyset$-continuity implies lower semicontinuity) if $\mu$ is finite.
+        
+        Let $A,A_1,A_2,\ldots\in\mathcal{A}$ with $A_n\uparrow A$. Then $A\setminus A_n\downarrow\emptyset$ and
+        $$\lim_{n\to\infty}\mu(A)-\mu(A_n)=\lim_{n\to\infty}\mu(A\setminus A_n)=0.$$
+        The result follows.
+    \end{itemize}
+\end{proof}
+
+\begin{definition}[Measurable spaces]
+~
+\begin{enumerate}[(i)]
+    \item A pair $(\Omega,\mathcal{A})$ consisting of a nonempty set $\Omega$ and a $\sigma$-algebra $\mathcal{A}\subseteq2^\Omega$ is called a \textit{measurable space}. The sets $A\in\mathcal{A}$ are called \textit{measurable sets}. If $\Omega$ is countable and $\mathcal{A}=2^\Omega$, then the space $(\Omega,2^\Omega)$ is called \textit{discrete}.
+    
+    \item A triple $(\Omega,\mathcal{A},\mu)$ is called a \textit{measure space} if $(\Omega,\mathcal{A})$ is a measurable space and $\mu$ is a measure on $\mathcal{A}$.
+\end{enumerate}
+\end{definition}
+
+
+\subsection{Measurable Maps}
+
+In measure theory, the homomorphisms (structure-preserving maps between objects) are studied as measurable maps.
+
+\begin{definition}[Measurable map]
+    Let $(\Omega,\mathcal{A})$ and $(\Omega',\mathcal{A}')$ be measurable spaces. A map $X:\Omega\to\Omega'$ is called \textit{$\mathcal{A}-\mathcal{A}'$-measurable} (or just measurable) if
+    $$X^{-1}(A')\in\mathcal{A}\text{ for any }A'\in\mathcal{A}'.$$
+\end{definition}
+
+In this case, we write $X:(\Omega,\mathcal{A})\to(\Omega',\mathcal{A}')$.
+
+\begin{theorem}[Generated $\sigma$-algebra]
+    Let $(\Omega',\mathcal{A}')$ be a measurable space and $\Omega$ be a nonempty set. Let $X:\Omega\to\Omega'$ be a map. Then
+    $$X^{-1}(\mathcal{A}')=\{X^{-1}(A'):A'\in\mathcal{A}'\}$$
+    is the smallest $\sigma$-algebra with respect to which $X$ is measurable. We call $X^{-1}(\mathcal{A}')$ the \textit{$\sigma$-algebra generated by $X$} and denote it as $\sigma(X)$.
+\end{theorem}
+\begin{proof}
+    Let $X$ be measurable with respect to some $\sigma$-algebra $\mathcal{A}$. Then $X^{-1}(A')\in\mathcal{A}$ for any $A'\in\mathcal{A}'$, that is, $\sigma(X)\subseteq\mathcal{A}$. Let us now prove that $\sigma(X)$ is a $\sigma$-algebra by checking each of the axioms in \cref{defSigAlgebra}.
+    \begin{enumerate}
+        \item As $\Omega'\in\mathcal{A}'$ and $X^{-1}(\Omega')=\Omega$, $\Omega\in\sigma(X)$.
+        
+        \item Let $A\in\sigma(X)$ and $A'\in\mathcal{A}'$ such that $X^{-1}(A')=A$. Then as $\mathcal{A}'$ is closed under complements,
+        $$\Omega\setminus A = X^{-1}(\Omega')\setminus X^{-1}(A') = X^{-1}(\Omega'\setminus A')\in\sigma(X).$$
+        Therefore, $\sigma(X)$ is closed under complements.
+        
+        \item Let $A_1,A_2\ldots\in\sigma(X)$ and $A_1',A_2',\ldots\in\mathcal{A}'$ such that $A_i=X^{-1}(A_i')$ for each $i\in\mathbb{N}$. Then as $\mathcal{A}'$ is $\sigma$-$\cup$-closed,
+        $$\bigcup_{i\in\mathbb{N}} A_i = \bigcup_{i\in\mathbb{N}} X^{-1} (A_i') = X^{-1}\left(\bigcup_{i\in\mathbb{N}} A_i'\right) \in\sigma(X)$$
+    \end{enumerate}
+    Therefore, $\sigma(X)$ is a $\sigma$-algebra.
+\end{proof}
+
+\begin{theorem}
+\label{generating pi system fixed under preimage}
+    Let $(\Omega,\mathcal{A})$ and $(\Omega',\mathcal{A}')$ be measurable spaces and $X:\Omega\to\Omega'$ be a map.
+    Let $\mathcal{E}'\subseteq\mathcal{A}'$ be a class of sets. Then $\sigma(X^{-1}(\mathcal{E}'))=X^{-1}(\sigma(\mathcal{E}'))$.
+\end{theorem}
+\begin{proof}
+    We have that $X^{-1}(\mathcal{E})\subseteq X^{-1}(\sigma(\mathcal{E}))=\sigma(X^{-1}(\sigma(\mathcal{E})))$. This implies that
+    $$\sigma(X^{-1}(\mathcal{E}))\subseteq X^{-1}(\sigma(\mathcal{E})).$$
+    To establish the reverse inclusion, consider
+    $$\mathcal{A}_0'=\{A'\in\sigma(\mathcal{E}'):X^{-1}(A')\in\sigma(X^{-1}(\mathcal{E}'))\}$$
+    We shall show that $\mathcal{A}_0'$ is a $\sigma$-algebra.
+    \begin{enumerate}[(a)]
+        \item Clearly, $\Omega'\in\mathcal{A}_0'$ as $\Omega\in\sigma(X^{-1}(\mathcal{E}'))$ and $\Omega'\in\sigma(\mathcal{E}')$.
+        
+        \item Let $A_0'\in\mathcal{A}_0'$. Then
+        $$X^{-1}((A_0')^c) = (X^{-1}(A_0'))^c \in \sigma(X^{-1}(\mathcal{E}'))$$
+        and thus $\mathcal{A_0}'$ is closed under complements.
+        
+        \item Let $A_1',A_2',\ldots\in\mathcal{A}_0'$. Then
+        $$X^{-1}\left(\bigcup_{i=1}^\infty A_i'\right) = \bigcup_{i=1}^\infty X^{-1}\left(A_i'\right)\in \sigma(X^{-1}(\mathcal{E}')).$$
+        Thus, $\mathcal{A}_0'$ is $\sigma$-$\cup$-closed.
+    \end{enumerate}
+    
+    Now, note that $\mathcal{E}'\subseteq\mathcal{A}_0'$ and $\mathcal{A}_0'\subseteq\sigma(\mathcal{E}')$. This implies that $\mathcal{A}_0'=\sigma(\mathcal{E}')$, and thus $X^{-1}(\sigma(\mathcal{E}'))\subseteq\sigma(X^{-1}(\mathcal{E}'))$.
+    
+    This proves the result.
+\end{proof}
+
+\begin{corollary}
+\label{measurable if generator inv}
+    Let $(\Omega,\mathcal{A})$ and $(\Omega',\mathcal{A}')$ be measurable spaces and $X:\Omega\to\Omega'$ be a map. Let $\mathcal{E}'\subseteq\mathcal{A}'$ be a class of sets. Then $X$ is $\mathcal{A}$-$\sigma(\mathcal{E}')$ measurable if and only if $X^{-1}(\mathcal{E}')\in\mathcal{A}$. If in particular $\sigma(\mathcal{E}')=\mathcal{A}'$, then $X$ is $\mathcal{A}-\mathcal{A}'$-measurable if and only if $X^{-1}(\mathcal{E}')\subseteq\mathcal{A}'$.
+\end{corollary}
+
+\begin{theorem}
+        Let $(\Omega,\mathcal{A})$, $(\Omega',\mathcal{A}')$, and $(\Omega'',\mathcal{A}'')$ be measurable spaces and let $X:\Omega\to\Omega'$ and $X':\Omega'\to\Omega''$ be measurable. Then $Y=X'\circ X:\Omega\to\Omega''$ is $\mathcal{A}-\mathcal{A}''$-measurable.
+\end{theorem}
+\begin{proof}
+    This is due to the fact that
+    $$Y^{-1}(\mathcal{A}'')\subseteq X^{-1}((X^{-1})(\mathcal{A}''))\subseteq X^{-1}(\mathcal{A}')\subseteq \mathcal{A}.$$
+\end{proof}
+
+The above theorem just states that the composition of two measurable maps is measurable.
+
+\begin{theorem}[Measurability of Continuous Maps]
+    Let $(\Omega,\tau)$ and $(\Omega',\tau')$ be topological spaces and let $f:\Omega\to\Omega'$ be a continuous map. Then $f$ is $\mathcal{B}(\Omega)-\mathcal{B}(\Omega')$-measurable.
+\end{theorem}
+\begin{proof}
+    As $\mathcal{B}(\Omega')=\sigma(\tau')$, by \cref{measurable if generator inv} it is enough to show that $f^{-1}(A')\in\sigma(\tau)$ for all $A'\in\tau'$. However, since $f$ is continuous, $f^{-1}(A')\in\tau$ for all $A'\in\tau'$ so the result follows.
+\end{proof}
+
+\begin{theorem}
+    Let $X_1,X_2,\ldots$ be measurable maps $(\Omega,\mathcal{A})\to(\overline{\mathbb{R}}, \mathcal{B}(\overline{\mathbb{R}}))$. Then $\displaystyle\inf_{n\in\mathbb{N}}X_n$, $\displaystyle\sup_{n\in\mathbb{N}}X_n$, $\displaystyle\liminf_{n\in\mathbb{N}}X_n$, and $\displaystyle\limsup_{n\in\mathbb{N}}X_n$ are also measurable.
+\end{theorem}
+\begin{proof}
+    For any $x\in\overline{\mathbb{R}}$,
+    $$\left(\inf_{n\in\mathbb{N}}X_n\right)^{-1}([-\infty,x))=\bigcup_{n=1}^\infty (X_n)^{-1}([-\infty,x))\in\mathcal{A}.$$
+    The first part of the result follows by \cref{measurable if generator inv}. The proof for $\sup_{n\in\mathbb{N}}X_n$ is similar.
+    
+    For $\limsup_{n\in\mathbb{N}}$, consider the sequence $(Y_n)_{n\in\mathbb{N}}$ where $Y_n=\sup_{m\geq n}X_m$. Each $Y_m$ is measurable. Then since $\inf_{n\in\mathbb{N}}Y_m$ is measurable, the result follows.
+\end{proof}
+
+\begin{definition}[Simple Function]
+    Let $(\Omega,\mathcal{A})$ be a measurable space. A map $f:\Omega\to\mathbb{R}$ is called \textit{simple} if there exists some $n\in\mathbb{N}$, mutually disjoint sets $A_1,\ldots,A_n\in\mathcal{A}$, and $\alpha_1,\ldots,\alpha_n\in\mathbb{R}$ such that
+    $$f=\sum_{i=1}^n \alpha_i\indic_{A_i}.$$
+\end{definition}
+
+\begin{definition}
+    Let $f,f_1,f_2,\ldots$ be maps $\Omega\to\overline{\mathbb{R}}$ such that
+    $$f_1(\omega)\leq f_2(\omega)\leq\cdots\text{ and }\lim_{n\to\infty}f_n(\omega)=\omega\text{ for all }\omega\in\Omega.$$
+    We then write $f_n\uparrow f$. Similarly, we write $f_n\downarrow f$ if $(-f_n)\uparrow(-f)$.
+\end{definition}
+
+\begin{theorem}
+\label{measurable function simple sequence}
+    Let $(\Omega,\mathcal{A})$ be a measurable space and let $f:\Omega\to[0,\infty]$ be measurable. Then
+    \begin{enumerate}[(a)]
+        \item There exists a sequence $(f_n)_{n\in\mathbb{N}}$ of non-negative simple functions such that $f_n\uparrow f$.
+        \item There are measurable sets $A_1,A_2,\ldots\in\mathcal{A}$ and $\alpha_1,\alpha_2,\ldots\in[0,\infty)$ such that $f=\sum_{i=1}^n \alpha_i\indic_{A_i}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item For $n\in\mathbb{N}_0$, define
+        $$f_n=\min\{n, 2^{-n}\lfloor2^nf\rfloor\}.$$
+        Each $f_n$ is measurable. (Why?) Since it can take at most $n2^n+1$ distinct values, each $f_n$ is simple. Clearly, $f_n\uparrow f$.
+        
+        \item Let $f_n$ be the same as above. For $n\in\mathbb{N}$ and $i\in[2^n]$, define
+        $$B_{n,i}=\{\omega:f_n(\omega)-f_{n-1}(\omega)=i2^{-n}\}\text{ and }\beta_{n,i}=i2^{-n}.$$
+        Then $f_n-f_{n-1}=\sum_{i=1}^{2^n} \beta_{n,i}\indic_{B_{n,i}}$. Changing the enumeration from $(n,i)$ to $m$, we get some $(\alpha_m)_{m\in\mathbb{N}}$ and $(A_m)_{m\in\mathbb{N}}$ such that
+        $$f=f_0 + \sum_{n=1}^\infty(f_n-f_{n-1})=\sum_{m=1}^\infty \alpha_m\indic_{A_m}.$$
+    \end{enumerate}
+\end{proof}
+
+\subsection{Outer Measure}
+
+\begin{lemma}
+\label{uniquely defined by base pi sys}
+    Let $(\Omega,\mathcal{A},\mu)$ be a $\sigma$-finite measure space and $\mathcal{E}\subseteq\mathcal{A}$ be a $\pi$-system that generates $\mathcal{A}$. Assume there exists sequence $\Omega_1,\Omega_2\ldots\in\mathcal{E}$ such that $\bigcup_{i=1}^\infty\Omega_i=\Omega$ and $\mu(\Omega_i)<\infty$ for all $i\in\mathbb{N}$. Then $\mu$ is uniquely determined by the values $\mu(E)$, $E\in\mathcal{E}$.
+    
+    If $\Omega\in\mathcal{A}$ and $\mu(\Omega)=1$, then the existence of the sequence $(\Omega_n)_{n\in\mathbb{N}}$ is not required.
+\end{lemma}
+\begin{proof}
+    Let $\nu$ be a $\sigma$-finite measure on $(\Omega,\mathcal{A})$ such that $\mu(E)=\nu(E)$ for all $E\in\mathcal{E}$.
+    
+    \vspace{1mm}
+    Let $E\in\mathcal{E}$ with $\mu(E)<\infty$. Consider
+    $$\mathcal{D}_E=\{A\in\mathcal{A}: \mu(A\cap E)=\nu(A\cap E)\}.$$
+    
+    We claim that $\mathcal{D}_E$ is a $\lambda$-system. We shall prove this by checking each of the conditions of \cref{defLamSystem}.
+    
+    \begin{enumerate}[(a)]
+        \item Clearly, $\Omega\in\mathcal{D}_E$.
+        \item Let $A,B\in\mathcal{D}_E$ with $B\subseteq A$. Then
+        \begin{align*}
+            \mu((A\setminus B)\cap E) &= \mu(A\cap E) - \mu(B\cap E)\quad\text{(using \cref{properties of content})} \\
+            &= \nu(A\cap E) - \nu(B\cap E) \\
+            &= \nu((A\setminus B)\cap E).
+        \end{align*}
+        That is, $(A\setminus B)\in\mathcal{D}_E$.
+        \item Let $A_1,A_2,\ldots\in\mathcal{D}_E$ be mutually disjoint sets. Then
+        \begin{align*}
+            \mu\left(\left(\biguplus_{i=1}^\infty A_i\right)\cap E\right) &= \sum_{i=1}^\infty \mu(A_i\cap E) \\
+            &= \sum_{i=1}^\infty\nu(A_i\cap E) \\
+            &= \nu\left(\left(\biguplus_{i=1}^\infty A_i\right)\cap E\right).
+        \end{align*}
+        Therefore, $\biguplus_{i=1}^\infty A_i\in\mathcal{D}_E$ and $\mathcal{D}_E$ is a $\lambda$-system.
+    \end{enumerate}
+    As $\mathcal{E}\subseteq\mathcal{D}_E$ (Why?), $\delta(\mathcal{E})\subseteq\mathcal{D}_E$. Since $\mathcal{E}$ is a $\pi$-system, \cref{dynkins pi lam theorem} implies that
+    $$\mathcal{A}\supseteq\mathcal{D}_E\supseteq\delta(\mathcal{E})=\sigma(\mathcal{E})=\mathcal{A}.$$
+    Hence $\mathcal{D}_E=\mathcal{A}$.
+    
+    Therefore, $\mu(A\cap E)=\nu(A\cap E)$ for any $A\in\mathcal{A}$ and $E\in\mathcal{E}$ with $\mu(E)<\infty$.
+    
+    Now, let $\Omega_1,\Omega_2,\ldots\in\mathcal{E}$ be a sequence such that $\bigcup_{i=1}^\infty\Omega_i=\Omega$ and $\mu(\Omega_i)<\infty$ for all $i\in\mathbb{N}$. Let $E_0=\emptyset$ and $E_n=\bigcup_{i=1}^n\Omega_i$ for each $n\in\mathbb{N}$. Note that
+    $$E_n=\biguplus_{i=1}^n(E_{i-1}^c\cap \Omega_i).$$
+    Therefore for any $A\in\mathcal{A}$ and $n\in\mathbb{N}$,
+    \begin{align*}
+        \mu(A\cap E_n) &= \sum_{i=1}^n\mu((A\cap E_{i-1}^c)\cap\Omega_i) \\
+        &= \sum_{i=1}^n\nu((A\cap E_{i-1}^c)\cap\Omega_i) = \nu(A\cap E_n).
+    \end{align*}
+    
+    Now, since $E_n\uparrow\Omega$ and $\mu,\nu$ are lower semicontinuous (by \cref{tripledoubleEquivalence}),
+    \begin{align*}
+        \mu(A) &= \lim_{n\to\infty}\mu(A\cap E_n) \\
+        &= \lim_{n\to\infty}\nu(A\cap E_n) = \nu(A)
+    \end{align*}
+    
+    This proves the result.
+    
+    \vspace{2mm}
+    The second part of the theorem is trivial as $\mathcal{E}\cup\{\Omega\}$ is a $\pi$-system that generates $\mathcal{A}$. Hence one can choose the constant sequence $E_n=\Omega, n\in\mathbb{N}$.
+\end{proof}
+
+\begin{definition}[Outer Measure]
+    A function $\mu^*:2^\Omega\to[0,\infty]$ is called an \textit{outer measure} if
+    \begin{enumerate}[(i)]
+        \item $\mu^*(\emptyset)=0$,
+        \item $\mu^*$ is monotone, and
+        \item $\mu^*$ is $\sigma$-subadditive.
+    \end{enumerate}
+\end{definition}
+
+\begin{lemma}
+\label{set of countable coverings outer measure}
+    Let $\mathcal{A}\subseteq 2^\Omega$ be an arbitrary class of sets with $\emptyset\in\mathcal{A}$ and let $\mu$ be a nonnegative set function on $\mathcal{A}$ with $\mu(\emptyset)=0$. For $A\subseteq\Omega$, define the set of countable coverings $\mathcal{F}$ with sets $F\in\mathcal{A}$
+    $$\mathcal{U}(A)=\left\{\mathcal{F}\subseteq\mathcal{A} : \mathcal{F}\text{ is countable and }A\subseteq\bigcup_{F\in\mathcal{F}}F\right\}.$$
+    Define
+    $$\mu^*(A)=\inf\left\{\sum_{F\in\mathcal{F}}\mu(F) : \mathcal{F}\in\mathcal{U}(A) \right\}$$
+    where $\inf\emptyset=\infty$. Then $\mu^*$ is an outer measure. If $\mu$ is $\sigma$-subadditive then $\mu^*(A)=\mu(A)$ for all $A\in\mathcal{A}$.
+\end{lemma}
+\begin{proof}
+    Let us check each of the three conditions in the definition of an outer measure.
+    \begin{enumerate}[(a)]
+        \item Since $\emptyset\in\mathcal{A}$, we have $\{\emptyset\}\in\mathcal{U}(\emptyset)$ and hence $\mu(\emptyset)=0$.
+        
+        \item If $A\subseteq B$, then $\mathcal{U}(A)\subseteq\mathcal{U}(B)$, and hence $\mu^*(A)\leq\mu^*(B)$.
+        
+        \item Let $A,A_1,A_2,\ldots\subseteq\Omega$ such that $A\subseteq\bigcup_{i=1}^\infty A_i$. We claim that $\mu^*(A)\leq\sum_{i=1}^\infty \mu^*(A_i)$.
+        
+        Without loss of generality, assume that $\mu^*(A_i)<\infty$ and hence $\mathcal{U}(A_i)\neq\emptyset$ for all $i\in\mathbb{N}$. Fix some $\varepsilon>0$. Now, for every $n\in\mathbb{N}$, we may choose a covering $\mathcal{F}_n\in\mathcal{U}(A_n)$ such that
+        $$\sum_{F\in\mathcal{F}_n}\mu(F)\leq\mu^*(A_n)+\varepsilon2^{-n}.$$
+        Then let $\mathcal{F}=\bigcup_{n=1}^\infty \mathcal{F}_n\in\mathcal{U}(A)$.
+        $$\mu^*(A)\leq\sum_{F\in\mathcal{F}}\mu(F)\leq\sum_{n=1}^\infty\sum_{F\in\mathcal{F}_n}\mu(F)\leq\sum_{n=1}^\infty \mu^*(A_n) + \varepsilon.$$
+        
+        This proves the first part of the result.
+    \end{enumerate}
+    
+    To prove the next part of the result, first note that since $\{A\}\in\mathcal{U}(A)$, we have $\mu^*(A)\leq\mu(A)$. If $\mu$ is $\sigma$-subadditive, then for any $\mathcal{F}\in\mathcal{U}(A)$,
+    $$\sum_{F\in\mathcal{F}}\mu(F)\geq\mu(A).$$
+    It follows that $\mu^*(A)\geq\mu(A).$
+\end{proof}
+
+\begin{definition}[$\mu^*$-measurable sets]
+    Let $\mu^*$ be an outer measure. A set $A\in 2^\Omega$ is called \textit{$\mu^*$-measurable} if
+    $$\mu^*(A\cap E) + \mu^*(A^c\cap E) = \mu^*(E)\text{ for any }E\in 2^\Omega.$$
+    We write $\mathcal{M}(\mu^*)=\{A\subseteq\Omega:A\text{ is }\mu^*\text{-measurable}\}.$
+\end{definition}
+
+\begin{lemma}
+\label{mu measurable iff leq}
+    $A\in\mathcal{M}(\mu^*)$ if and only if
+    $$\mu^*(A\cap E) + \mu^*(A^c\cap E) \leq \mu^*(E)\text{ for any }E\in 2^\Omega.$$
+\end{lemma}
+\begin{proof}
+    As $\mu^*$ is subadditive, we trivially have
+    $$\mu^*(A\cap E) + \mu^*(A^c\cap E) \geq \mu^*(E)\text{ for any }E\in 2^\Omega.$$
+    The result follows.
+\end{proof}
+
+\begin{lemma}
+    $\mathcal{M}(\mu^*)$ is an algebra.
+\end{lemma}
+\begin{proof}
+    We shall check the conditions given in the definition of an algebra \cref{defAlgebra}.
+    \begin{enumerate}[(a)]
+        \item We clearly have $\Omega\in\mathcal{M}(\mu^*)$.
+        \item By definition, $\mathcal{M}(\mu^*)$ is closed under complements.
+        \item We must check that $\mathcal{M}(\mu^*)$ is closed under intersections. Let $A,B\in\mathcal{M}(\mu^*)$ and $E\subseteq\Omega$. Then
+        \begin{align*}
+            \mu^*((A\cap B)\cap E)+\mu^*((A\cap B)^c\cap E) &= \mu^*((A\cap B)\cap E) \\ &\hspace{4mm}+\mu^*((A\cap B^c\cap E)\cup(A^c\cap B\cap E)\cup(A^c\cap B^c\cap E)) \\
+            &\leq \mu^*(A\cap (B\cap E))+\mu^*(A\cap (B^c\cap E))\\ &\hspace{4mm}+\mu^*(A^c\cap (B\cap E)) + \mu^*(A^c\cap (B^c\cap E)) \\
+            &= \mu^*(B\cap E) + \mu^*(B^c\cap E)\quad\text{(since $A\in\mathcal{M}(\mu^*)$)} \\
+            &= \mu^*(E). \quad\text{(since $B\in\mathcal{M}(\mu^*)$)}
+        \end{align*}
+    \end{enumerate}
+    This proves the result.
+\end{proof}
+
+\begin{lemma}
+\label{outer measure is sig additive on M}
+    An outer measure $\mu^*$ is $\sigma$-additive on $\mathcal{M}(\mu^*)$.
+\end{lemma}
+\begin{proof}
+    Let $A,B\in\mathcal{M}(\mu^*)$ with $A\cap B=\emptyset$. Then
+    \begin{align*}
+        \mu^*(A\cup B) &= \mu^*(A\cap(A\cup B)) + \mu^*(A^c\cap(A\cup B)) \\
+        &= \mu^*(A) + \mu^*(B).
+    \end{align*}
+    That is, $\mu^*$ is additive (and thus a content) on $\mathcal{M}(\mu^*)$. Since $\mu^*$ is $\sigma$-subadditive, \cref{tripledoubleEquivalence} gives the required result.
+\end{proof}
+
+\begin{lemma}
+    If $\mu^*$ is an outer measure, $\mathcal{M}(\mu^*)$ is a $\sigma$-algebra.
+\end{lemma}
+\begin{proof}
+    We have already shown that $\mathcal{M}(\mu^*)$ is an algebra (and thus a $\pi$-system). Using \cref{cap closed lam sys}, it is sufficient to show that $\mathcal{M}(\mu^*)$ is a $\lambda$-system.
+    
+    Let $A_1,A_2,\ldots\in\mathcal{M}(\mu^*)$ be mutually disjoint sets and let $A=\biguplus_{i=1}^\infty A_i$. Further, for each $n\in\mathbb{N}$, let $B_n=\biguplus_{i=1}^n A_i$. We must show that $M\in\mathcal{M}(\mu^*)$.
+    
+    For any $E$ and valid $n\in\mathbb{N}$, we have
+    \begin{align*}
+        \mu^*(E\cap B_{n+1}) &= \mu^*((E\cap B_{n+1})\cap B_n) + \mu^*((E\cap B_{n+1})\cap B_n^c) \\
+        &= \mu^*(E\cap B_n) + \mu^*(E\cap A_{n+1}).
+    \end{align*}
+    By a simple induction, it follows that
+    $$\mu(E\cap B_{n})=\sum_{i=1}^n \mu^*(E\cap A_i).$$
+    Since $\mu^*$ is monotonic, we have
+    \begin{align*}
+        \mu^*(E) &= \mu^*(E\cap B_n) + \mu^*(E\cap B_n^c) \\
+        &\geq \mu^*(E\cap B_n) + \mu^*(E\cap A^c) \\
+        &= \sum_{i=1}^n\mu^*(E\cap A_i) + \mu^*(E\cap A^c).
+    \end{align*}
+    Letting $n\to\infty$ and using the fact that $\mu^*$ is $\sigma$-subadditive, we have
+    \begin{align*}
+        \mu^*(E) &\geq \sum_{i=1}^\infty\mu^*(E\cap A_i) + \mu^*(E\cap A^c) \\
+        &\geq \mu^*(E\cap A) + \mu^*(E\cap A^c)
+    \end{align*}
+    Therefore, $A\in\mathcal{M}(\mu^*)$ and this completes the proof.
+\end{proof}
+
+\subsection{The Approximation and Extension Theorems}
+
+\begin{theorem}[Approximation Theorem for Measures]
+\label{Approximation Thm for Measures}
+    Let $\mathcal{A}\subseteq 2^\Omega$ be a semiring and let $\mu$ be a measure on $\sigma(\mathcal{A})$ that is $\sigma$-finite on $\mathcal{A}$.
+    For any $A\in\sigma(\mathcal{A})$ with $\mu(\mathcal{A})<\infty$ and any $\varepsilon>0$, there exists $n\in\mathbb{N}$ and mutually disjoint sets $A_1,A_2,\ldots,A_n\in \mathcal{A}$ such that $\mu\left(A\triangle\bigcup_{i=1}^n A_n\right)<\varepsilon$.
+\end{theorem}
+\begin{proof}
+    Consider the outer measure $\mu^*$ as defined in \cref{set of countable coverings outer measure}. Note that by \cref{set of countable coverings outer measure} and \cref{uniquely defined by base pi sys}, $\mu$ and $\mu^*$ are equal on $\sigma(\mathcal{A})$. By the definition of $\mu^*$, for any $A\in\mathcal{A}$, there exists a covering $B_1,B_2,\ldots\in\mathcal{A}$ of $A$ such that
+    $$\mu(A)\geq\sum_{i=1}^\infty\mu(B_i) - \varepsilon/2.$$
+    Since $\mu(A)<\infty$, there exists some $n\in\mathbb{N}$ such that $\sum_{i=n+1}^\infty \mu(B_i) < \varepsilon/2$. Now, let $D=\bigcup_{i=1}^n B_i$ and $E=\bigcup_{i=n+1}^\infty B_i$. We have
+    \begin{align*}
+        A\triangle D &= (D\setminus A)\cup(A\setminus D) \\
+        &\subseteq (D\setminus A)\cup (A\setminus (D\cup E))\cup E \\
+        &\subseteq (A\triangle (D\cup E))\cup E.
+    \end{align*}
+    This together with the fact that $A\subseteq\bigcup_{i=1}^\infty B_i$ implies that
+    \begin{align*}
+        \mu(A\triangle D) &\leq \mu(A\triangle (D\cup E)) + \mu(E) \\
+        &\leq  \mu\left(\bigcup_{i=1}^\infty B_i\right) - \mu(A) + \frac{\varepsilon}{2} \\
+        &\leq \varepsilon.
+    \end{align*}
+    Now define $A_1=B_1$ and for each $i\geq 2$, $A_i = B_i\setminus \bigcup_{j=1}^{i=1} B_j$. By definition, $A_1,A_2\ldots$ are mutually disjoint. This proves the result.
+    
+\end{proof}
+
+The following theorem allows us to ``extend" measures from a semiring to the $\sigma$-algebra generated by it. This allows us to define measures over an entire $\sigma$-algebra by defining its values over just a semiring that generates it.
+
+\begin{ftheo}[Measure Extension Theorem]
+\label{MeasureExtensionTh}
+    Let $\mathcal{A}$ be a semiring and let $\mu:\mathcal{A}\to[0,\infty]$ be an additive, $\sigma$-subadditive and $\sigma$-finite set function with $\mu(\emptyset)=0$. Then there is a unique $\sigma$-finite measure $\tilde\mu:\sigma(\mathcal{A})\to[0,\infty]$ such that $\tilde\mu(A)=\mu(A)$ for all $A\in\mathcal{A}$.
+\end{ftheo}
+\begin{proof}
+    Since $\mathcal{A}$ is a $\pi$-system, if such a $\tilde\mu$ exists, it is uniquely defined due to \cref{uniquely defined by base pi sys}.
+    
+    We shall explicitly construct a function that satisfies the given conditions. In order to do so, define as in \cref{set of countable coverings outer measure}
+    $$\mu^*(A)=\inf\left\{\sum_{F\in\mathcal{F}}\mu(F) : \mathcal{F}\in\mathcal{U}(A) \right\}\text{ for any $A\subseteq\Omega$.}$$
+    
+    By \cref{set of countable coverings outer measure}, $\mu^*$ is an outer measure and $\mu^*(A)=\mu(A)$ for any $A\in\mathcal{A}$.
+    
+    \vspace{2mm}
+    We first claim that $\mathcal{A}\subseteq\mathcal{M}(\mu^*)$.
+    
+    To prove this, let $A\in\mathcal{A}$ and $E\subseteq\Omega$ with $\mu^*(E)<\infty$. Fix some $\varepsilon>0$. Then by the definition of $\mu^*$, there exists a sequence $E_1,E_2,\ldots\in\mathcal{A}$ such that
+    $$E\subseteq\bigcup_{i=1}^\infty E_i\text{ and }\sum_{i=1}^\infty \mu(E_i)\leq \mu^*(E)+\varepsilon.$$
+    
+    For each $n$, define $B_n=E_n\cap A$. Since $\mathcal{A}$ is a semiring, there exists for each $n$ some $m_n\in\mathbb{N}$ and mutually disjoint sets $C_{n, 1},C_{n, 2},\ldots,C_{n, m_n}$ such that
+    $$E_n\setminus A = E_n\setminus B_n = \biguplus_{i=1}^{m_n}C_{n, i}$$
+    Then we have that
+    \begin{align*}
+        E\cap A &\subseteq \bigcup_{n=1}^\infty B_n, \\
+        E\cap A^c &\subseteq \bigcup_{n=1}^\infty\biguplus_{i=1}^{m_n}C_{n,i},\text{ and } \\
+        E_n &= B_n\uplus\biguplus_{i=1}^{m_n}C_{n,i}.
+    \end{align*}
+    
+    This implies that
+    \begin{align*}
+        \mu^*(E\cap A) + \mu^*(E\cap A^c) &\leq \sum_{n=1}^\infty\mu(B_n) + \sum_{n=1}^\infty\sum_{i=1}^{m_n}\mu(C_{n,i}) \quad\text{(since $\mu$ is $\sigma$-subadditive)} \\
+        &= \sum_{n=1}^\infty\left(\mu(B_n) + \sum_{i=1}^{m_n}\mu(C_{n,i})\right) \\
+        &= \sum_{n=1}^\infty \mu(E_n) \quad\text{(since $\mu$ is additive)} \\
+        &   \leq \mu^*(E) + \varepsilon.
+    \end{align*}
+    
+    \cref{mu measurable iff leq} implies that $A\in\mathcal{M}(\mu^*)$, that is, $\mathcal{A}\subseteq\mathcal{M}(\mu^*)$. This in turn in implies that $\sigma(\mathcal{A})\subseteq\mathcal{M}(\mu^*)$. Define the required function by $\tilde\mu:\sigma(\mathcal{A})\to[0,\infty]$, $A\mapsto\mu^*(A)$. By \cref{outer measure is sig additive on M}, $\tilde\mu$ is $\sigma$-additive. Since $\mu$ is $\sigma$-finite, $\tilde\mu$ is $\sigma$-finite as well. This proves the result.
+\end{proof}
+
+\subsection{Important Examples of Measures}
+
+Now that we have the Measure Extension Theorem, we may introduce the Lebesgue-Stieltjes measure, a very useful measure on $(\mathbb{R},\mathcal{B}(\mathbb{R}))$, which is given as follows.
+
+\begin{definition}[Lebesgue-Stieltjes Measure]
+\label{defLebStielMeasure}
+    Let $F:\mathbb{R}\to\mathbb{R}$ be monotone increasing and right continuous. The measure $\mu_F$ on $(\mathbb{R},\mathcal{B}(\mathbb{R}))$ defined by 
+    $$\mu_F((a,b])= F(b)-F(a)\text{ for all $a,b\in\mathbb{R}$ such that $a<b$}$$
+    is called the \textit{Lebesgue-Stieltjes measure} with distribution function $F$.
+\end{definition}
+
+The Lebesgue-Stieltjes measure is well-defined due to the Measure Extension Theorem \cref{MeasureExtensionTh}.
+
+\vspace{1mm}
+To see this more clearly, let $\mathcal{A}=\{(a,b\,]:a,b\in\mathbb{R}\text{ and }a\leq b\}$. It may be checked that $\mathcal{A}$ is a semiring. Further, $\sigma(\mathcal{A})=\mathcal{B}(\mathbb{R})$. Now, define the function $\tilde\mu_F:\mathcal{A}\to[0,\infty)$ by $(a,b]\mapsto F(b)-F(a)$. Clearly $\tilde\mu_F(\emptyset)=0$ and the function is additive. It remains to check that $\tilde\mu_F$ is $\sigma$-subadditive.
+
+\vspace{1mm}
+Let $(a,b],(a_1,b_1],(a_2,b_2],\ldots\in\mathcal{A}$ such that $(a,b\,]\subseteq\bigcup_{i=1}^\infty (a_i, b_i]$. Fix some $\varepsilon>0$ and choose $a_\varepsilon\in(a,b)$ such that
+$$F(a_\varepsilon)-F(a)< \varepsilon/2\implies \tilde\mu_F((a,b]) - \tilde\mu_F((a_\varepsilon,b\,]) < \varepsilon/2.$$
+It is possible to choose such an $\varepsilon$ due to the right continuity of $F$. Also, for any $k\in\mathbb{N}$, choose $b_{k, \varepsilon}$ such that $$F(b_{k,\varepsilon})-F(b_k)<\varepsilon 2^{-k-1}\implies \tilde\mu_F((a_k,b_{k,\varepsilon}]) - \tilde\mu_F((a_k,b_k]) < \varepsilon 2^{-k-1}.$$
+We now have
+$$[a_\varepsilon, b\,]\subseteq (a,b]\subseteq \bigcup_{i=1}^\infty (a_k,b_k]\subseteq \bigcup_{k=1}^\infty (a_k,b_{k,\varepsilon}]$$
+Due to the compactness of $[a_\varepsilon,b]$, there then exists some $k_0\in\mathbb{N}$ such that
+$$(a_{\varepsilon},b\,]\subseteq\bigcup_{k=1}^{k_0}(a_k,b_{k,\varepsilon}].$$
+This implies that
+\begin{align*}
+    \tilde\mu_F((a,b\,]) &\leq \frac{\varepsilon}{2} + \tilde\mu_F((a,b]) \\
+    &\leq \frac{\varepsilon}{2} + \sum_{k=1}^{k_0} \tilde\mu_F((a_k,b_{k,\varepsilon}]) \\
+    &\leq \frac{\varepsilon}{2} + \sum_{k=1}^{k_0} \left(\tilde\mu_F((a_k,b_k]) + \varepsilon2^{-k-1}\right) \\
+    &\leq \varepsilon + \sum_{k=1}^{\infty} \tilde\mu_F((a_k,b_k])
+\end{align*}
+As this is true for any choice of $\varepsilon$, $\tilde\mu_F$ is $\sigma$-subadditive.
+
+\vspace{2mm}
+Then the extension of $\tilde\mu_F$ uniquely to a $\sigma$-finite measure is guaranteed by \cref{MeasureExtensionTh}. This measure is known as the Lebesgue-Stieltjes measure.
+
+\vspace{2mm}
+The measure that results when the function $F$ is equal to the identity function is referred to the \textit{Lebesgue measure} on $\mathbb{R}^1$. Similar to this, we can define the Lebesgue measure in general as follows.
+
+\begin{definition}[Lebesgue Measure]
+    There exists a unique measure $\lambda^n$ on $(\mathbb{R}^n,\mathcal{B}(\mathbb{R}^n))$ such that for all $a,b\in\mathbb{R}^n$ with $a<b$,
+    $$\lambda^n((a,b])=\prod_{i=1}^n (b_i-a_i).$$
+    $\lambda^n$ is called the \textit{Lebesgue measure} on $(\mathbb{R}^n, \mathcal{B}(\mathbb{R}^n))$ or the \textit{Lebesgue-Borel measure}.
+\end{definition}
+
+\vspace{2mm}
+Let $E$ be a finite nonempty set and $\Omega = E^\mathbb{N}$. If $\omega_1,\omega_2,\ldots,\omega_n\in E$, we define the following.
+$$[\omega_1,\omega_2,\ldots,\omega_n]=\{\omega'\in\Omega : \omega'_i=\omega_i\text{ for }i\in[n]\}.$$
+This represents the set of all sequences whose first $n$ elements are $\omega_1,\omega_2,\ldots,\omega_n$.
+
+\begin{theorem}[Finite Products of Measures]
+        Let $n\in\mathbb{N}$ and $\mu_1,\mu_2,\ldots,\mu_n$ be Lebesgue-Stieltjes measures on $(\mathbb{R},\mathcal{B}(\mathbb{R}))$. Then there exists a unique $\sigma$-finite measure $\mu$ on $(\mathbb{R}^n, \mathcal{B}(\mathbb{R}^n))$ such that for all $a,b\in\mathbb{R}^n$ with $a<b$,
+        $$\mu((a,b])=\prod_{i=1}^n \mu_i((a_i,b_i])$$
+        We call $\mu$ the \textit{product measure of $\mu_1,\mu_2,\ldots,\mu_n$} and denote it by $\bigotimes_{i=1}^n\mu_i$.
+\end{theorem}
+
+The proof of the above is similar to that of \cref{MeasureExtensionTh}. We choose intervals $(a,b_\varepsilon]$ and so on such that $\mu((a,b_\varepsilon])<\mu((a,b])+\varepsilon$. Such $b_\varepsilon$ exists due to the right continuity of each of the $F_i$s corresponding to each of the $\mu_i$s.
+
+\clearpage

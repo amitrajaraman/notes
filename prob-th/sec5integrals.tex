@@ -1,0 +1,371 @@
+\section{The Integral}
+
+In the following, we assume $(\Omega,\mathcal{A},\mu)$ to be a measure space. We denote by $\mathcal{E}$ the vector space of simple functions on $(\Omega,\mathcal{A})$ and by $\mathbb{E}^+=\{f\in E:f\geq 0\}$ the cone of nonnegative simple functions. If
+$$f=\sum_{i=1}^n \alpha_i\indic_{A_i}$$
+for some $n\in\mathbb{N}$, mutually disjoint sets $A_1,\ldots,A_n\in\mathcal{A}$ and $\alpha_1,\ldots,\alpha_n\in(0,\infty)$ then this representation is said to be a \textit{normal representation of $f$}.
+
+\subsection{Set Up to Define the Integral}
+
+\begin{lemma}
+    Let $f=\sum_{i=1}^m\alpha_i\indic_{A_i}$ and $f=\sum_{j=1}^n\beta_j\indic_{B_j}$ be two normal representations of $f\in\mathbb{E}^+$. Then
+    $$\sum_{i=1}^m\alpha_i\mu(A_i)=\sum_{j=1}^n\beta_j\mu(B_j)$$
+\end{lemma}
+\begin{proof}
+    Clearly, if $\alpha_i\neq 0$ for some $i$, then $A_i\subseteq\bigcup_{j=1}^n B_j$. A similar result holds for $B_j$. Thus,
+    $$\sum_{i=1}^m\alpha_i\mu(A_i) = \sum_{i=1}^m\sum_{j=1}^n\alpha_i\mu(A_i\cap B_j).$$
+    If $\mu(A_i\cap B_j)\neq 0$, then $f(\omega)=\alpha_i=\beta_j$ for any $\omega\in A_i\cap B_j$. Therefore,
+    $$\sum_{i=1}^m\sum_{j=1}^n\alpha_i\mu(A_i\cap B_j) = \sum_{j=1}^n\sum_{i=1}^m\beta_j\mu(A_i\cap B_j) = \sum_{j=1}^n\beta_j\mu(B_j).$$
+\end{proof}
+
+\begin{definition}
+    Define $I:\mathbb{E}^+\to[0,\infty]$ by
+    $$I(f) = \sum_{i=1}^m\alpha_i\mu(A_i)$$
+    if $f$ has the normal representation $f=\sum_{i=1}^m\alpha_i\indic_{A_i}$.
+\end{definition}
+The above definition makes sense due to the previous lemma.
+
+\begin{lemma}
+\label{properties Of I for simple}
+    Let $f,g\in\mathbb{E}^+$ and $\alpha\geq 0$. Then
+    \begin{enumerate}[(a)]
+        \item $I(\alpha f)=\alpha I(f)$,
+        \item $I(f+g)=I(f)+I(g)$, and
+        \item If $f\leq g$, then $I(f)\leq I(g)$.
+    \end{enumerate}
+\end{lemma}
+We leave the proof of this theorem as an exercise to the reader.
+
+\begin{definition}[Integral]
+    If $f:\Omega\to[0,\infty]$ is measurable, then we define the \textit{integral} of $f$ with respect to $\mu$ by
+    $$\int f\d{\mu} = \sup\left\{I(g):g\in\mathbb{E}^+, g\leq f\right\}.$$
+\end{definition}
+
+Note that by \cref{properties Of I for simple}(iii), $I(f)=\int f\d{\mu}$ for any $f\in\mathbb{E}^+$. That is, the integral is an extension of $I$ from $\mathbb{E}^+$ to the set of non-negative measurable functions. We expand this to measurable functions in general in the next subsection.
+
+\vspace{2mm}
+Let $f,g:\Omega\to\overline{\mathbb{R}}$. Similar to how we write $f\leq g$ if $f(\omega)\leq g(\omega)$ for all $\omega\in\Omega$, we write $f\leq g$ almost everywhere if there exists some set $N\in\mathcal{A}$ such that $\mu(N)=0$ and $f(\omega)\leq g(\omega)$ for all $\omega\in\Omega\setminus N$.
+
+\begin{theorem}
+\label{properties of integral 2}
+    Let $f,g,f_1,f_2,\ldots$ be measurable maps $\Omega\to[0,\infty]$. Then
+    \begin{enumerate}[(a)]
+        \item If $f\leq g$, then $\int f\d{\mu}\leq \int g\d{\mu}$.
+        \item If $f_n \uparrow f$, then $\int f_n\d{\mu} \uparrow \int f\d{\mu}$.
+        \item If $\alpha,\beta\in[0,\infty]$, then
+        $$\int(\alpha f+\beta g)\d{\mu}=\alpha\int f\d{\mu} + \beta\int g\d{\mu}$$
+        where we take $\infty\cdot 0=0$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item This is obvious from the definition of the integral.
+        
+        \item By the definition of the integral,
+        
+        $$\lim_{n\to\infty}\int f_n\d{\mu}=\sup_{n\in\mathbb{N}}\int f_n\d{\mu}\leq \int f\d{\mu}$$
+        
+        We must now show that $\int f\d{\mu}\leq \sup_{n\in\mathbb{N}}\int f_n\d{\mu}$. Let $g\in\mathbb{E}^+$ with $g\leq f$. It is enough to show that $\sup_{n\in\mathbb{N}}\int f_n\d{\mu}\geq \int g\d{\mu}$.
+        Fix some $t\in(0,1)$. For each $n\in\mathbb{N}$, define
+        
+        $$A_n = \{\omega\in\Omega:f_n(x)\geq tg(x)\}.$$
+        
+        Note that each $A_n$ is measurable (Why?) and that $A_i\subset A_{i+1}$ for each $i\in\mathbb{N}$.
+        
+        We first claim that $\bigcup_{i=1}^\infty A_i = \Omega$. We prove this as follows. For any $\omega\in\Omega$,
+        \begin{itemize}
+            \item If $f(\omega)\leq tg(\omega)$, then $f(\omega)=0$ and $\omega\in A_n$ for every $n\in\mathbb{N}$.
+            
+            \item If $f(\omega)> tg(\omega)$, then there exists some $n\in\mathbb{N}$ such that $f_n(\omega)>tg(\omega)$. It follows that $\omega\in A_n$.
+        \end{itemize}
+        Therefore, $\Omega\subseteq\bigcup_{i=1}^\infty A_i$. Since the reverse inclusion is obviously true, we have $\bigcup_{i=1}^n A_i = \Omega$.
+        
+        Now,
+        $$\int f_n\d{\mu} \geq \int tg\indic_{A_n}\d{\mu}$$
+        Taking the limit as $n\to\infty$ and $t\to 1$, we have
+        $$\lim_{n\to\infty}\int f_n\d{\mu}\geq \int g\d{\mu}.$$
+        This completes the proof.
+        
+        \item By \cref{measurable function simple sequence}, there exist sequences $(f_n)_{n\in\mathbb{N}}$ and $(g_n)_{n\in\mathbb{N}}$ in $\mathbb{E}^+$ such that $f_n\uparrow f$ and $g_n\uparrow g$. Then by \cref{properties Of I for simple} and (ii),
+        \begin{align*}
+            \int (\alpha f+\beta g)\d{\mu} &= \lim_{n\to\infty} \int(\alpha f+\beta g)\d{\mu} \\
+            &= \alpha \lim_{n\to\infty} \int f\d{\mu} + \beta \lim_{n\to\infty} \int g\d{\mu} = \alpha\int f\d{\mu} + \beta\int g\d{\mu}.
+        \end{align*}
+    \end{enumerate}
+\end{proof}
+
+
+It is important to note that (b) in the above only works if the sequence of functions is non-decreasing. We do \textit{not} have a similar result for a non-increasing sequence. To see this, consider $f_1,f_2,\ldots:\mathcal{B}(\mathbb{R})\to\overline{\mathbb{R}}$ given by $f_n=\indic_{[n,\infty)}$ for each $n\in\mathbb{N}$.
+
+% \begin{theorem}
+% \label{ae integral equality}
+%     Let $f,g$ be measurable maps $\Omega\to[0,\infty]$. If $f\leq g$ almost everywhere, Then $\int f\d\mu\leq \int g\d\mu$. In particular, if $f=g$ almost everywhere, then $\int f\d\mu=\int g\d\mu$.
+% \end{theorem}
+% \begin{proof}
+    
+% \end{proof}
+
+\subsection{The Integral and some Properties}
+
+We have now introduced enough to define the integral for measurable functions in general.
+
+\begin{fdef}[Integrals of Measurable Functions]
+\label{defIntegral}
+    Let $f:\Omega\to\overline{\mathbb{R}}$ be measurable. We call $f$ \textit{$\mu$-integrable} if $\int |f|\d{\mu}<\infty$ and write
+    $$\mathcal{L}^1(\mu)=\mathcal{L}^1(\Omega,\mathcal{A},\mu)=\left\{f:\Omega\to\overline{\mathbb{R}}:f\text{ is }\mu\text{-integrable}\right\}.$$
+    For $f\in\mathcal{L}^1(\mu)$, we define the integral of $f$ with respect to $\mu$ by
+    $$\int f(\omega)\mu(\d{\omega})=\int f\d{\mu}=\int f^+\d{\mu} - \int f^-\d{\mu}.$$
+    For $A\in\mathcal{A}$, we define
+    $$\int_A f\d{\mu} = \int (f\indic_A)\d{\mu}.$$
+\end{fdef}
+
+Elements of $\mathcal{L}^1(\textbf{P})$ are also sometimes called \textit{absolutely integrable} functions. 
+
+\begin{theorem}
+\label{properties of integral ae 1}
+    Let $f:\Omega\to[0,\infty]$ be measurable.
+    \begin{enumerate}[(a)]
+        \item $f=0$ almost everywhere if and only if $\int f\d{\mu} = 0$.
+        \item If $\int f\d{\mu}<\infty$, then $f<\infty$ almost everywhere.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item Let us first prove the forward implication. Let $P=\{\omega\in\Omega:f(\omega)>0\}$. Then $f\leq \infty\cdot\indic_{P}$. As $n\indic_{N}\uparrow\infty\indic_{N}$, by \cref{properties of integral 2},
+        $$0\leq\int f\d{\mu}\leq\lim_{n\to\infty}\int n\indic_{N}\d{\mu}=0.$$
+        
+        For the backward implication, let $A_n=\{\omega\in\Omega:f(\omega)\geq 1/n\}$. Then $A_n\uparrow P$ and for any $n\in\mathbb{N}$,
+        $$0=\int f\d{\mu} \geq \int \frac{1}{n}\indic_{A_n} = \frac{\mu(A_n)}{n}.$$
+        This implies that $\mu(A_n)=0$ for any $n\in\mathbb{N}$ and therefore, $\mu(P)=0$.
+        
+        \item Let $A=\{\omega\in\Omega:f(\omega)=\infty\}$. Then for any $n\in\mathbb{N}$,
+        $$\mu(A)=\int \indic_{A}\d{\mu}\leq \frac{1}{n}\int f\indic_{f\geq n}\leq \frac{1}{n} \int f\d{\mu}.$$
+        Taking the limit as $n\to\infty$, we get $\mu(A)=0$.
+    \end{enumerate}
+\end{proof}
+
+We now expand some of the properties that we proved earlier for non-negative measurable functions to measurable functions in general.
+
+\begin{theorem}
+\label{properties of integral final}
+    Let $f,g\in\mathcal{L}^1(\mu)$.
+    \begin{enumerate}[(a)]
+        \item (Monotonicity). If $f\leq g$ almost everywhere, then $\int f\d\mu\leq \int g\d\mu$. In particular, if $f=g$ almost everywhere, then $\int f\d{\mu}= \int g\d{\mu}$.
+        \item (Triangle Inequality). $|\int f\d\mu|\leq \int |f|\d\mu$.
+        \item (Linearity). If $\alpha,\beta\in\mathbb{R}$, then $\alpha f+\beta g\in\mathcal{L}^1(\mu)$ and
+        $$\int \alpha f+ \beta g\d\mu = \alpha\int f\d\mu + \beta\int g\d\mu.$$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item Since $f\leq g$ almost everywhere, $f^+\leq g^+$ and $f^-\geq g^-$ almost everywhere. It is enough to show that $\int f^+\d\mu\leq \int g^+\d\mu$ and $\int f^-\d\mu\geq \int g^-\d\mu$. Let us prove the former. The latter can similarly be shown.
+        
+        Let $h=g^+-f^+$. As $h^-=0$ almost everywhere, by \cref{properties of integral ae 1}, $\int h\d\mu=\int h^+\d\mu\geq 0$. The result follows.
+        
+        \item We have
+        \begin{align*}
+            \left|\int f\d\mu\right| &= \left|\int f^+\d\mu - \int f^-\d\mu\right| \\
+            &\leq \int (f^+ + f^-)\d\mu \\ &= \int |f|\d\mu.
+        \end{align*}
+        
+        \item To show linearity, it suffices to show that for any $\alpha\in[0,\infty)$,
+        \begin{itemize}
+            \item $\int (f+g)\d\mu = \int f\d\mu + \int g\d\mu$,
+            \item $\int \alpha f\d\mu = \alpha\int f\d\mu$, and
+            \item $\int (-f)\d\mu = -\int f\d\mu$.
+        \end{itemize}
+        These are easily shown by splitting each function $f$ into $f^+$ and $f^-$ and using \cref{properties of integral 2} wherever necessary.
+    \end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Let $f:\Omega\to[0,\infty)$ be measurable. Define the measure $\nu$ by
+    $$\nu(A)=\int (\indic_A f)\d\mu\text{ for }A\in\mathcal{A}.$$
+    Then $\nu$ is said to have \textit{density $f$} with respect to $\mu$. We also denote $\nu$ by $f\mu$.
+\end{definition}
+
+In showing that $\nu$ is a measure using \cref{tripledoubleEquivalence}, finite additivity follows from finite additivity of the integral and lower semicontinuity follows from \cref{Monotone Convergence Theorem}.
+
+\begin{theorem}
+    Let $f:\Omega\to[0,\infty)$ and $g:\Omega\to\overline{\mathbb{R}}$ be measurable. Then $g\in\mathcal{L}^1(f\mu)$ if and only if $(gf)\in\mathcal{L}^1(\mu)$. In this case, $$\int g\d{(f\mu)} = \int (gf)\d\mu.$$
+\end{theorem}
+We omit the proof of the above. It may be shown by first assuming $g$ to be an indicator function, then extending this to simple functions, non-negative measurable functions and measurable functions.
+
+\begin{definition}
+    Let $f:\Omega\to\overline{\mathbb{R}}$ be measurable and $p\in[1,\infty)$. Define
+    $$\norm{f}_p=\left(\int |f|^p\d\mu\right)^{1/p}\text{ and }$$
+    $$\norm{f}_\infty=\inf \{k\geq 0:\mu(\{|f|\geq k\})=0\}.$$
+    Further, for any $p\in[0,\infty]$, we define the vector space
+    $$\mathcal{L}^p(\mu) = \{f:\Omega\to\overline{\mathbb{R}} : f\text{ is measurable and }\norm{f}_p<\infty\}.$$
+\end{definition}
+
+\begin{theorem}
+    The map $\norm{\cdot}_1$ is a seminorm on $\mathcal{L}^1(\mu)$, that is, for any $f,g\in\mathcal{L}^1(\mu)$ and $\alpha\in\mathbb{R}$,
+    \begin{align*}
+        \norm{\alpha f}_1 &= |\alpha|\cdot\norm{f}_1 \\
+        \norm{f+g}_1 &\leq \norm{f}_1 + \norm{g}_1 \\
+        \norm{f}_1 &\geq 0\text{ with equality if and only if }f=0\text{ almost everywhere.}
+    \end{align*}
+\end{theorem}
+\begin{proof}
+    The first and third (in)equalities follow from \cref{properties of integral final}(c) and \cref{properties of integral ae 1}(a) respectively. The second inequality follows from the fact that $|f+g|\leq |f|+|g|$. We leave the details of the proof to the reader.
+\end{proof}
+
+In fact, $\norm{\cdot}_p$ is a seminorm on $\mathcal{L}^p(\mu)$ for any $p\in[1,\infty]$. The proofs of the first and third (in)equalities are similarly straightforward. The proof of the second however requires Minkowski's inequality. %MINKOWSKI INEQUALITY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\begin{theorem}
+    Let $\mu(\Omega)<\infty$ and $1\leq p'\leq p\leq \infty$. Then $\mathcal{L}^{p}(\mu)\subseteq\mathcal{L}^{p'}(\mu)$ and further, the canonical inclusion $\mathcal{L}^{p}(\mu)\hookrightarrow\mathcal{L}^{p'}(\mu)$ given by $f\mapsto f$ is continuous.
+\end{theorem}
+\begin{proof}
+    Let us first take the case where $p=\infty$. For any $f\in\mathcal{L}^\infty(\mu)$, since $|f|\leq \norm{f}_\infty$ almost everywhere,
+    $$\int |f|^{p'}\d\mu \leq \int \norm{f}_\infty^{p'} \d\mu = \mu(\Omega)\norm{f}_\infty^{p'} < \infty.$$
+    It follows that for any $f,g\in\mathcal{L}^\infty(\mu)$,
+    $$\norm{f-g}_{p'} \leq (\mu(\Omega))^{1/p'}\norm{f-g}_\infty$$
+    and so the inclusion map is continuous.
+    
+    Let us next take the case where $p$ is finite. Then for any $f\in\mathcal{L}^{p}(\mu)$ since $|f|^{p'}\leq 1+|f|^p$,
+    $$\int |f|^{p'}\d\mu \leq \int 1+|f|^p \d\mu = \mu(\Omega) + \int |f|^p \d\mu < \infty.$$
+    
+    Now, for any $f,g\in\mathcal{L}^{p}(\mu)$, let $c=\norm{f-g}_{p}$. Then
+    \begin{align*}
+        |f-g|^{p'} &= |f-g|^{p'}\indic_{|f-g|\leq c} + |f-g|^{p'}\indic_{|f-g|> c} \\
+        &\leq c^{p'} + c^{p'-p}|f-g|^p
+    \end{align*}
+    
+    This implies that
+    \begin{align*}
+        \norm{f-g}_{p'} &\leq c\left(\int 1+c^{-p}|f-g|^p\d\mu\right)^{1/p'} \\
+        &= \norm{f-g}_{p}(1+\mu(\Omega))^{1/p'}.
+    \end{align*}
+    This completes the proof.
+\end{proof}
+
+\subsection{Monotone Convergence and Fatou's Lemma}
+
+Under what conditions can we exchange the limit and the integral? We answered this question in part in \cref{properties of integral 2}(b). Over the course of this subsection, we attempt to answer this.
+
+\begin{ftheo}[Monotone Convergence, Beppo-Levi Theorem]
+\label{Monotone Convergence Theorem}
+Let $f_1,f_2,\ldots\in\mathcal{L}^1(\mu)$ and $f:\Omega\to\overline{\mathbb{R}}$ be measurable. Assume that $f_n\uparrow f$ almost everywhere. Then
+$$\lim_{n\to\infty}\int f_n\d\mu = \int f\d\mu$$
+where both sides can equal $\infty$.
+\end{ftheo}
+\begin{proof}
+    Let $N$ be a set such that $\mu(N)=0$ and $f_n(\omega)\uparrow f(\omega)$ for all $\omega\in N^c$. For each $n\in\mathbb{N}$, define
+    $$f_n'=(f_n-f_1)\indic_{N^c}\text{ and }f'=(f-f_1)\indic_{N^c}.$$
+    Note that $f_n'\uparrow f'$ and each of these functions are non-negative. By \cref{properties of integral 2}(b), $\int f_n'\d\mu\uparrow\int f'\d\mu$. Then by \cref{properties of integral final}(a),
+    \begin{align*}
+        \lim_{n\to\infty} \int f_n\d\mu &= \lim_{n\to\infty}\left(\int f_n'\d\mu + \int f_1\d\mu\right) \\
+        &= \int f'\d\mu + \int f_1\d\mu \\
+        &= \int f\d\mu.
+    \end{align*}
+\end{proof}
+
+\begin{ftheo}[Fatou's Lemma]
+\label{fatous lemma}
+    Let $f\in\mathcal{L}^1(\mu)$ and let $f_1,f_2,\ldots$ be measurable with $f_n\geq f$ almost everywhere for all $n\in\mathbb{N}$. Then
+    $$\int \liminf_{n\to\infty} f_n\d\mu \leq \liminf_{n\to \infty} \int f_n\d\mu$$
+\end{ftheo}
+\begin{proof}
+    Considering $f_n-f$ for each $n\in\mathbb{N}$, we may assume each $f_n$ to be non-negative almost everywhere. For each $m\in\mathbb{N}$, consider $g_m=\inf_{n\geq m}f_n$. Note that $g_m\uparrow \liminf_{n\to\infty} f_n$. Thus, using \cref{properties of integral final}(a) and \cref{Monotone Convergence Theorem},
+    $$\int \liminf_{n\to\infty} f_n = \int \lim_{m\to\infty} g_m\d\mu = \lim_{m\to\infty}\int g_m\d\mu \leq \liminf_{n\to\infty}\int f_n\d\mu.$$
+\end{proof}
+
+In the above theorem, we require an integrable $f$ for the statement to hold. This $f$ is called a ``minorant".
+
+\vspace{2mm}
+An example to show this is the following, known as Peterburg's game.
+
+Consider a gamble in a casino where you double your bet with probability $p\leq\frac{1}{2}$ and lose it with probability $1-p$. We gamble over and over. This can be modelled by the probability space $(\Omega,\mathcal{A},\textbf{P})$ where $\Omega=\{-1,1\}^\mathbb{N}$, $\mathcal{A}=(2^{\{-1,1\}})^{\otimes\mathbb{N}}$, and $\textbf{P}=((1-p)\delta_{-1} + p\delta_1)^\mathbb{N}$. Let us denote by $D_n:\Omega\to\{-1,1\}$ the output of the $n$th game
+
+\vspace{1mm}
+If the player bets $b_i$ dollars on the $i$th game, then his total profit after the $n$th game is $S_n\sum_{i=1}^n b_iD_i$. Now, let the gambler assume the following strategy. He bets $1$ dollar on the first game. If he wins, he stops playing ($H_n=0$ for all $n\geq 2$). If he loses, he doubles the bet in the subsequent round.That is,
+$$
+H_n=
+\begin{cases}
+    0, &\text{if $D_i=1$ for some $i<n$} \\
+    1, &\text{otherwise.}
+\end{cases}
+$$
+The probability of no win until the $n$th game is $(1-p)^n$.
+
+Therefore, $\textbf{P}[S_n=1-2^n]=(1-p)^n$ and $\textbf{P}[S_n=1]=1-(1-p)^n$. The average expected gain is
+$$\int S_n\d{\textbf{P}} = (1-2^n)(1-p)^n + (1-(1-p)^n)=1-(2(1-p))^n\leq 0.$$
+Define
+$$
+S=
+\begin{cases}
+    -\infty, &\text{if $-1=D_1=D_2=\cdots$} \\
+    1, &\text{otherwise.}
+\end{cases}
+$$
+
+Then $\lim_{n\to\infty} S_n = S$ almost surely. However, $\lim_{n\to\infty}\int S_n\d{\textbf{P}} < \lim_{n\to\infty}\int S\d{\textbf{P}}$ since $S=1$ almost surely. 
+
+By Fatou's Lemma, this is only possible if there is no integrable minorant $f$ for $(S_n)_{n\in\mathbb{N}}$.
+
+Indeed, letting $\tilde S = \inf \{S_n:{n\in\mathbb{N}}\}$,
+$$\textbf{P}[\tilde S = 1-2^{n-1}]=\textbf{P}[D_1=D_2=\cdots=D_{n-1}=-1\text{ and }D_n=1]=p(1-p)^{n-1}.$$
+Therefore,
+$$\int \tilde S\d{\textbf{P}}=\sum_{n=1}^\infty (1-2^{n-1})p(1-p)^{n-1}=-\infty.$$
+
+\vspace{2mm}
+
+Also, in Fatou's Lemma, we cannot replace the $\liminf$ with a $\limsup$, which can be seen from the following example.
+
+Let $X$ be drawn uniformly randomly from $[0,1]$, and let $X_n$ be the $n$th binary digit of $X$ (we needn't worry about the case where there is ambiguity in the binary expression as this almost surely does not occur). We have $\expec
+[X_n]=1/2$ for all $n$. Then $\limsup_{n\to\infty}X_n$ is almost surely $1$, so we cannot replace $\liminf$ with $\limsup$ in Fatou's lemma.
+
+\subsection{Miscellaneous}
+
+It may be shown that if $f:I\to\mathbb{R}$ is Riemann integrable on $I=[a,b]$, then $f$ is Lebesgue integrable on $I$ with integral
+$$\int_I f\d\lambda = \int_a^b f(x)\d x$$
+
+The converse is not true, that is, a function that is Lebesgue integrable need not be Riemann integrable. An example of this is $\indic_\mathbb{Q}$.
+
+\begin{theorem}
+\label{geq leq int leq g}
+    Let $f:\Omega\to\mathbb{R}$ be measurable and $f\geq 0$ almost everywhere. Then
+    $$\sum_{n=1}^\infty \mu(\{f\geq n\})\leq \int f\d\mu \leq \sum_{n=0}^\infty \mu(\{f>n\}).$$
+\end{theorem}
+\begin{proof}
+    Define $f_1=\lfloor f\rfloor$ and $f_2=\lceil f\rceil$. Clearly, $f_1\leq f\leq f_2$ and so, $\int f_1\d\mu\leq \int f\d\mu\leq \int f_2\d\mu$. We then have
+    \begin{align*}
+        \int f_1\d\mu &= \sum_{k=1}^\infty k\mu(\{f_1=k\}) \\
+        &= \sum_{k=1}^\infty \sum_{n=1}^k \mu(\{f_1=k\}) \\
+        &= \sum_{n=1}^\infty \sum_{k=n}^\infty \mu(\{f_1=k\}) \\
+        &= \sum_{n=1}^\infty \mu(\{f_1\geq n\}) \\
+        &= \sum_{n=1}^\infty \mu(\{f\geq n\}).
+    \end{align*}
+    Similarly, for the second inequality,
+    \begin{align*}
+        \int f_2\d\mu &= \sum_{n=1}^\infty \mu(\{f_2\geq n\}) \\
+        &= \sum_{n=1}^\infty \mu(\{f> n-1\}).
+    \end{align*}
+    This proves the result.
+\end{proof}
+
+\begin{theorem}
+\label{int func eq int geq}
+    Let $f:\Omega\to\mathbb{R}$ be measurable and $f\geq 0$ almost everywhere. Then
+    $$\int f\d\mu = \int_0^\infty \mu(\{f\geq t\})\d t.$$
+\end{theorem}
+\begin{proof}
+    Define $g$ by $g(t)=\mu(\{f\geq t\})$. We may assume that $g(t)<\infty$ for all $t>0$.
+    
+    For $\varepsilon>0$ and $k\in\mathbb{N}$, let $g_\varepsilon = \min(g, g(\varepsilon))$, $f_\varepsilon=f\indic_{\{f\geq\varepsilon\}}$, and $f_{\varepsilon,k}=2^kf_\varepsilon$. and
+    $$\alpha_{\varepsilon,k}=2^{-k}\sum_{n=1}^\infty \mu(\{f_{\varepsilon}\geq 2^{-k} n\}).$$
+    Note that $\alpha_{\varepsilon,k} \xrightarrow{k\to\infty} \int_0^\infty g_\varepsilon\d\mu$ (Why?). Using \cref{geq leq int leq g} on $f_{\varepsilon,k}$,
+    \begin{align*}
+        \alpha_{\varepsilon,k} &= 2^{-k}\sum_{n=1}^\infty \mu(\{f_{\varepsilon,k}\geq n\}) \leq \int f_\varepsilon\d\mu \\
+        &\leq 2^{-k}\sum_{n=0}^\infty \mu(\{f_{\varepsilon,k}> n\}) \\
+        &= 2^{-k}\sum_{n=0}^\infty \mu(\{f_{\varepsilon}> n2^{-k}\}) \leq \alpha_{\varepsilon,k} + 2^{-k}g(\varepsilon).
+    \end{align*}
+    Taking the limit as $k\to\infty$, equality must hold everywhere so we get
+    $$\int_0^\infty g_\varepsilon \d\mu = \int f_\varepsilon\d\mu.$$
+    Taking the limit as $\varepsilon\downarrow 0$ completes the proof.
+\end{proof}
+
+\clearpage

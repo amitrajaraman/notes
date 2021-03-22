@@ -1,0 +1,536 @@
+\section{Moments}
+
+When describing random variables, quantities like the expectation, median and variance are often used. They describe the behaviour of the variable on average, and how much they deviate from the average.
+
+\subsection{Parameters of Random Variables}
+
+In the following, let $(\Omega,\mathcal{A},\textbf{P})$ be a probability space.
+
+\begin{definition}
+    Let $X$ be a real random variable.
+    \begin{enumerate}[(i)]
+        \item If $X\in\mathcal{L}^1(\textbf{P})$, then $X$ is called integrable and we call
+        $$\expec[X]=\int X\d{\textbf{P}}$$
+        the \textit{expectation} or \textit{mean} of $X$. If $\expec[X]=0$, we call $X$ \textit{centered}. The expectation of $X$ is given by the same expression even if only $X^+$ or $X^-$ is integrable.
+        
+        \item Let $n\in\mathbb{N}$ and $X\in\mathcal{L}^1(\textbf{P})$. Then for any $k\in [n]$,
+        $$m_k=\expec[X^k]\text{ and }M_k=\expec[|X|^k]$$
+        are called the \textit{$k$th moments} and \textit{$k$th absolute moments} of $X$ respectively.
+        
+        \item If $X\in\mathcal{L}^2(\textbf{P})$, $X$ is called \textit{square integrable} and
+        $$\Var[X]=\expec[X^2]-\expec[X]^2$$
+        is called the \textit{variance} of $X$. The number $\sigma=\sqrt{\Var[X]}$ is called the \textit{standard deviation} of $X$ (This makes sense as we prove in \cref{properties of variance}(a) that $\Var[X]\geq 0$). We sometimes write $\Var[X]=\infty$ if $\expec[X^2]=\infty$.
+        
+        \item If $X,Y\in\mathcal{L}^2(\textbf{P})$, we define the \textit{covariance of $X$ and $Y$} by
+        $$\Cov[X,Y]=\expec[(X-\expec[X])(Y-\expec[Y])].$$
+        $X$ and $Y$ are called \textit{uncorrelated} if $\Cov[X,Y]=0$ and \textit{correlated} otherwise.
+    \end{enumerate}
+\end{definition}
+
+We now give some basic properties of expectation. All of them follow from the corresponding properties of the integral.
+
+\vspace{2mm}
+The mean represents the average value of the random variable, the variance gives a measure of the deviation or dispersion of the random variable from the mean, and the covariance gives a measure of how related two random variables are.
+
+\begin{theorem}[Properties of Expectation]
+\label{expectation rules}
+    Let $X,Y,X_n,Z_n$ ($n\in\mathbb{N}$) be real integrable random variables on $(\Omega,\mathcal{A},\textbf{P})$. Then
+    \begin{enumerate}[(a)]
+        \item If $\textbf{P}_X=\textbf{P}_Y$, then $\expec[X]=\expec[Y]$.
+        \item For any $c\in\mathbb{R}$, $cX\in\mathcal{L}^1(\textbf{P})$ and $X+Y\in\mathcal{L}^1(\textbf{P})$. Further,
+        $$\expec[cX]=c\expec[X]\text{ and }\expec[X+Y]=\expec[X]+\expec[Y].$$
+        \item If $X\geq 0$ almost surely, then $\expec[X]=0$ if and only if $X=0$ almost surely.
+        \item If $X\leq Y$ almost surely, then $\expec[X]\leq\expec[Y]$. Further, $\expec[X]=\expec[Y]$ if and only if $X=Y$ almost surely.
+        \item $|\expec[X]|\leq\expec[|X|]$.
+        \item If $X_n\geq 0$ almost surely for each $n\in\mathbb{N}$, then $\expec[\sum_{i=0}^\infty X_i] = \sum_{i=0}^\infty \expec[X_i]$.
+        \item If $Z_n\uparrow Z$ for some $Z$, then $\expec[Z]=\lim_{n\to\infty}Z_n$.
+    \end{enumerate}
+\end{theorem}
+
+Note that as a consequence of part (b) of the above,
+$$\Cov[X,Y]=\expec[XY]-\expec[X]\expec[Y].$$
+
+Setting $X=Y$, we have $\Cov[X,X]=\Var[X]$.
+
+\vspace{2mm}
+In the above, we did not use anything other than the properties of the integral itself. When we involve probability, namely independence, we get the following result.
+
+
+\begin{theorem}[Independent Variables are Uncorrelated]
+\label{independent uncorrelated}
+    Let $X,Y\in\mathcal{L}^1(\textbf{P})$ be independent. Then $XY\in\mathcal{L}^1(\textbf{P})$ and further, $\expec[XY]=\expec[X]\expec[Y]$. Note that this implies $\Cov[X,Y]=0$.
+\end{theorem}
+\begin{proof}
+    Let us first take the case where $X$ and $Y$ each take finitely many values. Then $Z=XY$ takes finitely many values as well and so, $Z\in\mathcal{L}^1(\textbf{P})$. We now have
+    \begin{align*}
+        \expec[Z] &= \sum_{z\in\mathbb{R}\setminus\{0\}} z\Pr[Z=z] \\
+        &= \sum_{x\in\mathbb{R}\setminus\{0\}}\sum_{y\in\mathbb{R}\setminus\{0\}} xy\Pr[X=x, Y=y] \\
+        &= \left(\sum_{x\in\mathbb{R}\setminus\{0\}}x\Pr[X=x]\right)\left(\sum_{y\in\mathbb{R}\setminus\{0\}}y\Pr[Y=y]\right) = \expec[X]\expec[Y].
+    \end{align*}
+    
+    Now, take the case where $X$ and $Y$ are each non-negative. (They may take an infinite number of values)
+    Using \cref{measurable function simple sequence}(a), let $(X_n)_{n\in\mathbb{N}},(Y_n)_{n\in\mathbb{N}}$ be sequences of simple functions such that $X_n\uparrow X$ and $Y_n\uparrow Y$. By \cref{Monotone Convergence Theorem},
+    \begin{align*}
+        \expec[XY] &= \lim_{n\to\infty}\expec[X_nY_n] \\
+        &= \lim_{n\to\infty} \expec[X_n]\expec[Y_n] \\
+        &= \lim_{n\to\infty} \expec[X_n] \lim_{n\to\infty} \expec[Y_n] = \expec[X]\expec[Y].
+    \end{align*}
+    
+    The general result where $X$ and $Y$ need not be non-negative is easily proved by splitting $X$ into $X^+-X^-$ and $Y$ as $Y^+-Y^-$.
+\end{proof}
+
+The converse however, is not true. That is, uncorrelated variables need not be independent. For example, let $X$ take $0$ and $1$ with probability $1/2$ each and $Y$ take $-1$ and $1$ with probability $1/2$ each. Then $XY$ and $X$ are uncorrelated but not independent.
+
+\begin{theorem}[Wald's Identity]
+\label{walds identity randvarsum expec}
+    Let $T,X_1,X_2,\ldots\in\mathcal{L}^1(\textbf{P})$ such that $X_1,X_2,\ldots$ are identically distributed and let $T$ take values only in $\mathbb{N}_0$. Define $S_T=\sum_{i=1}^T X_i$. Then $S_T\in\mathcal{L}^1(\textbf{P})$ and $\expec[S_T]=\expec[T]\expec[X_1]$.
+\end{theorem}
+\begin{proof}
+    For each $n\in\mathbb{N}$, let $S_n=\sum_{i=1}^n X_n$. Then we can write $S_T$ as
+    $$S_T=\sum_{n=0}^\infty \indic_{\{T=n\}} S_n.$$
+    We may prove that $S_T\in\mathcal{L}^1(\textbf{P})$ by performing the following calculation using $|S_T|$ instead of $S_T$.
+    
+    Since $\indic_{\{T=n\}}$ and $S_n$ are independent for each $n\in\mathbb{N}$, we now have
+    \begin{align*}
+        \expec[S_T] &= \expec\left[\sum_{n=0}^\infty \indic_{\{T=n\}} S_n\right] \\
+        &= \sum_{n=0}^\infty \expec[\indic_{\{T=n\}}]\expec[S_n] \\
+        &= \sum_{n=0}^\infty \Pr[T=n] \expec\left[\sum_{i=0}^n X_i\right] \\
+        &= \sum_{n=0}^\infty n \Pr[T=n] \expec[X_1]) \\
+        &= \expec[T]\expec[X_1].
+    \end{align*}
+\end{proof}
+
+Let us now discuss some properties of the variance.
+
+\begin{theorem}[Properties of Variance]
+\label{properties of variance}
+    Let $X\in\mathcal{L}^2(\textbf{P})$. Then
+    \begin{enumerate}[(a)]
+        \item $\Var[X]=\expec[(X-\expec[X])^2] \geq 0$,
+        \item $\Var[X]=0$ if and only if $X=\expec[X]$ almost surely, and
+        \item the map $f:\mathbb{R}\to\mathbb{R}$ given by $x\mapsto \expec[(X-x)^2]$ attains its minimum at $x_0=\expec[X]$ taking value $f(x_0)=\Var[X]$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item This is clear from the fact that $\Cov[X,X]=\Var[X]$.
+        \item This follows as $\expec[(X-\expec[X])^2]=0$ if and only if $(X-\expec[X])^2=0$ almost surely.
+        \item Expanding the expression of $f$ as $\expec[X^2]+x^2-2x\expec[X]$, we see that $f(x)=\Var[X]+(x-\expec[X])^2$. The result is clear.
+    \end{enumerate}
+\end{proof}
+
+\begin{theorem}
+    Let $X_1,\ldots,X_m,Y_1,\ldots,Y_n\in\mathcal{L}^2(\textbf{P})$ and $\alpha_1,\ldots,\alpha_m,\beta_1,\ldots,\beta_n,d,e\in\mathbb{R}$. Then
+    $$\Cov\left[d+\sum_{i=1}^m \alpha_iX_i, e+\sum_{j=1}^n \beta_jY_j\right]=\sum_{\substack{1\leq i\leq m \\ 1\leq j\leq n}} \alpha_i\beta_j \Cov[X_i, Y_j].$$
+\end{theorem}
+
+\begin{proof}
+    By \cref{expectation rules},
+    \begin{align*}
+        \Cov\left[d+\sum_{i=1}^m \alpha_iX_i, e+\sum_{j=1}^n \beta_jY_j\right] &= \expec\left[\left(\sum_{i=1}^m \alpha_i(X_i-\expec[X_i])\right)\left(\sum_{j=1}^m \beta_i(Y_j-\expec[Y_j])\right)\right] \\
+        &= \sum_{\substack{1\leq i\leq m \\1\leq j\leq n}} \alpha_i\beta_j \expec[(X_i-\expec[X_i])(Y_j-\expec[Y_j])] \\
+        &= \sum_{\substack{1\leq i\leq m \\1\leq j\leq n}} \alpha_i\beta_j \Cov[X_i,Y_j].
+    \end{align*}
+\end{proof}
+
+{
+The above can be stated more concisely as:
+\begin{quote}
+The map $\Cov:\mathcal{L}^2(\textbf{P})\times\mathcal{L}^2(\textbf{P})\to\mathbb{R}$ is a positive semidefinite symmetric bilinear form and $\Cov[X,Y]=0$ if $Y$ is almost surely constant.
+\end{quote}
+}
+
+Breaking up the individual terms,
+\begin{itemize}
+    \item $\Cov[X,Y]=0$ if $Y$ is almost surely constant means that the $d$ and $e$ in the equation do not contribute to the covariance.
+    \item ``Symmetric bilinear form" means that $\Cov[X,Y]=\Cov[Y,X]$, $\Cov[X_1+X_2,Y]=\Cov[X_1,Y]+\Cov[X_2,Y]$, and $\Cov[\alpha X,Y]=\alpha\Cov[X,Y]$ for all $X,Y,X_1,X_2\in\mathcal{L}^2(\textbf{P})$ and $\alpha\in\mathbb{R}$.
+    \item ``Positive semidefinite" means that $\Cov[X,X]\geq 0$ for all $X\in\mathcal{L}^2(\textbf{P})$. This is because $\Cov[X,X]=\Var[X]\geq 0$.
+\end{itemize}
+
+\begin{corollary}
+\label{bienayme formula}
+    For any $X,X_1,\ldots,X_m\in\mathcal{L}^2(\textbf{P})$ and $\alpha\in\mathbb{R}$, $\Var[\alpha X]=\alpha^2\Var[X]$ and
+    $$\Var\left[\sum_{i=1}^m X_i\right]=\sum_{i=1}^m \Var[X_i] + \sum_{\substack{1\leq i,j\leq m \\ i\neq j}} \Cov[X_i, X_j].$$
+    In particular, for uncorrelated $X_1,\ldots,X_m$,
+    $$\Var\left[\sum_{i=1}^m X_i\right] = \sum_{i=1}^m \Var[X_i].$$
+\end{corollary}
+
+The above is known as the \textit{Bienaym\'{e} formula}.
+
+\begin{ftheo}[Cauchy-Schwarz Inequality]
+    Let $X,Y\in\mathcal{L}^2(\textbf{P})$. Then
+    $$(\Cov[X,Y])^2\leq \Var[X]\Var[Y].$$
+\end{ftheo}
+\begin{proof}
+    If $\Var[Y]=0$, the statement is trivial. If $\Var[Y]\neq 0$,
+    \begin{align*}
+        0 &\leq \Var\left[X - \frac{\Cov[X,Y]}{\Var[Y]}Y\right]\Var[Y] \\
+        &= \left(\Var[X] + \left(\frac{\Cov[X,Y]}{\Var[Y]}\right)^2\Var[Y] - 2\frac{\Cov[X,Y]}{\Var[Y]}\Cov[X,Y]\right)\Var[Y] \\
+        &= \Var[X]\Var[Y] - \Cov[X,Y]^2.
+    \end{align*}
+\end{proof}
+
+Our choice of $\frac{\Cov[X,Y]}{\Var[Y]}$ in the above is not arbitrary. The term
+$$\rho=\frac{\Cov[X,Y]}{\sqrt{\Var[X]\Var[Y]}}$$
+gives a measure of the correlation of $X$ and $Y$, and is sometimes called the \textit{correlation coefficient}. It shows how linearly dependent $X-\expec[X]$ and $Y-\expec[Y]$ are.
+
+The Cauchy-Schwarz Inequality applied to $X-\expec[X]$ and $Y-\expec[Y]$ implies that $-1\leq\rho\leq 1$. Now, let us try to estimate $Y-\expec[Y]$ by a linear combination $a(X-\expec[X])+d$. We shall try to minimize
+\begin{align*}
+    \expec[(Y-\expec[Y]-c(X-\expec[X])-d)^2] &= \Var[Y] + c^2\Var[X]-2c\Cov[X,Y]+d^2 \\
+    &= \Var[Y] + c^2\Var[X]-2c\rho\sqrt{\Var[X]\Var[Y]}+d^2.
+\end{align*}
+We must clearly take $d=0$. The minimum of the resulting expression is attained at $c=\rho\sqrt{\frac{\Var[Y]}{\Var[X]}}$, and the minimum expectation is $\Var[Y](1-\rho^2)$. The closer $\rho$ is to $1$, the more linearly dependent $Y-\expec[Y]$ and $X-\expec[X]$ are. Here, by linearly dependent, we mean that there exist $a_1,a_2$ not both $0$ such that $a_1(X-\expec[X])+a_2(Y-\expec[Y])=0$ almost surely.
+
+Further, $|\rho|=1$ if and only if $X-\expec[X]$ and $Y-\expec[Y]$ are linearly dependent.
+
+\vspace{1mm}
+It follows that equality holds in the Cauchy-Schwarz inequality if and only if there exist $a,b,c\in\mathbb{R}$ not all $0$ such that $aX+bY+c=0$ almost surely.
+
+\begin{theorem}[Blackwell-Girshick Equation]
+\label{blackwell girshick randvarsum variance}
+    Let $T,X_1,X_2,\ldots\in\mathcal{L}^1(\textbf{P})$ such that $X_1,X_2,\ldots$ are identically distributed and let $T$ take values only in $\mathbb{N}_0$. Define $S_T=\sum_{i=1}^T X_i$. Then
+    $$\Var[S_T]=\expec[X_1]^2\Var[T] + \expec[T]\Var[X_1].$$
+\end{theorem}
+\begin{proof}
+    For each $n\in\mathbb{N}$, let $S_n=\sum_{i=1}^n X_n$. Then writing $S_T$ as we did in the proof of \hyperref[walds identity randvarsum expec]{Wald's Identity},
+    \begin{align*}
+        \expec[S_T^2] &= \expec\left[\sum_{n=0}^\infty \indic_{\{T=n\}} S_n\right] \\
+        &= \sum_{n=0}^\infty \expec[\indic_{\{T=n\}}]\cdot\expec[S_n^2] \\
+        &= \sum_{n=0}^\infty \Pr[T=n]\left(\Var[S_n]+\expec[S_n]^2\right) \\
+        &= \sum_{n=0}^\infty \Pr[T=n]\left(n\Var[X_1]+n^2\expec[X_1]^2\right) \\
+        &= \expec[T]\Var[X_1] + \expec[T^2]\expec[X_1]^2.
+    \end{align*}
+    Now, \hyperref[walds identity randvarsum expec]{Wald's identity} implies
+    \begin{align*}
+        \Var[S_T] &= \expec[T]\Var[X_1] + \expec[T^2]\expec[X_1]^2 - (\expec[T]\expec[X_1])^2 \\
+        &= \expec[T]\Var[X_1] + \Var[T]\expec[X_1]^2.
+    \end{align*}
+\end{proof}
+
+We now state the expectations and variances for some of the probability distributions that we mentioned earlier in \cref{examples of random variables}.
+
+\begin{enumerate}
+    \item Let $p\in[0,1]$ and $X\sim\Ber_p$. Then $\expec[X]=p$ and $\Var[X]=p(1-p)$.
+    
+    \item Let $p\in[0,1]$, $n\in\mathbb{N}$ and $X\sim b_{n,p}$. Then $\expec[X]=np$ and $\Var[X]=np(1-p)$. This can easily be shown by noting that $X$ is equal to the sum of $n$ i.i.d. random variables, each of which has distribution $\Ber_p$.
+    
+    \item Let $\mu\in\mathbb{R}$, $\sigma_2>0$ and $X\sim\mathcal{N}_{\mu,\sigma^2}$. Then $\expec[X]=\mu$ and $\Var[X]=\sigma^2$.
+    
+    \item Let $\theta>0$ and $X\sim\exp_\theta$. Then $\expec[X]=\theta^{-1}$ and $\Var[X]=\theta^{-2}$.
+\end{enumerate}
+
+\subsection{The Weak Law of Large Numbers}
+
+We earlier mentioned that variance gives a measure of how much a random variable deviates from the expectation. This is made rigorous by the Chebyshev inequality.
+
+\begin{ftheo}[Markov Inequality]
+\label{markov inequality}
+    Let $X$ be a real random variable and $f:[0,\infty)\to[0,\infty)$ be monotone increasing. Then for any $\varepsilon>0$ with $f(\varepsilon)>0$,
+    $$\Pr[|X|\geq\varepsilon]\leq\frac{\expec[f(|X|)]}{f(\varepsilon)}.$$
+\end{ftheo}
+\begin{proof}
+    We have
+    \begin{align*}
+        \expec[f(|X|)]&\geq \expec[f(|X|)\indic_{f(|X|)\geq f(\varepsilon)}] \\
+        &\geq \expec[f(\varepsilon)\indic_{f(|X|)\geq f(\varepsilon)}] \\
+        &\geq f(\varepsilon)\Pr[|X|\geq \varepsilon].
+    \end{align*}
+\end{proof}
+
+The Markov inequality forms a basis for most probability related inequalities we encounter.
+
+\begin{corollary}[Chebyshev Inequality]
+\label{chebyshev inequality}
+    Let $X\in\mathcal{L}^2(\textbf{P})$ and $\varepsilon>0$. Then
+    $$\Pr[|X-\expec[X]|\geq\varepsilon]\leq \varepsilon^{-2}\Var[X].$$
+\end{corollary}
+\begin{proof}
+    Using the Markov inequality on $f:x\mapsto x^2$ and $X-\expec[X]$ gives the required result.
+\end{proof}
+
+This shows that the variance quantifies how much a random variable deviates from it's expectation.
+
+\begin{fdef}[Convergence of Random Variables]
+    Let $(X_n)_{n\in\mathbb{N}}$ be a sequence of random variables.
+    \begin{enumerate}[(i)]
+        \item $(X_n)_{n\in\mathbb{N}}$ is said to \textit{converge in probability} towards a random variable $X$ if for all $\varepsilon>0$,
+        $$\lim_{n\to\infty}\Pr[|X_n-X|>\varepsilon]=0.$$
+        \item $(X_n)_{n\in\mathbb{N}}$ is said to \textit{converge almost surely} towards a random variable $X$ if
+        $$\Pr\left[\lim_{n\to\infty}X_n=X\right]=1.$$
+    \end{enumerate}
+\end{fdef}
+
+To see that these two are not the same, consider the sequence of random variables $(X_n)_{n\in\mathbb{N}}$ where $X_n$ takes $1$ with probability $1/n$ and $0$ otherwise. Then $(X_n)_{n\in\mathbb{N}}$ converges in probability to the $0$ random variable, but does not converge almost surely.
+
+\vspace{2mm}
+Given a random variable $X$, we expect the arithmetic mean of a large number of independent observations of $X$ to be close to $\expec[X]$ (assuming, of course, that its variance is finite.).
+
+\vspace{1mm}
+Making this property more general, we define the following.
+
+\begin{fdef}[Laws of Large Numbers]
+    Let $(X_n)_{n\in\mathbb{N}}$ be a sequence of real random variables in $\mathcal{L}^1(\textbf{P})$ and let $\tilde{S}_n=\sum_{i=1}^n (X_n-\expec[X_n])$.
+    \begin{enumerate}[(i)]
+        \item We say that $(X_n)_{n\in\mathbb{N}}$ satisfies the \textit{weak law of large numbers} if for any $\varepsilon>0$,
+        $$\lim_{n\to\infty}\left(\Pr\left[\left|\frac{1}{n}\tilde{S}_n\right| < \varepsilon\right]\right)=1.$$
+        
+        \item We say that $(X_n)_{n\in\mathbb{N}}$ satisfies the \textit{strong law of large numbers} if
+        $$\Pr\left[\lim_{n\to\infty}\left|\frac{1}{n}\tilde{S}_n\right|=0\right]=1.$$
+    \end{enumerate}
+\end{fdef}
+
+We sometimes abbreviate ``law of large numbers" to LLN.
+
+The weak law is equivalent to saying that $(\tilde{S}_n/n)_{n\in\mathbb{N}}$ converges in probability to the $0$ random variable and the strong law is equivalent to saying that $(\tilde{S}_n/n)_{n\in\mathbb{N}}$ converges almost surely to the $0$ random variable.
+
+\vspace{2mm}
+%The weak law says that for a specified large $n$, $|\tilde{S}_n/n|$ is likely to be near $0$. That is, it allows for $|\tilde{S_n}/n|>\varepsilon$ happening an infinite number of times, although at infrequent intervals.
+The weak law says that for any nonzero (specified) margin, the average of a sufficiently large number of observations will be within the margin of the expectation with high probability.
+
+\vspace{1mm}
+%On the other hand, the strong law says that this will almost surely not occur. It implies that with probability $1$, $|\tilde{S}_n/n|<\varepsilon$ holds for all large enough $n$.
+On the other hand, the strong law says that almost surely, the sequence of \textit{sample} means converges to the expectation.
+
+\vspace{2mm}
+Note that as a consequence, if $(X_n)_{n\in\mathbb{N}}$ satisfies the strong law of large numbers, it must also satisfy the weak law of large numbers.
+
+\begin{ftheo}
+\label{uncorr finite var wLLN}
+    Let $X_1,\ldots,X_n\in\mathcal{L}^2(\textbf{P})$ be uncorrelated random variables with $V=\sup_{n\in\mathbb{N}}\Var[X_n]<\infty$. Then $(X_n)_{n\in\mathbb{N}}$ satisfies the weak law of large numbers. Further,
+    $$\Pr\left[\left|\frac{1}{n}\tilde{S}_n\right|\geq\varepsilon\right]\leq \frac{V}{\varepsilon^2n}\text{ for all $n\in\mathbb{N}$}.$$
+\end{ftheo}
+\begin{proof}
+    Without loss of generality, assume $\expec[X_i]=0$ for all $i\in\mathbb{N}$. Then the \hyperref[bienayme formula]{Bienaym\'{e} formula} implies that
+    $$\Var\left[\frac{1}{n}\tilde{S}_n\right]=\frac{1}{n^2}\sum_{i=1}^n \Var[X_i] \leq \frac{V}{n}.$$
+    This shows how the more random variables we add, the more it ``concentrates" around the mean $0$.
+    Now, by \hyperref[chebyshev inequality]{Chebyshev's inequality},
+    $$\Pr\left[\left|\frac{1}{n}\tilde{S}_n\right|\geq\varepsilon\right]\leq \frac{V}{\varepsilon^2n}.$$
+    Taking the limit as $n\to\infty$ gives that $(X_n)_{n\in\mathbb{N}}$ satisfies the weak LLN.
+\end{proof}
+
+In general, if we wish to show the existence of an object that has some properties, we give a constructive proof. Equipped with probability now, we have a non-constructive method to prove the existence of something, commonly known as the probabilistic method of proof. We do this by considering some distribution over all objects, and showing that the probability of a randomly selected object having the required properties is non-zero, thus implying the existence of the required object.
+
+An example of this is the following.
+
+\begin{corollary}[Weirstrass' Approximation Theorem]
+    Let $f:[0,1]\to\mathbb{R}$ be a continuous real map. Then for $n\in\mathbb{N}$ there exist polynomials $f_n$ of degree at most $n$ such that
+    $$\norm{f_n(x)-f(x)}_\infty \xrightarrow{n\to\infty} 0.$$
+\end{corollary}
+\begin{proof}
+    For $n\in\mathbb{N}$, define $f_n:[0,1]\to\mathbb{R}$, known as the Bernstein polynomial of order $n$, by
+    $$f_n(x) = \sum_{k=0}^n f(k/n)\binom{n}{k}x^k(1-x)^{n-k}$$
+    As $f$ is continuous on the compact interval $[0,1]$, it is uniformly continuous. Fixing some $\varepsilon>0$, there exists $\delta>0$ such that
+    $$|f(x)-f(y)|<\varepsilon\text{ for all $x,y$ such that } |x-y|<\delta.$$
+    Now, let $p\in[0,1]$, $X_1,X_2,\ldots$ be i.i.d. random variables with distribution $\Ber_p$, and $S_n=\sum_{i=1}^n X_n\sim b_{n,p}$. Note that
+    $$\expec[f(S_n/n)]=f(p).$$
+    Uniform continuity implies that
+    $$|f(S_n/n) - f(p)| \leq \varepsilon + 2\norm{f}_\infty\indic_{|S_n/n - p| \geq \delta}$$
+    Therefore,
+    \begin{align*}
+        |f_n(p) - f(p)| &\leq \expec[|f(S_n/n) - f(p)|] \\
+        &\leq \varepsilon + 2\norm{f}_\infty\Pr\left[\left|\frac{S_n}{n} - p\right|\geq\delta\right] \\
+        &\leq \varepsilon + 2\norm{f}_\infty\cdot \frac{p(1-p)}{n\delta^2} \\
+        &\leq \varepsilon + \frac{\norm{f}_\infty}{2n\delta^2}.
+    \end{align*}
+    The result follows.
+\end{proof}
+
+\begin{corollary}
+    Let $n\in\mathbb{N}$ and $p_1,\ldots,p_n\in[0,1]$. Let $X_1,\ldots,X_n$ be independent random variables such that $X_i\sim\Ber_{p_i}$ for each $i\in[n]$. Define $S_n=\sum_{i=1}^n X_i$ and $m=\expec[S_n]$. Then for any $\delta>0$,
+    $$\Pr\left[S_n\geq(1+\delta)m\right]\leq \left(\frac{e^\delta}{(1+\delta)^{1+\delta}}\right)^m$$
+    and
+    $$\Pr\left[S_n\leq(1-\delta)m\right]\leq \exp\left(-\frac{\delta^2m}{2}\right).$$
+\end{corollary}
+\begin{proof}
+    For some $\lambda>0$, consider $f:[0,\infty)\to[0,\infty)$ given by $f(x)=e^{\lambda x}$. By the \hyperref[markov inequality]{Markov Inequality}, for any $\varepsilon>0$,
+    \begin{align*}
+        \Pr[S_n\geq (1+\delta)m] &\leq \frac{\expec[e^{\lambda S_n}]}{e^{\lambda m(1+\delta)}} \\
+        &= e^{-\lambda m(1+\delta)}\prod_{i=1}^n \expec[e^{\lambda X_i}]
+    \end{align*}
+    Now, for each $i\in[n]$,
+    $$\expec[e^{\lambda X_i}] = 1+p_i(e^\lambda-1)\leq e^{p_i(e^{\lambda}-1)}.$$
+    Therefore, since $m=p_1+\cdots+p_n$,
+    \begin{align*}
+        \Pr[S_n\geq (1+\delta)m] &\leq e^{-\lambda m(1+\delta)}\prod_{i=1}^n e^{p(e^\lambda - 1)} \\
+        &= e^{-\lambda m(1+\delta)} e^{m(e^\lambda - 1)}.
+    \end{align*}
+    We can now optimize over $\lambda$ to find the minimum of the expression on the right. Setting $\lambda=\ln(1+\delta)$, we obtain
+    $$\Pr[S_n\geq (1+\delta)m]\leq \left(\frac{\delta}{(1+\delta)^{1+\delta}}\right)^m.$$
+    
+    The second bound can be obtained similarly as we can optimize the following inequality over $\lambda$:
+    \begin{align*}
+        \Pr[X\leq (1-\delta)m] &= \Pr[e^{-\lambda X}\geq e^{-\lambda m(1-\delta)}] \\
+        &\leq \frac{\expec[e^{S_n}]}{e^{-\lambda m(1-\delta)}}.
+    \end{align*}
+\end{proof}
+
+More generally, if $X$ is the sum of $n$ independent random variables $X_1,\ldots,X_n$, then
+$$\Pr[X\geq a]\leq \min_{t>0} e^{-ta}\prod_i\expec[e^{tX_i}]$$
+and
+$$\Pr[X\leq a]\leq \min_{t>0} e^{ta}\prod_i\expec[e^{-tX_i}].$$
+The above inequalities are known as the \textit{Chernoff Bounds}.
+
+\subsection{The Strong Law of Large Numbers}
+
+There are many versions of the Strong Law of Large Numbers, the one we present here is that given by Etemadi.
+
+Namely, if $X_1,X_2,\ldots\in\mathcal{L}^2(\textbf{P})$ are pairwise independent and identically distributed, then $(X_n)_{n\in\mathbb{N}}$ follows the strong LLN.
+
+Before we prove this, we start with some lemmas.
+
+Define $\mu=\expec[X_1]$ and $S_n=X_1+\cdots+X_n$.
+
+\begin{lemma}
+\label{prlem1etem}
+    For $n\in\mathbb{N}$, let $Y_n=X_n\indic_{\{|X_n|\leq n\}}$ and $T_n=Y_1+\cdots+Y_n$. Then $(X_n)_{n\in\mathbb{N}}$ follows the strong law of large numbers if $T_n/n\xrightarrow{n\to\infty}\mu$ almost surely.
+\end{lemma}
+\begin{proof}
+    By \cref{geq leq int leq g}, $$\sum_{n=1}^\infty \Pr[|X_n|> n]\leq\sum_{n=1}^\infty \Pr[|X_n|\geq n]\leq\expec[X_1]<\infty.$$ Now due to to the \hyperref[borelCantelliLemma]{Borel-Cantelli Lemma},
+    $$\Pr[X_n\neq Y_n\text{ for infinitely many $n$}]=0.$$
+    There then almost surely exists some $n_0$ such that $X_n=Y_n$ for all $n\geq n_0$. Therefore, for all $n\geq n_0$,
+    $$\frac{T_n-S_n}{n} = \frac{T_{n_0}-S_{n_0}}{n}\xrightarrow{n\to\infty}0.$$
+    Since $T_n/n\xrightarrow{n\to\infty}\mu$ almost surely, $S_n/n\xrightarrow{n\to\infty}\mu$ almost surely and our proof is complete.
+\end{proof}
+
+\begin{lemma}
+    For all $x>0$, $2x\sum_{n>x}n^{-2}\leq 4$.
+\end{lemma}
+\begin{proof}
+    For any $m\in\mathbb{N}$,
+    $$\sum_{n=m}^\infty n^{-2} \leq m^{-2} + \int_m^\infty t^{-2}\d t = m^{-2} + m^{-1} \leq \frac{2}{m}.$$
+    The result follows.
+\end{proof}
+
+\begin{lemma}
+\label{prlem2etem}
+    With the above notation,
+    $$\sum_{n=1}^\infty \frac{\expec[Y_n^2]}{n^2}\leq 4\expec[|X_1|].$$
+\end{lemma}
+\begin{proof}
+    By \cref{int func eq int geq},
+    $$\expec[Y_n^2]=\int_0^\infty \Pr(Y_n^2\geq t)\d t.$$
+    Simplifying by substituting $t=x^2$,
+    $$\expec[Y_n^2] = \int_0^\infty 2x\Pr[|Y_n|\geq x]\d x\leq \int_0^n 2x\Pr[|X_1|\geq x]\d x.$$
+    For $m\in\mathbb{N}$, define the function $f_m$ by
+    
+    $$f_m(x) = \left(\sum_{n=1}^m n^{-2}\indic_{\{x<n\}}\right)2x\Pr[|X_1|>x]\cdot.$$
+    Let $f_m\uparrow f$. Note that $f\leq 4\Pr[|X_1|>x]$.
+    
+    Finally, by the \hyperref[Monotone Convergence Theorem]{Monotone Convergence Theorem},
+    \begin{align*}
+        \sum_{n=1}^\infty \frac{\expec[Y_n^2]}{n^2} &\leq \sum_{n=1}^\infty n^{-2} \int_0^n 2x\Pr[|X_1|\geq x]\d x \\
+        &= \int_0^\infty \left(\sum_{n=1}^\infty n^{-2}\indic_{\{x<n\}}\right) 2x\Pr[|X_1|>x] \\
+        &\leq 4\int_0^\infty \Pr[|X_1|>x] = 4\expec[|X_1|].
+    \end{align*}
+\end{proof}
+
+We may now prove the main result of this subsection.
+
+\begin{ftheo}[Etemadi's Strong Law of Large Numbers\cite{etemadi}]
+\label{etemadi sLLN}
+    Let $X_1,X_2,\ldots\in\mathcal{L}^1(\textbf{P})$ be pairwise independent and identically distributed random variables. If $\expec[|X_1|]<\infty$, then $(X_n)_{n\in\mathbb{N}}$ satisfies the strong law of large numbers.
+\end{ftheo}
+\begin{proof}
+    Since $(X_n^+)_{n\in\mathbb{N}}$ and $(X_n^-)_{n\in\mathbb{N}}$ satisfy the conditions of the theorem, it suffices to consider only $(X_n^+)_{n\in\mathbb{N}}$, that is, $X_n\geq 0$ for all $n\in\mathbb{N}$.
+    
+    Fix some $\varepsilon>0$ and $\alpha>1$ and let $k_n=\lfloor\alpha^n\rfloor$ for each $n$. Then by \hyperref[chebyshev inequality]{Chebyshev's inequality},
+    \begin{align*}
+        \sum_{n=1}^\infty \Pr\left[\left|\frac{T_{k_n}-\expec[T_{k_n}]}{k_n}\right|>\varepsilon\right] &\leq \varepsilon^{-2} \sum_{n=1}^\infty \frac{\Var[T_{k_n}]}{k_n^2} \\
+        &= \varepsilon^{-2} \sum_{n=1}^\infty \frac{1}{k_n^2}\sum_{i=1}^{k_n} \Var[Y_i] \\
+        &= \varepsilon^{-2} \sum_{i=1}^\infty \Var[Y_i] \sum_{n:k_n\geq m} \frac{1}{k_n^2} \\
+        &\leq \frac{1}{\varepsilon^2(1-\alpha^{-2})} \sum_{i=1}^\infty \frac{\Var[Y_i]}{m^2} = \frac{1}{\varepsilon^2(1-\alpha^{-2})} \sum_{i=1}^\infty \frac{\expec[Y_i^2]}{m^2}
+    \end{align*}
+    By \cref{prlem2etem}, this is finite. Letting $\varepsilon\downarrow 0$, the \hyperref[borelCantelliLemma]{Borel-Cantelli Lemma} implies that
+    $$\lim_{n\to\infty} \frac{T_{k_n} - \expec[T_{k_n}]}{k_n}=0\text{ almost surely.}$$
+    By the \hyperref[Monotone Convergence Theorem]{Monotone Convergence Theorem}, $\expec[Y_n]\xrightarrow{n\to\infty}\expec[X_1]$.
+    
+    This in turn gives that $\expec[T_{k_n}]/k_n\xrightarrow{n\to\infty}\expec[X_1]$ and therefore, 
+    $$\lim_{n\to\infty}\frac{T_{n}}{n}=\lim_{n\to\infty}\frac{T_{k_n}}{k_n}=\expec[X_1]\text{ almost surely.}$$
+    \Cref{prlem1etem} completes the proof.
+\end{proof}
+
+\vspace{2mm}
+We now give an example of the applications of the above.
+
+Let $f\in\mathcal{L}^1([0,1])$ be a function  $[0,1]\to\mathbb{R}$ and say we want to evaluate $I=\int_0^1 f(x)\d x$. Let $X_1,X_2,\ldots$ be independent random variables uniformly distributed in $[0,1]$ and define
+$$\Hat{I}_n = \frac{1}{n}\sum_{i=1}^n f(X_i).$$
+The \hyperref[etemadi sLLN]{strong law of large numbers} implies that $\Hat{I}_n\xrightarrow{n\to\infty} I$ almost surely. This method of integration is known as \textit{Monte Carlo integration}.
+
+If $f$ is a sufficiently nice function, usual numerical methods tend to give better estimates. However, If $[0,1]$ is replaced with $G\subseteq\mathbb{R}^d$ for very large $d$, Monte Carlo integration tends to be useful. 
+
+\vspace{1mm}
+Note that although $\Hat{I}_n$ converges to $I$, we do not have an estimate of how fast it converges.
+
+\subsection{Speed of Convergence in the Strong Law of Large Numbers}
+
+We had discussed the speed of convergence in the weak LLN (\cref{uncorr finite var wLLN}).
+
+In the strong LLN, we get good estimates if we assume the existence of higher moments, such as the following result that can be seen as an analogue of the \hyperref[chebyshev inequality]{Chebyshev Inequality}.
+
+\begin{ftheo}[Kolmogorov's Inequality]
+\label{kolmogorov's inequality}
+    Let $n\in\mathbb{N}$ and $X_1,\ldots,X_n$ be independent random variables with $\expec[X_i]=0$ and $\Var[X_i]<\infty$ for all valid $i$. Let $S_k=X_1+\cdots+X_k$ for $k\in[n]$. Then for any $t>0$,
+    $$\Pr[\max\{S_k:k\in[n]\}\geq t] \leq \frac{\Var[S_n]}{t^2+\Var[S_n]}$$
+    and
+    $$\Pr[\max\{|S_k|:k\in[n]\}\geq t] \leq t^{-2}\Var[S_n].$$
+\end{ftheo}
+The latter equation in particular is referred to as Kolmogorov's Inequality.
+\begin{proof}
+    Let $\tau$ be the first time at which the partial sum exceeds $t$, that is,
+    $$\tau = \min\{k\in[n]:S_k\geq t\}.$$
+    and $A_k=\{\tau=k\}$ for each $k$. Further, let
+    $$A=\left\{\max\{S_k:k\in[n]\geq t\right\}=\biguplus_{i=1}^n A_k.$$
+    Fix some $c\geq 0$. Note that $(S_k+c)\indic_{A_k}$ is $\sigma(X_1,\ldots,X_k)$-measurable and $(S_n-S_k)$ is $\sigma(X_{k+1},\ldots,X_n)$-measurable. \Cref{independent mutually disjoint set union} implies that these two random variables are independent and thus,
+    $$\expec[(S_k+c)\indic_{A_k}(S_n-S_k)]=\expec[(S_k+c)\indic_{A_k}]\expec[S_n-S_k]=0.$$
+    We now have
+    \begin{align*}
+        \Var[S_n] + c^2 &= \expec[(S_n+c)^2] \\
+        &\geq \sum_{k\in[n]}\expec[(S_n+c)^2\indic_{A_k}] \\
+        &= \sum_{k\in[n]}\expec[\left((S_k+c)^2 + 2(S_k+c)(S_n-S_k)+(S_n-S_k)^2\right)\indic_{A_k}] \\
+        &= \sum_{k\in[n]} \expec[\left((S_k+c)^2+(S_n-S_k)^2\right)\indic_{A_k}] \\
+        &\geq \sum_{k\in[n]} \expec[(S_k+c)^2\indic_{A_k}] \\
+        &\geq \expec[(t+c)^2\indic_{A}] = (t+c)^2\Pr[A].
+    \end{align*}
+    
+    That is,
+    $$\Pr[A]\leq \frac{\Var[S_n]+c^2}{(t+c)^2}.$$
+    Setting $c=\Var[S_n]/t$ gives the first inequality.
+    
+    \vspace{2mm}
+    For the second inequality, let
+    $$\tilde{\tau}=\min\{k\in[n]:|S_k|\geq t\},$$
+    $\tilde{A}_k=\{\tilde{\tau}=k\}$ and $\tilde{A}=\{\tilde{\tau}\leq n\}$. Repeating the steps similar to the first inequality but with $c=0$ gives the required result.
+\end{proof}
+
+Now that we have Kolmogorov's inequality, we may establish some more results.
+
+\begin{theorem}
+    Let $X_1,X_2,\ldots$ be independent random variables with $\expec[X_n]=0$ for any $n\in\mathbb{N}$ and $V=\sup_{n\in\mathbb{N}}\Var[X_n]<\infty$. Then for any $\varepsilon>0$,
+    $$\limsup_{n\to\infty} \frac{|S_n|}{n^{1/2}(\log(n))^{\varepsilon+(1/2)}}=0\text{ almost surely.}$$
+\end{theorem}
+\begin{proof}
+    Let $l(n)=n^{1/2}(\log(n))^{\varepsilon+(1/2)}$ and $k_n=2^n$ for $n\in\mathbb{N}$. For sufficiently large $n$ and $k\in\mathbb{N}$ such that $k_{n-1}\leq k\leq k_n$, $|S_k|/l(k)\leq 2|S_k|/l(k_n)$  (Why?). It then suffices to show that for any $\delta>0$,
+    $$\limsup_{n\to\infty} \frac{\max\{|S_k|:k\leq k_n\}}{l(k_n)} \leq \delta\text{ almost surely.}$$
+    For each $n\in\mathbb{N}$, define $A_{n,\delta}=\{\max\{|S_k|:k\leq k_n\} > \delta l(k_n)\}$
+    
+    Then by \hyperref[kolmogorov's inequality]{Kolmogorov's inequality},
+    
+    \begin{align*}
+        \sum_{n=1}^\infty \Pr[A_{n,\delta}] &\leq \sum_{n=1}^\infty Vk_n(\delta l(k_n))^{-2} \\
+        &= \frac{V}{\delta^2(\log 2)^{1+2\varepsilon}}\sum_{n=1}^\infty \frac{1}{n^{1+2\varepsilon}} < \infty.
+    \end{align*}
+    Applying the \hyperref[borelCantelliLemma]{Borel-Cantelli Lemma} on $(A_{n,\delta})_{n\in\mathbb{N}}$ gives that $\Pr\left[\limsup_{n\to\infty}A_{n,\delta}\right]=0$, which leads to the result. 
+\end{proof}
+
+Readers who are familiar with complexity theory can think of this as just saying that $|S_n|=o\left(n^{1/2}(\log (n))^{\varepsilon+(1/2)}\right)$.
+
+\vspace{2mm}
+
+A stronger result that we do not prove here states that for iid square integrable centered random variables $X_1,X_2,\ldots$,
+$$\limsup_{n\to\infty} \frac{|S_n|}{\sqrt{2n\Var[X_1]\log(\log(n))}}=1\text{ almost surely.}$$
+This result is significantly stronger as it says that $|S_n|=\Theta\left(\sqrt{2n\Var[X_1]\log(\log(n))}\right)$.
+
+
+
+\clearpage

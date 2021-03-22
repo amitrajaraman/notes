@@ -1,0 +1,230 @@
+\section{Generating Functions}
+
+It is a common theme in mathematics to determine relations between objects that are of interest and objects that are easy to compute with. In probability theory, probability generating functions, Laplace transforms and characteristic functions fall in the former category while the mean, median and variance of random variables fall in the latter.
+
+\subsection{Definitions and Basics}
+
+\begin{definition}[Probability Generating Function]
+    Let $X$ be an $\mathbb{N}_0$-valued random variable. The \textit{probability generating function} (abbreviated \textit{pgf}) of $\textbf{P}_X$ (or $X$) is the map $\psi_{\textbf{P}_X}=\psi_X:[0,1]\to[0,1]$ is given by (where $0^0=1$)
+    $$z\mapsto \sum_{n=0}^\infty \Pr[X=n]z^n.$$
+\end{definition}
+
+From the properties of a power series, we have the following result, which we do not prove.
+
+\begin{theorem}
+\label{pgfpowerseries}
+    ~\begin{enumerate}[(a)]
+        \item $\psi_X$ is continuous on $[0,1]$ and infinitely often continuously differentiable on (0,1). For $n\in\mathbb{N}$,
+        $$\lim_{z\to 1^-}\psi_X^{(n)}(z)=\sum_{k=n}^\infty \Pr[X=k]\cdot k(k-1)\cdots (k-n+1)$$
+        where both sides can equal $\infty$.
+        
+        \item $\textbf{P}_X$ is uniquely determined by $\psi_X$.
+        
+        \item For any $r\in(0,1)$, $\psi_X$ is uniquely determined by countably many values $\psi_X(x_i)$ where $x_i\in [0,r]$ for each $i\in\mathbb{N}$. If the series given in $\psi_X$ converges for some $z>1$, then this statement is also true for any $r\in(0,z)$ and 
+        $$\lim_{z\to 1^{-}} \psi_{X}^{(n)}(z)=\psi_X^{(n)}(1)<\infty\text{ for }n\in\mathbb{N}.$$
+        Here, $\psi_X$ is uniquely determined by $\psi_X^{(n)}(1), n\in\mathbb{N}$.
+    \end{enumerate}
+\end{theorem}
+
+While this definition of a pgf may seem quite arbitrary, it is useful when we want to add random variables, as is evident from the following theorem.
+
+\begin{theorem}
+\label{sum of randvars is prod of pgfs}
+    Let $X_1,X_2,\ldots,X_n$ be independent $\mathbb{N}_0$-valued random variables. Then
+    $$\psi_{X_1+X_2+\ldots+X_n}=\prod_{i=1}^n \psi_{X_i}.$$
+\end{theorem}
+\begin{proof}
+    We shall prove the claim for $n=2$ and the result will follow inductively. For any $z\in[0,1]$
+    \begin{align*}
+        \psi_{X_1}(z)\cdot\psi_{X_2}(z) &= \left(\sum_{n=0}^\infty \Pr[X_1=n]z^n\right)\left(\sum_{n=0}^\infty \Pr[X_2=n]z^n\right) \\
+        &= \sum_{n=0}^\infty z^n\left(\sum_{m=0}^n\Pr[X_1=m]\Pr[X_2=n-m]\right) \\
+        &= \sum_{n=0}^\infty z^n\left(\sum_{m=0}^n\Pr\left[\{X_1=m\}\cap \{X_2=n-m\}\right]\right) \\
+        &= \sum_{n=0}^\infty z^n\Pr[X_1+X_2=n] \\
+        &= \psi_{X_1+X_2}.
+    \end{align*}
+\end{proof}
+
+For example,
+
+\begin{itemize}
+    \item For some $m,n\in\mathbb{N}$ and $p\in[0,1]$, let $X\sim b_{n,p}$ and $Y\sim b_{m,p}$. Then
+    $$\psi_X(z)=\sum_{i=0}^n \binom{n}{i}p^i(1-p)^iz^i=(pz+1-p)^n.$$
+    If $X$ and $Y$ are independent, then
+    $$\psi_{X+Y}(z)=\psi_X(z)\cdot\psi_Y(z)=(pz+1-p)^{m+n}.$$
+    Therefore, $X+Y\sim b_{m+n,p}$, which is not immediately apparent otherwise. (Note that this also implies that $b_{m,p}*b_{n,p}=b_{m+n,p}$)
+
+    \item Let $p\in(0,1]$ and $X_1,\ldots,X_n\sim \gamma_p$ be independent random variables. Define $Y=X_1+\cdots+X_n$. For any $z\in[0,1]$,
+    $$\psi_{X_1}(z)=\sum_{i=0}^\infty p(z(1-p))^i=\frac{p}{1-z(1-p)}.$$
+    Then
+    \begin{align*}
+        \psi_Y(z) &= \frac{p^n}{(1-z(1-p))^n} \\
+        &= \sum_{i=0}^\infty p^n \binom{-n}{i}(-1)^i(1-p)^i z^i \\
+        &= \sum_{i=0}^\infty b^-_{n,p}(\{i\}) z^i.
+    \end{align*}
+    Therefore, $\gamma_p^{*n}=b^-_{n,p}$. Note that this matches with the intuition we introduced while defining the geometric and negative binomial distributions. The waiting time for the $n$th success is equivalent to waiting for a single success $n$ times, that is, $X_1+\cdots+X_n$.
+    
+    \item We can also show that for $\lambda,\mu\in[0,\infty)$,
+    $$\psi_{\Poi_{\lambda}}(z)=e^{\lambda(z-1)}.$$
+    This implies that $\Poi_\lambda * \Poi_{\mu} = \Poi_{\lambda+\mu}$ (Recall that we had also proved this earlier by manually calculating the convolution).
+    
+    \item For $r,s\in(0,\infty)$ and $p\in(0,1]$, we have $b^-_{r,p}*b^-_{s,p}=b^-_{r+s,p}$. We leave it to the reader to prove this.
+\end{itemize}
+
+\subsection{The Poisson Approximation}
+
+\begin{theorem}
+    Let $\mu,\mu_1,\mu_2,\ldots$ be probability measures on $(\mathbb{N}_0,2^{\mathbb{N}_0})$ with generating functions $\psi,\psi_1,\psi_2,\ldots$. Then the following are equivalent.
+    \begin{enumerate}[(a)]
+        \item $\lim_{n\to\infty}\mu_n(\{k\})=\mu(\{k\})$ for all $k\in\mathbb{N}_0$.
+        \item $\lim_{n\to\infty}\mu_n(A)=\mu(A)$ for all $A\subseteq\mathbb{N}_0$.
+        \item $\lim_{n\to\infty}\psi_n(z)=\psi(z)$ for all $z\in[0,1]$.
+        \item $\lim_{n\to\infty}\psi_n(z)=\psi(z)$ for all $z\in[0,\eta)$ for some $\eta\in(0,1)$.
+    \end{enumerate}
+    If any of the above is true, we write $\lim_{n\to\infty}\mu_n=\mu$ and say that $(\mu_n)_{n\in\mathbb{N}}$ converges weakly to $\mu$.
+\end{theorem}
+\begin{proof}
+~
+    \begin{itemize}
+        \item (a)$\implies$(b).
+        
+        Fix $\varepsilon>0$. Choose some $N\in\mathbb{N}$ such that
+        $$\mu(\{N+1,N+2,\ldots\})<\frac{\varepsilon}{4}$$
+        and sufficiently large $n_0\in\mathbb{N}$ such that
+        $$\sum_{k=0}^N |\mu_n(\{k\})-\mu(\{k\})| < \frac{\varepsilon}{4}\text{ for all $n\geq n_0$.}$$
+        Note that for any $n\geq n_0$, $\mu_n(\{N+1,N+2,\ldots\})<\frac\varepsilon2$. Therefore, for any $A\subseteq\mathbb{N}$ and $n\geq n_0$,
+        \begin{align*}
+            |\mu_n(A)-\mu(A)| &\leq \mu_n(\{N+1,N+2,\ldots\}) + \mu(\{N+1,N+2,\ldots\}) + \sum_{k\in A\cap\{0,1,\ldots,N\}} |\mu_n(\{k\})-\mu(\{k\})| \\
+            &\leq \varepsilon.
+        \end{align*}
+        This proves the result.
+        
+        \item (b)$\implies$(a).
+        
+        This is trivial.
+        
+        \item (a)$\iff$(c)$\iff$(d)
+        
+        This follows from \cref{pgfpowerseries}.
+    \end{itemize}
+\end{proof}
+
+When we are dealing with the binomial distribution for large $n$, it is usually inconvenient to calculate the terms. However, in the case where $n$ is very large and $p$ is very small such that $np=\lambda$ is of reasonable magnitude, then we can approximate $b_{n,p}$ by $\Poi_\lambda$. This is made rigorous as follows.
+
+\vspace{2mm}
+Let $(p_{n,k})_{n,k\in\mathbb{N}}$ such that $p_{n,k}\in[0,1]$. Let
+$$\lambda=\lim_{n\to\infty}\sum_{k=1}^\infty p_{n,k}\in(0,\infty) \text{ and }\lim_{n\to\infty}\sum_{k=1}^\infty p_{n,k}^2 = 0.$$
+An example of such a family would be $p_{n,k}=\lambda/n$ for $k\leq n$ and $p_{n,k}=0$ otherwise.
+
+For each $n\in\mathbb{N}$, let $(X_{n,k})_{k\in\mathbb{N}}$ be a family of independent random variables such that $X_{n,k}\sim\Ber_{p_{n,k}}$. For $n,k\in\mathbb{N}$, define
+$$S^n = \sum_{l=1}^\infty X_{n,l}\text{ and }S_k^n = \sum_{l=1}^k X_{n,l}.$$
+
+\begin{theorem}[Poisson Approximation]
+    With the above notation, the distributions $(\textbf{P}_{S^n})_{n\in\mathbb{N}}$ converge weakly to $\Poi_{\lambda}$.
+\end{theorem}
+\begin{proof}
+    % We first claim that for any $z\in[0,1]$, $\psi_{S^n}(z)=\lim_{k\to\infty}\psi_k^n(z)$. Note that $S^n_k$ and $S^n-S^n_k$ are independent and as a result, $\psi_{S^n}=\psi_{S^n_k}\cdot\psi_{S^n-S^n_k}$. This implies that
+    % \begin{align*}
+    %     1 &\geq \frac{\psi_{S^n}}{\psi_{S^n_k}} \\
+    %       &= \psi_{S^n-S^n_k} \\
+    %       &\geq \Pr[S^n-S^n_k = 0] \\
+    %       &= 1 - \Pr[S^n-S^n_k \geq 1] \\
+    %       &\geq 1 - \sum_{l=k+1}^\infty p_{n,l}
+    % \end{align*}
+    For any $z\in[0,1]$,
+    \begin{align*}
+        \psi_{S^n}(z) &= \prod_{l=1}^\infty (p_{n,l}z + 1-p_{n,l}) \\
+        &= \exp\left(\sum_{l=1}^\infty \log(p_{n,l}z + 1-p_{n,l})\right).
+    \end{align*}
+    Now, as $|\log(1-x)-x|\leq x^2$ for $|x|<\frac{1}{2}$, we have
+    $$
+        \left|\left(\sum_{l=1}^\infty \log(p_{n,l}z + 1-p_{n,l})\right) - \left((z-1)\sum_{l=1}^\infty p_{n,l}\right)\right| \leq \sum_{l=1}^\infty p_{n,l}^2.
+    $$
+    Taking the limit as $n\to\infty$, we have
+    $$\lim_{n\to\infty} \psi_{S^n}(z) = \exp\left((z-1)\sum_{l=1}^\infty p_{n,l}\right) = e^{\lambda(z-1)}.$$
+    As $\psi_{\Poi_{\lambda}} = e^{\lambda(z-1)}$, this completes the proof.
+\end{proof}
+
+For example, let $p_{n,k}$ be $\lambda/n$ if $k\leq n$ and $0$ otherwise. Then by the Poisson approximation, $\lim_{n\to\infty} b_{n,\frac{\lambda}{n}}=\Poi_{\lambda}$.
+
+\subsection{Branching Processes}
+
+Let $T,X_1,X_2,\ldots$ be $\mathbb{N}_0$-valued random variables and $S=\sum_{i=1}^T X_i$. Note that $S$ is measurable (and thus a random variable) as
+$$\{S=k\}=\bigcup_{i=0}^\infty \{T=i\}\cap\{X_1+\cdots+X_n=k\}.$$
+
+\begin{theorem}
+\label{pgfcomposition}
+    With the above notation, if $X_1,X_2,\ldots$ are all identically distributed, then $\psi_S=\psi_T\circ\psi_{X_1}$.
+\end{theorem}
+\begin{proof}
+    We have
+    \begin{align*}
+        \psi_S(z) &= \sum_{k=0}^\infty\Pr[S=k]z^k \\
+        &= \sum_{k=0}^\infty\sum_{i=0}^\infty \Pr[T=i]\Pr[X_1+\cdots+X_n=k]z^k \\
+        &= \sum_{i=0}^\infty \Pr[T=i](\psi_{X_1}(z))^n \\
+        &= (\psi_T\circ\psi_{X_1})(z).
+    \end{align*}
+\end{proof}
+
+Let $p_0,p_1,\ldots\in[0,1]$ such that $\sum_{i=0}^\infty p_i = 1$. Let $(X_{n,i})_{n,i\in\mathbb{N}_0}$ be an independent family of random variables such that $\Pr[X_{n,i}=k]=p_k$ for any $k,n,i\in\mathbb{N}$.
+
+\vspace{1mm}
+Let $Z_0=1$ and $Z_n=\sum_{i=1}^{Z_{n-1}} X_{n,i}$ for each $n\in\mathbb{N}$. This can be interpreted as the number of members in each generation of a family where the number of offspring each person has is random and given by $X_{n,i}$.
+
+\begin{definition}
+    $(Z_n)_{n\in\mathbb{N}_0}$ is called a \textit{Galton-Watson process} or \textit{branching process} with offspring distribution $(p_k)_{k\in\mathbb{N}_0}$
+\end{definition}
+
+Branching processes are easier to study with the assistance of generator functions. For $z\in[0,1]$, let
+$$\psi(z)=\sum_{k=0}^\infty p_k z^k.$$
+Recursively define
+$$\psi_1=\psi\text{ and }\psi_{n+1}=\psi_n\text{ for all }n\in\mathbb{N}.$$
+\begin{theorem}
+    $\psi_{Z_n}=\psi_n$ for all $n\in\mathbb{N}$.
+\end{theorem}
+\begin{proof}
+    We have $\psi_{Z_1}=\psi_1$ (by definition). By \cref{pgfcomposition}, $\psi_{Z_{n+1}} = \psi\circ\psi_{Z_{n}}$. The result follows inductively.
+\end{proof}
+
+Now, let us study the probability that the family dies out.
+
+Denote by $q_n=\Pr[Z_n=0]$ the probability that $Z$ is extinct by time $n$. Clearly, $q_n$ is monotone increasing in $n$. In the limiting case, we have the following.
+
+\begin{definition}
+    Let $(Z_n)_{n\in\mathbb{N}_0}$ be a branching process. We define its extinction probability by
+    $$q=\lim_{n\to\infty}\Pr[Z_n=0].$$
+\end{definition}
+
+A natural question to ask is: under what condition does the family definitely die out, that is, $q=1$? We clearly have $q\geq p_0$ since $q_n$ is monotone increasing and $q=\lim_{n\to\infty}q_n$. If $p_0=0$, then $Z_n$ is monotone increasing in $n$ and as a result, $q=0$ as well.
+
+\begin{theorem}[Extinction Probability of a Branching Process]
+    Let $(Z_n)_{n\in\mathbb{N}_0}$ be a branching process with offspring distribution $(p_k)_{k\in\mathbb{N}_0}$ such that $p_1\neq 1$. Then
+    \begin{enumerate}[(a)]
+        \item $\{r\in[0,1]:\psi(r)=r\}=\{q,1\}$.
+        \item The following holds:
+        $$q<1\iff \lim_{z\to 1}\psi'(z)>1\iff \sum_{k=1}^\infty kp_k>1.$$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    ~
+    \begin{enumerate}[(a)]
+        \item Let $F=\{r\in[0,1]:\psi(r)=r\}$.
+        %F for "Fixed"
+        Clearly, $1\in F$ as $\psi(1)=1$. Note that $q_n=\psi_n(0)=\psi(q_{n-1})$ for all $n\in\mathbb{N}$. As $\psi$ is continuous,
+        $$\psi(q)=\psi\left(\lim_{n\to\infty} q_n\right)=\lim_{n\to\infty}\psi(q_n)=\lim_{n\to\infty} q_{n+1}=q.$$
+        Thus $q\in F$.
+        
+        We next claim that $q=\min F$. Let $r\in F$. Then $r\geq 0= q_0$. If $r\geq q_n$ for some $n\in\mathbb{N}$, then as $\psi$ is monotone increasing, $r=\psi(r)\geq\psi(q_n)=q_{n+1}$.
+        
+        Inductively, $r\geq q_n$ for every $n\in\mathbb{N}$. The claim follows. We complete the remainder of the proof in the second part.
+        
+        \item The second equivalence follows by \cref{pgfpowerseries}. For the first equivalence, consider the following two cases.
+        \begin{itemize}
+            \item $\lim_{z\to 1}\psi'(z)\leq 1$. Since $\psi$ is strictly convex, it follows that $\psi(z)>z$ for all $z\in[0,1)$ and so $F=\{1\}$. By the first part of the proof, $q=1$.
+            
+            \item $\lim_{z\to 1}\psi'(z)> 1$. Since $\psi$ is strictly convex and $\psi(0)\geq 0$, there is some unique $r\in(0,1)$ such that $\psi(r)=r$. Then $F=\{r,1\}$ and by the first part, $q=\min F=r<1$.
+        \end{itemize}
+    \end{enumerate}
+    This completes the proof.
+\end{proof}
+
+\clearpage

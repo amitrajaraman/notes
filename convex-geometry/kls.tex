@@ -229,10 +229,13 @@ It is seen that $M_2(K)$ is the trace of $A(K)$. Further, the average squared di
 \[ \frac{1}{\vol(K)^2} \int_K \int_K \norm{x-y}^2\d{x}\d{y} = 2M_2(K). \]
 It is seen that as $p\to\infty$, $M_p(K)^{1/p}$ converges to $\sup_{x\in K} \norm{x-b}$.
 
-\begin{fdef}
-	A body $K$ is said to be in \textit{isotropic position} if $b=0$ and $A(K)=I$, the identity matrix.\footnotemark
+\begin{fdef}[Isotropic]
+	A body $K$ is said to be in \textit{isotropic position} if $b=0$ and $A(K)=I$, the identity matrix.\footnotemark\\
+	Similarly, a function $f:\Rn\to[0,\infty)$ is said to be \textit{isotropic} if its covariance matrix is the identity matrix.
 \end{fdef}
 \footnotetext{Some texts use $\vol(K)=1$ and $A(K)=\lambda_K I$ for some constant $\lambda_K$. It remains an open problem as to whether the value of $\lambda_K$ across convex bodies $K\subseteq\Rn$ is bounded above.}
+
+Observe that a convex body is in isotropic position iff its indicator function is isotropic.
 
 It may be shown the affine family of a convex body (the set of its image under affine transformations) has a unique body in isotropic position.\\
 First, let us show how isotropic position is related to sandwiching.
@@ -365,10 +368,10 @@ The above can be proved by projecting the body onto the $u$-axis and considering
 \begin{fcon}[KLS Conjecture]
 	\label{con: kls conjecture}
 	There is a constant $c$ (independent of dimension) such that for any log-concave density $p$ on $\Rn$,
-	\[ \psi_p \geq c \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
+	\[ \psi_p \geq c \cdot \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
 \end{fcon}
 
-\Cref{kls conj hyperplane} and the \nameref{con: kls conjecture} together assert that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
+The \nameref{con: kls conjecture} asserts that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
 
 \cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
 \[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
@@ -380,24 +383,33 @@ Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by 
 \[ \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}} \gtrsim \frac{1}{\sqrt{\opnorm{A}}}, \]
 where $A$ is the covariance matrix of $p$ and $\opnorm{A}$ is the largest eigenvalue of $A$.
 
-In this context, the \nameref{con: kls conjecture} says 
+In this context, the \nameref{con: kls conjecture} can be restated as follows. 
 
-\begin{fcon}[KLS Conjecture]
+\begin{fcon}[KLS Conjecture (Reformulated)]
 	\label{con: kls conjecture reformulated}
 	For any log-concave density $p$ with covariance matrix $A$, $\psi_p \gtrsim \opnorm{A}^{-1/2}$. Equivalently, $\psi_p\gtrsim 1$ for any isotropic log-concave density $p$.
 \end{fcon}
+
+\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.
 
 In this section, we look at a few consequences of the KLS Conjecture.
 
 \subsubsection{The Slicing Conjecture}
 
-The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.\\
-Equivalently, it says that there is not too much volume right around the origin.
+The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.
 
-\begin{definition}[Isotropic Slicing Constant]
+\begin{fcon}[Slicing Conjecture]
+	Any centrally symmetric body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
+	\[ \vol_{n-1}(K \cap H) \gtrsim 1. \]
+\end{fcon}
+
+\cite{slicing-conjecture-equivalent} showed that the above is in fact equivalent to asking how much volume is present around the origin. This makes sense because if a large proportion of volume is there (isotropically) around the origin, then no hyperplane will intersect a lot of volume.\\
+Motivated by this intuition, define
+
+\begin{definition}[Slicing Constant]
 	For any isotropic log-concave density $p$ on $\Rn$, define the \textit{isotropic (slicing) constant} by $L_p = p(0)^{1/n}$.
 \end{definition}
 
-\begin{fcon}[Slicing Conjecture]
+\begin{fcon}[Slicing Conjecture (Reformulated)]
 	For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p$ is $\mathcal{O}(1)$.
 \end{fcon}
