@@ -208,6 +208,7 @@ The edge disjoint paths problem asks to determine the maximum number of disjoint
 We claim that this quantity is equal to the maximum flow in the graph if each edge is assigned a capacity of $1$.
 
 \begin{lemma}
+	\label{edge disjoint paths}
 	The max flow value of $G$ is at least $k$ iff $G$ has $k$ edge disjoint paths.\\
 	It follows that the max flow value of $G$ is $k$ iff the maximum number of edge disjoint paths in $G$ is $k$.
 \end{lemma}
@@ -230,5 +231,49 @@ The network connectivity problem asks to determine what the smallest $F\subseteq
 	The maximum number of edge-disjoint $s$-$t$ paths in a graph is equal to the minimum number of edges whose removal disconnects $t$ from $s$.
 \end{theorem}
 \begin{proof}
-	Suppose the graph has capacities as defined in \Cref{subsubsec: edge-disjoint paths}). The first quantity, as we have seen, is equal to the max-flow. The quantity on the right on the other hand, is equal to the capacity of the min-cut (by definition). The required follows.
+	Suppose the graph has capacities as defined in \Cref{subsubsec: edge-disjoint paths}. The first quantity, as we have seen, is equal to the max-flow. The quantity on the right on the other hand, is equal to the capacity of the min-cut (by definition). The required follows.
 \end{proof}
+
+\subsubsection{Maximum Bipartite Matching}
+
+Given an undirected bipartite graph $G=(V,E)$ with $V=X\cup Y$ such all edges are between $X$ and $Y$, the problem asks to find a largest set $M\susbeteq E$ such that for any $e,e'\in M$, $e,e'$ do not share any common vertex.
+
+This can be formulated as a max-flow problem. Create a directed graph $G' = (V',E')$ with vertex set $V' = V\cup\{s,t\}$ for some fresh vertices $s,t$ and edge set
+\[ E' = \{\vv{xy}: x\in X, y\in Y, xy\in E\} \cup \{\vv{sx} : x\in X\} \cup \{\vv{yt} : y\in Y\}. \]
+Further, assign a capacity of $1$ to each edge.\\
+The maximum bipartite matching is then just the value of a max-flow from $s$ to $t$!
+
+Before getting to the proof of the above, we give the following useful lemma.
+
+\begin{lemma}
+	\label{lem: max bi match}
+	Let $f$ be a flow in the flow network $G$ with source $s$ and sink $t$. Let $(S,T)$ be a cut in $G$. Then the net flow across the cut, that is, the flow leaving $S$ minus the flow entering $S$, equals $|f|$.
+\end{lemma}
+\begin{proof}
+	This is proved as
+	\begin{align*}
+		|f| &= f^\to(s) + \sum_{v\in S\setminus\{s\}} f^\to(v) - f^\ot(v) \\
+			&= \sum_{v\in S} f^\to(v) - \sum_{v\in S\setminus\{s\}} f^\ot(v) \\
+			&= f^\to(S) - f^\ot(S).
+	\end{align*}
+\end{proof}
+
+\begin{lemma}
+	Let $G$ be a bipartite graph and $G'$ be the flow network defined above. Then,
+	\begin{itemize}
+		\item if $M$ is a matching in $G$, there is an integer valued flow $f$ in $G'$ such that $|f|=|M|$.
+		\item if $f$ is an integer valued flow in $G'$, there is a matching $M$ in $G$ such that $|M|=|f|$.
+	\end{itemize}
+	In particular, the max-flow value of $G'$ is equal to the size of a maximum matching of $G$.
+\end{lemma}
+\begin{proof}
+	The first part is direct, since we can construct a flow $f$ such that for each edge $e = \vv{xy}\in M$ with $x\in X$ and $y\in Y$, $f(\vv{sx})=f(\vv{xy})=f(\vv{yt})=1$ and $f(e)=0$ for the remaining edges $e$. The fact that $f$ is a flow follows from the fact that $M$ is a matching, so the conservation constraints are satisfied. The capacity constraints are trivially satisfied. Moreover, the value of $f$ is equal to the cardinality of $M$, that is, $|f|=|M|$.\\
+
+	Let us now prove the other direction. Clearly, for each $e\in E'$, $f(e)$ is $0$ or $1$. Define
+	\[ M = \{e\in E'\cap E : f(e)=1\}. \]
+	This is just the set of edges from $X$ to $Y$ that carry non-zero flow.\\
+	Observe that because $f$ is a flow, each vertex in $X$ or $Y$ is present in at most one edge in $M$. Indeed, any vertex in $X$ (resp. $Y$) has an incoming (resp. outgoing) flow of at most $1$ and if it is present in more than one edge, the outgoing (resp. incoming) flow would be greater than $1$, contradicting the conservation constraint.\\
+	Therefore, $M$ is a matching. Using \Cref{lem: 1} on the cut $(X\cup\{s\},Y\cup\{t\})$, $|f| = f^\to(S) - f^\ot(S) = |M|$, proving the required.
+\end{proof}
+
+The above could have been proved in a more direct way using \Cref{edge disjoint paths}.
