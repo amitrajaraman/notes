@@ -251,3 +251,173 @@ Life is made much easier if we restrict ourselves to continuous paths, that is, 
 \begin{theorem}[Martingale Convergence Theorem]
 	Let $M_t$ be a martingale and suppose that each $M_t$ has continuous sample paths. If $\sup_t\expec[|M_t|]<\infty$, $\sup_t\expec[(M_t)^+]<\infty$, or $\sup_t \expec[(M_t)^-]<\infty$, then there exists a $\mathcal{F}_\infty$-measurable random variable $M_\infty\in\mathcal{L}^1$ such that $M_t\to M_\infty$ almost surely.
 \end{theorem}
+
+\subsection{The Wiener Process}
+
+Brownian motion, which is the main focus of this section, can be thought of as the limit of a random walk such that the time step and the mean square displacement both go to $0$. We wish to show that this is in fact well-defined.
+
+\subsubsection{Introduction and Definitions}
+
+Let $\xi_n$ be iid random variables each with $0$ mean and unit variance and define
+\begin{equation}
+	\label{eqn: donsker wiener}
+	x_t(N) = \sum_{n=1}^{\lfloor Nt\rfloor} \frac{\xi_n}{\sqrt{N}}.
+\end{equation}
+The Wiener process is just some suitable limit of this sequence. The mere existence of a stochastic process which is the limit of the above, as we have remarked already, is not obvious and we shall construct this process explicitly.
+
+The basic tool which comes to mind to do this is the central limit theorem. Unfortunately, that does not work here because we have an uncountable collection of random variables (since there is a random variable for each $t\in[0,T]$). We \textit{can} fix the limiting distribution at some finite number of time steps $x_{t_1}(N),\ldots,x_{t_n}(N)$ however. That is,
+
+\begin{lemma}
+	\label{finite wiener}
+	For any finite set of times $t_1<\cdots<t_n$ ($n<\infty$), the $n$-dimensional random variable $(x_{t_1}(N),\ldots,x_{t_n}(N))$ converges in law as $N\to\infty$ to an $n$-dimensional random variable $(x_{t_1},\ldots,x_{t_n})$ such that $x_{t_1}, x_{t_2}-x_{t_1},\ldots,x_{t_n}-x_{t_{n-1}}$ are each independent Gaussian random variables with $0$ mean and variance $t_1,t_2-t_1,\ldots,t_{n}-t_{n-1}$.
+\end{lemma}
+
+The above is easily proved since the increments $x_{t_k}(N) - x_{t_{k-1}}(N)$ are independent for any $N$.
+
+Before getting to the definition of a Wiener process, we state the following, which justifies why we can think of the Wiener process to be continuous.
+
+\begin{lemma}
+	Suppose we have constructed some stochastic process $x_t$ whose finite dimensional distributions as those of \Cref{finite wiener}. Then, $x_t$ has a modification $\tilde{x}_t$ such that $t\mapsto\tilde{x}_t$ is continuous.
+\end{lemma}
+
+The proof of the above is quite similar to the proof we give later of the existence of a Wiener process.
+
+\begin{fdef}
+	\label{def: wiener}
+	A stochastic process $W_t$ is called a \textit{Wiener process} if
+	\begin{itemize}
+		\item the finite dimensional distributions of $W_t$ are those of \Cref{finite wiener} and
+		\item the sample paths of $W_t$ are continuous.
+	\end{itemize}
+\end{fdef}
+
+An $\Rn$-valued process $W_t = (W_t^1,\ldots,W_t^n)$ is called an \textit{$n$-dimensional Wiener process} if $W_t^1,\ldots,W_t^n$ are independent Wiener processes.
+
+\subsubsection{Existence and Uniqueness}
+
+To show that a Wiener process is well-defined, we must establish existence and some sort of uniqueness. We first show uniqueness.
+
+\begin{lemma}
+	If $W_t$ and $W_t'$ are Wiener processes, then the $C([0,\infty))$-valued random variables $W_{\cdot},W'_{\cdot}:\Omega\to C([0,\infty))$ have the same law.\footnote{Two random variables having the same law means that they induce the same probability measure on the measurable space.}
+\end{lemma}
+
+The reader might be wondering exactly what $\sigma$-algebra $\mathcal{C}$ we are taking on $C([0,\infty))$. We have two options:
+\begin{itemize}
+	\item For each $t$, consider the evaluation map $\pi_t:C([0,\infty))\to\R$, $\pi_t(x)=x_t$. Then set $\mathcal{C}=\sigma\{\pi_t : t\in[0,\infty)\}$.
+	\item Take the natural topology on $C([0,\infty))$ as the topology of uniform convergence on compact intervals. Then, take $\mathcal{C}$ as the Borel $\sigma$-algebra with respect to this topology.
+\end{itemize}
+It turns out that these two $\sigma$-algebras are the same, so our intention is unambiguous.
+
+\begin{proof}
+	First, we must show that $W_{\cdot}$ and $W_{\cdot}'$ are in fact measurable (and thus random variables). Since $W_t$ is measurable for every $t$ (it is a stochastic process), $W_t^{-1}(A)\in\mathcal{F}$ for any $A\in\mathcal{B}(\R)$. Note that $W_t = \pi_t\circ W_\cdot$.\\
+	Now, by our earlier remark, $\mathcal{C} = \sigma\{\pi_t^{-1}(A) : A\in\mathcal{B}(\R), t\in[0,\infty)\}$, so
+	\[ W_{\cdot}^{-1}(\mathcal{C}) = \sigma\{W_t^{-1}(A) : A\in\mathcal{B}(\R), t\in[0,\infty)\}\subseteq \mathcal{F}. \]
+	Therefore, $W_{\cdot}$ is a $[0,\infty)$-valued random variable (and so is $W_{\cdot}'$).\\
+
+	Next, we must show that the two random variables have the same law, that is, they induce the same probability measure on $(C([0,\infty)),\mathcal{C})$. To do this, we use Dynkin's $\pi$-system lemma. Consider the $\pi$-system
+	\[ \mathcal{C}_{\text{cyl}} = \{ \pi_{t_1}(A_1)\cap\cdots\cap\pi_{t_n}(A_n) : t_1,\ldots,t_n\in[0,\infty) \text{ and } A_1,\ldots,A_n\in\mathcal{B}(\R) \}. \]
+	Now, by definition, the finite-dimensional distributions of $W_{\cdot}$ and $W_{\cdot}'$ are equal, so the laws coincide on $\mathcal{C}_\text{cyl}$. The required follows on using Dynkin's $\pi$-system lemma.
+\end{proof}
+
+Next, how do we show existence? First of all, note that it would suffice to construct a Wiener process on $[0,1]$ alone. We can then iterate to get it on the succeeding intervals. That is,
+\begin{lemma}
+	Let $\{W_t : t\in[0,1]\}$ be a stochastic process on $(\Omega,\mathcal{F},P)$ that satisfies \Cref{def: wiener}. Then there exists a stochastic process $\{W_t' : t\in[0,\infty)\}$ on a probability space $(\Omega',\mathcal{F}',P')$ that satisfies $\Cref{def: wiener}$ for all $t$.
+\end{lemma}
+
+The proof follows by setting $\Omega'=\Omega\times\Omega\times\cdots$, $\mathcal{F}'=\mathcal{F}\times\mathcal{F}\times\cdots$, and $P'=P\times P\times\cdots$ with each $\Omega$ carrying iid $\{W_t^n : t\in[0,1] \}$, then checking that $W_t' = \sum_{k=1}^{\lfloor t\rfloor} W_1^k + W_{t-\lfloor t\rfloor}^{\lfloor t\rfloor+1}$ satisfies the required.\\
+
+So, to show existence on $[0,1]$, the basic idea is to define a sequence $W_t^n$ of random walks with continuous sample paths, such that $\sum_n \sup_{t\in[0,1]} |W_t^n - W_t^{n+1}| < \infty$ almost surely. This would imply that they almost surely uniformly converge to some stochastic process $W_t$ and further, this $W_t$ has continuous sample paths.\\
+If this is the case, the structure of the finite dimensional distributions is then easy to see.\\
+
+So how do we construct these random walks?\\
+The random walk $W_t^n$ consists of $2^n$ points with the adjacent ones connected by straight lines. To go from $W_t^n$ to $W_t^{n+1}$, we insert $2^n$ more points between the old points. That is, we keep adding detail to make the curve finer and finer. The question is: how do we add these points to make the limiting curve have the required characteristics?\\
+By our construction, the points of $W_{k2^{-n}}^{n}$ are already as in \Cref{finite wiener}. In particular, $W_{(k+1)2^{-n}}^n - W_{k2^{-n}}^n$ is independent of $W_{k2^{-n}}$ for any $k$. Now, given $W_t^n$, let
+\[ Y_0 = W_{k2^{-n}}^{n+1} = W_{k2^{-n}}^n \text{ and } Y_1 = W_{(k+1)2^{-n}}^{n+1} = W_{(k+1)2^{-n}}^{n}. \]
+We wish to choose a $X = W_{(2k+1)2^{-(n+1)}}^{n+1}$ such that $Y_1 - X$ and $X - Y_0$ are Gaussian with mean $0$ and variance $2^{-n}$, and $Y_1-X$, $X-Y_0$, and $Y_0$ are independent. It is not too difficult to check that $(Y_0 + Y_1)/2 + 2^{-(n+1)/2}\xi$ does the job, where $\xi$ is standard normal and independent of $Y_0$ and $Y_1$.\\
+
+Now, let us make the recursion less explicit. These tent-like interpolations we have performed are known as \textit{Schauder functions}.\\
+For $n=0,1,\ldots$ and $k=1,3,\ldots,2^n-1$, define the \textit{Haar wavelet} $H_{n,k}(t)$ as
+\[
+	H_{0,1}(t) = 1
+	H_{n,k}(t) =
+	\begin{cases}
+		2^{(n-1)/2}, & (k-1)2^{-n} < t \leq k2^{-n}, \\
+		-2^{(n+1)/2}, & k2^{-n} < t \leq (k+1)2^{-n}, \\
+		0, & \text{otherwise.}
+	\end{cases}
+\]
+The Schauder functions are then defined as
+\[ S_{n,k}(t) = \int_0^t H_{n,k}(s)\d{s}. \]
+The $N$th random walk is then defined as
+\[ W_t^N = \sum_{n=0}^N \sum_{k=1,3,\ldots,2^n-1} \xi_{n,k} S_{n,k}(t), \]
+where the $\xi_{n,k}$ are iid standard normal.\\
+Now, we must show that these converge uniformly to prove the required.
+We have
+\begin{align*}
+	\Pr\left[\sup_{t\in[0,1]} |W_t^n - W_t^{n-1}| > \varepsilon_n\right] &= \Pr\left[\sup_{k = 1,3,\ldots,2^{n-1}} |\xi_{n,k}| > 2^{(n+1)/2}\varepsilon_n\right] \\
+		&\leq \sum_{k=1,3,\ldots,2^{n-1}} \Pr\left[|\xi_{n,k}| > 2^{(n+1)/2}\varepsilon_n\right] \\
+		&= \sum_{k=1,3,\ldots,2^{n-1}} \Pr\left[|\xi_{0,1}| > 2^{(n+1)/2}\varepsilon_n\right] \\
+		&= \sum_{k=1,3,\ldots,2^{n-1}} 2\Pr\left[e^{\xi_{0,1}} > \exp\left(2^{(n+1)/2}\varepsilon_n\right)\right] \\
+		&\leq \sum_{k=1,3,\ldots,2^{n-1}} 2\exp(-2^{(n+1)/2}\varepsilon_n) \expec[e^{\xi_{0,1}}] \\
+		&= \exp\left(n\log 2 + 1/2 - 2^{(n+1)/2}\varepsilon_n\right).
+\end{align*}
+
+Setting $\varepsilon_n = n^{-2}$,
+\[ \sum_{n=1}^\infty \Pr\left[\sup_{t\in[0,1]} |W_t^n - W_t^{n-1}| > n^{-2} \right] < \infty. \]
+Using the Borel-Cantelli lemma, we infer that
+\[ \sup_{t\in[0,1]} |W_t^n - W_t^{n-1}| \leq n^{-2} \]
+almost surely for sufficiently large $n$. Therefore,
+\[ \sum_{n=1}^\infty \sup_{t\in[0,1]} |W_t^n - W_t^{n+1}| < \infty \]
+almost surely. Setting the sample paths of a null set to $0$ is an indistinguishable change, so the $W_t^n$ converge uniformly to $W_t$, which is continuous. Finally, we must check that $W_t$ has the correct finite-dimensional distributions. This is equivalent to showing that for any $t>s>r$, $W_t-W_s$ and $W_r$ are independent.\\
+To do this, a result states that it suffices to show that
+\[ \expec[e^{i\alpha W_r + i\beta(W_t-W_s)}] = e^{\alpha^2r/2 - \beta^2(t-s)/2}. \]
+Showing this however, is direct by considering a sequence of dyadic rationals -- numbers of the form $k2^{-n}$ that converge to $s$ and $t$, then using dominated convergence and the continuity of $W_t$.
+
+\subsubsection{Some Properties}
+
+\begin{definition}
+	Let $\mathcal{F}_t$ be a filtration. A Wiener process $W_t$ is said to be a \textit{$\mathcal{F}_t$-Wiener process} if $W_t$ is $\mathcal{F}_t$-adapted and $W_t-W_s$ is independent of $\mathcal{F}_s$ for any $t>s$.\\
+	Given a Wiener process $\mathcal{F}_t$, we also define its \textit{natural filtration} $\mathcal{F}_t^W = \sigma\{W_s : s\leq t\}$.
+\end{definition}
+
+It is not too difficult to show that a $\mathcal{F}_t$-Wiener process is a $\mathcal{F}_t$-martingale.
+
+\begin{definition}
+	A $\mathcal{F}_t$-adapted process $X_t$ is called a \textit{$\mathcal{F}_t$-Markov process} if $\expec[f(X_t)\mid\mathcal{F}_s] = \expec[f(X_t)\mid X_s]$ for all $t\geq s$ and all bounded measurable functions $f$.
+\end{definition}
+
+\begin{lemma}
+	A $\mathcal{F}_t$-Wiener process is a $\mathcal{F}_t$-Markov process.
+\end{lemma}
+
+Intuitively, the sample paths of the Wiener process should be very irregular due to the randomness. This is stated better as:
+
+\begin{lemma}
+	With unit probability, the sample paths of a Wiener process are non-differentiable at any rational time $t$.
+\end{lemma}
+\begin{proof}
+	Suppose that $W_t$ is differentiable at some $t$. Then for sufficiently small $h$, $(W_{t+h}-W_t)/h < M$ for some finite $M$. This implies that $\sup_{n\geq 1} n|W_{t+n^{-1}} - W_t| < \infty$. Now,
+	\begin{align*}
+		\Pr[\sup_{n\geq 1} n|W_{t+n^{-1}} - W_t| < \infty ] &\leq \Pr\left[\bigcup_{M\geq 1} \bigcap_{n\geq 1} \{n|W_{t+n^{-1}} - W_t| < M\} \right] \\
+			&\leq \lim_{M\to\infty} \inf_{n\geq 1} \Pr[n|W_{t+n^{-1}} - W_t| < M].
+	\end{align*}
+	However, $W_{t+n^{-1}} - W_t$ is Gaussian with mean $0$ and variance $n^{-1}$. As a result,
+	\[ \inf_{n\geq 1} \Pr[n|W_{t+n^{-1}} - W_t| < M] = \inf_{n\geq 1} \Pr[|\xi| < Mn^{-1/2}] = 0, \]
+	where $\xi$ is standard normal. Therefore, $W_t$ is almost surely not differentiable at $t$. Since the set of rational numbers is countable, the result follows.
+\end{proof}
+
+For any real-valued function $f$, define the \textit{total variation} of $f$ on the interval $[a,b]$ by
+\[ \TV(f,a,b) = \sup_{k\geq 0} \sup_{(t_i) \in P(k,a,b)} \sum_{i=0}^k |f(t_{i+1}) - f(t_i)|, \]
+where $P(k,a,b)$ is the set of partitions $t_0 = a < t_1 < \cdots < t_{k+1} = b$ of $[a,b]$.\\
+This is essentially the ``distance'' travelled to go from $a$ to $b$ along the curve.
+
+\begin{lemma}
+	With unit probability, $\TV(W_{\cdot},a,b)=\infty$ for any $a<b$.
+\end{lemma}
+
+The main goal of this is to give meaning to the stochastic integral, of the form $\int_0^t f_s \d{W}_s$. However, the above makes this highly problematic. Indeed, it may be shown that if a function $g$ is of infinite total variation, there is a continuous function $f$ such that the usual Stieltjes integral of $f$ with respect to $g$ does not exist.\\
+How do we fix this then? The idea in fact arises by considering the total \textit{squared} variation instead. Note that
+\[ \lim_{n\to\infty} \sum_{t_i \in \pi_n} (W_{t_{i+1} - W_{t_i}})^2 = b-a \]
+almost surely for some sequence of partitions $\pi_n$.\\
+
+Finally, it is interesting to know that the $x_t(N)$ described in \Cref{eqn: donsker wiener} do in fact converge in law to a Wiener process.
