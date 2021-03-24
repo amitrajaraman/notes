@@ -1,3 +1,133 @@
 \section{The It\^{o} Integral and Stochastic Differential Equations}
 
-Henceforth, 
+\subsection{The It\^{o} Integral: Motivations and Definitions}
+
+\subsubsection*{Motivations}
+
+For a moment, let us look at a more physical notion -- that of white noise. Given a discrete time signal $(a_n)$, we model the received signal by $x_n = a_n + \xi_n$, where the $\xi_n$ are iid Gaussian random variables with zero mean. This is discrete time white noise, often known as Additive White Gaussian Noise (AWGN).\\
+How would this extend to continuous time? If we associate a standard normal $\xi_t$ for each $t\in\R^{\geq 0}$ such that $\expec[\xi_s\xi_t]=0$ for $s\neq t$, then if we let $\Xi_\varepsilon = \frac{1}{\varepsilon} \int_0^\varepsilon \xi_s\d{s}$, then it is seen that $\expec[\Xi_\varepsilon] = \Var[\Xi_\varepsilon] = 0$. This doesn't make any sense, because it would mean that observing the received signal for an arbitrarily small time from $0$ would allow us to completely determine what the transmitted signal at time $0$ was. This isn't ``noise'' then, so how do we fix it?\\
+In AWGN, the corrupting noise in any unit time interval is a zero mean Gaussian (with say, unit variance), so maybe we would want that the average white noise in unit time $\Xi_1$ is standard normal. We also want that $\xi_t$ and $\xi_s$ are independent for $t\neq s$. This just means that $\int \xi_s \d{s} = W_t$! However, we have seen that $W_t$ is almost surely non-differentiable, so $\xi_t$ is not really a function. That is, a mathematical model for white noise does not exist, at least within this current theory.\footnote{Certain theories of generalized stochastic processes do lead to a mathematical model for white noise, but we shall not study these.}\\
+However, fortunately, it turns out that most of the things we want to do work out if we just stick to working with the Wiener process instead of the white noise itself.\\
+Indeed, in the signal analogy, if $(a_t)$ was transmitted, then the received signal would be $x_t = a_t + \xi_t$. This is not meaningful, but integrating on either side, we get
+\[ X_t = \int_0^t (a_s + \xi_s)\d{s} = \int_0^t a_s\d{s} + W_t.  \]
+Instead of attempting to estimate $a_t$ from $x_t$, we could instead try to solve this problem with $X_t$, fixing our problem.\\
+
+\subsubsection{An Elementary Definition}
+
+Henceforth, in this section, fix a filtered probability space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in[0,\infty)},\Pbb)$ and a $\mathcal{F}_t$-Wiener process $W_t$. The stochastic integrals are defined with respect to $W_t$.
+
+Let us now get to a more mathematical formulation of the above handwavy argument. Similar to how we define a general measure-theoretic integral, we begin by defining the It\^{o} integral for a suitable class of ``simple'' functions. Finally, we aim to define it for the set of stochastic processes that are $\mathcal{F}_t$ adapted. We take the relevant limits in $\mathcal{L}^2$.\\
+
+Let $X_t^n$ be a $\mathcal{F}_{t_i}$-adaptable random variable in $\mathcal{L}^2$ that is constant for $t_i \leq t < t_{i+1}$, where $t_i$ for $i=0,\ldots,N+1$ is a finite set of \textit{non-random} jump times, with the convention that $t_0 = 0$ and $t_{N+1} = T$. For this \textit{simple} integrand, we define the stochastic integral
+\[ I(X^n) = \int_0^T X_t^n \d{W_t} = \sum_{i=0}^N X_{t_i}^n (W_{t_{i+1}} - W_{t_i}). \]
+We aim to extend this definition to a more general class of function. To do so, define the following \textit{It\^{o} Isometry}:
+\begin{equation}
+	\label{eqn: ito isometry}
+	\expec\left[\left(\int_0^T X_t^n \d{W}_t\right)^2\right] = \sum_{i=0}^N \expec[(X_{t_i}^n)^2] (t_{i+1} - t_i) = \expec\left[\int_0^T (X_t^n)^2 \d{t} \right]
+\end{equation}
+Observe that the adaptability is required for the independence of $X_{t_i}^n$ and $W_{t_{i+1}} - W_{t_i}$ and the $\mathcal{L}^2$ condition is required for $\expec[(X_{t_i}^n)^2]$ to be defined.\\
+$I(X^n_\cdot)$ is a random variable in $\mathcal{L}^2$. It is easier to analyze the above equation if we just think of $X_n$ as a measurable map from $[0,T]\times\Omega\to\R$ for now. Let $\mu_T$ be the Lebesgue measure on $[0,T]$. Denote by $\norm{\cdot}_{2,\mu}$ the $\mathcal{L}^2$-norm with respect to the measure $\mu$. Then, \eqref{eqn: ito isometry} just says
+\begin{equation}
+	\label{eqn: ito isometry 2}
+	\norm{I(X_n)}_{2,\Pbb} = \norm{X_n}_{2,\mu_T\times\Pbb}.
+\end{equation}
+This is precisely why the equation is an isometry -- the map $I : \mathcal{L}^2(\Pbb) \to \mathcal{L}^2(\mu_T\times\Pbb)$ preserves $\mathcal{L}^2$-distance (at least when applied to adapted integrands)!\\
+
+\begin{lemma}
+	Let $X_\cdot \in \mathcal{L}^2(\mu_T\times\Pbb)$ and suppose there exists a sequence of $\mathcal{F}_t$-adapted simple processes $X_\cdot^n \in \mathcal{L}^2(\mu_T\times\Pbb)$ such that
+	\begin{equation}
+		\label{eqn: extending ito beyond simple}
+		\norm{X_\cdot^n - X_\cdot}_{2,\mu_T\times\Pbb}^2 = \expec\left[\int_0^T (X_t^n - X_t)^2 \d{t} \right] \xrightarrow[]{n\to\infty} 0.
+	\end{equation}
+	Then $I(X_\cdot)$ can be defined as the limit in $\mathcal{L}^2(\Pbb)$ of the simple integrands $I(X^n_\cdot)$ and further, this definition does not depend on the choice of simple approximations of $X_\cdot^n$.
+\end{lemma}
+\begin{proof}
+	As $m,n\to\infty$,
+	\[ \norm{X_\cdot^m - X_\cdot^n}_{2,\mu_T\times\Pbb} \leq \norm{X_\cdot^m - X_\cdot}_{2,\mu_T\times\Pbb} + \norm{X_\cdot - X_\cdot^n}_{2,\mu_T\times\Pbb} \to 0. \]
+	By \eqref{eqn: ito isometry 2}, $\norm{I(X_m) - I(X_n)}_{2,\Pbb}\to 0$ as $m,n\to\infty$ as well. That is, $I(X_\cdot^n)$ is a Cauchy sequence in $\mathcal{L}^2(\Pbb)$. Let $I(X_\cdot)$ be the limit of this sequence.\\
+	Now, let $Y_\cdot^n$ be another $\mathcal{F}_t$-adapted simple process that satisfies \eqref{eqn: extending ito beyond simple} and let $I(X_\cdot^n)$ converge to $I(Y_\cdot)$ in $\mathcal{L}^2(\Pbb)$. Then,
+	\[ \norm{I(Y_\cdot) - I(X_\cdot)}_{2,\Pbb} \leq \norm{I(Y_\cdot) - I(Y_\cdot^n)}_{2,\Pbb} + \norm{I(Y_\cdot^n) - I(X_\cdot^n)}_{2,\Pbb} + \norm{I(X_\cdot^n) - I(X_\cdot)}_{2,\Pbb}. \]
+	The first and last terms converge to $0$ by definition and the above argument, and the second argument can be shown to do the same using \eqref{eqn: ito isometry 2}.\\
+	Therefore, $I(Y_\cdot) = I(X_\cdot)$ almost surely, proving the claim.
+\end{proof}
+
+Now, the question is: what functions $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ can be approximated as a sequence of $\mathcal{F}_t$-adapted simple processes (as in \eqref{eqn: extending ito beyond simple})?\\
+It turns out that this is the case for any $\mathcal{F}_t$-adapted process.
+
+\begin{lemma}
+	Let $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ be $\mathcal{F}_t$-adapted. Then, there is a sequence of $\mathcal{F}_t$-adapted simple processes $X_\cdot^n\in\mathcal{L}^2(\mu_T\times\Pbb)$
+\end{lemma}
+
+In the case where $X_\cdot$ is bounded and has continuous sample paths, the simple functions defined by $X_t^n = X_{k2^{-n}}$, where $k2^{-n}T \leq t < (k+1)2^{-n}T$ gets the job done -- this is not too difficult to show using the Dominated Convergence Theorem.\\
+While it is not very complicated, we omit the rest of the proof of the above.
+
+\begin{definition}[Elementary It\^{o} Integral]
+	Let $X_t$ be any $\mathcal{F}_t$-adapted process in $\mathcal{L}^2(\mu_T\times\Pbb)$. Then the It\^{o} integral $I(X_\cdot)$, defined as the limit in $\mathcal{L}^2(\Pbb)$ of simple integrals $I(X_\cdot^n)$ exists and is unique (is independent of the choice of the $X_\cdot^n$).
+\end{definition}
+
+For example, show that $\int_0^T W_t\d{W}_t = W_T^2 - T$.
+
+\subsubsection{Towards More Generality}
+
+Now, we aim to extend the It\^{o} integral even further. Indeed, while the set of $\mathcal{F}_t$-adapted processes in $\mathcal{L}^2(\mu_T\times\Pbb)$ may seem very open, it is still quite restrictive. Further, we would like to extend this to processes on $[0,\infty)$.\\
+To do so, we first define the It\^{o} integral as a stochastic process on $[0,T]$ with continuous sample paths, then extend it to a process on $[0,\infty)$ using a neat trick called \textit{localization}. We then extend the integral to a wider class of integrands.\\
+
+Let $X^n_t$ be a $\mathcal{F}_t$-adapted simple process in $\mathcal{L}^2(\mu_T\times\Pbb)$ with jump times $(t_i)_{i=0}^{N+1}$. For any $t\leq T$, define the simple integral
+\[ I_t(X^n_\cdot) = \int_0^t X_s^n \d{W}_s = \int_0^T \indic_{s\leq t} X_s^n \d{W}_s = \sum_{i=0}^N X_{t_i}^n (W_{\min\{t_{i+1}, t\}} - W_{\min\{t_i,t\}}. \]
+
+First of all, $I_t(X^n_\cdot)$ is a $\mathcal{F}_t$-martingale. This is not too difficult to show, show that for any $i$ and $r<t$,
+\[ \expec[X_{t_i}^n(W_{\min\{t_{i+1},t\}} - W_{t_{i},t}) \mid \mathcal{F}_r] = X_{t_i}^n (W_{\min\{t_{i+1},r\}} - W_{t_{i},r}). \]
+Indeed, this makes sense since the discrete time $I_{t_i}(X^n_\cdot)$ is a martingale transform, and the Wiener process is a martingale.
+
+\begin{lemma}
+	Let $X_t$ be a $\mathcal{F}_t$-adapted process in $\mathcal{L}^2(\mu_T\times\Pbb)$. Then the It\^{o} integral $I_t(X_\cdot)$, $t\in[0,T]$, can be chosen to have continuous sample paths.
+\end{lemma}
+
+Now, how do extend the It\^{o} integral to $[0,\infty)$ as a stochastic process? A straightforward idea is to require that the integrand is in $\mathcal{L}^2(\mu\times\Pbb)$ and $\mathcal{F}_t$-adapted, where $\mu$ is the Lebesgue measure on $[0,\infty)$.\\
+However, localization, which is not a very deep idea, stipulates that we don't need this. To define it on $[0,\infty)$, it suffices to define it on every $[0,T]$, that is, $X_\cdot \in \bigcap_{T < \infty} \mathcal{L}^2(\mu_T\times\Pbb)$. The integrand does not need to be square integrable, it just needs to be \textit{locally} square integrable, that is, square integrable when restricted to any $[0,T]$.\\
+However, we do need to ensure that this definition is consistent. That is, we need to check that $I_t(X_\cdot)$ does not depend on which $T>t$ we choose.\\
+
+This is easily shown however, by taking two times $s<T$ and observing that a sequence $(X_t^n)$ we choose for $T$ would also work for $s$ because $\mathcal{L}^2(\mu_T\times\Pbb)\subseteq\mathcal{L}^2(\mu_s\times\Pbb)$.
+
+\subsubsection{Extending the It\^{o} Integral}
+
+Before we get to an actual extension, let us work with stopping times for a bit.
+
+\begin{lemma}
+	Let $X_t$ be a $\mathcal{F}_t$-adapted process in $\bigcap_{T<\infty} \mathcal{L}^2(\mu_T\times\Pbb)$ and $\tau$ a $\mathcal{F}_t$-stopping time. Then $I_{\min\{t,\tau\}}(X_\cdot) = I_t(X_\cdot \indic_{\cdot < \tau})$.
+\end{lemma}
+
+This is not too difficult to show using our standard technique of proving the claim for simple processes, then extending it.\\
+
+The condition we are working with right now is that
+\[ \expec\left[\int_0^T X_t^2 \d{t} \right] < \infty \]
+for all $T<\infty$. Suppose instead that we are in a situation wherein
+\[ \expec\left[\int_0^{\tau_n} X_t^2 \d{t} \right] < \infty \]
+for some sequence $\tau_n\uparrow\infty$ of $\mathcal{F}_t$-stopping times. Then $(\tau_n)$ is said to be a \textit{localizing sequence} for $X_t$.\\
+While $X_t$ itself need not be in $\mathcal{L}^2(\mu_T\times\Pbb)$ for any $T$, we \textit{do} have that $X_t\indic_{t<\tau_n}$ is in $\bigcap_{T<\infty}\mathcal{L}^2(\mu_T\times\Pbb)$.\\
+In view of the above lemma then, it makes sense to define $I_t(X_\cdot)$ as $I_t(X_\cdot\indic_{\cdot<\tau_n})$ for some $n$ sufficiently large so that $t\leq\tau_n$.\\
+As before, there are two issues we must deal with:
+\begin{itemize}
+	\item Does it matter which (sufficiently large) $n$ we take?
+	\item Does it matter which localizing sequence we choose?
+\end{itemize}
+
+The first issue is easily taken care of since for $m>n$, $I_t(X_\cdot \indic_{\cdot < \tau_n}) = I_t(X_\cdot \indic_{\cdot < \tau_m})$. Indeed, since $t<\tau_n\leq\tau_m$, we have that $\indic_{\cdot<\tau_m}\indic_{\cdot<\tau_n} = \indic_{\cdot<\tau_n}$. Then since $I_t(X_\cdot\indic_{t<\tau_n}) = I_{\min\{t,\tau_n\}}(X_\cdot\indic_{t<\tau_m})$, the proof is straightforward.\\
+
+For the second issue, let $(\tau_n)$ and $(\tau_n')$ be two localizing sequences. Then letting $\sigma_n = \min\{\tau_n,\tau_n'\}$ and applying the above method, we get that the integral corresponding to this stopping time is equal to each of the integrals corresponding to $\tau_n$ and $\tau_n'$, so it does not matter which sequence we choose.\\
+
+Now, this still isn't very handy. However, there is a very natural set of processes that do have localizing sequences, namely that which consists of functions that are $\mathcal{F}_t$-adapted and satisfy
+\[ \int_0^T X_t^2\d{t} < \infty \text{ almost surely for all } T<\infty. \]
+A localizing sequence is then
+\[ \tau_n = \inf\left\{t\leq n : \int_0^t X_s^2\d{s} \geq n \right\}. \]
+The condition on the integrand implies that $\tau_n\uparrow\infty$ and for all $n\in\N$,
+\[ \int_0^{\tau_n} X_t^2\d{t} \leq n \]
+almost surely. We may now state the final definition\footnote{Technically, there \textit{is} a more general definition that allows integration with respect to a general martingale and not just the Wiener process, but we omit it here.} of the It\^{o} integral.
+
+\begin{fdef}[It\^{o} Integral]
+	Let $X_t$ be a $\mathcal{F}_t$-adapted stochastic process with
+	\[ \Pr\left[\int_0^T X_t^2\d{t} < \infty\right] = 1 \text{ for all } T<\infty. \]
+	Then the It\^{o} integral
+	\[ I_t(X_\cdot) = \int_0^t X_s\d{W}_s \]
+	is uniquely defined, by localization and choice of continuous modification, as a $\mathcal{F}_t$-adapted stochastic process on $[0,\infty)$ with continuous sample paths.
+\end{fdef}
