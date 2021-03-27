@@ -321,7 +321,7 @@ It turns out that these two $\sigma$-algebras are the same, so our intention is 
 
 Next, how do we show existence? First of all, note that it would suffice to construct a Wiener process on $[0,1]$ alone. We can then iterate to get it on the succeeding intervals. That is,
 \begin{lemma}
-	Let $\{W_t : t\in[0,1]\}$ be a stochastic process on $(\Omega,\mathcal{F},P)$ that satisfies \Cref{def: wiener}. Then there exists a stochastic process $\{W_t' : t\in[0,\infty)\}$ on a probability space $(\Omega',\mathcal{F}',P')$ that satisfies $\Cref{def: wiener}$ for all $t$.
+	Let $\{W_t : t\in[0,1]\}$ be a stochastic process on $(\Omega,\mathcal{F},P)$ that satisfies \Cref{def: wiener}. Then there exists a stochastic process $\{W_t' : t\in[0,\infty)\}$ on a probability space $(\Omega',\mathcal{F}',P')$ that satisfies \Cref{def: wiener} for all $t$.
 \end{lemma}
 
 The proof follows by setting $\Omega'=\Omega\times\Omega\times\cdots$, $\mathcal{F}'=\mathcal{F}\times\mathcal{F}\times\cdots$, and $P'=P\times P\times\cdots$ with each $\Omega$ carrying iid $\{W_t^n : t\in[0,1] \}$, then checking that $W_t' = \sum_{k=1}^{\lfloor t\rfloor} W_1^k + W_{t-\lfloor t\rfloor}^{\lfloor t\rfloor+1}$ satisfies the required.\\
@@ -338,7 +338,7 @@ We wish to choose a $X = W_{(2k+1)2^{-(n+1)}}^{n+1}$ such that $Y_1 - X$ and $X 
 Now, let us make the recursion less explicit. These tent-like interpolations we have performed are known as \textit{Schauder functions}.\\
 For $n=0,1,\ldots$ and $k=1,3,\ldots,2^n-1$, define the \textit{Haar wavelet} $H_{n,k}(t)$ as
 \[
-	H_{0,1}(t) = 1
+	H_{0,1}(t) = 1 \text{ and }
 	H_{n,k}(t) =
 	\begin{cases}
 		2^{(n-1)/2}, & (k-1)2^{-n} < t \leq k2^{-n}, \\

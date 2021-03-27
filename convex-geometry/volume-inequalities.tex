@@ -151,7 +151,9 @@ In the context of Brunn's Theorem, consider three parallel slices $A_r$,$A_s$, a
 \[A_s \supseteq \lambda A_r + (1-\lambda)A_t.\]
 All Brunn's Theorem says is that
 \[ \vol(A_s)^{1/(n-1)} \geq \lambda \vol(A_r)^{1/(n-1)} + (1-\lambda) \vol(A_t)^{1/(n-1)}. \]
-Observe that we have removed any remnant of $\R^n$ from this equation. Cleaning it up and restating it more generally, we have the following.
+This has reduced the original problem, which was in $\Rn$, to one in $\R^{n-1}$. More generally, we have the following.
+% Observe that we have removed any remnant of $\R^n$ from this equation.
+% Cleaning this up and restating it more generally, we have the following.
 
 \begin{ftheo}[Brunn-Minkowski Inequality]
 \label{brunn minkowski inequality}
@@ -163,14 +165,14 @@ Let $A$ and $B$ be two non-empty compact subsets of $\R^n$. Then for any $\lambd
 \end{ftheo}
 It is quite obvious that given the above inequality, Brunn's Theorem is true. Here, the non-emptiness of $A$ and $B$ correspond to the fact that we restrict $v$ to the support in Brunn's Theorem.\\
 
-We encourage the reader to show that \Cref{eqn brunn minkowski inequality} is equivalent to
+It is not too difficult to show that \Cref{eqn brunn minkowski inequality} is equivalent to
 \begin{equation}
 \label{eqn brunn minkowski inequality alt no lambda}
     \vol(A+B)^{1/n} \geq \vol(A)^{1/n} + \vol(B)^{1/n}
 \end{equation}
 
 We omit the proof of the Brunn-Minkowski inequality and instead show how it follows from the far more powerful, near-magical Pr\'{e}kopa-Leindler inequality.\\
-Before we do this, let us show how the popular isoperimetric inequality follows from the Brunn-Minkowski inequality.
+Before we do this however, let us show how the popular isoperimetric inequality follows from the Brunn-Minkowski inequality.
 
 \begin{theorem}[Isoperimetric Inequality]
 \label{isoperimetric inequality}

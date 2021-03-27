@@ -94,6 +94,7 @@ This is easily shown however, by taking two times $s<T$ and observing that a seq
 Before we get to an actual extension, let us work with stopping times for a bit.
 
 \begin{lemma}
+	\label{ito: stopping time lemma 1}
 	Let $X_t$ be a $\mathcal{F}_t$-adapted process in $\bigcap_{T<\infty} \mathcal{L}^2(\mu_T\times\Pbb)$ and $\tau$ a $\mathcal{F}_t$-stopping time. Then $I_{\min\{t,\tau\}}(X_\cdot) = I_t(X_\cdot \indic_{\cdot < \tau})$.
 \end{lemma}
 
@@ -131,3 +132,104 @@ almost surely. We may now state the final definition\footnote{Technically, there
 	\[ I_t(X_\cdot) = \int_0^t X_s\d{W}_s \]
 	is uniquely defined, by localization and choice of continuous modification, as a $\mathcal{F}_t$-adapted stochastic process on $[0,\infty)$ with continuous sample paths.
 \end{fdef}
+
+\subsubsection{Some Properties}
+
+In this section, we give some properties of the It\^{o} integral.
+
+\begin{lemma}[Linearity]
+	Let $X_t$ and $Y_t$ be It\^{o} integrable processes, and $\alpha,\beta\in\R$. Then $I_t(\alpha X_\cdot + \beta Y_\cdot) = \alpha I_t(X_\cdot) + \beta I_t(Y_\cdot)$.
+\end{lemma}
+\begin{proof}
+	For the case where $X_t$ and $Y_t$ are simple, it follows by definition. If $(\sigma_n)$ and $(\tau_n)$ are localizing sequences for each of the processes, then $\min\{\sigma_n,\tau_n\}$ is a localizing sequence for both, which allows us to extend to the general case by localizing on this sequence.
+\end{proof}
+
+Next, we give a slight generalization (to the wider class of processes) of \Cref{ito: stopping time lemma 1}.
+
+\begin{lemma}
+	Let $X_t$ be It\^{o} integrable and $\tau$ a $\mathcal{F}_t$-stopping time. Then
+	\[ \int_0^{\min\{t,\tau\}} X_s\d{W}_s = \int_0^t X_s \indic_{s<\tau}\d{W}_s. \]
+\end{lemma}
+\begin{proof}
+	If $(\sigma_n)$ is a localizing sequence for $X_t$, then we see that it is also a localizing sequence for $X_t\indic_{t<\tau}$. For $t<\sigma_n$, $I_{\min\{t,\tau\}}(X_\cdot \indic_{t < \sigma_n}) = I_{\min\{t,\tau\}}(X_\cdot \indic_{t < \tau} \indic_{t < \sigma_n})$. The result follows by localizing on $\sigma_n$.
+\end{proof}
+
+Now, let us extend the It\^{o} isometry to a more general integrand.
+
+\begin{lemma}
+	Let $X_\cdot \in \bigcap_{T < \infty} \mathcal{L}^2(\mu_T\times\Pbb)$. Then for any $T<\infty$,
+	\[ \expec\left[\int_0^T X_t\d{W}_t\right] = 0 \text{ and } \expec\left[\left(\int_0^T X_t\d{W}_t\right)^2\right] = \expec\left[\int_0^T X_t^2\d{t}\right]. \]
+	Further, $X_\cdot$ is a $\mathcal{F}_t$-martingale.
+\end{lemma}
+\begin{proof}
+	The results clearly hold for simple integrands. In general, note that if $Y_n \to Y$ in $\mathcal{L}^2$, then $\expec[Y_n] \to \expec[Y]$ and $\expec[Y_n^2] \to \expec[Y_n]$ (because convergence in $\mathcal{L}^2$ implies convergence in law), and $\expec[Y_n \mid \mathcal{F}] \to \expec[Y \mid \mathcal{F}]$ in $\mathcal{L}^2$ (Why?).
+\end{proof}
+
+Unfortunately, the above need not hold for a $X_\cdot$ in the more general class of processes. In fact, in the general case, $X_\cdot$ need not even be in $\mathcal{L}^1(\Pbb)$, so the expectation need not be defined.
+
+\begin{corollary}
+	If $X_\cdot^n \to X_\cdot$ in $\mathcal{L}^2(\mu_T\times\Pbb)$, then $I_t(X^n_\cdot) \to I_t(X_\cdot)$ in $\mathcal{L}^2(\Pbb)$. If the convergence is sufficiently fast, then $I_t(X_\cdot^n) \to I_t(X_\cdot)$ almost surely.
+\end{corollary}
+
+We can instead get a condition more general than $X_\cdot$ just being a $\mathcal{F}_t$-martingale.
+
+\begin{definition}
+	A $\mathcal{F}_t$-measurable process $X_t$ is called a $\mathcal{F}_t$-local martingale if there exists a sequence of $\mathcal{F}_t$-stopping times $\tau_n\uparrow\infty$ such that $X_{\min\{t,\tau_n\}}$ is a martingale for each $n$. Such a $(\tau_n)$ is called a \textit{reducing sequence} for $X_t$.
+\end{definition}
+
+Any It\^{o} integral $I_t(X_\cdot)$ is a local martingale. Indeed, any localizing sequence is a reducing sequence.
+
+\subsection{It\^{o} Calculus}
+
+The definition of the It\^{o} integral is quite hard to work with, so in this section, we give some tools to make it much handier.\\
+We work in a more general multi-dimensional framework. Suppose we have a filtered probability space $(\Omega,\mathcal{F},(\mathcal{F}_t)_{t\in[0,\infty)},\Pbb)$, on which an $m$-dimensional $\mathcal{F}_t$-Wiener process $W_t = (W_t^1,\ldots,W_t^m)$ is defined.\\
+We look at $\mathcal{F}_t$-adapted processes of the form
+\[ X_t^i = X_0^i + \int_0^t F_s^i \d{s} + \sum_{j=1}^m \int_0^t G_s^{ij} \d{W}_s^j, \]
+where $F_s^i$ and $G_s^{ij}$ are $\mathcal{F}_t$-progressively measurable processes that satisfy
+\[ \int_0^t |F_s^i| \d{s} < \infty \text{ and } \int_0^t (G_s^{ij})^2\d{s} < \infty \text{ almost surely} \]
+for all $t<\infty$ and $i,j$.
+
+\begin{fdef}[It\^{o} Process]
+	A process $X_t = (X_t^1,\ldots,X_t^n)$ satisfying the above is called an \textit{$n$-dimensional It\^{o} process}. It is also denoted as
+	\begin{equation}
+		\label{eqn: ito process}
+		X_t = X_0 + \int_0^t F_s\d{s} + \int_0^t G_s\d{W}_s.
+	\end{equation}
+\end{fdef}
+
+The main result of this section is the following.
+
+\begin{ftheo}[It\^{o} Rule]
+	Let $u:[0,\infty)\times\Rn\to\R$ be a function such that $u(t,x)$ is $C^1$ with respect to $t$ and $C^2$ with respect to $x$. Then $u(t,X_t)$ is an It\^{o} process:
+	\begin{multline}
+		\label{eqn: ito rule}
+		u(t,X_t) = u(0,X_0) + \sum_{\substack{1\leq i\leq n \\ 1\leq k\leq m}} \int_0^t u_i(s,X_s)G_s^{ik}\d{W}_s^k \\ + \int_0^t \left(u'(s,X_s) + \sum_{1\leq i\leq n} u_i(s,X_s)F_s^i + \frac{1}{2} \sum_{\substack{1\leq i,j\leq n \\ 1\leq k\leq m}} u_{ij}(s,X_s)G_s^{ik}G_s^{jk}\right)\d{s},
+	\end{multline}
+	where $u'(t,x) = \partial u(t,x)/\partial t$ and $u_i(t,x) = \partial u(t,x) / \partial x_i$.
+\end{ftheo}
+
+The above might seem quite unwieldy and arbitrary, but it is actually just the analogue of the chain rule for the It\^{o} integral. Before moving on, let us rewrite this a little to make it more compact.\\
+An It\^{o} process is often written as
+\[ \d{X}_t = F_t \d{t} + G_t\d{W}_t. \]
+This is just suggestive notation for the integrals involved in \eqref{eqn: ito process}. Sticking with this notation, \eqref{eqn: ito rule} says
+\begin{equation}
+	\label{eqn: ito rule compact}
+	\d{u}(t,X_t) = u'(t,X_t)\d{t} + \partial u(t,X_t)\d{X}_t + \frac{1}{2} \Tr\left[\partial^2 u(t,X_t) \d{X}_t(\d{X}_t)^*\right],
+\end{equation}
+where $\partial u(t,x)$ is the row vector with $u_i(t,x)$, $\partial^2 u(t,x)$ is the matrix with entries $u_{ij}(t,x)$, and $\d{X}^i_t\d{X}^j_t$ can be manipulated as
+\[ (\d{W}^i_t)^2 = \d{t} \text{ and } (\d{t})^2 = \d{W}^i_t\d{t} = \d{W}^i_t\d{W}^j_t = 0 \text{ if } i\neq j. \]
+(Check that the two equations are equivalent!)
+\begin{itemize}
+	\item If we set the $G^{ij}$ to $0$, the third term vanishes and we recover the usual (deterministic) chain rule from calculus.
+	\item The third extra term is essentially a \textit{second} order approximation. To explain it in an extremely handwavy fashion, we have $(\d{t})^2 = 0$ in deterministic functions, which is why that term never crops up. Here however, the It\^{o} integral \textit{does} contribute. The reason for this could perhaps be attributed to the fact that $\expec[(W_b-W_a)^2] = b-a$, so $\d{W}_t$ can be thought of something like $\sqrt{\d{t}}$. As a result, the squared term involved in the second order term does contribute non-trivially.\\
+	In the one-dimensional case, \eqref{eqn: ito rule compact} reads
+	\[ \d{u}(t,X_t) = \frac{\partial u}{\partial t} (t,X_t)\d{t} + \frac{\partial u}{\partial x} (t,X_t)\d{X_t} + \frac{\partial^2 u}{\partial x^2}(t,X_t) (\d{X}_t)^2, \]
+	which corresponds exactly to the handwavy argument given above.
+\end{itemize}
+
+Suppose that $X^1_t$ and $X^2_t$ are two one-dimensional It\^{o} processes and consider $u(t,x_1,x_2)=x_1x_2$. Then $u\in C^2$, so It\^{o}'s rule (in differential form) implies that
+\[ \d{X_t^1 X_t^2} = X_t^1 \d{X}_t^2 + X_t^2 \d{X}_t^1 + \d{X}_t^1\d{X}_t^2. \]
+Therefore, the class of It\^{o} processes is closed under multiplication and forms an algebra.
+
+\subsection{The Girsanov Theorem}
+
