@@ -399,17 +399,31 @@ In this section, we look at a few consequences of the KLS Conjecture.
 The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.
 
 \begin{fcon}[Slicing Conjecture]
-	Any centrally symmetric body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
+	Any convex body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
 	\[ \vol_{n-1}(K \cap H) \gtrsim 1. \]
 \end{fcon}
 
-\cite{slicing-conjecture-equivalent} showed that the above is in fact equivalent to asking how much volume is present around the origin. This makes sense because if a large proportion of volume is there (isotropically) around the origin, then no hyperplane will intersect a lot of volume.\\
+\cite{slicing-conjecture-equivalent} showed that the above is in fact equivalent to asking how much volume is present around the origin. This makes sense because if a large proportion of volume is there around the origin, then no hyperplane will intersect a lot of volume.\\
 Motivated by this intuition, define
 
 \begin{definition}[Slicing Constant]
 	For any isotropic log-concave density $p$ on $\Rn$, define the \textit{isotropic (slicing) constant} by $L_p = p(0)^{1/n}$.
 \end{definition}
 
-\begin{fcon}[Slicing Conjecture (Reformulated)]
+\begin{fcon}[Slicing Conjecture]
+	\label{slicing conjecture}
 	For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p$ is $\mathcal{O}(1)$.
 \end{fcon}
+
+\subsubsection{The Thin-Shell Conjecture}
+
+\begin{fcon}[Thin-Shell Conjecture]
+	\label{con: thin shell conjecture}
+	Let $p$ be a isotropic log-concave density. Then
+	\[ \sigma_p^2 \coloneqq \expec_{X\sim p}\left[(\norm{X}-\sqrt{n})^2\right] \lesssim 1. \]
+	Equivalently, $\Var_{X\sim p}(\norm{X}^2) \lesssim 1$.
+\end{fcon}
+
+The above means that a random point $X$ from a log-concave density lies in a constant width annulus (a thin shell) with constant probability.\\
+
+It was shown in \cite{Eldan2010ApproximatelyGM} that the Thin-Shell conjecture implies the Slicing conjecture and by Ball that the KLS conjecture implies the Thin-Shell conjecture. That is, we have that $L_p \lesssim \sigma_p \lesssim \psi_p$.

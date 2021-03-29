@@ -179,7 +179,7 @@ We can instead get a condition more general than $X_\cdot$ just being a $\mathca
 
 Any It\^{o} integral $I_t(X_\cdot)$ is a local martingale. Indeed, any localizing sequence is a reducing sequence.
 
-\subsection{It\^{o} Calculus}
+\subsubsection{It\^{o} Calculus}
 
 The definition of the It\^{o} integral is quite hard to work with, so in this section, we give some tools to make it much handier.\\
 We work in a more general multi-dimensional framework. Suppose we have a filtered probability space $(\Omega,\mathcal{F},(\mathcal{F}_t)_{t\in[0,\infty)},\Pbb)$, on which an $m$-dimensional $\mathcal{F}_t$-Wiener process $W_t = (W_t^1,\ldots,W_t^m)$ is defined.\\
@@ -199,7 +199,7 @@ for all $t<\infty$ and $i,j$.
 
 The main result of this section is the following.
 
-\begin{ftheo}[It\^{o} Rule]
+\begin{ftheo}[It\^{o}'s Lemma]
 	Let $u:[0,\infty)\times\Rn\to\R$ be a function such that $u(t,x)$ is $C^1$ with respect to $t$ and $C^2$ with respect to $x$. Then $u(t,X_t)$ is an It\^{o} process:
 	\begin{multline}
 		\label{eqn: ito rule}
@@ -231,5 +231,87 @@ Suppose that $X^1_t$ and $X^2_t$ are two one-dimensional It\^{o} processes and c
 \[ \d{X_t^1 X_t^2} = X_t^1 \d{X}_t^2 + X_t^2 \d{X}_t^1 + \d{X}_t^1\d{X}_t^2. \]
 Therefore, the class of It\^{o} processes is closed under multiplication and forms an algebra.
 
-\subsection{The Girsanov Theorem}
+\subsection{Stochastic Differential Equations}
 
+Stochastic differential expressions are usually encountered written in the form
+\[ \d{X}_t = b(t,X_t)\d{t} + \sigma(t,X_t)\d{W}_t \text{ and } X_0 = x. \]
+As before, this is just suggestive notation for the It\^{o} process
+\begin{equation*}
+	X_t = x + \int_0^t b(s,X_s) \d{s} + \int_0^t \sigma(s,X_s)\d{W}_s.
+\end{equation*}
+
+For example, if $W_t$ is a $m$-dimensional Wiener process, $A$ is a $n\times n$ matrix, and $B$ is a $m\times n$ matrix, then the $n$-dimensional equation
+\[ \d{X}_t = AX_t\d{t} + B\d{W}_t \text{ and } X_0 = x \]
+is called a \textit{linear stochastic differential equation}. It (always) has a unique solution
+\[ X_t = e^{At}x + \int_0^t e^{A(t-s)}B\d{W}_s. \]
+
+Call that a function $f:\R^n\to\R^m$ is \textit{Lipschitz uniformly on $s$} if $\norm{g(s,x)-g(s,y)} \leq K\norm{x-y}$ for some constant $K<\infty$ that does not depend on $s$.\\
+For now, let us restrict ourselves to some bounded time $[0,T]$. Consider a filtered probability space $(\Omega,\mathcal{F},\{\mathcal{F}_t\}_{t\in[0,T]},\Pbb)$ on which a $m$-dimensional Wiener process $W_t$ is defined. Choose $X_0$ to be a $\mathcal{F}_0$-measurable $n$-dimensional random variable, We seek a solution to
+\begin{equation}
+	\label{eqn: stochastic diff eqn}
+	X_t = X_0 + \int_0^t b(s,X_s)\d{s} + \int_0^t \sigma(s,X_s)\d{W}_s.
+\end{equation}
+We now show existence of a solution to a large class of differential equations.
+
+\begin{ftheo}
+	Suppose that
+	\begin{enumerate}
+		\item $X_0 \in \mathcal{L}^2(\Pbb)$,
+		\item $b,\sigma$ are Lipschitz continuous uniformly on $[0,T]$, and
+		\item $\norm{b(t,0)}$ and $\norm{\sigma(t,0)}$ are bounded on $t\in[0,T]$.
+	\end{enumerate}
+	There exists a solution $X_t$ to the associated stochastic differential equation \eqref{eqn: stochastic diff eqn}. Moreover, for this solution, $X_t$, $b(t,X_t)$, and $\sigma(t,X_t)$ are in $\mathcal{L}^2(\mu_T\times\Pbb)$ and the solution is unique $\Pbb$-almost surely.
+\end{ftheo}
+\begin{proof}
+	For $\mathcal{F}_t$-adapted $Y_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$, consider the map
+	\[ (\mathfrak{P}(Y_\cdot))_t = X_0 + \int_0^t b(s,Y_s)\d{s} + \int_0^t \sigma(s,Y_s)\d{W}_s. \]
+	Our aim is to find a $\mathcal{F}_t$-adapted process $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ such that $\mathfrak{P}(X_\cdot) = X_\cdot$. We carry out the proof of existence in three parts.
+	\begin{itemize}
+		\item First, we claim that $\mathfrak{P}$ maps to a $\mathcal{F}_t$-adapted process in $\mathcal{L}^2(\mu_T\times\Pbb)$.\\
+			Note that
+			\begin{equation*}
+				\tag{$*$}
+				\label{eqn: picard iteration bounded growth}
+				\norm{b}(t,x) \leq \norm{b(t,x)-b(t,0)} + \norm{b(t,0)} \leq K\norm{x} + K' \leq C(1+\norm{x}),
+			\end{equation*}
+			where $K$, $K'$, and $C$ are suitably chosen constants. Doing so similarly for $\sigma$, we may assume that $C$ is large enough such that both the above and $\norm{\sigma(t,x)} \leq C(1+\norm{x})$ hold. To show that $\mathfrak{P}$ maps to a process in $\mathcal{L}^2$, we shall show that each of the terms on the right side of the inequality
+			\[ \norm{(\mathfrak{P}(Y_\cdot))_t}^2_{2,\mu_T\times\Pbb} \leq \norm{X_0}^2_{2,\mu_T\times\Pbb} + \norm{\int_0^t b(s,Y_s)\d{s}}^2_{2,\mu_T\times\Pbb} + \norm{\int_0^t \sigma(s,Y_s)\d{W}_s}^2_{2,\mu_T\times\Pbb} \]
+			is finite.
+			\begin{itemize}
+				\item The first term is
+				\[ \norm{X_0}^2_{2,\mu_T\times\Pbb} = T^{1/2} \norm{X_0}^2_{2,\Pbb} < \infty \]
+				by the first assumption.
+				\item The second term is
+				\[ \norm{\int_0^t b(s,Y_s)\d{s}}^2_{2,\mu_T\times\Pbb} \leq T^2 \norm{b(s,Y_s)\d{s}}^2_{2,\mu_T\times\Pbb} \leq T^2C^2 \norm{1+\norm{Y_\cdot}}^2_{2,\mu_T\times\Pbb} < \infty, \]
+				where the first inequality follows by using Jensen's inequality to get $(t^{-1}\int_0^t a_s\d{s})^2 \leq t^{-1}\int_0^t a_s^2\d{s}$, the second inequality uses \eqref{eqn: picard iteration bounded growth}, and the third inequality follows from the fact that $Y_\cdot$ is in $\mathcal{L}^2(\mu_T\times\Pbb)$.
+				\item The third term is
+				\[ \norm{\int_0^t \sigma(s,Y_s)\d{W}_s}^2_{2,\mu_T\times\Pbb} \leq T \norm{\sigma(\cdot,Y_\cdot)}^2_{2,\mu_T\times\Pbb} \leq TC^2\norm{1+\norm{Y_\cdot}}^2_{2,\mu_T\times\Pbb} < \infty, \]
+				where the first inequality follows on using the It\^{o} isometry and the rest is as in the previous step.
+			\end{itemize}
+			This proves that the mapping is to an element of $\mathcal{L}^2(\mu_T\times\Pbb)$. It is clear that $\mathfrak{P}(Y_\cdot)$ is $\mathcal{F}_t$-adapted, proving the claim.
+		\item Second, we claim that $\mathfrak{P}$ is continuous.\\
+			That is, we want to show that if $\norm{Y^n_\cdot - Y_\cdot}_{2,\mu_T\times\Pbb}\to 0$, then $\norm{\mathfrak{P}(Y^n_\cdot) - \mathfrak{P}(Y_\cdot)}_{2,\mu_T\times\Pbb}\to 0$. As in the first part, we get
+			\[ \norm{\mathfrak{P}(Y^n_\cdot) - \mathfrak{P}(Y_\cdot)}_{2,\mu_T\times\Pbb} \leq T \norm{b(\cdot,Y^n_\cdot) - b(\cdot,Y_\cdot)}_{2,\mu_T\times\Pbb} + \sqrt{T} \norm{\sigma(\cdot,Y^n_\cdot) - \sigma(\cdot,Y_\cdot)}_{2,\mu_T\times\Pbb} \leq K(T+\sqrt{T})\norm{Y^n - Y}_{2,\mu_T\times\Pbb}, \]
+			where the second inequality follows for a suitably large $K$ from the uniformly Lipschitz condition. The required follows.
+		\item Finally, we show the actual existence using a method known as \textit{Picard iteration}.\\
+			Let $Y^0_t$ be an arbitrary $\mathcal{F}_t$-adapted process in $\mathcal{L}^2(\mu_T\times\Pbb)$ and for each $n\geq 0$, let $Y^{n+1}_\cdot = \mathfrak{P}(Y^n_\cdot)$. If we show that the $(Y^n_\cdot)$ converge, then we are done, since the (unique $\Pbb$-almost surely) limit would be a fixed point of $\mathfrak{P}$ (Why?).\\
+			To do so, it suffices to show that the sequence is Cauchy. Exactly as in the proof of the above claim (note the measures involved in each of the norms!),
+			\[ \norm{(\mathfrak{P}(Y_\cdot))_t - (\mathfrak{P}(Z_\cdot))_t}_{2,\Pbb} \leq \sqrt{t}\norm{b(\cdot,Y_\cdot)-b(\cdot,Z_\cdot)}_{2,\mu_t\times\Pbb} + \norm{\sigma(\cdot,Y_\cdot)-\sigma(\cdot,Z_\cdot)}_{2,\mu_t\times\Pbb} \leq L\norm{Y_\cdot - Z_\cdot}_{2,\Pbb}, \]
+			where $L = K(\sqrt{T}+1)$. In general,
+			\begin{align*}
+				\norm{(\mathfrak{P}^n(X_\cdot))_t - (\mathfrak{P}^n(Z_\cdot))_t}^2_{2,\mu_T\times\Pbb} &= \int_0^T \norm{(\mathfrak{P}^n(X_\cdot))_t - (\mathfrak{P}(Z_\cdot))_t}^2_{2,\Pbb} \\
+					&\leq L^{2n} \int_0^T \int_0^{t_1} \int_0^{t_2} \cdots \int_0^{t_{n-1}} \norm{Z_\cdot-Y_\cdot}^2_{2,\mu_{t_n}\times\Pbb}\d{t}_n\d{t}_{n-1}\cdots\d{t}_1 \\
+					&\leq \frac{L^{2n}T^n}{n!}\norm{Z_\cdot-Y_\cdot}^2_{2,\mu_T\times\Pbb}.
+			\end{align*}
+			In particular,
+			\[ \sum_{n=0}^\infty \norm{\mathfrak{P}^{n+1}(Y^0_\cdot) - \mathfrak{P}^n(Y^0_\cdot)}_{2,\mu_T\times\Pbb} \leq \norm{\mathfrak{P}(Y^0_\cdot) - Y^0_\cdot}_{2,\mu_T\times\Pbb} \sum_{n=0}^\infty \sqrt{\frac{L^{2n}T^n}{n!}} < \infty, \]
+			completing this part of the proof.
+	\end{itemize}
+	Next, suppose that $X_\cdot$ is the above obtained solution and $Y_\cdot$ is another solution. We prove uniqueness in two steps.
+	\begin{itemize}
+		\item If $Y_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$, then for any $n$,
+		\[ \norm{X_\cdot - Y_\cdot}^2_{2,\mu_T\times\Pbb} = \norm{\mathfrak{P}^n(X_\cdot) - \mathfrak{P}^n(Y_\cdot)}^2_{2,\mu_T\times\Pbb} \leq \sqrt{\frac{L^{2n}T^n}{n!}} \norm{X_\cdot - Y_\cdot}^2_{\mu_T\times\Pbb}. \]
+		Letting $n\to\infty$, we see that the expression on the left must be $0$, so $X_\cdot$ and $Y_\cdot$ are equal $\mu_T\times\Pbb$-almost surely.
+		\item To complete the proof, we show that any solution $Y_t$ with $Y_0 = X_0$ must be in $\mathcal{L}^2(\mu_T\times\Pbb)$.
+	\end{itemize}
+\end{proof}
