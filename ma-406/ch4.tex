@@ -1,0 +1,96 @@
+\section{Countability and Separation Axioms}
+
+\setcounter{subsection}{29}
+\subsection{The Countability Axioms}
+
+	% 30.1
+	\begin{exercise}
+		\phantom{oh}
+		\begin{enumerate}[(a)]
+			\item A \textit{$G_\delta$ set} in a space $X$ is a set $A$ that equals the countable intersection of open sets of $X$. Show that in a first-countable $T_1$ space, every one-point set is a $G_\delta$ set.
+			\item There is a familiar space in which every one-point set is a $G_\delta$ set, which nevertheless does not satisfy the first countability axiom. What is it?
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Let $\{x\}$ be a one-point set in $X$ and $\mathcal{B}$ a countable basis at $x$. We claim that $U \coloneqq \bigcap_{B\in\mathcal{B}} B = \{x\}$. Let $y\in X$ be distinct from $x$. Since $X$ is $T_1$, there is an open $V$ such that $x\in U\not\ni y$. Letting $B$ be a basis element such that $x\in B\subseteq U$, we see that $y\not\in B$. Therefore, $y\not\in W$ and $W = \{x\}$.
+			\item 
+		\end{enumerate}
+	\end{solution*}
+
+	% 30.2
+	\begin{exercise}
+		Show that if $X$ has a countable basis $(B_n)$, then every basis $\mathcal{C}$ of $X$ contains a countable basis for $X$.
+	\end{exercise}
+	\begin{solution*}
+		For each $m,n$, if possible, choose $C_{n,m}\in\mathcal{C}$ such that $B_n\subseteq C_{n,m}\subseteq B_m$. We claim that this (countable) subset of $\mathcal{C}$ is a basis. Let $x\in X$ and $B_m$ a basis element that contains $x$. Since $\mathcal{C}$ is a basis, there is some $C\in\mathcal{C}$ such that $x\in C\subseteq B_m$. Since $(B_n)$ is a basis, there exists $n$ such that $x\in B_n\subseteq C$. Now, since $B_n\subseteq C\subseteq B_m$, we have $C_{n,m}$ such that $x\in C_{n,m} \subseteq B_m$, proving the claim.
+	\end{solution*}
+
+	% 30.3
+	\begin{exercise}
+		Let $X$ have a countable basis; let $A$ be an uncountable subset of $X$. Show that uncountably many points of $A$ are limit points of $A$.
+	\end{exercise}
+	\begin{solution*}
+		Let $A'$ be the set of limit points of $A$ in $A$ and suppose instead that it is countable. For each $x\in A\setminus A'$, let $B_x$ be a basis element such that $x\in B_x$ and $B_x\cap A = \{x\}$. It follows that for $x\neq y$, $B_x\neq B_y$. But since $A\setminus A'$ is countable, this contradicts the second countability of $X$, proving the claim.
+	\end{solution*}
+
+	% 30.4
+	\begin{exercise}
+		Show that every compact metrizable space $X$ has a countable basis.
+	\end{exercise}
+	\begin{solution*}
+		Let $\mathcal{A}_n$ be a finite covering of $X$ by open $(1/n)$-balls -- such a covering exists because $X = \bigcup_{x\in X} B(x,1/n)$. Consider the countable set $\mathcal{B} = \bigcup_{n\in\N} \mathcal{A}_n$. We claim that $\mathcal{B}$ is a basis of $X$. Let $x\in X$ and $\delta>0$. We wish to show that there is some $B\in\mathcal{B}$ such that $x\in B\subseteq B(x,\delta)$. Fix a $N > 2/\delta$ and let $B \in \mathcal{A}_N$ contain $x$. Then $x \in B \subseteq B(x,\delta)$. Indeed, for any $y\in B$, $d(y,x) \leq 2/N < \delta$, so $y\in B(x,\delta)$.
+	\end{solution*}
+
+	% 30.5
+	\begin{exercise}
+		\phantom{ah}
+		\begin{enumerate}[(a)]
+			\item Show that every metrizable space with a countable dense subset has a countable basis.
+			\item Show that every metrizable Lindel\"{o}f space has a countable basis.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Let $X$ be a metrizable space and $D$ a countable dense subset. Let $\mathcal{B} = \{B(x,1/n) : n\in\N, x\in D\}$. It is not too difficult to show that $\mathcal{B}$ is a countable basis similar to the solution to the previous question.
+			\item This is identical to the previous question, except that $\mathcal{A}_n$ is a countable covering of $X$ by open $(1/n)$-balls.
+		\end{enumerate}
+	\end{solution*}
+
+	% 30.6
+	% \begin{exercise}
+	% 	Show that $\R_\ell$ and $I_0^2$ are not metrizable.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	By the previous question, it suffices to show that each of the two spaces do not have a countable basis and are either not separable or not Lindel\"{o}f.
+	% \end{solution*}
+
+	% 30.9
+	\setcounter{exercise}{8}
+	\begin{exercise}
+		Let $A$ be a closed subspace of $X$. Show that if $X$ is Lindel\"{o}f, $A$ is Lindel\"{o}f. Show by example that if $X$ has a countable dense subset, $A$ need not have a countable dense subset.
+	\end{exercise}
+	\begin{solution*}
+		Let $\mathcal{A}$ be an open cover of $A$. We must show that it has a countable subcover. Consider the open cover $\mathcal{A}' = \{U \cup (X\setminus A) : U\in\mathcal{A}\}$ of $X$ (Why are these sets open?). Then $\mathcal{A}'$ has a countable subcover, say $\mathcal{S}'$, which gives a countable subcover $\mathcal{S} = \{V \cap A : V\in\mathcal{S}'\}$ of $A$.\\
+		For the second part, consider $X = \R_\ell \times \R_\ell$ and $A = \{ x \times (-x) : x \in \R_\ell\}$. 
+	\end{solution*}
+
+	% 30.10
+	\begin{exercise}
+		Show that if $X$ is a countable product of spaces having countable dense subsets, then $X$ has a countable dense subset.
+	\end{exercise}
+	\begin{solution*}
+		Let $(X_n)$ be spaces having countable dense subsets $(A_n)$. For each $n$, fix an arbitrary $x_n \in X_n$. Consider the subset $A$ of $X$ defined by
+		\[ A = \bigcup \left\{ \prod U_n : U_n=A_n \text{ for finitely many $n$ and is $\{x_n\}$ otherwise} \right\}. \]
+		This set is countable because the set of finite subsets of $\N$ is countable and each of the inner sets is countable. Now, let $x \in X$ and $V = \prod V_n$ be a basis element containing $x$ such that each $V_n$ is open in $X_n$ and $V_n = X_n$ for all but finitely many $n$. For each $n$, if $V_n \neq X_n$, choose a $y_n \in (A_n \cap V_n)$ (such a $y_n$ exists since $A_n$ is dense in $X_n$). Otherwise, let $y_n = x_n$. Then $(y_n) \in (A \cap V)$, proving that $A$ is dense in $X$.
+	\end{solution*}
+
+
+	% 30.11
+	% \begin{exercise}
+	% 	Let $f:X\to Y$ be continuous. Show that if $X$ is Lindel\"{o}f, or if $X$ has a countable dense subset, then $f(X)$ satisfies the same condition.
+	% \end{exercise}
+	% \begin{solution*}
+		% Let $\mathcal{A}$ be an open cover of $f(X)$ and $\mathcal{A}' = \{f^{-1}(U) : U\in\mathcal{A}\}$ be an open covering of $X$ (it is a covering because $f$) is surjective to $f(X)$. Letting $\mathcal{S}'$ be a countable subcover of $X$, we see that $\mathcal{S} = \{ f(V) : V \in \mathcal{S} \}$ is a finite subcover of $f(X)$ (this is because each of the $V$ are saturated).\\
+		% Letting $A$ be a countable dense subset of $X$, we claim that $f(X)$ is a 
+	% \end{solution*}
