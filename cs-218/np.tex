@@ -1,0 +1,25 @@
+\section{NP-Completeness}
+
+Suppose we have $n$ jobs that take time $S_1,\ldots,S_n$ each and two processors $P_1$ and $P_2$. We wish to schedule the jobs on these two processors such that the overall time taken (the time when the last job completes) is minimized. How do we do this?\\
+
+One idea is that we initially schedule $S_1$ and $S_2$ and when one of the jobs ends, we schedule the next job $S_3$ on the processor that is freed. We repeat this, scheduling jobs whenever processors become free.\\
+This does not work -- consider the set of times $\{1,1,100\}$. Our scheduling produces time $101$ (we schedule the first two jobs first), but it is quite easy to see that it can be done in time $100$.\\
+
+The issue seems to be that the ordering of the jobs is problematic. So instead, schedule the jobs in non-increasing order and repeat the above algorithm. Does this work?\\
+No, it does not. Consider the set of jobs $\{3,3,2,2,2\}$ -- our algorithm gives a time of $7$ but a time of $6$ can be attained.\\
+
+It in fact turns out that it is impossible (or at least extremely hard) to get a polynomial time algorithm. How do we show that this problem is ``hard'' though? What does ``hard'' even mean?\\
+
+\subsection{Reduction}
+
+Reduction essentially means using other algorithms for problems we wish to solve. For example, consider the problem of determining the existence of a perfect matching in a graph $G=(V,E)$.\\
+On the other hand, consider the problem that finds a maximum matching in a graph $G=(V,E)$.\\
+It is not too difficult to see that the first problem can be ``reduced'' to the second -- if we find a maximum matching in the graph, we can check whether it has $|V|/2$ vertices and thus solve the first problem.\\
+Can we come up with a reduction that goes the other way round? Before doing this in fact, can we reduce the problem of finding the \textit{size} of a maximum matching in a graph to the first problem? Yes, we can.
+\begin{itemize}
+	\item If $G$ has a perfect matching, then return $|V|/2$.
+	\item Let $G_1$ be a graph with vertex set $V\cup\{v\}$, where $v$ is a fresh vertex that has an edge to every vertex in $V$. If $G_1$ has a perfect matching, then $G$ has a matching of size $(|V|-1)/2$ (Why?), which must be a maximum matching if this is the case.
+	\item Continuing on, create $G_{i+1}$ by adding a new vertex that is connected to every vertex of $G_{i}$. Then if $k$ is the minimum index such that $G_k$ has a perfect matching, $G$ has a matching of size $(|V|-k)/2$ -- there cannot be any edges within the new vertices in a perfect matching because this would imply the existence of a perfect matching of $G_i$ for some $i<k$ (Why?). Further, this is a maximum matching. If there was a matching of size $(|V|-k+2)/2$, then $G_{k-2}$ must have a matching (Why?).
+\end{itemize}
+Since $i$ can go up to $n$, we are calling the perfect matching algorithm only $n$ times. This can be decreased to $\log n$ by using a binary search-like scheme.\\
+Now that we have done this, the original problem is not too difficult. Suppose the size of a maximum matching is $l$. We can remove an edge and ask if the remaining graph has a matching of size $l$ (that is, if the size of a maximum matching is still equal to $l$). If no, we discard the edge. The remaining graph will just be a matching, which gives us a maximum matching in the original graph.

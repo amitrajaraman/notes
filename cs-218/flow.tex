@@ -236,7 +236,7 @@ The network connectivity problem asks to determine what the smallest $F\subseteq
 
 \subsubsection{Maximum Bipartite Matching}
 
-Given an undirected bipartite graph $G=(V,E)$ with $V=X\cup Y$ such all edges are between $X$ and $Y$, the problem asks to find a largest set $M\susbeteq E$ such that for any $e,e'\in M$, $e,e'$ do not share any common vertex.
+Given an undirected bipartite graph $G=(V,E)$ with $V=X\cup Y$ such all edges are between $X$ and $Y$, the problem asks to find a largest set $M\subseteq E$ such that for any $e,e'\in M$, $e,e'$ do not share any common vertex.
 
 This can be formulated as a max-flow problem. Create a directed graph $G' = (V',E')$ with vertex set $V' = V\cup\{s,t\}$ for some fresh vertices $s,t$ and edge set
 \[ E' = \{\vv{xy}: x\in X, y\in Y, xy\in E\} \cup \{\vv{sx} : x\in X\} \cup \{\vv{yt} : y\in Y\}. \]
@@ -273,7 +273,7 @@ Before getting to the proof of the above, we give the following useful lemma.
 	\[ M = \{e\in E'\cap E : f(e)=1\}. \]
 	This is just the set of edges from $X$ to $Y$ that carry non-zero flow.\\
 	Observe that because $f$ is a flow, each vertex in $X$ or $Y$ is present in at most one edge in $M$. Indeed, any vertex in $X$ (resp. $Y$) has an incoming (resp. outgoing) flow of at most $1$ and if it is present in more than one edge, the outgoing (resp. incoming) flow would be greater than $1$, contradicting the conservation constraint.\\
-	Therefore, $M$ is a matching. Using \Cref{lem: 1} on the cut $(X\cup\{s\},Y\cup\{t\})$, $|f| = f^\to(S) - f^\ot(S) = |M|$, proving the required.
+	Therefore, $M$ is a matching. Using \Cref{lem: max bi match} on the cut $(X\cup\{s\},Y\cup\{t\})$, $|f| = f^\to(S) - f^\ot(S) = |M|$, proving the required.
 \end{proof}
 
 The above could have been proved in a more direct way using \Cref{edge disjoint paths}.
