@@ -277,3 +277,50 @@ Before getting to the proof of the above, we give the following useful lemma.
 \end{proof}
 
 The above could have been proved in a more direct way using \Cref{edge disjoint paths}.
+
+\subsubsection{Baseball Elimination}
+
+The last problem we discuss is the following (referred to as IPL Elimination in the course slides).\\
+
+Suppose we have $n$ teams. Each team has a certain number of wins $w_i$ initially, and for each $\{x,y\}$, there is a quantity $r_{xy}\geq 0$ which represents the number of games teams $x$ and $y$ are left to play against each other ($r_{xy} = r_{yx}$ and $r_{xx}=0$). Is it possible for a certain team $z$ to get first position after all the games are done (possibly being tied with other teams)? Equivalently, if all teams except those which are at first position are eliminated, is $z$ necessarily eliminated?\\
+
+We shall formulate this as a max-flow min-cut problem, creating a flow network $G_z$. First, let $g_z^* = \sum_{x,y \in X\setminus\{z\}} g_{x,y}$.\\
+We show that $G_z$ has a flow of value strictly less than $g_z^*$ iff $z$ is eliminated. We must also argue that $G_z$ can be obtained from the input in polynomial time.\\
+
+Let $X' = X \setminus \{z\}$. $G_z$ has vertex set
+\[ V = \{s,t\} \cup \{u_{xy} : \{x,y\}\subseteq X'\} \cup \{u_x : x \in X'\}, \]
+where $s$ and $t$ are the source and sink respectively. $G_z$ has edge set
+\[ E = \{\vv{s u_{xy}} : \{x,y\}\in X'\} \cup \{\vv{u_x t} : x \in X'\} \cup \bigcup_{\{x,y\}\subseteq X'} \{\vv{u_{xy}u_x},\vv{u_{xy}u_y}\}. \]
+In the definition of the edge set, we refer to these three sets involved as $E_\text{source}$, $E_\text{sink}$, and $E_\text{mid}$ respectively.\\
+The capacity function $c$ is defined as
+\[
+	c(e) =
+	\begin{cases}
+		g_{xy}, & e \in E_\text{source}, \\
+		\infty, & e \in E_\text{mid}, \\
+		m - w_x, & e \in E_\text{sink},
+	\end{cases}
+\]
+where 
+\[ m = w_z + \sum_{x\in X'} g_{zx}. \]
+is the total number of games $z$ can have won at the end.\\
+In case any of the capacities are negative, then the problem is trivial anyway since $m_x > m$ for some $x$, so $z$ cannot win.
+
+\begin{lemma}
+	$G_z$ has a flow strictly less than $g_z^*$ iff $z$ is necessarily eliminated.
+\end{lemma}
+\begin{proof}
+	Suppose $G_z$ has a flow of value $g_z^*$. This means that it is possible to obtain outcomes where all the other teams win at most $m$ games (totally). This means that $z$ is not eliminated.\\
+	On the other hand, suppose $z$ is not eliminated. Using the outcomes of the games, it is possible to set the flows in $E_\text{sink}$ such that no flow exceeds $m - w_u$ for any $u$ at the end of all the games. This achieves a flow of value $g_z^*$.
+\end{proof}
+
+While not related directly to the algorithm given above, the following lemma, which can be proved from the max-flow min-cut theorem, is interesting.
+
+\begin{lemma}
+	Suppose team $z$ is necessarily eliminated. Then the following hold:
+	\begin{itemize}
+		\item $z$ can finish with at most $m = w_z + \sum_{x\in X\setminus\{z\}} g_{zx}$ wins.
+		\item There exists a set $Q\subseteq X$ such that
+		\[ \sum_{x\in Q} w_x + \sum_{\{x,y\}\subseteq Q} g_{xy} \geq m|Q|. \]
+	\end{itemize}
+\end{lemma}
