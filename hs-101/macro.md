@@ -322,5 +322,12 @@ Some problems in GDP measurement are:
 	The above three are primarily in developing countries like India.
 * Non-market transactions like a barter system in villages and payments to domestic servants.
 * Negative externalities - for example, degrading the soil results in the growth of the fertilizer industry.
-* It does not take depletion of  natural resources into account.
+* It does not take depletion of natural resources into account.
 * It does not measure changes in happiness.
+
+Is GDP a good measure of economic welfare?
+
+* Growth and development are different. For example, a large fraction of India's GDP is in healthcare, but people's health has not significantly improved.
+* GDP does not talk about equal distribution of wealth.
+* Even if the GDP of a nation increases, the median income can go down.
+<!-- 5th point, GDI measures the income (iirc) and middle east has high exports of oil so biased GDI (not really sure) -->
