@@ -277,9 +277,9 @@ Some quality change may be unmeasured. If the quality of a good deteriorates whi
 
 Therefore, it is difficult to compare WPI (Paasche) and the GDP deflator (Laspeyres), since they are both bad in their own ways. They follow similar trends.
 
-We can compare the prices in different years as
+We can compare today's prices with that of a different year's as
 
-$$\text{Amount in today's dollars} = \text{Amount in previous year's dollars} \times \frac{\text{Price level today}}{\text{Price level in previous year}}.$$
+$$\text{Amount in today's dollars} = \text{Amount in other year's dollars} \times \frac{\text{Price level today}}{\text{Price level in other year}}.$$
 
 When we perform the above correction, we are said to _index_ the amount for inflation. Approximately, when we put our money in a bank, the real interest rate is equal to the nominal interest rate minus the inflation rate.
 
