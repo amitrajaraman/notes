@@ -123,15 +123,14 @@ The GDP can be looked at as either the total expenditure on domestically produce
 We can calculate the GDP in three different ways: output (the sum of value added in each sector), income, and expenditure.    
 The expenditure components of GDP are consumption, investment, government spending, and net exports.
 * _Consumption_ $$\text{C}$$ is the value of all goods and services purchased by households. It comprises of
-	* durable consumer goods (life span more than three years)
-	* non-durable consumer goods (life span at most three years)
-	* services (mental or physical help)
-	It does not include purchase of new housing. We can choose to include education in this or in the next section.    
+	* durable consumer goods (life span more than three years),
+	* non-durable consumer goods (life span at most three years), and
+	* services (mental or physical help). This does not include purchase of new housing. We can choose to include education in this or in the next section.    
 * _Investment_ $$\text{I}$$ includes
 	* business fixed investment (spending on plant and equipment that firms will use to produce the other goods/services),
 	* residential fixed investment (spending on housing units/structures by consumers and landlords), and
-	* inventory investment (the change in the value of all firms' inventories).
-	The purchase of new housing is the one houshold expense that is categorized as investment instead of consumption.
+	* inventory investment (the change in the value of all firms' inventories).    
+	The purchase of new housing is the one housheold expense that is categorized as investment instead of consumption.
 	Investment is basically spending on new capital. This investment is not the same as the usual financial usage of the word.
 * _Government purchases_ $$\text{G}$$ includes all government spending on goods and services. It includes salaries of government workers and spending on public works. It excludes transfer payments (like unemployment insurance payments) because they are not in exchange for currently produced goods and services. Transfer payments can be thought of as negative taxes.
 * _Net exports_ $$\text{NX}$$ is equal to $$\text{EX}-\text{IM}$$, where $$\text{EX}$$ is the value of total exports (foreign purchases of domestic goods) and $$\text{IM}$$ is the value of total imports (domestic purchases of foreign goods).
@@ -170,7 +169,7 @@ Now, the calculation of real GDP fixes a certain base year. This is not good bec
 # Lecture 23
 
 We tend to overestimate the rate of inflation and underestimate the rate of real economic growth when we consider the fact that earlier, people did not have modern conveniences.    
-As a result, to compensate for the shift in base year prices. We chain weight to average the prices.
+As a result, to compensate for the shift in base year prices, we chain weight to average the prices.
 
 The _GDP deflator_ or _implicit price deflator_ is the ratio of the nominal GDP to the real GDP. It gives a measure of the price of output relative to its price in the base year. It reflects the level of prices in the economy (and not quantities).    
 Observe that the GDP deflator is equal to $$1$$ in the base year.    
