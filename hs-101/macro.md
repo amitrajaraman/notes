@@ -291,9 +291,10 @@ _Efficiency-wage_ theories propose another cause of wage rigidity. They claim th
 When MNCs pay more wage than the equilibrium rate, the market is not cleared. Since the supply of labour is fixed, a higher supply means lower demand. This results in unemployment.
 
 The unemployment caused by the time it takes workers to search for a job is called _frictional unemployment_, Economists call a change in the composition of demand among industries or regions a _sectoral shift_.    
-Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is _unemployment insurance_.
+Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is _unemployment insurance_. In this, workers collect a fraction of their wages for a certain period after losing their jobs.
 
-Wage rigidty is the failure of wages to adjust until labour supply eqals the labour demand.
+Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are not unemployed because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level.    
+Globalization is a major cause for increased competition around the world. Developing countries provide cheap labour so many companies relocate their manufacturing plants to these nations. So, workers who were previously involved in manufacturing may become unemployed.
 
 # Lecture 28
 
@@ -307,16 +308,19 @@ In 1914, Ford started paying $5 per day to workers (against the prevailing $2 or
 * Hidden unemployment - people not registered in the official statistics, underemployed people, and skilled people in low-skilled jobs.
 
 
-The negative relationship between unemployment is called _Okun's law_. It is defined as
+The negative relationship between unemployment and GDP is called _Okun's law_. It is defined as
 
 $$\text{Percentage change in real GDP} = \text{Relation between real GDP and unemployment} - 2\times\text{the change in the unemployment rate}.$$
 
-Okun obtained the above by running a linear regression on  the data.
+Okun obtained the above by running a linear regression on the data.
 
 Some problems in GDP measurement are:
 
 * Illegal activities
-* Tax avoidance (10% of earning population paying tax)
-* Hoarding assets - gold for example
-* Negative externalities - for example, degrading the environment results in the growth of the fertilizer industry. It does not take natural resources into account.
-* It does not measure changes in happiness
+* Tax avoidance (4-5% of earning population paying tax)
+* Hoarding assets - gold for example    
+	The above three are primarily in developing countries like India.
+* Non-market transactions like a barter system in villages and payments to domestic servants.
+* Negative externalities - for example, degrading the soil results in the growth of the fertilizer industry.
+* It does not take depletion of  natural resources into account.
+* It does not measure changes in happiness.
