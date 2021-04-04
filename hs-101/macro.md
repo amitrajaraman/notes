@@ -251,7 +251,7 @@ $$P = \frac{\sum p_t q_0}{\sum p_0 q_0} \times 100 $$
 
 and the Paasche price index is equal to
 
-$$P = \frac{\sum p_t q_0}{\sum p_0 q_t} \times 100, $$
+$$P = \frac{\sum p_t q_t}{\sum p_0 q_t} \times 100, $$
 
 where $$P$$ is the price index, $$p_t$$ is the current price, $$q_t$$ is the quantity used in the current period, $$p_0$$ is the price of the base period, and $$q_0$$ is the quantity used in the base period.
 
