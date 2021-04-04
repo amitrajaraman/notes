@@ -314,7 +314,7 @@ It was observed that most spells of unemployment are short, but most unemploymen
 The unemployment caused by the time it takes workers to search for a job is called _frictional unemployment_. Economists call a change in the composition of demand among industries or regions a _sectoral shift_.    
 Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is unemployment insurance. In this, workers collect a fraction of their wages for a certain period after losing their jobs. This decreases the incentive to find a new job. While economists agree that eliminating this will reduce the amount of unemployment, they disagree on whether it will enhance economic well-being.
 
-Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are not unemployed because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level. This is the result of a minimum wage law above the equilibrium wage. It should be noted that efficiency-wage theories claim that even in the presence of a minimum wage or a surplus of workers, firms should set their wage far above the equilibrium wage.
+Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are unemployed not because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level. This is the result of a minimum wage law above the equilibrium wage. It should be noted that efficiency-wage theories claim that even in the presence of a minimum wage or a surplus of workers, firms should set their wage far above the equilibrium wage.
 
 In job search, people are searching for jobs that suit their skills to open up, whereas in the above example, people are waiting for jobs to open up.
 
@@ -353,10 +353,9 @@ Some problems in GDP measurement are:
 * It does not take depletion of natural resources into account.
 * It does not talk about the distribution of income.
 * It does not measure changes in happiness. For example, higher GDP does not mean better education, but it does mean that the government can afford better education.
-
-Is GDP a good measure of economic welfare?
-
 * Growth and development are different. For example, a large fraction of India's GDP is in healthcare, but people's health has not significantly improved.
-* GDP does not talk about equal distribution of wealth.
-* Even if the GDP of a nation increases, the median income can go down.
-<!-- 5th point, GDI measures the income (iirc) and middle east has high exports of oil so biased GDI (not really sure) -->
+
+<!-- Is GDP a good measure of economic welfare? -->
+
+<!-- * GDP does not talk about equal distribution of wealth.
+* Even if the GDP of a nation increases, the median income can go down. -->
