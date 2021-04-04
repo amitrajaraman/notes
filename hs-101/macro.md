@@ -30,7 +30,7 @@ In contrast to microeconomics, macroeconomics studies economy-wide phenomena suc
 How do we measure the performance of an economy? Two measures that come to mind are per capita income and life expectancy.    
 
 The main actors in any economy are consumers, workers, and employers. Each person is a consumer and furthermore, they may be a worker or an employer.    
-In addition to the $$7$$ principles we studied at the beginning of microeconomics, there are $$3$$ that are relevant to macroeconomics.
+In addition to the 7 principles we studied at the beginning of microeconomics, there are 3 that are relevant to macroeconomics.
 
 _Macroeconomics_ is the analysis of the backdrop of economic conditions against which firms/consumers make decisions.    
 The measures we use are _per capita income_ and _life expectancy_. It is seen that both of them vary very widely across countries. We also sometimes use the total market value of a nation's production - its _Gross Domestic Product (GDP)_.
@@ -338,7 +338,7 @@ When the wage increases due to union activity, there is a decrease in demand for
 
 The negative relationship between unemployment and GDP is called _Okun's law_. It is defined as
 
-$$\text{Percentage change in real GDP} = \text{Relation between real GDP and unemployment} - 2\times\text{the change in the unemployment rate}.$$
+$$\text{\% change in real GDP} = \text{Relation between real GDP and unemployment} - 2\times\text{change in unemployment rate}.$$
 
 Okun obtained the above by running a linear regression on the data.
 
