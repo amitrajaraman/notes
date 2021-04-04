@@ -294,7 +294,7 @@ We have $$L = E + U$$, where $$L$$ is the labor force, $$E$$ is the number of em
 The unemployment rate is $$U/L$$. The rate of job separation (severance rate) is denoted $$s$$ and the rate of job finding as $$f$$.    
 Then, the number of people finding jobs is $$fU$$ and the number of people losing jobs is $$sE$$. In steady state, $$fU = sE$$. Equivalently,
 
-$$U/L = s/(s+f).$$
+$$\frac{U}{L} = \frac{s}{s+f}.$$
 
 Any policy aimed at lowering the natural rate of unemployment should either reduce the rate of job separation $$s$$ or increase the rate of job finding $$f$$.
 
