@@ -32,11 +32,6 @@ How do we measure the performance of an economy? Two measures that come to mind 
 The main actors in any economy are consumers, workers, and employers. Each person is a consumer and furthermore, they may be a worker or an employer.    
 In addition to the 7 principles we studied at the beginning of microeconomics, there are 3 that are relevant to macroeconomics.
 
-_Macroeconomics_ is the analysis of the backdrop of economic conditions against which firms/consumers make decisions.    
-The measures we use are _per capita income_ and _life expectancy_. It is seen that both of them vary very widely across countries. We also sometimes use the total market value of a nation's production - its _Gross Domestic Product (GDP)_.
-
-What makes countries that contribute more to the global economy different?
-
 8. A country's standard of living depends on its ability to produce goods and services.     
 _Productivity_ is the amount of goods and services produced from each hour of a worker's time.
 
@@ -45,6 +40,12 @@ _Inflation_ is an increase in the overall level of prices in the economy. In the
 
 10. Society faces a short-run trade-off between inflation and unemployment.    
 We shall study this in the _Phillips curve_.
+
+_Macroeconomics_ is the analysis of the backdrop of economic conditions against which firms/consumers make decisions.    
+The measures we use are _per capita income_ and _life expectancy_. It is seen that both of them vary very widely across countries. We also sometimes use the total market value of a nation's production - its _Gross Domestic Product (GDP)_.
+
+What makes countries that contribute more to the global economy different?
+
 
 # Lecture 19
 
