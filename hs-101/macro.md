@@ -110,13 +110,11 @@ Therefore, we measure the GDP as the sum of the
 * indirect taxes minus subsidies
 * net factor payments to the rest of the world
 
-In the expenditure approach, we take into account
-* the consumption expenditure 
-* gross private domestic investment which comprises of
-	* the creation of capital goods such as factories/machines that can yield production (and thus consumption). This also includes changes in business inventories and repairs made to machines and buildings.
-	* producer durables or capital goods (life span more than three years)
-	* fixed investments (purchases by a business of newly produced producer durables or capital goods)
-	* inventory investments (changes in stocks of finished goods and goods in process, as well as changes in raw materials)
+Gross private domestic investment consists of
+* the creation of capital goods such as factories/machines that can yield production (and thus consumption). This also includes changes in business inventories and repairs made to machines and buildings.
+* producer durables or capital goods (life span more than three years)
+* fixed investments (purchases by a business of newly produced producer durables or capital goods)
+* inventory investments (changes in stocks of finished goods and goods in process, as well as changes in raw materials)
 
 # Lecture 21
 
@@ -283,12 +281,12 @@ We can compare the prices in different years as
 
 $$\text{Amount in today's dollars} = \text{Amount in previous year's dollars} \times \frac{\text{Price level today}}{\text{Price level in previous year}}.$$
 
-When we perform the above correction, we are said to _index_ the amount for inflation. 
+When we perform the above correction, we are said to _index_ the amount for inflation. Approximately, when we put our money in a bank, the real interest rate is equal to the nominal interest rate minus the inflation rate.
 
 _Unemployment rate_ is the statistic that measures the percentage of people who want to work but do not have jobs, reflecting the performance of the economy.
 
 _Labor force_ is the sum of the employed and unemployed, and the _unemployment rate_ is the percentage of the labor force that is unemployed. The _labor force participation rate_ is the percentage of the adult population that is in the labor force.    
-The average rate of unemployment around which the economy fluctuates is called the _natural rate of unemployment_. It is the rate of unemployment towards which the economy gravitates.
+The average rate of unemployment around which the economy fluctuates is called the _natural rate of unemployment_. It is the rate of unemployment towards which the economy gravitates. It should be noted that natural does not mean desirable.
 
 # Lecture 27
 
@@ -300,9 +298,10 @@ $$U/L = s/(s+f).$$
 
 Any policy aimed at lowering the natural rate of unemployment should either reduce the rate of job separation $$s$$ or increase the rate of job finding $$f$$.
 
-The two main reasons for unemployment are _job search_ and _wage rigidity_.
+The two main reasons for unemployment are _job search_ and _wage rigidity_.    
+Job search is the process of matching workers with appropriate jobs.
 
-_Efficiency-wage_ theories propose another cause of wage rigidity. They claim that high wages make workers more productive. There are four theories related to this:
+_Efficiency-wage theories_ propose another cause of wage rigidity. They claim that high wages make workers more productive. There are four theories related to this:
 
 * An increase in wage allows workers to get a more nutritious diet, which increases productivity. They can pay more than the equilibrium wage to maintain a healthy workforce. This is mostly relevant in developing countries.
 * Higher wage increases the workers' incentive to stay with the firm, which decreases hiring/training costs.
@@ -311,10 +310,14 @@ _Efficiency-wage_ theories propose another cause of wage rigidity. They claim th
 
 When MNCs pay more wage than the equilibrium rate, the market is not cleared. Since the supply of labour is fixed, a higher supply means lower demand. This results in unemployment.
 
-The unemployment caused by the time it takes workers to search for a job is called _frictional unemployment_, Economists call a change in the composition of demand among industries or regions a _sectoral shift_.    
-Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is _unemployment insurance_. In this, workers collect a fraction of their wages for a certain period after losing their jobs.
+It was observed that most spells of unemployment are short, but most unemployment observed at any given time is long-term.    
+The unemployment caused by the time it takes workers to search for a job is called _frictional unemployment_. Economists call a change in the composition of demand among industries or regions a _sectoral shift_.    
+Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is unemployment insurance. In this, workers collect a fraction of their wages for a certain period after losing their jobs. This decreases the incentive to find a new job. While economists agree that eliminating this will reduce the amount of unemployment, they disagree on whether it will enhance economic well-being.
 
-Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are not unemployed because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level.    
+Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are not unemployed because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level. This is the result of a minimum wage law above the equilibrium wage. It should be noted that efficiency-wage theories claim that even in the presence of a minimum wage or a surplus of workers, firms should set their wage far above the equilibrium wage.
+
+In job search, people are searching for jobs that suit their skills to open up, whereas in the above example, people are waiting for jobs to open up.
+
 Globalization is a major cause for increased competition around the world. Developing countries provide cheap labour so many companies relocate their manufacturing plants to these nations. So, workers who were previously involved in manufacturing may become unemployed.
 
 # Lecture 28
@@ -322,12 +325,16 @@ Globalization is a major cause for increased competition around the world. Devel
 In 1914, Ford started paying $5 per day to workers (against the prevailing $2 or $3 wage). According to Ford, this is in fact "the finest cost cutting move" he has ever made. The increase in wage increases the firm's productivity. Absenteeism fell by 75% and shop floor costs fell as well.
 
 * Cyclical unemployment - This refers to the year-to-year fluctuations around its natural rate, which is associated with the short-run ups and downs of economic activity.
-* Disguised unemployment - 
-* Structural unemployment - 
+* Disguised unemployment
+* Structural unemployment
 * Seasonal unemployment - people may be hired only in summers
 * Frictional unemployment
 * Hidden unemployment - people not registered in the official statistics, underemployed people, and skilled people in low-skilled jobs.
 
+Some workers, known as _discouraged workers_ claim to be unemployed but are not really trying to find a job.
+
+A _union_ is a worker association that bargains with workers over wages, benefits, and working conditions. The process by which unions and firms agree on the terms of employment is referred to as _collective bargaining_. If an agreement is not reached, a union can withdraw labour, resulting in a _strike_. Union workers usually earn about 10 to 20 percent more than similar workers who are not in unions. Unions just serve as an antidote against any market power that the firms that hire workers may possess.    
+When the wage increases due to union activity, there is a decrease in demand for labour. This causes a conflict between "insiders", who are the union workers that gain from the increased wages, and the "outsiders", who do not get the union jobs. Workers not in unions bear some of the cost as well. Even if the unions have this adverse effect of pushing wages above the equilibrium level and causing unemployment, the advantage is that firms have a happy and productive workforce.      
 
 The negative relationship between unemployment and GDP is called _Okun's law_. It is defined as
 
