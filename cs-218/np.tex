@@ -8,7 +8,25 @@ This does not work -- consider the set of times $\{1,1,100\}$. Our scheduling pr
 The issue seems to be that the ordering of the jobs is problematic. So instead, schedule the jobs in non-increasing order and repeat the above algorithm. Does this work?\\
 No, it does not. Consider the set of jobs $\{3,3,2,2,2\}$ -- our algorithm gives a time of $7$ but a time of $6$ can be attained.\\
 
-It in fact turns out that it is impossible (or at least extremely hard) to get a polynomial time algorithm. How do we show that this problem is ``hard'' though? What does ``hard'' even mean?\\
+It in fact turns out that it is impossible (or at least extremely hard) to get an efficient (polynomial time) algorithm for this. It is quite surprising that we solved the interval-scheduling problem without too much difficulty, yet this is incredibly hard.\\
+How do we show that this problem is ``hard'' though? What does ``hard'' even mean?
+
+\subsection{Overview and some Definitions}
+
+\begin{fdef}
+	A problem $\mathsf{\Pi}$ is said to be in the class $\mathsf{P}$ if there exists an algorithm $\mathcal{A}$ such that for any input $x$, $\mathcal{A}$ finds the correct solution for $x$ in ttime $\textsf{poly}(|x|)$ time.
+\end{fdef}
+
+Searching, sorting, interval scheduling, primality testing, max-flow, finding a perfect matching in a bipartite graph are just a few examples of important problems in $\mathsf{P}$.\\
+Before we get to the definition of $\mathsf{NP}$, let us start with a few examples.
+
+\paragraph{The $3$-colorability problem.}
+Given a graph $G=(V,E)$, check if there exists a $3$-coloring of $G$ -- a function $f:V\to\{1,2,3\}$ such that for any $e=uv \in E$, $f(u) \neq f(v)$.\\
+One can think a bit and struggle to come up with an algorithm for the above. Now, suppose someone gives you a $c:V\to\{1,2,3\}$. Then in polynomial time, one can test whether or not this is a valid $3$-colouring (by checking the colours of the two vertices on every edge). That is, while it is difficult to come up with a solution for the algorithm, it is easy to test whether a given input is a solution or not.
+
+\paragraph{The $k$-clique problem.}
+Given a graph $G=(V,E)$, does $G$ have a clique of size $k$?\\
+For a given subset $S\subseteq V$, we can easily test whether or not it is a $k$-clique (by checking if there is an edge between any two vertices in $S$).
 
 \subsection{Reduction}
 
