@@ -125,7 +125,7 @@ The expenditure components of GDP are consumption, investment, government spendi
 * _Consumption_ $$\text{C}$$ is the value of all goods and services purchased by households. It comprises of
 	* durable consumer goods (life span more than three years),
 	* non-durable consumer goods (life span at most three years), and
-	* services (mental or physical help). This does not include purchase of new housing. We can choose to include education in this or in the next section.    
+	* services (mental or physical help). This does not include purchase of new housing. Education is usually included in this section too.    
 * _Investment_ $$\text{I}$$ includes
 	* business fixed investment (spending on plant and equipment that firms will use to produce the other goods/services),
 	* residential fixed investment (spending on housing units/structures by consumers and landlords), and
