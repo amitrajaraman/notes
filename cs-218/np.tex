@@ -26,7 +26,46 @@ One can think a bit and struggle to come up with an algorithm for the above. Now
 
 \paragraph{The $k$-clique problem.}
 Given a graph $G=(V,E)$, does $G$ have a clique of size $k$?\\
-For a given subset $S\subseteq V$, we can easily test whether or not it is a $k$-clique (by checking if there is an edge between any two vertices in $S$).
+A brute-force algorithm would require $\mathcal{O}(n^k)$ time, which \textit{is} polynomial for a fixed $k$. It is not polynomial if we have, say, $k=\sqrt{n}$ however.\\
+As in the previous example, for a given subset $S\subseteq V$, we can easily test whether or not it is a $k$-clique (by checking that it has cardinality $k$ and if there is an edge between any two vertices in $S$).
+
+\paragraph{The satisfiability problem.}
+Given a CNF formula $\varphi$ over variables $x_1,\ldots,x_n$, does there exist an assignment $\tilde{a}$ such that $\tilde{a}$ satisfies $\varphi$?\\
+If $\varphi$ is satisfiable, then there exists an assignment $\tilde{a}$ that ``witnesses'' this. As in the previous examples, it is difficult to come up with an algorithm that finds a satisfying assignment (or determine satisfiability). It is easy to check if a given assignment is satisfying, however.
+
+This sort of property where checking is easy is what leads to the definition of $\mathsf{NP}$.
+
+\begin{fdef}
+	A problem $\mathsf{\Pi}$ is said to be in $\mathsf{NP}$ if there is a polynomial time algorithm $\mathcal{T}$ such that
+	\begin{itemize}
+		\item If input $x$ is a positive instance of $\Pi$ then there is a polynomial length proof $y$ such that $\mathcal{T}$ on inputs $x,y$ outputs \texttt{Yes}.
+		\item If input $x$ is a negative instance of $\Pi$ then for any polynomial length proof $y$ such that $\mathcal{T}(x,y)$ outputs \texttt{No}.
+	\end{itemize}
+\end{fdef}
+
+For example, in the $3$-colorability problem, $x$ would be the graph $G=(V,E)$, $y$ would be a function $c:V\to\{1,2,3\}$, and $\mathcal{T}$ would be the algorithm that checks if $c$ is a $3$-coloring.\\
+The ``proof'' just serves as the ``witness'' we mentioned earlier -- an example that proves correctness.\\
+
+Note that the problem $\Pi$ itself is just a yes-no problem. The input $x$ is a positive instance if the answer to $\Pi$ for $x$ is yes and a negative instance if the answer is no.\\
+
+The first important observation to make is that any problem in $\mathsf{P}$ is a problem in $\mathsf{NP}$. For any $y$, we can take $\mathcal{T}$ as the algorithm that just solves the problem and answers yes or no. We ignore the proof and merely determine if $x$ is a positive or negative instance.\\
+Therefore,
+\[ \mathsf{P} \subseteq \mathsf{NP}. \]
+
+What if the problem itself is not a yes-no problem -- perhaps a search or optimization problem?\\
+A problem where the answer is just yes or no is referred to as a \textit{decision problem}. For example, $3$-colorability and primality testing.\\
+In a \textit{search problem}, we are asked to find a solution. For example, finding a path between a pair of vertices, sorting, and finding a $3$-coloring.\\
+In an \textit{optimization problem}, we are asked to find a ``best'' solution with respect to some optimization parameter. For example, max-flow, min-cut, longest common subsequence.\\
+
+Any search problem has a decision problem variant. If a search problem asks to find a specific solution, the decision problema asks whether there is a solution.\\
+For example, finding a $3$-colouring changes to asking whether a $3$-coloring asks.\\
+Observe that if we can solve a search problem, we can solve its decision variant as well.\\
+
+Similarly, suppose we are given an optimization problem that asks to find a solution that maximizes/minimizes some parameter. Then the decision variant asks if there is a solution that has parameter at least/at most $v$?\\
+For example, finding a max-flow changes to asking if there is a flow of value at least $v$.\\
+If we can solve an optimization problem, we can solve its decision variant as well.\\
+
+Now, consider the decision variant of the scheduling problem we discussed earlier -- given $d_1,\ldots,d_n$ and $T$, does there exist a scheduling on two processors such that the total time is at most $T$? It is easy to see that this problem is in $\mathsf{NP}$. Given a scheduling (a proof), we can just find the total time it takes and thus verify if this is at most $T$.
 
 \subsection{Reduction}
 
@@ -41,3 +80,4 @@ Can we come up with a reduction that goes the other way round? Before doing this
 \end{itemize}
 Since $i$ can go up to $n$, we are calling the perfect matching algorithm only $n$ times. This can be decreased to $\log n$ by using a binary search-like scheme.\\
 Now that we have done this, the original problem is not too difficult. Suppose the size of a maximum matching is $l$. We can remove an edge and ask if the remaining graph has a matching of size $l$ (that is, if the size of a maximum matching is still equal to $l$). If no, we discard the edge. The remaining graph will just be a matching, which gives us a maximum matching in the original graph.
+
