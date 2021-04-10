@@ -14,7 +14,9 @@
 	\begin{solution*}
 		\begin{enumerate}[(a)]
 			\item Let $\{x\}$ be a one-point set in $X$ and $\mathcal{B}$ a countable basis at $x$. We claim that $U \coloneqq \bigcap_{B\in\mathcal{B}} B = \{x\}$. Let $y\in X$ be distinct from $x$. Since $X$ is $T_1$, there is an open $V$ such that $x\in U\not\ni y$. Letting $B$ be a basis element such that $x\in B\subseteq U$, we see that $y\not\in B$. Therefore, $y\not\in W$ and $W = \{x\}$.
-			\item 
+			\item Consider $\R^\omega$ under the box topology. Then for any $x\in\R^\omega$,
+			\[ \{x\} = \bigcap_{n\in\N} \prod_{i\in\N} (x_i - 1/n, x_i + 1/n). \]
+			Therefore, any one-point set in $\R^\omega$ is a $G_\delta$ set. It remains to show that $\R^\omega$ is not first countable. Suppose otherwise and let $(B_n)$ be a countable basis at some $x\in\R^\omega$. For each $n$, $x_n \in \pi_n(B_n) \subseteq \R$. Since this set is open (because the projection map is open), we can find a $V_n \subsetneq \pi_n(B_n)$ such that $x_n \in V_n$. Letting $V = \prod_{n\in\N} V_n$, we see that $x \in V$ but $U_n \not\subseteq V$ for any $n$.
 		\end{enumerate}
 	\end{solution*}
 
@@ -58,12 +60,12 @@
 	\end{solution*}
 
 	% 30.6
-	% \begin{exercise}
-	% 	Show that $\R_\ell$ and $I_0^2$ are not metrizable.
-	% \end{exercise}
-	% \begin{solution*}
-	% 	By the previous question, it suffices to show that each of the two spaces do not have a countable basis and are either not separable or not Lindel\"{o}f.
-	% \end{solution*}
+	\begin{exercise}
+		Show that $\R_\ell$ and $I_0^2$ are not metrizable.
+	\end{exercise}
+	\begin{solution*}
+		By the previous question, it suffices to show that each of the two spaces are Lindel\"{o}f and not second countable. 
+	\end{solution*}
 
 	% 30.9
 	\setcounter{exercise}{8}
