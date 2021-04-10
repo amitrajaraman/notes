@@ -2,491 +2,522 @@
 
 \subsection{An Isoperimetric Problem}
 
-\subsubsection{Introduction}
+	\subsubsection{Introduction}
 
-In the context of ball-step, let us look at the mixing time of the chain for a general (not necessarily convex) body.\\
-As discussed, it suffices to look at the conductance of the chain, which relates to finding a ``cut'' of the body of relatively small surface area. For example, in a dumbbell, we could have a cut down the central bottleneck, which would result in a very low conductance.\\
-What about convex bodies? It is seen that hyperplanes are not bad (this is made precise in \Cref{kls conj hyperplane}). A natural next question is: could we have some convoluted cut that ends up being a bottleneck? In \cite{KLSConjecture}, Kannan, Lov\`asz, and Simonovits conjectured that this in fact cannot happen. In particular, they claim that up to a constant factor, hyperplane cuts are in fact the ``worst'' cuts.\\
-We first formalize this notion of a cut to get an expression similar to that of conductance, discuss some localization lemmata similar to those discussed earlier (to reduce $n$-dimensional integrals to $1$-dimensional integrals), prove an improvement of \Cref{improvement of conductance isoperimetric inequality} in \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2}, and finish off with the statement of the conjecture.
+		In the context of ball-step, let us look at the mixing time of the chain for a general (not necessarily convex) body.\\
+		As discussed, it suffices to look at the conductance of the chain, which relates to finding a ``cut'' of the body of relatively small surface area. For example, in a dumbbell, we could have a cut down the central bottleneck, which would result in a very low conductance.\\
+		What about convex bodies? It is seen that hyperplanes are not bad (this is made precise in \Cref{kls conj hyperplane}). A natural next question is: could we have some convoluted cut that ends up being a bottleneck? In \cite{KLSConjecture}, Kannan, Lov\`asz, and Simonovits conjectured that this in fact cannot happen. In particular, they claim that up to a constant factor, hyperplane cuts are in fact the ``worst'' cuts.\\
+		We first formalize this notion of a cut to get an expression similar to that of conductance, discuss some localization lemmata similar to those discussed earlier (to reduce $n$-dimensional integrals to $1$-dimensional integrals), prove an improvement of \Cref{improvement of conductance isoperimetric inequality} in \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2}, and finish off with the statement of the conjecture.
 
-Suppose we have a convex body $K$ and we want to find a surface that divides $K$ into two parts, whose measure is minimum relative to that of the two parts.
+		Suppose we have a convex body $K$ and we want to find a surface that divides $K$ into two parts, whose measure is minimum relative to that of the two parts.
 
-\begin{fdef}
-	\label{def: isoperimetric coefficient}
-	The \textit{isoperimetric coefficient} of a convex body $K\subseteq\Rn$ is defined as the largest number $\psi=\psi(K)$ such that for any measurable $S\subseteq K$,
-	\[ \psi = \inf_{S\subseteq K} \frac{\vol_{n-1}(\partial S)}{\min\{\vol(S),\vol(K\setminus S)\}} \]
-	More generally, for any log-concave density $p$ on $\Rn$ (instead of $\indic_K$ taken above), we can define $\psi_p$, the isoperimetric constant for $p$, as
-	\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}}. \]
-\end{fdef}
+		\begin{fdef}
+			\label{def: isoperimetric coefficient}
+			The \textit{isoperimetric coefficient} of a convex body $K\subseteq\Rn$ is defined as the largest number $\psi=\psi(K)$ such that for any measurable $S\subseteq K$,
+			\[ \psi = \inf_{S\subseteq K} \frac{\vol_{n-1}(\partial S)}{\min\{\vol(S),\vol(K\setminus S)\}} \]
+			More generally, for any log-concave density $p$ on $\Rn$ (instead of $\indic_K$ taken above), we can define $\psi_p$, the isoperimetric constant for $p$, as
+			\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}}. \]
+		\end{fdef}
 
-In some texts, the above definition is replaced with
-\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{p(S)p(\Rn\setminus S)}. \]
-Since both definitions are within a factor of $2$ of each other, this does not make much difference in our estimations.\\
+		In some texts, the above definition is replaced with
+		\[ \psi_p = \inf_{S\subseteq\Rn} \frac{p(\partial S)}{p(S)p(\Rn\setminus S)}. \]
+		Since both definitions are within a factor of $2$ of each other, this does not make much difference in our estimations.\\
 
-This problem turns out to be very intimately related to that of volume computation we explored in the previous section.\\
-\cite{lovasz-simonovits-mixing-rate-isoperimetric} bounds the isoperimetric coefficient below by $1/d$, where $d$ is the diameter of the body. Note that this is quite obvious if the separating surface $\partial S$ is a (section of a) hyperplane.\\
-\cite{applegate-kannan-cube-sandwich} gives a more general result where the measure is replaced by that with density equal to any log-concave function and bounds it below by $2/d$. This is in fact as tight as we can get in terms of the diameter and indeed, the bound is attained for a thin long cylinder.\\
-However, the bodies we are interested in (in say, volume computation) tend to have a certain structure to them. In particular, sandwiching makes the bodies somewhat round.\\
-The main result of this section is that for every convex body $K$,
-\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}, \]
-where $M_1(K)$ is the average distance of a point in $K$ from the center of gravity of $K$. 
+		This problem turns out to be very intimately related to that of volume computation we explored in the previous section.\\
+		\cite{lovasz-simonovits-mixing-rate-isoperimetric} bounds the isoperimetric coefficient below by $1/d$, where $d$ is the diameter of the body. Note that this is quite obvious if the separating surface $\partial S$ is a (section of a) hyperplane.\\
+		\cite{applegate-kannan-cube-sandwich} gives a more general result where the measure is replaced by that with density equal to any log-concave function and bounds it below by $2/d$. This is in fact as tight as we can get in terms of the diameter and indeed, the bound is attained for a thin long cylinder.\\
+		However, the bodies we are interested in (in say, volume computation) tend to have a certain structure to them. In particular, sandwiching makes the bodies somewhat round.\\
+		The main result of this section is that for every convex body $K$,
+		\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}, \]
+		where $M_1(K)$ is the average distance of a point in $K$ from the center of gravity of $K$. 
 
-\subsubsection{Needles and Localization Lemmas}
-\label{sec: 5.1.2}
+	\subsubsection{Needles and Localization Lemmas}
+	\label{sec: 5.1.2}
 
-To begin, consider the following motivated by \Cref{localization lemma}.
+		To begin, consider the following motivated by \Cref{localization lemma}.
 
-\begin{definition}
-	A \textit{needle} is a segment $[a,b]\in\Rn$ together with a non-negative linear function $\ell:I\to\R^{\geq 0}$ not identically $0$. If $N=(I,\ell)$ is a needle and $f$ is an integrable function defined on $I$, denote
-	\[ \int_N f = \int_{0}^{|b-a|} f(a+tu)\ell(a+tu)^{n-1} \d{t}, \]
-	where $u=(b-a)/|b-a|$.
-\end{definition}
+		\begin{definition}
+			A \textit{needle} is a segment $[a,b]\in\Rn$ together with a non-negative linear function $\ell:I\to\R^{\geq 0}$ not identically $0$. If $N=(I,\ell)$ is a needle and $f$ is an integrable function defined on $I$, denote
+			\[ \int_N f = \int_{0}^{|b-a|} f(a+tu)\ell(a+tu)^{n-1} \d{t}, \]
+			where $u=(b-a)/|b-a|$.
+		\end{definition}
 
-\begin{lemma}
-	\label{lem: 5.1}
-	Let $f_1$, $f_2$, $f_3$, $f_4$ be non-negative continuous functions defined on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
-	\begin{itemize}
-		\item For every convex body $K$ in $\Rn$,
-			\[ \left(\int_K f_1\right)^\alpha \left(\int_K f_2\right)^\beta \leq \left(\int_K f_3\right)^\alpha \left(\int_K f_4\right)^\beta. \]
-		\item For every needle $N$ in $\Rn$,
-			\[ \left(\int_N f_1\right)^\alpha \left(\int_N f_2\right)^\beta \leq \left(\int_N f_3\right)^\alpha \left(\int_N f_4\right)^\beta. \]
-	\end{itemize}
-\end{lemma}
-\begin{proof}
-	The first implying the second is quite easy to show. For the converse, suppose that the second holds but the first does not.\\
-	Adding a sufficiently small quantity to $f_3$ and $f_4$, we may further assume that they are (strictly) positive. We may also assume that $f_1$ and $f_2$ are positive (Why?). Choose some $A$ such that
-	\[ \frac{\left(\int_K f_1\right)^\alpha}{\left(\int_K f_3\right)^\alpha} > A > \frac{\left(\int_K f_4\right)^\beta}{\left(\int_K f_2\right)^\beta}. \]
-	Then,
-	\[ \int_K f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_K A^{1/\beta}f_2 - f_4 > 0. \]
-	Using \Cref{localization lemma}, there is some needle $N$ such that
-	\[ \int_N f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_N A^{1/\beta}f_2 - f_4 > 0. \]
-	This implies that
-	\[ \frac{\left(\int_N f_1\right)^\alpha}{\left(\int_N f_3\right)^\alpha} > A > \frac{\left(\int_N f_4\right)^\beta}{\left(\int_N f_2\right)^\beta}, \]
-	thus proving the claim.
-\end{proof}
+		\begin{lemma}
+			\label{lem: 5.1}
+			Let $f_1$, $f_2$, $f_3$, $f_4$ be non-negative continuous functions defined on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
+			\begin{itemize}
+				\item For every convex body $K$ in $\Rn$,
+					\[ \left(\int_K f_1\right)^\alpha \left(\int_K f_2\right)^\beta \leq \left(\int_K f_3\right)^\alpha \left(\int_K f_4\right)^\beta. \]
+				\item For every needle $N$ in $\Rn$,
+					\[ \left(\int_N f_1\right)^\alpha \left(\int_N f_2\right)^\beta \leq \left(\int_N f_3\right)^\alpha \left(\int_N f_4\right)^\beta. \]
+			\end{itemize}
+		\end{lemma}
+		\begin{proof}
+			The first implying the second is quite easy to show. For the converse, suppose that the second holds but the first does not.\\
+			Adding a sufficiently small quantity to $f_3$ and $f_4$, we may further assume that they are (strictly) positive. We may also assume that $f_1$ and $f_2$ are positive (Why?). Choose some $A$ such that
+			\[ \frac{\left(\int_K f_1\right)^\alpha}{\left(\int_K f_3\right)^\alpha} > A > \frac{\left(\int_K f_4\right)^\beta}{\left(\int_K f_2\right)^\beta}. \]
+			Then,
+			\[ \int_K f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_K A^{1/\beta}f_2 - f_4 > 0. \]
+			Using \Cref{localization lemma}, there is some needle $N$ such that
+			\[ \int_N f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_N A^{1/\beta}f_2 - f_4 > 0. \]
+			This implies that
+			\[ \frac{\left(\int_N f_1\right)^\alpha}{\left(\int_N f_3\right)^\alpha} > A > \frac{\left(\int_N f_4\right)^\beta}{\left(\int_N f_2\right)^\beta}, \]
+			thus proving the claim.
+		\end{proof}
 
-Observe that we can extend this more generally to the case where $f_1$ and $f_2$ are upper semicontinuous and $f_3$ and $f_4$ are lower semicontinuous by considering an appropriate sequence of continuous functions. In particular, this allows us to restrict ourselves from $\Rn$ to some subset $T$ of $\Rn$ by multiplying the functions with the indicator function $\indic_T$ (the functions extend to upper semicontinuous functions if $T$ is closed and lower semicontinuous functions if $T$ is open).
-% *** Why?
+		Observe that we can extend this more generally to the case where $f_1$ and $f_2$ are upper semicontinuous and $f_3$ and $f_4$ are lower semicontinuous by considering an appropriate sequence of continuous functions. In particular, this allows us to restrict ourselves from $\Rn$ to some subset $T$ of $\Rn$ by multiplying the functions with the indicator function $\indic_T$ (the functions extend to upper semicontinuous functions if $T$ is closed and lower semicontinuous functions if $T$ is open).
+		% *** Why?
 
-\begin{corollary}
-	\label{cor: if positive on convex set convex on some needle}
-	Let $T$ be a bounded open convex set in $\Rn$, $g$ a bounded lower semicontinuous function on $T$, and $h$ a continuous function on $T$ such that
-	\[ \int_T g > 0 \text{ and } \int_T h = 0. \]
-	Then there is a needle $N=(I,\ell)$ with $I\subseteq T$ such that
-	\[ \int_N g > 0 \text{ and } \int_N h = 0. \]
-\end{corollary}
-\begin{proof}
-	Choose some $0<\delta<\int_T g$ and let $\varepsilon>0$. Then,
-	\[ \int_T \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_T (\varepsilon^2	-h) > 0. \]
-	Extending these functions to functions on $\Rn$ (multiplying with the indicator function) and using \Cref{localization lemma}, we get a needle $N_\varepsilon=(I_\varepsilon,\ell_\varepsilon)$ with $I_\varepsilon\subseteq T$ (Why?) such that
-	\begin{equation}
-		\label{eqn: 5.1}
-		\int_{N_\varepsilon} \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_{N_\varepsilon} (\varepsilon^2-h) > 0.
-	\end{equation}
-	Observe that $\int_{N_\varepsilon} (g-\delta+\varepsilon)>0$.\\
-	Taking $M$ as the supremum of $g$ on $\Rn$,
-	\begin{equation}
-		\label{eqn: 5.2}
-		-M\varepsilon\int_{N_\varepsilon} 1 < \int_{N_\varepsilon} h < \varepsilon^2 \int_{N_\varepsilon} 1.
-	\end{equation}
-	Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each linear function $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required (we get $\int_N (g-\delta) \geq 0$ and $\int_N h = 0$).
-\end{proof}
+		\begin{corollary}
+			\label{cor: if positive on convex set convex on some needle}
+			Let $T$ be a bounded open convex set in $\Rn$, $g$ a bounded lower semicontinuous function on $T$, and $h$ a continuous function on $T$ such that
+			\[ \int_T g > 0 \text{ and } \int_T h = 0. \]
+			Then there is a needle $N=(I,\ell)$ with $I\subseteq T$ such that
+			\[ \int_N g > 0 \text{ and } \int_N h = 0. \]
+		\end{corollary}
+		\begin{proof}
+			Choose some $0<\delta<\int_T g$ and let $\varepsilon>0$. Then,
+			\[ \int_T \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_T (\varepsilon^2	-h) > 0. \]
+			Extending these functions to functions on $\Rn$ (multiplying with the indicator function) and using \Cref{localization lemma}, we get a needle $N_\varepsilon=(I_\varepsilon,\ell_\varepsilon)$ with $I_\varepsilon\subseteq T$ (Why?) such that
+			\begin{equation}
+				\label{eqn: 5.1}
+				\int_{N_\varepsilon} \left(g-\delta+\frac{1}{\varepsilon}h\right) > 0 \text{ and } \int_{N_\varepsilon} (\varepsilon^2-h) > 0.
+			\end{equation}
+			Observe that $\int_{N_\varepsilon} (g-\delta+\varepsilon)>0$.\\
+			Taking $M$ as the supremum of $g$ on $\Rn$,
+			\begin{equation}
+				\label{eqn: 5.2}
+				-M\varepsilon\int_{N_\varepsilon} 1 < \int_{N_\varepsilon} h < \varepsilon^2 \int_{N_\varepsilon} 1.
+			\end{equation}
+			Consider these needles for $\varepsilon=1/k$ ($k\in\N$). Scaling appropriately, we may assume that the maximum of each linear function $\ell_{1/k}$ is $1$. Using the Bolzano-Weierstrass Theorem, there is some subsequence of these needles that converges (in the sense that the endpoints of the $I_{1/k}$ and the $\ell_{1/k}$ converge)\footnote{We can think of an needle $N=([a,b],\ell)$ as an element $(a,b,\ell(a),\ell(b)-\ell(a))\in\R^{2n+2}$. In our case, this sequence is bounded because each interval is in the bounded set $T$ and each $\ell$ is between $0$ and $1$.} to some needle $N=(I,\ell)$. Combining \Cref{eqn: 5.1,eqn: 5.2} implies that $N$ satisfies the required (we get $\int_N (g-\delta) \geq 0$ and $\int_N h = 0$).
+		\end{proof}
 
-While these results are quite nice, exponents of a linear function are not very convenient to deal with. This motivates the following.
+		While these results are quite nice, exponents of a linear function are not very convenient to deal with. This motivates the following.
 
-\subsubsection{Exponential Needles}
-\label{sec: 5.1.3}
+	\subsubsection{Exponential Needles}
+	\label{sec: 5.1.3}
 
-\begin{definition}
-	An \textit{exponential needle} is a segment $[a,b]\in\Rn$ together with a real $\gamma$. If $E=(I,\gamma)$ is a needle and $f$ is an integrable function defined on $I$, denote
-	\[ \int_E f = \int_{0}^{|b-a|} f(a+tu)e^{\gamma t} \d{t}, \]
-	where $u=(b-a)/\norm{b-a}$.
-\end{definition}
+		\begin{definition}
+			An \textit{exponential needle} is a segment $[a,b]\in\Rn$ together with a real $\gamma$. If $E=(I,\gamma)$ is a needle and $f$ is an integrable function defined on $I$, denote
+			\[ \int_E f = \int_{0}^{|b-a|} f(a+tu)e^{\gamma t} \d{t}, \]
+			where $u=(b-a)/\norm{b-a}$.
+		\end{definition}
 
-If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
+		If we manage to prove our results for an exponential needle instead, it is extremely convenient because taking exponents does not change the underlying structure of the function itself.
 
-\begin{lemma}
-	\label{localized exponential needle interconversion}
-	Let $f_1$, $f_2$, $f_3$, and $f_4$ be four non-negative continuous functions defined on an interval $[a,b]$ in $\R$ and $\alpha,\beta>0$. Then the following are equivalent.
-	\begin{itemize}
-		\item For every log-concave function $F$ defined on $\R$, 
-		\[ \left(\int_a^b F(t)f_1(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_2(t)\d{t}\right)^\beta \leq \left(\int_a^b F(t)f_3(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_4(t)\d{t}\right)^\beta. \]
+		\begin{lemma}
+			\label{localized exponential needle interconversion}
+			Let $f_1$, $f_2$, $f_3$, and $f_4$ be four non-negative continuous functions defined on an interval $[a,b]$ in $\R$ and $\alpha,\beta>0$. Then the following are equivalent.
+			\begin{itemize}
+				\item For every log-concave function $F$ defined on $\R$, 
+				\[ \left(\int_a^b F(t)f_1(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_2(t)\d{t}\right)^\beta \leq \left(\int_a^b F(t)f_3(t)\d{t}\right)^\alpha \left(\int_a^b F(t)f_4(t)\d{t}\right)^\beta. \]
 
-		\item For every subinterval $[a',b']\subseteq[a,b]$ and real $\gamma$,
-		\[ \left(\int_{a'}^{b'} e^{\gamma t}f_1(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_2(t)\d{t}\right)^\beta \leq \left(\int_{a'}^{b'} e^{\gamma t}f_3(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_4(t)\d{t}\right)^\beta. \]
-	\end{itemize}
-\end{lemma}
+				\item For every subinterval $[a',b']\subseteq[a,b]$ and real $\gamma$,
+				\[ \left(\int_{a'}^{b'} e^{\gamma t}f_1(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_2(t)\d{t}\right)^\beta \leq \left(\int_{a'}^{b'} e^{\gamma t}f_3(t)\d{t}\right)^\alpha \left(\int_{a'}^{b'} e^{\gamma t}f_4(t)\d{t}\right)^\beta. \]
+			\end{itemize}
+		\end{lemma}
 
-\begin{proof}
-	The first implying the second is obvious (on setting $F=\indic_{[a',b']}e^{\gamma t}$).
+		\begin{proof}
+			The first implying the second is obvious (on setting $F=\indic_{[a',b']}e^{\gamma t}$).
 
-	Note that if for some $t_0\in[a,b]$, $f_1(t_0)^\alpha f_2(t_0)^\beta > f_3(t_0)^\alpha f_4(t_0)^\beta$, then both the assertions above fail since we can consider
-	\begin{itemize}
-		\item the log-concave function $e^{-c(t-t_0)^2}$ for a sufficiently large $c$, or
-		\item a sufficiently small interval containing $t_0$.
-	\end{itemize}
-	Therefore, we may assume that for all $t\in[a,b]$,
-	\begin{equation*}
-		\label{eqn: init observation exp needle conv body}
-		\tag{$*$}
-		f_1(t)^\alpha f_2(t)^\beta \leq f_3(t)^\alpha f_4(t)^\beta.
-	\end{equation*}
+			Note that if for some $t_0\in[a,b]$, $f_1(t_0)^\alpha f_2(t_0)^\beta > f_3(t_0)^\alpha f_4(t_0)^\beta$, then both the assertions above fail since we can consider
+			\begin{itemize}
+				\item the log-concave function $e^{-c(t-t_0)^2}$ for a sufficiently large $c$, or
+				\item a sufficiently small interval containing $t_0$.
+			\end{itemize}
+			Therefore, we may assume that for all $t\in[a,b]$,
+			\begin{equation*}
+				\label{eqn: init observation exp needle conv body}
+				\tag{$*$}
+				f_1(t)^\alpha f_2(t)^\beta \leq f_3(t)^\alpha f_4(t)^\beta.
+			\end{equation*}
 
-	Suppose the second holds and the first does not for some log-concave function $F$.\\
-	We may assume that $F\neq 0$ (so $F>0$) on $[a,b]$. Otherwise, we can replace it with its convolution with $e^{-ct^2}$ for a sufficiently large $c$, which is still log-concave by \Cref{convolution of log concave functions is log concave} and would still satisfy the inequality (Why?). We may also assume that $F\geq 1$ on $[a,b]$ by scaling up appropriately. Let $F=e^G$, where $G$ is a non-negative concave function on $[a,b]$.\\
-	For each $n$, define $K_n\subseteq\R^{n+1}$ by
-	\[ K_n = \left\{ (t,x) : t\in[a,b], x\in\Rn, \norm{x} \leq 1 + \frac{G(t)}{n} \right\}. \]
-	Let $\hat{f}_i:\R^{n+1}\to\R$ by defined by $\hat{f}_i(t,x)=f_i(t)$.\\
-	For sufficiently large $n$, we have $(1+G(t)/n)^n\approx e^{G(t)} = F(t)$, so we can write%\footnote{The $F$ disappears from the integral when integrating over the ``discs'' orthogonal to the $t$-axis.}
-	\[ \left(\int_{K_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{K_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
-	Using \Cref{lem: 5.1}, there exists a needle $N_n$ such that
-	\[ \left(\int_{N_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{N_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
+			Suppose the second holds and the first does not for some log-concave function $F$.\\
+			We may assume that $F\neq 0$ (so $F>0$) on $[a,b]$. Otherwise, we can replace it with its convolution with $e^{-ct^2}$ for a sufficiently large $c$, which is still log-concave by \Cref{convolution of log concave functions is log concave} and would still satisfy the inequality (Why?). We may also assume that $F\geq 1$ on $[a,b]$ by scaling up appropriately. Let $F=e^G$, where $G$ is a non-negative concave function on $[a,b]$.\\
+			For each $n$, define $K_n\subseteq\R^{n+1}$ by
+			\[ K_n = \left\{ (t,x) : t\in[a,b], x\in\Rn, \norm{x} \leq 1 + \frac{G(t)}{n} \right\}. \]
+			Let $\hat{f}_i:\R^{n+1}\to\R$ by defined by $\hat{f}_i(t,x)=f_i(t)$.\\
+			For sufficiently large $n$, we have $(1+G(t)/n)^n\approx e^{G(t)} = F(t)$, so we can write%\footnote{The $F$ disappears from the integral when integrating over the ``discs'' orthogonal to the $t$-axis.}
+			\[ \left(\int_{K_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{K_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{K_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
+			Using \Cref{lem: 5.1}, there exists a needle $N_n$ such that
+			\[ \left(\int_{N_n} \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{N_n} \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{N_n} \hat{f}_4(t)\d{t}\right)^\beta. \]
 
-	If $N_n$ is orthogonal to the $t$-axis, then (\ref{eqn: init observation exp needle conv body}) immediately breaks so we arrive at a contradiction. Otherwise, we may project the needle onto the $t$-axis to get some $[a_n,b_n]\subseteq[a,b]$ and a linear function $\ell_n$ such that
-	\begin{equation}
-		\label{eqn: 5.3}
-		\left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_4(t)\d{t}\right)^\beta.
-	\end{equation}
-	By the Bolzano-Weierstrass Theorem, there is a subsequence such that $a_{n_k}$, $b_{n_k}$ converge, to say $a_0$ and $b_0$. By (\ref{eqn: init observation exp needle conv body}), $a_0 < b_0$. Suppose that $\ell_n(a_0) < \ell_n(b_0)$ for infinitely many indices -- if not, then exchange $a_0$ and $b_0$ in the following argument. Now, let each $\ell_n$ be normalized such that $\ell_n(b_0)=1$. Let $\gamma_n = \ell_n(a_0)$ for each $n$.\\
-	For some subsequence, let $\gamma_n\to\gamma$ and $n(1-\gamma_n)\to\gamma'$, where $0\leq\gamma\leq 1$ and $0\leq\gamma'\leq\infty$. Henceforth, we restrict ourselves to this subsequence.
-	\begin{itemize}
-		\item If $\gamma\neq 1$, $\ell_n(t)^n\to 0$ for all $a_0\leq t<b_0$. Dividing \Cref{eqn: 5.3} by $\left(\int_{a_n}^{b_n}\ell_n(t)^n\d{t}\right)^{\alpha+\beta}$ and letting $n\to\infty$, we get
-		\[ f_1(b_0)^\alpha f_2(b_0)^\beta \geq f_3(b_0)^\alpha f_4(b_0)^\beta. \]
-		If instead of $f_3$ and $f_4$ everywhere in the proof above, we instead take $f_3+\varepsilon$ and $f_4+\varepsilon$ for a sufficiently small $\varepsilon$, we get a strict inequality above and arrive at a contradiction to (\ref{eqn: init observation exp needle conv body}).
+			If $N_n$ is orthogonal to the $t$-axis, then (\ref{eqn: init observation exp needle conv body}) immediately breaks so we arrive at a contradiction. Otherwise, we may project the needle onto the $t$-axis to get some $[a_n,b_n]\subseteq[a,b]$ and a linear function $\ell_n$ such that
+			\begin{equation}
+				\label{eqn: 5.3}
+				\left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_1(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_2(t)\d{t}\right)^\beta > \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_3(t)\d{t}\right)^\alpha \left(\int_{a_n}^{b_n} \ell_n(t)^n \hat{f}_4(t)\d{t}\right)^\beta.
+			\end{equation}
+			By the Bolzano-Weierstrass Theorem, there is a subsequence such that $a_{n_k}$, $b_{n_k}$ converge, to say $a_0$ and $b_0$. By (\ref{eqn: init observation exp needle conv body}), $a_0 < b_0$. Suppose that $\ell_n(a_0) < \ell_n(b_0)$ for infinitely many indices -- if not, then exchange $a_0$ and $b_0$ in the following argument. Now, let each $\ell_n$ be normalized such that $\ell_n(b_0)=1$. Let $\gamma_n = \ell_n(a_0)$ for each $n$.\\
+			For some subsequence, let $\gamma_n\to\gamma$ and $n(1-\gamma_n)\to\gamma'$, where $0\leq\gamma\leq 1$ and $0\leq\gamma'\leq\infty$. Henceforth, we restrict ourselves to this subsequence.
+			\begin{itemize}
+				\item If $\gamma\neq 1$, $\ell_n(t)^n\to 0$ for all $a_0\leq t<b_0$. Dividing \Cref{eqn: 5.3} by $\left(\int_{a_n}^{b_n}\ell_n(t)^n\d{t}\right)^{\alpha+\beta}$ and letting $n\to\infty$, we get
+				\[ f_1(b_0)^\alpha f_2(b_0)^\beta \geq f_3(b_0)^\alpha f_4(b_0)^\beta. \]
+				If instead of $f_3$ and $f_4$ everywhere in the proof above, we instead take $f_3+\varepsilon$ and $f_4+\varepsilon$ for a sufficiently small $\varepsilon$, we get a strict inequality above and arrive at a contradiction to (\ref{eqn: init observation exp needle conv body}).
 
-		\item Therefore, $\gamma=1$. We then have
-		\[ \ell_n(t)^n = \left((1 - (1-\ell_n(t)))^{1/(1-\ell_n(t))}\right)^{n(1-\ell_n(t))}. \]
-		The inner expression goes to $1/e$. If $\gamma'=\infty$, then we again get $\ell_n(t)^n\to 0$ for $t < b_0$, so we arrive at a contradiction similar to the first case above. Otherwise, we have
-		\[ \ell_n(t) \to e^{\gamma'(t-b_0)/(b_0-a_0)}. \]
-		Letting $\gamma''=\gamma'/(b_0-a_0)$ and letting $n\to\infty$, we get
-		\[ \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_1(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_2(t)\d{t}\right)^\beta > \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_3(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_4(t)\d{t}\right)^\beta. \]
-		However, this (after multiplying by $e^{\gamma''b_0(\alpha+\beta)}$ on either side to remove the $b_0$ in the exponent) contradicts the original assumption that the opposite inequality holds for any exponential needle, thus completing the proof.
-	\end{itemize}
-\end{proof}
+				\item Therefore, $\gamma=1$. We then have
+				\[ \ell_n(t)^n = \left((1 - (1-\ell_n(t)))^{1/(1-\ell_n(t))}\right)^{n(1-\ell_n(t))}. \]
+				The inner expression goes to $1/e$. If $\gamma'=\infty$, then we again get $\ell_n(t)^n\to 0$ for $t < b_0$, so we arrive at a contradiction similar to the first case above. Otherwise, we have
+				\[ \ell_n(t) \to e^{\gamma'(t-b_0)/(b_0-a_0)}. \]
+				Letting $\gamma''=\gamma'/(b_0-a_0)$ and letting $n\to\infty$, we get
+				\[ \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_1(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_2(t)\d{t}\right)^\beta > \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_3(t)\d{t}\right)^\alpha \left(\int_{a_0}^{b_0} e^{\gamma''(t-b_0)} f_4(t)\d{t}\right)^\beta. \]
+				However, this (after multiplying by $e^{\gamma''b_0(\alpha+\beta)}$ on either side to remove the $b_0$ in the exponent) contradicts the original assumption that the opposite inequality holds for any exponential needle, thus completing the proof.
+			\end{itemize}
+		\end{proof}
 
-The next result is essentially a generalized version of the above lemma, so is relatively straight-forward to prove since we have various tools for localization in our repertoire at this point.
+		The next result is essentially a generalized version of the above lemma, so is relatively straight-forward to prove since we have various tools for localization in our repertoire at this point.
 
-\begin{ftheo}
-	\label{generalized exponential needle interconversion}
-	Let $f_1$, $f_2$, $f_3$, and $f_4$ be non-negative functions on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
-	\begin{itemize}
-		\item For every log-concave function $F$ on $\Rn$ with compact support,
-			\[ \left(\int_{\Rn} F(t) f_1(t)\d{t}\right)^\alpha \left(\int_{\Rn} F(t) f_2(t)\d{t}\right)^\beta \leq \left(\int_{\Rn} F(t) f_3(t)\d{t}\right)^\alpha \left(\int_{\Rn} F(t) f_4(t)\d{t}\right)^\beta. \]
-		\item For every exponential needle $E$ in $\Rn$,
-			\[ \left(\int_E f_1\right)^\alpha \left(\int_E f_2\right)^\beta \leq \left(\int_E f_3\right)^\alpha \left(\int_E f_4\right)^\beta. \]
-	\end{itemize}
-\end{ftheo}
-\begin{proof}
-	Going from the first to the second isn't too difficult. Given the exponential needle over $[a,b]$ and constant $\gamma$, consider the function $F$ defined by $t\mapsto e^{\gamma \langle t, u\rangle}$, where $u=(b-a)/\norm{b-a}$ restricted to some $\varepsilon$-neighbourhood of $[a,b]$. Letting $\varepsilon\to 0$, we get the required.\\
-	On the other hand, let the second hold but not the first for some function $F$. Then applying \Cref{lem: 5.1} on the $Ff_i$, we get some $[a,b]$ and linear function $\ell$ on $[a,b]$ such that
-	\begin{multline*}
-		\left(\int_0^{\norm{b-a}} f_1(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{\norm{b-a}} f_2(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta \\
-		> \left(\int_0^{\norm{b-a}} f_3(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{\norm{b-a}} f_4(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta,
-	\end{multline*}
-	where $u$ has the usual meaning of $(b-a)/\norm{b-a}$.
+		\begin{ftheo}
+			\label{generalized exponential needle interconversion}
+			Let $f_1$, $f_2$, $f_3$, and $f_4$ be non-negative functions on $\Rn$ and $\alpha,\beta>0$. The following are equivalent.
+			\begin{itemize}
+				\item For every log-concave function $F$ on $\Rn$ with compact support,
+					\[ \left(\int_{\Rn} F(t) f_1(t)\d{t}\right)^\alpha \left(\int_{\Rn} F(t) f_2(t)\d{t}\right)^\beta \leq \left(\int_{\Rn} F(t) f_3(t)\d{t}\right)^\alpha \left(\int_{\Rn} F(t) f_4(t)\d{t}\right)^\beta. \]
+				\item For every exponential needle $E$ in $\Rn$,
+					\[ \left(\int_E f_1\right)^\alpha \left(\int_E f_2\right)^\beta \leq \left(\int_E f_3\right)^\alpha \left(\int_E f_4\right)^\beta. \]
+			\end{itemize}
+		\end{ftheo}
+		\begin{proof}
+			Going from the first to the second isn't too difficult. Given the exponential needle over $[a,b]$ and constant $\gamma$, consider the function $F$ defined by $t\mapsto e^{\gamma \langle t, u\rangle}$, where $u=(b-a)/\norm{b-a}$ restricted to some $\varepsilon$-neighbourhood of $[a,b]$. Letting $\varepsilon\to 0$, we get the required.\\
+			On the other hand, let the second hold but not the first for some function $F$. Then applying \Cref{lem: 5.1} on the $Ff_i$, we get some $[a,b]$ and linear function $\ell$ on $[a,b]$ such that
+			\begin{multline*}
+				\left(\int_0^{\norm{b-a}} f_1(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{\norm{b-a}} f_2(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta \\
+				> \left(\int_0^{\norm{b-a}} f_3(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\alpha \left(\int_0^{\norm{b-a}} f_4(a+tu) F(a+tu)\ell(a+tu)^{n-1}\d{t}\right)^\beta,
+			\end{multline*}
+			where $u$ has the usual meaning of $(b-a)/\norm{b-a}$.
 
-	However, $F\ell^{n-1}$ is log-concave, so by \Cref{localized exponential needle interconversion}, there exists an exponential needle that violates the assumption.
-\end{proof}
+			However, $F\ell^{n-1}$ is log-concave, so by \Cref{localized exponential needle interconversion}, there exists an exponential needle that violates the assumption.
+		\end{proof}
 
-\subsubsection{An Example Using the Equivalences}
+	\subsubsection{An Example Using the Equivalences}
 
-Let $K$ be a convex body and $f:K\to\R$ be integrable. Define its $L_p$ norm by
-\[ \norm{f}_p = \left(\frac{1}{\vol K} \int_{K} |f(x)|^p \d{x} \right)^{1/p}. \]
-It is easy to see that if $0<p<q$, $\norm{f}_p \leq \norm{f}_q$.
-% Use H\"{o}lder's
-% \int (f^p)^{1/p} \leq (\int (f^p)^{q/p})^{p/q} \norm{1}_{1/(1-p/q)}, which is exactly what you want after shifting around some stuff
-\begin{theorem}
-	Let $0<p<q$. There exists a constant $c_{p,q}$ such that for any dimension $n$, convex body $K\subseteq\Rn$ and linear function $f:K\to\R$,
-	\[ \norm{f}_q \leq c_{p,q}\norm{f}_p \]
-\end{theorem}
-\begin{proof}
-	We wish to show that for any $K$,
-	\[ \left(\int_K |f|^q\right)^{1/q} \left(\int_K 1\right)^{1/p} \leq c_{p,q} \left(\int_K 1\right)^{1/q} \left(\int_K |f|^p\right)^{1/p}. \]
-	Equivalently, we wish to show that for any exponential needle $E$,
-	\[ \left(\int_E |f|^q\right)^{1/q} \left(\int_E 1\right)^{1/p} \leq c_{p,q} \left(\int_E 1\right)^{1/q} \left(\int_E |f|^p\right)^{1/p}. \]
-	That is, we wish to show that for any linear function $f$, $a,b\in\R$, and real $\gamma$,
-	\[ \left( \frac{\int_a^b e^{\gamma t} |f(t)|^q\d{t}}{\int_a^b e^{\gamma t}\d{t}} \right)^{1/q} \leq c_{p,q} \left( \frac{\int_a^b e^{\gamma t} |f(t)|^p\d{t}}{\int_a^b e^{\gamma t}\d{t}}\right)^{1/p}, \]
-	Since $f$ is linear, we may assume without loss of generality that $f(a+tu)=t$ on $[a,b]$ and that $\gamma=1$; for the general case where $\gamma\neq 0$, we can just substitute appropriately. The cases where $\gamma=0$ or $f$ is constant on $[a,b]$ are easily shown.\\
-	\[ \varphi(a,b) = \left( \frac{\int_a^b e^{t} |f(t)|^q\d{t}}{\int_a^b e^{t}\d{t}} \right)^{1/q} \left( \frac{\int_a^b e^{t} |f(t)|^p\d{t}}{\int_a^b e^{t}\d{t}} \right)^{-1/p}. \]
-	We wish to show that $c_{p,q} = \sup_{a<b} \varphi(a,b)$ is finite. Note that $\varphi$ is continuous for $a<b$. Further, for any $\alpha$, $\varphi(a,b)\to 1$ as $a,b\to\alpha$. That is, we may extend the function continuously to $a\leq b$ defining $\varphi(a,a)=1$.\\
-	Now, observe that for fixed $a$, as $b\to\infty$, $\varphi(a,b)\to 1$.\footnote{$\int_a^b e^t |f(t)|^p\d{t}$ grows as $e^{-b}b^p$ and $\int_a^b e^t\d{t}$ grows as $e^b$.} On the other hand, for fixed $b$ and $a\to\infty$, $\varphi(a,b)$ remains bounded. The continuity implies that $\varphi$ is bounded (and its supremum is finite).
-\end{proof}
+		Let $K$ be a convex body and $f:K\to\R$ be integrable. Define its $L_p$ norm by
+		\[ \norm{f}_p = \left(\frac{1}{\vol K} \int_{K} |f(x)|^p \d{x} \right)^{1/p}. \]
+		It is easy to see that if $0<p<q$, $\norm{f}_p \leq \norm{f}_q$.
+		% Use H\"{o}lder's
+		% \int (f^p)^{1/p} \leq (\int (f^p)^{q/p})^{p/q} \norm{1}_{1/(1-p/q)}, which is exactly what you want after shifting around some stuff
+		\begin{theorem}
+			Let $0<p<q$. There exists a constant $c_{p,q}$ such that for any dimension $n$, convex body $K\subseteq\Rn$ and linear function $f:K\to\R$,
+			\[ \norm{f}_q \leq c_{p,q}\norm{f}_p \]
+		\end{theorem}
+		\begin{proof}
+			We wish to show that for any $K$,
+			\[ \left(\int_K |f|^q\right)^{1/q} \left(\int_K 1\right)^{1/p} \leq c_{p,q} \left(\int_K 1\right)^{1/q} \left(\int_K |f|^p\right)^{1/p}. \]
+			Equivalently, we wish to show that for any exponential needle $E$,
+			\[ \left(\int_E |f|^q\right)^{1/q} \left(\int_E 1\right)^{1/p} \leq c_{p,q} \left(\int_E 1\right)^{1/q} \left(\int_E |f|^p\right)^{1/p}. \]
+			That is, we wish to show that for any linear function $f$, $a,b\in\R$, and real $\gamma$,
+			\[ \left( \frac{\int_a^b e^{\gamma t} |f(t)|^q\d{t}}{\int_a^b e^{\gamma t}\d{t}} \right)^{1/q} \leq c_{p,q} \left( \frac{\int_a^b e^{\gamma t} |f(t)|^p\d{t}}{\int_a^b e^{\gamma t}\d{t}}\right)^{1/p}, \]
+			Since $f$ is linear, we may assume without loss of generality that $f(a+tu)=t$ on $[a,b]$ and that $\gamma=1$; for the general case where $\gamma\neq 0$, we can just substitute appropriately. The cases where $\gamma=0$ or $f$ is constant on $[a,b]$ are easily shown.\\
+			\[ \varphi(a,b) = \left( \frac{\int_a^b e^{t} |f(t)|^q\d{t}}{\int_a^b e^{t}\d{t}} \right)^{1/q} \left( \frac{\int_a^b e^{t} |f(t)|^p\d{t}}{\int_a^b e^{t}\d{t}} \right)^{-1/p}. \]
+			We wish to show that $c_{p,q} = \sup_{a<b} \varphi(a,b)$ is finite. Note that $\varphi$ is continuous for $a<b$. Further, for any $\alpha$, $\varphi(a,b)\to 1$ as $a,b\to\alpha$. That is, we may extend the function continuously to $a\leq b$ defining $\varphi(a,a)=1$.\\
+			Now, observe that for fixed $a$, as $b\to\infty$, $\varphi(a,b)\to 1$.\footnote{$\int_a^b e^t |f(t)|^p\d{t}$ grows as $e^{-b}b^p$ and $\int_a^b e^t\d{t}$ grows as $e^b$.} On the other hand, for fixed $b$ and $a\to\infty$, $\varphi(a,b)$ remains bounded. The continuity implies that $\varphi$ is bounded (and its supremum is finite).
+		\end{proof}
 
-The actual calculation of the supremum above is quite tedious, however.
-
-
-\subsubsection{Isotropy}
-
-The content of this section is closely related to that of volume computation, primarily \Cref{pro sandwiching}, which discussed sandwiching.
-
-Given a convex body $K\subseteq\Rn$ and $f:K\to\R^m$, denote by $\expec_K(f)$ the ``average of $f$ over $K$''. That is,
-\[ \expec_K(f) = \frac{1}{\vol(K)} \int_{K} f(x)\d{x}. \]
-Denote by $b(K)=\expec_K(x)$ the center of gravity of $K$, also known as the ``baricenter'' of $K$. If $K$ is clear from context, we often denote it as just $b$. Denote by $A(K)$ the $n\times n$ matrix of inertia
-\[ A(K) = \expec_K((x-b)(x-b)^\top). \]
-Denote by $M_p(K)$ the $p$th moment of $K$
-\[ M_p(K) = \expec_K\left(\norm{x-b}^p\right). \]
-It is seen that $M_2(K)$ is the trace of $A(K)$. Further, the average squared distance between points in $K$ is
-\[ \frac{1}{\vol(K)^2} \int_K \int_K \norm{x-y}^2\d{x}\d{y} = 2M_2(K). \]
-It is seen that as $p\to\infty$, $M_p(K)^{1/p}$ converges to $\sup_{x\in K} \norm{x-b}$.
-
-\begin{fdef}[Isotropic]
-	A body $K$ is said to be in \textit{isotropic position} if $b=0$ and $A(K)=I$, the identity matrix.\footnotemark\\
-	Similarly, a function $f:\Rn\to[0,\infty)$ is said to be \textit{isotropic} if its covariance matrix is the identity matrix.
-\end{fdef}
-\footnotetext{Some texts use $\vol(K)=1$ and $A(K)=\lambda_K I$ for some constant $\lambda_K$. It remains an open problem as to whether the value of $\lambda_K$ across convex bodies $K\subseteq\Rn$ is bounded above.}
-
-Observe that a convex body is in isotropic position iff its indicator function is isotropic.
-
-It may be shown the affine family of a convex body (the set of its image under affine transformations) has a unique body in isotropic position.\\
-First, let us show how isotropic position is related to sandwiching.
-
-\begin{ftheo}
-	If $K$ is in isotropic position, then
-	\[ \sqrt{\frac{n+2}{n}} B_2^n \subseteq K \subseteq \sqrt{n(n+2)}B_2^n. \]
-\end{ftheo}
-
-Observe that these inequalities are tight for the regular simplex and also imply the second part of \Cref{fritz john banach mazur distance}. If $K$ is in isotropic position, then for any unit $u$,
-\[ \int_K \langle u,x\rangle^2 \d{x} = \vol(K). \]
-
-\begin{proof}
-	\phantom{agh}
-	\begin{itemize}
-		\item Suppose that $\sqrt{(n+2)/n}B_2^n\not\subseteq K$. Choosing our basis appropriately, we may assume that $K$ is contained in the half-space $x_1 > -\sqrt{(n+2)/n}$. Now, we have
-		\[ \int_K x_1 = 0 \text{ and } \int_K (x_1^2 - 1) = 0. \]
-		Using \Cref{cor: if positive on convex set convex on some needle} (or rather, an extension of it with a weak inequality on $\int g$), we get some needle $N=([a,b],\ell)$. We may assume that $[a,b]$ is contained in the $x_1$ axis. so that
-		\[ \int_a^b x_1\ell(x_1)^{n-1} = 0 \text{ and } \int_a^b x_1^2\ell(x_1)^{n-1} \geq \int_a^b \ell(x_1)^{n-1}. \]
-		We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually (and tediously) compute the integrals to arrive at a contradiction.
-
-		\item Let $v$ be the point in $K$ furthest from $0$ (assume that $K$ is closed so this is well-defined). We wish to show that $\norm{v}\leq\sqrt{n(n+2)}$. Let $v^{\circ} = v/\norm{v}$ and for each unit $u$, let $\varphi(u) = \sup\{t\geq 0 : v+tu\in K\}$. Then,
-		\[ \vol(K) = \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1}\d{t}\d{u} = \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \d{u}. \]
-		We also have
-		\begin{align*}
-			1 &= \frac{1}{\vol(K)} \int_K \langle v^\circ, x\rangle^2 \d{x} \\
-			 &=  \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_0^{\varphi(u)} t^{n-1} \langle v^\circ, v+tu\rangle^2 \d{t}\d{u} \\
-			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n}\norm{v}^2 + 2\frac{\varphi(u)^{n+1}}{n+1} \langle v^\circ, u\rangle + \frac{\varphi(u)^{n+2}}{n+2} \langle v^\circ, u\rangle^2 \right) \d{u} \\
-			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ, u\rangle\right)^2 + \frac{\varphi(u)^n}{n(n+1)^2}\norm{v}^2 \right) \d{u} \\
-			 &= \frac{1}{\vol(K)} \left( \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) + \frac{\norm{v}^2}{(n+1)^2}
-		\end{align*}
-		Note that this gives a bound of $\norm{v}\leq n+1$. To get the bound mentioned in the theorem, it remains to bound the integral by a suitable positive quantity. Now, we have
-		\begin{align*}
-			0 = b(K) &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1} (v+tu) \d{t}\d{u} \\
-			 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n}v + \frac{\varphi(u)^{n+1}}{n+1}u \d{u} \\
-			 &= v + \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^{n+1}}{n+1}u\d{u}.
-		\end{align*}
-		Therefore,
-		\begin{multline*}
-			\frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ,u\rangle\right) \d{u} \\
-			= \left(\frac{\sqrt{n(n+2)}}{n+1} - \frac{n+1}{\sqrt{n(n+2)}}\right)\norm{v} = -\frac{1}{(n+1)\sqrt{n(n+2)}}\norm{v}.
-		\end{multline*}
-		We can then use the Cauchy-Schwarz inequality to get
-		\[ \left( \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) \cdot 1 \geq \frac{1}{(n+1)^2n(n+2)}\norm{v}^2. \]
-		That is,
-		\[ 1 \geq \left(\frac{1}{(n+1)^2n(n+2)} + \frac{1}{(n+1)^2}\right)\norm{v}^2 = \frac{\norm{v}^2}{n(n+2)}, \]
-		proving the result.
-	\end{itemize}	
-\end{proof}
-
-\subsubsection{The KLS Conjecture}
-
-Let us now move on to the main result of this section.
-
-\begin{ftheo}
-	\label{isoperimetric coefficient bound 1}
-	For any convex body $K$,
-	\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}. \]
-\end{ftheo}
-
-In \Cref{def: isoperimetric coefficient}, let $K_3$ be the intersection of $K$ with the open $\varepsilon/2$-neighbourhood of $\partial S$. Further, let $K_1 = S\setminus K_3$ and $K_2 = (K\setminus S)\setminus K_3$. Then, it suffices to prove the following, which is yet another improvement of \Cref{conductance isoperimetric inequality,improvement of conductance isoperimetric inequality}.
-
-\begin{ftheo}
-	Let $K$ be a convex body and $K = K_1\cup K_2\cup K_3$ a decomposition of $K$ into three measurable sets such that $d(K_1,K_2)=\varepsilon>0$. Then
-	\[ \vol(K_1)\vol(K_2) \leq \frac{M_1(K)}{\varepsilon\ln 2} \vol(K)\vol(K_3). \]
-\end{ftheo}
-\begin{proof}
-	We may assume that $K_1$ and $K_2$ are closed. Assume that $b(K)=0$. Let $f_1$, $f_2$, and $f_3$ be the indicator functions on $K_1$, $K_2$, and $K_3$ respectively and $f_4(x) = \norm{x}/\varepsilon\ln 2$. We then wish to show that
-	\[ \int_K f_1 \int_K f_2 \leq \int_K f_3 \int_K f_4. \]
-	By \Cref{localized exponential needle interconversion}, it suffices to show that for any exponential needle $E$,
-	\[ \int_E f_1 \int_E f_2 \leq \int_E f_3 \int_E f_4. \]
-	Let $E$ be an arbitrary exponential defined by $[a,b]$ and $\gamma$. As before, we may assume that $\gamma=1$ by rescaling appropriately. The case $\gamma=0$ is taken care of by going to the appropriate limits.\\
-	First of all, we may assume that $0\in[a,b]$. Indeed, otherwise, we can move the body such that $0$ goes to the point on $[a,b]$ closest to it initially. Then the integral of $f_4$ decreases while the others remain the same, so proving it for this case suffices.\\
-	So let us restate the problem in the one-dimensional case that we have reduced it to. Let $[a,b]$ be an interval, $u\in[a,b]$ and $[a,b]=J_1\cup J_2 \cup J_3$ be a decomposition of $[a,b]$ into three measurable sets, where $d(J_1,J_2)\geq\varepsilon>0$. We wish to show that
-	\[ \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t} \leq \int_{J_3} e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
-	Here, each $J_i$ corresponds to the intersection of $K_i$ with the interval and $u$ corresponds to the position of $0$ in $[a,b]$. Let us first prove the result for the case where $J_3$ is a single interval. Let $a\leq s< s+\varepsilon\leq b$ (Why does it suffice to prove it for the case where the interval is of length $\varepsilon$?). Then we claim that
-	\[ \int_a^s e^t\d{t} \int_{s+\varepsilon}^b e^t\d{t} \leq \int_s^{s+\varepsilon}e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
-	Equivalently,
-	\[ \int_a^s e^t\d{t} \int_\varepsilon^{b-s} e^t\d{t} \leq \int_0^\varepsilon e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
-	Now, note that the expression on the left is maximized when $s=(a+b-\varepsilon)/2$ and that on the right is minimized when $u=\ln((e^a+e^b)/2)$. Substituting these values on each side and simplifying, it suffices to show that
-	\[ (e^{(b-a)/2} - e^{\varepsilon/2})^2 \leq \frac{1}{\ln 2} \frac{e^\varepsilon-1}{\varepsilon} \left(-\ln\left(\frac{e^{a-b}-1}{2}\right)e^{b-a} + \ln\left(\frac{e^{b-a}-1}{2}\right)\right). \]
-	On decreasing $\varepsilon$, the left increases whereas the right decreases. Therefore, it suffices to prove the above in the limit case where $\varepsilon=0$. Letting $z=e^{(b-a)/2}\geq 1$, we want to prove that
-	\[ \ln 2 (z - 1)^2 + z^2\ln\left(\frac{z^{-2}-1}{2}\right) - \ln\left(\frac{z^2-1}{2}\right) \leq 0. \]
-	This is a computational task and is not too difficult.\footnote{Show that the function $f$ on the left is monotone decreasing and use the fact that $f(1)=0$.}\\
-
-	For the general case, let $[c_i,d_i]$ be maximal intervals in $J_3$ for $1\leq i\leq k$. They are each of length at least $\varepsilon$. Then we get
-	\[ \sum_{i=1}^k \int_a^{c_i} e^t\d{t} \int_{d_i}^b e^t\d{t} \leq \int_{J_3}\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
-	We then have
-	\[ \sum_{i=1}^k \int_a^{c_i} e^t\d{t} \int_{d_i}^b e^t\d{t} \geq \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t}, \]
-	completing the proof.
-\end{proof}
+		The actual calculation of the supremum above is quite tedious, however.
 
 
-Let $K$ be an arbitrary convex body and for each $x\in K$, let $\chi_K(x)$ denote the longest segement in $K$ that has midpoint $x$. Let
-\[ \chi(K) = \frac{1}{\vol(K)} \int_K \chi_K(x). \]
-Note that $\chi(K)=\diam(K \cap (2x-K))$.
+	\subsubsection{Isotropy}
 
-\begin{theorem}
-	\label{isoperimetric coefficient bound 2}
-	For any convex body $K$,
-	\[ \psi(K) \geq \frac{1}{\chi(K)}. \]
-\end{theorem}
-\begin{proof}
-	As before, it is equivalent to show that for any decomposition $K=K_1\cup K_2\cup K_3$, where $d(K_1,K_2)=\varepsilon>0$,
-	\[ \vol(K_1)\vol(K_2) \leq \frac{1}{\varepsilon}\vol(K_3) \int_K \chi_K(x)\d{x}. \]
-	The proof of this is very similar to the that of the previous theorem. It suffices to show that for any interval $[a,b]$ and any decomposition $[a,b]=J_1\cup J_2\cup J_3$ into three measurable sets such that $d(J_1,J_2)\geq \varepsilon$,
-	\[ \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t} \leq \frac{1}{\varepsilon} \int_{J_3} e^t\d{t} \int_a^b \min\{t-a, b-t\}e^t\d{t}. \]
-	Similar to earlier, this can be shown without too much difficulty in the case where $J_3$ is a single interval, and similarly extending it to the general case.
-\end{proof}
+		The content of this section is closely related to that of volume computation, primarily \Cref{pro sandwiching}, which discussed sandwiching.
 
-The two bounds \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2} are not comparable however. For example, \Cref{isoperimetric coefficient bound 1} gives $\psi(K)=\Omega(n^{-1/2})$ for any body in isotropic position whereas \Cref{isoperimetric coefficient bound 2} gives $\Omega(1)$ for the isotropic ball and $\Omega(n^{-1})$ for the isotropic simplex.\\
+		Given a convex body $K\subseteq\Rn$ and $f:K\to\R^m$, denote by $\expec_K(f)$ the ``average of $f$ over $K$''. That is,
+		\[ \expec_K(f) = \frac{1}{\vol(K)} \int_{K} f(x)\d{x}. \]
+		Denote by $b(K)=\expec_K(x)$ the center of gravity of $K$, also known as the ``baricenter'' of $K$. If $K$ is clear from context, we often denote it as just $b$. Denote by $A(K)$ the $n\times n$ matrix of inertia
+		\[ A(K) = \expec_K((x-b)(x-b)^\top). \]
+		Denote by $M_p(K)$ the $p$th moment of $K$
+		\[ M_p(K) = \expec_K\left(\norm{x-b}^p\right). \]
+		It is seen that $M_2(K)$ is the trace of $A(K)$. Further, the average squared distance between points in $K$ is
+		\[ \frac{1}{\vol(K)^2} \int_K \int_K \norm{x-y}^2\d{x}\d{y} = 2M_2(K). \]
+		It is seen that as $p\to\infty$, $M_p(K)^{1/p}$ converges to $\sup_{x\in K} \norm{x-b}$.
 
-For any convex body $K$, let $\alpha(K)$ be the largest eigenvalue of $A(K)$. 
+		\begin{fdef}[Isotropic]
+			A body $K$ is said to be in \textit{isotropic position} if $b=0$ and $A(K)=I$, the identity matrix.\footnotemark\\
+			Similarly, a function $f:\Rn\to[0,\infty)$ is said to be \textit{isotropic} if its covariance matrix is the identity matrix.
+		\end{fdef}
+		\footnotetext{Some texts use $\vol(K)=1$ and $A(K)=\lambda_K I$ for some constant $\lambda_K$. It remains an open problem as to whether the value of $\lambda_K$ across convex bodies $K\subseteq\Rn$ is bounded above.}
 
-\begin{theorem}
-	\label{kls conj hyperplane}
-	For any convex body $K$,
-	\[ \psi(K) \leq \frac{10}{\sqrt{\alpha(K)}}. \]
-\end{theorem}
+		Observe that a convex body is in isotropic position iff its indicator function is isotropic.
 
-This is proved using the following result.
+		It may be shown the affine family of a convex body (the set of its image under affine transformations) has a unique body in isotropic position.\\
+		First, let us show how isotropic position is related to sandwiching.
 
-\begin{theorem}
-	Let $K$ be a convex body in $\Rn$ and assume that $b(K)=0$. Let $u\in\Rn$ have unit norm and $\beta=\expec_K(\langle u,x\rangle^2)$. Then
-	\[ \vol(K \cap \{x : \langle u,x\rangle < 0\}) \vol(K \cap \{x : \langle u,x\rangle > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : \langle u,x\rangle = 0\}). \]
-\end{theorem}
+		\begin{ftheo}
+			If $K$ is in isotropic position, then
+			\[ \sqrt{\frac{n+2}{n}} B_2^n \subseteq K \subseteq \sqrt{n(n+2)}B_2^n. \]
+		\end{ftheo}
 
-The above can be proved by projecting the body onto the $u$-axis and considering the resulting log-concave function (using \nameref{brunn's theorem}).
+		Observe that these inequalities are tight for the regular simplex and also imply the second part of \Cref{fritz john banach mazur distance}. If $K$ is in isotropic position, then for any unit $u$,
+		\[ \int_K \langle u,x\rangle^2 \d{x} = \vol(K). \]
 
-\begin{fcon}[KLS Conjecture]
-	\label{con: kls conjecture}
-	There is a constant $c$ (independent of dimension) such that for any log-concave density $p$ on $\Rn$,
-	\[ \psi_p \geq c \cdot \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
-\end{fcon}
+		\begin{proof}
+			\phantom{agh}
+			\begin{itemize}
+				\item Suppose that $\sqrt{(n+2)/n}B_2^n\not\subseteq K$. Choosing our basis appropriately, we may assume that $K$ is contained in the half-space $x_1 > -\sqrt{(n+2)/n}$. Now, we have
+				\[ \int_K x_1 = 0 \text{ and } \int_K (x_1^2 - 1) = 0. \]
+				Using \Cref{cor: if positive on convex set convex on some needle} (or rather, an extension of it with a weak inequality on $\int g$), we get some needle $N=([a,b],\ell)$. We may assume that $[a,b]$ is contained in the $x_1$ axis. so that
+				\[ \int_a^b x_1\ell(x_1)^{n-1} = 0 \text{ and } \int_a^b x_1^2\ell(x_1)^{n-1} \geq \int_a^b \ell(x_1)^{n-1}. \]
+				We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually (and tediously) compute the integrals to arrive at a contradiction.
 
-The \nameref{con: kls conjecture} asserts that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
+				\item Let $v$ be the point in $K$ furthest from $0$ (assume that $K$ is closed so this is well-defined). We wish to show that $\norm{v}\leq\sqrt{n(n+2)}$. Let $v^{\circ} = v/\norm{v}$ and for each unit $u$, let $\varphi(u) = \sup\{t\geq 0 : v+tu\in K\}$. Then,
+				\[ \vol(K) = \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1}\d{t}\d{u} = \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \d{u}. \]
+				We also have
+				\begin{align*}
+					1 &= \frac{1}{\vol(K)} \int_K \langle v^\circ, x\rangle^2 \d{x} \\
+					 &=  \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_0^{\varphi(u)} t^{n-1} \langle v^\circ, v+tu\rangle^2 \d{t}\d{u} \\
+					 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n}\norm{v}^2 + 2\frac{\varphi(u)^{n+1}}{n+1} \langle v^\circ, u\rangle + \frac{\varphi(u)^{n+2}}{n+2} \langle v^\circ, u\rangle^2 \right) \d{u} \\
+					 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ, u\rangle\right)^2 + \frac{\varphi(u)^n}{n(n+1)^2}\norm{v}^2 \right) \d{u} \\
+					 &= \frac{1}{\vol(K)} \left( \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) + \frac{\norm{v}^2}{(n+1)^2}
+				\end{align*}
+				Note that this gives a bound of $\norm{v}\leq n+1$. To get the bound mentioned in the theorem, it remains to bound the integral by a suitable positive quantity. Now, we have
+				\begin{align*}
+					0 = b(K) &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1} (v+tu) \d{t}\d{u} \\
+					 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n}v + \frac{\varphi(u)^{n+1}}{n+1}u \d{u} \\
+					 &= v + \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^{n+1}}{n+1}u\d{u}.
+				\end{align*}
+				Therefore,
+				\begin{multline*}
+					\frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ,u\rangle\right) \d{u} \\
+					= \left(\frac{\sqrt{n(n+2)}}{n+1} - \frac{n+1}{\sqrt{n(n+2)}}\right)\norm{v} = -\frac{1}{(n+1)\sqrt{n(n+2)}}\norm{v}.
+				\end{multline*}
+				We can then use the Cauchy-Schwarz inequality to get
+				\[ \left( \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) \cdot 1 \geq \frac{1}{(n+1)^2n(n+2)}\norm{v}^2. \]
+				That is,
+				\[ 1 \geq \left(\frac{1}{(n+1)^2n(n+2)} + \frac{1}{(n+1)^2}\right)\norm{v}^2 = \frac{\norm{v}^2}{n(n+2)}, \]
+				proving the result.
+			\end{itemize}	
+		\end{proof}
 
-\cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
-\[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
+	\subsubsection{The KLS Conjecture}
+
+		Let us now move on to the main result of this section.
+
+		\begin{ftheo}
+			\label{isoperimetric coefficient bound 1}
+			For any convex body $K$,
+			\[ \psi(K) \geq \frac{\ln 2}{M_1(K)}. \]
+		\end{ftheo}
+
+		In \Cref{def: isoperimetric coefficient}, let $K_3$ be the intersection of $K$ with the open $\varepsilon/2$-neighbourhood of $\partial S$. Further, let $K_1 = S\setminus K_3$ and $K_2 = (K\setminus S)\setminus K_3$. Then, it suffices to prove the following, which is yet another improvement of \Cref{conductance isoperimetric inequality,improvement of conductance isoperimetric inequality}.
+
+		\begin{ftheo}
+			Let $K$ be a convex body and $K = K_1\cup K_2\cup K_3$ a decomposition of $K$ into three measurable sets such that $d(K_1,K_2)=\varepsilon>0$. Then
+			\[ \vol(K_1)\vol(K_2) \leq \frac{M_1(K)}{\varepsilon\ln 2} \vol(K)\vol(K_3). \]
+		\end{ftheo}
+		\begin{proof}
+			We may assume that $K_1$ and $K_2$ are closed. Assume that $b(K)=0$. Let $f_1$, $f_2$, and $f_3$ be the indicator functions on $K_1$, $K_2$, and $K_3$ respectively and $f_4(x) = \norm{x}/\varepsilon\ln 2$. We then wish to show that
+			\[ \int_K f_1 \int_K f_2 \leq \int_K f_3 \int_K f_4. \]
+			By \Cref{localized exponential needle interconversion}, it suffices to show that for any exponential needle $E$,
+			\[ \int_E f_1 \int_E f_2 \leq \int_E f_3 \int_E f_4. \]
+			Let $E$ be an arbitrary exponential defined by $[a,b]$ and $\gamma$. As before, we may assume that $\gamma=1$ by rescaling appropriately. The case $\gamma=0$ is taken care of by going to the appropriate limits.\\
+			First of all, we may assume that $0\in[a,b]$. Indeed, otherwise, we can move the body such that $0$ goes to the point on $[a,b]$ closest to it initially. Then the integral of $f_4$ decreases while the others remain the same, so proving it for this case suffices.\\
+			So let us restate the problem in the one-dimensional case that we have reduced it to. Let $[a,b]$ be an interval, $u\in[a,b]$ and $[a,b]=J_1\cup J_2 \cup J_3$ be a decomposition of $[a,b]$ into three measurable sets, where $d(J_1,J_2)\geq\varepsilon>0$. We wish to show that
+			\[ \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t} \leq \int_{J_3} e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
+			Here, each $J_i$ corresponds to the intersection of $K_i$ with the interval and $u$ corresponds to the position of $0$ in $[a,b]$. Let us first prove the result for the case where $J_3$ is a single interval. Let $a\leq s< s+\varepsilon\leq b$ (Why does it suffice to prove it for the case where the interval is of length $\varepsilon$?). Then we claim that
+			\[ \int_a^s e^t\d{t} \int_{s+\varepsilon}^b e^t\d{t} \leq \int_s^{s+\varepsilon}e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
+			Equivalently,
+			\[ \int_a^s e^t\d{t} \int_\varepsilon^{b-s} e^t\d{t} \leq \int_0^\varepsilon e^t\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
+			Now, note that the expression on the left is maximized when $s=(a+b-\varepsilon)/2$ and that on the right is minimized when $u=\ln((e^a+e^b)/2)$. Substituting these values on each side and simplifying, it suffices to show that
+			\[ (e^{(b-a)/2} - e^{\varepsilon/2})^2 \leq \frac{1}{\ln 2} \frac{e^\varepsilon-1}{\varepsilon} \left(-\ln\left(\frac{e^{a-b}-1}{2}\right)e^{b-a} + \ln\left(\frac{e^{b-a}-1}{2}\right)\right). \]
+			On decreasing $\varepsilon$, the left increases whereas the right decreases. Therefore, it suffices to prove the above in the limit case where $\varepsilon=0$. Letting $z=e^{(b-a)/2}\geq 1$, we want to prove that
+			\[ \ln 2 (z - 1)^2 + z^2\ln\left(\frac{z^{-2}-1}{2}\right) - \ln\left(\frac{z^2-1}{2}\right) \leq 0. \]
+			This is a computational task and is not too difficult.\footnote{Show that the function $f$ on the left is monotone decreasing and use the fact that $f(1)=0$.}\\
+
+			For the general case, let $[c_i,d_i]$ be maximal intervals in $J_3$ for $1\leq i\leq k$. They are each of length at least $\varepsilon$. Then we get
+			\[ \sum_{i=1}^k \int_a^{c_i} e^t\d{t} \int_{d_i}^b e^t\d{t} \leq \int_{J_3}\d{t} \int_a^b \frac{|t-u|}{\varepsilon\ln 2}e^t\d{t}. \]
+			We then have
+			\[ \sum_{i=1}^k \int_a^{c_i} e^t\d{t} \int_{d_i}^b e^t\d{t} \geq \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t}, \]
+			completing the proof.
+		\end{proof}
+
+
+		Let $K$ be an arbitrary convex body and for each $x\in K$, let $\chi_K(x)$ denote the longest segement in $K$ that has midpoint $x$. Let
+		\[ \chi(K) = \frac{1}{\vol(K)} \int_K \chi_K(x). \]
+		Note that $\chi(K)=\diam(K \cap (2x-K))$.
+
+		\begin{theorem}
+			\label{isoperimetric coefficient bound 2}
+			For any convex body $K$,
+			\[ \psi(K) \geq \frac{1}{\chi(K)}. \]
+		\end{theorem}
+		\begin{proof}
+			As before, it is equivalent to show that for any decomposition $K=K_1\cup K_2\cup K_3$, where $d(K_1,K_2)=\varepsilon>0$,
+			\[ \vol(K_1)\vol(K_2) \leq \frac{1}{\varepsilon}\vol(K_3) \int_K \chi_K(x)\d{x}. \]
+			The proof of this is very similar to the that of the previous theorem. It suffices to show that for any interval $[a,b]$ and any decomposition $[a,b]=J_1\cup J_2\cup J_3$ into three measurable sets such that $d(J_1,J_2)\geq \varepsilon$,
+			\[ \int_{J_1} e^t\d{t} \int_{J_2} e^t\d{t} \leq \frac{1}{\varepsilon} \int_{J_3} e^t\d{t} \int_a^b \min\{t-a, b-t\}e^t\d{t}. \]
+			Similar to earlier, this can be shown without too much difficulty in the case where $J_3$ is a single interval, and similarly extending it to the general case.
+		\end{proof}
+
+		The two bounds \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2} are not comparable however. For example, \Cref{isoperimetric coefficient bound 1} gives $\psi(K)=\Omega(n^{-1/2})$ for any body in isotropic position whereas \Cref{isoperimetric coefficient bound 2} gives $\Omega(1)$ for the isotropic ball and $\Omega(n^{-1})$ for the isotropic simplex.\\
+
+		For any convex body $K$, let $\alpha(K)$ be the largest eigenvalue of $A(K)$. 
+
+		\begin{theorem}
+			\label{kls conj hyperplane}
+			For any convex body $K$,
+			\[ \psi(K) \leq \frac{10}{\sqrt{\alpha(K)}}. \]
+		\end{theorem}
+
+		This is proved using the following result.
+
+		\begin{theorem}
+			Let $K$ be a convex body in $\Rn$ and assume that $b(K)=0$. Let $u\in\Rn$ have unit norm and $\beta=\expec_K(\langle u,x\rangle^2)$. Then
+			\[ \vol(K \cap \{x : \langle u,x\rangle < 0\}) \vol(K \cap \{x : \langle u,x\rangle > 0\}) \geq \frac{1}{10}\sqrt{\beta}\vol(K)\vol_{n-1}(K \cap \{x : \langle u,x\rangle = 0\}). \]
+		\end{theorem}
+
+		The above can be proved by projecting the body onto the $u$-axis and considering the resulting log-concave function (using \nameref{brunn's theorem}).
+
+		\begin{fcon}[KLS Conjecture]
+			\label{con: kls conjecture}
+			There is a constant $c$ (independent of dimension) such that for any log-concave density $p$ on $\Rn$,
+			\[ \psi_p \geq c \cdot \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
+		\end{fcon}
+
+		The \nameref{con: kls conjecture} asserts that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
+
+		\cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
+		\[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
 
 \subsection{A More Detailed Look}
 
-Henceforth, we write $a\gtrsim b$ if there is some constant $c$ (independent of dimension and all parameters under consideration) such that $a \geq c b$.\\
-Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by a similar proof), it just says that
-\[ \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}} \gtrsim \frac{1}{\sqrt{\opnorm{A}}}, \]
-where $A$ is the covariance matrix of $p$ and $\opnorm{A}$ is the largest eigenvalue of $A$.
+	Henceforth, we write $a\gtrsim b$ if there is some constant $c$ (independent of dimension and all parameters under consideration) such that $a \geq c b$.\\
+	Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by a similar proof), it just says that
+	\[ \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}} \gtrsim \frac{1}{\sqrt{\opnorm{A}}}, \]
+	where $A$ is the covariance matrix of $p$ and $\opnorm{A}$ is the largest eigenvalue of $A$.
 
-In this context, the \nameref{con: kls conjecture} can be restated as follows. 
+	In this context, the \nameref{con: kls conjecture} can be restated as follows. 
 
-\begin{fcon}[KLS Conjecture (Reformulated)]
-	\label{con: kls conjecture reformulated}
-	For any log-concave density $p$ with covariance matrix $A$, $\psi_p \gtrsim \opnorm{A}^{-1/2}$. Equivalently, $\psi_p\gtrsim 1$ for any isotropic log-concave density $p$.
-\end{fcon}
+	\begin{fcon}[KLS Conjecture (Reformulated)]
+		\label{con: kls conjecture reformulated}
+		For any log-concave density $p$ with covariance matrix $A$, $\psi_p \gtrsim \opnorm{A}^{-1/2}$. Equivalently, $\psi_p\gtrsim 1$ for any isotropic log-concave density $p$.
+	\end{fcon}
 
-\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.
+	\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.
 
-In this section, we look at a few consequences of the KLS Conjecture.
+	% \subsubsection{The Connection to Ball-Step and the Log-Sobolev Constant}
 
-\subsubsection{The Slicing Conjecture}
+	% 	\subsubsection{The Log-Sobolev Constant}
 
-The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.
+	% 		Recall that if we apply the ball-walk to a log-concave density $p$, then the conductance is $\Omega(1/n\psi_p)$, which leads to $\mathcal{O}^*(n^2\psi_p^2)$ steps (from a warm start).\\
+	% 		The log-Sobolev constant attempts to provide a similar bound in the case where we do not have a warm start.
 
-\begin{fcon}[Slicing Conjecture]
-	Any convex body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
-	\[ \vol_{n-1}(K \cap H) \gtrsim 1. \]
-\end{fcon}
 
-\cite{slicing-conjecture-equivalent} showed that the above is in fact equivalent to asking how much volume is present around the origin. This makes sense because if a large proportion of volume is there around the origin, then no hyperplane will intersect a lot of volume.\\
-Motivated by this intuition, define
+	Next, we look at a few consequences of the KLS Conjecture.
 
-\begin{definition}[Slicing Constant]
-	For any isotropic log-concave density $p$ on $\Rn$, define the \textit{isotropic (slicing) constant} by $L_p = p(0)^{1/n}$.
-\end{definition}
+	\subsubsection{The Slicing Conjecture}
 
-\begin{fcon}[Slicing Conjecture]
-	\label{slicing conjecture}
-	For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p$ is $\mathcal{O}(1)$.
-\end{fcon}
+		The slicing conjecture essentially asks whether a convex body of unit volume in $\Rn$ has a hyperplane section whose $(n-1)$-volume is at least some universal constant.
 
-% There are some nice consequences of the slicing conjecture (and by extension, the KLS conjecture, as we mention at the end of this section).
+		\begin{fcon}[Slicing Conjecture]
+			Any convex body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
+			\[ \vol_{n-1}(K \cap H) \gtrsim 1. \]
+		\end{fcon}
 
-% \begin{theorem}
-% 	If the slicing conjecture is true, then for any isotropic log-concave density $p$ in $\Rn$,
-% 	\[ \Pr_{x\sim p}\left[\norm{x} \leq t\sqrt{n}\right] = \mathcal{O}(t^n) \]
-% \end{theorem}
+		\cite{slicing-conjecture-equivalent} showed that the above is in fact equivalent to asking how much volume is present around the origin. This makes sense because if a large proportion of volume is there around the origin, then no hyperplane will intersect a lot of volume.\\
+		Motivated by this intuition, define
 
-\subsubsection{The Thin-Shell Conjecture}
+		\begin{definition}[Slicing Constant]
+			For any isotropic log-concave density $p$ on $\Rn$, define the \textit{isotropic (slicing) constant} by $L_p = p(0)^{1/n}$.
+		\end{definition}
 
-\begin{fcon}[Thin-Shell Conjecture]
-	\label{con: thin shell conjecture}
-	Let $p$ be a isotropic log-concave density. Then
-	\[ \sigma_p^2 \coloneqq \expec_{X\sim p}\left[(\norm{X}-\sqrt{n})^2\right] \lesssim 1. \]
-	Equivalently, $\Var_{X\sim p}(\norm{X}^2) \lesssim 1$.
-\end{fcon}
+		\begin{fcon}[Slicing Conjecture]
+			\label{slicing conjecture}
+			For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p$ is $\mathcal{O}(1)$.
+		\end{fcon}
 
-The above means that a random point $X$ from a log-concave density lies in a constant width annulus (a thin shell) with constant probability.\\
+		% There are some nice consequences of the slicing conjecture (and by extension, the KLS conjecture, as we mention at the end of this section).
 
-It was shown in \cite{Eldan2010ApproximatelyGM} that the Thin-Shell conjecture implies the Slicing conjecture and by Ball that the KLS conjecture implies the Thin-Shell conjecture. That is, we have that $L_p \lesssim \sigma_p \lesssim \psi_p$.
+		% \begin{theorem}
+		% 	If the slicing conjecture is true, then for any isotropic log-concave density $p$ in $\Rn$,
+		% 	\[ \Pr_{x\sim p}\left[\norm{x} \leq t\sqrt{n}\right] = \mathcal{O}(t^n) \]
+		% \end{theorem}
+
+	\subsubsection{The Thin-Shell Conjecture}
+
+		\begin{fcon}[Thin-Shell Conjecture]
+			\label{con: thin shell conjecture}
+			Let $p$ be a isotropic log-concave density. Then
+			\[ \sigma_p^2 \coloneqq \expec_{X\sim p}\left[(\norm{X}-\sqrt{n})^2\right] \lesssim 1. \]
+			Equivalently, $\Var_{X\sim p}(\norm{X}^2) \lesssim 1$.
+		\end{fcon}
+
+		The above means that a random point $X$ from a log-concave density lies in a constant width annulus (a thin shell) with constant probability.\\
+
+		It was shown in \cite{Eldan2010ApproximatelyGM} that the Thin-Shell conjecture implies the Slicing conjecture and by Ball that the KLS conjecture implies the Thin-Shell conjecture. That is, we have that $L_p \lesssim \sigma_p \lesssim \psi_p$.
 
 \subsection{Stochastic Localization}
 
-\subsubsection{An Overview}
+	\subsubsection{An Overview}
 
-Most of the progress towards proving the conjecture in recent times has been done using a method known as \textit{stochastic localization}. Recall how in the proof of the localization lemma \Cref{localization lemma}, which is possibly one of the most powerful tools we have built thus far, we use a bisection argument, where we bisect the body by a hyperplane at each step. In the general setting, this just corresponds to multiplying the current log-concave measure by $\indic_{H}$, where $H$ is a certain half-space.\\
+		Most of the progress towards proving the conjecture in recent times has been done using a method known as \textit{stochastic localization}. Recall how in the proof of the localization lemma \Cref{localization lemma}, which is possibly one of the most powerful tools we have built thus far, we use a bisection argument, where we bisect the body by a hyperplane at each step. In the general setting, this just corresponds to multiplying the current log-concave measure by $\indic_{H}$, where $H$ is a certain half-space.\\
 
-For now, let us discuss how it works out in discrete time. Instead of multiplying by this indicator function, we multiply by an affine functional that is very close to $1$. That is, we transform the density $p(x)$ to $(1\pm\varepsilon\langle x-b_\mu,\theta\rangle)p(x)$, where $b_\mu$ is the barycenter of the measure (this gives two probability measures) and $\theta$ is randomly chosen. This is like a reweighting in favour of one of the half-spaces.\\
-The resulting measures are probability measures since we are reweighting around the barycenter. The average of these two measures is the original measure. Further, each of these measures are log-concave (the product of log-concave functions is log-concave)!\\
-This gives a stochastic process (which is discrete time for now) defined by
-\begin{equation}
-	\label{eqn: discrete time stochastic localization}
-	p_0(x) = p(x) \text{ and } p_{t+\Delta t}(x) = (1 + \langle x-\mu_t,\sqrt{\Delta t}Z_t\rangle) p_t(x).
-\end{equation}
-The $\sqrt{\Delta t}Z_t$ represents $\pm \varepsilon\theta$ and is the random component. Here, $\mu_t$ is the barycenter of the measure corresponding to $p_t$ and the $Z_t$ are iid random which are either uniform on the sphere on $\sqrt{n}S^{n-1}$ or standard Gaussians in $\Rn$.\\
-By the averaging property mentioned, the $p_t$ form a martingale (with respect to the filtration with $\mathcal{F}_t = \sigma\{Z_s : 0\leq s\leq t\}$).
+		For now, let us discuss how it works out in discrete time. Instead of multiplying by this indicator function, we multiply by an affine functional that is very close to $1$. That is, we transform the density $p(x)$ to $(1\pm\varepsilon\langle x-b_\mu,\theta\rangle)p(x)$, where $b_\mu$ is the barycenter of the measure (this gives two probability measures) and $\theta$ is randomly chosen. This is like a reweighting in favour of one of the half-spaces.\\
+		The resulting measures are probability measures since we are reweighting around the barycenter. The average of these two measures is the original measure. Further, each of these measures are log-concave (the product of log-concave functions is log-concave)!\\
+		This gives a stochastic process (which is discrete time for now) defined by
+		\begin{equation}
+			\label{eqn: discrete time stochastic localization}
+			p_0(x) = p(x) \text{ and } p_{t+\Delta t}(x) = (1 + \langle x-\mu_t,\sqrt{\Delta t}Z_t\rangle) p_t(x).
+		\end{equation}
+		The $\sqrt{\Delta t}Z_t$ represents $\pm \varepsilon\theta$ and is the random component. Here, $\mu_t$ is the barycenter of the measure corresponding to $p_t$ and the $Z_t$ are iid random which are either uniform on the sphere on $\sqrt{n}S^{n-1}$ or standard Gaussians in $\Rn$.\\
+		By the averaging property mentioned, the $p_t$ form a martingale (with respect to the filtration with $\mathcal{F}_t = \sigma\{Z_s : 0\leq s\leq t\}$).
 
-Now, we would like to make this continuous by making $\Delta t\to 0$. How do we do this? When the $Z_t$ are Gaussian, \Cref{eqn: discrete time stochastic localization} can be rewritten as a stochastic differential equation
-\begin{equation}
-	\label{eqn: continuous time stochastic localization density}
-	\d{p}_t = \langle x-\mu_t,\d{W}_t\rangle p_t(x) = (x-\mu_t)^\top \d{W}_t p_t(x),
-\end{equation}
-where $p_0=p$ and $\mu_t$, as before, is $\int_{\Rn} x p_t(x) \d{x}$.\\
-Existence and uniqueness for all $t\geq 0$ can be shown using standard means. Moreover, for any time $t$, $p_t$ is almost surely continuous. If $\mathcal{F}_t$ is the $\sigma$-algebra generated by $(W_s)_{0\leq s\leq t}$, then $\expec[p_t(x) \mid \mathcal{F}_s] = p_s(x)$ for $s<t$. That is, it is a martingale. The processes are also $\mathcal{F}_t$-adapted.\\
-The main question in the continuous world is: is this continuous analogue still log-concave? The answer is yes, and moreover, if we write $p_t = e^{-\rho_t}$, then for all $x\in\Rn$,
-\[ \nabla^2 \rho_t(x) = \nabla^2\rho_0(x) + t\cdot I \succeq t\cdot I, \]
-where $I$ is the identity matrix. That is, $p_t$ is ``more log-concave than the Gaussian''.\\
+		Now, we would like to make this continuous by making $\Delta t\to 0$. How do we do this? When the $Z_t$ are Gaussian, \Cref{eqn: discrete time stochastic localization} can be rewritten as a stochastic differential equation
+		\begin{equation}
+			\label{eqn: continuous time stochastic localization density}
+			\d{p}_t = \langle x-\mu_t,\d{W}_t\rangle p_t(x) = (x-\mu_t)^\top \d{W}_t p_t(x),
+		\end{equation}
+		where $p_0=p$ and $\mu_t$, as before, is $\int_{\Rn} x p_t(x) \d{x}$.\\
+		Existence and uniqueness for all $t\geq 0$ can be shown using standard means. Moreover, for any time $t$, $p_t$ is almost surely continuous. If $\mathcal{F}_t$ is the $\sigma$-algebra generated by $(W_s)_{0\leq s\leq t}$, then $\expec[p_t(x) \mid \mathcal{F}_s] = p_s(x)$ for $s<t$. That is, it is a martingale. The processes are also $\mathcal{F}_t$-adapted.\\
+		% The main question in the continuous world is: is this continuous analogue still log-concave? The answer is yes, and moreover, if we write $p_t = e^{-\rho_t}$, then for all $x\in\Rn$,
+		% \[ \nabla^2 \rho_t(x) = \nabla^2\rho_0(x) + t\cdot I \succeq t\cdot I, \]
+		% where $I$ is the identity matrix. That is, $p_t$ is ``more log-concave than the Gaussian''.\\
 
-While the above is the basic idea, the following, slightly more complicated form is what is slightly more handy. Define the stochastic differential equation
-\[ c_0 = 0 \text{ and } \d{c}_t = \d{W}_t + \mu_t\d{t}, \]
-with $p_t$ and $\mu_t$ defined by
-\[ p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}^2}p(y)}\text{ and } \mu_t(x) = \expec_{x\sim p_t} [x]. \]
-The reason we insist on the density being more log-concave than a Gaussian is that this often leads to quite nice bounds on the isoperimetric constant $\psi_p$ using the \nameref{localization lemma}.\\
-However, to add another method to control the covariance, we often add a \textit{control matrix} $C_t$, to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
-\begin{equation}
-	\label{eqn: main stoch local}
-	\begin{gathered}
-		c_0 = 0, \;\;\; \d{c}_t = C_t^{1/2}\d{W}_t + C_t\mu_t\d{t}, \\
-		B_0 = 0, \;\;\; \d{B}_t = C_t\d{t}, \\
-		p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}_{B_t}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}_{B_t}^2}p(y)}, \;\;\; \mu_t(x) = \expec_{x\sim p} [x], \\	
-	\end{gathered}
-\end{equation}
-where $C_t$ is a Lipschitz function with respect to $c_t$, $\mu_t$, $A_t$, and $t$.\\
-It may be shown that a solution to the above equation exists and is unique (up to almost-sure equivalence).\\
-It is also not too difficult to show using It\^{o}'s Lemma that \eqref{eqn: main stoch local} results in \eqref{eqn: continuous time stochastic localization density}.\\
+		While the above is the basic idea, the following, slightly more complicated form is what is slightly more handy. Define the stochastic differential equation
+		\[ c_0 = 0 \text{ and } \d{c}_t = \d{W}_t + \mu_t\d{t}, \]
+		with $p_t$ and $\mu_t$ defined by
+		\[ p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}^2}p(y)\d{y}}\text{ and } \mu_t(x) = \expec_{x\sim p_t} [x]. \]
+		Sometimes, to add another method to control the covariance, we often add a \textit{control matrix} $C_t$, to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
+		\begin{equation}
+			\label{eqn: main stoch local}
+			\begin{gathered}
+				c_0 = 0, \;\;\; \d{c}_t = C_t^{1/2}\d{W}_t + C_t\mu_t\d{t}, \\
+				B_0 = 0, \;\;\; \d{B}_t = C_t\d{t}, \\
+				p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}_{B_t}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}_{B_t}^2}p(y)\d{y}}, \;\;\; \mu_t(x) = \expec_{x\sim p} [x], \\	
+			\end{gathered}
+		\end{equation}
 
-Now, since we are interested in the covariance, we would like to determine its growth. To do this,
-\begin{aligned*}
-	\d{\log p_t(x)} &= (x-\mu_t)^\top \d{W}_t - \frac{1}{2} (x-\mu_t)^\top (x-\mu_t) \d{t} \\
-		&= x^\top (\d{W}_t + \mu_t\d{t}) - \frac{1}{2}\norm{x}^2\d{t} + g(t) \\
-		&= x^\top\d{c}_t - \frac{1}{2}\norm{x}^2\d{t} + g(t),
-\end{aligned*}
-where $g(t)$ is independent of $x$ and the first two terms. This explains the appearance of the Gaussian in \eqref{eqn: main stoch local}.\\
-Using It\^{o}'s Lemma once more on the covariance matrix, we get 
-\[ d{A}_t = \int_{\Rn} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t \cdot p_t(x) \d{x} - A_t^2 \d{t}. \]
-Over time, the Gaussian factor in the definition of $p_t$ begins to dominate.\\
+		where $C_t$ is a Lipschitz function with respect to $c_t$, $\mu_t$, $A_t$, and $t$.\\
+		It may be shown that a solution to the above equation exists and is unique (up to almost-sure equivalence).\\
+		It is also not too difficult to show using It\^{o}'s Lemma that \eqref{eqn: main stoch local} implies \eqref{eqn: continuous time stochastic localization density}.\\
+
+		% The reason we insist on the density at time $t$ being a Gaussian multipled by some log-concave function is that densities which are ``more log-concave than the Gaussian'' lead to nice bounds on the isoperimetric constant $\psi_p$ in terms of the covariance matrix.\\
+
+		Now, observe that
+		\begin{align*}
+			\d{\log p_t(x)} &= (x-\mu_t)^\top \d{W}_t - \frac{1}{2} (x-\mu_t)^\top (x-\mu_t) \d{t} \\
+				&= x^\top (\d{W}_t + \mu_t\d{t}) - \frac{1}{2}\norm{x}^2\d{t} + g(t) \\
+				&= x^\top\d{c}_t - \frac{1}{2}\norm{x}^2\d{t} + g(t),
+		\end{align*}
+		where $g(t)$ is independent of $x$ and the first two terms. This explains the appearance of the Gaussian in \eqref{eqn: main stoch local} -- the above implies that $p_t$ is more log-concave than $e^{-\norm{x}^2/2}$.\\
+		As the Gaussian factor dominates more and more, the density converges to a Dirac delta ``function'', where the measure of any subset is $0$ or $1$.
+
+		The KLS Conjecture has been proven for Gaussian distributions. More generally, for any distribution whose density is the product of the density of $\mathcal{N}(0,\sigma^2 I)$ and any log-concave function, $\psi_p \gtrsim 1/\sigma$ -- this can be proved by normal localization.\\
+		
+		To get some sort of bound for $\psi_p$, we want to bound the covariance matrix (in some meaningful sense of the word bound).\\
+		Using It\^{o}'s Lemma once more on the covariance matrix, we get 
+		\[ d{A}_t = \int_{\Rn} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t \cdot p_t(x) \d{x} - A_t^2 \d{t}. \]
+		
+
+		One important result that we have not mentioned thus far is due to \cite{milman2008isoperimetricprofile}, which claims that the \textit{isoperimetric profile} $I_p : [0,1]\to\Rp$, defined by
+		\[ I_p(t) = \inf_{\substack{S\subseteq\Rn \\ p(S) = t}} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}} \]
+		is concave. In particular, since $I_p(t) = I_p(1-t)$, it attains its maximum at $1/2$. Therefore, to bound the isoperimetric coefficient (and prove the KLS Conjecture), it suffices to check subsets of measure $1/2$.\\
+
+		With this added information, what do we desire from stochastic localization?
+		\begin{enumerate}
+			\item The covariance matrix should not explode (since the bound on the isoperimetric coefficient that we obtain depends on it) and
+			\item The measure of a set $E$ of measure $1/2$ (under the initial density) does not change much.
+		\end{enumerate}
+
+		Now, let us begin with some actual computation
+
+	\subsubsection{An \texorpdfstring{$n^{1/4}$}{} bound}
+
+		
