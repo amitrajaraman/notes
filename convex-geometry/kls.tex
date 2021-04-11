@@ -390,7 +390,8 @@
 		For any log-concave density $p$ with covariance matrix $A$, $\psi_p \gtrsim \opnorm{A}^{-1/2}$. Equivalently, $\psi_p\gtrsim 1$ for any isotropic log-concave density $p$.
 	\end{fcon}
 
-	\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.
+	\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.\\
+	For the sake of brevity, if $p$ is a log-concave density with covariance matrix $A$, let $\rho(p) = \norm{A}_{\text{op}}$.\\
 
 	% \subsubsection{The Connection to Ball-Step and the Log-Sobolev Constant}
 
@@ -471,7 +472,10 @@
 		% where $I$ is the identity matrix. That is, $p_t$ is ``more log-concave than the Gaussian''.\\
 
 		While the above is the basic idea, the following, slightly more complicated form is what is slightly more handy. Define the stochastic differential equation
-		\[ c_0 = 0 \text{ and } \d{c}_t = \d{W}_t + \mu_t\d{t}, \]
+		\begin{equation}
+			\label{eqn: stochastic localization identity control}
+			c_0 = 0 \text{ and } \d{c}_t = \d{W}_t + \mu_t\d{t},
+		\end{equation}
 		with $p_t$ and $\mu_t$ defined by
 		\[ p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}^2}p(y)\d{y}}\text{ and } \mu_t(x) = \expec_{x\sim p_t} [x]. \]
 		Sometimes, to add another method to control the covariance, we often add a \textit{control matrix} $C_t$, to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
@@ -497,7 +501,7 @@
 				&= x^\top\d{c}_t - \frac{1}{2}\norm{x}^2\d{t} + g(t),
 		\end{align*}
 		where $g(t)$ is independent of $x$ and the first two terms. This explains the appearance of the Gaussian in \eqref{eqn: main stoch local} -- the above implies that $p_t$ is more log-concave than $e^{-\norm{x}^2/2}$.\\
-		As the Gaussian factor dominates more and more, the density converges to a Dirac delta ``function'', where the measure of any subset is $0$ or $1$.
+		As the Gaussian factor dominates more and more, the density converges to a Dirac delta ``function'', where the measure of any subset is $0$ or $1$.\\
 
 		The KLS Conjecture has been proven for Gaussian distributions. More generally, for any distribution whose density is the product of the density of $\mathcal{N}(0,\sigma^2 I)$ and any log-concave function, $\psi_p \gtrsim 1/\sigma$ -- this can be proved by normal localization.\\
 		
@@ -516,8 +520,87 @@
 			\item The measure of a set $E$ of measure $1/2$ (under the initial density) does not change much.
 		\end{enumerate}
 
-		Now, let us begin with some actual computation
+		Over the next few sections, we give a $n^{-1/4}$ bound on $\psi_p$.
 
-	\subsubsection{An \texorpdfstring{$n^{1/4}$}{} bound}
+	\subsubsection{Some Preliminary Estimates}
 
-		
+		Before we begin, define the following for notational convenience.
+		\begin{definition}
+			For any stochastic processes $x_t$ and $y_t$, denote the \textit{quadratic variations} $[x]_t$ and $[x,y]_t$ by
+			\[ [x]_t = \lim_{\norm{P} \to 0} \sum_{n=1}^\infty (x_{\tau_n} - x_{\tau_{n-1}})^2 \]
+			and
+			\[ [x,y]_t = \lim_{\norm{P} \to 0} \sum_{n=1}^\infty (x_{\tau_n} - x_{\tau_{n-1}})(y_{\tau_n} - y_{\tau_{n-1}}), \]
+			where $P = \{ 0 = \tau_0 \leq \tau_1 \leq \cdots \uparrow t \}$ is a \textit{stochastic partition} of the non-negative reals and $\norm{P} = \max_n (\tau_n - \tau_{n-1})$ is called the \textit{mesh} of $P$ and the limit is defined using convergence in probability.
+		\end{definition}
+
+		For example, if $x_t$ and $y_t$ satisfy $\d{x}_t = \mu(x_t) \d{t} + \sigma(x_t)\d{W}_t$ and $\d{y}_t = \nu(x_t) \d{t} + \eta(y_t) \d{t}$, then
+		\[ \d{[x]_t} = \sigma^2(x_t) \d{t} \text{ and } \d{[x,y]_t} = \sigma(x_s)\eta(y_s) \d{t}. \]
+
+		The following two results will also come in useful.
+
+		\begin{lemma}[Reflection Principle]
+			Given a Wiener process $W_t$ and $a,t\geq 0$,
+			\[ \Pr\left[\sup_{0 \leq s \leq t} W_s \geq a\right] = 2 \Pr\left[W_t \geq a\right]. \]
+		\end{lemma}
+
+		\begin{theorem}[Dambis, Dubins-Schwarz Theorem]
+			\label{Dambis Dubins Schwarz Th}
+			Every continuous local martingale $M_t$ is of the form
+			\[ M_t = M_0 + W_{[M]_t} \text{ for all } t \geq 0, \]
+			where $W_s$ is a Wiener process.
+		\end{theorem}
+
+		The first simplest case is when we take the control matrix to just be the identity. That is, the relevant stochastic differential equation is given by \eqref{eqn: stochastic localization identity control}. Denote by $A_t$ the covariance matrix of $p_t$.\\
+
+
+		First, we give some ``basic estimates''. Let us start by bounding the measure of any set of initial measure $1/2$.
+
+		\begin{lemma}
+			For any $E\subseteq\Rn$ with $p(E) = 1/2$ and $t \geq 0$,
+			\[ \Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4} \right] \geq \frac{9}{10} - \Pr\left[\int_0^t \rho(p_s)\d{s} \geq \frac{1}{64}\right]. \]
+		\end{lemma}
+		\begin{proof}
+			Let $g_t = p_t(E)$. Then $\d{g}_t = \int_E (x-\mu_t)^\top \d{W}_t p_t(x) \d{x}$. We have
+			\begin{align*}
+				\d{[g]_t} &= \norm{\int_E (x-\mu_t)p_t(x) \d{x}}_2^2 \d{t} \\
+					&= \max_{\norm{\zeta}_2 \leq 1} \left(\int_E (x-\mu_t)^\top\zeta p_t(x) \d{x}\right)^2 \d{t} \\
+					&\leq \left(\max_{\norm{\zeta}_2 \leq 1} \int_{\Rn} ((x-\mu_t)^\top\zeta)^2 p_t(x) \d{x}\right) \left(\int_{\Rn} p_t(x)\d{x}\right) \d{t} \\
+					&= \max_{\norm{\zeta}_2 \leq 1} \zeta^\top A_t \zeta \d{t} = \rho(p_t)\d{t}.
+			\end{align*}
+			Using \Cref{Dambis Dubins Schwarz Th}, let $\tilde{W}_t$ be a Wiener process such that $g_t - g_0$ has the same distribution as $\tilde{W}_{[g]_t}$. Then,
+			\begin{align*}
+				\Pr\left[\frac{1}{4} \leq g_t \leq \frac{3}{4}\right] &= \Pr\left[-\frac{1}{4} \leq \tilde{W}_{[g]_t} \leq \frac{1}{4}\right] \\
+					&\geq 1 - \Pr\left[\max_{0 \leq s \leq 1/64} |\tilde{W}_s| > \frac{1}{4}\right] - \Pr\left[[g]_t > \frac{1}{64}\right] \\
+					&= 1 - 4\Pr\left[\tilde{W}_{1/64} > \frac{1}{4}\right] - \Pr\left[[g]_t > \frac{1}{64}\right] \\
+					&\geq \frac{9}{10} - \Pr\left[\int_0^t \rho(p_s) \d{s} \geq \frac{1}{64}\right].
+			\end{align*}
+			In the second-to-last equation, the first two terms simplify on estimates for the concentration of the normal measure and the second term simplifies on using the earlier bound on $\frac{\d{[g]_t}}{\d{t}}$.
+		\end{proof}
+
+		We now restate the bound on the isoperimetric constant we mentioned earlier for distributions more log-concave than the Gaussian.
+
+		\begin{theorem}
+			Let
+			\[ h(x) = \frac{f(x)e^{-\norm{x}^2/2\sigma^2}}{\int f(y)e^{\norm{y}^2/2\sigma^2}}, \]
+			where $f:\Rn\to\Rp$ is an integrable log-concave function. Then $h$ is log-concave and for any measurable $S\subseteq\Rn$
+			\[ \int_{\partial S} h(x)\d{x} \gtrsim \frac{1}{\sigma} \min\left\{\int_S h(x)\d{x}, \int_{\Rn\setminus S}h(x)\d{x}\right\}. \]
+		\end{theorem}
+
+		Now, let us get to the main estimation of the isoperimetric constant using the above results.
+		\begin{theorem}
+			Suppose there is $T > 0$ such that
+			\[ \Pr\left[\int_0^T \rho(p_s) \d{s} \leq \frac{1}{64} \right] \geq \frac{3}{4}. \]
+			Then $\psi_p \gtrsim T^{-1/2}$.
+		\end{theorem}
+		\begin{proof}
+			Let $E\subseteq\Rn$ with $p(E) = 1/2$.
+			We then have
+			\begin{align*}
+				\int_{\partial E} p(x) \d{x} &= \expec\left[ \int_{\partial E} p_T(x)\d{x} \right] & (p_t\text{ is a martingale}) \\
+					&\gtrsim T^{1/2} \expec \left[ \min\left\{p_T(E) , p_T(\Rn\setminus E)\right\} \right] \\
+					&\gtrsim T^{1/2} \Pr\left[ \frac{1}{4} \leq p_T(E) \leq \frac{3}{4} \right] \\
+					&\gtrsim T^{1/2} \left(\frac{9}{10} - \Pr\left[\int_0^t \rho(p_s)\d{s} \geq \frac{1}{64}\right]\right) \gtrsim T^{1/2}.
+			\end{align*}
+		\end{proof}
+
+		As mentioned earlier, we now need to control the growth of the covariance matrix $A_t$, preventing it from exploding and ensuring that the condition in above theorem is satisfied for some large $T$.
