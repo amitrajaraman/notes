@@ -1,0 +1,719 @@
+\section{Regular Languages}
+
+Before we proceed any further, a question we must ask is - what \textit{is} a computer? The computers we use are probably too complicated to model as a mathematical system. So we shall try to create an idealized computer called a \textit{computational model}. Like models in general, this model is realistic in some ways, and unrealistic in others.
+
+\subsection{Finite Automata}
+
+Finite automata are a good place to begin that are good models for computers with an extremely limited amount of memory.
+
+\begin{example}
+For starters, consider an automatic door controller. It has a front pad, a back pad and a door. The door can be either open or closed and each of the pads can be either pressed or not pressed. Using this, we can construct a ``state diagram'' to show how the state of the system proceeds:
+\begin{center}
+    \begin{tikzpicture}[node distance=3cm]
+    \node[state] (1) {Closed};
+    \node[state] (2) [right of=1] {Open};
+
+    \draw (1) edge[loop above] node[align=center]{Rear\\ Both\\ Neither} (1)
+          (2) edge[loop above] node[align=center]{Front\\ Both\\ Neither} (2)
+          (1) edge[bend left, above] node{Front} (2)
+          (2) edge[bend left, below] node{Neither} (1);
+    \end{tikzpicture}
+\end{center}
+
+It can also be represented by the following table:
+\begin{center}
+\begin{tabular}{l|llll}
+       & Front  & Back   & Neither & Both   \\ \hline
+Closed & Open   & Closed & Closed  & Closed \\
+Open   & Closed & Closed & Open    & Closed  
+\end{tabular}
+\end{center}
+\end{example}
+~\\
+Thinking of a finite automaton like this automatic door controller, which has only a single bit of memory, suggests standard ways to represent automata as a state transition graph or a  state transition table.
+
+Finite automata, and their probabilistic counterparts, \textit{Markov Chains}, are very useful tools.
+
+Let us look at another finite automaton to cement the idea before exactly defining what it is.
+
+\begin{example}
+Consider the following state diagram of an automaton $M$.
+\begin{center}
+  \begin{tikzpicture}
+    \node[state, initial] (q1) {$q_1$};
+    \node[state, accepting, right of=q1] (q2) {$q_2$};
+    \node[state, right of=q2] (q3) {$q_3$};
+    \draw (q1) edge[loop above] node{$0$} (q1)
+          (q2) edge[loop above] node{$1$} (q2)
+          (q1) edge[above] node{$1$} (q2)
+          (q2) edge[bend left, above] node{$0$} (q3)
+          (q3) edge[bend left, below] node{$0,1$} (q2);
+    \end{tikzpicture}
+\end{center}
+It has three \textit{states}, $q_1, q_2$ and $q_3$. The \textit{start state}, $q_1$ is indicated as shown. The \textit{accept state}, $q_2$ is indicated by the double circle. The arrows are called \textit{transitions}. When the automaton receives some input string like \texttt{11001}, it processes the string and produces some output, ``accept" or ``reject". For now, we will consider only yes/no questions like this one.
+
+An obvious question to ask is: What language of input strings give an accept output? We will answer this soon.
+\end{example}
+
+\begin{definition}
+A \textit{deterministic finite automaton} is a $5$-tuple $(Q,\Sigma, \delta, q_0, F)$ where
+\begin{itemize}
+    \item $Q$ is a finite set called the set of \textit{states}.
+    \item $\Sigma$ is a finite set of input symbols called the \textit{alphabet}.
+    \item $\delta:Q\times\Sigma\to Q$ is the \textit{transition function}.
+    \item $q_0\in Q$ is the \textit{start state}.
+    \item $F\subseteq Q$ is the \textit{set of accept states}.
+\end{itemize}
+\end{definition}
+
+Accept states are also sometimes called \textit{final states}.
+
+\begin{example}
+The finite automaton $M$ we described earlier can be put in this format in the following way: 
+\begin{itemize}
+    \item $Q=\{q_1,q_2,q_3\}$
+    \item $\Sigma=\{0,1\}$
+    \item $\delta$ is described as follows:
+    \begin{center}
+        \begin{tabular}{l|ll}
+            & $0$  & $1$   \\ \hline
+            $q_1$ & $q_1$   & $q_2$\\
+            $q_2$ & $q_3$ & $q_2$\\
+            $q_3$ & $q_2$ & $q_2$
+        \end{tabular}
+    \end{center}
+    \item $q_1$ is the start state, and
+    \item $F=\{q_2\}$
+\end{itemize}
+\end{example}
+
+If $A$ is the set of all strings that machine $M$ accepts, we say that $A$ is the \textit{language} of $M$ and write $L(M)=A$.
+
+In our example, $$L(M)=\{w\mid w\text{ contains at least one $1$ and an even number of $0$s follow the last $1$}\}.$$
+
+\begin{definition}
+Let $M=(Q,\Sigma, \delta, q_0, F)$ be a deterministic finite automaton and let $w=w_1w_2\cdots w_n$ be a string where each $w_i\in\Sigma$. Then $M$ \textit{accepts} $w$ if a sequence of states $r_0, r_1, \ldots, r_n$ in $Q$ exist with three conditions:
+\begin{enumerate}
+    \item $r_0=q_0$,
+    \item $\delta(r_i, w_{i+1})=r_{i+1}$ for $i=0,1,\ldots, n-1$ and
+    \item $r_n\in F$.
+\end{enumerate}
+
+We say that $M$ \textit{recognizes} language $A$ if $A=\{w\mid M\text{ accepts }w\}$.
+\end{definition}
+\begin{definition}
+A language is called a \textit{regular language} if some deterministic finite automaton recognizes it.
+\end{definition}
+
+We define three operations on languages, called \textit{regular operations}, and use them to study the properties of regular languages.
+
+\begin{definition}
+Let $A$ and $B$ be languages. We define the following \textit{regular operations}:
+\begin{itemize}
+    \item \textit{Union}: $A\cup B=\{x\mid x\in A \text{ or }x\in B\}$.
+    \item \textit{Concatenation}: $A\circ B=\{xy\mid x\in A\text{ and }y\in B\}$.
+    \item \textit{Kleene Star}: $A^*=\{x_1x_2\cdots x_k\mid k\geq 0\text{ and each }x_i\in A\}$
+\end{itemize}
+\end{definition}
+
+These operations are called regular operations as the class of regular languages are closed under these operations. Henceforth, we shall refer to the Kleene star operation as just the star operation.
+
+\vspace{2mm}
+We shall first show a proof that the class of regular languages is closed under the union operation. We shall revisit this later and provide a much simpler proof.
+\begin{proof}
+Let $M_1(Q_1,\Sigma_1,\delta_1,q_{01},F_1)$ and $M_2(Q_2,\Sigma_2,\delta_2,q_{02},F_2)$ recognize $A_1$ and $A_2$ respectively. Set $\Sigma=\Sigma_1\cup\Sigma_2$.
+
+We construct the finite automaton $M(Q,\Sigma,\delta,q_0,F)$ that recognizes $A_1\cup A_2$ by setting $Q=Q_1\times Q_2$, $\delta(q_1, q_2)=(\delta_1(q_1), \delta_2(q_2))$ for all $q_1\in Q_1,q_2\in Q_2$, $q_0=(q_{01}, q_{02})$ and $F=\{(q_1, q_2)\mid q_1\in F_1 \text{ or }q_2\in F_2\}$.\\
+It can be checked that $M$ recognizes $A_1\cup A_2$.
+\end{proof}
+~\\
+To prove that the class of regular languages is closed under concatenation, we must build an automaton that accepts a string if it can be split into two parts, the first of which is accepted by the first machine and the second of which is accepted by the second machine. To show how this can be done, we introduce a new concept called non-determinism.
+\clearpage
+
+\subsection{Nondeterminism}
+
+So far, for every input symbol, the next state is exactly determined, that is, it is a \textit{deterministic} machine. In a \textit{nondeterministic} machine, several choices may exist for the next state at any point.
+
+Every deterministic finite automaton is thus clearly a nondeterministic finite automaton as well.
+
+We shall abbreviate ``nondeterministic finite automaton'' as NFA and ``deterministic finite automaton'' as DFA.
+
+\begin{example}
+The following is an NFA (and not a DFA):
+\begin{center}
+\begin{tikzpicture}
+    \node[state, initial] (q1) {$q_1$};
+    \node[state, right of=q1] (q2) {$q_2$};
+    \node[state, right of=q2] (q3) {$q_3$};
+    \node[state, accepting, right of=q3] (q4) {$q_4$};
+    \draw (q1) edge[loop above] node{0,1} (q1)
+          (q4) edge[loop above] node{0,1} (q4)
+          (q1) edge[above] node{$1$} (q2)
+          (q2) edge[above] node{$0,\varepsilon$} (q3)
+          (q3) edge[above] node{$1$} (q4);
+\end{tikzpicture}
+\end{center}
+\end{example}
+
+The difference between a DFA and an NFA is immediately apparent. In the above example, there are multiple arrows from $q_1$ corresponding to input $1$ and no arrow from $q_2$ corresponding to $1$. We also see the addition of $\varepsilon$ as input, which is not in the alphabet.
+
+\vspace{2mm}
+How does an NFA compute? At each point with multiple paths, the machine splits into multiple copies of itself, each one following one of the possibilites in parallel. Each copy of the machine then continues as before. If there are subsequent choices, it splits again. If the next input symbol does not appear on any of the arrows exiting the current state, that copy of the machine dies. Finally, if \textit{any} of these copies ends at an accept state, the NFA is said to accept the input string.
+
+If a state with an $\varepsilon$ exiting arrow is encountered, the machine splits into multiple copies, each one following one of the arrows, \textit{without reading any input}.
+
+\vspace{3mm}
+Nondeterminism is a sort of parallel computing where many ``threads'' are running simultaneously. The NFA splitting corresponds to the process of ``forking'' into several children, each proceeding separately. If any of these processes accepts, the entire computation accepts.
+
+We can also think of an NFA as a tree of possibilities where the tree splits at each point where the machine has more than one choice.
+
+\vspace{3mm}
+But why are NFAs important? As we shall see shortly, every NFA can be converted to an equivalent DFA, and constructing NFA's is sometimes easier than constructing DFA's. An NFA is usually much smaller than its DFA counterpart and its functioning may be easier to understand.
+
+\begin{example}
+Let $A$ be the language consisting of all strings over $\{0,1\}$ containing a $1$ in the third position from the end. The following NFA recognizes $A$.
+\begin{center}
+\begin{tikzpicture}
+    \node[state, initial] (q1) {$q_1$};
+    \node[state, right of=q1] (q2) {$q_2$};
+    \node[state, right of=q2] (q3) {$q_3$};
+    \node[state, accepting, right of=q3] (q4) {$q_4$};
+    \draw (q1) edge[loop above] node{$0,1$} (q1)
+          (q1) edge[above] node{$1$} (q2)
+          (q2) edge[above] node{$0,1$} (q3)
+          (q3) edge[above] node{$0,1$} (q4);
+\end{tikzpicture}
+\end{center}
+
+The following DFA also recognizes $A$.
+\begin{center}
+\begin{tikzpicture}[node distance=3cm]
+    \node[state, initial] (q000) {$q_{000}$};
+    \node[state, accepting, right of=q000] (q100) {$q_{100}$};
+    \node[state, below of=q000] (q001) {$q_{001}$};
+    \node[state, accepting, right of=q001] (q101) {$q_{101}$};
+    \node[state, right of=q100] (q010) {$q_{010}$};
+    \node[state, right of=q101] (q011) {$q_{011}$};
+    \node[state, right of=q010, accepting] (q110) {$q_{110}$};
+    \node[state, right of=q011, accepting] (q111) {$q_{111}$};
+    \draw (q000) edge[loop above] node{0} (q000)
+          (q111) edge[loop right] node{1} (q111)
+          (q100) edge[above] node{0} (q000)
+          (q000) edge[left] node{1} (q001)
+          (q101) edge[above] node{1} (q011)
+          (q011) edge[above] node{1} (q111)
+          (q111) edge[right] node{0} (q110)
+          (q010) edge[above] node{0} (q100)
+          (q011) edge[right] node{0} (q110)
+          (q101) edge[bend left=10, above, pos=0.25] node{0} (q010)
+          (q010) edge[bend left=10, below, pos=0.25] node{1} (q101)
+          (q001) edge[above] node{0} (q010)
+          (q100) edge[above] node{1} (q001)
+          (q110) edge[bend right, above] node{0} (q100)
+          (q001) edge[bend right, below] node{1} (q011)
+          (q110) edge[below] node{1} (q101);
+\end{tikzpicture}
+\end{center}
+\end{example}
+
+It is plain as day that the DFA in the above example is far more complicated than the NFA.
+
+Let us now formally define an NFA.
+\begin{definition}
+A nondeterministic finite automaton is a $5$-tuple $(Q,\Sigma,\delta,q_0,F)$, where
+\begin{itemize}
+    \item $Q$ is a finite set of states.
+    \item $\Sigma$ is a finite alphabet.
+    \item $\delta:Q\times\Sigma_\varepsilon\to\mathcal{P}(Q)$ is the transition function.
+    \item $q_0\in Q$ is the start state, and
+    \item $F\subseteq Q$ is the set of accept states.
+\end{itemize}
+\end{definition}
+
+Here $\Sigma_\varepsilon$ is $\Sigma\cup\{\varepsilon\}$ and $\mathcal{P}(Q)$ is the power set of $Q$.
+
+\vspace{3mm}
+Let $w=y_1y_2\cdots y_m$ be a string over the alphabet $\Sigma$. We say that a nondeterministic finite automaton N \textit{accepts} $w$ if we can write $w$ as $w=y_1y_2\cdots y_m$ where each $y_i\in\Sigma_\varepsilon$ and a sequence of states $r=r_0,r_1,\ldots,r_m$ exists in $Q$ such that:
+\begin{itemize}
+    \item $r_0=q_0$,
+    \item $r_{i+1}\in\delta(r_i, y_{i+1})$ for $i=0,1,\ldots,m-1$ and
+    \item $r_m\in F$.
+\end{itemize}
+
+\begin{definition}
+We say that two machines are \textit{equivalent} if they recognize the same language.
+\end{definition}
+\begin{theorem}
+Every nondeterministic finite automaton has an equivalent deterministic finite automaton.
+\end{theorem}
+
+\begin{proof}
+Let us first do this for the case where there are no $\varepsilon$ arrows. Then given an NFA $N=(Q,\Sigma,\delta,q_0,F)$ that recognizes language $A$, we can construct the DFA $M=(Q',\Sigma,\delta',q_0',F')$ such that
+\begin{itemize}
+    \item $Q'=\mathcal{P}(Q)$. $\mathcal{P}(Q)$ is the power set of $Q$.
+    \item For any $R\in Q'$ and symbol $a$, $$\delta'(R,a)=\bigcup_{r\in R}\delta(r,a).$$
+    \item $q_0'=\{q_0\}$.
+    \item $F'=\{q\in Q\mid q\text{ contains at least one accept state}\}$.
+\end{itemize}
+Now we need to consider the $\varepsilon$ arrows as well. For any $R\in Q'$, define $$E(R)=\{q\mid q \text{ can be reached from $R$ by traveling along $0$ or more $\varepsilon$ arrows}\}.$$
+
+We can then modify the transition function as follows:
+
+$$\delta'(R,a)=\bigcup_{r\in R} E(\delta(r,a)).$$
+
+We must also modify the start state to $q_0'=E(\{q_0\})$.
+
+It is clear that this construction will work and recognize language $A$, as can easily be verified from the definition.
+\end{proof}
+
+Note that the size of the DFA created from the above construction equivalent to a given NFA has a number of nodes which is exponential in terms of the number of nodes of the NFA. It is thus clear why NFA's tend to be significantly more compact than their corresponding equivalent DFA's.
+
+\begin{corollary}
+A language is regular if and only if some nondeterministic finite automaton recognizes it.
+\end{corollary}
+
+Now that we have this much stronger corollary to determine if a language is regular, let us go back to continuing to prove that the class or regular languages is closed under the regular operations.
+
+\begin{theorem}
+The class of regular languages is closed under the union operation.
+\end{theorem}
+\begin{proof}
+Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A_1$ and $N_2=(Q_2,\Sigma,\delta_2,q_2,F_2)$ recognize $A_2$ for (regular) languages $A_1$ and $A_2$. (We assume that they have the same alphabet $\Sigma$. If they have different languages $\Sigma_1$ and $\Sigma_2$, set $\Sigma=\Sigma_1\cup\Sigma_2$).
+
+Construct $N=(Q,\Sigma,\delta,q_0,F)$ to recognize $A_1\cup A_2$ as follows.
+\begin{itemize}
+    \item $Q=\{q_0\}\cup Q_1\cup Q_2$. (Assume without loss of generality that $Q_1$ and $Q_2$ are disjoint)
+    \item The state $q_0$ is the start state of $N$. ($q_0$ is not in $Q_1$ or $Q_2$)
+    \item $F=F_1\cup F_2$
+    \item $\delta$ is defined as follows. For any $q\in Q$ and $a\in\Sigma_\varepsilon$,
+    $$
+    \delta(q,a)=
+    \begin{cases}
+    \delta_1(q,a) & q\in Q_1 \\
+    \delta_2(q,a) & q\in Q_2 \\
+    \{q_1,q_2\} & q=q_0\text{ and }a=\varepsilon \\
+    \emptyset & q=q_0\text{ and }a\neq\varepsilon
+    \end{cases}
+    $$
+\end{itemize}
+Here we basically check separately whether a given string is accepted by $M_1$ or $M_2$, and accept if it is accepted by either.
+\end{proof}
+
+\begin{theorem}
+The class of regular languages is closed under concatenation.
+\end{theorem}
+\begin{proof}
+Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A_1$ and $N_2=(Q_2,\Sigma,\delta_2,q_2,F_2)$ recognize $A_2$ for (regular) languages $A_1$ and $A_2$.
+
+Construct $N=(Q,\Sigma,\delta,q_1,F_2)$ to recognize $A_1\circ A_2$.
+\begin{itemize}
+    \item $Q=Q_1\cup Q_2$.
+    \item Define $\delta$ such that for any $q\in Q$ and $a\in\Sigma_\varepsilon$,
+    $$
+    \delta(q,a)=
+    \begin{cases}
+    \delta_1(q,a) & q\in Q_2\text{ and }q\not\in F_1 \\
+    \delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
+    \delta_1(q,a)\cup \{q_2\} & q\in F_1\text{ and }a=\varepsilon \\
+    \delta_2(q,a) & q\in Q_2.
+    \end{cases}
+    $$
+    We basically split if the part of the string read so far is accepted by $N_1$, check whether the remainder is accepted by $N_2$ and recurse.
+\end{itemize}
+\end{proof}
+
+\begin{theorem}
+The class of regular languages is closed under the star operation.
+\end{theorem}
+\begin{proof}
+Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A$. Construct $N=(Q,\Sigma,\delta,q_0,F)$ as follows to recognize $A^*$.
+\begin{itemize}
+    \item $Q=\{q_0\}\cup Q_1$. ($q_0$ is not in $Q_1$)
+    \item $F=\{q_0\}\cup F_1$. This is done so that $\varepsilon$ is in the resulting language.
+    \item Define $\delta$ such that for any $q\in Q$ and any $a\in\Sigma_\varepsilon$,
+    $$
+    \delta(q,a)=
+    \begin{cases}
+    \delta_1(q,a) & q\in Q_1\text{ and }q\not\in F_1 \\
+    \delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
+    \delta_1(q,a)\cup\{q_1\} & q\in F_1\text{ and }a=\varepsilon \\
+    \{q_1\} & q=q_0\text{ and }a=\varepsilon \\
+    \emptyset & q=q_0\text{ and }a\neq\varepsilon
+    \end{cases}
+    $$
+\end{itemize}
+
+It can be checked that this machine recognizes $A^*$. The idea is similar to that in the concatenation proof, but we keep looping on the same machine.
+\end{proof}
+
+\begin{exercise}
+Prove that the class of regular languages is closed under the intersection operation.
+\end{exercise}
+\clearpage
+
+\subsection{Regular Expressions}
+We use regular expressions to build up expressions describing languages, which are called regular expressions. An example is $(0\cup 1)\circ 0^*$. This language describes all strings that start with a $0$ or $1$ and are followed by $0$s. The concatenation symbol is usually omitted and understood implicitly, so the given expression can also be written as $(0\cup 1)0^*$.
+
+\vspace{2mm}
+Regular expressions have several obvious uses in computer science, like searching for strings in a text that satisfy certain properties for instance.
+
+In arithmetic, there is a precedence order in the operations wherein we give $\times$ higher precedence than $+$. Similarly, in regular expressions, the precedence order is star, then concatenation, and finally union (unless parentheses are used to change the order).
+
+\begin{definition}
+We say that $R$ is a \textit{regular expression} if $R$ is equal to
+\begin{enumerate}
+    \item $a$ for some $a$ in the alphabet $\Sigma$,
+    \item $\varepsilon$,
+    \item $\emptyset$,
+    \item $(R_1\cup R_2)$ for regular expressions $R_1$ and $R_2$,
+    \item $(R_1\circ R_2)$ for regular expressions $R_1$ and $R_2$, or
+    \item $(R_1^*)$ for regular expression $R_1$.
+\end{enumerate}
+\end{definition}
+
+
+\textit{Remark.} Do not confuse the regular expressions $\varepsilon$ and $\emptyset$. $\{\varepsilon\}$ is the language containing a single string, the empty string, whereas $\emptyset$ is the language containing no strings.
+
+\vspace{2mm}
+Given a regular expression $R$, we use $L(R)$ to denote the language of $R$.
+
+For convenience, we use $R^+$ to denote $RR^*$, that is, the language has all strings that are $1$ or more concatenations of strings from $R$. So $R^+\cup\{\varepsilon\}=R^*$. We also let $R^k$ to denote the concatenation of $k$ $R$'s  with each other.
+
+\begin{exercise}
+Describe the languages corresponding to the following regular expressions.
+\begin{enumerate}[(a)]
+    \item $1^*\emptyset$
+    \item $\emptyset^*$
+    \item $(0\cup\varepsilon)(1\cup\varepsilon)$
+    \item $(\Sigma\Sigma)^*$
+    \item $(01^+)^*$
+\end{enumerate}
+\end{exercise}
+\begin{solution}
+~
+\begin{enumerate}[(a)]
+    \item $\emptyset$
+    \item $\{\varepsilon\}$
+    \item $\{\varepsilon,0,1,01\}$
+    \item $\{w\mid w\text{ is a string of even length }\}$
+    \item $\{w\mid \text{every $0$ in $w$ is followed by at least one $1$}\}$
+\end{enumerate}
+\end{solution}
+
+\begin{exercise}
+Prove the following identities for any regular language $R$.
+\begin{enumerate}[(a)]
+    \item $R\cup\emptyset=R$
+    \item $R\circ\{\varepsilon\}=R$
+\end{enumerate}
+\end{exercise}
+
+\vspace{3mm}
+Regular expressions and finite automata are equivalent in their descriptive power, which may not be an immediately obvious fact. However any of them can be converted to the other.
+
+\begin{lemma}
+\label{regIfRegExp}
+If a language is described by a regular expression, it is regular.
+\end{lemma}
+\begin{proof}
+We shall prove each of the $5$ cases of the definition separately.
+\begin{enumerate}
+    \item $R=a$ for some $a$ in $\Sigma$. Then $L(R)=\{a\}$. The following NFA recognizes $L(R)$.
+    \begin{center}
+    \begin{tikzpicture}
+        \node[state, initial] (q1) {$q_1$};
+        \node[state, accepting, right of=q1] (q2) {$q_2$};
+        \draw (q1) edge[above] node{$a$} (q2);
+    \end{tikzpicture}
+    \end{center}
+    
+    \item $R=\varepsilon$. Then $L(R)=\{\varepsilon\}$. The following NFA recognizes $L(R)$.
+    \begin{center}
+    \begin{tikzpicture}
+        \node[state, initial, accepting] (q1) {$q_1$};
+    \end{tikzpicture}
+    \end{center}
+    
+    \item $R=\emptyset$. Then $L(R)=\emptyset$. The following NFA recognizes $L(R)$.
+    \begin{center}
+    \begin{tikzpicture}
+        \node[state, initial] (q1) {$q_1$};
+    \end{tikzpicture}
+    \end{center}
+\end{enumerate}
+
+For the remaining cases, that is, $R=R_1\cup R_2, R=R_1\circ R_2$ and $R=R_1^*$, we use the constructions given in the proofs that the regular languages are closed under each of the regular operations.
+\end{proof}
+
+We define a new type of automaton to help prove the next theorem, which states that if a language is regular, it can be described by a regular expression. We call this a generalized nondeterministic finite automaton (abbreviated as GNFA). The GNFA reads blocks of symbols from the input, not necessarily just one symbol at a time as in an ordinary NFA. The GNFA moves from one state to another by reading a block of symbols from the input, which may themselves constitute a string determined by the regular expression on that arrow.
+
+For convenience, we also require that each GNFA always has a special form that meets the following criteria:
+\begin{itemize}
+    \item The start state has transition arrows going to every other state but no arrows coming in from any other state.
+    \item There is only one accept state, and there are arrows coming in to the accept state from every other state but no arrows going out to any other state. Further, the accept state is not the same as the start state.
+    \item Except for the start and accept states, there are arrows going from every state to every other state and also from each state to itself.
+\end{itemize}
+
+\label{regRegExpEquivSketch}
+To prove the theorem, what we do is find a way to convert any DFA to a special GNFA (with $\geq 2$ states), and then repeatedly constructing an equivalent GNFA with $1$ less state by ``ripping'' out a state. When we get a GNFA with just 2 states, it just has a single arrow from the start state to the accept state, with label equal to the required regular expression.
+
+\vspace{3mm}
+Define $\mathcal{R}$ to be the set of all regular expressions over the alphabet $\Sigma$.
+
+\begin{definition}
+A \textit{generalized nondeterministic finite automaton} is a $5$-tuple $(Q,\Sigma,\delta,q_{\text{start}},q_{\text{accept}})$, where
+\begin{itemize}
+    \item $Q$ is the finite set of states,
+    \item $\Sigma$ is the input alphabet,
+    \item $\delta:(Q-\{q_{\text{accept}}\})\times(Q-\{q_{\text{start}}\})\to\mathcal{R}$ is the transition function,
+    \item $q_{\text{start}}$ is the start state, and
+    \item $q_{\text{accept}}$ is the accept state.
+\end{itemize}
+\end{definition}
+
+A GNFA accepts a string $w$ in  $\Sigma^*$ if $w=w_1w_2\cdots w_k$, where each $w_i$ is in $\Sigma^*$  and a sequence of states $q_0,q_1,\ldots,q_k$ exist such that
+\begin{itemize}
+    \item $q_0=q_{\text{start}}$,
+    \item $q_k=q_{\text{accept}}$, and
+    \item for each $i$, we have $w_i\in L(R_i)$, where $R_i=\delta(q_{i-1},q_i)$. In other words, $R_i$ is the expression on the arrow from $q_{i-1}$ to $q_i$.
+\end{itemize}
+
+\begin{lemma}
+\label{DFAtoSpGNFA}
+Given any DFA, there exists an equivalent GNFA in the special form.
+\end{lemma}
+\begin{proof}
+Consider a DFA $N=(Q,\Sigma,\delta,q_0,F)$, define a GNFA $N'=(Q',\Sigma,\delta',q_{\text{start}},q_{\text{accept}})$ as follows.
+\begin{itemize}
+    \item $Q'=Q\cup \{q_\text{start}, q_\text{accept}\}$, ($q_\text{start}$ and $q_\text{accept}$ are not in $Q$)
+    \item $\delta'$ is defined as follows. For any $q_i,q_j\in Q'$,
+    $$
+    \delta'(q_i,q_j)=
+    \begin{cases}
+    \varepsilon & q_i=q_\text{start}\text{ and }q_j=q_0 \\
+    \varepsilon & q_i\in F\text{ and } q_j=q_\text{accept} \\
+    \{a: \delta(q_i,a)=q_j\} & \text{otherwise.}
+    \end{cases}
+    $$
+\end{itemize}
+    We simply add a new start state with an $\varepsilon$ arrow to the old start state, and a new accept state with $\varepsilon$ arrows from each of the old accept states. If any arrows have multiple labels, we replace these with a single arrow whose label is the union of the previous labels. We add arrows labelled $\emptyset$ between states that had no arrows between them.
+    
+    It can be checked that this is in fact a GNFA in special form.
+\end{proof}
+
+We shall now exactly describe the process that we use to obtain a regular expression from a given GNFA. Given a GNFA $G$, we define $\texttt{CONVERT}(G)$ by the following algorithm.
+
+\begin{enumerate}
+    \item Let $k$ be the number of states of $G$.
+    
+    \item If $k=2$, then $G$ must consist of a start state, an accept state, and exactly one arrow between them labelled with a regular expression $R$.
+    
+    Return $R.$
+    
+    \item If $k>2$, we select any state $q_{\text{rip}}\in Q$ different from $q_{\text{start}}$ and $q_{\text{accept}}$ and let $G'$ be the GNFA $(Q',\Sigma,\delta',q_{\text{start}},q_{\text{accept}})$ where
+    $$Q'=Q-\{q_{\text{rip}}\},$$
+    and for any $q_i\in Q'-\{q_{\text{accept}}\}$ and $q_j\in Q'-\{q_{\text{start}}\}$, let
+    $$\delta'(q_i,q_j)=(R_1)(R_2)^*(R_3)\cup R_4$$
+    for $R_1=\delta(q_i,q_\text{rip}), R_2=\delta(q_\text{rip}, q_\text{rip}), R_3=\delta(q_\text{rip},q_j)$ and $R_4=\delta(q_i,q_j)$.
+    
+    Return $\texttt{CONVERT}(G')$.  
+\end{enumerate}
+
+\begin{lemma}
+\label{CONVERTeq}
+For any GNFA $G$, $\texttt{CONVERT}(G)$ is equivalent to $G$.
+\end{lemma}
+\begin{proof}
+We shall prove this by an induction on $k$, the number of states in $G$. Define $G'$ as in the above recursive algorithm.
+
+\vspace{2mm}
+\textit{Basis.} The basis case is $k=2$. In this case, $G$ only consists of a start state, an accept state, and a single arrow between them with the label describing all strings that $G$ recognizes. Thus the expression is equivalent to $G$.
+
+\vspace{2mm}
+\textit{Inductive step.} Assume it is true for $k-1$ states. Let $k>2$. We shall show that $G$, which has $k$ states, and $G'$, which has $k-1$ states, are equivalent, that is, they recognize the same language. Suppose that $G$ accepts a sequence $w$. Then in an accepting branch of the computation, $G$ enters a sequence of states $q_{\text{start}},q_1,q_2,\ldots,q_{\text{accept}}$.
+
+If none of them is $q_{\text{rip}}$, $G'$ also clearly accepts $w$. If there are any runs of $q_{\text{rip}}$, then removing those runs also yields an accepting string. This is because for bracketing sequences $q_i,q_j$ around a run, the arrow between $q_i$ and $q_j$ has all strings from $q_i$ to $q_j$ through $q_\text{rip}$. So $G'$ accepts $w$.
+
+On the other hand, if $G'$ accepts some sequence $w$, then the arrow from $q_i$ to $q_j$ in $G'$ describes the collection of strings taking $q_i$ to $q_j$ in $G$, either directly or through $q_\text{rip}$. Clearly, $G$ must also accept $w$. Thus $G$ and $G'$ are equivalent.
+
+\vspace{2mm}
+The induction hypothesis merely says that when the algorithm calls itself recursively on $G'$, the resulting regular expression is equivalent to $G'$ (because $G'$ has $k-1$ states). As $G$ is equivalent to $G'$, $G$ must also be equivalent to the resulting regular expression, namely $\texttt{CONVERT}(G)$.
+\end{proof}
+
+\vspace{1mm}
+\begin{theorem}
+\label{regIffRegExp}
+A language is regular if and only if some regular expression describes it.
+\end{theorem}
+\begin{proof}
+We have already proved one of the implications in \ref{regIfRegExp}.
+
+To prove the other implication, we first use \ref{DFAtoSpGNFA} to create an equivalent GNFA given any DFA. We then use \ref{CONVERTeq} to obtain a regular expression that is equivalent to this GNFA, which is in turn equivalent to the initial DFA.
+
+\vspace{2mm}
+We thus have the two way implication.
+\end{proof}
+
+\vspace{1mm}
+\begin{exercise}
+Find the regular expression corresponding to the following NFA.
+\begin{center}
+\begin{tikzpicture}
+    \node[state, initial] (1) {$1$};
+    \node[state, accepting, right of=1] (2) {$2$};
+    \node[state, accepting, below of=1] (3) {$3$};
+    \draw (1) edge[above, bend left=15] node{$a$} (2)
+          (2) edge[below, bend left=15] node{$a$} (1)
+          (2) edge[loop above] node{$b$} (2)
+          (1) edge[right, bend left=15] node{$b$} (3)
+          (3) edge[left, bend left=15] node{$b$} (1)
+          (3) edge[below] node{$a$} (2);
+\end{tikzpicture}
+\end{center}
+\end{exercise}
+\begin{solution}
+The resulting regular expression from the above DFA using the algorithm used in \ref{regIffRegExp} is
+$$(a(aa\cup b)^*ab\cup b)((ba\cup a)(aa\cup b)^*ab\cup bb)^*((ba\cup a)(aa\cup b)^*\cup\varepsilon)\cup a(aa\cup b)^*$$
+\end{solution}
+
+\begin{exercise}
+\label{stringreverse}
+For any string $w=w_1w_2\cdots w_n$, the \textit{reverse} of $w$, written $w^\mathcal{R}$, is given by $w_n\cdots w_2w_1$. For any language $A$, denote $A^\mathcal{R}=\{w^\mathcal{R}\mid w\in A\}$. Show that if $A$ is regular, $A^\mathcal{R}$ is regular.
+\end{exercise}
+\clearpage
+
+\subsection{Nonregular Languages}
+As we have regular languages, the presence of \textit{nonregular} languages is also expected, that is, languages that cannot be recognized by any finite automaton. For instance, consider the language $B=\{0^n1^n\mid n\geq 0\}$. We wouldn't expect to have a finite automaton that recognizes this language as it appears we would need to count the number of $0$s processed so far (which is not bounded above), and we only have a finite number of memory. Indeed, this language cannot be recognized by any finite automaton.
+
+\vspace{2mm}
+However, this immediately begs the question, what is a condition to determine whether a language is regular or nonregular? 
+
+\begin{theorem}[The Pumping Lemma]
+If $A$ is a regular language, then there is a number $p$, called the \textit{pumping length}, where if $s$ is any string in $A$ of length at least $p$, then $s$ can be divided into three pieces, $s=xyz$, satisfying the following conditions:
+\begin{enumerate}
+    \item For each $i\geq 0$, $xy^iz\in A$,
+    \item $|y|>0$, and
+    \item $|xy|\leq p$.
+\end{enumerate}
+\end{theorem}
+
+The proof of this theorem essentially relies on the pigeonhole principle. If I set $p$ as the number of states, then I will have a segment in the middle which is just equal to a loop on some state. Since concatenating this segment with itself is still just a loop on that state, the theorem seems correct.
+
+\begin{proof}
+Let $M=(Q,\Sigma,\delta,q_0,F)$ be a DFA recognizing $A$. Let $p$ be the number of states of $M$.
+
+Let $s=s_1s_2\cdots s_n$ be a string in $A$ of length $n\geq p$. Let $r_1,r_2,\ldots r_{n+1}$ be the corresponding states that $M$ goes through while processing $s$, so $r_{i+1}=\delta(r_i,s_i)$ for $i=1,2,\ldots,n$. As $M$ has $p$ states, we have that there is at least one repeated state in the first $p+1$ elements of the sequence (by the Pigeonhole principle). Let the indices of this repeated state be $l,j$, that is, $r_l=r_j$ where $l< j\leq p+1$. Set $x=s_1s_2\cdots s_{l-1}, y=s_ls_{l+1}\cdots s_{j-1}$ and $z=s_js_{j+1}\cdots s_n$. Now note that $x$ takes $M$ from $r_1$ to $r_l$, $y$ takes $M$ from $r_l$ to $r_l$, and $z$ takes $M$ from $r_l$ to $r_{n+1}$.
+
+As $y$ takes $M$ from $r_l$ to $r_l$, $y^i$ for $i\geq 0$ will also take $M$ from $r_l$ to $r_l$ and $xy^iz$ will also be accepted by $M$. As $l\neq j$, $|y|>0$. And as $j\leq p+1, j-1\leq p$ and $|xy|\leq p$.
+\end{proof}
+
+\begin{exercise}
+Prove that the language $B=\{0^n1^n\mid n\geq 0\}$ is nonregular.
+\end{exercise}
+\begin{solution}
+If $B$ is a regular language, then consider $s=0^p1^p$, where $p$ is the pumping length. Taking $x,y,z$ to represent the same $x,y,z$ as in the Pumping Lemma, since $|xy|\leq p$, $y$ only consists of $0$s. Then $xy^2z$ will have more $0$s than $1$s so it is not in $B$.
+We arrive at a contradiction and hence, $B$ is not a regular language.
+\end{solution}
+\begin{exercise}
+Prove that $B=\{w\mid w\text{ has an equal number of $0$s and $1$s}\}$ is a nonregular language.
+\end{exercise}
+\textit{Hint. }Show that $0^p1^p$ cannot be pumped.
+
+\begin{exercise}
+Prove the nonregularity of the following languages.
+\begin{enumerate}[(a)]
+    \item $D=\{ww\mid w\in\{0,1\}^*\}$.
+    \item $E=\{1^{n^2}\mid n\geq 0\}$. This is a \textit{unary} nonregular language.
+    \item $F=\{0^i1^j\mid i>j\}$.
+\end{enumerate}
+\end{exercise}
+
+We shall now show another theorem that helps us determine when a language is regular.
+\begin{definition}
+Let $x$ and $y$ be strings and $L$ be any language. We say that $x$ and $y$ are \textit{distinguishable by $L$} if some string $z$ exists such that exactly one of the strings $xz$ and $yz$ is in $L$. Otherwise, if for every string $z$, $xz\in L$ if and only if $yz\in L$, we say that $x$ and $y$ are \textit{indistinguishable by $L$}.
+\end{definition}
+
+If $x$ and $y$ are indistinguishable by $L$, we write $x\equiv_Ly$.
+\begin{lemma}
+Given a language $L$, $\equiv_L$ is an equivalence relation.
+\end{lemma}
+\begin{proof}
+This proof is trivial and is left as an exercise to the reader.
+\end{proof}
+
+\begin{definition}
+Let $L$ be a language and $X$ be a set of strings. We say that $X$ is \textit{pairwise distinguishable} by $L$ if every two distinct strings in $X$ are distinguishable by $L$. 
+\end{definition}
+\begin{definition}
+Let $L$ be a language. The \textit{index} of $L$ is defined as the maximum number of elements in any set that is pairwise distinguishable by $L$. The index of a language may be finite or infinite.
+\end{definition}
+\begin{theorem}[Myhill-Nerode Theorem]
+A language $L$ is regular if and only if it has finite index. Moreover, its index is the size of the smallest DFA recognizing it.
+\end{theorem}
+\begin{proof}
+We shall first show that if a language $L$ is recognized by a DFA with $k$ states, it has index at most $k$.
+
+If there exists a set with $> k$ elements that is pairwise distinguishable, then by the Pigeonhole principle, we get that there exist two strings $x$ and $y$ in the set such that the state the DFA is in after processing these strings is the same. However, if this is the case, then for any string $z$, the DFA will accept $xz$ if and only if it accepts $yz$. Thus, the index is at most $k$.
+
+\vspace{2mm}
+We shall now show the other direction, that is, if the index of $L$ is a finite number $k$, it is recognized by a DFA with $k$ states.
+
+Let $X=\{x_1,x_2,\ldots,x_k\}$ be pairwise distinguishable by $L$. Construct a DFA $N=(Q,\Sigma,\delta,x_0,F)$ as follows. $Q=X$. $\delta(x_i,a)=x_j$ if $x_ia\equiv_Lx_j$. Note that this $x_j$ is unique as $X$ is pairwise distinguishable and such an $x_j$ exists as $X$ has the \textit{maximum} number of elements. $x_0$ is the unique $x_i$ such that $x_i\equiv_L\varepsilon$. $F=X\cap L$. If a string $s\equiv_Lx_j$ for some $j$, then the state of $N$ after reading $s$ will be $x_j$ (Why?). Thus the language recognized by $N$ is just $L$ itself (from the definition of $F$).
+
+\vspace{2mm}
+Combining the above two, we get that a language is regular if and only if it has finite index. To prove the second part of the theorem, suppose that there is a DFA that recognizes the language with size less than the index. Then using the first part of the proof gives a contradiction. There clearly exists a DFA recognizing the language of size equal to the index from the second part of the theorem. This completes our proof.
+\end{proof}
+\clearpage
+
+\subsection*{Problems}
+
+\begin{exercise}
+Let
+$$\Sigma_3=\left\{\begin{bmatrix}0\\0\\0\end{bmatrix}, \begin{bmatrix}0\\0\\1\end{bmatrix}, \begin{bmatrix}0\\1\\0\end{bmatrix},\cdots,\begin{bmatrix}1\\1\\1\end{bmatrix}\right\}.$$
+A string in $\Sigma_3$ gives $3$ rows. Consider each row to be a binary number and let
+$$B=\{w\in\Sigma_3^*\mid \text{the bottom row of $w$ is the sum of the top two rows}\}$$
+Show that $B$ is regular.
+\end{exercise}
+
+\begin{exercise}
+\label{LwwR}
+Consider the language
+$$L=\{ww^\mathcal{R}\mid w\in (0\cup 1)^*\}$$
+Show that $L$ is nonregular. (The meaning of $w^\mathcal{R}$ is described in \ref{stringreverse}.)
+\end{exercise}
+
+\begin{exercise}
+Say that string $x$ is a \textit{prefix} of string $y$ if a string $z$ exists such that $xz=y$ and that $x$ is a \textit{proper prefix} of $y$ if in addition, $x\neq y$. Let $A$ be any language. Show that the class of regular languages is closed under the following two operations.
+\begin{enumerate}[(a)]
+    \item $\texttt{NOPREFIX}(A)=\{w\in A\mid \text{no proper prefix of $w$ is in $A$}\}$
+    \item $\texttt{NOEXTEND}(A)=\{w\in A\mid w\text{ is not the proper prefix of any string in $A$}\}$
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Let $A$ be any language. Show that the class of regular languages is closed under the $\texttt{DROPOUT}$ operation defined as follows.
+$$\texttt{DROPOUT}(A)=\{xz\mid xyz\in A\text{ where }x,z\in\Sigma^*,y\in\Sigma\}.$$
+\end{exercise}
+
+\begin{exercise}
+For languages $A$ and $B$, let the shuffle of $A$ and $B$ be the language
+$$\{w\mid w=a_1b_1\cdots a_kb_k,\text{ where $a_1\cdots a_k\in A$ and $b_1\cdots b_k\in B$, each $a_i,b_i\in\Sigma^*$}\}.$$
+Show that the classes of regular languages is closed under the shuffle operation.
+\end{exercise}
+
+\begin{exercise}
+If $A$ is any language, let $A_{\frac 12-}$ be the set of all first halves of strings in $A$ defined as follows.
+$$A_{\frac 12-}=\{x\mid \text{for some }y, |x|=|y|\text{ and }xy\in A\}$$
+Show that if $A$ is regular, so is $A_{\frac 12-}$.
+\end{exercise}
+
+\begin{exercise}
+Let $B$ and $D$ be two languages. Write $B\Subset D$ if $B\subseteq D$ and $D$ contains infinitely many strings that are not in $B$. Show that, if $B$ and $D$ are two regular languages where $B\Subset D$, then we can find a regular language $C$ where $B\Subset C\Subset D$.
+\end{exercise}
+
+\begin{exercise}
+Let $M=\{Q,\Sigma,\delta,q_0,F\}$ be a DFA and $h\in Q$ be called its ``home''. A \textit{synchronizing sequence} for $M$ and $h$ is a string $s\in\Sigma^*$ where $\hat\delta(q,s)=h$ for all $q\in Q$ (Here $\hat\delta(q,s)$ is the state $M$ ends up at when it starts at $q$ and processes $s$). Say that $M$ is \textit{synchronizable} if it has a synchronizing sequence for some state $h$. Prove that if $M$ is a $k$-state synchronizable DFA, it has a synchronizing sequence of length at most $k^3$.
+
+This has in fact been improved by Kohavi (?, check again) to show that the length of the synchronizing sequence lies between $\frac{k^3-k}{6}$ and $\frac{k^2+k-4}{2}$. \u{C}ern\'{y} conjectured in 1964 that this bound can be improved to $(k-1)^2$, a very tight bound, which remains one of the largest unsolved problems in Automata Theory at the time of writing this.
+\end{exercise}
+\clearpage

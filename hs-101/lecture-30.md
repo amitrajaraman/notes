@@ -21,5 +21,3 @@ If most sellers accept cheques, assets in savings accounts are as convenient as 
 * M1 is _narrow money_ - it is M0 excluding cash with banks and including demand deposits.
 * M3 is _broad money_ - it is M1 together with time deposits.
  -->
-
- 

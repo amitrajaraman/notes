@@ -20,6 +20,10 @@ Most of the content and all images used are from the book "Principles of Economi
 - [Lecture 26](#lecture-26)
 - [Lecture 27](#lecture-27)
 - [Lecture 28](#lecture-28)
+- [Lecture 29](#lecture-29)
+- [Lecture 30](#lecture-30)
+- [Lecture 31](#lecture-31)
+- [Lecture 32](#lecture-32)
 
 <!-- /MarkdownTOC -->
 
@@ -359,3 +363,144 @@ Some problems in GDP measurement are:
 
 <!-- * GDP does not talk about equal distribution of wealth.
 * Even if the GDP of a nation increases, the median income can go down. -->
+
+# Lecture 29
+
+The _financial institution_ is the group of institutions that helps match the savings of one person with the investments of another.    
+_Financial markets_ are institutions through which savers can directly provide funds to borrowers. For example,
+* The bond market. A _bond_ is a certificate of indebtedness.
+* The stock market. A _stock_ is a claim to partial ownership in a firm.
+_Financial intermediaries_ are institutions through which savers can indirectly provide funds to borrowers. For example, banks and mutual funds (institutions that sell shares to the public and use the proceeds to buy portfolios of stocks and bonds).    
+_Private savings_ refers to the portion of a household's income that is not used for consumption or paying taxes.    
+_Public savings_ refer to the tax revenues minus the government spendings.    
+_National savings_ is the sum of the private savings and public savings. This is equal to
+
+$$(\text{Y} - \text{T} - \text{C}) + (\text{T} - \text{G}) = \text{Y} - \text{C} - \text{G},$$
+
+where $$\text{Y}$$ is the yearly income, $$\text{T}$$ is the taxes paid, $$\text{C}$$ is the consumption, and $$\text{G}$$ is the government purchases. This is the portion of the national income that is used for neither consumption nor government purchases.    
+Consider a closed economy case with $$\text{NX} = 0$$. Then the GDP is equal to $$C + I + G$$. Therefore, the investment is equal to the national savings in a closed economy.
+
+A _budget surplus_ is the excess of tax revenue over government purchases (this is equal to the public savings). A _budget deficit_ is the opposite (the negative of the public savings).
+
+_Investment_ is the purchase of new capital -- it is not just the purchase of stocks and bonds! It is anything that will give future returns.
+
+The supply of loanable funds comes from savings. Households with extra income can loan it out to earn interest. Public savings, if positive, add to national savings and the supply of loanable funds.    
+An increase in interest rate makes saving more attractive, which increases the quantity of loanable funds supplied. This reduces the demand for loanable funds, however. As in microeconomics, the interest rate adjusts to equate supply and demand.    
+Tax incentives for saving increases the supply of loanable funds, which reduces the equilibrium interest rate and increases the equilibrium quantity of loanable funds. A government budget deficit would do the opposite.    
+Investment incentives (an investment tax credit for example) raise the equilibrium interest rate and reduce the equilibrium quantity of loanable funds.
+
+An increase in budget deficit causes a fall in investment. The government borrows to finance its deficit, leaving less funds available for investment. This is known as _crowding out_. This, as a result, reduces the economy's growth rate and future standards of living.
+
+Money is the yardstick with which we measure economic transactions and debts.
+
+# Lecture 30
+
+Money is the stock of assets that can be readily used to make actions. The stock of money is made of the rupees in the hands of the public. The three main uses of money are:
+* Store of value: It is a way to transfer purchasing power from the present to the future.
+* Unit of account: It can be used to measure economic transactions and debts.
+* Medium of exchange: It is used to buy goods and services, as a legal tender from the government.
+
+In a system without money, we can either be completely self-sufficient, or use a barter economy. The latter requires a "double coincidence of wants" - each person has something that the other wants. Nowadays, this is highly unlikely with the huge variety in goods.    
+Money allows for more indirect transactions.
+
+_Fiat money_ is money by declaration. It has no intrinsic value. For example, rupee or dollar.    
+_Commodity money_ on the other hand does have intrinsic value and can be used for some purpose. For example, gold or tobacco. When we use gold as money, the economy is said to be on a _gold standard_.
+
+There is a general shift from commodity money to Fiat money, primarily because the latter is much more standardized.    
+Suppose instead that we use gold to pay for goods. Then we first need to ensure purity and weight, so the government might get involved to reduce transaction costs. To reduce these costs, the government can either mint gold coins of a known purity and weight, or accept gold from the public in exchange for gold certificates, which can be redeemed for a certain quantity of gold.    
+The bills are just as valuable as the gold itself, but are easier to use in a transaction. This marks the natural shift from commodity money to fiat money, with everyone eventually carrying these bills instead of gold.
+
+The _money supply_ or _money stock_ refers to the amount of money available in the economy. It includes both _currency_ (the paper bills and coins in the hands of the public) and _demand deposits_ (balances in savings accounts that depositors can access on demand).    
+If most sellers accept cheques, assets in savings accounts are as convenient as currency.
+
+<!-- There are three types of money in India:
+* M0 is _reserve money_ - the currency in circulation, other deposits in RBI, and bankers' deposits with RBI.
+* M1 is _narrow money_ - it is M0 excluding cash with banks and including demand deposits.
+* M3 is _broad money_ - it is M1 together with time deposits.-->
+
+# Lecture 31
+
+In a _fractional reserve banking system_, banks keep a fraction of deposits as reserves and the rest to make loans. The RBI sets _reserve requirements_, which are regulations on the minimum amount of reserves that banks must hold against deposits. Banks may hold more than this minimum amount. The _reserve ratio_ $$R$$ is the fraction of deposits that banks hold as reserves, which is the total reserves as a percentage of total deposits.
+
+A _T-account_ is a simplified accounting statement that shows a bank's assets and liabilities (reserves and loans are assets, whereas deposits are liabilities).
+
+There are three cases we shall analyze:
+* No banking system: The public holds all the money in the form of currency. This is the money supply as well.
+* 100% reserve banking system: The bank holds all the money in the form of reserves, so $$R$$ is 100%. Banks do not affect the size of the money supply in a 100% reserve banking system.
+* Fractional reserve banking system: The bank loans out all but $$R\%$$ of the deposits. The money supply in this case is $$(1+R)$$ times the deposits. The banks create money by loaning it out. The borrower gets a certain amount of money as both an asset and a liability (debt). So, this sort of system creates money, but not wealth.
+
+The _money multiplier_ is the amount of money the banking system generates with each dollar of reserves. It is equal to $$1/R$$. If the money a borrower takes is deposited back in another bank, and so on, the total amount of money that arises from one unit is $$1/R$$ units.
+
+The quantity of money available is called the _money supply_. The control over the money supply is called the _monetary policy_. In india, it is conducted by a partially independent institution called the Reserve Bank of India (RBI).    
+The monetary policy is a traditionally bi-annual policy statement through which the RBI targets a key set of indicators to ensure price stability.    
+At times of recession, the policy involves the adoption of tools to increase the money supply and lower interest rate, thus stimulating the aggregate demand in the economy.    
+At times of inflation, it seeks to contract aggregate spending by tightening the money supply or raising the rate of return
+The three tools it uses to do so are:
+
+* Open-Market Operations (OMOs): The purchase and sale of Indian government bonds by the RBI.
+	To increase money supply, they buy bonds, paying with new dollars, which are deposited in banks increasing reserves, which banks use to make loans causing money supply to expand.    
+	To reduce money supply, they sell government bonds, taking dollars out of circulation and the process works in reserve. Open-market sales of bonds takes rupees out of the hands of the public, thus reducing the quantity of money in circulation.     
+	These are easy to conduct and are the RBI's monetary policy tool of choice.
+
+# Lecture 32
+
+* Reserve Requirements:
+	* Cash reserve ratio (CRR) is just the reserve ratio R from earlier and inversely affects how much money banks can create by loaning. (it is currently 3%).
+	* Statutory Liquid Ratio (SLR): The minimum percentage of deposits to be maintained by banks in the form of liquid cash, gold, or other securities (it is currently 18%).
+
+	To increase the money supply, the RBI reduces RR. Banks make more loans from each rupee of reserves, which increases the money multiplier and mone supply.    
+	To reduce the money supply, the CRR is raised and the process works in reverse.    
+	The RBI rarely uses this because frequent changes would disrupt the banking system.
+
+The _reverse repo rate_ is what the banks get when they deposit their excess funds in the RBI for short periods. _Basis points_ are often mentioned in monetary policy reviews. 1% is equivalent to 100 basis points. For example, if the reverse repo rate is 7.75% and the RBI increases it by 25 basis points, the new rate is 8%. It is currently 3.35%.
+
+* The _discount rate_ or bank rate is the rate of interest which a central bank charges on its loans and advances to commercial banks (loans). It is currently 4.25%.    
+	_Repo rate_ is the rate at which commercial banks borrow money (short-term funds) from the RBI by selling their securities. It is currently 4%.    
+	The reverse repo rate is the rate of interest offered by the RBI when banks deposit their surplus funds with it for short periods. When banks have surplus funds but no lending/investment options, they deposit these funds with the RBI, which they earn interest on. Discount lending is used to provide extra liquidity when financial institutions are in trouble.    
+
+	Banks are mandated to invest a quarter of their deposit/borrowings inflows into government securities. Only the excess over this mandated investment can be used to borrow funds from repo window. The banks' core borrowing usually comes from deposits, so RBI is a "lender of last resort".
+
+	The RBI raises the repo rate to increase the overall cost of funds in the banking system. Higher costs keeps the check on demand for funds. As demand slows, so does the demand pull inflation. In a tight liquidity scenario, the repo rate acts as the base rate at which banks can borrow funds.    
+	If funds are not very available and banks are unable to borrow at the repo rate, they may have to increase deposit rates to attract depositors.    
+	There is a trade-off between inflation and growth.
+
+	To raise the bank rate, the RBI sells government bonds (OMOs).
+
+If households hold more money as currency (so banks have fewer reserves) or banks hold more as reserves, money supply falls. The RBI can compensate for this.
+
+When people suspect that their banks are in trouble, a _run on banks_ occurs where people go to withdraw their funds, holding more currency and less deposits. Under fractional-reserve banking, they do not have enough reserves to pay off all the depositors, so banks may have to close. Therefore, banks may make fewer loans and hold more reserves to satisfy depositors. These increase $$R$$, reverse the process of money creation, and cause the money supply to fall.
+
+_Money demand_ refers to how much wealth people want to hold in liquid form. It depends on $$P$$, the price level (CPI or GDP deflator). An increase in $$P$$ reduces the value of money, so more money is required to buy goods and services. The quantity of money demanded is negatively related to the value of money and positively related to $$P$$, other things equal.
+
+_Nominal variables_ are measured in monetary units, whereas _real variables_ are measured in physical units (for example, nominal GDP and real GDP). A _relative price_ is the price of one good with respect to the other (it is a real variable).
+
+The _real wage_ is equal to the ratio of the nominal wage to the price level.
+
+<!-- # Lecture 33
+
+A quantity equation attempts to link the money supplied to the number of transactions made. The quantity theory of money says
+
+$$MV = PT,$$
+
+where $$M$$ is the quantity of money supplied, $$V$$ is the _transaction velocity of money_, which is the number of times a rupee exchanges hands, $$P$$ is the price of a typical transaction (the number of rupees exchanged), and $$T$$ is the number of transactions made in a year.        
+However, it is very difficult to measure $$T$$ so we cannot easily compute $$V$$, how do we solve this? We replace the number of transactions $$T$$ with the total output of the economy $$Y$$ (real GDP). The more the economy produces, the more goods are bought and sold. They are technically not the same, for example because second-hand goods should be counted in $$T$$ but are not in $$Y$$.    
+$$V$$ in this new equation $$MV = PY$$ is called the _income velocity of money_.
+Observe that since $$Y$$ is the amount of output and $$P$$ is the price of one unit of output, $$PY$$ is just the nominal GDP.    
+$$M/P$$ is referred to as the _real money balance_, which measures the purchasing power of a stock of money.
+
+$$(M/P)_d = kY.$$
+
+The money demand function is similar to the demand function for a good. Since the demand for money balance should be equal to the supply, we get $$M/P = kY$$, so the income velocity is $$1/k$$. This shows the link between demand and velocity.    
+If we hold a lot of money for each rupee of income ($$k$$ is large), $$V$$ is small and money changes hands frequently. Similarly, if $$k$$ is small, then $$V$$ is large.    
+The factors of production and production function determine the level of output $$Y$$. The money supply determines the nominal value of output $$PY$$. The price level $$P$$ is thus the ratio of the nominal value of output $$PY$$ to the real value of output $$Y$$.
+
+The revenue raised by printing of money is called _seigniorage_. A government can finance its spending in three ways - raising revenue through taxes, borrowing from public by selling bonds, and printing money.    
+The government itself does not print money, it asks the RBI to print it instead.    
+Seigniorage causes an increase in money supply, which causes inflation. The printing of money to increase revenue is like imposing an _inflation tax_.
+
+The _Fisher effect_ gives the distinction between the real and nominal rate of interest. It says $$i = r + \pi$$, where $$i$$ is the (market) nominal rate of interest, $$r$$ is the real rate of interest, and $$\pi$$ is the inflation.
+
+The _modified Fisher effect_ says $$i = r + \pi^e$$. $$r$$ is the _ex-ante real interest rate_, which is determined by the equilibirium in the market as described by the GE model. $$\pi^e$$ is the expected inflation and $$i$$ the nominal interest rate.    
+The nominal interest rate is the opportunity cost of holding money - it is what is given up by holding money instead of bonds.
+
+The inconvenience of reduced money holding is called the _shoe-leather cost_ of inflation. When changes in inflation require printing and distributing new pricing information, these costs are called _menu costs_. Due to variable prices, inefficient allocation of resources can also occur. -->

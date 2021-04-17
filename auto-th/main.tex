@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\title{Automata and Languages}
+\author{Amit Rajaraman}
+\date{March 2020}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows, matrix}
+\tikzset{->, >=stealth', node distance = 2cm}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\thesubsection.}{0.2cm}{\large}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{Automata and Languages}}
+\chead{\sffamily{\thepage}}
+\rhead{\sffamily{-Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setlength\parindent{0pt}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newcommand{\yields}{\Rightarrow}
+\newcommand{\derives}{\overset{*}{\yields}}
+\newcommand{\writeNPDA}{(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F)}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\numberwithin{exercise}{section}
+\newtheorem*{solution}{Solution}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\tableofcontents
+\clearpage
+
+\input{sec1}
+
+\input{sec2}
+\end{document}

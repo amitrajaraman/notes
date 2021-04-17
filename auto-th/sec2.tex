@@ -1,0 +1,553 @@
+\section{Context-Free Languages}
+In this chapter, we shall present context-free grammars, that can describe certain features that have a recursive structure. They naturally arise from trying to understand the relationship of terms like nouns, verbs and prepositions in ordinary grammar, and their respective phrases which lead to a natural recursion.
+
+An important application of this is in most compilers and interpreters, which contain a parser that extracts the meaning of a program prior to compilation. A number of methods help construct this parser once a context-free language is available. Some even automatically generate the parser.
+
+The collection of associated languages are \textit{context-free languages}.
+
+\subsection{Context-Free Grammars}
+
+\begin{example}
+The following is a context-free grammar. Call it $G_1$.
+\begin{align*}
+    A &\to 0A1 \\
+    A &\to B \\
+    B &\to \#
+\end{align*}
+The grammar consists of \textit{substitution rules} or \textit{productions}. Each rule has a symbol, called a \textit{variable}, and a string separated by an arrow. The string contains variables and other symbols called \textit{terminals}. One variable is designated as the start variable, and usually occurs on the left-hand side of the top-most rule. Using a grammar, we describe a language, called a context-free language, by generating each string of that language as follows.
+\begin{enumerate}
+    \item Write down the start variable.
+    \item Find a variable that is written down and a rule that starts with that variable. Replace that variable with the right hand side of that rule.
+    \item Repeat step $2$ until no more variables remain.
+\end{enumerate}
+For example, $G_1$ generates $00\# 11$ as follows.
+$$A\implies 0A1\implies 00A11\implies 00B11\implies 00\# 11$$
+\end{example}
+
+\bigskip
+The above information may also be represented pictorially by a \textit{parse tree}.
+
+\vspace{3mm}
+In the above example, the two rules with $A$ on the left-hand side can be merged into a single rule as  $A\to 0A1\mid B$, using the symbol ``$|$" as an ``or". To understand the link with the English language, we give a more illustrative example below.
+\begin{example}
+\begin{align*}
+    \langle\texttt{SENTENCE}\rangle &\to \langle\texttt{NOUN-PHRASE}\rangle\langle\texttt{VERB-PHRASE}\rangle \\
+    \langle\texttt{NOUN-PHRASE}\rangle &\to \langle\texttt{CMPLX-NOUN}\rangle\mid\langle\texttt{CMPLX-NOUN}\rangle\langle\texttt{PREP-PHRASE}\rangle \\
+    \langle\texttt{VERB-PHRASE}\rangle&\to\langle\texttt{CMPLX-VERB}\rangle\mid\langle\texttt{CMPLX-VERB}\rangle\langle\texttt{PREP-PHRASE}\rangle \\
+    \langle\texttt{PREP-PHRASE}\rangle&\to\langle\texttt{PREP}\rangle\langle\texttt{CMPLX-NOUN}\rangle \\
+    \langle\texttt{CMPLX-NOUN}\rangle&\to\langle\texttt{ARTICLE}\rangle\langle\texttt{NOUN}\rangle \\
+    \langle\texttt{CMPLX-VERB}\rangle&\to\langle\texttt{VERB}\rangle\mid\langle\texttt{VERB}\rangle\langle\texttt{NOUN-PHRASE}\rangle \\
+    \langle\texttt{ARTICLE}\rangle&\to\texttt{a}\mid\texttt{the} \\
+    \langle\texttt{NOUN}\rangle&\to\texttt{boy}\mid\texttt{girl}\mid\texttt{flower} \\
+    \langle\texttt{VERB}\rangle&\to\texttt{touches}\mid\texttt{sees}\\
+    \langle\texttt{PREP}\rangle&\to\texttt{with}
+\end{align*}
+
+Strings in this grammar include\\
+\quad \texttt{a boy sees} \\    
+\quad \texttt{the boy touches a flower} \\
+\quad \texttt{the girl touches the boy with the flower}
+\end{example}
+
+\begin{exercise}
+Show two different ways in which the third string in the above grammar can be generated. Here, ``two different ways" means two different parse trees (completely different substitutions), not two different derivations (loosely, this means the same sequence of steps in a different order). (Why aren't these two the same?) Note the correspondence between these two ways and the two ways the string can be read.
+\end{exercise}
+
+\vspace{3mm}
+Let us formalize our definition of a context-free grammar.
+\begin{definition}
+A \textit{context-free grammar} is a $4$-tuple $(V,\Sigma,R,S)$, where
+\begin{enumerate}
+    \item $V$ is a finite set called the \textit{variables}.
+    \item $\Sigma$ is a finite set, disjoint from $V$, called the \textit{terminals}.
+    \item $R$ is a finite set of \textit{rules}, with each rule being a variable and a string of variables and terminals. More precisely, $R$ is a finite subset of $V\times (V\cup\Sigma)^*$, called the \textit{set of rules}.
+    \item $S\in V$ is the \textit{start variable}.
+\end{enumerate}
+\end{definition}
+
+We shall abbreviate ``context-free grammar" as CFG and ``context-free language" as CFL.
+
+If $u,v$ and $w$ are strings of variables and terminals, and $A\to w$ is a rule of the grammar, we say that $uAv$ \textit{yields} $uwv$, written as $uAv\yields uwv$.
+
+We say that $u$ \textit{derives} $v$, written $u\derives v$, if $u=v$ or there exists a sequence $u_1,u_2,\ldots,u_k$ of strings of terminals and variables some for $k\geq 0$ such that $$u\yields u_1\yields u_2 \yields\cdots\yields u_k\yields v$$
+
+The \textit{language} of the grammar is $\{w\in\Sigma^*\mid S\derives w\}$.
+
+\begin{exercise}
+Put the two examples given above in the form given in the definition of a CFG.
+\end{exercise}
+
+Many CFLs are the union of simpler CFLs. These can then easily be combined to form a corresponding CFG by combining their rules and then adding a new rule $S\to S_1\mid S_2\mid\cdots\mid S_k$, where the $S_i$s are the start variables of each of the CFGs.
+
+\begin{exercise}
+Construct a CFG which has corresponding language $\{0^n1^n\mid n\geq 0\}\cup\{1^n0^n\mid n\geq 0\}$
+\end{exercise}
+\begin{solution}
+We can combine the two following CFGs:
+$$S_1\to 0S_11\mid\varepsilon \text{ and } S_2\to 1S_20\mid\varepsilon$$
+to get a grammar that generates the given language as follows.
+\begin{align*}
+    S&\to S_1\mid S_2 \\
+    S_1&\to 0S_11\mid\varepsilon \\
+    S_2&\to 1S_20\mid\varepsilon
+\end{align*}
+\end{solution}
+
+\begin{lemma}
+Any regular language is a context-free language.
+\end{lemma}
+\begin{proof}
+Let $N(Q,\Sigma,\delta,q_0,F)$ be a DFA that recognizes the given regular language. We convert $N$ to a CFG $G(V,\Sigma,R,S)$ as follows.
+\begin{itemize}
+    \item $V=Q$
+    \item $R=\{q_i\to aq_j\mid q_i,q_j\in V \text{ and } \delta(q_i,a)=q_j\} \cup\{q_i\to\varepsilon\mid q_i\in F\}$
+    \item $S=q_0$
+\end{itemize}
+We leave it to the reader to verify that this grammar generates the language of the DFA.
+\end{proof}
+
+If a grammar generates a string in multiple ways, we say that the string is generated ambiguously from the grammar.
+\begin{definition}
+A derivation of a string in a grammar $G$ is a \textit{leftmost derivation} if at every step the leftmost remaining variable is replaced.
+\end{definition}
+
+Rightmost derivations are defined similarly.
+
+\begin{definition}
+Let $(V,\Sigma,R,S)$ be a context-free grammar. Any string in $(V\cup\Sigma)^*$ that can be derived from the start symbol $S$ is called a \textit{sentential form}.
+\end{definition}
+
+In the above definition, if there exists a leftmost derivation from $S$ to the sentential form, it is called a \textit{left-sentential form}. Right-sentential forms are defined similarly.
+
+\begin{definition}
+A string $w$ is derived \textit{ambiguously} in a context-free grammar $G$ if it has two or more different left-most derivations. Grammar $G$ is \textit{ambiguous} if it generates some string ambiguously.
+\end{definition}
+
+Sometimes when we have an ambiguous grammar, we can find an unambiguous grammar that generates the same language. Some languages, however, can only be generated by ambiguous grammars. Such languages are called \textit{inherently ambiguous}.
+
+\vspace{3mm}
+It is often very useful to represent context-free grammars in a simplified form.
+
+\begin{definition}
+A context-free grammar is in \textit{Chomsky normal form} if every rule is of the form
+\begin{align*}
+    A&\to BC \\
+    A&\to a
+\end{align*}
+where $a$ is any terminal, $A$ is any variable and $B,C$ are any variable other than the start variable. In addition, we permit the rule $S\to\varepsilon$, where $S$ is the start variable.
+\end{definition}
+
+\begin{theorem}
+Any context-free language can be generated by a context-free grammar in Chomsky normal form.
+\end{theorem}
+\begin{proof}
+We can convert any CFG $G$ into Chomsky normal form as follows.
+
+\begin{enumerate}
+    \item Add a new variable $S_0$ and the rule $S_0\to S$, where $S$ was the original start variable. This is done to ensure that the start variable is not on the right side of any rule.
+    \item Next, we take care of all $\varepsilon$-rules, that is, rules with $\varepsilon$ on the right side. We remove any $\varepsilon$-rule $A\to\varepsilon$, where $A\neq S$. Then for each occurrence of $A$ on the right side of a rule, we add a new rule with that occurrence deleted. We repeat this until there are no $\varepsilon$ rules not involving $S$.
+    \item We then handle all unit rules. We remove a unit rule $A\to B$. Then wherever a rule $B\to u$ appears, we add the rule $A\to u$ unless this was a unit rule previously removed. Here, $u$ is a string of variables and terminals. We repeat this until there are no unit rules.
+    \item Given any rule $A\to u_1u_2\cdots u_k$, where $k>2$ and each $u_i$ is a variable or terminal symbol, with the rules $A\to u_1A_1, A_1\to u_2A_2, \ldots,$ and $A_{k-2}\to u_{k-1}u_k$ (The $A_i$s  are new variables).
+    \item Finally, if we have any rule $A\to u_1u_2$, we replace any terminal $u_i$ with the new variable $U_i$ and add the rule $U_i\to u_i$.
+\end{enumerate}
+
+It can be checked that the language of this grammar is the same as that of the original grammar.
+\end{proof}
+
+\begin{exercise}
+Convert to the following CFG to Chomsky normal form.
+\begin{align*}
+    S&\to ASA\mid aB \\
+    A&\to B\mid S \\
+    B&\to b\mid\varepsilon
+\end{align*}
+\end{exercise}
+\begin{solution}
+Performing the algorithm given in the above proof yields the following CFG.
+\begin{align*}
+    S_0&\to AA_1\mid UB\mid a\mid SA\mid AS \\
+    S&\to AA_1\mid UB\mid a\mid SA\mid AS \\
+    A&\to b\mid AA_1\mid UB\mid a\mid SA\mid AS \\
+    A_1&\to SA \\
+    U&\to a \\
+    B&\to b \\
+\end{align*}
+\end{solution}
+\clearpage
+
+\subsection{Pushdown Automata}
+We shall now introduce another computational model called a \textit{pushdown automaton}. These automata are like DFAs, but they have an extra component called a \textit{stack}, which provides additional memory beyond that of just the DFA. This allows the automaton to recognize certain non-regular languages. Pushdown automata are equivalent in power to context-free grammars. 
+
+The schematic of a finite automaton can be understood as follows:
+\begin{center}
+\begin{tikzpicture}[block_center/.style ={rectangle, draw=black, fill=white, text width=7em, text centered, minimum height=4em}, cell/.style={rectangle,draw=black},
+space/.style={minimum height=1.5em,matrix of nodes,row sep=-\pgflinewidth,column sep=-\pgflinewidth,column 1/.style={font=\ttfamily}},text depth=0.5ex,text height=2ex,nodes in empty cells]
+    \node[block_center] (control) {state control};
+    
+    \matrix (input) [space, below right=0.2cm and 3cm of control, column 1/.style={nodes={cell,minimum width=2em}},column 2/.style={nodes={cell,minimum width=2em}},column 3/.style={nodes={cell,minimum width=2em}},column 4/.style={nodes={cell,minimum width=2em}}]
+    {
+    a & b & b & a \\};
+    
+    \node[below=0.1cm of input] {input};
+    \draw (control) -| (input-1-1);
+    \end{tikzpicture}
+\end{center}
+
+The ``state control" represents the states and the transition function, and the tape contains the input string, which is read character by character. The arrow points at the next character to be read.
+
+\vspace{3mm}
+Similarly, a pushdown automaton can be understood as follows.
+
+\begin{center}
+\begin{tikzpicture}[block_center/.style ={rectangle, draw=black, fill=white, text width=7em, text centered, minimum height=4em}, cell/.style={rectangle,draw=black},
+space/.style={minimum height=1.5em,matrix of nodes,row sep=-\pgflinewidth,column sep=-\pgflinewidth,column 1/.style={font=\ttfamily}},text depth=0.5ex,text height=2ex,nodes in empty cells]
+    \node[block_center] (control) {state control};
+    
+    \matrix (input) [space, below right=0.2cm and 3cm of control, column 1/.style={nodes={cell,minimum width=2em}},column 2/.style={nodes={cell,minimum width=2em}},column 3/.style={nodes={cell,minimum width=2em}},column 4/.style={nodes={cell,minimum width=2em}}]
+    {
+    a & b & b & a \\};
+    
+    \matrix (stack) [space, below right=0.2cm and 1cm of control, column 1/.style={nodes={cell,minimum width=2em}}]
+    {
+    x \\ y \\ z \\};
+
+    \node[left=0.25cm of stack] {stack};
+    \node[below=0.1cm of input] {input};
+    \draw (control.15) -| (input-1-1);
+    \draw (control.-15) -| (stack-1-1);
+\end{tikzpicture}
+\end{center}
+
+In addition to the finite automaton-like structure it has, it also has a stack on which which symbols can be written down and read back later (The concept of a stack is hopefully familiar to the reader). This stack, which has infinite memory, is what enables the pushdown automaton to recognize languages such as $\{0^n1^n\mid n\geq 0\}$ because it can store the number of $0$s it has seen on the stack. The ``pushdown" in pushdown automaton corresponds to the stack structure.
+
+\vspace{3mm}
+Unlike DFAs and NFAs, deterministic pushdown automata and nondeterministic pushdown automata are \textit{not} equivalent. However, as nondeterministic pushdown automata are equivalent to context-free grammars, we shall focus on them for the remainder of this subsection.
+
+\begin{example}
+Let us attempt to construct the pushdown automaton corresponding to the language $L$ described in \ref{LwwR}. We do so as follows.
+\begin{itemize}
+    \item Start in a state $q_0$ that represents a guess that we have not yet seen the end of the $w$ in the definition of $L$. While in state $q_0$, we read symbols and push them onto the stack.
+    \item At any time, we may guess that we have reached the end of $w$. Since the automaton is nondeterministic, we guess that we have reached the end of $w$ by going to state $q_1$, and also stay in $q_0$ and continue to read inputs.
+    \item Once in state $q_1$, we look at the input symbol and compare it to the topmost symbol on the stack. If they are the same, we pop it. Otherwise, the branch dies.
+    \item If we empty the stack, then we have seen something of the form $ww^\mathcal{R}$, so we accept.
+\end{itemize}
+\end{example}
+
+\vspace{3mm}
+We shall now formally define a nondeterministic pushdown automaton.
+\begin{definition}
+A \textit{nondeterministic pushdown automaton} is a $7$-tuple $(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F)$ where $Q,\Sigma, \Gamma, F$ are all finite sets, and
+\begin{enumerate}
+    \item $Q$ is the (finite) \textit{set of states},
+    \item $\Sigma$ is the (finite) \textit{input alphabet},
+    \item $\Gamma$ is the (finite) \textit{stack alphabet} (this is the set of elements we can push onto the stack),
+    \item $\delta:Q\times\Sigma_\varepsilon\times\Gamma\to\mathcal{P}(Q\times\Gamma^*)$ is the \textit{transition function},
+    \item $q_0\in Q$ is the \textit{start state},
+    \item $Z_0\in\Gamma$ is a particular symbol called the \textit{start symbol}, which initially appears on the stack, and
+    \item $F\subseteq Q$ is the \textit{set of accept states}.
+\end{enumerate}
+\end{definition}
+
+\vspace{2mm}
+We shall abbreviate ``Nondeterministic Pushdown Automaton" as NPDA.
+
+In the above definition, the transition function is the main thing that is different from our usual definition of an NFA. In one transition, it:
+\begin{enumerate}
+    \item consumes from input the symbol used in the transition (if the symbol is $\varepsilon$, then no input is consumed),
+    \item goes to a new state, and
+    \item replaces the symbol at the top of the stack with a string. Note that the string could also be $\varepsilon$, which means that we pop the stack.
+\end{enumerate}
+Given this, the correspondence to the above definition is clear.
+
+We require $Z_0$ in the above definition of a stack so that we can know when the stack is empty. Note that it is equivalent to use a specific symbol that we push in the beginning to signify the bottom of the stack. Some books use this definition of the NPDA instead. Next, we shall define what it means for an NPDA to recognize a string.
+
+\begin{definition}
+An NPDA $M=\writeNPDA$ is said to \textit{accept} a string $w$ if $w$ can be written as $w=w_1w_2\cdots w_m$, where each $w_i\in\Sigma_\varepsilon$ and sequence of states $r_0,r_1,\ldots,r_m\in Q$ and strings $s_0,s_1,\ldots,s_m\in\Gamma^*$ exist that satisfy the following three conditions.
+\begin{enumerate}
+    \item $r_0=q_0$ and $s_0=Z_0$.
+    \item For $i=0,1,\ldots,m-1$, we have $(r_{i+1},b)\in\delta(r_i,w_{i+1},a)$, where $s_i=at$ and $s_{i+1}=bt$ for some $a\in\Gamma$ and $b,t\in\Gamma^*$.
+    \item $r_m\in F$.
+\end{enumerate}
+\end{definition}
+
+\begin{exercise}
+\label{LwwRexercise}
+Express the example we described before defining an NPDA in the form given in the definition of an NPDA.
+\end{exercise}
+\begin{solution}
+The PDA can be expressed as $P=(\{q_0,q_1,q_2\}, \{0,1\}, \{0,1,Z_0\}, \delta, q_0,Z_0, \{q_2\})$, where
+\begin{align*}
+    \delta(q_0,a,Z_0) &= \{(q_0,aZ_0)\}\quad\text{for all $a\in\{0,1\}$} \\
+    \delta(q_0,a,b) &= \{(q_0,ab)\}\quad\text{for all $a,b\in\{0,1\}$} \\
+    \delta(q_0,\varepsilon,a) &= \{(q_1,a)\}\quad\text{for all $a\in\{0,1,Z_0\}$} \\
+    \delta(q_1,a,a) &= \{(q_1,\varepsilon)\}\quad\text{for all $a\in\{0,1\}$} \\
+    \delta(q_1,\varepsilon,Z_0) &= \{(q_2,Z_0)\}
+\end{align*}
+\end{solution}
+    
+\vspace{3mm}
+Similar to how we express NFAs and DFAs as graphs, NPDAs can also be expressed as graphs, where in addition to the way we draw the NFA structure, we also write what happens to the stack as follows. An arc labelled $a,X/\alpha$ from state $q$ to $p$ means that $(p,\alpha)\in\delta(q,a,X)$. That is, it tells what input is used ($a$), and the old and new tops of the stack ($X$ and $\alpha$ respectively).
+
+\vspace{3mm}
+So for instance, the PDA described in \ref{LwwRexercise} is depicted by the following diagram.
+
+\begin{center}
+\begin{tikzpicture}[node distance=3cm]
+    \node[state,initial] (q0) {$q_0$};
+    \node[state,right of=q0] (q1) {$q_1$};
+    \node[state,accepting,right of=q1] (q2) {$q_2$};
+    \draw (q0) edge[loop above] node[align=center] {$0,Z_0/0Z_0$ \\ $1,Z_0/1Z_0$        \\ $0, 0/00$ \\ $1, 0/10$ \\ $0, 1/01$ \\ $1, 1/11$} (q0)
+          (q1) edge[loop above] node[align=center]{$0, 0/\varepsilon$ \\ $1, 1/\varepsilon$} (q1)
+          (q0) edge[below] node[align=center] {$\varepsilon, Z_0/Z_0$ \\ $\varepsilon, 0/0$ \\ $\varepsilon, 1/1$} (q1)
+          (q1) edge[below] node[align=center] {$\varepsilon, Z_0/Z_0$} (q2);
+\end{tikzpicture}
+\end{center}
+
+\begin{exercise}
+Construct the NPDA that recognizes the language $L=\{a^ib^jc^k\mid i=j\text{ or }j=k\}$
+\end{exercise}
+
+It is also useful to represent a PDA at some point of time by a triple $(q,w,\gamma)$, where $q$ is the state, $w$ is the remaining input, and $\gamma$ is the stack contents. We conventionally show the top of the stack at the left end of $\gamma$. Such a triple is called an \textit{instantaneous description}, or ID of the automaton.
+
+\vspace{3mm}
+Let $V=\writeNPDA$ be an NPDA. Define $\vdash_P$, or just $\vdash$ when $P$ is understood, as follows. Suppose $(p,\alpha)\in\delta(q,a,X)$. Then for all strings $w\in\Sigma^*,\beta\in\Gamma^*$, we write
+$$(q,aw,X\beta)\vdash(p,w,\alpha\beta)$$
+This notation, called the \textit{``turnstile"} notation, represents the transition between different IDs of the NPDA. Note that $w$ and $\beta$ do not influence the transition, they are merely carried along.
+
+We also use $\vdash^*_P$ or $\vdash^*$ to represent $0$ or more moves of the NPDA. That is, $I\vdash^* I$ for any ID $I$ and $I\vdash J$ if there exists a state $K$ such that $I\vdash K$ and $K\vdash^* J$.
+
+\vspace{3mm}
+We shall call a sequence of IDs a \textit{computation}. We have the following.
+\begin{itemize}
+    \item If a computation is legal, then the computation formed by adding the same additional input string to the end of the input in each ID is also legal.
+    \item If a computation is legal, then the computation formed by adding the same additional string below the stack of each ID is also legal.
+    \item If a computation is legal, and some tail of the input is not consumed, we can remove this tail from each ID and the resulting computation will still be legal.
+\end{itemize}
+
+These three points just say that information that the NPDA does not look at does not affect its computation.
+
+\begin{theorem}
+\label{dontreaddontcare}
+If $P=\writeNPDA$ is an NPDA and $(q,x,\alpha)\vdash^*_P(p,y,\beta)$, then for any strings $w\in\Sigma^*, \gamma\in\Gamma^*$, $$(q,xw,\alpha\gamma)\vdash^*_P(p,yw,\beta\gamma).$$
+\end{theorem}
+\begin{proof}
+This proof is trivial and is left as an exercise to the reader. (Perform an induction on the number of steps in the sequence of IDs)
+\end{proof}
+
+Using this notation, we can alternatively formulate the definition of the language recognized by a language as follows.
+Let $P=\writeNPDA$ be an NPDA. Then
+$$L(P)=\{w\in \Sigma^* \mid (q_0,w,Z_0)\vdash^*_P(q,\varepsilon,\alpha), q\in F\text{ and }\alpha\in\Gamma^*\}$$
+The above condition is called \textit{acceptance by final state}, which is exactly what it is.
+\begin{definition}
+Let $P=\writeNPDA$ be an NPDA. We define
+$$N(P)=\{w\mid (q_0,w,Z_0)\vdash^*(q,\varepsilon,\varepsilon)\}$$
+\end{definition}
+
+
+The above set represents the set of input strings that when consumed, empty the stack as well. This is called \textit{acceptance by empty stack}.
+
+The following two theorems shows how the above two acceptances are intimately related.
+
+\begin{lemma}
+\label{finalifemptystk}
+If $L=N(P_N)$ for some NPDA $P_N=(Q,\Sigma,\Gamma,\delta_N,q_0,Z_0)$, then there is an NPDA $P_F$ such that $L(P_F)=L$.
+\end{lemma}
+\begin{proof}
+We first set the start symbol of $P_F$ as some $X_0\not\in\Gamma$. If we see $X_0$ on the stack for some input, then it means that $P_N$ would empty the stack for that same input. We also set the start state of $P_F$ as some $p_0\not\in Q$, whose sole purpose is to push $Z_0$ onto the stack and send it to $q_0$. Then, $P_F$ simulates $P_N$, until the stack of $P_N$ is empty. We also create another state $p_f\not\in Q$, which is the (unique) accepting state of $P_F$. $P_F$ goes to $p_f$ if $P_N$ would have emptied the stack for that input (that is, it has $X_0$ on the top of the stack).
+
+%ADD DIAGRAM!
+That is, $$P_F=(Q\cup\{p_0,p_f\}, \Sigma, \Gamma\cup\{X_0\}, \delta_F, p_0, X_0, \{p_F\})$$where $\delta_F$ is given as follows.
+\begin{enumerate}
+    \item $\delta_F(p_0,\varepsilon,X_0)=\{q_0, Z_0X_0\}$. This pushes $Z_0$ onto the stack and sends $P_F$ to $q_0$.
+    \item $\delta_N(p,A,X)\subseteq\delta_F(p,a,X)$ for all $q\in Q, a\in\Sigma_\varepsilon$ and $X\in\Gamma$. This makes $P_F$ behave like $P_N$.
+    \item $\delta_F(p,a,X)$ also contains $\{(p_f,\varepsilon)\}$ for $q\in Q, a=\varepsilon$ and $X=X_0$. This sends $P_F$ to $p_f$ if $P_N$ would have emptied the stack for the same input.
+\end{enumerate}
+
+We must show that $w\in L(P_F)$ if and only if $w\in N(P_N)$.
+\begin{itemize}
+    \item[(If)] This is reasonably straightforward. We have that $(q_0,w,Z_0)\vdash^*_{P_N}(q,\varepsilon,\varepsilon)$.
+    
+    Using \ref{dontreaddontcare} gives $(q_0,w,Z_0X_0)\vdash^*_{P_N} (q,\varepsilon,X_0)$.
+    
+    Since $P_F$ has all the moves of $P_N$, we also have $(q_0,w,Z_0X_0)\vdash^*_{P_F} (q,\varepsilon,X_0)$. Along with the initial and final moves, we have
+    $$(p_0,w,X_0)\vdash_{P_F}(q_0,w,Z_0X_0)\vdash^*_{P_F} (q,\varepsilon,X_0)\vdash_{P_F}(p_f,\varepsilon,\varepsilon).$$
+    Thus $P_F$ accepts $w$ by final state.
+    
+    \item[(Only if)] The first and third rules of $\delta_F$ give very limited ways to accept $w$ by final state. We can only use the third rule at the last step and even then, it must have $X_0$ on the top of the stack. As $X_0$ only appears at the bottom-most position in the stack, and it must be inserted at the first step, any computation of $P_F$ that accepts $w$ must look like the above computation. Further, the entire computation except the first and last steps must be like a computation of $P_N$ with $X_0$ below the stack. (Why?) We conclude that $(q_0,w,Z_0)\vdash^*_{P_N}(q,\varepsilon,\varepsilon)$, that is, $w\in N(P_N)$.  
+\end{itemize}
+\end{proof}
+
+\begin{lemma}
+\label{emptyiffinal}
+    If $L=L(P_F)$ for some NPDA $P_F=(Q,\Sigma,\Gamma,\delta_F,q_0,Z_0)$, then there is an NPDA $P_N$ such that $N(P_N)=L$.
+\end{lemma}
+\begin{proof}
+Similar to the previous proof, we introduce $p_0,p_f\not\in Q$ and $X_0\not\in\Gamma$. Whenever $P_F$ enters an accepting state after consuming input $w$, the corresponding system in $P_N$ empties its stack. That is, let
+$$P_N=(Q\cup\{p_0,p_f\}, \Sigma, \Gamma\cup\{X_0\}, \delta_N, p_0, X_0)$$
+where $\delta_N$ is given as follows.
+%ADD DIAGRAM!
+\begin{enumerate}
+    \item $\delta_N(p_0,\varepsilon,X_0)=\{(q_0,Z_0X_0)\}$. This is the first step where $Z_0$ is pushed onto the stack so that $P_N$ may behave like $P_F$.
+    \item $\delta_F(q,a,Y)\subseteq\delta_N(q,a,Y)$ for all $q\in Q, a\in\Sigma_\varepsilon$ and $Y\in\Gamma$. This makes it behave like $P_F$.
+    \item $\delta_N(q,\varepsilon,Y)$ also contains $(p_f,\varepsilon)$ for $q\in F$ and $Y\in\Gamma$. If the $P_F$ part of $P_N$ is in an accepting state, it goes to $p_f$.
+    \item $\delta_N(p_f,\varepsilon,X)=\{(p_f,\varepsilon)\}$. This repeatedly pops the symbol on the stack until it is empty.
+\end{enumerate}
+
+    The ideas used in proving that $w\in P_N$ if and only if $w\in P_F$ are similar to those used in the proof of \ref{finalifemptystk} so we leave it as an exercise to the reader.
+\end{proof}
+
+\begin{theorem}
+Let $L$ be a language. $L$ is accepted by final state by some NPDA if and only if it is accepted by empty stack by some NPDA.
+\end{theorem}
+\begin{proof}
+This follows directly from \ref{finalifemptystk} and \ref{emptyiffinal}.
+\end{proof}
+
+\clearpage
+\subsection{Equivalence of Context-Free Grammars and Pushdown Automata}
+
+In this subsection, we shall show the equivalence of context-free languages and languages that are recognized (by final state) by some NPDA. To do so, we shall instead consider those languages that are recognized by empty stack by some NPDA.
+
+\vspace{2mm}
+Any left-sentential that is not a terminal string can be written as $xA\alpha$, where $A$ is the leftmost variable, $x$ is the string of whatever terminals appear to its left, and $\alpha$ is the string of terminals and variables that appear to its right. Then $A\alpha$ is called the \textit{tail} of this left-sentential form. A left-sentential form that is a terminal string is said to have tail $\varepsilon$.
+
+\vspace{1mm}
+Given a CFG, we shall attempt to construct an NPDA that simulates its leftmost derivations. We shall do so by ``guessing" the sequence of left-sentential forms that the CFG takes to reach a given terminal string $w$. The tail of each sentential form $xA\alpha$ appears on the stack (with $A$ on top). $x$ is represented by our having consumed of it from the input. That is, if $w=xy$, then the input consists of just $y$.
+
+\vspace{1mm}
+Now suppose the NPDA is in ID $(q,y,A\alpha)$ representing left-sentential form $xA\alpha$. It guesses the rule used to expand $A$ as $A\to\beta$. Now again, the terminals at the start of the string $\beta\alpha$ need to be removed to expose the tail. These terminals are compared against the next input symbols, to ensure that our guess was correct. If it is not, then this branch of the NPDA dies. If we are able to guess a leftmost derivation of $w$, then we shall eventually reach the left-sentential form $w$. At that point, the stack is empty as the tail is $\varepsilon$ and we accept by empty stack.
+
+\vspace{2mm}
+We shall now make the above informal construction rigorous as follows.
+Let $G=(V,\Sigma,R,S)$ be a CFG. Construct an NPDA $P$ as follows:
+
+$$P=(\{q\}, \Sigma, V\cup \Sigma, \delta, q, S)$$
+
+where $\delta$ is defined by
+$$\delta(q,\varepsilon,A)=\{(q,\beta)\mid (A,\beta)\in R\} \text{for each variable $A$.}$$
+$$\delta(q,a,a)=\{(q,\varepsilon)\}\text{ for each terminal $a$.}$$
+
+\begin{lemma}
+\label{CFGtoNPDAequivalence}
+    Let $G$ be a CFG and $P$ be an NPDA constructed from $G$ as above. Then $N(P)=L(G)$.
+\end{lemma}
+\begin{proof}
+    We shall prove that a string $w$ is in $N(P)$ if and only if it is in $L(G)$.
+    \begin{itemize}
+        \item[(If)] Let $w\in L(G)$. Then $w$ has leftmost derivation
+        $$S=\gamma_1\yields\gamma_2\yields\cdots\yields\gamma_n=w.$$
+        We shall show by induction on $i$ that $(q,w,S)\vdash^*_P(q,y_i,\alpha_i)$, where $y_i$ and $\alpha_i$ are as follows.
+        
+        Let $\alpha_i$ be the tail of $\gamma_i$ and $\gamma_i=x_i\alpha_i$. Then $y_i$ is the string such that $x_iy_i=w$.
+        
+        \vspace{2mm}
+        \textit{Basis Step}: For $i=1$, we have $\gamma_1=\alpha_1=S$, $x_1=\varepsilon$, and $y_1=w$. We then trivially have $(q,w,S)\vdash^*(q,w,S)=(q,y_1,\alpha_1)$.
+        
+        \vspace{1mm}
+        \textit{Induction}: We shall assume that $(q,w,S) \vdash^* (q,y_i,\alpha_i)$ and show that $(q,w,S) \vdash^* (q,y_{i+1},\alpha_{i+1})$. Since $\alpha_i$ is a tail, it begins with a variable $A$.
+        
+        In the derivation, the step $\gamma_i\yields\gamma_{i+1}$ involves replacing $A$ with some string $\beta$. Using the construction of $P$, the first part allows us to replace $A$ at the top of the stack with $\beta$ and the second part allows us to match terminals at the top of the stack with subsequent input symbols. Then we reach $(q,y_{i+1},\gamma_{i+1})$, which represents the next left-sentential form $\gamma_{i+1}$.
+        
+        Finally, note that $\alpha_n=\varepsilon$. Thus $(q,w,S)\vdash^*(q,\varepsilon,\varepsilon)$, which proves that $P$ accepts $w$ by empty stack.
+        
+        \item[(Only if)] Here, we need to prove that if $(q,x,A)\vdash^*(q,\varepsilon,\varepsilon)$, then $A\derives x$. We shall do so by induction on the number of moves taken by $P$. 
+        
+        \vspace{2mm}
+        \textit{Basis Step}: If only one move is taken, then the only possibility is that $A\to\varepsilon$ is a rule of $G$ and $x=\varepsilon$. This implies that $A\yields \varepsilon$.
+        
+        \vspace{1mm}
+        \textit{Induction}: Suppose $P$ takes $n>1$ moves. The move taken in the first step must be of the first type in the definition of $P$. Let the rule that is substituted be $A\to Y_1Y_2\cdots Y_k$, where each $Y_i$ is either a variable or a terminal. The next $n-1$ steps must consume $x$ from the input and pop each of the elements $Y_1,Y_2,\ldots,Y_k$ from the stack. Let us break $x$ as $x_1x_2\cdots x_k$, where $x_1$ is the portion of the input consumed until $Y_1$ is removed from the stack, $x_2$ is the next portion that is consumed until $Y_2$ is removed from the stack, and so on.
+        
+        Then we have that $(q, x_i, Y_i) \vdash^* (q, \varepsilon, \varepsilon)$ for each $i$. As each $x_i<n$, we can use the inductive hypothesis to get that $Y_i\derives x_i$.
+        
+        Then we have the following derivation:
+        $$A\yields Y_1Y_2\cdots Y_k\derives x_1Y_2\cdots Y_k\derives\cdots\derives x_1x_2\cdots x_k = x.$$
+        This completes the proof.
+    \end{itemize}
+\end{proof}
+
+Now that we have gone one way from grammars to NPDAs, we shall provide a construction in the other direction to prove their equivalence.
+
+That is, given any NPDA $P$ that recognizes language $L(P)$, we must construct a CFG $G$ that also recognizes language $L(P)$. 
+
+\begin{lemma}
+\label{NPDAtoCFGequivalence}
+    Let $P=(Q,\Sigma,\Gamma,\delta,q_0,Z_0)$ be an NPDA. Then there is a context-free grammar $G$ such that $L(G)=N(P)$.
+\end{lemma}
+
+Similar to the second part of the previous proof, let us have a sequence of symbols $Y_1,Y_2,\ldots,Y_k$ that must be popped. Let some input $x_1$ be read while $Y_1$ is popped. $x_2$ is the next portion that is consumed until $Y_2$ is popped, and so on. Note that here, by ``popping", we do not mean a single step that is the usual meaning of popping. We instead mean possibly multiple steps that result in $Y_1$ being removed from the stack.
+
+The variables of the CFG we shall construct will represent ``events" that the NPDA changes from state $p$ at the beginning to $q$ when $X$ is removed from the stack. This composite symbol is denoted $[pXq]$. Note that this is \textit{a single variable}. We make this rigorous in the following proof.
+
+\begin{proof}
+    We construct a CFG $G=(V,\Sigma,R,S)$ as follows. $S$ is the special start symbol. We also have
+    $$V=\{S\}\cup \{[pXq]\mid p,q\in Q\text{ and }X\in\Gamma\}.$$
+    
+    \vspace{1mm}
+    For all states $p$, $S\to [q_0Z_0p]$ is a rule. According to the intuition we provided, this generates all strings $w$ that cause $P$ to pop $Z_0$ when going from $q_0$ to $p$. That is, it represents all strings $w$ that cause $P$ to empty its stack. 
+    
+    \vspace{1mm}
+    Let $\delta(q,a,X)$ contain $(r,Y_1Y_2\cdots Y_k)$ where $a\in\Sigma_\varepsilon$ and $k\geq 0$ (in the case where $k=0$, we take the pair $(r,\varepsilon)$ instead).
+    
+    \vspace{1mm}
+    Then for all lists of states $r_1,r_2,\ldots,r_k$, $G$ has the rule
+    $$[qXr_k]\to a[rY_1r_1][r_1Y_2r_2]\cdots [r_{k-1}Y_kr_k].$$
+    This represents that one way to go from $q$ to $r_k$ while popping $X$ is to read $a$, then use some input to pop $Y_1$ while going from $r$ to $r_1$, then read some more input that pops $Y_2$ while going from $r_1$ to $r_2$, and so on.
+    
+    \vspace{2mm}
+    Let us now prove that the CFG we have constructed satisfies $L(G)=N(P)$, that is,
+    $$[qXp]\derives w\text{ if and only if }(q,w,X)\vdash^*(p,\varepsilon,\varepsilon).$$
+    
+    \begin{itemize}
+        \item[(If)]
+        Suppose $(q,w,X)\vdash^* (p,\varepsilon,\varepsilon)$. We must show that $[qXp]\derives w$. We shall do so by induction on the number of steps.
+        
+        \vspace{2mm}
+        \textit{Basis Step}: Only one step is involved. Then $(p,\varepsilon)\in\delta(q,w,X)$ and $w$ is in $\Sigma_\varepsilon$. By the construction of $G$, $[qXp]\to w$ is a rule, so $[qXp]\yields w$.
+        
+        \vspace{1mm}
+        \textit{Induction}: Let $n>1$ steps be involved.
+        The first step must look like
+        $$(q,w,X)\vdash (r_0,x,Y_1Y_2\cdots Y_k) \vdash^* (p,\varepsilon,\varepsilon)$$
+        where $w=ax$ for some $a\in\Sigma_\varepsilon$. It follows that
+        $$(r_0,Y_1Y_2\cdots Y_k)\in\delta(q,w,X).$$
+        By the construction of $G$, there is a rule $$[qXr_k]\to a[r_0Y_1r_1][r_1Y_2r_2]\cdots[r_{k-1}Y_kr_k],$$ where $r_k=p$ and $r_0,r_1,\ldots,r_{k-1}\in Q$.
+        
+        Let $x=w_1w_2\cdots w_k$, where each $w_i$ is the input consumed when $Y_i$ is popped. Then we have that $(r_{i-1},w_i,Y_i)\vdash^*(r_i,\varepsilon,\varepsilon)$. We can use the inductive hypothesis on each of these steps to conclude that for each $i$, $[r_{i-1}Y_ir_i]\derives w_i$. With $r_k=p$, we may put these derivations together as follows to get the required result.
+        \begin{align*}
+            [qXr_k] &\yields a[r_0Y_1r_1][r_1Y_2r_2]\cdots[r_{k-1}Y_kr_k] \\
+                    &\derives aw_1[r_1Y_2r_2][r_2Y_2r_3]\cdots[r_{k-1}Y_kr_k] \\
+                    &\;\vdots \\
+                    &\derives aw_1w_2\cdots w_k = w
+        \end{align*}
+        
+        \item[(Only if)]
+        We must show that if $[qXp]\derives w$, then $(q,w,X)\vdash^*(p,\varepsilon,\varepsilon)$.  We shall do so by induction on the number of steps in the derivation.
+        
+        \vspace{2mm}
+        \textit{Basis Step}: Only one step is involved. In this case, $[qXp]\to w$ is a rule. The only way this is possible is if there is a transition of $P$ from $q$ to $p$ where $X$ is popped. That is, $(p,\varepsilon)\in\delta(q,w,X)$. But then we have $(q,w,X)\vdash^* (p,\varepsilon,\varepsilon)$.
+        
+        \vspace{1mm}
+        \textit{Induction}: Let $n>1$ steps be involved. Let $p=r_k$ and the first sentential form be as follows:
+        $$[qXr_k]\yields a[r_0Y_1r_1][r_1Y_2r_2]\cdots[r_{k-1}Y_kr_k]\derives w.$$
+        This is because $(r_0,Y_1Y_2\cdots Y_k)\in\delta(q,a,X)$. Break $w$ as $w=aw_1w_2\cdots w_k$ such that $[r_{i-1}Y_ir_i]\derives w_i$ for each $i$. Then for all $i$,
+        $$(r_{i-1}, w_i, Y_i)\vdash^* (r_i,\varepsilon,\varepsilon).$$
+        Using \ref{dontreaddontcare}, we have
+        $$(r_{i-1}, w_iw_{i+1}\cdots w_k, Y_i)\vdash^* (r_i,w_{i+1}w_{i+2}\cdots w_k,\varepsilon).$$
+        Putting all these together, we have
+        \begin{align*}
+            (q,aw_1w_2\cdots w_k, X)&\vdash (r_0, w_1w_2\cdots w_k, Y_1Y_2\cdots Y_k) \\
+            &\vdash^* (r_1, w_2w_3\cdots w_k, Y_2Y_3\cdots Y_k) \\
+            &\; \vdots \\
+            &\vdash^* (r_k,\varepsilon,\varepsilon)
+        \end{align*}
+        This completes our proof as $r_k=p$.
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}
+    The class of languages recognized by nondeterministic pushdown automata is equal to the class of languages generated by context-free grammars.
+\end{theorem}
+\begin{proof}
+    This immediately follows from \ref{NPDAtoCFGequivalence} and \ref{CFGtoNPDAequivalence}.
+\end{proof}
