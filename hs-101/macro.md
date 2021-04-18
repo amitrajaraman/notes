@@ -369,7 +369,7 @@ Some problems in GDP measurement are:
 
 The _financial system_ is the group of institutions that helps match the savings of one person with the investments of another.    
 _Financial markets_ are institutions through which savers can directly provide funds to borrowers. For example,
-* The bond market. A _bond_ is a certificate of indebtedness. When someone purchases a bond, they receive some interest on it regularly, until the loan is repaid at the date of maturity. Bonds that never mature are said to be a pepetuity. Income taxes are not paid on municipal bonds, which are bonds issued by the local/state government.
+* The bond market. A _bond_ is a certificate of indebtedness. When someone purchases a bond, they receive some interest on it regularly, until the loan is repaid at the date of maturity. Bonds that never mature are said to be a _perpetuity_. Income taxes are not paid on municipal bonds, which are bonds issued by the local/state government.
 * The stock market. A _stock_ is a claim to partial ownership in a firm. When someone purchases a stock, they receive part of the profits. These tend to be higher risk and higher reward than bonds.
 
 _Financial intermediaries_ are institutions through which savers can indirectly provide funds to borrowers. The two main ones are 
@@ -383,7 +383,7 @@ _National savings_ is the sum of the private savings and public savings. This is
 $$(\text{Y} - \text{T} - \text{C}) + (\text{T} - \text{G}) = \text{Y} - \text{C} - \text{G},$$
 
 where $$\text{Y}$$ is the yearly income, $$\text{T}$$ is the taxes paid minus the amount it pays back in transfer payments, $$\text{C}$$ is the consumption, and $$\text{G}$$ is the government purchases. This is the portion of the national income that is used for neither consumption nor government purchases.    
-Consider a _closed economy_ case with $$\text{NX} = 0$$. Then the GDP is equal to $$C + I + G$$. Therefore, the investment is equal to the national savings in a closed economy.
+Consider a _closed economy_ with $$\text{NX} = 0$$. Then the GDP is equal to $$\text{C} + \text{I} + \text{G}$$, so the investment is equal to the national savings.
 
 The _budget surplus_ is the excess of tax revenue over government purchases (this is equal to the public savings). The _budget deficit_ is the opposite (the negative of the public savings).
 
@@ -393,26 +393,26 @@ The supply of loanable funds comes from savings and the demand for loanable fund
 An increase in interest rate makes saving more attractive, which increases the quantity of loanable funds supplied. This reduces the demand for loanable funds, however. As in microeconomics, the interest rate adjusts to equate supply and demand.    
 Incentives to encourage savings (a policy to shield some savings from taxation for example) increase the supply of loanable funds, which reduces the equilibrium interest rate and increases the equilibrium quantity of loanable funds. A government budget deficit would do the opposite.    
 Investment incentives (an investment tax credit for example) raise the equilibrium interest rate and reduce the equilibrium quantity of loanable funds.    
-A budget deficit causes a fall in the supply of loanable funds, which raises the equilibrium interest rate. The government borrows to finance its deficit, leaving less funds available for investment. This is known as _crowding out_. This, as a result, reduces the economy's growth rate and future standards of living.    
+A budget deficit causes a fall in the supply of loanable funds, which raises the equilibrium interest rate. The government borrows to finance its deficit, leaving less funds available for investment. This is known as _crowding out_, and reduces the economy's growth rate and future standards of living.    
 A budget surplus would do the opposite.     
 It should be noted that the interest rate we are talking about above is the real rate, which is the nominal interest rate corrected for inflation.
 
 # Lecture 30
 
-Money is the stock of assets that can be readily used to make actions. The stock of money is made of the rupees in the hands of the public. The three main uses of money are:
-* Store of value: It is a way to transfer purchasing power from the present to the future.
-* Unit of account: It can be used to measure economic transactions and debts.
-* Medium of exchange: It is used to buy goods and services, as a legal tender from the government.
+Money is the stock of assets that can be readily used to make actions. The stock of money is made of the rupees in the hands of the public. The three main uses of money are to serve as a
+* store of value: It is a way to transfer purchasing power from the present to the future.
+* unit of account: It can be used to measure economic transactions and debts.
+* medium of exchange: It is used to buy goods and services, as a legal tender from the government.
 
 In a system without money, we can either be completely self-sufficient, or use a barter economy. The latter requires a "double coincidence of wants" - each person has something that the other wants. Nowadays, this is highly unlikely with the huge variety in goods.    
-Money allows for more indirect transactions. _Liquidity_ refers to the ease with which an asset can be converted to the economy's medium of exchange. For example, money is the most liquid asset, stocks and bonds are still relatively liquid (less so than money), and a painting is less liquid.
+Money allows for more indirect transactions. _Liquidity_ refers to the ease with which an asset can be converted to the economy's medium of exchange. For example, money is the most liquid asset, stocks and bonds are still relatively liquid (but less so than money), and an antique painting is less liquid.
 
 _Fiat money_ is money by declaration. It has no intrinsic value. For example, rupee or dollar.    
 _Commodity money_ on the other hand does have intrinsic value and can be used for some purpose. For example, gold or tobacco. When we use gold as money, the economy is said to be on a _gold standard_.
 
 There is a general shift from commodity money to Fiat money, primarily because the latter is much more standardized.    
-Suppose instead that we use gold to pay for goods. Then we first need to ensure purity and weight, so the government might get involved to reduce transaction costs. To reduce these costs, the government can either mint gold coins of a known purity and weight, or accept gold from the public in exchange for gold certificates, which can be redeemed for a certain quantity of gold.    
-The bills are just as valuable as the gold itself, but are easier to use in a transaction. This marks the natural shift from commodity money to fiat money, with everyone eventually carrying these bills instead of gold.
+<!-- Suppose instead that we use gold to pay for goods. Then we first need to ensure purity and weight, so the government might get involved to reduce transaction costs. To reduce these costs, the government can either mint gold coins of a known purity and weight, or accept gold from the public in exchange for gold certificates, which can be redeemed for a certain quantity of gold.    
+The bills are just as valuable as the gold itself, but are easier to use in a transaction. This marks the natural shift from commodity money to fiat money, with everyone eventually carrying these bills instead of gold. -->
 
 The _money supply_ or _money stock_ refers to the amount of money available in the economy. It includes both _currency_ (the paper bills and coins in the hands of the public) and _demand deposits_ (balances in savings accounts that depositors can access on demand).    
 If most sellers accept cheques, assets in savings accounts are as convenient as currency.
@@ -426,11 +426,11 @@ A _T-account_ is a simplified accounting statement that shows a bank's assets an
 There are three cases we shall analyze:
 * No banking system: The public holds all the money in the form of currency. This is the money supply as well.
 * 100% reserve banking system: The bank holds all the money in the form of reserves, so $$R$$ is 100%. Banks do not affect the size of the money supply in a 100% reserve banking system.
-* Fractional reserve banking system: The bank loans out all but $$R\%$$ of the deposits. The money supply in this case is $$(1+R)$$ times the deposits. The banks create money by loaning it out. The borrower gets a certain amount of money as both an asset and a liability (debt). So, this sort of system creates money, but not wealth.
+* Fractional reserve banking system: The bank loans out all but $$R$$% of the deposits. The banks create money by loaning it out. The borrower gets a certain amount of money as both an asset and a liability (debt). So, this sort of system creates money, but not wealth.
 
 The _money multiplier_ is the amount of money the banking system generates with each dollar of reserves. It is equal to $$1/R$$. If the money a borrower takes is deposited back in another bank, and so on, the total amount of money that arises from one unit is $$1/R$$ units.
 
-The quantity of money available is called the _money supply_. The control over the money supply is called the _monetary policy_. In india, it is conducted by a partially independent institution called the Reserve Bank of India (RBI).    
+The control over the money supply is called the _monetary policy_. In India, it is conducted by a partially independent institution called the Reserve Bank of India (RBI).    
 The monetary policy is a traditionally bi-annual policy statement through which the RBI targets a key set of indicators to ensure price stability.    
 At times of recession, the policy involves the adoption of tools to increase the money supply and lower interest rate, thus stimulating the aggregate demand in the economy.    
 At times of inflation, it seeks to contract aggregate spending by tightening the money supply or raising the rate of return
@@ -444,10 +444,10 @@ The three tools it uses to do so are:
 # Lecture 32
 
 * Reserve Requirements:
-	* Cash reserve ratio (CRR) is just the reserve ratio R from earlier and inversely affects how much money banks can create by loaning. (it is currently 3%).
+	* Cash reserve ratio (CRR): The minimum percentage of deposits to be maintained by banks in the form of liquid cash (it is currently 3%).
 	* Statutory Liquid Ratio (SLR): The minimum percentage of deposits to be maintained by banks in the form of liquid cash, gold, or other securities (it is currently 18%).
 
-	To increase the money supply, the RBI reduces RR. Banks make more loans from each rupee of reserves, which increases the money multiplier and mone supply.    
+	To increase the money supply, the RBI reduces reserve requirements. Banks make more loans from each rupee of reserves, which increases the money multiplier and so money supply.    
 	To reduce the money supply, the CRR is raised and the process works in reverse.    
 	The RBI rarely uses this because frequent changes would disrupt the banking system.
 
@@ -463,7 +463,7 @@ The _reverse repo rate_ is what the banks get when they deposit their excess fun
 	If funds are not very available and banks are unable to borrow at the repo rate, they may have to increase deposit rates to attract depositors.    
 	There is a trade-off between inflation and growth.
 
-	To raise the bank rate, the RBI sells government bonds (OMOs).
+	To raise the bank rate, the RBI sells government bonds.
 
 If households hold more money as currency (so banks have fewer reserves) or banks hold more as reserves, money supply falls. The RBI can compensate for this.
 
