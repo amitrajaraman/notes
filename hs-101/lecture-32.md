@@ -6,10 +6,10 @@ title: Lecture 32
 <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
 
 * Reserve Requirements:
-	* Cash reserve ratio (CRR) is just the reserve ratio R from earlier and inversely affects how much money banks can create by loaning. (it is currently 3%).
+	* Cash reserve ratio (CRR): The minimum percentage of deposits to be maintained by banks in the form of liquid cash (it is currently 3%).
 	* Statutory Liquid Ratio (SLR): The minimum percentage of deposits to be maintained by banks in the form of liquid cash, gold, or other securities (it is currently 18%).
 
-	To increase the money supply, the RBI reduces RR. Banks make more loans from each rupee of reserves, which increases the money multiplier and mone supply.    
+	To increase the money supply, the RBI reduces reserve requirements. Banks make more loans from each rupee of reserves, which increases the money multiplier and so money supply.    
 	To reduce the money supply, the CRR is raised and the process works in reverse.    
 	The RBI rarely uses this because frequent changes would disrupt the banking system.
 
@@ -17,7 +17,7 @@ The _reverse repo rate_ is what the banks get when they deposit their excess fun
 
 * The _discount rate_ or bank rate is the rate of interest which a central bank charges on its loans and advances to commercial banks (loans). It is currently 4.25%.    
 	_Repo rate_ is the rate at which commercial banks borrow money (short-term funds) from the RBI by selling their securities. It is currently 4%.    
-	The reverse repo rate is the rate of interest offered by the RBI when banks deposit their surplus funds with it for short periods. When banks have surplus funds but no lending/investment options, they deposit these funds with the RBI, which they earn interest on. Discount lending is used to provide extra liquidity when financial institutions are in trouble.    
+	The reverse repo rate is the rate of interest offered by the RBI when banks deposit their surplus funds with it for short periods. When banks have surplus funds but no lending/investment options, they must deposit these funds with the RBI, which they earn interest on. Discount lending is used to provide extra liquidity when financial institutions are in trouble.    
 
 	Banks are mandated to invest a quarter of their deposit/borrowings inflows into government securities. Only the excess over this mandated investment can be used to borrow funds from repo window. The banks' core borrowing usually comes from deposits, so RBI is a "lender of last resort".
 
@@ -25,7 +25,7 @@ The _reverse repo rate_ is what the banks get when they deposit their excess fun
 	If funds are not very available and banks are unable to borrow at the repo rate, they may have to increase deposit rates to attract depositors.    
 	There is a trade-off between inflation and growth.
 
-	To raise the bank rate, the RBI sells government bonds (OMOs).
+	To raise the bank rate, the RBI sells government bonds.
 
 If households hold more money as currency (so banks have fewer reserves) or banks hold more as reserves, money supply falls. The RBI can compensate for this.
 
@@ -36,7 +36,6 @@ _Money demand_ refers to how much wealth people want to hold in liquid form. It 
 _Nominal variables_ are measured in monetary units, whereas _real variables_ are measured in physical units (for example, nominal GDP and real GDP). A _relative price_ is the price of one good with respect to the other (it is a real variable).    
 The _real wage_ is equal to the ratio of the nominal wage to the price level.    
 _Classical dichotomy_ is the theoretical separation between nominal and real variables. Hume and classical economists claim that monetary developments affect nominal variables and not real variables. This is referred to as _monetary neutrality_. It is widely believed that these do hold in the long run.
-
 
 <!-- * Reserve Requirements:
 	* Cash reserve ratio (CRR) affects how much money banks can create by making loans (it is current 3%).
