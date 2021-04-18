@@ -488,9 +488,10 @@ Observe that since $$Y$$ is the amount of output and $$P$$ is the price of one u
 $$M/P$$ is referred to as the _real money balance_, which measures the purchasing power of a stock of money.    
 If the real GDP is constant, the inflation rate is equal to the money growth rate and if it is growing, the inflation rate is less than the money growth rate.
 
-The three building blocks that determine the level of prices are:
+The building blocks that determine the level of prices are:
 * The factors of production and production function, which determine $$Y$$.
 * The money supply, which determines the nominal value $$PY$$ of output (This is due to the assumption that $$V$$ is unchanging).
+
 The price level $$P$$ is then the ratio of $$PY$$ to $$Y$$.    
 If both $$V$$ and $$Y$$ are fixed, then the percentage change in $$M$$ is equal to the percentage change in $$P$$.    
 Thus, quantity theory yields that the central bank, which controls money supply, ultimately controls the inflation rate as well. If the money supply is kept stable, the price level is stable.

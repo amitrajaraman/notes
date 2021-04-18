@@ -16,9 +16,10 @@ Observe that since $$Y$$ is the amount of output and $$P$$ is the price of one u
 $$M/P$$ is referred to as the _real money balance_, which measures the purchasing power of a stock of money.    
 If the real GDP is constant, the inflation rate is equal to the money growth rate and if it is growing, the inflation rate is less than the money growth rate.
 
-The three building blocks that determine the level of prices are:
+The building blocks that determine the level of prices are:
 * The factors of production and production function, which determine $$Y$$.
 * The money supply, which determines the nominal value $$PY$$ of output (This is due to the assumption that $$V$$ is unchanging).
+
 The price level $$P$$ is then the ratio of $$PY$$ to $$Y$$.    
 If both $$V$$ and $$Y$$ are fixed, then the percentage change in $$M$$ is equal to the percentage change in $$P$$.    
 Thus, quantity theory yields that the central bank, which controls money supply, ultimately controls the inflation rate as well. If the money supply is kept stable, the price level is stable.
@@ -39,11 +40,11 @@ Some results of inflation are:
 * Since firms don't raise prices at the same time, relative prices can vary, which distorts resource allocation.
 * It complicates long-range planning and comparison of rupee amounts over time.
 * Nominal income grows faster than real income, and since taxes are based on nominal income and may not be adjusted for inflation, people pay more taxes even when their real incomes don't rise.
+* When inflation is high, another side effect is that debtors can repay their debt with rupees that aren't worth much. Inflation lower than expected transfers purchasing power from debtors to creditors. A high inflation situation tends to be variable and less predictable than low inflation, and arbitrary redistributions of wealth are frequent.
 
 _Hyperinflation_ is said to occur when the inflation rate exceeds 50% per month. When it occurs, bartering or commodity money becomes prevalent.    
 Why do banks print money in countries facing hyperinflation? This is due to fiscal policy, when the government has inadequate tax revenue to pay for its spending. To cover this deficit, it prints money. Due to delayed tax collection, real tax revenue drops as inflation rises, and fiscal problems worsen. The reliance on seigniorage worsens the situation.    
 It can be fixed by reducing government spending and increasing taxes.    
-When inflation is high, another side effect is that debtors can repay their debt with rupees that aren't worth much. Inflation lower than expected transfers purchasing power from debtors to creditors. A high inflation situation tends to be variable and less predictable than low inflation, and arbitrary redistributions of wealth are frequent.
 
 The interest rate paid by the banks is called the _nominal interest rate_ $$i$$ and the increase in purchasing power the _real interest rate_ $$r$$. If $$\pi$$ is the rate of inflation, we have $$i = r + \pi$$. This is known as the _Fisher effect_.    
 Quantity theory together with the Fisher equation tell us how money growth influences nominal interest rate.
