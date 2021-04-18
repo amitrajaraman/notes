@@ -367,32 +367,35 @@ Some problems in GDP measurement are:
 
 # Lecture 29
 
-The _financial institution_ is the group of institutions that helps match the savings of one person with the investments of another.    
+The _financial system_ is the group of institutions that helps match the savings of one person with the investments of another.    
 _Financial markets_ are institutions through which savers can directly provide funds to borrowers. For example,
-* The bond market. A _bond_ is a certificate of indebtedness.
-* The stock market. A _stock_ is a claim to partial ownership in a firm.
-_Financial intermediaries_ are institutions through which savers can indirectly provide funds to borrowers. For example, banks and mutual funds (institutions that sell shares to the public and use the proceeds to buy portfolios of stocks and bonds).    
+* The bond market. A _bond_ is a certificate of indebtedness. When someone purchases a bond, they receive some interest on it regularly, until the loan is repaid at the date of maturity. Bonds that never mature are said to be a pepetuity. Income taxes are not paid on municipal bonds, which are bonds issued by the local/state government.
+* The stock market. A _stock_ is a claim to partial ownership in a firm. When someone purchases a stock, they receive part of the profits. These tend to be higher risk and higher reward than bonds.
+
+_Financial intermediaries_ are institutions through which savers can indirectly provide funds to borrowers. The two main ones are 
+* banks, which take in deposits from people who want to save and loan it to people who want to borrow, and
+* mutual funds, which are institutions that sell shares to the public and use the proceeds to buy selections (_portfolios_) of stocks and bonds.
+
 _Private savings_ refers to the portion of a household's income that is not used for consumption or paying taxes.    
 _Public savings_ refer to the tax revenues minus the government spendings.    
 _National savings_ is the sum of the private savings and public savings. This is equal to
 
 $$(\text{Y} - \text{T} - \text{C}) + (\text{T} - \text{G}) = \text{Y} - \text{C} - \text{G},$$
 
-where $$\text{Y}$$ is the yearly income, $$\text{T}$$ is the taxes paid, $$\text{C}$$ is the consumption, and $$\text{G}$$ is the government purchases. This is the portion of the national income that is used for neither consumption nor government purchases.    
-Consider a closed economy case with $$\text{NX} = 0$$. Then the GDP is equal to $$C + I + G$$. Therefore, the investment is equal to the national savings in a closed economy.
+where $$\text{Y}$$ is the yearly income, $$\text{T}$$ is the taxes paid minus the amount it pays back in transfer payments, $$\text{C}$$ is the consumption, and $$\text{G}$$ is the government purchases. This is the portion of the national income that is used for neither consumption nor government purchases.    
+Consider a _closed economy_ case with $$\text{NX} = 0$$. Then the GDP is equal to $$C + I + G$$. Therefore, the investment is equal to the national savings in a closed economy.
 
-A _budget surplus_ is the excess of tax revenue over government purchases (this is equal to the public savings). A _budget deficit_ is the opposite (the negative of the public savings).
+The _budget surplus_ is the excess of tax revenue over government purchases (this is equal to the public savings). The _budget deficit_ is the opposite (the negative of the public savings).
 
 _Investment_ is the purchase of new capital -- it is not just the purchase of stocks and bonds! It is anything that will give future returns.
 
-The supply of loanable funds comes from savings. Households with extra income can loan it out to earn interest. Public savings, if positive, add to national savings and the supply of loanable funds.    
+The supply of loanable funds comes from savings and the demand for loanable funds comes from investment. Households with extra income can loan it out to earn interest. Public savings, if positive, add to national savings and the supply of loanable funds.    
 An increase in interest rate makes saving more attractive, which increases the quantity of loanable funds supplied. This reduces the demand for loanable funds, however. As in microeconomics, the interest rate adjusts to equate supply and demand.    
-Tax incentives for saving increases the supply of loanable funds, which reduces the equilibrium interest rate and increases the equilibrium quantity of loanable funds. A government budget deficit would do the opposite.    
-Investment incentives (an investment tax credit for example) raise the equilibrium interest rate and reduce the equilibrium quantity of loanable funds.
-
-An increase in budget deficit causes a fall in investment. The government borrows to finance its deficit, leaving less funds available for investment. This is known as _crowding out_. This, as a result, reduces the economy's growth rate and future standards of living.
-
-Money is the yardstick with which we measure economic transactions and debts.
+Incentives to encourage savings (a policy to shield some savings from taxation for example) increase the supply of loanable funds, which reduces the equilibrium interest rate and increases the equilibrium quantity of loanable funds. A government budget deficit would do the opposite.    
+Investment incentives (an investment tax credit for example) raise the equilibrium interest rate and reduce the equilibrium quantity of loanable funds.    
+A budget deficit causes a fall in the supply of loanable funds, which raises the equilibrium interest rate. The government borrows to finance its deficit, leaving less funds available for investment. This is known as _crowding out_. This, as a result, reduces the economy's growth rate and future standards of living.    
+A budget surplus would do the opposite.     
+It should be noted that the interest rate we are talking about above is the real rate, which is the nominal interest rate corrected for inflation.
 
 # Lecture 30
 
@@ -402,7 +405,7 @@ Money is the stock of assets that can be readily used to make actions. The stock
 * Medium of exchange: It is used to buy goods and services, as a legal tender from the government.
 
 In a system without money, we can either be completely self-sufficient, or use a barter economy. The latter requires a "double coincidence of wants" - each person has something that the other wants. Nowadays, this is highly unlikely with the huge variety in goods.    
-Money allows for more indirect transactions.
+Money allows for more indirect transactions. _Liquidity_ refers to the ease with which an asset can be converted to the economy's medium of exchange. For example, money is the most liquid asset, stocks and bonds are still relatively liquid (less so than money), and a painting is less liquid.
 
 _Fiat money_ is money by declaration. It has no intrinsic value. For example, rupee or dollar.    
 _Commodity money_ on the other hand does have intrinsic value and can be used for some purpose. For example, gold or tobacco. When we use gold as money, the economy is said to be on a _gold standard_.
@@ -414,16 +417,11 @@ The bills are just as valuable as the gold itself, but are easier to use in a tr
 The _money supply_ or _money stock_ refers to the amount of money available in the economy. It includes both _currency_ (the paper bills and coins in the hands of the public) and _demand deposits_ (balances in savings accounts that depositors can access on demand).    
 If most sellers accept cheques, assets in savings accounts are as convenient as currency.
 
-<!-- There are three types of money in India:
-* M0 is _reserve money_ - the currency in circulation, other deposits in RBI, and bankers' deposits with RBI.
-* M1 is _narrow money_ - it is M0 excluding cash with banks and including demand deposits.
-* M3 is _broad money_ - it is M1 together with time deposits.-->
-
 # Lecture 31
 
 In a _fractional reserve banking system_, banks keep a fraction of deposits as reserves and the rest to make loans. The RBI sets _reserve requirements_, which are regulations on the minimum amount of reserves that banks must hold against deposits. Banks may hold more than this minimum amount. The _reserve ratio_ $$R$$ is the fraction of deposits that banks hold as reserves, which is the total reserves as a percentage of total deposits.
 
-A _T-account_ is a simplified accounting statement that shows a bank's assets and liabilities (reserves and loans are assets, whereas deposits are liabilities).
+A _T-account_ is a simplified accounting statement that shows a bank's assets and liabilities (reserves and loans are assets, whereas deposits are liabilities). It is also sometimes called a _balance account_.
 
 There are three cases we shall analyze:
 * No banking system: The public holds all the money in the form of currency. This is the money supply as well.
@@ -457,7 +455,7 @@ The _reverse repo rate_ is what the banks get when they deposit their excess fun
 
 * The _discount rate_ or bank rate is the rate of interest which a central bank charges on its loans and advances to commercial banks (loans). It is currently 4.25%.    
 	_Repo rate_ is the rate at which commercial banks borrow money (short-term funds) from the RBI by selling their securities. It is currently 4%.    
-	The reverse repo rate is the rate of interest offered by the RBI when banks deposit their surplus funds with it for short periods. When banks have surplus funds but no lending/investment options, they deposit these funds with the RBI, which they earn interest on. Discount lending is used to provide extra liquidity when financial institutions are in trouble.    
+	The reverse repo rate is the rate of interest offered by the RBI when banks deposit their surplus funds with it for short periods. When banks have surplus funds but no lending/investment options, they must deposit these funds with the RBI, which they earn interest on. Discount lending is used to provide extra liquidity when financial institutions are in trouble.    
 
 	Banks are mandated to invest a quarter of their deposit/borrowings inflows into government securities. Only the excess over this mandated investment can be used to borrow funds from repo window. The banks' core borrowing usually comes from deposits, so RBI is a "lender of last resort".
 
@@ -513,11 +511,11 @@ Some results of inflation are:
 * Since firms don't raise prices at the same time, relative prices can vary, which distorts resource allocation.
 * It complicates long-range planning and comparison of rupee amounts over time.
 * Nominal income grows faster than real income, and since taxes are based on nominal income and may not be adjusted for inflation, people pay more taxes even when their real incomes don't rise.
+* When inflation is high, another side effect is that debtors can repay their debt with rupees that aren't worth much. Inflation lower than expected transfers purchasing power from debtors to creditors. A high inflation situation tends to be variable and less predictable than low inflation, and arbitrary redistributions of wealth are frequent.
 
 _Hyperinflation_ is said to occur when the inflation rate exceeds 50% per month. When it occurs, bartering or commodity money becomes prevalent.    
 Why do banks print money in countries facing hyperinflation? This is due to fiscal policy, when the government has inadequate tax revenue to pay for its spending. To cover this deficit, it prints money. Due to delayed tax collection, real tax revenue drops as inflation rises, and fiscal problems worsen. The reliance on seigniorage worsens the situation.    
 It can be fixed by reducing government spending and increasing taxes.    
-When inflation is high, another side effect is that debtors can repay their debt with rupees that aren't worth much. Inflation lower than expected transfers purchasing power from debtors to creditors. A high inflation situation tends to be variable and less predictable than low inflation, and arbitrary redistributions of wealth are frequent.
 
 The interest rate paid by the banks is called the _nominal interest rate_ $$i$$ and the increase in purchasing power the _real interest rate_ $$r$$. If $$\pi$$ is the rate of inflation, we have $$i = r + \pi$$. This is known as the _Fisher effect_.    
 Quantity theory together with the Fisher equation tell us how money growth influences nominal interest rate.
