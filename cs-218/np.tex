@@ -81,3 +81,39 @@ Can we come up with a reduction that goes the other way round? Before doing this
 Since $i$ can go up to $n$, we are calling the perfect matching algorithm only $n$ times. This can be decreased to $\log n$ by using a binary search-like scheme.\\
 Now that we have done this, the original problem is not too difficult. Suppose the size of a maximum matching is $l$. We can remove an edge and ask if the remaining graph has a matching of size $l$ (that is, if the size of a maximum matching is still equal to $l$). If no, we discard the edge. The remaining graph will just be a matching, which gives us a maximum matching in the original graph.
 
+\subsection{Coping with NP-hardness}
+
+	How do we deal with hard problems?
+	\begin{enumerate}
+		\item Come up with some heuristics. There are no provable guarantees, but they work somewhat well in practice.
+		\item There may be efficient algorithms for some special cases.
+		\item Better than brute force algorithms, where we come up with algorithms that are not polynomial, but better than a na\"{i}ve brute-force algorithm.
+		\item Approximation algorithms for optimization problems, where we merely want to approximate the answer. For example, suppose we have a graph such that the size of the largest independent set is $\mathsf{OPT}$. Then in an approximation algorithm, we should be able to find an independent set that is of size not less that $\mathsf{OPT}/c$ for some $c \geq 1$ (this is known as a $c$-approximation algorithm). Similarly, for a minimization problem, we would find a solution of size not more than $c\cdot\mathsf{OPT}$.
+	\end{enumerate}
+	
+	First, let us look at an approximation problem for the scheduling problem.\\
+	Given $m$ processors $p_1,\ldots,p_m$ and $n$ jobs $j_1,\ldots,j_n$ with durations $d_1,\ldots,d_n$, find a scheduling for these jobs that minimises the total completion time.\\
+	Let $\mathcal{S}$ be a schedule such that
+	\begin{itemize}
+		\item $A_i$ is the set of jobs scheduled on processor $i\in[m]$.
+		\item $T_i = \sum_{j \in A_i} d_j$.
+		\item The \textit{completion time} is then $\max_{i \in [m]} T_i$.
+	\end{itemize}
+	We want to minimize the completion time. Let $\mathcal{S}$ be a scheduling that does so, and let its completion time be $T^*$.\\ 
+	While the optimization problem itself is NP-complete, the approximation version has a polynomial time algorithm.\\
+	Consider the algorithm that schedules the $j$th job on the machine with the smallest load so far (with the jobs initially arranged in any arbitrary order), and $T$ be the completion time achieved by this schedule.
+
+	\begin{lemma}
+		With the above notation, $T \leq 2\cdot T^*$, that is, the above described algorithm gives a $2$-approximation.
+	\end{lemma}
+	\begin{proof}
+		Let $T' = \frac{1}{2} \left(\max_j d_j + \frac{1}{m} \sum_{j\in[n]} d_j\right)$. We trivially have $T' \leq T^*$, since $T^*$ is greater than each of the two quantities involved in the average.\\
+		Choose $i\in[m]$ such that $T = T_i$, and let $j\in[n]$ be the last job scheduled on it. Then for any $i' \neq i$, when $j$ was scheduled on $i$, $T_{i'} \geq T_i - d_j$.\\
+		Therefore, $\sum_{k\in[n]} T_k \geq m(T_i - d_j)$. That is,
+		\[ T = T_i \leq d_j + \frac{1}{m} \sum_{k\in[n]} T_k \leq 2T' \leq 2T^*, \]
+		proving the lemma.
+	\end{proof}
+
+	If we arrange the jobs in non-increasing order of durations, then the above algorithm gives a $(3/2)$-approximation.
+
+	With this line of thought, one might ask whether there exist questions that are not only hard to solve (exactly), but also hard to approximate? There is extensive literature on this side of things as well, but we do not look at these in this course.
