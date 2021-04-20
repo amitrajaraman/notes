@@ -524,12 +524,12 @@
 			\item The measure of a set $E$ of measure $1/2$ (under the initial density) does not change much.
 		\end{enumerate}
 		The reason the above works is due to the following series of inequalities for some set $E$ of initial measure $1/2$:
-		\begin{align*}
-			p(\partial E) &= \expec\left[p_t(\partial E)\right] & (p_t\text{ is a martingale}) \\
-				&\geq \expec\left[\frac{1}{2}\norm{B_t^{-1}}_2^{-1/2}\min\{p_t(E),p_t(\Rn\setminus E)\}\right] & (p_t \text{ is more log-concave than the Gaussian}) \\
-				&\geq \frac{1}{4}\cdot\frac{1}{2}\norm{B_t^{-1}}_2^{-1/2}\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] & (p_t(E) \geq 0) \\
-				&= \frac{1}{4}\norm{B_t^{-1}}_2^{-1/2}\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right]\min\{p(E),p(\Rn\setminus E)\}.
-		\end{align*}
+		\begin{align}
+			p(\partial E) &= \expec\left[p_t(\partial E)\right] & (p_t\text{ is a martingale}) \nonumber \\
+				&\geq \expec\left[\frac{1}{2}\norm{B_t^{-1}}_2^{-1/2}\min\{p_t(E),p_t(\Rn\setminus E)\}\right] & (p_t \text{ is more log-concave than the Gaussian}) \nonumber \\
+				&\geq \frac{1}{4}\cdot\frac{1}{2}\norm{B_t^{-1}}_2^{-1/2}\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] & (p_t(E) \geq 0) \nonumber \\
+				&= \frac{1}{4}\norm{B_t^{-1}}_2^{-1/2}\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right]\min\{p(E),p(\Rn\setminus E)\}. \label{stoch loc: basic intuition}
+		\end{align}
 
 		Over the next few sections, we give a $n^{-1/4}$ bound on $\psi_p$, as described in \cite{lee-vempala-kls-n14}. More precisely, we show that $\psi_p \gtrsim \Tr(A^2)^{-1/4}$.
 
@@ -737,16 +737,40 @@
 			\end{gathered}
 		\end{equation}
 
-		First of all, with a proof very similar to \Cref{basic estimate}, in this case we have
-		\[ \Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] \geq \frac{9}{10} - \Pr\left[\int_0^t \norm{A^{-1/2}A_sA^{1/2}}_2\d{s} \geq \frac{1}{64}\right]. \]
-		Using \cite{Paouris2006}, we may assume that the log-concave density $p$ has compact support -- we may restrict it to a sufficiently large ball losing exponentially small measure in the process. We can in fact get away with much looser constraints in this situation and restrict ourselves to a ball throwing away at most $0.2$ of the measure, but we state the above stronger result anyway.
+		For starters, for any integer $n \geq 1$, define
+		\[ \psi_n = \inf_{\substack{\text{$p$ is log-concave in $\R^n$} \\ \text{and has compact support}}} \psi_p\sqrt{\rho(p)}. \]
 
-		For any integer $d \geq 1$, define
-		\[ \psi_d = \inf_{\substack{\text{$p$ is log-concave in $\R^d$ and has compact support}}} \psi_p\sqrt{\rho(p)}. \]
 
-		To control the spectral norm, we give the following result.
+		With a proof very similar to \Cref{basic estimate}, we have
+		\begin{equation}
+			\label{eqn: chen prob in terms of spectral norm}
+			\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] \geq \frac{9}{10} - \Pr\left[\int_0^t \norm{A^{-1/2}A_sA^{1/2}}_2\d{s} \geq \frac{1}{64}\right].
+		\end{equation}
+		Using \cite{Paouris2006}, we may assume that the log-concave density $p$ has compact support -- we may restrict it to a sufficiently large ball losing exponentially small measure in the process. We can in fact get away with much looser constraints in this situation and restrict ourselves to a ball throwing away at most $0.2$ of the measure.\\
+
+		Assume the dimension $n$ is at least $3$.
+
+		To control the spectral norm, we give two results.
+		Define the potential
+		\[ Q_t = A^{-1/2} A_t A^{-1/2}, \;\;\; \Gamma_t = \Tr(Q_t^q). \]
+		It is quite easy to see that $\Gamma_t^{1/q} \geq \norm{Q_t}_2$
+		\begin{lemma}
+			With the above definition,
+			\begin{equation}
+				\d{\Gamma_t} \lesssim \frac{2q^2}{t}\Gamma_t\d{t} + (\text{martingale term})
+			\end{equation}
+			and
+			\begin{equation}
+				\d{\Gamma_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}\Gamma_t\d{t} + (\text{martingale term}).
+			\end{equation}
+		\end{lemma}
 
 		\begin{theorem}
-			Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq d$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $d \geq 3$, and $T_2 = 1/cq\alpha^2 \log(d)d^{2\beta - (\beta/4q)}$,
-			\[ \Pr\left[\int_0^T_2 \norm{A^{-1/2} A_t A^{-1/2}}_2 \d{t} \geq \frac{1}{64} \right] < \frac{4}{10}. \]
-		\end{theorem} 
+			Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $d \geq 3$, and $T_2 = 1/cq\alpha^2 \log(d)d^{2\beta - (\beta/4q)}$,
+			\[ \Pr\left[\int_0^{T_2} \norm{A^{-1/2} A_t A^{-1/2}}_2 \d{t} \geq \frac{1}{64} \right] < \frac{4}{10}. \]
+		\end{theorem}
+		\begin{proof}
+			Since it is difficult to control the eigenvalue directly, define the potential function
+			\[ Q_t = A^{-1/2} A_t A^{-1/2}, \;\;\; \Gamma_t = \Tr(Q_t^q). \]
+			Clearly, $\Gamma_t \geq \norm{A^{-1/2} A_t A^{-1/2}}_2$ 
+		\end{proof}
