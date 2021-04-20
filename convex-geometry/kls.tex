@@ -348,12 +348,12 @@
 
 		The two bounds \Cref{isoperimetric coefficient bound 1,isoperimetric coefficient bound 2} are not comparable however. For example, \Cref{isoperimetric coefficient bound 1} gives $\psi(K)=\Omega(n^{-1/2})$ for any body in isotropic position whereas \Cref{isoperimetric coefficient bound 2} gives $\Omega(1)$ for the isotropic ball and $\Omega(n^{-1})$ for the isotropic simplex.\\
 
-		For any convex body $K$, let $\alpha(K)$ be the largest eigenvalue of $A(K)$. 
+		% For any convex body $K$, let $\alpha(K)$ be the largest eigenvalue of $A(K)$. 
 
 		\begin{theorem}
 			\label{kls conj hyperplane}
-			For any convex body $K$,
-			\[ \psi(K) \leq \frac{10}{\sqrt{\alpha(K)}}. \]
+			For any convex body $K$ with covariance matrix $A$,
+			\[ \psi(K) \leq \frac{10}{\sqrt{\opnorm{A}}}. \]
 		\end{theorem}
 
 		This is proved using the following result.
@@ -371,10 +371,10 @@
 			\[ \psi_p \geq c \cdot \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}}. \]
 		\end{fcon}
 
-		The \nameref{con: kls conjecture} asserts that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).\\
+		The \nameref{con: kls conjecture} asserts that up to a constant factor, a hyperplane cut is the ``worst'' cut (involved in the isoperimetric coefficient).
 
-		\cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
-		\[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
+		% \cite{chen2021constant} has made the most progress in recent times, proving that there is a constant $c$ such that
+		% \[ \psi(K) \geq \frac{1}{\sqrt{ n^{c\left(\log\log n/\log n\right)^{1/2}} \alpha(K)}}. \]
 
 \subsection{A More Detailed Look}
 
@@ -719,7 +719,7 @@
 
 		Over the next few sections, we look at the best bound attained (as of the time of writing) of the isoperimetric constant, as described in \cite{chen2021constant}.
 
-	\subsubsection{Towards an Almost Constant Bound}
+	\subsubsection{An Almost Constant Bound}
 
 		Here, we prove that there is a constant $c$ such that for any log-concave $p$ in $\Rn$ and integer $\ell \geq 1$,
 		\[ \psi_p \geq \frac{1}{(c\ell(\log n + 1))^{\ell/2} n^{16/\ell} \sqrt{\rho(p)}}. \]
@@ -757,20 +757,90 @@
 		\begin{lemma}
 			With the above definition,
 			\begin{equation}
+				\label{kls chen bound A}
 				\d{\Gamma_t} \lesssim \frac{2q^2}{t}\Gamma_t\d{t} + (\text{martingale term})
 			\end{equation}
 			and
 			\begin{equation}
+				\label{kls chen bound B}
 				\d{\Gamma_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}\Gamma_t\d{t} + (\text{martingale term}).
 			\end{equation}
 		\end{lemma}
-
+	
 		\begin{theorem}
-			Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $d \geq 3$, and $T_2 = 1/cq\alpha^2 \log(d)d^{2\beta - (\beta/4q)}$,
+			\label{chen norm bound}
+			Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $n \geq 3$, and $T_2 = 1/cq\alpha^2 \log(n)n^{2\beta - (\beta/4q)}$,
 			\[ \Pr\left[\int_0^{T_2} \norm{A^{-1/2} A_t A^{-1/2}}_2 \d{t} \geq \frac{1}{64} \right] < \frac{4}{10}. \]
 		\end{theorem}
 		\begin{proof}
 			Since it is difficult to control the eigenvalue directly, define the potential function
 			\[ Q_t = A^{-1/2} A_t A^{-1/2}, \;\;\; \Gamma_t = \Tr(Q_t^q). \]
-			Clearly, $\Gamma_t \geq \norm{A^{-1/2} A_t A^{-1/2}}_2$ 
+			Clearly, $\Gamma_t \geq \norm{A^{-1/2} A_t A^{-1/2}}_2$. Let
+			\[ T_1 = \frac{1}{c'q\alpha^2\log(n)n^{2\beta}} \text{ and } T_2 = \frac{n^{\beta/4q}}{40}T_1, \]
+			where $c' = 32768$.
+
+			It follows from \eqref{kls chen bound A} that
+			\[ \expec[\d{\Gamma_t}] \lesssim \frac{2q^2}{t} \expec[\Gamma_t\d{t}], \]
+			so for $t_2 > t_1 > 0$, we have
+			\begin{equation}
+				\label{label: expectation of potential A}
+				\expec[\Gamma_{t_2}^{1/q}] \leq \expec[\Gamma_{t_1}^{1/q}] \left(\frac{t_2}{t_1}\right)^{2q}.	
+			\end{equation}
+			On the other hand, it follows from \eqref{kls chen bound B} that
+			\begin{equation}
+				\label{label: expectation of potential B}
+				\Pr\left[\max_{t\in[0,T_1]} - \frac{1}{(1+\Gamma_t)^{1/q}} \geq -\frac{1}{2(n+1)^{1/q}} \right] \leq \exp\left(-\frac{2}{3}q\log n\right) \leq \frac{3}{10}.
+			\end{equation}
+
+			We bound the integral spectral norm by doing so separately on $[0,T_1]$ and $[T_1,T_2]$.
+			\begin{itemize}
+				\item[$[0,T_1]$] 
+
+				\item[$[0,T_2]$] We have
+				\begin{align*}
+					\expec\left[\Gamma_t^{1/q}\right] &\leq \expec\left[\Gamma_{T_1}^{1/q}\right] \left(\frac{t}{T_1}\right)^{2q}
+				\end{align*}
+			\end{itemize}
+		\end{proof}
+
+		Combining \eqref{chen norm bound} and \eqref{eqn: chen prob in terms of spectral norm}, we have
+		\[ \Pr\left[\frac{1}{4} \leq p_{T_2}(E) \leq \frac{3}{4}\right] \geq \frac{1}{2}. \]
+		Using this in our original sequence of equations \eqref{stoch loc: basic intuition},
+		\[ p(\partial E) = \frac{T_2^{1/2}}{8} \norm{A}_2^{-1/2} \min\{p(E),p(\Rn\setminus E)\}. \]
+		Substituting $T_2$, we get that for the conditions of \Cref{chen norm bound},
+		\begin{equation}
+			\label{eqn: main bootstrap}
+			\psi_n \geq \frac{1}{cq^{1/2}\alpha\log(n)^{1/2}n^{\beta - (\beta/8q)}}.
+		\end{equation}
+		It may also be checked that this holds for dimensions $1$ and $2$. How do we extend this to a general bound on the isoperimetric constant?
+
+		\begin{ftheo}
+			There is a universal constant $c$ such that for any log-concave $p$ in $\Rn$ and integer $\ell \geq 1$,
+			\[ \psi_p \geq \frac{1}{(c\ell(\log n + 1))^{\ell/2} n^{16/\ell} \sqrt{\rho(p)}}. \]
+			In particular, there is a universal constant $c'$ such that
+			\[ \psi_p \geq \frac{1}{n^{c'\left(\frac{\log \log n}{\log n}\right)^{1/2}} \sqrt{\rho(p)}}. \]
+		\end{ftheo}
+		\begin{proof}
+			We prove this using a \textit{bootstrapping} argument, applying \eqref{eqn: main bootstrap} repeatedly.\\
+			Define $\alpha_\ell$ and $\beta_\ell$ for integer $\ell \geq 1$ as
+			\begin{align*}
+				\alpha_1 &= 4,\;\;\; \alpha_{\ell + 1} = 2c\alpha_\ell\beta_\ell^{-1/2} \\
+				\beta_1 &= \frac{1}{2},\;\;\; \beta_{\ell + 1} = \beta_\ell - \frac{\beta_\ell^2}{16}.
+			\end{align*}
+			It is not too difficult to show using an inductive argument that
+			\[ \frac{1}{\ell+1} \leq \beta_\ell \leq \frac{16}{\ell} \text{ and } \alpha_\ell \leq (4c^2\ell)^{\ell/2}. \]
+			By the bound \Cref{isoperimetric coefficient bound 1} in the original KLS paper, it follows that for all $n\geq 1$,
+			\[ \psi_n \geq \frac{1}{\alpha_1 n^{\beta_1}}. \]
+			As part of the induction, suppose that for all $n \geq 1$,
+			\[ \psi_n \geq \frac{1}{\alpha_\ell (1+\log n)^{\ell/2} n^{\beta_\ell}}. \]
+			Letting $\alpha_\ell' = \alpha_\ell (1 + \log n)^{\ell/2}$, for all $1 \leq k \leq n$, $\psi_k \geq 1/\alpha_\ell' k^{\beta_\ell}$. Using \eqref{eqn: main bootstrap},
+			\begin{align*}
+				\psi_n &\geq \frac{1}{cq^{1/2}\alpha_\ell (1 + \log n)^{\ell/2} \log(n)^{1/2} n^{\beta_\ell - (\beta_\ell/8q)}} \\
+					&\geq \frac{1}{2c \alpha_\ell\beta_\ell^{-1/2} (1 + \log n)^{(\ell+1)/2} n^{\beta_\ell - (\beta_\ell^2/16)}} & \left(q \leq \frac{2}{\beta_\ell}\right) \\
+					&= \frac{1}{2c \alpha_{\ell+1}(1 + \log n)^{(\ell+1)/2} \log(n)^{1/2} n^{\beta_{\ell+1}}} \\
+					&\geq \frac{1}{\left(c'\ell(1 + \log n)\right)^{\ell/2} n^{16/\ell}},
+			\end{align*}
+			completing the proof of the first part.\\
+			As mentioned at the beginning of this section, the second part easily follows on setting
+			\[ \ell = \left\lceil \sqrt{\frac{\log n}{\log \log n}} \right\rceil.\qedhere \]
 		\end{proof}
