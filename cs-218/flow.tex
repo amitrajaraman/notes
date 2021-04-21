@@ -2,325 +2,352 @@
 
 \subsection{Introduction}
 
-Where there are graphs, we tend to see flow networks quite a lot.
+	Where there are graphs, we tend to see flow networks quite a lot.
 
-\begin{fdef}[Flow Network]
-	A directed graph $G=(V,E)$ together with a \textit{capacity} function $c:E\to\Zp$, a designated \textit{source} $s$, and a designated \textit{sink} $t$ is known as a \textit{flow network}.
-\end{fdef}
+	\begin{fdef}[Flow Network]
+		A directed graph $G=(V,E)$ together with a \textit{capacity} function $c:E\to\Zp$, a designated \textit{source} $s$, and a designated \textit{sink} $t$ is known as a \textit{flow network}.
+	\end{fdef}
 
-We shall assume that there are no edges entering $s$ and no edges leaving $t$.\\
-We can think of $s$ as a source of water, with the intermediate edges being pipes that have some limit to how much they can carry and the intermediate nodes being junctions that transmit water, and $t$ as a reservoir.
+	We shall assume that there are no edges entering $s$ and no edges leaving $t$.\\
+	We can think of $s$ as a source of water, with the intermediate edges being pipes that have some limit to how much they can carry and the intermediate nodes being junctions that transmit water, and $t$ as a reservoir.
 
-The main question we wish to answer is:
-\begin{quote}
-	What is the maximum rate that can be sent from the source to the sink without violating any capacity constraints?
-\end{quote}
+	The main question we wish to answer is:
+	\begin{quote}
+		What is the maximum rate that can be sent from the source to the sink without violating any capacity constraints?
+	\end{quote}
 
-This is modelled more concretely using the following definition.
+	This is modelled more concretely using the following definition.
 
-\begin{fdef}[Flow]
-	A \textit{flow} in a flow network is a function $f:E\to\R^{\geq 0}$ that satisfies
-	\begin{itemize}
-		\item Capacity constraints: For each $e\in E$, $f(e)\leq c(e)$.
-		\item Flow conservation: For each $v\in V\setminus\{s,t\}$,
-		\[ \sum_{\vv{uv}\in E} f(\vv{uv}) = \sum_{\vv{vw}\in E} f(\vv{vw}). \]
-	\end{itemize}
-	The \textit{value of the flow} $f$, denoted $|f|$, is given by
-	\[ |f| = \sum_{\vv{sv}\in E} f(\vv{sv}). \]
-\end{fdef}
+	\begin{fdef}[Flow]
+		A \textit{flow} in a flow network is a function $f:E\to\R^{\geq 0}$ that satisfies
+		\begin{itemize}
+			\item Capacity constraints: For each $e\in E$, $f(e)\leq c(e)$.
+			\item Flow conservation: For each $v\in V\setminus\{s,t\}$,
+			\[ \sum_{\vv{uv}\in E} f(\vv{uv}) = \sum_{\vv{vw}\in E} f(\vv{vw}). \]
+		\end{itemize}
+		The \textit{value of the flow} $f$, denoted $|f|$, is given by
+		\[ |f| = \sum_{\vv{sv}\in E} f(\vv{sv}). \]
+	\end{fdef}
 
-The flow conservation rule written above is also known as \textit{Kirchhoff's law}. For the sake of brevity, we denote
-\begin{align*}
-	f^{\ot}(v) &= \sum_{\vv{uv}\in E} f(\vv{uv}) \text{ and} \\
-	f^{\to}(v) &= \sum_{\vv{vw}\in E} f(\vv{vw}).
-\end{align*}
-We then have $|f|=f^{\to}(s)$.\\
-For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow from $V\setminus U$ to $U$ and $U$ to $V\setminus U$ respectively. That is,
-\[ f^\to(U) = \sum_{\substack{u\in U, v\in V\setminus U \\ \vv{uv}\in E}} f(\vv{uv}). \]
-
-\begin{lemma}
-	For any flow $f$ on a flow network with source $s$ and sink $t$,
-	\[ |f| = \sum_{\vv{sv}\in E}f(\vv{sv}) = f^{\to}(s) = \sum_{\vv{vt}\in E}f(\vv{vt}) = f^{\ot}(t). \]
-\end{lemma}
-\begin{proof}
-	We have
+	The flow conservation rule written above is also known as \textit{Kirchhoff's law}. For the sake of brevity, we denote
 	\begin{align*}
-		|f| &= f^{\to}(s) + \sum_{v\in V\setminus\{s,t\}} (f^\to(v) - f^\ot(v)) \\
-			&= \sum_{v\in V\setminus \{t\}} (f^\to(v) - f^\ot(v)) & (f^\ot(s)=0) \\
-			&= f^\to(V\setminus\{t\}) - f^\ot(V\setminus\{t\}) \\
-			&= f^\ot(t) - f^\to(t) = f^\ot(t). & (\text{there are no outgoing edges from the sink})
+		f^{\ot}(v) &= \sum_{\vv{uv}\in E} f(\vv{uv}) \text{ and} \\
+		f^{\to}(v) &= \sum_{\vv{vw}\in E} f(\vv{vw}).
 	\end{align*}
-\end{proof}
+	We then have $|f|=f^{\to}(s)$.\\
+	For any $U\subseteq V$, we use $f^{\ot}(U)$ and $f^{\to}(U)$ to denote the flow from $V\setminus U$ to $U$ and $U$ to $V\setminus U$ respectively. That is,
+	\[ f^\to(U) = \sum_{\substack{u\in U, v\in V\setminus U \\ \vv{uv}\in E}} f(\vv{uv}). \]
+
+	\begin{lemma}
+		For any flow $f$ on a flow network with source $s$ and sink $t$,
+		\[ |f| = \sum_{\vv{sv}\in E}f(\vv{sv}) = f^{\to}(s) = \sum_{\vv{vt}\in E}f(\vv{vt}) = f^{\ot}(t). \]
+	\end{lemma}
+	\begin{proof}
+		We have
+		\begin{align*}
+			|f| &= f^{\to}(s) + \sum_{v\in V\setminus\{s,t\}} (f^\to(v) - f^\ot(v)) \\
+				&= \sum_{v\in V\setminus \{t\}} (f^\to(v) - f^\ot(v)) & (f^\ot(s)=0) \\
+				&= f^\to(V\setminus\{t\}) - f^\ot(V\setminus\{t\}) \\
+				&= f^\ot(t) - f^\to(t) = f^\ot(t). & (\text{there are no outgoing edges from the sink})
+		\end{align*}
+	\end{proof}
 
 \subsection{Max-Flow}
 
-In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above by the sum of capacities, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in value) to the maximum flow value. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
+	In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above by the sum of capacities, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in value) to the maximum flow value. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
 
-\begin{fdef}
-	Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
-	\begin{itemize}
-		\item $s\in S$, $t\in T$,
-		\item $S\cup T=V$, and $S\cap T=\emptyset$.
-	\end{itemize}
-	Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity} by
-	\[ \capp(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
-\end{fdef}
+	\begin{fdef}
+		Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
+		\begin{itemize}
+			\item $s\in S$, $t\in T$,
+			\item $S\cup T=V$, and $S\cap T=\emptyset$.
+		\end{itemize}
+		Given an $(s,t)$-cut $(S,T)$, we define its \textit{capacity} by
+		\[ \capp(S,T) = \sum_{\substack{u\in S, v\in T \\ \vv{uv}\in E}} c(\vv{uv}). \]
+	\end{fdef}
 
-That is, the capacity of the cut is essentially the capacity of the edges across the cut.\\
-In the \textit{minimum cut problem} (shortened as min-cut), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output is the cut that has minimum capacity.
+	That is, the capacity of the cut is essentially the capacity of the edges across the cut.\\
+	In the \textit{minimum cut problem} (shortened as min-cut), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output is the cut that has minimum capacity.
 
-The max-flow and min-cut problems are in fact very closely related. When a minimization problem and maximization problem are related, we usually refer to it as a min-max relationship.
+	The max-flow and min-cut problems are in fact very closely related. When a minimization problem and maximization problem are related, we usually refer to it as a min-max relationship.
 
-For a flow $f$ and some edge $e$, we say that $f$ \textit{saturates} $e$ if $f(e)=c(e)$ and \textit{avoids} $e$ if $f(e)=0$.
+	For a flow $f$ and some edge $e$, we say that $f$ \textit{saturates} $e$ if $f(e)=c(e)$ and \textit{avoids} $e$ if $f(e)=0$.
 
-\begin{lemma}
-	\label{ff-algo lemma 1}
-	Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut. Moreover, $|f|=\capp(S,T)$ if and only if $f$ saturates every edge from $S$ to $T$ and avoids every edge from $T$ to $S$.
-\end{lemma}
-\begin{proof}
-	We have
-	\begin{align*}
-		|f| &= f^\to(s) \\
-			&= f^\to(S) - f^\ot(S) \\
-			&\leq f^\to(S) \\
-			&= \sum_{\substack{u\in S \\ v\in T}} f(\vv{uv}) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E) \\
-			&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E). \\
-	\end{align*}
-	The second part is easily seen from the above series of inequalities, where equality holds iff $f^\ot(S)=0$ and for each $u\in S$, $v\in T$, $f(\vv{uv})=c(\vv{uv})$.
-\end{proof}
+	\begin{lemma}
+		\label{ff-algo lemma 1}
+		Let $f$ be any flow in a flow network $G$. Let $(S,T)$ be any $(s,t)$-cut in $G$. Then $|f|\leq\capp(S,T)$. In particular, the value of the maximum flow is at most the capacity of the minimum cut. Moreover, $|f|=\capp(S,T)$ if and only if $f$ saturates every edge from $S$ to $T$ and avoids every edge from $T$ to $S$.
+	\end{lemma}
+	\begin{proof}
+		We have
+		\begin{align*}
+			|f| &= f^\to(s) \\
+				&= f^\to(S) - f^\ot(S) \\
+				&\leq f^\to(S) \\
+				&= \sum_{\substack{u\in S \\ v\in T}} f(\vv{uv}) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E) \\
+				&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E). \\
+		\end{align*}
+		The second part is easily seen from the above series of inequalities, where equality holds iff $f^\ot(S)=0$ and for each $u\in S$, $v\in T$, $f(\vv{uv})=c(\vv{uv})$.
+	\end{proof}
 
-Let us try to come up with an algorithm to solve the max-flow problem.\\
-Let us start with $f(e)=0$ for all $e\in E$. We then try to ``push'' some flow along an $s$-$t$ path allowed by the capacity constraints. We then ask if this is the maximum flow possible. We try to push more flow along another path. However, we might face a problem wherein a previous flow restricts the new flow we are trying to push. We then want to ``undo'' the previous flow. How do we formalize this notion?
+	Let us try to come up with an algorithm to solve the max-flow problem.\\
+	Let us start with $f(e)=0$ for all $e\in E$. We then try to ``push'' some flow along an $s$-$t$ path allowed by the capacity constraints. We then ask if this is the maximum flow possible. We try to push more flow along another path. However, we might face a problem wherein a previous flow restricts the new flow we are trying to push. We then want to ``undo'' the previous flow. How do we formalize this notion?
 
-\begin{definition}[Residual Graph]
-	Given a graph $G$ with capacity function $c:E\to\N$ and a flow $f$, a \textit{residual graph} $G$ with respect to $f$, denoted $G_f$ is such that
-	\begin{itemize}
-		\item its vertex set is the same as that of $G$.
-		\item if $e$ is an edge in $G$ such that $f(e)<c(e)$, then $G_f$ has the edge $e$ with capacity $c(e)-f(e)$.
-		\item if $e=\vv{uv}$ is such that $f(e)>0$, we add an edge $\vv{vu}$ in $G_f$ with capacity $f(e)$ on it. This is called a \textit{backward edge}.
-	\end{itemize}
-\end{definition}
+	\begin{definition}[Residual Graph]
+		Given a graph $G$ with capacity function $c:E\to\N$ and a flow $f$, a \textit{residual graph} $G$ with respect to $f$, denoted $G_f$ is such that
+		\begin{itemize}
+			\item its vertex set is the same as that of $G$.
+			\item if $e$ is an edge in $G$ such that $f(e)<c(e)$, then $G_f$ has the edge $e$ with capacity $c(e)-f(e)$.
+			\item if $e=\vv{uv}$ is such that $f(e)>0$, we add an edge $\vv{vu}$ in $G_f$ with capacity $f(e)$ on it. This is called a \textit{backward edge}.
+		\end{itemize}
+	\end{definition}
 
-In the above, ``undoing'' a flow just means sending flow along a backward edge and adding more flow corresponds to sending a flow along a normal edge (with a lowered capacity). This behaves as an intermediate step to finding the optimal flow.
+	In the above, ``undoing'' a flow just means sending flow along a backward edge and adding more flow corresponds to sending a flow along a normal edge (with a lowered capacity). This behaves as an intermediate step to finding the optimal flow.
 
-For each edge of $G$, note that there at most two edges in $G_f$. So, the size of $G_f$ is at most twice that of $G$.
+	For each edge of $G$, note that there at most two edges in $G_f$. So, the size of $G_f$ is at most twice that of $G$.
 
-Let $\pi$ be any $s$-$t$ path in $G_f$. Denote by $\theta(\pi,f)$ the smallest residual capacity (smallest capacity among the relevant edges in the residual graph) along $\pi$ in $G_f$.
+	Let $\pi$ be any $s$-$t$ path in $G_f$. Denote by $\theta(\pi,f)$ the smallest residual capacity (smallest capacity among the relevant edges in the residual graph) along $\pi$ in $G_f$.
 
-\begin{algorithm}[H]
-	\DontPrintSemicolon
-	\SetNoFillComment
-	\SetKwProg{Fn}{}{}{}
-	\SetKwFunction{aug}{Aug}
-	\Fn{\aug{$\pi,f$}} {
-		$b\gets\theta(\pi,f)$\;
-		\ForEach{$e=\vv{uv}\in\pi$} {
-			\eIf{$e$ is a forward edge} {
-				increase $f(\vv{uv})$ in $G$ by $b$
-			} {
-				decrease $f(\vv{vu})$ in $G$ by $b$
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{aug}{Aug}
+		\Fn{\aug{$\pi,f$}} {
+			$b\gets\theta(\pi,f)$\;
+			\ForEach{$e=\vv{uv}\in\pi$} {
+				\eIf{$e$ is a forward edge} {
+					increase $f(\vv{uv})$ in $G$ by $b$
+				} {
+					decrease $f(\vv{vu})$ in $G$ by $b$
+				}
 			}
 		}
-	}
-	\caption{Finding an Augmenting Path}\label{algo: aug path}
-\end{algorithm}
+		\caption{Finding an Augmenting Path}\label{algo: aug path}
+	\end{algorithm}
 
-\begin{algorithm}[H]
-	\DontPrintSemicolon
-	\SetNoFillComment
-	\SetKwProg{Fn}{}{}{}
-	\SetKwFunction{aug}{Aug}
-	\For{$e\in E$} {
-		$f(e)\gets 0$
-	}
-	Compute $G_f$\;
-	\While{there is an $s$-$t$ path $\pi$ in $G_f$} {
-		$f'\gets\aug{$\pi,f$}$\;
-		$f\gets f'$\;
-		Compute $G_f$
-	}
-	\Return{$f$}\;
-	\caption{Ford and Fulkerson's Algorithm}\label{algo: max flow}
-\end{algorithm}
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{aug}{Aug}
+		\For{$e\in E$} {
+			$f(e)\gets 0$
+		}
+		Compute $G_f$\;
+		\While{there is an $s$-$t$ path $\pi$ in $G_f$} {
+			$f'\gets\aug{$\pi,f$}$\;
+			$f\gets f'$\;
+			Compute $G_f$
+		}
+		\Return{$f$}\;
+		\caption{Ford and Fulkerson's Algorithm}\label{algo: max flow}
+	\end{algorithm}
 
-\Cref{algo: max flow} finds a flow with the maximum flow value in the network!\\
-There are a couple of questions we must answer.
-\begin{itemize}
-	\item Why does the algorithm terminate?
-	\item Why is the algorithm even correct in the first place?
-	\item What is the time complexity?
-	\item Does it matter which $s$-$t$ path we choose in the residual graph?
-	\item Could we extend this to the case where capacities are not integers?
-\end{itemize}
+	\Cref{algo: max flow} finds a flow with the maximum flow value in the network!\\
+	There are a couple of questions we must answer.
+	\begin{itemize}
+		\item Why does the algorithm terminate?
+		\item Why is the algorithm even correct in the first place?
+		\item What is the time complexity?
+		\item Does it matter which $s$-$t$ path we choose in the residual graph?
+		\item Could we extend this to the case where capacities are not integers?
+	\end{itemize}
 
-Also, what is the relationship between max-flow and min-cut?
+	Also, what is the relationship between max-flow and min-cut?
 
-\paragraph{Termination.} Note that at each step of the algorithm, the new flow $f'$ satisfies $|f'|=|f|+\theta(\pi,f)$. Since the capacities are always integral (even in the residual graph), the flow value increases by at least $1$ at each step. It is also easy to see that the maximum flow is at most $C_{\text{max}}$, which is the sum of the capacity of every edge.\\
-Therefore, the algorithm terminates.
+	\paragraph{Termination.} Note that at each step of the algorithm, the new flow $f'$ satisfies $|f'|=|f|+\theta(\pi,f)$. Since the capacities are always integral (even in the residual graph), the flow value increases by at least $1$ at each step. It is also easy to see that the maximum flow is at most $C_{\text{max}}$, which is the sum of the capacity of every edge.\\
+	Therefore, the algorithm terminates.
 
-\begin{lemma}
-	The running time of the algorithm is bounded by $\mathcal{O}(C_{\text{max}}|E|)$.
-\end{lemma}
-\begin{proof}
-	In each loop, we require $\mathcal{O}(m)$ time to maintain the residual graph. The time to find the $s$-$t$ path $\pi$ takes $\mathcal{O}(m+n)$ and augmenting takes $\mathcal{O}(n)$ (there are at most $n-1$ vertices on $\pi$). Since the loop runs for at most $C_{\text{max}}$ iterations, the bound follows.\\
-	In fact, we can bound it better as $\mathcal{O}(f|E|)$, where $f$ is the maximal flow value.
-\end{proof}
+	\begin{lemma}
+		The running time of the algorithm is bounded by $\mathcal{O}(C_{\text{max}}|E|)$.
+	\end{lemma}
+	\begin{proof}
+		In each loop, we require $\mathcal{O}(m)$ time to maintain the residual graph. The time to find the $s$-$t$ path $\pi$ takes $\mathcal{O}(m+n)$ and augmenting takes $\mathcal{O}(n)$ (there are at most $n-1$ vertices on $\pi$). Since the loop runs for at most $C_{\text{max}}$ iterations, the bound follows.\\
+		In fact, we can bound it better as $\mathcal{O}(f|E|)$, where $f$ is the maximal flow value.
+	\end{proof}
 
-\begin{lemma}
-	The Ford and Fulkerson algorithm returns a flow with maximum value.
-\end{lemma}
+	\begin{lemma}
+		The Ford and Fulkerson algorithm returns a flow with maximum value.
+	\end{lemma}
 
-\paragraph{Correctness.} Denote by $\mathfrak{f}$ be the flow returned by the Ford-Fulkerson algorithm. Let
-\[ A = \{v\in V : \text{there is a path to $v$ from $s$ in $G_{\mathfrak{f}}$ }\} \]
-and $B=V\setminus A$. Observe that $s\in A$ and $t\in B$. Further, when the algorithm terminates, there is no path from $s$ to $t$ in $G_\mathfrak{f}$. Since the two sets are disjoint, $(A,B)$ is a cut on $G$ (this makes sense because the two graphs have the same vertex set).
+	\paragraph{Correctness.} Denote by $\mathfrak{f}$ be the flow returned by the Ford-Fulkerson algorithm. Let
+	\[ A = \{v\in V : \text{there is a path to $v$ from $s$ in $G_{\mathfrak{f}}$ }\} \]
+	and $B=V\setminus A$. Observe that $s\in A$ and $t\in B$. Further, when the algorithm terminates, there is no path from $s$ to $t$ in $G_\mathfrak{f}$. Since the two sets are disjoint, $(A,B)$ is a cut on $G$ (this makes sense because the two graphs have the same vertex set).
 
-To show optimality, it suffices to show (using \Cref{ff-algo lemma 1}) that $\mathfrak{f}$ saturates every edge from $A$ to $B$ and avoids every edge from $B$ to $A$.
-\begin{itemize}
-	\item Suppose instead that there is an edge $\vv{uv}\in E$ such that $u\in A$, $v\in B$, and $\mathfrak{f}(\vv{uv}) < c(\vv{uv})$. However, then, $\vv{uv}$ is a forward edge in $G_\mathfrak{f}$, so $v\in A$. This is a contradiction and therefore, $\mathfrak{f}$ saturates every edge from $A$ to $B$.
-	\item On the other hand, suppose there is an edge $\vv{uv}\in E$ with $u\in B$ and $v\in A$ with $\mathfrak{f}(\vv{uv})>0$. Then $\vv{vu}$ will be a backward edge in $G_\mathfrak{f}$, so $u\in A$. This is again a contradiction, so $\mathfrak{f}$ saturates every edge from $B$ to $A$.
-\end{itemize}
+	To show optimality, it suffices to show (using \Cref{ff-algo lemma 1}) that $\mathfrak{f}$ saturates every edge from $A$ to $B$ and avoids every edge from $B$ to $A$.
+	\begin{itemize}
+		\item Suppose instead that there is an edge $\vv{uv}\in E$ such that $u\in A$, $v\in B$, and $\mathfrak{f}(\vv{uv}) < c(\vv{uv})$. However, then, $\vv{uv}$ is a forward edge in $G_\mathfrak{f}$, so $v\in A$. This is a contradiction and therefore, $\mathfrak{f}$ saturates every edge from $A$ to $B$.
+		\item On the other hand, suppose there is an edge $\vv{uv}\in E$ with $u\in B$ and $v\in A$ with $\mathfrak{f}(\vv{uv})>0$. Then $\vv{vu}$ will be a backward edge in $G_\mathfrak{f}$, so $u\in A$. This is again a contradiction, so $\mathfrak{f}$ saturates every edge from $B$ to $A$.
+	\end{itemize}
 
-Our analysis shows that the $(A,B)$ cut has capacity equal to $|\mathfrak{f}|$. Therefore, $|\mathfrak{f}|$ is the maximal flow in $G$ and further, $\capp(A,B)$ is the minimum capacity cut in $G$ (this follows from the fact that we have attained this flow value, so it cannot exceed the capacity of any cut).
+	Our analysis shows that the $(A,B)$ cut has capacity equal to $|\mathfrak{f}|$. Therefore, $|\mathfrak{f}|$ is the maximal flow in $G$ and further, $\capp(A,B)$ is the minimum capacity cut in $G$ (this follows from the fact that we have attained this flow value, so it cannot exceed the capacity of any cut).
 
-\paragraph{Importance of chosen paths.} The chosen path turns out to be quite important. An example to highlight this fact can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Integral_example}{here}.
+	\paragraph{Importance of chosen paths.} The chosen path turns out to be quite important. An example to highlight this fact can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Integral_example}{here}.
 
-\paragraph{Non-integral costs.} It is not too difficult to show that there is no problem if the costs are rational -- the flow increases by at least $1/q$, where $q$ is the maximum denominator of any cost when written as a fraction.\\
-However, it need not terminate when the costs are irrational. Further, it need not even converge to the correct value. A standard counterexample to show this can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Non-terminating_example}{here}.
+	\paragraph{Non-integral costs.} It is not too difficult to show that there is no problem if the costs are rational -- the flow increases by at least $1/q$, where $q$ is the maximum denominator of any cost when written as a fraction.\\
+	However, it need not terminate when the costs are irrational. Further, it need not even converge to the correct value. A standard counterexample to show this can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Non-terminating_example}{here}.
 
-However, there have been far more efficient algorithms for determining max-flow.
+	However, there have been far more efficient algorithms for determining max-flow.
 
-The Edmond-Karp algorithm augments along the path $\pi$ with largest $\theta(\pi, f)$. This in fact runs in $\mathcal{O}(|E|^2\log |E| \log |f|)$. Augmenting along the shortest path (in terms of number of edges) gives rise to an algorithm that runs in $\mathcal{O}(|V||E|^2)$.
+	The Edmond-Karp algorithm augments along the path $\pi$ with largest $\theta(\pi, f)$. This in fact runs in $\mathcal{O}(|E|^2\log |E| \log |f|)$. Augmenting along the shortest path (in terms of number of edges) gives rise to an algorithm that runs in $\mathcal{O}(|V||E|^2)$.
 
-Following this, there were numerous algorithms. Most recently, the ``compact networks'' method proposed by Orlin in 2012 runs in $\mathcal{O}(|V||E|)$ using dynamic trees.\\
-It is possible to get much faster algorithms if the capacities are all unit. For example, there exists an $\mathcal{O}(\min\{|V|^{2/3}, |E|^{1/2}\}|E|)$ algorithm.
+	Following this, there were numerous algorithms. Most recently, the ``compact networks'' method proposed by Orlin in 2012 runs in $\mathcal{O}(|V||E|)$ using dynamic trees.\\
+	It is possible to get much faster algorithms if the capacities are all unit. For example, there exists an $\mathcal{O}(\min\{|V|^{2/3}, |E|^{1/2}\}|E|)$ algorithm.
 
 \subsection{Applications}
 
-Let us look at some applications of the max-flow min-cut theorem, which states that the value of the max-flow is equal to the capacity of the min-cut.
+	Let us look at some applications of the max-flow min-cut theorem, which states that the value of the max-flow is equal to the capacity of the min-cut.
 
-\subsubsection{Edge Disjoint Paths}
-\label{subsubsec: edge-disjoint paths}
+	\subsubsection{Edge Disjoint Paths}
+	\label{subsubsec: edge-disjoint paths}
 
-Let $G=(V,E)$ be a directed graph and $s,t\in V$ be designated vertices. Two $s$-$t$ paths $\pi$ and $\pi'$ are said to be \textit{edge disjoint} if they do not share any edges.
+		Let $G=(V,E)$ be a directed graph and $s,t\in V$ be designated vertices. Two $s$-$t$ paths $\pi$ and $\pi'$ are said to be \textit{edge disjoint} if they do not share any edges.
 
-The edge disjoint paths problem asks to determine the maximum number of disjoint paths between the source and sink nodes $s$ and $t$ in a directed graph $G$.
+		The edge disjoint paths problem asks to determine the maximum number of disjoint paths between the source and sink nodes $s$ and $t$ in a directed graph $G$.
 
-We claim that this quantity is equal to the maximum flow in the graph if each edge is assigned a capacity of $1$.
+		We claim that this quantity is equal to the maximum flow in the graph if each edge is assigned a capacity of $1$.
 
-\begin{lemma}
-	\label{edge disjoint paths}
-	The max flow value of $G$ is at least $k$ iff $G$ has $k$ edge disjoint paths.\\
-	It follows that the max flow value of $G$ is $k$ iff the maximum number of edge disjoint paths in $G$ is $k$.
-\end{lemma}
-\begin{proof}
-	Suppose $G$ has $k$ edge disjoint paths. Consider the flow that sends a flow of $1$ along each of these $k$ disjoint paths from $s$ to $t$ ($f(e)=1$ if $e$ belongs to one of the $k$ paths). This gives a flow of value $k$.\\
+		\begin{lemma}
+			\label{edge disjoint paths}
+			The max flow value of $G$ is at least $k$ iff $G$ has $k$ edge disjoint paths.\\
+			It follows that the max flow value of $G$ is $k$ iff the maximum number of edge disjoint paths in $G$ is $k$.
+		\end{lemma}
+		\begin{proof}
+			Suppose $G$ has $k$ edge disjoint paths. Consider the flow that sends a flow of $1$ along each of these $k$ disjoint paths from $s$ to $t$ ($f(e)=1$ if $e$ belongs to one of the $k$ paths). This gives a flow of value $k$.\\
 
-	On the other hand, suppose the max flow value of $G$ is $k$. Then, there is an integral flow $f$ of value $k$ in $G$ (the flow output by the Ford and Fulkerson algorithm).\\
-	By tracing out the edges of flow $1$, we can generate $k$ edge disjoint paths. We prove this by induction on the number of edges that carry non-zero flow on them.\footnote{More precisely, we are proving that given any flow in the graph, there is a decomposition of the edges with non-zero flow into a set of edge-disjoint paths.}\\
-	If there are $0$ edges, then there are no disjoint paths and there is nothing to prove.\\
-	Say there are $t>0$ edges with non-zero flow. Then, let $\pi$ be an acyclic path from $s$ to $t$ that walks along $1$-edges (why does such a path exist?). Consider the flow $f'$ that is the same as $f$ except that $f(e)=0$ for any $e\in\pi$. Now, since $|f'|<|f|=t$, we may consider the resulting edge disjoint paths. We wish to show that $\pi$ and any of these paths are disjoint. This is trivial however, by definition, and the claim follows.
-\end{proof}
+			On the other hand, suppose the max flow value of $G$ is $k$. Then, there is an integral flow $f$ of value $k$ in $G$ (the flow output by the Ford and Fulkerson algorithm).\\
+			By tracing out the edges of flow $1$, we can generate $k$ edge disjoint paths. We prove this by induction on the number of edges that carry non-zero flow on them.\footnote{More precisely, we are proving that given any flow in the graph, there is a decomposition of the edges with non-zero flow into a set of edge-disjoint paths.}\\
+			If there are $0$ edges, then there are no disjoint paths and there is nothing to prove.\\
+			Say there are $t>0$ edges with non-zero flow. Then, let $\pi$ be an acyclic path from $s$ to $t$ that walks along $1$-edges (why does such a path exist?). Consider the flow $f'$ that is the same as $f$ except that $f(e)=0$ for any $e\in\pi$. Now, since $|f'|<|f|=t$, we may consider the resulting edge disjoint paths. We wish to show that $\pi$ and any of these paths are disjoint. This is trivial however, by definition, and the claim follows.
+		\end{proof}
 
-\subsubsection{Network Connectivity}
+	\subsubsection{Network Connectivity}
 
-Let $G=(V,E)$ be a directed graph and $s,t$ be the source and sink. We say that $F\subseteq E$ \textit{disconnects} $s$ from $t$ if the removal of $F$ from the graph disconnects $t$ and $s$.
+		Let $G=(V,E)$ be a directed graph and $s,t$ be the source and sink. We say that $F\subseteq E$ \textit{disconnects} $s$ from $t$ if the removal of $F$ from the graph disconnects $t$ and $s$.
 
-The network connectivity problem asks to determine what the smallest $F\subseteq E$ that disconnects $s$ from $t$ is.
+		The network connectivity problem asks to determine what the smallest $F\subseteq E$ that disconnects $s$ from $t$ is.
 
-\begin{theorem}[Menger's Theorem]
-	The maximum number of edge-disjoint $s$-$t$ paths in a graph is equal to the minimum number of edges whose removal disconnects $t$ from $s$.
-\end{theorem}
-\begin{proof}
-	Suppose the graph has capacities as defined in \Cref{subsubsec: edge-disjoint paths}. The first quantity, as we have seen, is equal to the max-flow. The quantity on the right on the other hand, is equal to the capacity of the min-cut (by definition). The required follows.
-\end{proof}
+		\begin{theorem}[Menger's Theorem]
+			The maximum number of edge-disjoint $s$-$t$ paths in a graph is equal to the minimum number of edges whose removal disconnects $t$ from $s$.
+		\end{theorem}
+		\begin{proof}
+			Suppose the graph has capacities as defined in \Cref{subsubsec: edge-disjoint paths}. The first quantity, as we have seen, is equal to the max-flow. The quantity on the right on the other hand, is equal to the capacity of the min-cut (by definition). The required follows.
+		\end{proof}
 
-\subsubsection{Maximum Bipartite Matching}
+	\subsubsection{Maximum Bipartite Matching}
 
-Given an undirected bipartite graph $G=(V,E)$ with $V=X\cup Y$ such all edges are between $X$ and $Y$, the problem asks to find a largest set $M\subseteq E$ such that for any $e,e'\in M$, $e,e'$ do not share any common vertex.
+		Given an undirected bipartite graph $G=(V,E)$ with $V=X\cup Y$ such all edges are between $X$ and $Y$, the problem asks to find a largest set $M\subseteq E$ such that for any $e,e'\in M$, $e,e'$ do not share any common vertex.
 
-This can be formulated as a max-flow problem. Create a directed graph $G' = (V',E')$ with vertex set $V' = V\cup\{s,t\}$ for some fresh vertices $s,t$ and edge set
-\[ E' = \{\vv{xy}: x\in X, y\in Y, xy\in E\} \cup \{\vv{sx} : x\in X\} \cup \{\vv{yt} : y\in Y\}. \]
-Further, assign a capacity of $1$ to each edge.\\
-The maximum bipartite matching is then just the value of a max-flow from $s$ to $t$!
+		This can be formulated as a max-flow problem. Create a directed graph $G' = (V',E')$ with vertex set $V' = V\cup\{s,t\}$ for some fresh vertices $s,t$ and edge set
+		\[ E' = \{\vv{xy}: x\in X, y\in Y, xy\in E\} \cup \{\vv{sx} : x\in X\} \cup \{\vv{yt} : y\in Y\}. \]
+		Further, assign a capacity of $1$ to each edge.\\
+		The maximum bipartite matching is then just the value of a max-flow from $s$ to $t$!
 
-Before getting to the proof of the above, we give the following useful lemma.
+		Before getting to the proof of the above, we give the following useful lemma.
 
-\begin{lemma}
-	\label{lem: max bi match}
-	Let $f$ be a flow in the flow network $G$ with source $s$ and sink $t$. Let $(S,T)$ be a cut in $G$. Then the net flow across the cut, that is, the flow leaving $S$ minus the flow entering $S$, equals $|f|$.
-\end{lemma}
-\begin{proof}
-	This is proved as
-	\begin{align*}
-		|f| &= f^\to(s) + \sum_{v\in S\setminus\{s\}} f^\to(v) - f^\ot(v) \\
-			&= \sum_{v\in S} f^\to(v) - \sum_{v\in S\setminus\{s\}} f^\ot(v) \\
-			&= f^\to(S) - f^\ot(S).\qedhere
-	\end{align*}
-\end{proof}
+		\begin{lemma}
+			\label{lem: max bi match}
+			Let $f$ be a flow in the flow network $G$ with source $s$ and sink $t$. Let $(S,T)$ be a cut in $G$. Then the net flow across the cut, that is, the flow leaving $S$ minus the flow entering $S$, equals $|f|$.
+		\end{lemma}
+		\begin{proof}
+			This is proved as
+			\begin{align*}
+				|f| &= f^\to(s) + \sum_{v\in S\setminus\{s\}} f^\to(v) - f^\ot(v) \\
+					&= \sum_{v\in S} f^\to(v) - \sum_{v\in S\setminus\{s\}} f^\ot(v) \\
+					&= f^\to(S) - f^\ot(S).\qedhere
+			\end{align*}
+		\end{proof}
 
-\begin{lemma}
-	Let $G$ be a bipartite graph and $G'$ be the flow network defined above. Then,
-	\begin{itemize}
-		\item if $M$ is a matching in $G$, there is an integer valued flow $f$ in $G'$ such that $|f|=|M|$.
-		\item if $f$ is an integer valued flow in $G'$, there is a matching $M$ in $G$ such that $|M|=|f|$.
-	\end{itemize}
-	In particular, the max-flow value of $G'$ is equal to the size of a maximum matching of $G$.
-\end{lemma}
-\begin{proof}
-	The first part is direct, since we can construct a flow $f$ such that for each edge $e = \vv{xy}\in M$ with $x\in X$ and $y\in Y$, $f(\vv{sx})=f(\vv{xy})=f(\vv{yt})=1$ and $f(e)=0$ for the remaining edges $e$. The fact that $f$ is a flow follows from the fact that $M$ is a matching, so the conservation constraints are satisfied. The capacity constraints are trivially satisfied. Moreover, the value of $f$ is equal to the cardinality of $M$, that is, $|f|=|M|$.\\
+		\begin{lemma}
+			Let $G$ be a bipartite graph and $G'$ be the flow network defined above. Then,
+			\begin{itemize}
+				\item if $M$ is a matching in $G$, there is an integer valued flow $f$ in $G'$ such that $|f|=|M|$.
+				\item if $f$ is an integer valued flow in $G'$, there is a matching $M$ in $G$ such that $|M|=|f|$.
+			\end{itemize}
+			In particular, the max-flow value of $G'$ is equal to the size of a maximum matching of $G$.
+		\end{lemma}
+		\begin{proof}
+			The first part is direct, since we can construct a flow $f$ such that for each edge $e = \vv{xy}\in M$ with $x\in X$ and $y\in Y$, $f(\vv{sx})=f(\vv{xy})=f(\vv{yt})=1$ and $f(e)=0$ for the remaining edges $e$. The fact that $f$ is a flow follows from the fact that $M$ is a matching, so the conservation constraints are satisfied. The capacity constraints are trivially satisfied. Moreover, the value of $f$ is equal to the cardinality of $M$, that is, $|f|=|M|$.\\
 
-	Let us now prove the other direction. Clearly, for each $e\in E'$, $f(e)$ is $0$ or $1$. Define
-	\[ M = \{e\in E'\cap E : f(e)=1\}. \]
-	This is just the set of edges from $X$ to $Y$ that carry non-zero flow.\\
-	Observe that because $f$ is a flow, each vertex in $X$ or $Y$ is present in at most one edge in $M$. Indeed, any vertex in $X$ (resp. $Y$) has an incoming (resp. outgoing) flow of at most $1$ and if it is present in more than one edge, the outgoing (resp. incoming) flow would be greater than $1$, contradicting the conservation constraint.\\
-	Therefore, $M$ is a matching. Using \Cref{lem: max bi match} on the cut $(X\cup\{s\},Y\cup\{t\})$, $|f| = f^\to(S) - f^\ot(S) = |M|$, proving the required.
-\end{proof}
+			Let us now prove the other direction. Clearly, for each $e\in E'$, $f(e)$ is $0$ or $1$. Define
+			\[ M = \{e\in E'\cap E : f(e)=1\}. \]
+			This is just the set of edges from $X$ to $Y$ that carry non-zero flow.\\
+			Observe that because $f$ is a flow, each vertex in $X$ or $Y$ is present in at most one edge in $M$. Indeed, any vertex in $X$ (resp. $Y$) has an incoming (resp. outgoing) flow of at most $1$ and if it is present in more than one edge, the outgoing (resp. incoming) flow would be greater than $1$, contradicting the conservation constraint.\\
+			Therefore, $M$ is a matching. Using \Cref{lem: max bi match} on the cut $(X\cup\{s\},Y\cup\{t\})$, $|f| = f^\to(S) - f^\ot(S) = |M|$, proving the required.
+		\end{proof}
 
-The above could have been proved in a more direct way using \Cref{edge disjoint paths}.
+		The above could have been proved in a more direct way using \Cref{edge disjoint paths}.
 
-\subsubsection{Baseball Elimination}
+	\subsubsection{Baseball Elimination}
 
-The last problem we discuss is the following (referred to as IPL Elimination in the course slides).\\
+		The last problem we discuss is the following (referred to as IPL Elimination in the course slides).\\
 
-Suppose we have $n$ teams. Each team has a certain number of wins $w_i$ initially, and for each $\{x,y\}$, there is a quantity $r_{xy}\geq 0$ which represents the number of games teams $x$ and $y$ are left to play against each other ($r_{xy} = r_{yx}$ and $r_{xx}=0$). Is it possible for a certain team $z$ to get first position after all the games are done (possibly being tied with other teams)? Equivalently, if all teams except those which are at first position are eliminated, is $z$ necessarily eliminated?\\
+		Suppose we have $n$ teams. Each team has a certain number of wins $w_i$ initially, and for each $\{x,y\}$, there is a quantity $r_{xy}\geq 0$ which represents the number of games teams $x$ and $y$ are left to play against each other ($r_{xy} = r_{yx}$ and $r_{xx}=0$). Is it possible for a certain team $z$ to get first position after all the games are done (possibly being tied with other teams)? Equivalently, if all teams except those which are at first position are eliminated, is $z$ necessarily eliminated?\\
 
-We shall formulate this as a max-flow min-cut problem, creating a flow network $G_z$. First, let $g_z^* = \sum_{x,y \in X\setminus\{z\}} g_{x,y}$.\\
-We show that $G_z$ has a flow of value strictly less than $g_z^*$ iff $z$ is eliminated. We must also argue that $G_z$ can be obtained from the input in polynomial time.\\
+		We shall formulate this as a max-flow min-cut problem, creating a flow network $G_z$. First, let $g_z^* = \sum_{x,y \in X\setminus\{z\}} g_{x,y}$.\\
+		We show that $G_z$ has a flow of value strictly less than $g_z^*$ iff $z$ is eliminated. We must also argue that $G_z$ can be obtained from the input in polynomial time.\\
 
-Let $X' = X \setminus \{z\}$. $G_z$ has vertex set
-\[ V = \{s,t\} \cup \{u_{xy} : \{x,y\}\subseteq X'\} \cup \{u_x : x \in X'\}, \]
-where $s$ and $t$ are the source and sink respectively. $G_z$ has edge set
-\[ E = \{\vv{s u_{xy}} : \{x,y\}\in X'\} \cup \{\vv{u_x t} : x \in X'\} \cup \bigcup_{\{x,y\}\subseteq X'} \{\vv{u_{xy}u_x},\vv{u_{xy}u_y}\}. \]
-In the definition of the edge set, we refer to these three sets involved as $E_\text{source}$, $E_\text{sink}$, and $E_\text{mid}$ respectively.\\
-The capacity function $c$ is defined as
-\[
-	c(e) =
-	\begin{cases}
-		g_{xy}, & e \in E_\text{source}, \\
-		\infty, & e \in E_\text{mid}, \\
-		m - w_x, & e \in E_\text{sink},
-	\end{cases}
-\]
-where 
-\[ m = w_z + \sum_{x\in X'} g_{zx}. \]
-is the total number of games $z$ can have won at the end.\\
-In case any of the capacities are negative, then the problem is trivial anyway since $m_x > m$ for some $x$, so $z$ cannot win.
+		Let $X' = X \setminus \{z\}$. $G_z$ has vertex set
+		\[ V = \{s,t\} \cup \{u_{xy} : \{x,y\}\subseteq X'\} \cup \{u_x : x \in X'\}, \]
+		where $s$ and $t$ are the source and sink respectively. $G_z$ has edge set
+		\[ E = \{\vv{s u_{xy}} : \{x,y\}\in X'\} \cup \{\vv{u_x t} : x \in X'\} \cup \bigcup_{\{x,y\}\subseteq X'} \{\vv{u_{xy}u_x},\vv{u_{xy}u_y}\}. \]
+		In the definition of the edge set, we refer to these three sets involved as $E_\text{source}$, $E_\text{sink}$, and $E_\text{mid}$ respectively.\\
+		The capacity function $c$ is defined as
+		\[
+			c(e) =
+			\begin{cases}
+				g_{xy}, & e \in E_\text{source}, \\
+				\infty, & e \in E_\text{mid}, \\
+				m - w_x, & e \in E_\text{sink},
+			\end{cases}
+		\]
+		where 
+		\[ m = w_z + \sum_{x\in X'} g_{zx}. \]
+		is the total number of games $z$ can have won at the end.\\
+		In case any of the capacities are negative, then the problem is trivial anyway since $m_x > m$ for some $x$, so $z$ cannot win.
 
-\begin{lemma}
-	$G_z$ has a flow strictly less than $g_z^*$ iff $z$ is necessarily eliminated.
-\end{lemma}
-\begin{proof}
-	Suppose $G_z$ has a flow of value $g_z^*$. This means that it is possible to obtain outcomes where all the other teams win at most $m$ games (totally). This means that $z$ is not eliminated.\\
-	On the other hand, suppose $z$ is not eliminated. Using the outcomes of the games, it is possible to set the flows in $E_\text{sink}$ such that no flow exceeds $m - w_u$ for any $u$ at the end of all the games. This achieves a flow of value $g_z^*$.
-\end{proof}
+		\begin{lemma}
+			$G_z$ has a flow strictly less than $g_z^*$ iff $z$ is necessarily eliminated.
+		\end{lemma}
+		\begin{proof}
+			Suppose $G_z$ has a flow of value $g_z^*$. This means that it is possible to obtain outcomes where all the other teams win at most $m$ games (totally). This means that $z$ is not eliminated.\\
+			On the other hand, suppose $z$ is not eliminated. Using the outcomes of the games, it is possible to set the flows in $E_\text{sink}$ such that no flow exceeds $m - w_u$ for any $u$ at the end of all the games. This achieves a flow of value $g_z^*$.
+		\end{proof}
 
-While not related directly to the algorithm given above, the following lemma, which can be proved from the max-flow min-cut theorem, is interesting.
+		While not related directly to the algorithm given above, the following lemma, which can be proved from the max-flow min-cut theorem, is interesting.
 
-\begin{lemma}
-	Suppose team $z$ is necessarily eliminated. Then the following hold:
-	\begin{itemize}
-		\item $z$ can finish with at most $m = w_z + \sum_{x\in X\setminus\{z\}} g_{zx}$ wins.
-		\item There exists a set $Q\subseteq X$ such that
-		\[ \sum_{x\in Q} w_x + \sum_{\{x,y\}\subseteq Q} g_{xy} \geq m|Q|. \]
-	\end{itemize}
-\end{lemma}
+		\begin{lemma}
+			Suppose team $z$ is necessarily eliminated. Then the following hold:
+			\begin{itemize}
+				\item $z$ can finish with at most $m = w_z + \sum_{x\in X\setminus\{z\}} g_{zx}$ wins.
+				\item There exists a set $Q\subseteq X$ such that
+				\[ \sum_{x\in Q} w_x + \sum_{\{x,y\}\subseteq Q} g_{xy} \geq m|Q|. \]
+			\end{itemize}
+		\end{lemma}
+
+\subsection{Exercises}
+
+	\begin{exercise}
+		Let $f$ and $f'$ be two feasible $(s,t)$-flows in a flow network $G$ such that $|f'| > |f|$. Prove that there is a feasible $(s,t)$-flow with value $|f'|-|f|$ in the residual network $G_f$.
+	\end{exercise}
+	\begin{solution*}
+		Consider the flow $g$ in $G_f$ such that for each edge $e = \vv{uv}\in E$, $g(e) = \max\{f'(e) - f(e),0\}$ and if $f(e) > 0$, then $g(\vv{vu}) = \max\{0,f(e) - f'(e)\}$.\\
+		It is easy to check that the capacity constraints are satisfied (using the fact that $f'$ is a flow and is non-negative on each edge).\\
+		The flow constraints are trivially satisfied as well, because $f$ and $f'$ satisfy them.\\
+		It is not too difficlt to show that the value of this flow is equal to $g^\to(s) = f'^\to(s) - f^\to(s) = |f'| - |f|$.
+	\end{solution*}	
+
+	\begin{exercise}
+		Let $\vv{uv}$ be an arbitrary edge in an arbitrary flow network $G$. Prove that if there is a minimum cut $(s,t)$-cut $(S,T)$ such that $u\in S$ and $v\in T$, then there is no minimum cut $(S',T')$ such that $u\in T'$ and $v\in S'$.
+	\end{exercise}
+	\begin{solution*}
+		Suppose instead that there is a min-cut satisfying the given, and using the max-flow min-cut theorem, let $f$ be a flow with value equal to the capacity of a min-cut.\\
+		Using \Cref{ff-algo lemma 1}, $f$ must saturate $\vv{uv}$ since it is an edge from $S$ to $T$. At the same time, it must avoid this edge since it is an edge from $T'$ to $S'$, resulting in a contradiction and proving the claim.
+	\end{solution*}
+
+	\begin{exercise}
+		Let $(S,T)$ and $(S',T')$ be minimum $(s,t)$-cuts in some flow network $G$. Prove that $(S\cap S', T\cup T')$ and $(S\cup S', T\cap T')$ are also minimum $(s,t)$-cuts in $G$.
+	\end{exercise}
+	\begin{solution*}
+		We prove the required for $(S\cup S', T\cap T')$, the other side follows similarly. Let $f$ be a max-flow. Any edge from $S\cup S'$ to $T\cap T'$ must be an edge from $S$ to $T\cap T'$ (and thus $T$) or an edge from $S'$ to $T\cap T'$ (and thus $T'$). In particular, using \Cref{ff-algo lemma 1}, $f$ saturates every edge from $S\cup S'$ to $T\cap T'$. On the other hand, any edge from $T\cap T'$ to $S\cup S'$ must be an edge from $T$ to $S$ or $T'$ to $S'$, so $f$ avoids it. It follows that the cut must be a min-cut (because $|f|$ is equal to the capacity of the cut).
+	\end{solution*}

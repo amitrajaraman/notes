@@ -646,228 +646,228 @@ Above, $\mathsf{OPT}$ is the same as what we defined in Bellman and Ford's Algor
 \subsection{Exercises}
 
 
-\begin{exercise}
-Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ is said to be a maxima in the array if $\var{A}[i-1]<\var{A}[i]$ and $\var{A}[i]>\var{A}[i+1]$. Also, $\var{A}[1]$ is a maxima if $\var{A}[2]<\var{A}[1]$ and $\var{A}[n]$ is a maxima if $\var{A}[n]>\var{A}[n-1]$. Find a maxima in the array in time $\mathcal{O}(\log n)$.
-\end{exercise}
-\begin{solution*}
-	The basic idea behind this algorithm is to, at each step, greedily check the half of the array that contains the greater element among the two neighbours of the current element. It is described more precisely in \Cref{algo: find maxima}. We encourage the reader to prove the correctness of this algorithm.
-\end{solution*}
-\begin{algorithm}
-	\DontPrintSemicolon
-	\KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
-	\KwOut{A maxima in $\var{A}$}
-	\SetKwProg{Fn}{}{}{}
-	\SetKwFunction{FRecurs}{greedyStep}
-	\SetKwFunction{Size}{size}
-	\Fn{\FRecurs{$\var{B}$}}{
-		\If{$\var{size(B)}=1$} {
-			\Return{$\var{B}[0]$}
-		}
-		$\var{mid}\gets\Size{$\var{B}$}/2$\;
-		\If{$\var{B}[\var{mid}]>\var{B}[\var{mid}+1]$ and $\var{B}[\var{mid}]>\var{B}[\var{mid}-1]$} {
-			\Return{$\var{B}[\var{mid}]$}\;
-		}
-		\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}-1]$} {
-			\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
-		}
-		\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
-			\Return{$\FRecurs(\var{B}[1+\var{mid}/2:\Size{$\var{B}$}])$}
-		}
-	}
-	\Return{\FRecurs{$\var{A}$}}
-	\caption{Solution 1.1}\label{algo: find maxima}
-\end{algorithm}
-
-\begin{exercise}
-	Let $G=(V,E)$ be an undirected graph. Consider the following greedy algorithm:
-	\begin{algorithm*}
+	\begin{exercise}
+	Let $\var{A}$ be an array of $n$ distinct numbers. A number at location $1<i<n$ is said to be a maxima in the array if $\var{A}[i-1]<\var{A}[i]$ and $\var{A}[i]>\var{A}[i+1]$. Also, $\var{A}[1]$ is a maxima if $\var{A}[2]<\var{A}[1]$ and $\var{A}[n]$ is a maxima if $\var{A}[n]>\var{A}[n-1]$. Find a maxima in the array in time $\mathcal{O}(\log n)$.
+	\end{exercise}
+	\begin{solution*}
+		The basic idea behind this algorithm is to, at each step, greedily check the half of the array that contains the greater element among the two neighbours of the current element. It is described more precisely in \Cref{algo: find maxima}. We encourage the reader to prove the correctness of this algorithm.
+	\end{solution*}
+	\begin{algorithm}
 		\DontPrintSemicolon
-		\SetNoFillComment
-		\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
-		% \KwOut{A minimal spanning subgraph of $G$}
-		$M\gets\emptyset$. Let $V(M)$ be the set of vertices in $M$.\;
-		\ForEach{$uv\in E$}{
-			\If{$V(M)\cap \{u,v\}=\emptyset$}{
-				$M\gets M\cup\{uv\}$\;
+		\KwIn{An array $\var{A}$ containing $n$ elements ($1$-indexed)}
+		\KwOut{A maxima in $\var{A}$}
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{FRecurs}{greedyStep}
+		\SetKwFunction{Size}{size}
+		\Fn{\FRecurs{$\var{B}$}}{
+			\If{$\var{size(B)}=1$} {
+				\Return{$\var{B}[0]$}
+			}
+			$\var{mid}\gets\Size{$\var{B}$}/2$\;
+			\If{$\var{B}[\var{mid}]>\var{B}[\var{mid}+1]$ and $\var{B}[\var{mid}]>\var{B}[\var{mid}-1]$} {
+				\Return{$\var{B}[\var{mid}]$}\;
+			}
+			\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}-1]$} {
+				\Return{$\FRecurs(\var{B}[1:\var{mid}/2])$}
+			}
+			\ElseIf{$\var{B}[\var{mid}]\leq\var{B}[\var{mid}+1]$} {
+				\Return{$\FRecurs(\var{B}[1+\var{mid}/2:\Size{$\var{B}$}])$}
 			}
 		}
-		\Return{$M$}
-		\caption{Exercise 1.2}\label{algo: ex 1.2}
-	\end{algorithm*}
+		\Return{\FRecurs{$\var{A}$}}
+		\caption{Solution 1.1}\label{algo: find maxima}
+	\end{algorithm}
 
-	\begin{enumerate}[(a)]
-		\item Give a graph $G$ such that the above algorithm may not output a perfect matching in $G$ even if it has a perfect matching.
-		\item Give a graph that has a perfect matching $M$ and a maximal matching $M'$ such that $M'\neq M$.
-		\item Prove that the above algorithm finds a maximal matching.
-	\end{enumerate}
-\end{exercise}
-\begin{solution*}
-	For parts (a) and (b), consider the graph $G=(V,E)$ with $V=\{1,2,3,4\}$ and $E=\{\{1,2\},\{2,3\},\{3,4\},\{4,1\},\{1,3\}\}$. Then $\{\{1,3\}\}$ is a maximal matching but not a perfect matching and $\{\{1,2\},\{3,4\}\}$ is a maximal matching. The former may be output by the algorithm depending on which edge is chosen.\\
-	Part (c) is easily shown. If the output is not a maximal matching, then there is some edge $e=vw$ such that $E\cap\{v,w\}=\emptyset$ (by definition). However, this contradicts the termination of the algorithm, thus proving the required.
-\end{solution*}
+	\begin{exercise}
+		Let $G=(V,E)$ be an undirected graph. Consider the following greedy algorithm:
+		\begin{algorithm*}
+			\DontPrintSemicolon
+			\SetNoFillComment
+			\KwIn{A connected graph $G=(V,E)$ with $|V|=n$, $|E|=m$, and a cost function $c:E\to\Zp$}
+			% \KwOut{A minimal spanning subgraph of $G$}
+			$M\gets\emptyset$. Let $V(M)$ be the set of vertices in $M$.\;
+			\ForEach{$uv\in E$}{
+				\If{$V(M)\cap \{u,v\}=\emptyset$}{
+					$M\gets M\cup\{uv\}$\;
+				}
+			}
+			\Return{$M$}
+			\caption{Exercise 1.2}\label{algo: ex 1.2}
+		\end{algorithm*}
 
-\begin{exercise}
-	Consider the following modified interval scheduling problem. There are $n$ jobs, each with a start and finish time $(s(i),f(i))$ and in addition, they have a (positive) weight $w(i)$. The problem is to maximize the total weight of the jobs scheduled on a (single) machine. For the sake of brevity, we denote the set of jobs $J$ by a set of tuples with the $i$th tuple being $(s(i),f(i),w(i))$.
-	\begin{enumerate}[(a)]
-		\item Show that the algorithm for the usual interval scheduling need not give an optimal solution for this problem.
-		
-		\item Suppose a greedy algorithm picks the largest weight job with the earliest finishing time among the available jobs at each step. Prove/disprove that this strategy works.
-		
-		\item We say that jobs $J$ and $J'$ \textit{overlap}, denoted $J\| J'$, if $J\cap J'\neq\emptyset$. For a job $J_i$, define $O_i = \sum_{i':J_{i'}\cap J_i} w(i')$, called the \textit{overlap-weight} of $J_i$. Consider a greedy algorithm that schedules a job with the smallest overlap-weight among the available jobs at each step. Prove/disprove that this algorithm gives the optimal solution.
-	\end{enumerate}
-\end{exercise}
+		\begin{enumerate}[(a)]
+			\item Give a graph $G$ such that the above algorithm may not output a perfect matching in $G$ even if it has a perfect matching.
+			\item Give a graph that has a perfect matching $M$ and a maximal matching $M'$ such that $M'\neq M$.
+			\item Prove that the above algorithm finds a maximal matching.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		For parts (a) and (b), consider the graph $G=(V,E)$ with $V=\{1,2,3,4\}$ and $E=\{\{1,2\},\{2,3\},\{3,4\},\{4,1\},\{1,3\}\}$. Then $\{\{1,3\}\}$ is a maximal matching but not a perfect matching and $\{\{1,2\},\{3,4\}\}$ is a maximal matching. The former may be output by the algorithm depending on which edge is chosen.\\
+		Part (c) is easily shown. If the output is not a maximal matching, then there is some edge $e=vw$ such that $E\cap\{v,w\}=\emptyset$ (by definition). However, this contradicts the termination of the algorithm, thus proving the required.
+	\end{solution*}
 
-\begin{solution*}
-	\begin{enumerate}[(a)]
-		\item Consider the set of jobs $J=\{(1,2,5),(1,3,10)\}$. Then the algorithm chooses only the first job, while the optimal solution picks the second.
-		
-		\item Consider the set of jobs $J=\{(1,2,5),(2,3,5),(1,3,8)\}$. Then this algorithm chooses only the third job, whereas the optimal solution picks the first two.
-		
-		\item The algorithm is incorrect. Consider the counterexample
-		\[ J = \{(0,1,1),(1,2,1),(0,2,3)\}. \]
-		Then the algorithm chooses jobs $1$ and $2$, whereas the (unique) optimal solution picks job $3$.\\
-		The reader might be tempted to think that the algorithm would work if in the definition of $O_i$, we only consider those $i'\neq i$. However, this doesn't work either. Indeed, consider
-		\[ J = \{(1,3,5),(1,2,1),(2,4,5),(3,5,5),(4,5,1)\}. \]
-		The algorithm chooses jobs $2$, $3$, and $5$, whereas the (unique) optimal solution chooses jobs $1$ and $4$.\\
-		This idea is made more natural on rewriting the problem as finding $\mathcal{A}\subseteq[n]$ that minimizes $w\left(\bigcup_{i\in\mathcal{A}} O(i)\right)$,	where $O(i) = \{i'\in[n] : i'\neq i\text{ and }J_{i'}\|J_i\}$ and $w(S)=\sum_{s\in S}w(s)$ for any $S\subseteq[n]$. The issue arises because a single $j$ might appear in multiple $O(i)$. It is worth noting that there is a dynamic programming algorithm to solve this problem (which we shall study later).
-	\end{enumerate}
-\end{solution*}
+	\begin{exercise}
+		Consider the following modified interval scheduling problem. There are $n$ jobs, each with a start and finish time $(s(i),f(i))$ and in addition, they have a (positive) weight $w(i)$. The problem is to maximize the total weight of the jobs scheduled on a (single) machine. For the sake of brevity, we denote the set of jobs $J$ by a set of tuples with the $i$th tuple being $(s(i),f(i),w(i))$.
+		\begin{enumerate}[(a)]
+			\item Show that the algorithm for the usual interval scheduling need not give an optimal solution for this problem.
+			
+			\item Suppose a greedy algorithm picks the largest weight job with the earliest finishing time among the available jobs at each step. Prove/disprove that this strategy works.
+			
+			\item We say that jobs $J$ and $J'$ \textit{overlap}, denoted $J\| J'$, if $J\cap J'\neq\emptyset$. For a job $J_i$, define $O_i = \sum_{i':J_{i'}\cap J_i} w(i')$, called the \textit{overlap-weight} of $J_i$. Consider a greedy algorithm that schedules a job with the smallest overlap-weight among the available jobs at each step. Prove/disprove that this algorithm gives the optimal solution.
+		\end{enumerate}
+	\end{exercise}
 
-\begin{exercise}
-	You are given a set $S$ of $n$ pairs of numbers $(\ell_1,c_1),(\ell_2,c_2),\ldots,(\ell_n,c_n)$ and some $C$ (all positive). You are required to find a subset $T$ of $[n]$ such that $\sum_{i\in T} c_i \leq C$ while maximizing the sum $\sum_{i\in T}\ell_i$. Consider the algorithm to do the same that picks jobs with the largest values of $\ell_i/c_i$. This is described in \Cref{algo: ex 1.4}.
-	\begin{enumerate}[(a)]
-		\item Show that this algorithm need not find the optimal subset.
-		\item Can you suggest any other greedy strategy to come up with the optimal subset in the above setting?
-		\item Suppose that a ``fractional'' part of each of the $n$ pairs can be taken. Choosing a fraction $f_i$ of the item $c_i$ adds cost $c_i f_i$. Give an optimal algorithm in this case. That is, we want to maximize $\sum_{i\in [n]} f_i \ell_i$ constrained by $\sum_{i\in[n]} f_i c_i \leq C$.
-	\end{enumerate}
-	The above problem is more often known as the ``knapsack problem''.
-\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item Consider the set of jobs $J=\{(1,2,5),(1,3,10)\}$. Then the algorithm chooses only the first job, while the optimal solution picks the second.
+			
+			\item Consider the set of jobs $J=\{(1,2,5),(2,3,5),(1,3,8)\}$. Then this algorithm chooses only the third job, whereas the optimal solution picks the first two.
+			
+			\item The algorithm is incorrect. Consider the counterexample
+			\[ J = \{(0,1,1),(1,2,1),(0,2,3)\}. \]
+			Then the algorithm chooses jobs $1$ and $2$, whereas the (unique) optimal solution picks job $3$.\\
+			The reader might be tempted to think that the algorithm would work if in the definition of $O_i$, we only consider those $i'\neq i$. However, this doesn't work either. Indeed, consider
+			\[ J = \{(1,3,5),(1,2,1),(2,4,5),(3,5,5),(4,5,1)\}. \]
+			The algorithm chooses jobs $2$, $3$, and $5$, whereas the (unique) optimal solution chooses jobs $1$ and $4$.\\
+			This idea is made more natural on rewriting the problem as finding $\mathcal{A}\subseteq[n]$ that minimizes $w\left(\bigcup_{i\in\mathcal{A}} O(i)\right)$,	where $O(i) = \{i'\in[n] : i'\neq i\text{ and }J_{i'}\|J_i\}$ and $w(S)=\sum_{s\in S}w(s)$ for any $S\subseteq[n]$. The issue arises because a single $j$ might appear in multiple $O(i)$. It is worth noting that there is a dynamic programming algorithm to solve this problem (which we shall study later).
+		\end{enumerate}
+	\end{solution*}
 
-\begin{algorithm}
-	\DontPrintSemicolon
-	\SetNoFillComment
-	\KwIn{A set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
-	\KwOut{$T\subseteq[n]$ that maximizes $\sum_{i\in S}\ell_i$ subject to the constraint $\sum_{i\in S}c_i\leq C$}
-	\SetKwFunction{Sort}{merge-sort}
-	\Sort{$S$, $\ell_i/c_i$} \tcp*{Arrange in non-increasing order of $(\ell_i/c_i)$}
-	$S\gets\emptyset$, $\var{cost}\gets 0$\;
-	\For{$1\leq i\leq n$}{
-		\If{$\var{cost}+c_i\leq C$}{
-			$S\gets S\cup\{i\}$\;
-			$\var{cost}\gets\var{cost}+c_i$\;
+	\begin{exercise}
+		You are given a set $S$ of $n$ pairs of numbers $(\ell_1,c_1),(\ell_2,c_2),\ldots,(\ell_n,c_n)$ and some $C$ (all positive). You are required to find a subset $T$ of $[n]$ such that $\sum_{i\in T} c_i \leq C$ while maximizing the sum $\sum_{i\in T}\ell_i$. Consider the algorithm to do the same that picks jobs with the largest values of $\ell_i/c_i$. This is described in \Cref{algo: ex 1.4}.
+		\begin{enumerate}[(a)]
+			\item Show that this algorithm need not find the optimal subset.
+			\item Can you suggest any other greedy strategy to come up with the optimal subset in the above setting?
+			\item Suppose that a ``fractional'' part of each of the $n$ pairs can be taken. Choosing a fraction $f_i$ of the item $c_i$ adds cost $c_i f_i$. Give an optimal algorithm in this case. That is, we want to maximize $\sum_{i\in [n]} f_i \ell_i$ constrained by $\sum_{i\in[n]} f_i c_i \leq C$.
+		\end{enumerate}
+		The above problem is more often known as the ``knapsack problem''.
+	\end{exercise}
+
+	\begin{algorithm}
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\KwIn{A set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
+		\KwOut{$T\subseteq[n]$ that maximizes $\sum_{i\in S}\ell_i$ subject to the constraint $\sum_{i\in S}c_i\leq C$}
+		\SetKwFunction{Sort}{merge-sort}
+		\Sort{$S$, $\ell_i/c_i$} \tcp*{Arrange in non-increasing order of $(\ell_i/c_i)$}
+		$S\gets\emptyset$, $\var{cost}\gets 0$\;
+		\For{$1\leq i\leq n$}{
+			\If{$\var{cost}+c_i\leq C$}{
+				$S\gets S\cup\{i\}$\;
+				$\var{cost}\gets\var{cost}+c_i$\;
+			}
 		}
-	}
-	\Return{$S$}
-	\caption{Exercise 1.4}\label{algo: ex 1.4}
-\end{algorithm}
+		\Return{$S$}
+		\caption{Exercise 1.4}\label{algo: ex 1.4}
+	\end{algorithm}
 
-\begin{solution*}
-	% \phantom{pog}
-	\begin{enumerate}[(a)]
-		\item Consider the set of tuples $\{(6,2),(9,3),(6,3),(8,4)\}$ with $C=7$. The algorithm returns the set $\{(6,2),(9,3)\}$ with $\sum_i \ell_i=15$ whereas the optimal solution is $\{(9,3),(8,4)\}$ with $\sum_i \ell_i = 17$.
+	\begin{solution*}
+		% \phantom{pog}
+		\begin{enumerate}[(a)]
+			\item Consider the set of tuples $\{(6,2),(9,3),(6,3),(8,4)\}$ with $C=7$. The algorithm returns the set $\{(6,2),(9,3)\}$ with $\sum_i \ell_i=15$ whereas the optimal solution is $\{(9,3),(8,4)\}$ with $\sum_i \ell_i = 17$.
 
-		\item No, not yet.
+			\item No, not yet.
 
-		\item In the context of part (b), this just means that instead of choosing an $x_i\in\{0,1\}$ for each $i$, we choose $f_i\in[0,1]$ for each $i$. The algorithm is very similar in spirit to that given in the problem statement (of (a)). It is described explicitly in \Cref{algo: sol 1.4(c)}. Correctness is easily proved.
+			\item In the context of part (b), this just means that instead of choosing an $x_i\in\{0,1\}$ for each $i$, we choose $f_i\in[0,1]$ for each $i$. The algorithm is very similar in spirit to that given in the problem statement (of (a)). It is described explicitly in \Cref{algo: sol 1.4(c)}. Correctness is easily proved.
 
-	\end{enumerate}
-\end{solution*}
+		\end{enumerate}
+	\end{solution*}
 
 
-\begin{algorithm}[H]
-	\DontPrintSemicolon
-	\SetNoFillComment
-	\KwIn{An set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
-	\KwOut{An $f_i\in[0,1]$ for each $i$ that maximizes $\sum_{i\in S} f_i \ell_i$ subject to the constraint $\sum_{i\in S} f_i c_i\leq C$}
-	\SetKwFunction{Sort}{merge-sort}
-	\Sort{$S$, $\ell_i/c_i$}\;
-	$S\gets\emptyset$, $\var{cost}\gets 0$\;
-	$f_i\gets 0$ for each $i$\;
-	\For{$1\leq i\leq n$}{
-		\eIf {$\var{cost}+c_i\leq C$} {
-			$f_i\gets 1$\;
-			$\var{cost}\gets\var{cost}+c_i$\;
-		} {
-			$f_i \gets (C - \var{cost})/c_i$\;
-			break\;
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\KwIn{An set $S$ of $n$ tuples $(\ell_i,c_i)$ (each positive) and some $C>0$}
+		\KwOut{An $f_i\in[0,1]$ for each $i$ that maximizes $\sum_{i\in S} f_i \ell_i$ subject to the constraint $\sum_{i\in S} f_i c_i\leq C$}
+		\SetKwFunction{Sort}{merge-sort}
+		\Sort{$S$, $\ell_i/c_i$}\;
+		$S\gets\emptyset$, $\var{cost}\gets 0$\;
+		$f_i\gets 0$ for each $i$\;
+		\For{$1\leq i\leq n$}{
+			\eIf {$\var{cost}+c_i\leq C$} {
+				$f_i\gets 1$\;
+				$\var{cost}\gets\var{cost}+c_i$\;
+			} {
+				$f_i \gets (C - \var{cost})/c_i$\;
+				break\;
+			}
 		}
-	}
-	\Return{$(f_i)$}
-	\caption{Solution 1.4(c)}\label{algo: sol 1.4(c)}
-\end{algorithm}
+		\Return{$(f_i)$}
+		\caption{Solution 1.4(c)}\label{algo: sol 1.4(c)}
+	\end{algorithm}
 
-\begin{exercise}
-	(Dis)prove that when all the edges in an undirected graph have distinct costs, the minimum spanning tree in the graph is unique.
-\end{exercise}
-\begin{solution*}
-	Suppose instead there are two distinct MSTs $T, T'$. Let $e$ be the least costly edge that is in exactly one of the trees. Suppose it is in $T$. $T'\cup\{e\}$ must contain an edge $e'$ that is not in $T$ which is in the newly formed cycle. Then by the MST nature of $T'$ and the fact that all edges have distinct costs, $c(e)>c(e')$ (otherwise, $T'\cup\{e\}\setminus\{e'\}$ is a strictly cheaper tree). We similarly get $c(e')>c(e)$, thus resulting in a contradiction and proving the required.
-\end{solution*}
+	\begin{exercise}
+		(Dis)prove that when all the edges in an undirected graph have distinct costs, the minimum spanning tree in the graph is unique.
+	\end{exercise}
+	\begin{solution*}
+		Suppose instead there are two distinct MSTs $T, T'$. Let $e$ be the least costly edge that is in exactly one of the trees. Suppose it is in $T$. $T'\cup\{e\}$ must contain an edge $e'$ that is not in $T$ which is in the newly formed cycle. Then by the MST nature of $T'$ and the fact that all edges have distinct costs, $c(e)>c(e')$ (otherwise, $T'\cup\{e\}\setminus\{e'\}$ is a strictly cheaper tree). We similarly get $c(e')>c(e)$, thus resulting in a contradiction and proving the required.
+	\end{solution*}
 
-\begin{exercise}
-	Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{1}(i),t_{2}(i)>0$. The part of duration $t_{1}(i)$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{2}(i)$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.
-\end{exercise}
-\begin{solution*}
-	The problem can be stated alternatively as: given $n$ and two functions $t_1,t_2:[n]\to\Rp$, find a permutation $\sigma$ of $[n]$ such that
-	\[ Q_\sigma = \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
-	is minimized. ($\sigma(i)$ denotes the position that is at the $i$th index after permuting)
+	\begin{exercise}
+		Suppose we have a computer and some $n$ jobs. For the $i$th job, there are two parts with durations $t_{1}(i),t_{2}(i)>0$. The part of duration $t_{1}(i)$ must be performed on the computer (only one such part can be scheduled at a time) whereas the part of duration $t_{2}(i)$ can be performed at any point after the first part of the same job is done (multiple such parts can be scheduled simultaneously). Give an algorithm that designs an ordering for the jobs to be sent to the computer such that the overall time taken to complete all jobs is minimized.
+	\end{exercise}
+	\begin{solution*}
+		The problem can be stated alternatively as: given $n$ and two functions $t_1,t_2:[n]\to\Rp$, find a permutation $\sigma$ of $[n]$ such that
+		\[ Q_\sigma = \max_{k\in[n]} \left(t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i))\right) \]
+		is minimized. ($\sigma(i)$ denotes the position that is at the $i$th index after permuting)
 
-	Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $Q$ be the value of $Q_\sigma$ for the identity permutation and $k\in[n]$ attain the maximum involved. Let $\sigma$ be any permutation of $[n]$.
+		Assume without loss of generality that the jobs are ordered in non-increasing order of $t_2$. We claim that then, the identity permutation suffices. Let $Q$ be the value of $Q_\sigma$ for the identity permutation and $k\in[n]$ attain the maximum involved. Let $\sigma$ be any permutation of $[n]$.
 
-	\textbf{Claim.} If $Q_\sigma\leq Q$, then for every $1\leq i\leq k$, $1\leq\sigma(i)\leq k$. This implies that the first $k$ positions permute among themselves in any optimal solution.\\
-	Suppose otherwise and let $r=\max\{j\in[n] : \sigma(j)=i\text{ for some }1\leq i\leq k\}> k$. Then,
-	\[ Q_\sigma \geq t_2(\sigma(r)) + \sum_{1\leq i\leq r} t_1(\sigma(i)) > t_2(k) + \sum_{1\leq i\leq k}t_1(i) = Q, \]
-	thus proving the claim.
+		\textbf{Claim.} If $Q_\sigma\leq Q$, then for every $1\leq i\leq k$, $1\leq\sigma(i)\leq k$. This implies that the first $k$ positions permute among themselves in any optimal solution.\\
+		Suppose otherwise and let $r=\max\{j\in[n] : \sigma(j)=i\text{ for some }1\leq i\leq k\}> k$. Then,
+		\[ Q_\sigma \geq t_2(\sigma(r)) + \sum_{1\leq i\leq r} t_1(\sigma(i)) > t_2(k) + \sum_{1\leq i\leq k}t_1(i) = Q, \]
+		thus proving the claim.
 
-	Now, let $\sigma$ be a permutation such that $Q_\sigma \leq Q$. Then by the above claim and since the $t_2$ are in non-increasing order, $t_2(\sigma(k))\geq t_2(k)$. Then
-	\[ Q_\sigma \geq t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i)) = t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(i) \geq Q, \]
-	thus implying that the identity permutation is optimal. 
-\end{solution*}
+		Now, let $\sigma$ be a permutation such that $Q_\sigma \leq Q$. Then by the above claim and since the $t_2$ are in non-increasing order, $t_2(\sigma(k))\geq t_2(k)$. Then
+		\[ Q_\sigma \geq t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(\sigma(i)) = t_2(\sigma(k)) + \sum_{1\leq i\leq k} t_1(i) \geq Q, \]
+		thus implying that the identity permutation is optimal. 
+	\end{solution*}
 
 
-% \begin{exercise}
-% 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
-% \end{exercise}
-% \begin{solution*}
-% 	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
-% 	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
-% 	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
-% 	\begin{itemize}
-% 		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
-% 		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
-% 	\end{itemize}
-% 	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
-% \end{solution*}
+	% \begin{exercise}
+	% 	Given a set of $n$ intervals, design a greedy algorithm to find the largest subset of intervals such that every interval in the subset overlaps with at most $k$ other intervals in the subset.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	Observe that this question is the same as the usual interval scheduling problem except that we have $k+1$ machines instead of just one.\\
+	% 	First, arrange the jobs in increasing order of finishing time. Iterate through the jobs and at each step, choose the job if it is valid. Observe that in the case $k=0$, this is just the standard algorithm of choosing the job with the earliest finish time which we know solves the interval scheduling problem.\\
+	% 	To prove optimality, we shall show that if the set chosen by the algorithm (so far) when we are at index $i$ is $S_i$, then for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, we have $S_i=\emptyset$ so the required is trivial. Suppose it is true for $r-1\geq 0$. Then for $i=r$, if the algorithm does not choose the job, we can take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$. Otherwise, we take two cases.
+	% 	\begin{itemize}
+	% 		\item $r\in\mathsf{OPT}_{r-1}$. We can again take $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$.
+	% 		\item $r\not\in\mathsf{OPT}_{r-1}$. This means there is some interval $j\in\mathsf{OPT}_{r-1}$ already intersecting $k$ jobs that intersects the $r$th job. Also, $j>r$ (because $r$ is chosen by the algorithm, there cannot be an invalid intersection for a lower index). Further, there are at most $k$ such values of $j$ (Why?). Fixing $j$ to be any of these jobs, $\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{r\}$ is an optimal solution that contains $S_r$, thus proving the claim.
+	% 	\end{itemize}
+	% 	This completes the proof (the greedy nature of the algorithm together with the fact that $S_n\subseteq\mathsf{OPT}_n$ implies correctness).
+	% \end{solution*}
 
-\begin{exercise}
-	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
-\end{exercise}
-\begin{solution*}
-	First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
-	The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<b_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
-	It is easy to see that any interval is contained in the union of these intervals.\\
+	\begin{exercise}
+		Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval is contained in the union of the intervals of the subset.
+	\end{exercise}
+	\begin{solution*}
+		First, we order the intervals as $\{(a_1,b_1),(a_2,b_2),\ldots,(a_n,b_n)\}$ such that if $j>i$, either $a_j>a_i$ or $a_j=a_i$ and $b_j<b_i$ (not $>$). We denote $(a_i,b_i)$ by $A_i$.\\
+		The algorithm performs a linear scan of the $A_i$. At the first step, choose $A_1$. At some step of the algorithm, let the last interval chosen be $A_k$. Among the intervals $A_i$ with $a_i<b_k$ and $b_i>b_k$, choose that interval with the largest $b_i$. In case there is no such interval, then just choose the first interval encountered with $a_i\geq a_k$.\\
+		It is easy to see that any interval is contained in the union of these intervals.\\
 
-	To show correctness, it suffices to consider the first case of the algorithm alone (Why? It splits into smaller disjoint problems). Let $S_i$ be the set of indices chosen by the algorithm so far when we are at index $i$. We shall show that for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, it is trivial since $\emptyset$ is a subset of any optimal solution $\mathsf{OPT}$. Suppose it is true for some $r-1\geq 0$. If the algorithm does not choose $r$, then $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$ will work. Now, let $r$ be chosen and $k$ be the most recently chosen index. It is easily shown that $\mathsf{OPT}_{r-1}$ must contain some $j$ such that $a_j<b_k<b_j$ (How?). We can then set $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{k\}$, thus proving the claim.\\
-	The required follows by the above claim (because the output of the algorithm is a valid solution).
-\end{solution*}
+		To show correctness, it suffices to consider the first case of the algorithm alone (Why? It splits into smaller disjoint problems). Let $S_i$ be the set of indices chosen by the algorithm so far when we are at index $i$. We shall show that for any $i$, there is an optimal solution $\mathsf{OPT}_i$ such that $S_i\subseteq\mathsf{OPT}_i$. For $i=0$, it is trivial since $\emptyset$ is a subset of any optimal solution $\mathsf{OPT}$. Suppose it is true for some $r-1\geq 0$. If the algorithm does not choose $r$, then $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}$ will work. Now, let $r$ be chosen and $k$ be the most recently chosen index. It is easily shown that $\mathsf{OPT}_{r-1}$ must contain some $j$ such that $a_j<b_k<b_j$ (How?). We can then set $\mathsf{OPT}_r=\mathsf{OPT}_{r-1}\setminus \{j\}\cup\{k\}$, thus proving the claim.\\
+		The required follows by the above claim (because the output of the algorithm is a valid solution).
+	\end{solution*}
 
-% \begin{exercise}
-% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval not in the subset overlaps with at least one interval in the subset.
-% \end{exercise}
-% \begin{solution*}
-% 	Consider the graph $G=(V,E)$ where $V$ is the set of intervals and there is an edge between any two intervals intersect. This problem merely asks for the smallest dominating set of $G$.\footnotemark{} Further, the interval scheduling problem gives the largest independent set of $G$. Recall from graph theory that a minimal dominating set of a graph is equal to a maximal independent set. Therefore, it suffices to just give the same output as the interval scheduling problem.
-% \end{solution*}
-% \footnotetext{A dominating set of a graph $G=(V,E)$ is a set $S\subseteq V$ such that the neighbourhood of $S$ is $V$.}
+	% \begin{exercise}
+	% 	Given a set of $n$ intervals, design a greedy algorithm to find the smallest subset of intervals such that every interval not in the subset overlaps with at least one interval in the subset.
+	% \end{exercise}
+	% \begin{solution*}
+	% 	Consider the graph $G=(V,E)$ where $V$ is the set of intervals and there is an edge between any two intervals intersect. This problem merely asks for the smallest dominating set of $G$.\footnotemark{} Further, the interval scheduling problem gives the largest independent set of $G$. Recall from graph theory that a minimal dominating set of a graph is equal to a maximal independent set. Therefore, it suffices to just give the same output as the interval scheduling problem.
+	% \end{solution*}
+	% \footnotetext{A dominating set of a graph $G=(V,E)$ is a set $S\subseteq V$ such that the neighbourhood of $S$ is $V$.}
 
-\begin{exercise}
-	Given a permutation of the numbers $1$ through $n$, count the number of pairs $(i,j)$ such that all numbers that occur between $i$ and $j$ in the permutation have value between $i$ and $j$.
-\end{exercise}
-\begin{solution*}
-	It is relatively straightforward to come up with an $\mathcal{O}(n^2)$ algorithm for this. It is possible to come up with a $\mathcal{O}(n\log n)$ algorithm as well, which is what we describe here.\\
-	Denote the number at index $i$ of the permutation by $\sigma_i$.\\
-	As a preprocessing step, for each index $i$, we compute the largest $j$ such that $\sigma_j>\sigma_i$ and $j<i$. This can be accomplished in $\mathcal{O}(n)$, as can be seen in this \hyperref{https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element}{Stack Overflow answer}. For index $i$, denote this number as $l_i$.
+	\begin{exercise}
+		Given a permutation of the numbers $1$ through $n$, count the number of pairs $(i,j)$ such that all numbers that occur between $i$ and $j$ in the permutation have value between $i$ and $j$.
+	\end{exercise}
+	\begin{solution*}
+		It is relatively straightforward to come up with an $\mathcal{O}(n^2)$ algorithm for this. It is possible to come up with a $\mathcal{O}(n\log n)$ algorithm as well, which is what we describe here.\\
+		Denote the number at index $i$ of the permutation by $\sigma_i$.\\
+		As a preprocessing step, for each index $i$, we compute the largest $j$ such that $\sigma_j>\sigma_i$ and $j<i$. This can be accomplished in $\mathcal{O}(n)$, as can be seen in this \hyperref{https://stackoverflow.com/questions/9493853/given-an-array-find-out-the-next-smaller-element-for-each-element}{Stack Overflow answer}. For index $i$, denote this number as $l_i$.
 
-	We iterate upwards from $1$ through $n$, and at each step, we increment our answer by the number of ``blocks'' that end at the current index. To do so, maintain an array of indices (which we update as we progress) such that for any index $j$ in the array, we have not found an element that is less than $j$ yet. That is, if we are at index $i$, let
-	\[ \var{A} = \left( j\in[i] : \text{there is no }j< k\leq i\text{ such that }\sigma_k < \sigma_j \right). \]
-	At each step, we first update $\var{A}$. First of all, note that the elements of $\var{A}$ are arranged in increasing order (the $(\sigma_j)$ are in increasing order). Indeed, if not, then we have found an element less than $j$ to the right, so it should not be in the array at all. To update $\var{A}$, find the rightmost (smallest) element in the array that is greater than $\sigma_i$ and remove all the indices before it -- this can be done in $\mathcal{O}(\log n)$ using binary search.\\
-	To update the answer at the current step, find the greater index $j_i$ that is smaller than $l_i$. Increment the answer by $|\var{A}|-|\var{A}\cap[j_i]|$. 
-\end{solution*}
+		We iterate upwards from $1$ through $n$, and at each step, we increment our answer by the number of ``blocks'' that end at the current index. To do so, maintain an array of indices (which we update as we progress) such that for any index $j$ in the array, we have not found an element that is less than $j$ yet. That is, if we are at index $i$, let
+		\[ \var{A} = \left( j\in[i] : \text{there is no }j< k\leq i\text{ such that }\sigma_k < \sigma_j \right). \]
+		At each step, we first update $\var{A}$. First of all, note that the elements of $\var{A}$ are arranged in increasing order (the $(\sigma_j)$ are in increasing order). Indeed, if not, then we have found an element less than $j$ to the right, so it should not be in the array at all. To update $\var{A}$, find the rightmost (smallest) element in the array that is greater than $\sigma_i$ and remove all the indices before it -- this can be done in $\mathcal{O}(\log n)$ using binary search.\\
+		To update the answer at the current step, find the greater index $j_i$ that is smaller than $l_i$. Increment the answer by $|\var{A}|-|\var{A}\cap[j_i]|$. 
+	\end{solution*}

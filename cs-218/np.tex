@@ -1,15 +1,15 @@
-\section{NP Hardness and Reductions}
+\section{\texorpdfstring{$\mathsf{NP}$}{NP} Hardness and Reductions}
 
-Suppose we have $n$ jobs that take time $S_1,\ldots,S_n$ each and two processors $P_1$ and $P_2$. We wish to schedule the jobs on these two processors such that the overall time taken (the time when the last job completes) is minimized. How do we do this?\\
+	Suppose we have $n$ jobs that take time $S_1,\ldots,S_n$ each and two processors $P_1$ and $P_2$. We wish to schedule the jobs on these two processors such that the overall time taken (the time when the last job completes) is minimized. How do we do this?\\
 
-One idea is that we initially schedule $S_1$ and $S_2$ and when one of the jobs ends, we schedule the next job $S_3$ on the processor that is freed. We repeat this, scheduling jobs whenever processors become free.\\
-This does not work -- consider the set of times $\{1,1,100\}$. Our scheduling produces time $101$ (we schedule the first two jobs first), but it is quite easy to see that it can be done in time $100$.\\
+	One idea is that we initially schedule $S_1$ and $S_2$ and when one of the jobs ends, we schedule the next job $S_3$ on the processor that is freed. We repeat this, scheduling jobs whenever processors become free.\\
+	This does not work -- consider the set of times $\{1,1,100\}$. Our scheduling produces time $101$ (we schedule the first two jobs first), but it is quite easy to see that it can be done in time $100$.\\
 
-The issue seems to be that the ordering of the jobs is problematic. So instead, schedule the jobs in non-increasing order and repeat the above algorithm. Does this work?\\
-No, it does not. Consider the set of jobs $\{3,3,2,2,2\}$ -- our algorithm gives a time of $7$ but a time of $6$ can be attained.\\
+	The issue seems to be that the ordering of the jobs is problematic. So instead, schedule the jobs in non-increasing order and repeat the above algorithm. Does this work?\\
+	No, it does not. Consider the set of jobs $\{3,3,2,2,2\}$ -- our algorithm gives a time of $7$ but a time of $6$ can be attained.\\
 
-It in fact turns out that it is impossible (or at least extremely hard) to get an efficient (polynomial time) algorithm for this. It is quite surprising that we solved the interval-scheduling problem without too much difficulty, yet this is incredibly hard.\\
-How do we show that this problem is ``hard'' though? What does ``hard'' even mean?
+	It in fact turns out that it is impossible (or at least extremely hard) to get an efficient (polynomial time) algorithm for this. It is quite surprising that we solved the interval-scheduling problem without too much difficulty, yet this is incredibly hard.\\
+	How do we show that this problem is ``hard'' though? What does ``hard'' even mean?
 
 \subsection{Overview and some Definitions}
 
@@ -38,15 +38,15 @@ How do we show that this problem is ``hard'' though? What does ``hard'' even mea
 	\begin{fdef}
 		A problem $\mathsf{\Pi}$ is said to be in $\mathsf{NP}$ if there is a polynomial time algorithm $\mathcal{T}$ such that
 		\begin{itemize}
-			\item If input $x$ is a positive instance of $\Pi$ then there is a polynomial length proof $y$ such that $\mathcal{T}$ on inputs $x,y$ outputs \texttt{Yes}.
-			\item If input $x$ is a negative instance of $\Pi$ then for any polynomial length proof $y$ such that $\mathcal{T}(x,y)$ outputs \texttt{No}.
+			\item If input $x$ is a positive instance of $\mathsf{\Pi}$ then there is a polynomial length proof $y$ such that $\mathcal{T}$ on inputs $x,y$ outputs \texttt{Yes}.
+			\item If input $x$ is a negative instance of $\mathsf{\Pi}$ then for any polynomial length proof $y$ such that $\mathcal{T}(x,y)$ outputs \texttt{No}.
 		\end{itemize}
 	\end{fdef}
 
 	For example, in the $3$-colorability problem, $x$ would be the graph $G=(V,E)$, $y$ would be a function $c:V\to\{1,2,3\}$, and $\mathcal{T}$ would be the algorithm that checks if $c$ is a $3$-coloring.\\
 	The ``proof'' just serves as the ``witness'' we mentioned earlier -- an example that proves correctness.\\
 
-	Note that the problem $\Pi$ itself is just a yes-no problem. The input $x$ is a positive instance if the answer to $\Pi$ for $x$ is yes and a negative instance if the answer is no.\\
+	Note that the problem $\mathsf{\Pi}$ itself is just a yes-no problem. The input $x$ is a positive instance if the answer to $\mathsf{\Pi}$ for $x$ is yes and a negative instance if the answer is no.\\
 
 	The first important observation to make is that any problem in $\mathsf{P}$ is a problem in $\mathsf{NP}$. For any $y$, we can take $\mathcal{T}$ as the algorithm that just solves the problem and answers yes or no. We ignore the proof and merely determine if $x$ is a positive or negative instance.\\
 	Therefore,
@@ -107,7 +107,7 @@ How do we show that this problem is ``hard'' though? What does ``hard'' even mea
 
 	With our earlier comment about the complement of $\mathsf{SAT}$, even in general, the complement of a $\mathsf{NP}$-complete problem is in a class called co-$\mathsf{NP}$, and we do not know if these two classes are equal.
 
-\subsection{Coping with NP-hardness}
+\subsection{Coping with \texorpdfstring{$\mathsf{NP}$}{NP}-hardness}
 
 	How do we deal with hard problems?
 	\begin{enumerate}
@@ -126,7 +126,7 @@ How do we show that this problem is ``hard'' though? What does ``hard'' even mea
 		\item The \textit{completion time} is then $\max_{i \in [m]} T_i$.
 	\end{itemize}
 	We want to minimize the completion time. Let $\mathcal{S}$ be a scheduling that does so, and let its completion time be $T^*$.\\ 
-	While the optimization problem itself is NP-complete, the approximation version has a polynomial time algorithm.\\
+	While the optimization problem itself is $\mathsf{NP}$-complete, the approximation version has a polynomial time algorithm.\\
 	Consider the algorithm that schedules the $j$th job on the machine with the smallest load so far (with the jobs initially arranged in any arbitrary order), and $T$ be the completion time achieved by this schedule.
 
 	\begin{lemma}
@@ -156,3 +156,23 @@ How do we show that this problem is ``hard'' though? What does ``hard'' even mea
 	\begin{proof}
 		Let $A$ be the set of edges chosen by the algorithm. Then $A$ forms a matching, so we must have $|C^*| \geq |A|$. We also have $2\cdot|A| \geq |C|$, since we add at most two vertices to $C$ for each edge in $A$, so $2|C^*| \geq |C|$, completing the proof.
 	\end{proof}
+
+\subsection{Exercises}
+	
+	\begin{exercise}
+		State true or false.
+		\begin{enumerate}[(a)]
+			\item There exist problems that are not known to be in $\mathsf{P}$ and are also not known to be $\mathsf{NP}$.
+			\item If $\mathsf{\Pi}\in\mathsf{NP}$ and $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$, then $\mathsf{\Pi}'\in\mathsf{NP}$.
+			\item If $\mathsf{\Pi}\in\mathsf{P}$ and $\mathsf{\Pi}'\in\mathsf{NP}$, then $\mathsf{\Pi}\leq_m\mathsf{\Pi}'$.
+		\end{enumerate}
+	\end{exercise}
+	\begin{solution*}
+		\begin{enumerate}[(a)]
+			\item True (as of the time of writing). The set \href{https://en.wikipedia.org/wiki/PSPACE}{$\mathsf{PSPACE}$} of problems is a superset of $\mathsf{NP}$, but it is unknown whether the containment is strict. An example of a $\mathsf{PSPACE}$-complete problem (which is not known to be in $\mathsf{NP}$) is: Given a regular expression, determine if it defines the set of all strings in the alphabet.
+
+			\item True. We can combine the function $f$ in the definition of reduction and the algorithm $\mathcal{T}$ since $\mathsf{\Pi} \in \mathsf{NP}$ to get an algorithm $\mathcal{T}'$ for $\mathsf{\Pi}'$.
+
+			\item False. Consider the problem $\mathsf{\Pi}'$ that returns \texttt{no} for any input. Consider any problem $\mathsf{\Pi}\in\mathsf{P}$ that returns \texttt{yes} for at least one input. Then trivially, there is no function $f$ such that for all inputs $w$, $w\in\mathsf{\Pi}$ iff $f(w)\in\mathsf{\Pi}'$ (consider some input that gives \texttt{yes} for $\mathsf{\Pi}$), proving the claim.
+		\end{enumerate}
+	\end{solution*}
