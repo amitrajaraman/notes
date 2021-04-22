@@ -354,7 +354,7 @@ In the above, $f * g$ represents the \textit{convolution} of $f$ and $g$ and is 
 \[ x \mapsto \int_{\R} f(x) g(x-y) \d{y}. \]
 
 In compact spaces, equality holds in \Cref{eqn young's convolution inequality} when $f$ and $g$ are constant functions.\\
-On $\R$ however, we can add a multiplicative constant $c_{p,q}<1$ on the right and improve the inequality. Here, equality holds when $f$ and $g$ are appropriate Gaussians $x\mapsto e^{-a x^2}$ and $x\mapsto e^{-b x^2}$, where $a$ and $b$ are some constants depending on $p$ and $q$.\footnote{see \href{https://www.sciencedirect.com/science/article/pii/0001870876901845}{this paper} by Brascamp and Lieb.} \\
+On $\R$ however, we can add a multiplicative constant $c_{p,q}<1$ on the right and improve the inequality. Here, equality holds when $f$ and $g$ are appropriate Gaussians $x\mapsto e^{-a x^2}$ and $x\mapsto e^{-b x^2}$, where $a$ and $b$ are some constants depending on $p$ and $q$ (see \cite{BRASCAMP1976151}). \\
 Young's inequality is often written in an alternate form. Let $r$ be equal to $1-\frac{1}{s}$. We then have $\frac{1}{p} + \frac{1}{q} + \frac{1}{r} = 2$. Let $h$ be a function such that $\norm{h}_r=1$ and
 \[ \norm{(f*g)(h)}_1 = \norm{f*g}_s \norm{h}_r. \]
 We know that such a $h$ exists by choosing that which satisfies the equality condition in H\"older's inequality.
@@ -381,7 +381,7 @@ We integrate over a two-dimensional measure on the subspace $H$.\\
 
 \subsubsection{A Generalization}
 
-So this is all well and good, but how is it related to volume ratios? The paper of Brascamp and Lieb mentioned in a footnote previously did more than just say that equality holds when the functions are appropriate Gaussians. It actually \textit{generalized} Young's Convolution Inequality to higher-dimensional spaces and any number of functions. Note that the map from $\R^2$ to $\R^3$ that leads to $H$ is given by
+So this is all well and good, but how is it related to volume ratios? \cite{BRASCAMP1976151} did more than just say that equality holds when the functions are appropriate Gaussians. It actually \textit{generalized} Young's Convolution Inequality to higher-dimensional spaces and any number of functions. Note that the map from $\R^2$ to $\R^3$ that leads to $H$ is given by
 \[ x \mapsto (\langle x,v_1\rangle, \langle x,v_2\rangle, \langle x,v_3\rangle), \]
 where $v_1 = (0,1)$, $v_2 = (1,-1)$, and $v_3 = (-1,0)$. The generalisation led to the following:
 \begin{theorem}
