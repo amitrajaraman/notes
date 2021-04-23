@@ -39,7 +39,7 @@
 		A problem $\mathsf{\Pi}$ is said to be in $\mathsf{NP}$ if there is a polynomial time algorithm $\mathcal{T}$ such that
 		\begin{itemize}
 			\item If input $x$ is a positive instance of $\mathsf{\Pi}$ then there is a polynomial length proof $y$ such that $\mathcal{T}$ on inputs $x,y$ outputs \texttt{Yes}.
-			\item If input $x$ is a negative instance of $\mathsf{\Pi}$ then for any polynomial length proof $y$ such that $\mathcal{T}(x,y)$ outputs \texttt{No}.
+			\item If input $x$ is a negative instance of $\mathsf{\Pi}$ then for any polynomial length proof $y$, $\mathcal{T}(x,y)$ outputs \texttt{No}.
 		\end{itemize}
 	\end{fdef}
 
@@ -88,13 +88,13 @@
 	Consider the problem $\mathsf{SAT}$ which, given a formula $\varphi$, returns yes iff there exists some assignment $a$ such that $\varphi(a) = 1$. Also consider the problem $\overline{\mathsf{SAT}}$ which, given a formula $\varphi$, returns yes iff for every assignment $a$, $\varphi(a) = 0$. \\
 	Is $\mathsf{SAT}$ reducible to $\overline{\mathsf{SAT}}$? We do not know! This is because of the definition of a reduction, the function itself must map between inputs and run in a polynomial amount of time.
 
-	\begin{definition}
+	\begin{fdef}
 		A problem $\mathsf{\Pi}$ is said to be \textit{$\mathsf{NP}$-hard} if for every problem $\mathsf{\Pi}' \in \mathsf{NP}$, there is a polynomial time reduction such that $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$.
-	\end{definition}
+	\end{fdef}
 
-	\begin{definition}
+	\begin{fdef}
 		A problem $\mathsf{\Pi}$ is said to be \textit{$\mathsf{NP}$-complete} if $\mathsf{\Pi}$ is $\mathsf{NP}$-hard and in $\mathsf{NP}$.
-	\end{definition}
+	\end{fdef}
 
 	It was shown in \cite{cookSAT,levinSAT} that $\mathsf{SAT}$ is $\mathsf{NP}$-complete.
 
@@ -173,6 +173,6 @@
 
 			\item True. We can combine the function $f$ in the definition of reduction and the algorithm $\mathcal{T}$ since $\mathsf{\Pi} \in \mathsf{NP}$ to get an algorithm $\mathcal{T}'$ for $\mathsf{\Pi}'$.
 
-			\item False. Consider the problem $\mathsf{\Pi}'$ that returns \texttt{no} for any input. Consider any problem $\mathsf{\Pi}\in\mathsf{P}$ that returns \texttt{yes} for at least one input. Then trivially, there is no function $f$ such that for all inputs $w$, $w\in\mathsf{\Pi}$ iff $f(w)\in\mathsf{\Pi}'$ (consider some input that gives \texttt{yes} for $\mathsf{\Pi}$), proving the claim.
+			\item False. Consider the problem $\mathsf{\Pi}'$ that returns \texttt{No} for any input. Consider any problem $\mathsf{\Pi}\in\mathsf{P}$ that returns \texttt{Yes} for at least one input. Then trivially, there is no function $f$ such that for all inputs $w$, $w\in\mathsf{\Pi}$ iff $f(w)\in\mathsf{\Pi}'$ (consider some input that gives \texttt{yes} for $\mathsf{\Pi}$), proving the claim.
 		\end{enumerate}
 	\end{solution*}
