@@ -1,6 +1,6 @@
 \section{Computing Volume in High Dimensions}
 
-A very popular problem in high-dimensional convex geometry is that of determining the volume of an arbitrary body.\\
+A very popular problem in high-dimensional convex geometry is that of determining the volume of an arbitrary convex body.\\
 
 For a fixed dimension $n$, this problem isn't too difficult if we want to measure it up to some precision $\varepsilon$. We could assume that the body $K$ is enclosed in a box $B=\bigtimes_{i\leq n}[a_i,b_i]$, subdivide this box up to precision $\varepsilon$, and count how many subdivided boxes have non-empty intersection with $K$. This (after normalizing appropriately) can be considered efficient in a fixed dimension, where polynomiality is measure in $\frac{1}{\varepsilon}$. If we measure it in $n$ on the other hand, this method is useless.\\
 We are looking for algorithms that are efficient (polynomial) in the \textit{dimension} $n$.\\

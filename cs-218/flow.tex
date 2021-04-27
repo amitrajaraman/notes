@@ -54,7 +54,7 @@
 
 \subsection{Max-Flow}
 
-	In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined since the set of flow values is bounded above by the sum of capacities, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in value) to the maximum flow value. We can then show that the flow in each edge must converge as well for some subsequence (using the Bolzano-Weierstrass Theorem), thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
+	In the \textit{maximum flow problem} (shortened as max-flow), we are given a flow network $G=(V,E)$ along with a capacity function $c:E\to\N$. The output should be the maximum valued flow that can be transferred in the network.\footnote{This is well-defined even in the case of a real flow since the set of flow values is bounded above by the sum of capacities, so has a supremum. Further, this bound is attained, as can be shown by considering a sequence of flows that converge (in value) to the maximum flow value. We can then show that the flow in each edge must converge as well for some subsequence, thus implying the required since the capacity constraint has a weak inequality and not a strong one.}
 
 	\begin{fdef}
 		Given a directed graph $G=(V,E)$ with source $s$, sink $t$, and a capacity function $c:E\to\N$, an \textit{$(s,t)$-cut} or just \textit{cut} is given by $S,T\subseteq V$ such that
@@ -84,7 +84,7 @@
 				&= f^\to(S) - f^\ot(S) \\
 				&\leq f^\to(S) \\
 				&= \sum_{\substack{u\in S \\ v\in T}} f(\vv{uv}) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E) \\
-				&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T) & (\text{here, }f(\vv{uv})=0\text{ if }\vv{uv}\not\in E). \\
+				&\leq \sum_{\substack{u\in S \\ v\in T}} c(\vv{uv})  = \capp(S,T). \\
 		\end{align*}
 		The second part is easily seen from the above series of inequalities, where equality holds iff $f^\ot(S)=0$ and for each $u\in S$, $v\in T$, $f(\vv{uv})=c(\vv{uv})$.
 	\end{proof}
@@ -105,7 +105,7 @@
 
 	For each edge of $G$, note that there at most two edges in $G_f$. So, the size of $G_f$ is at most twice that of $G$.
 
-	Let $\pi$ be any $s$-$t$ path in $G_f$. Denote by $\theta(\pi,f)$ the smallest residual capacity (smallest capacity among the relevant edges in the residual graph) along $\pi$ in $G_f$.
+	Let $\pi$ be any $s$-$t$ path in $G_f$. Denote by $\theta(\pi,f)$ the smallest residual capacity (smallest capacity among the relevant edges in the residual graph) along $\pi$ in $G_f$.\\
 
 	\begin{algorithm}[H]
 		\DontPrintSemicolon
@@ -172,7 +172,7 @@
 
 	\paragraph{Correctness.} Denote by $\mathfrak{f}$ be the flow returned by the Ford-Fulkerson algorithm. Let
 	\[ A = \{v\in V : \text{there is a path to $v$ from $s$ in $G_{\mathfrak{f}}$ }\} \]
-	and $B=V\setminus A$. Observe that $s\in A$ and $t\in B$. Further, when the algorithm terminates, there is no path from $s$ to $t$ in $G_\mathfrak{f}$. Since the two sets are disjoint, $(A,B)$ is a cut on $G$ (this makes sense because the two graphs have the same vertex set).
+	and $B=V\setminus A$. Observe that $s\in A$. Further, when the algorithm terminates, there is no path from $s$ to $t$ in $G_\mathfrak{f}$, so $t\in B$. Since the two sets are disjoint, $(A,B)$ is a cut on $G$ (this makes sense because the two graphs have the same vertex set).
 
 	To show optimality, it suffices to show (using \Cref{ff-algo lemma 1}) that $\mathfrak{f}$ saturates every edge from $A$ to $B$ and avoids every edge from $B$ to $A$.
 	\begin{itemize}
@@ -184,8 +184,8 @@
 
 	\paragraph{Importance of chosen paths.} The chosen path turns out to be quite important. An example to highlight this fact can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Integral_example}{here}.
 
-	\paragraph{Non-integral costs.} It is not too difficult to show that there is no problem if the costs are rational -- the flow increases by at least $1/q$, where $q$ is the maximum denominator of any cost when written as a fraction.\\
-	However, it need not terminate when the costs are irrational. Further, it need not even converge to the correct value. A standard counterexample to show this can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Non-terminating_example}{here}.
+	\paragraph{Non-integral capacities.} It is not too difficult to show that there is no problem if the costs are rational -- the flow increases by at least $1/q$, where $q$ is the maximum denominator of any cost when written as a fraction.\\
+	However, it need not terminate when the capacities are irrational. Further, it need not even converge to the correct value. A counterexample to show this can be found \href{https://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm#Non-terminating_example}{here}.
 
 	However, there have been far more efficient algorithms for determining max-flow.
 
@@ -285,7 +285,7 @@
 		Suppose we have $n$ teams. Each team has a certain number of wins $w_i$ initially, and for each $\{x,y\}$, there is a quantity $r_{xy}\geq 0$ which represents the number of games teams $x$ and $y$ are left to play against each other ($r_{xy} = r_{yx}$ and $r_{xx}=0$). Is it possible for a certain team $z$ to get first position after all the games are done (possibly being tied with other teams)? Equivalently, if all teams except those which are at first position are eliminated, is $z$ necessarily eliminated?\\
 
 		We shall formulate this as a max-flow min-cut problem, creating a flow network $G_z$. First, let $g_z^* = \sum_{x,y \in X\setminus\{z\}} g_{x,y}$.\\
-		We show that $G_z$ has a flow of value strictly less than $g_z^*$ iff $z$ is eliminated. We must also argue that $G_z$ can be obtained from the input in polynomial time.\\
+		% We show that $G_z$ has a flow of value strictly less than $g_z^*$ iff $z$ is eliminated. We must also argue that $G_z$ can be obtained from the input in polynomial time.\\
 
 		Let $X' = X \setminus \{z\}$. $G_z$ has vertex set
 		\[ V = \{s,t\} \cup \{u_{xy} : \{x,y\}\subseteq X'\} \cup \{u_x : x \in X'\}, \]
@@ -304,14 +304,14 @@
 		where 
 		\[ m = w_z + \sum_{x\in X'} g_{zx}. \]
 		is the total number of games $z$ can have won at the end.\\
-		In case any of the capacities are negative, then the problem is trivial anyway since $m_x > m$ for some $x$, so $z$ cannot win.
+		In case any of the capacities are negative, then the problem is trivial anyway since $w_x > m$ for some $x$, so $z$ cannot win.
 
 		\begin{lemma}
-			$G_z$ has a flow strictly less than $g_z^*$ iff $z$ is necessarily eliminated.
+			$G_z$ has a flow of value $g_z^*$ iff $z$ is not necessarily eliminated.
 		\end{lemma}
 		\begin{proof}
-			Suppose $G_z$ has a flow of value $g_z^*$. This means that it is possible to obtain outcomes where all the other teams win at most $m$ games (totally). This means that $z$ is not eliminated.\\
-			On the other hand, suppose $z$ is not eliminated. Using the outcomes of the games, it is possible to set the flows in $E_\text{sink}$ such that no flow exceeds $m - w_u$ for any $u$ at the end of all the games. This achieves a flow of value $g_z^*$.
+			Suppose $G_z$ has a flow of value $g_z^*$. This means that it is possible to obtain outcomes where each of the other teams win at most $m$ games. This means that $z$ is not eliminated.\\
+			On the other hand, suppose $z$ is not necessarily eliminated. Using the outcomes of the games, it is possible to set the flows in $E_\text{sink}$ such that no flow exceeds $m - w_u$ for any $u$ at the end of all the games. This achieves a flow of value $g_z^*$.
 		\end{proof}
 
 		While not related directly to the algorithm given above, the following lemma, which can be proved from the max-flow min-cut theorem, is interesting.

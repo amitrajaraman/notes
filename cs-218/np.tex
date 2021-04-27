@@ -48,7 +48,7 @@
 
 	Note that the problem $\mathsf{\Pi}$ itself is just a yes-no problem. The input $x$ is a positive instance if the answer to $\mathsf{\Pi}$ for $x$ is yes and a negative instance if the answer is no.\\
 
-	The first important observation to make is that any problem in $\mathsf{P}$ is a problem in $\mathsf{NP}$. For any $y$, we can take $\mathcal{T}$ as the algorithm that just solves the problem and answers yes or no. We ignore the proof and merely determine if $x$ is a positive or negative instance.\\
+	The first important observation to make is that any problem in $\mathsf{P}$ is a problem in $\mathsf{NP}$. For any $y$, we can take $\mathcal{T}$ as the algorithm that just solves the problem and answers \texttt{Yes} or \texttt{No}. We ignore the proof and merely determine if $x$ is a positive or negative instance.\\
 	Therefore,
 	\[ \mathsf{P} \subseteq \mathsf{NP}. \]
 
@@ -57,7 +57,7 @@
 	In a \textit{search problem}, we are asked to find a solution. For example, finding a path between a pair of vertices, sorting, and finding a $3$-coloring.\\
 	In an \textit{optimization problem}, we are asked to find a ``best'' solution with respect to some optimization parameter. For example, max-flow, min-cut, longest common subsequence.\\
 
-	Any search problem has a decision problem variant. If a search problem asks to find a specific solution, the decision problema asks whether there is a solution.\\
+	Any search problem has a decision problem variant. If a search problem asks to find a specific solution, the decision variant asks whether there is a solution.\\
 	For example, finding a $3$-colouring changes to asking whether a $3$-coloring asks.\\
 	Observe that if we can solve a search problem, we can solve its decision variant as well.\\
 
@@ -86,10 +86,10 @@
 	\end{definition}
 
 	Consider the problem $\mathsf{SAT}$ which, given a formula $\varphi$, returns yes iff there exists some assignment $a$ such that $\varphi(a) = 1$. Also consider the problem $\overline{\mathsf{SAT}}$ which, given a formula $\varphi$, returns yes iff for every assignment $a$, $\varphi(a) = 0$. \\
-	Is $\mathsf{SAT}$ reducible to $\overline{\mathsf{SAT}}$? We do not know! This is because of the definition of a reduction, the function itself must map between inputs and run in a polynomial amount of time.
+	Is $\mathsf{SAT}$ reducible to $\overline{\mathsf{SAT}}$? We do not know! This is because in the definition of a reduction, the function must map between inputs -- we are not allowed to do any processing after receiving the output for the other problem.
 
 	\begin{fdef}
-		A problem $\mathsf{\Pi}$ is said to be \textit{$\mathsf{NP}$-hard} if for every problem $\mathsf{\Pi}' \in \mathsf{NP}$, there is a polynomial time reduction such that $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$.
+		A problem $\mathsf{\Pi}$ is said to be \textit{$\mathsf{NP}$-hard} if for every problem $\mathsf{\Pi}' \in \mathsf{NP}$, $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$.
 	\end{fdef}
 
 	\begin{fdef}

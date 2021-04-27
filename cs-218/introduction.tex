@@ -108,7 +108,7 @@ We give a few examples with the aim of hopefully making the above notation more 
 Greed is good, and sometimes, it's even optimal.\\
 
 What is a greedy algorithm? It essentially builds a solution in tiny steps, performing some sort of \textit{local} optimization, which ends up optimizing the problem requirement \textit{globally}.\\
-It is quite clear that greedy algorithms needn't always work, we must pick a local criterion that fits our requirements.\\
+It is quite clear that greedy algorithms needn't always work, we must pick a local criterion that fits our requirements.
 
 \subsubsection{Interval Scheduling}
 
@@ -160,7 +160,7 @@ As it turns out, nearly any greedy strategy we come up with will work for this p
 	\item This only works if all the edge costs are distinct. First, for each vertex, select the cheapest edge. After this, repeatedly select a cheapest edge between two distinct connected components until the graph becomes connected.
 \end{enumerate}
 
-The first algorithm is also known as Kruskal's algorithm. More concretely, what it does is shown in \Cref{algo: kruskal's algorithm}
+The first algorithm is also known as Kruskal's algorithm. More concretely, what it does is shown in \Cref{algo: kruskal's algorithm}.
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -199,7 +199,7 @@ Let us next show that $T$ is connected. Suppose otherwise. There must then be a 
 
 Observe that the second algorithm given above is essentially Kruskal's algorithm in reverse.\\
 
-The third algorithm given above arises quite naturally from the cut property -- it is also known as \textit{Prim's algorithm}.
+The third algorithm given above arises quite naturally from the cut property -- it is known as \textit{Prim's algorithm}.
 
 \begin{algorithm}
 	\DontPrintSemicolon
@@ -265,7 +265,7 @@ This strategy is optimal.
 How do we prove correctness? For a tree $T$ corresponding to a prefix-free encoding of $\Sigma$, we can associate it to a cost 
 \[ c(T) = \sum_{1\leq i\leq n} f_i d_T(a_i), \]
 where $d_T(a_i)$ is the depth of $a_i$ in $T$.\\
-Observe that any optimal tree must be a full binary tree (any internal node has $2$ children) -- if not, we can shift leaves lower down to a higher position and decrease the cost.\\
+Observe that any optimal tree must be a full binary tree (any internal node has $2$ children) -- if not, we can shift leaves lower down to a higher position and decrease the cost.
 
 \begin{lemma*}
 	Consider the two letters $x$ and $y$ with the smallest frequencies. There is an optimal code tree $T^*$ in which these two letters are sibling leaves at the lowest level.
@@ -456,9 +456,9 @@ We shall reduce the problem of \textit{interpolation} of $C$ to the \textit{eval
 	Let $C(x)=\sum_{s=0}^{2n-1} c_s x^s$ and $D(x)=\sum_{s=0}^{2n-1} d_s x^s$, where for each $s$, $d_s = C(\omega_{s,2n})$. Then for each $s$,
 	\[ c_s = \frac{1}{2n} D(\omega_{2n-s,2n}). \]
 \end{lemma*}
-\begin{proof}
+% \begin{proof}
 
-\end{proof}
+% \end{proof}
 
 This allows us to evaluate the $(c_s)$ in $\mathcal{O}(n\log n)$ time by evaluating $D$ at the required points (using the methods we have already seen).
 
