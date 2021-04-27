@@ -163,7 +163,7 @@
 		State true or false.
 		\begin{enumerate}[(a)]
 			\item There exist problems that are not known to be in $\mathsf{P}$ and are also not known to be $\mathsf{NP}$.
-			\item If $\mathsf{\Pi}\in\mathsf{NP}$ and $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$, then $\mathsf{\Pi}'\in\mathsf{NP}$.
+			% \item If $\mathsf{\Pi}\in\mathsf{NP}$ and $\mathsf{\Pi}' \leq_m \mathsf{\Pi}$, then $\mathsf{\Pi}'\in\mathsf{NP}$.
 			\item If $\mathsf{\Pi}\in\mathsf{P}$ and $\mathsf{\Pi}'\in\mathsf{NP}$, then $\mathsf{\Pi}\leq_m\mathsf{\Pi}'$.
 		\end{enumerate}
 	\end{exercise}
@@ -171,7 +171,7 @@
 		\begin{enumerate}[(a)]
 			\item True (as of the time of writing). The set \href{https://en.wikipedia.org/wiki/PSPACE}{$\mathsf{PSPACE}$} of problems is a superset of $\mathsf{NP}$, but it is unknown whether the containment is strict. An example of a $\mathsf{PSPACE}$-complete problem (which is not known to be in $\mathsf{NP}$) is: Given a regular expression, determine if it defines the set of all strings in the alphabet.
 
-			\item True. We can combine the function $f$ in the definition of reduction and the algorithm $\mathcal{T}$ since $\mathsf{\Pi} \in \mathsf{NP}$ to get an algorithm $\mathcal{T}'$ for $\mathsf{\Pi}'$.
+			% \item True. We can combine the function $f$ in the definition of reduction and the algorithm $\mathcal{T}$ since $\mathsf{\Pi} \in \mathsf{NP}$ to get an algorithm $\mathcal{T}'$ for $\mathsf{\Pi}'$.
 
 			\item False. Consider the problem $\mathsf{\Pi}'$ that returns \texttt{No} for any input. Consider any problem $\mathsf{\Pi}\in\mathsf{P}$ that returns \texttt{Yes} for at least one input. Then trivially, there is no function $f$ such that for all inputs $w$, $w\in\mathsf{\Pi}$ iff $f(w)\in\mathsf{\Pi}'$ (consider some input that gives \texttt{yes} for $\mathsf{\Pi}$), proving the claim.
 		\end{enumerate}
