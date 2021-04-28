@@ -530,7 +530,7 @@ The Fisher effect just says that an increase in inflation causes an equal increa
 
 # Lecture 34
 
-In the long run, real GDP grows around 5% per year on average. In the short run however, it fluctuates around its trend. A _recession_ is a period of falling real incomes and rising unemployment. A _depression_ is a severe recession.
+In the long run, real GDP grows around 5% per year on average. In the short run however, it fluctuates around this trend. A _recession_ is a period of falling real incomes and rising unemployment. A _depression_ is a severe recession.
 * Economic fluctuations are irregular and unpredictable.    
 	These short-run economic fluctuations are often called _business cycles_. The name is somewhat leading since the fluctuations do not actually cycle, and are very unpredictable.
 * Most macroeconomic quantities fluctuate together.    
