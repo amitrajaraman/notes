@@ -31,7 +31,7 @@ Conversely, the Paasche index tends to understate the increase in cost of living
 As new goods are introduced, consumers have more choice so the dollar is worth more.    
 Some quality change may be unmeasured. If the quality of a good deteriorates while its price remains the same, the value of a dollar is dropping.
 
-Therefore, it is difficult to compare WPI (Paasche) and the GDP deflator (Laspeyres), since they are both bad in their own ways. They follow similar trends.
+Therefore, it is difficult to compare WPI (Laspeyres) and the GDP deflator (Paasche), since they are both bad in their own ways. They follow similar trends.
 
 We can compare today's prices with that of a different year's as
 

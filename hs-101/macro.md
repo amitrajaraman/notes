@@ -46,7 +46,7 @@ _Productivity_ is the amount of goods and services produced from each hour of a 
 _Inflation_ is an increase in the overall level of prices in the economy. In the long run, the growth in quantity of money causes inflation. The value of the money falls.
 
 10. Society faces a short-run trade-off between inflation and unemployment.    
-We shall study this in the _Phillips curve_.
+This is shown in the _Phillips curve_ (which we shall not study).
 
 _Macroeconomics_ is the analysis of the backdrop of economic conditions against which firms/consumers make decisions.    
 The measures we use are _per capita income_ and _life expectancy_. It is seen that both of them vary very widely across countries. We also sometimes use the total market value of a nation's production - its _Gross Domestic Product (GDP)_.
@@ -67,7 +67,7 @@ Here, we mention some major events since the start of the millennium:
 * Outbreak of Syrian Civil War on January 26, 2011, which began with peaceful protests in Damascus.
 * Outbreak of the Ebola epidemic in West Africa in December 2013, when a 2 year old boy died in Guinea.
 * 2015 outbreak of MERS in South Korea.
-* Massive flow of regugees from Syria, Iraq, and Eritrea towards Europe in Summer 2015 (60 million in 2014 alone). This is the highest ever recorded to leave their home country.
+* Massive flow of refugees from Syria, Iraq, and Eritrea towards Europe in Summer 2015 (60 million in 2014 alone). This is the highest ever recorded to leave their home country.
 * Chinese stock market plunges 30% in June/July 2014 after rising 75% since the previous October.
 * The price of oil fell sharply in 2015/16 falling below $30 per barrel before recovering slightly. This mainly affected Russia, Venezuela, and Saudi Arabia.
 * Human wave of migrants from Syria, Libya, Iraq, Pakistan, Afghanistan, and others to the safe havens of Europe, which caused a crisis.
@@ -169,7 +169,7 @@ Some more rules for computing GDP are:
 * As mentioned earlier, used goods are not used in the calculation of GDP.
 * How do we treat inventories? This depends on whether the goods are sold or if they spoil. If the goods are sold, then their value is included in the GDP. If they spoil, the GDP remains unchanged.
 * Some goods are not sold in the market. So, we use their imputed prices instead (recall the example of a house someone owns and lives in).
-* Intermediate goods are not counted in the GDP, only the final goods are.
+* Intermediate goods are not counted in the GDP, only final goods are.
 
 Now, the calculation of real GDP fixes a certain base year. This is not good because prices may change drastically over periods of time and it is misleading to use the values from 10-15 years ago. Therefore, we shift the base year prices once in a while (every 5-10 years).
 
@@ -240,7 +240,7 @@ The inflation rate can be measured as the percentage change of CPI or WPI.
 
 The WPI is used to provide estimates of inflation at the wholesale transaction level for the economy as a whole. This allows the government to check for inflation, in essential commodities in particular. It is used as a deflator for many sectors of the economy, including estimating GDP. It is also used for indexation in business contracts. Global investors track the WPI as a key macro indicator for their investment decisions.
 
-We assign less weight to food items that are more volatile over time. As a result, core manufactured products have high weightage. According to purists, core inflation using only manufactured products carries significance as a more accurate predictor in the long term. This weeds out transitory components such as food and energy. Some alternate methods are the trimmed-mean method, which strips the most volatile items off the index each month.
+We assign less weight to food items that are more volatile over time. As a result, core manufactured products have high weightage. According to purists, core inflation using only manufactured products carries significance as a more accurate predictor in the long term. This weeds out transitory components such as food and energy. An alternate methods is the trimmed-mean method, which strips the most volatile items off the index each month.
 
 In any index,
 * What base year do we choose? The year should be somewhat normal/stable with respect to economic activities and their prices. We should have reliable data and the year should be as recent as possible. The base year for closely related economic indicators should not be wildly different.
@@ -282,7 +282,7 @@ Conversely, the Paasche index tends to understate the increase in cost of living
 As new goods are introduced, consumers have more choice so the dollar is worth more.    
 Some quality change may be unmeasured. If the quality of a good deteriorates while its price remains the same, the value of a dollar is dropping.
 
-Therefore, it is difficult to compare WPI (Paasche) and the GDP deflator (Laspeyres), since they are both bad in their own ways. They follow similar trends.
+Therefore, it is difficult to compare WPI (Laspeyres) and the GDP deflator (Paasche), since they are both bad in their own ways. They follow similar trends.
 
 We can compare today's prices with that of a different year's as
 
@@ -321,7 +321,7 @@ It was observed that most spells of unemployment are short, but most unemploymen
 The unemployment caused by the time it takes workers to search for a job is called _frictional unemployment_. Economists call a change in the composition of demand among industries or regions a _sectoral shift_.    
 Since sectoral shifts are always occurring, there is always frictional unemployment. In an attempt to reduce frictional unemployment, some policies inadvertently increase it instead. An example of this is unemployment insurance. In this, workers collect a fraction of their wages for a certain period after losing their jobs. This decreases the incentive to find a new job. While economists agree that eliminating this will reduce the amount of unemployment, they disagree on whether it will enhance economic well-being.
 
-Wage rigidity is the failure of wages to adjust until labour supply eqals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are unemployed not because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level. This is the result of a minimum wage law above the equilibrium wage. It should be noted that efficiency-wage theories claim that even in the presence of a minimum wage or a surplus of workers, firms should set their wage far above the equilibrium wage.
+_Wage rigidity_ is the failure of wages to adjust until labour supply equals the labour demand. The unemployment resulting from wage rigidity and job rationing is called _structural unemployment_. Workers are unemployed not because they cannot find a job that complements their skills, but because the labor supply is greater than the labor demand. This is the case because the real wage is stuck above the equilibrium level. This is the result of a minimum wage law above the equilibrium wage. It should be noted that efficiency-wage theories claim that even in the presence of a minimum wage or a surplus of workers, firms should set their wage far above the equilibrium wage.
 
 In job search, people are searching for jobs that suit their skills to open up, whereas in the above example, people are waiting for jobs to open up.
 
@@ -440,7 +440,7 @@ The three tools it uses to do so are:
 
 * Open-Market Operations (OMOs): The purchase and sale of Indian government bonds by the RBI.
 	To increase money supply, they buy bonds, paying with new dollars, which are deposited in banks increasing reserves, which banks use to make loans causing money supply to expand.    
-	To reduce money supply, they sell government bonds, taking dollars out of circulation and the process works in reserve. Open-market sales of bonds takes rupees out of the hands of the public, thus reducing the quantity of money in circulation.     
+	To reduce money supply, they sell government bonds, taking dollars out of circulation and the process works in reserve. Open-market sales of bonds take rupees out of the hands of the public, thus reducing the quantity of money in circulation.     
 	These are easy to conduct and are the RBI's monetary policy tool of choice.
 
 # Lecture 32

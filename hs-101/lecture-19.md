@@ -16,7 +16,7 @@ Some of the major events since the start of the millenium are:
 * Outbreak of Syrian Civil War on January 26, 2011, which began with peaceful protests in Damascus.
 * Outbreak of the Ebola epidemic in West Africa in December 2013, when a 2 year old boy died in Guinea.
 * 2015 outbreak of MERS in South Korea.
-* Massive flow of regugees from Syria, Iraq, and Eritrea towards Europe in Summer 2015 (60 million in 2014 alone). This is the highest ever recorded to leave their home country.
+* Massive flow of refugees from Syria, Iraq, and Eritrea towards Europe in Summer 2015 (60 million in 2014 alone). This is the highest ever recorded to leave their home country.
 * Chinese stock market plunges 30% in June/July 2014 after rising 75% since the previous October.
 * The price of oil fell sharply in 2015/16 falling below $30 per barrel before recovering slightly. This mainly affected Russia, Venezuela, and Saudi Arabia.
 * Human wave of migrants from Syria, Libya, Iraq, Pakistan, Afghanistan, and others to the safe havens of Europe, which caused a crisis.

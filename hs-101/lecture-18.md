@@ -19,7 +19,7 @@ _Productivity_ is the amount of goods and services produced from each hour of a 
 _Inflation_ is an increase in the overall level of prices in the economy. In the long run, the growth in quantity of money causes inflation. The value of the money falls.
 
 10. Society faces a short-run trade-off between inflation and unemployment.    
-We shall study this in the _Phillips curve_.
+This is shown in the _Phillips curve_ (which we shall not study).
 
 _Macroeconomics_ is the analysis of the backdrop of economic conditions against which firms/consumers make decisions.    
 The measures we use are _per capita income_ and _life expectancy_. It is seen that both of them vary very widely across countries. We also sometimes use the total market value of a nation's production - its _Gross Domestic Product (GDP)_.
