@@ -606,7 +606,7 @@
 			\label{lee-vem: isoperimetric using time}
 			Suppose there is $T > 0$ such that
 			\[ \Pr\left[\int_0^T \rho(p_s) \d{s} \leq \frac{1}{64} \right] \geq \frac{3}{4}. \]
-			Then $\psi_p \gtrsim T^{-1/2}$.
+			Then $\psi_p \gtrsim T^{1/2}$.
 		\end{ftheo}
 		\begin{proof}
 			Let $E\subseteq\Rn$ with $p(E) = 1/2$.
@@ -615,7 +615,7 @@
 				\int_{\partial E} p(x) \d{x} &= \expec\left[ \int_{\partial E} p_T(x)\d{x} \right] & (p_t\text{ is a martingale}) \\
 					&\gtrsim T^{1/2} \expec \left[ \min\left\{p_T(E) , p_T(\Rn\setminus E)\right\} \right] \\
 					&\gtrsim T^{1/2} \Pr\left[ \frac{1}{4} \leq p_T(E) \leq \frac{3}{4} \right] \\
-					&\gtrsim T^{1/2} \left(\frac{9}{10} - \Pr\left[\int_0^t \rho(p_s)\d{s} \geq \frac{1}{64}\right]\right) \gtrsim T^{1/2}.
+					&\gtrsim T^{1/2} \left(\frac{9}{10} - \Pr\left[\int_0^T \rho(p_s)\d{s} \geq \frac{1}{64}\right]\right) \gtrsim T^{1/2}.
 			\end{align*}
 		\end{proof}
 
@@ -721,13 +721,9 @@
 
 	\subsubsection{An Almost Constant Bound}
 
-		Here, we prove that there is a constant $c$ such that for any log-concave $p$ in $\Rn$ and integer $\ell \geq 1$,
-		\[ \psi_p \geq \frac{1}{(c\ell(\log n + 1))^{\ell/2} n^{16/\ell} \sqrt{\rho(p)}}. \]
-		In particular, setting
-		\[ \ell = \left\lceil \sqrt{\frac{\log n}{\log \log n}} \right\rceil, \]
-		there exists a constant $c'$ such that
-		\[ \psi_p \geq \frac{1}{n^{c'\sqrt{\log \log n / \log n} \sqrt{\rho(p)}}}. \]
-		For this, the control matrix $C_t$ in \Cref{eqn: main stoch local} as $A^{-1}$. The resulting stochastic differential equations are then
+		Here, we prove that there is a constant $c$ such that for any log-concave $p$ in $\Rn$,
+		\[ \psi_p \geq \frac{1}{n^{c'\sqrt{\log \log n / \log n}} \sqrt{\rho(p)}}. \]
+		To get this, we set the control matrix $C_t$ in \Cref{eqn: main stoch local} as $A^{-1}$. The resulting stochastic differential equations are then
 		\begin{equation}
 			\label{eqn: chen main stoch local}
 			\begin{gathered}
@@ -737,23 +733,47 @@
 			\end{gathered}
 		\end{equation}
 
-		For starters, for any integer $n \geq 1$, define
+		To begin, for any integer $n \geq 1$, define
 		\[ \psi_n = \inf_{\substack{\text{$p$ is log-concave in $\R^n$} \\ \text{and has compact support}}} \psi_p\sqrt{\rho(p)}. \]
 
-
-		With a proof very similar to \Cref{basic estimate}, we have
-		\begin{equation}
-			\label{eqn: chen prob in terms of spectral norm}
-			\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] \geq \frac{9}{10} - \Pr\left[\int_0^t \norm{A^{-1/2}A_sA^{1/2}}_2\d{s} \geq \frac{1}{64}\right].
-		\end{equation}
-		Using \cite{Paouris2006}, we may assume that the log-concave density $p$ has compact support -- we may restrict it to a sufficiently large ball losing exponentially small measure in the process. We can in fact get away with much looser constraints in this situation and restrict ourselves to a ball throwing away at most $0.2$ of the measure.\\
+		% With a proof very similar to \Cref{basic estimate}, we have
+		% \begin{equation}
+		% 	\label{eqn: chen prob in terms of spectral norm}
+		% 	\Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4}\right] \geq \frac{9}{10} - \Pr\left[\int_0^t \norm{A^{-1/2}A_sA^{1/2}}_2\d{s} \geq \frac{1}{64}\right].
+		% \end{equation}
+		Using \cite{Paouris2006}, we may assume that the log-concave density $p$ has compact support -- we may restrict it to a sufficiently large ball losing exponentially small measure in the process. We shall restrict our measure to a ball of radius $n^5$. %We can in fact get away with much looser constraints in this situation and restrict ourselves to a ball throwing away at most $0.2$ of the measure.\\
 
 		Assume the dimension $n$ is at least $3$.
 
-		To control the spectral norm, we give two results.
-		Define the potential
-		\[ Q_t = A^{-1/2} A_t A^{-1/2}, \;\;\; \Gamma_t = \Tr(Q_t^q). \]
-		It is quite easy to see that $\Gamma_t^{1/q} \geq \norm{Q_t}_2$
+		First, like before, let us give a basic estimate like in the last section to bound the isoperimetric constant.
+
+		\begin{lemma}
+			\label{chen basic estimate}
+			Let $p$ be an isotropic log-concave density. If for some $T > 0$,
+			\[ \expec\left[\int_0^T \opnorm{A_t} \d{t} \right] \leq \frac{1}{8}, \]
+			then $\psi_p \gtrsim T^{1/2}$.
+		\end{lemma}
+		\begin{proof}
+			Let $E$ be a set of measure initially $1/2$ (under $p$). As described before, we would like to bound the change in measure of $E$.
+			We have
+			\[ \int_{\partial E} p(x) \d{x} = \expec\left[\int_{\partial E} p_T(x) \d{x}\right] \gtrsim T^{1/2} \expec[\min\{p_T(E),1-p_T(E)\}] \geq T^{1/2} \expec[p_T(E)(1-p_T(E))]. \]
+			Let $M_t = p_t(E)$. Then
+			\[ \d{M_t} = \int_E \langle x-\mu_t, \d{W}_t \rangle p_t(x) \d{x} = \left\langle \int_E (x-\mu_t) p_t(x) \d{x} , \d{W_t} \right\rangle, \]
+			so $M_t$ is a martingale. Letting the first expression in the final inner product be $v_t$, we have
+			\[ \norm{v_t} = \sup_{\theta \in S^{n-1}} \int_E \langle x-\mu_t , \theta \rangle p_t(x) \d{x} \leq \sqrt{ \sup_{\theta \in S^{n-1}} \int_E \langle x-\mu_t , \theta \rangle^2 p_t(x) \d{x} } = \opnorm{A_t}^{1/2}. \]
+			Using It\^{o}'s Lemma,
+			\[ \d{(M_t(1-M_t))} = -\norm{v_t}^2\d{t} + \text{(martingale term)}. \]
+			Taking the expectation on eithe side and using the bound,
+			\[ \d{\expec[M_t(1-M_t)]} \geq -\expec\left[\opnorm{A_t}\right]\d{t}. \]
+			Therefore,
+			\[ \expec[M_t(1-M_t)] \geq M_0(1-M_0) - \frac{1}{8} = \frac{1}{8}, \]
+			proving the lemma.
+		\end{proof}
+
+		Therefore, we wish to control the spectral norm. To do this, define the potential
+		\[ \Gamma_t = \Tr(A_t^q). \]
+		It is quite easy to see that $\Gamma_t^{1/q} \geq \opnorm{A_t}$.
+
 		\begin{lemma}
 			With the above definition,
 			\begin{equation}
@@ -763,117 +783,179 @@
 			and
 			\begin{equation}
 				\label{kls chen bound B}
-				\d{\Gamma_t} \leq q^2\psi_n^{-2}\opnorm{A_t}\Gamma_t\d{t} + (\text{martingale term}).
+				\d{\Gamma_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}\Gamma_t\d{t} + (\text{martingale term}).
 			\end{equation}
 		\end{lemma}
-		\begin{proof}
+		% \begin{proof}
 			
-		\end{proof}
-	
-		\begin{ftheo}
-			\label{chen norm bound}
-			Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $n \geq 3$, and $T_2 = 1/cq\alpha^2 \log(n)n^{2\beta - (\beta/4q)}$,
-			\[ \Pr\left[\int_0^{T_2} \norm{A^{-1/2} A_t A^{-1/2}}_2 \d{t} \geq \frac{1}{64} \right] < \frac{4}{10}. \]
-		\end{ftheo}
-		\begin{proof}
-			Since it is difficult to control the eigenvalues directly, define the potential function
-			\[ Q_t = A^{-1/2} A_t A^{-1/2}, \;\;\; \Gamma_t = \Tr(Q_t^q). \]
-			Clearly, $\Gamma_t \geq \norm{A^{-1/2} A_t A^{-1/2}}_2$. Let
-			\[ T_1 = \frac{1}{c'q\alpha^2\log(n)n^{2\beta}} \text{ and } T_2 = \frac{n^{\beta/4q}}{40}T_1, \]
-			where $c' = 32768$.
+		% \end{proof}
 
-			It follows from \eqref{kls chen bound A} that
-			\[ \expec[\d{\Gamma_t}] \leq \frac{2q^2}{t} \expec[\Gamma_t\d{t}], \]
-			so for $t_2 > t_1 > 0$, we have
+		\begin{corollary}
+			\label{chen: expectation of potential A}
+			With the above definitions, for $t_2 > t_1 > 0$, we have
 			\begin{equation}
-				\label{eqn: expectation of potential A}
 				\expec[\Gamma_{t_2}^{1/q}] \leq \expec[\Gamma_{t_1}^{1/q}] \left(\frac{t_2}{t_1}\right)^{2q}.	
 			\end{equation}
-			On the other hand, it follows from \eqref{kls chen bound B} that
-			\begin{equation}
-				\label{eqn: expectation of potential B}
-				\Pr\left[\max_{t\in[0,T_1]} - \frac{1}{(1+\Gamma_t)^{1/q}} \geq -\frac{1}{2(n+1)^{1/q}} \right] \leq \exp\left(-\frac{2}{3}q\log n\right) \leq \frac{3}{10}.
-			\end{equation}
-
-
-
-			We bound the integral of the spectral norm by doing so separately on $[0,T_1]$ and $[T_1,T_2]$.
-			\begin{itemize}
-				\item[$\displaystyle{[0,T_1]}$] We have
-					\begin{align*}
-						\Pr\left[\int_0^{T_1} \Gamma_t^{1/q} \geq \frac{1}{128} \right] &\leq \Pr\left[\max_{t\in[0,T_1]} \Gamma_t^{1/q} \geq \frac{1}{128 T_1} \right] \\
-							&\leq \Pr\left[ \max_{t\in[0,T_1]} \Gamma_t^{1/q} \geq 3 n^{1/q} \right] \\
-							&= \Pr\left[ \max_{t\in[0,T_1]} \Gamma_t \geq 3^q n \right] \\
-							&\leq \Pr\left[ \max_{t\in[0,T_1]} 1 + \Gamma_t \geq 2^q (n+1) \right] \\
-							&= \Pr\left[\max_{t\in[0,T_1]} - \frac{1}{(1+\Gamma_t)^{1/q}} \geq -\frac{1}{2}(n+1)^{1/q} \right] \\
-							&\leq \frac{3}{10}. & \text{(using \eqref{eqn: expectation of potential B})}
-					\end{align*}
-
-				\item[$\displaystyle{[T_1,T_2]}$] Since $p_{T_1}$ is more log-concave than a Gaussian density with covariance matrix $\frac{1}{T_1}A$, the covariance matrix of $p_{T_1}$ itself can be upper bounded using Theorem 4.1 in \cite{Brascamp2002}, giving
-				\[ A_{T_1} \preceq \frac{A}{T_1}. \]
-				So, every eigenvalue of $A_{T_1}$ is upper bounded by $1/T_1$ and $\Gamma_{T_1}$ is upper bounded by $n/T_1^q$.
-				Then,
-				\begin{align*}
-					\expec[\Gamma_{T_1}^{1/q}] &= \expec\left[\indic_{\Gamma_{T_1} \geq 3^q n} \Gamma_{T_1}\right] + \expec\left[\indic_{\Gamma_{T_1} < 3^q n} \Gamma_{T_1} \right] \\
-						&\leq \frac{n^{1/q}}{T_1}\exp\left(-\frac{2}{3}q\log n\right) + 3n^{1/q} & \text{(similar to the first part and using \eqref{eqn: expectation of potential B})} \\
-						&\leq (c'q\alpha^2 + 4) n^{1/q} \leq c''n^{1/q},
-				\end{align*}
-				for $c'' = 40000$.
-				Thus, we have
-				\begin{align}
-					\expec\left[\Gamma_t^{1/q}\right] &\leq \expec\left[\Gamma_{T_1}^{1/q}\right] \left(\frac{t}{T_1}\right)^{2q} & \text{(using \eqref{eqn: expectation of potential A})} \nonumber \\
-						&\leq \expec\left[\Gamma_{T_1}^{1/q}\right] \left(\frac{T_2}{T_1}\right)^{2q} \nonumber \\
-						&\leq 1000 n^{1/q + \beta/2}q\alpha^2. \label{eqn: expec potential}
-				\end{align}
-				It is then straightforward to bound the integral as
-				\begin{align*}
-					\Pr\left[\int_{T_1}^{T_2} \Gamma_t^{1/q} \geq \frac{1}{128} \right] &\leq 128\expec\left[\int_{T_1}^{T_2} \Gamma_t^{1/q}\right] & \text{(Markov's inequality)} \\
-						&\leq 128T_2 \cdot 1000 n^{1/q + \beta/2}q\alpha^2 & \text{(using \eqref{eqn: expec potential})} \\
-						&\leq \frac{1}{10}.
-				\end{align*}
-			\end{itemize}
-			Therefore,
-			\[ \expec\left[\int_0^{T_2} \opnorm{A_t}\d{t} \right] \leq \expec\left[\int_0^{T_2} \Gamma_t^{1/q} \d{t} \right] \leq \frac{4}{10}. \qedhere \]
+		\end{corollary}
+		\begin{proof}
+			The function $x \mapsto x^{1/q}$ is concave. Therefore, the It\^{o} term in $\d{\Gamma_t^{1/q}}$ is negative and we have
+			\[ \d{\Gamma_t^{1/q}} \leq \frac{1}{q} \Gamma_t^{1-1/q}\d{\Gamma_t} \leq \frac{2q}{t} \Gamma_t + \text{(martingale term)}, \]
+			where the second inequality follows from \eqref{kls chen bound A}. Taking the expectation on either side to eliminate the martingale term,
+			\[ \d{\expec[\Gamma_t^{1/q}]} \leq \frac{2q^2}{t} \expec[\Gamma_t^{1/q}]\d{t}, \]
+			so for $t_2 > t_1 > 0$, we have
+			\[ \expec[\Gamma_{t_2}^{1/q}] \leq \expec[\Gamma_{t_1}^{1/q}] \left(\frac{t_2}{t_1}\right)^{2q}. \qedhere \]
 		\end{proof}
 
-		Combining \Cref{chen norm bound} and \eqref{eqn: chen prob in terms of spectral norm}, we have
-		\[ \Pr\left[\frac{1}{4} \leq p_{T_2}(E) \leq \frac{3}{4}\right] \geq \frac{1}{2}. \]
-		Using this in our original sequence of equations \eqref{stoch loc: basic intuition},
-		\[ p(\partial E) = \frac{T_2^{1/2}}{8} \norm{A}_2^{-1/2} \min\{p(E),p(\Rn\setminus E)\}. \]
-		Substituting $T_2$, we get that for the conditions of \Cref{chen norm bound},
-		\begin{equation}
-			\label{eqn: main bootstrap}
-			\psi_n \geq \frac{1}{cq^{1/2}\alpha\log(n)^{1/2}n^{\beta - (\beta/8q)}}.
-		\end{equation}
-		It may also be checked that this holds for dimensions $1$ and $2$. How do we extend this to a general bound on the isoperimetric constant?
+		Next, we show that our basic estimate \Cref{chen basic estimate} is in fact tight up to a log factor.
+
+		\begin{corollary}
+			\label{chen: expectation of potential B}
+			There exists a sufficiently small constant $c$ such that if $0 < T \leq c \psi_n^2 / \log n$, then $\expec[\opnorm{A_T}] \leq 3$, and further, $\expec[\Gamma_t^{1/q}] \leq 3n^{1/q}$ for all $q \geq 1$.
+		\end{corollary}
+		\begin{proof}
+			Recall from earlier that we assume our log-concave density $p$ to be restricted to $n^5 B_2^n$. So, it suffices to show that $\Pr[\opnorm{A_t} < 2] \geq 1 - n^{-10}$, since $\opnorm{A_T} \leq n^{10}$.\\
+			Define the stopping time $\tau = \inf\{t \geq 0 : \opnorm{A_t} \geq 2 \}$ and set $X_t = \Gamma_{\min\{t,\tau\}}$. Using \eqref{kls chen bound B}, we have
+			\[ \d{X_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}X_t\d{t} + \text{(martingale term)}. \]
+			Using the definition of $X_t$ to bound $\opnorm{A_t}$ by a constant and taking the expectation on either side,
+			\[ \d{\expec[X_t]} \lesssim q^2\psi_n^{-2}\expec[X_t]\d{t} \]
+			and therefore, setting $q = \lceil 40 \log n \rceil$,
+			\[ \expec[X_T] \lesssim n \exp(c\log^2 (n)\psi_n^{-2}T) \leq n^2, \]
+			for some constant $c$ and where the last inequality arises from the choice of $T$. Therefore,
+			\[ n^2 \geq \expec[X_t] \geq \Pr\left[ \opnorm{A_t} > 2 \right] \cdot 2^{40 \log n}, \]
+			proving the claim.\\
+			The second part relating to $\expec[\Gamma_t^{1/q}]$ is easily obtained on using the fact that $\Gamma_t \geq n \opnorm{A_t}^q$.
+		\end{proof}
+
+		With the above, we may get to the final proof of the bound on the isoperimetric constant.
 
 		\begin{ftheo}
-			There is a universal constant $c$ such that for any log-concave $p$ in $\Rn$ and integer $\ell \geq 1$,
-			\[ \psi_p \geq \frac{1}{(c\ell(\log n + 1))^{\ell/2} n^{16/\ell} \sqrt{\rho(p)}}. \]
-			In particular, there is a universal constant $c'$ such that
-			\[ \psi_p \geq \frac{1}{n^{c'\left(\frac{\log \log n}{\log n}\right)^{1/2}} \sqrt{\rho(p)}}. \]
+			There exists a universal constant $c'$ such that
+			\[ \psi_n \gtrsim n^{-c'\sqrt{\log \log n / \log n}}. \]
 		\end{ftheo}
 		\begin{proof}
-			We prove this using a \textit{bootstrapping} argument, applying \eqref{eqn: main bootstrap} repeatedly.\\
-			Define $\alpha_\ell$ and $\beta_\ell$ for integer $\ell \geq 1$ as
+			Using  \Cref{chen: expectation of potential B}, let $T_0 = c \psi_n^2 / \log n < 1 / 100$ for sufficiently small $c$ such that for $t\leq T_0$, $\expec[\Gamma_t^{1/q}] \leq 3n^{1/q}$. For $t \geq T_0$ and $q \geq 2$,
+			\[ \expec[\Gamma_t^{1/q}] \leq \left(\frac{t}{T_0}\right)^{2q} \expec[\Gamma_{T_0}^{1/q}] \leq \left(\frac{t}{T_0}\right)^{2q} 3n^{1/q}. \]
+			So, for any $T_1 > T_0$,
 			\begin{align*}
-				\alpha_1 &= 4,\;\;\; \alpha_{\ell + 1} = 2c\alpha_\ell\beta_\ell^{-1/2} \\
-				\beta_1 &= \frac{1}{2},\;\;\; \beta_{\ell + 1} = \beta_\ell - \frac{\beta_\ell^2}{16}.
+				\expec\left[\int_0^{T_1} \expec[\opnorm{A_t}] \d{t} \right] &\leq 3T_1 + 3n^{1/q} \expec\left[\int_{T_1}^{T_2} \left(\frac{t}{T_0}\right)^{2q} \d{t} \right] \\
+					&\leq \frac{3}{100} + 3 \frac{ n^{1/q} }{2q+1} \frac{T_1^{2q+1}}{T_0^{2q}} \leq \frac{3}{100} + 3 n^{1/q} \frac{T_1^{2q+1}}{T_0^{2q}}.
 			\end{align*}
-			It is not too difficult to show using an inductive argument that
-			\[ \frac{1}{\ell+1} \leq \beta_\ell \leq \frac{16}{\ell} \text{ and } \alpha_\ell \leq (4c^2\ell)^{\ell/2}. \]
-			By the bound \Cref{isoperimetric coefficient bound 1} in the original KLS paper \cite{KLSConjecture}, it follows that for all $n\geq 1$,
-			\[ \psi_n \geq \frac{1}{\alpha_1 n^{\beta_1}}. \]
-			As part of the induction, suppose that for all $n \geq 1$,
-			\[ \psi_n \geq \frac{1}{\alpha_\ell (1+\log n)^{\ell/2} n^{\beta_\ell}}. \]
-			Letting $\alpha_\ell' = \alpha_\ell (1 + \log n)^{\ell/2}$, for all $1 \leq k \leq n$, $\psi_k \geq 1/\alpha_\ell' k^{\beta_\ell}$. Using \eqref{eqn: main bootstrap},
-			\begin{align*}
-				\psi_n &\geq \frac{1}{cq^{1/2}\alpha_\ell (1 + \log n)^{\ell/2} \log(n)^{1/2} n^{\beta_\ell - (\beta_\ell/8q)}} \\
-					&\geq \frac{1}{2c \alpha_\ell\beta_\ell^{-1/2} (1 + \log n)^{(\ell+1)/2} n^{\beta_\ell - (\beta_\ell^2/16)}} & \left(q \leq \frac{2}{\beta_\ell}\right) \\
-					&= \frac{1}{2c \alpha_{\ell+1}(1 + \log n)^{(\ell+1)/2} \log(n)^{1/2} n^{\beta_{\ell+1}}} \\
-					&\geq \frac{1}{\left(c'\ell(1 + \log n)\right)^{\ell/2} n^{16/\ell}},
-			\end{align*}
-			completing the proof of the first part.\\
-			As mentioned at the beginning of this section, the second part easily follows on setting
-			\[ \ell = \left\lceil \sqrt{\frac{\log n}{\log \log n}} \right\rceil.\qedhere \]
+			How high can we make $T_1$ while ensuring that the integral we care about (for the purposes of \Cref{chen basic estimate}) remains less than $1/8$?\\
+			We get
+			\[ T_1 \sim n^{-1/q(2q+1)} T_0^{2q/(2q+1)}. \]
+			This gives a bound of
+			\[ \psi_n \gtrsim T_1^{1/2} \sim n^{-1/2q(2q+1)} T_0^{q/(2q+1)}. \]
+			By our choice of $T_0$,
+			\[ \psi_n \gtrsim \psi_n^{2q/(2q+1)} (\log n)^{-q/(2q+1)} n^{-1/2q(2q+1)}. \]
+			% This procedure of getting a bound on something using itself is known as \textit{bootstrapping}. Simplifying the above, we get
+			Simplifying,
+			\[ \psi_n \gtrsim \left(\frac{c}{\log n}\right)^{-q} n^{-1/2q} \]
+			for some universal constant $c$. Taking $q$ of the order of $\left(\log n / \log \log n\right)^{1/2}$,
+			\[ \psi_n \gtrsim e^{c' \sqrt{\log n \log \log n} }, \]
+			completing the proof.
 		\end{proof}
+
+
+		% \begin{proof}
+			% It suffices to prove that
+			% \[ \Pr\left[\max_{t\in[0,T_1]} - \frac{1}{(1+\Gamma_t)^{1/q}} \geq -\frac{1}{2(n+1)^{1/q}} \right] \leq \exp\left(-\frac{2}{3}q\log n\right). \]
+			% Since the function $h : x \mapsto - 1/(1+x)^{1/q}$ is concave, we have
+			% \[ \d{h(\Gamma_t)} \leq \frac{1}{q(\Gamma_t + 1)^{1 + 1/q}} \d{\Gamma_t} \]
+		% \end{proof}
+
+	
+		% \begin{ftheo}
+		% 	\label{chen norm bound}
+		% 	Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, there exists a universal constant $c$ such that for $q = 1 + \lfloor 1/\beta \rfloor$, $n \geq 3$, and $T_2 = 1/cq\alpha^2 \log(n)n^{2\beta - (\beta/4q)}$,
+		% 	\[ \Pr\left[\int_0^{T_2} \norm{A^{-1/2} A_t A^{-1/2}}_2 \d{t} \geq \frac{1}{64} \right] < \frac{4}{10}. \]
+		% \end{ftheo}
+		% \begin{proof}
+		% 	Let
+		% 	\[ T_1 = \frac{1}{c'q\alpha^2\log(n)n^{2\beta}} \text{ and } T_2 = \frac{n^{\beta/4q}}{40}T_1, \]
+		% 	where $c' = 32768$.
+
+		% 	We bound the integral of the spectral norm by doing so separately on $[0,T_1]$ and $[T_1,T_2]$.
+		% 	\begin{itemize}
+		% 		\item[$\displaystyle{[0,T_1]}$] We have
+		% 			\begin{align*}
+		% 				\Pr\left[\int_0^{T_1} \Gamma_t^{1/q} \geq \frac{1}{128} \right] &\leq \Pr\left[\max_{t\in[0,T_1]} \Gamma_t^{1/q} \geq \frac{1}{128 T_1} \right] \\
+		% 					&\leq \Pr\left[ \max_{t\in[0,T_1]} \Gamma_t^{1/q} \geq 3 n^{1/q} \right] \\
+		% 					&= \Pr\left[ \max_{t\in[0,T_1]} \Gamma_t \geq 3^q n \right] \\
+		% 					&\leq \Pr\left[ \max_{t\in[0,T_1]} 1 + \Gamma_t \geq 2^q (n+1) \right] \\
+		% 					&\leq \frac{3}{10}. & \text{(using \eqref{eqn: expectation of potential B})}
+		% 			\end{align*}
+
+		% 		\item[$\displaystyle{[T_1,T_2]}$] Since $p_{T_1}$ is more log-concave than a Gaussian density with covariance matrix $\frac{1}{T_1}A$, the covariance matrix of $p_{T_1}$ itself can be upper bounded using Theorem 4.1 in \cite{Brascamp2002}, giving
+		% 		\[ A_{T_1} \preceq \frac{A}{T_1}. \]
+		% 		As a result, every eigenvalue of $A_{T_1}$ is upper bounded by $1/T_1$ and so, $\Gamma_{T_1}$ is upper bounded by $n/T_1^q$.
+		% 		Then,
+		% 		\begin{align*}
+		% 			\expec[\Gamma_{T_1}^{1/q}] &= \expec\left[\indic_{\Gamma_{T_1} \geq 3^q n} \Gamma_{T_1}\right] + \expec\left[\indic_{\Gamma_{T_1} < 3^q n} \Gamma_{T_1} \right] \\
+		% 				&\leq \frac{n^{1/q}}{T_1}\exp\left(-\frac{2}{3}q\log n\right) + 3n^{1/q} & \text{(similar to the first part and using \eqref{eqn: expectation of potential B})} \\
+		% 				&\leq (c'q\alpha^2 + 4) n^{1/q} \leq c''n^{1/q},
+		% 		\end{align*}
+		% 		for $c'' = 40000$.
+		% 		Thus, we have
+		% 		\begin{align}
+		% 			\expec\left[\Gamma_t^{1/q}\right] &\leq \expec\left[\Gamma_{T_1}^{1/q}\right] \left(\frac{t}{T_1}\right)^{2q} & \text{(using \eqref{eqn: expectation of potential A})} \nonumber \\
+		% 				&\leq \expec\left[\Gamma_{T_1}^{1/q}\right] \left(\frac{T_2}{T_1}\right)^{2q} \nonumber \\
+		% 				&\leq 1000 n^{1/q + \beta/2}q\alpha^2. \label{eqn: expec potential}
+		% 		\end{align}
+		% 		It is then straightforward to bound the integral as
+		% 		\begin{align*}
+		% 			\Pr\left[\int_{T_1}^{T_2} \Gamma_t^{1/q} \geq \frac{1}{128} \right] &\leq 128\expec\left[\int_{T_1}^{T_2} \Gamma_t^{1/q}\right] & \text{(Markov's inequality)} \\
+		% 				&\leq 128T_2 \cdot 1000 n^{1/q + \beta/2}q\alpha^2 & \text{(using \eqref{eqn: expec potential})} \\
+		% 				&\leq \frac{1}{10}.
+		% 		\end{align*}
+		% 	\end{itemize}
+		% 	Therefore,
+		% 	\[ \expec\left[\int_0^{T_2} \opnorm{A_t}\d{t} \right] \leq \expec\left[\int_0^{T_2} \Gamma_t^{1/q} \d{t} \right] \leq \frac{4}{10}. \qedhere \]
+		% \end{proof}
+
+		% \begin{corollary}
+		% 	Suppose that for some $0<\beta\leq 1/2$ and $\alpha \geq 1$, $\psi_k \geq 1/\alpha k^\beta$ for all $k \leq n$. Then, for $q = 1 + \lfloor 1/\beta \rfloor$,
+		% 	\begin{equation}
+		% 		\label{eqn: main bootstrap}
+		% 		\psi_n \gtrsim \frac{1}{q^{1/2}\alpha\log(n)^{1/2}n^{\beta - (\beta/8q)}}.
+		% 	\end{equation}
+		% \end{corollary}
+		% \begin{proof}
+		% 	Let $p$ be a log-concave density with compact support and invertible covariance matrix $A$. It suffices to prove the claim for dimension $n\geq 3$ (Why?). Combining \Cref{chen norm bound} and \eqref{eqn: chen prob in terms of spectral norm}, we have
+		% 	\[ \Pr\left[\frac{1}{4} \leq p_{T_2}(E) \leq \frac{3}{4}\right] \geq \frac{1}{2}. \]
+		% 	Using this in our original sequence of equations \eqref{stoch loc: basic intuition},
+		% 	\[ p(\partial E) = \frac{T_2^{1/2}}{8} \norm{A}_2^{-1/2} \min\{p(E),p(\Rn\setminus E)\}. \]
+		% 	Substituting $T_2$, we get the required.
+		% \end{proof}
+
+		% How do we extend this to a general bound on the isoperimetric constant?
+
+		% \begin{ftheo}
+		% 	There is a universal constant $c$ such that for any log-concave $p$ in $\Rn$ and integer $\ell \geq 1$,
+		% 	\[ \psi_p \geq \frac{1}{(c\ell(\log n + 1))^{\ell/2} n^{16/\ell} \sqrt{\rho(p)}}. \]
+		% 	In particular, there is a universal constant $c'$ such that
+		% 	\[ \psi_p \geq \frac{1}{n^{c'\left(\frac{\log \log n}{\log n}\right)^{1/2}} \sqrt{\rho(p)}}. \]
+		% \end{ftheo}
+		% \begin{proof}
+		% 	We prove this using a \textit{bootstrapping} argument, applying \eqref{eqn: main bootstrap} repeatedly.\\
+		% 	Define $\alpha_\ell$ and $\beta_\ell$ for integer $\ell \geq 1$ as
+		% 	\begin{align*}
+		% 		\alpha_1 &= 4,\;\;\; \alpha_{\ell + 1} = 2c\alpha_\ell\beta_\ell^{-1/2} \\
+		% 		\beta_1 &= \frac{1}{2},\;\;\; \beta_{\ell + 1} = \beta_\ell - \frac{\beta_\ell^2}{16}.
+		% 	\end{align*}
+		% 	It is not too difficult to show using an inductive argument that
+		% 	\[ \frac{1}{\ell+1} \leq \beta_\ell \leq \frac{16}{\ell} \text{ and } \alpha_\ell \leq (4c^2\ell)^{\ell/2}. \]
+		% 	By the bound \Cref{isoperimetric coefficient bound 1} in the original KLS paper \cite{KLSConjecture}, it follows that for all $n\geq 1$,
+		% 	\[ \psi_n \geq \frac{1}{\alpha_1 n^{\beta_1}}. \]
+		% 	As part of the induction, suppose that for all $n \geq 1$,
+		% 	\[ \psi_n \geq \frac{1}{\alpha_\ell (1+\log n)^{\ell/2} n^{\beta_\ell}}. \]
+		% 	Letting $\alpha_\ell' = \alpha_\ell (1 + \log n)^{\ell/2}$, for all $1 \leq k \leq n$, $\psi_k \geq 1/\alpha_\ell' k^{\beta_\ell}$. Using \eqref{eqn: main bootstrap},
+		% 	\begin{align*}
+		% 		\psi_n &\geq \frac{1}{cq^{1/2}\alpha_\ell (1 + \log n)^{\ell/2} \log(n)^{1/2} n^{\beta_\ell - (\beta_\ell/8q)}} \\
+		% 			&\geq \frac{1}{2c \alpha_\ell\beta_\ell^{-1/2} (1 + \log n)^{(\ell+1)/2} n^{\beta_\ell - (\beta_\ell^2/16)}} & \left(q \leq \frac{2}{\beta_\ell}\right) \\
+		% 			&= \frac{1}{2c \alpha_{\ell+1}(1 + \log n)^{(\ell+1)/2} \log(n)^{1/2} n^{\beta_{\ell+1}}} \\
+		% 			&\geq \frac{1}{\left(c'\ell(1 + \log n)\right)^{\ell/2} n^{16/\ell}},
+		% 	\end{align*}
+		% 	completing the proof of the first part.\\
+		% 	The second part then easily follows on setting
+		% 	\[ \ell = \left\lceil \sqrt{\frac{\log n}{\log \log n}} \right\rceil.\qedhere \]
+		% \end{proof}
