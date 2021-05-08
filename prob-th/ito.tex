@@ -223,7 +223,7 @@ where $\partial u(t,x)$ is the row vector with $u_i(t,x)$, $\partial^2 u(t,x)$ i
 	\item If we set the $G^{ij}$ to $0$, the third term vanishes and we recover the usual (deterministic) chain rule from calculus.
 	\item The third extra term is essentially a \textit{second} order approximation. To explain it in an extremely handwavy fashion, we have $(\d{t})^2 = 0$ in deterministic functions, which is why that term never crops up. Here however, the It\^{o} integral \textit{does} contribute. The reason for this could perhaps be attributed to the fact that $\expec[(W_b-W_a)^2] = b-a$, so $\d{W}_t$ can be thought of something like $\sqrt{\d{t}}$. As a result, the squared term involved in the second order term does contribute non-trivially.\\
 	In the one-dimensional case, \eqref{eqn: ito rule compact} reads
-	\[ \d{u}(t,X_t) = \frac{\partial u}{\partial t} (t,X_t)\d{t} + \frac{\partial u}{\partial x} (t,X_t)\d{X_t} + \frac{\partial^2 u}{\partial x^2}(t,X_t) (\d{X}_t)^2, \]
+	\[ \d{u}(t,X_t) = \frac{\partial u}{\partial t} (t,X_t)\d{t} + \frac{\partial u}{\partial x} (t,X_t)\d{X_t} + \frac{1}{2} \frac{\partial^2 u}{\partial x^2}(t,X_t) (\d{X}_t)^2, \]
 	which corresponds exactly to the handwavy argument given above.
 \end{itemize}
 

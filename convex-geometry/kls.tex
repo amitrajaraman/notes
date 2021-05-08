@@ -333,11 +333,11 @@
 		\[ \chi(K) = \frac{1}{\vol(K)} \int_K \chi_K(x). \]
 		Note that $\chi(K)=\diam(K \cap (2x-K))$.
 
-		\begin{theorem}
+		\begin{ftheo}
 			\label{isoperimetric coefficient bound 2}
 			For any convex body $K$,
 			\[ \psi(K) \geq \frac{1}{\chi(K)}. \]
-		\end{theorem}
+		\end{ftheo}
 		\begin{proof}
 			As before, it is equivalent to show that for any decomposition $K=K_1\cup K_2\cup K_3$, where $d(K_1,K_2)=\varepsilon>0$,
 			\[ \vol(K_1)\vol(K_2) \leq \frac{1}{\varepsilon}\vol(K_3) \int_K \chi_K(x)\d{x}. \]
@@ -391,7 +391,7 @@
 	\end{fcon}
 
 	\Cref{isoperimetric coefficient bound 1} then says that for any isotropic log-concave $p$, $\psi_p \gtrsim n^{-1/2}$.\\
-	For the sake of brevity, if $p$ is a log-concave density with covariance matrix $A$, let $\rho(p) = \opnorm{A}$.\\
+	% For the sake of brevity, if $p$ is a log-concave density with covariance matrix $A$, let $\rho(p) = \opnorm{A}$.\\
 
 	% \subsubsection{The Connection to Ball-Step and the Log-Sobolev Constant}
 
@@ -444,16 +444,26 @@
 
 		It was shown in \cite{Eldan2010ApproximatelyGM} that the Thin-Shell conjecture implies the Slicing conjecture and by Ball that the KLS conjecture implies the Thin-Shell conjecture. That is, we have that $L_p \lesssim \sigma_p \lesssim \psi_p$.
 
+	\subsubsection{The Poincar\'{e} Constant}
+		\label{sec: poincare constant}
+
+		\begin{fdef}
+			For any isotropic log-concave density $p$ in $\Rn$, define the \textit{Poincar\'{e} constant} $\zeta_p$ by
+			\[ \zeta_p = \inf_{\text{smooth $g$}} \frac{ \expec_p \left[\norm{\nabla g(x) }_2^2\right] }{ \Var_p (g(x)) }. \]
+		\end{fdef}
+
+		It may be shown that $\zeta_p$ is within a constant factor of the isoperimetric constant $\psi_p$. Due to this strong relation, we shall in fact use the Poincar\'{e} constant in a later proof to bound the isoperimetric constant.
+
 \subsection{Recent Bounds on the Isoperimetric Constant}
 
 	\subsubsection{A Look At Stochastic Localization}
 
 	% \subsubsection{An Overview}
 
-		Most of the progress towards proving the conjecture in recent times has been done using a method known as \textit{stochastic localization}. Recall how in the proof of the localization lemma \Cref{localization lemma}, which is possibly one of the most powerful tools we have built thus far, we use a bisection argument, where we bisect the body by a hyperplane at each step. In the general setting, this just corresponds to multiplying the current log-concave measure by $\indic_{H}$, where $H$ is a certain half-space.\\
+		Most of the progress towards proving the conjecture in recent times has been done using a method known as \textit{stochastic localization}. Recall how in the proof of the localization lemma \Cref{localization lemma}, which is possibly one of the most powerful tools we have built thus far, we use a bisection argument, where we bisect the body with a hyperplane at each step. In the general setting, this just corresponds to multiplying the current log-concave measure by $\indic_{H}$, where $H$ is a certain half-space.\\
 
-		For now, let us discuss how it works out in discrete time. Instead of multiplying by this indicator function, we multiply by an affine functional that is very close to $1$. That is, we transform the density $p(x)$ to $(1\pm\varepsilon\langle x-b_\mu,\theta\rangle)p(x)$, where $b_\mu$ is the barycenter of the measure (this gives two probability measures) and $\theta$ is randomly chosen. This is like a reweighting in favour of one of the half-spaces.\\
-		The resulting measures are probability measures since we are reweighting around the barycenter. The average of these two measures is the original measure. Further, each of these measures are log-concave (the product of log-concave functions is log-concave)!\\
+		For now, let us discuss how stochastic localization works out in discrete time. Instead of multiplying by this indicator function, we multiply by an affine functional that is very close to $1$. That is, we transform the density $p(x)$ to $(1\pm\varepsilon\langle x-\mu,\theta\rangle)p(x)$ (this gives two probability measures), where $\mu$ is the barycenter of the measure and $\theta$ is randomly chosen. This is like a reweighting in favour of one of the half-spaces.\\
+		The resulting measures are probability measures since we are merely reweighting. The average of these two measures is the original measure. Further, each of these measures are log-concave (the product of log-concave functions is log-concave)!\\
 		This gives a stochastic process (which is discrete time for now) defined by
 		\begin{equation}
 			\label{eqn: discrete time stochastic localization}
@@ -462,10 +472,10 @@
 		The $\sqrt{\Delta t}Z_t$ represents $\pm \varepsilon\theta$ and is the random component. Here, $\mu_t$ is the barycenter of the measure corresponding to $p_t$ and the $Z_t$ are iid random which are either uniform on the sphere on $\sqrt{n}S^{n-1}$ or standard Gaussians in $\Rn$.\\
 		By the averaging property mentioned, the $p_t$ form a martingale (with respect to the filtration with $\mathcal{F}_t = \sigma\{Z_s : 0\leq s\leq t\}$).
 
-		Now, we would like to make this continuous by making $\Delta t\to 0$. How do we do this? When the $Z_t$ are Gaussian, \Cref{eqn: discrete time stochastic localization} can be rewritten as a stochastic differential equation
+		Now, we would like to make this continuous by letting $\Delta t\to 0$. How do we do this? When the $Z_t$ are Gaussian, \Cref{eqn: discrete time stochastic localization} can be rewritten as a stochastic differential equation
 		\begin{equation}
 			\label{eqn: continuous time stochastic localization density}
-			\d{p}_t = \langle x-\mu_t,\d{W}_t\rangle p_t(x) = (x-\mu_t)^\top \d{W}_t p_t(x),
+			\d{p}_t = \langle x-\mu_t,\d{W}_t\rangle p_t(x),% = (x-\mu_t)^\top \d{W}_t p_t(x),
 		\end{equation}
 		where $p_0=p$ and $\mu_t$, as before, is $\int_{\Rn} x p_t(x) \d{x}$.\\
 		Existence and uniqueness for all $t\geq 0$ can be shown using standard means. Moreover, for any time $t$, $p_t$ is almost surely continuous. If $\mathcal{F}_t$ is the $\sigma$-algebra generated by $(W_s)_{0\leq s\leq t}$, then $\expec[p_t(x) \mid \mathcal{F}_s] = p_s(x)$ for $s<t$. That is, it is a martingale. The processes are also $\mathcal{F}_t$-adapted.\\
@@ -480,13 +490,13 @@
 		\end{equation}
 		with $p_t$ and $\mu_t$ defined by
 		\[ p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}^2}p(y)\d{y}}\text{ and } \mu_t(x) = \expec_{x\sim p_t} [x]. \]
-		Sometimes, to add another method to control the covariance, we often add a \textit{control matrix} $C_t$, to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
+		Sometimes, to add another method to control the covariance, we often add in a \textit{control matrix} $C_t$ to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
 		\begin{equation}
 			\label{eqn: main stoch local}
 			\begin{gathered}
 				c_0 = 0, \;\;\; \d{c}_t = C_t^{1/2}\d{W}_t + C_t\mu_t\d{t}, \\
 				B_0 = 0, \;\;\; \d{B}_t = C_t\d{t}, \\
-				p_t(x) = \frac{e^{\langle c_t,x\rangle - (1/2)\norm{x}_{B_t}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (1/2)\norm{y}_{B_t}^2}p(y)\d{y}}, \;\;\; \mu_t(x) = \expec_{x\sim p_t} [x], \\	
+				p_t(x) = \frac{e^{\langle c_t,x\rangle - (1/2)(x^\top B_t x)^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (1/2)(y^\top B_t y)^2}p(y)\d{y}}, \;\;\; \mu_t(x) = \expec_{x\sim p_t} [x], \\	
 			\end{gathered}
 		\end{equation}
 
@@ -496,34 +506,35 @@
 
 		% The reason we insist on the density at time $t$ being a Gaussian multipled by some log-concave function is that densities which are ``more log-concave than the Gaussian'' lead to nice bounds on the isoperimetric constant $\psi_p$ in terms of the covariance matrix.\\
 
-		Now, observe that
+		For the other direction, using \Cref{eqn: continuous time stochastic localization density},
 		\begin{align*}
 			\d{\log p_t(x)} &= (x-\mu_t)^\top \d{W}_t - \frac{1}{2} (x-\mu_t)^\top (x-\mu_t) \d{t} \\
 				&= x^\top (\d{W}_t + \mu_t\d{t}) - \frac{1}{2}\norm{x}^2\d{t} + g(t) \\
-				&= x^\top\d{c}_t - \frac{1}{2}\norm{x}^2\d{t} + g(t),
+				&= x^\top\d{c}_t - \frac{1}{2}\norm{x}^2\d{t} + \d{g}(t),
 		\end{align*}
-		where $g(t)$ is independent of $x$ and the first two terms. This explains the appearance of the Gaussian in \eqref{eqn: main stoch local} -- the above implies that $p_t$ is more log-concave than $e^{-\norm{x}^2/2}$.\\
+		where $\d{g}(t)$ is independent of $x$. This explains the appearance of the Gaussian in \eqref{eqn: main stoch local} -- the above implies that $p_t$ is ``more log-concave'' than $e^{-\norm{x}^2/2}$.\\
 		As the Gaussian factor dominates more and more, the density converges to a Dirac delta ``function'', where the measure of any subset is $0$ or $1$. This is stated in \Cref{kls for gaussian}.\\
 
 		The KLS Conjecture has been proven for Gaussian distributions. More generally, for any distribution whose density is the product of the density of $\mathcal{N}(0,\sigma^2 I)$ and any log-concave function, $\psi_p \gtrsim 1/\sigma$ -- this can be proved by normal localization.\\
 		
 		To get some sort of bound for $\psi_p$, we want to bound the covariance matrix (in some meaningful sense of the word bound).\\
 		Using It\^{o}'s Lemma once more on the covariance matrix, we get 
-		\begin{align*}
-			d{A}_t &= \int_{\Rn} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t \cdot p_t(x) \d{x} - A_t^2 \d{t} \\
-				&= \expec_{x \sim p_t} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t - A_t^2 \d{t}.
-		\end{align*}
+		\begin{align}
+			d{A}_t &= \int_{\Rn} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t \cdot p_t(x) \d{x} - A_t^2 \d{t} \nonumber \\
+				&= \expec_{x \sim p_t} (x-\mu_t)(x-\mu_t)^\top \cdot (x-\mu_t)^\top\d{W}_t - A_t^2 \d{t}. \label{eqn: dAt expression}
+		\end{align}
 
-		One important result that we have not mentioned thus far is due to \cite{milman2008isoperimetricprofile}, which claims that the \textit{isoperimetric profile} $I_p : [0,1]\to\Rp$, defined by
+		One important result that we have not mentioned thus far is due to \cite{milman2008isoperimetricprofile}, which proves that the \textit{isoperimetric profile} $I_p : [0,1]\to\Rp$, defined by
 		\[ I_p(t) = \inf_{\substack{S\subseteq\Rn \\ p(S) = t}} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}} \]
 		is concave. In particular, since $I_p(t) = I_p(1-t)$, it attains its maximum at $1/2$. Therefore, to bound the isoperimetric coefficient (and prove the KLS Conjecture), it suffices to check subsets of measure $1/2$.\\
 
-		With this added information, what do we desire from stochastic localization?
-		\begin{enumerate}
-			\item The covariance matrix should not explode (since the bound on the isoperimetric coefficient that we obtain depends on it) and
-			\item The measure of a set $E$ of measure $1/2$ (under the initial density) does not change much.
-		\end{enumerate}
-		The reason the above works is due to the following series of inequalities for some set $E$ of initial measure $1/2$:
+		With this added information, we desire from stochastic localization that the covariance matrix does not explode.% what do we desire from stochastic localization?
+		% \begin{enumerate}
+		% 	\item The covariance matrix should not explode (since the bound on the isoperimetric coefficient that we obtain depends on it) and
+		% 	\item The measure of a set $E$ of measure $1/2$ (under the initial density) does not change much.
+		% \end{enumerate}
+		% The reason the above works is due to the following series of inequalities for some set $E$ of initial measure $1/2$:
+		In fact, it turns out that it suffices to show that the measure of a set $E$ of measure $1/2$ (initially) does not change much:
 		\begin{align}
 			p(\partial E) &= \expec\left[p_t(\partial E)\right] & (p_t\text{ is a martingale}) \nonumber \\
 				&\geq \expec\left[\frac{1}{2}\norm{B_t^{-1}}_2^{-1/2}\min\{p_t(E),p_t(\Rn\setminus E)\}\right] & (p_t \text{ is more log-concave than the Gaussian}) \nonumber \\
@@ -545,7 +556,7 @@
 		\end{definition}
 
 		For example, if $x_t$ and $y_t$ satisfy $\d{x}_t = \mu(x_t) \d{t} + \sigma(x_t)\d{W}_t$ and $\d{y}_t = \nu(x_t) \d{t} + \eta(y_t) \d{t}$, then
-		\[ \d{[x]_t} = \sigma^2(x_t) \d{t} \text{ and } \d{[x,y]_t} = \sigma(x_s)\eta(y_s) \d{t}. \]
+		\[ \d{[x]_t} = \sigma^2(x_t) \d{t} \text{ and } \d{[x,y]_t} = \sigma(x_s)\eta(y_s) \d{W_t}. \]
 
 		The following two results will also come in useful.
 
@@ -570,7 +581,7 @@
 		\begin{lemma}
 			\label{basic estimate}
 			For any $E\subseteq\Rn$ with $p(E) = 1/2$ and $t \geq 0$,
-			\[ \Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4} \right] \geq \frac{9}{10} - \Pr\left[\int_0^t \rho(p_s)\d{s} \geq \frac{1}{64}\right]. \]
+			\[ \Pr\left[\frac{1}{4} \leq p_t(E) \leq \frac{3}{4} \right] \geq \frac{9}{10} - \Pr\left[\int_0^t \opnorm{A_s} \d{s} \geq \frac{1}{64}\right]. \]
 		\end{lemma}
 		\begin{proof}
 			Let $g_t = p_t(E)$. Then $\d{g}_t = \int_E (x-\mu_t)^\top \d{W}_t p_t(x) \d{x}$. We have
@@ -578,14 +589,14 @@
 				\d{[g]_t} &= \norm{\int_E (x-\mu_t)p_t(x) \d{x}}_2^2 \d{t} \\
 					&= \max_{\norm{\zeta}_2 \leq 1} \left(\int_E (x-\mu_t)^\top\zeta p_t(x) \d{x}\right)^2 \d{t} \\
 					&\leq \left(\max_{\norm{\zeta}_2 \leq 1} \int_{\Rn} ((x-\mu_t)^\top\zeta)^2 p_t(x) \d{x}\right) \left(\int_{\Rn} p_t(x)\d{x}\right) \d{t} \\
-					&= \max_{\norm{\zeta}_2 \leq 1} \zeta^\top A_t \zeta \d{t} = \rho(p_t)\d{t}.
+					&= \max_{\norm{\zeta}_2 \leq 1} \zeta^\top A_t \zeta \d{t} = \opnorm{A_t}\d{t}.
 			\end{align*}
 			Using \Cref{Dambis Dubins Schwarz Th}, let $\tilde{W}_t$ be a Wiener process such that $g_t - g_0$ has the same distribution as $\tilde{W}_{[g]_t}$. Then,
 			\begin{align*}
 				\Pr\left[\frac{1}{4} \leq g_t \leq \frac{3}{4}\right] &= \Pr\left[-\frac{1}{4} \leq \tilde{W}_{[g]_t} \leq \frac{1}{4}\right] \\
 					&\geq 1 - \Pr\left[\max_{0 \leq s \leq 1/64} |\tilde{W}_s| > \frac{1}{4}\right] - \Pr\left[[g]_t > \frac{1}{64}\right] \\
 					&= 1 - 4\Pr\left[\tilde{W}_{1/64} > \frac{1}{4}\right] - \Pr\left[[g]_t > \frac{1}{64}\right] \\
-					&\geq \frac{9}{10} - \Pr\left[\int_0^t \rho(p_s) \d{s} \geq \frac{1}{64}\right].
+					&\geq \frac{9}{10} - \Pr\left[\int_0^t \opnorm{A_s} \d{s} \geq \frac{1}{64}\right].
 			\end{align*}
 			In the second-to-last equation, the first two terms simplify on estimates for the concentration of the normal distribution and the second term simplifies on using the earlier bound on $\frac{\d{[g]_t}}{\d{t}}$.
 		\end{proof}
@@ -605,7 +616,7 @@
 		\begin{ftheo}
 			\label{lee-vem: isoperimetric using time}
 			Suppose there is $T > 0$ such that
-			\[ \Pr\left[\int_0^T \rho(p_s) \d{s} \leq \frac{1}{64} \right] \geq \frac{3}{4}. \]
+			\[ \Pr\left[\int_0^T \opnorm{A_s} \d{s} \leq \frac{1}{64} \right] \geq \frac{3}{4}. \]
 			Then $\psi_p \gtrsim T^{1/2}$.
 		\end{ftheo}
 		\begin{proof}
@@ -615,7 +626,8 @@
 				\int_{\partial E} p(x) \d{x} &= \expec\left[ \int_{\partial E} p_T(x)\d{x} \right] & (p_t\text{ is a martingale}) \\
 					&\gtrsim T^{1/2} \expec \left[ \min\left\{p_T(E) , p_T(\Rn\setminus E)\right\} \right] \\
 					&\gtrsim T^{1/2} \Pr\left[ \frac{1}{4} \leq p_T(E) \leq \frac{3}{4} \right] \\
-					&\gtrsim T^{1/2} \left(\frac{9}{10} - \Pr\left[\int_0^T \rho(p_s)\d{s} \geq \frac{1}{64}\right]\right) \gtrsim T^{1/2}.
+					&\gtrsim T^{1/2} \left(\frac{9}{10} - \Pr\left[\int_0^T \opnorm{A_s}\d{s} \geq \frac{1}{64}\right]\right) & \text{(by \Cref{basic estimate})} \\
+					&\gtrsim T^{1/2}. & & \qedhere
 			\end{align*}
 		\end{proof}
 
@@ -680,11 +692,11 @@
 			\Cref{lee-vem: growth theorem} implies that
 			\[ \Pr\left[\max_{s \in [0,t]} \Tr(A_s^2) \leq 8 \Tr(A_0^2)\right] \geq 0.99, \]
 			where $t$ is equal to the quantity we denoted as $T$ there. Since $\opnorm{A_s} \leq \sqrt{\Tr(A_s^2)}$, we have
-			\[ \Pr\left[\max_{s \in [0,t]} \rho(p_s) \leq \sqrt{8 \Tr(A_0^2)}\right] \geq 0.99. \]
+			\[ \Pr\left[\max_{s \in [0,t]} \opnorm{A_s} \leq \sqrt{8 \Tr(A_0^2)}\right] \geq 0.99. \]
 			Therefore, letting
 			\[ T = \min\left\{c_1, \frac{1}{64\sqrt{8}}\right\} \frac{1}{\sqrt{\Tr(A_0^2)}}, \]
 			we have
-			\[ \Pr\left[\int_0^T \rho(p_s)\d{s} \leq \frac{1}{64}\right] \geq 0.99, \]
+			\[ \Pr\left[\int_0^T \opnorm{A_s}\d{s} \leq \frac{1}{64}\right] \geq 0.99, \]
 			and the result follows on using \Cref{lee-vem: isoperimetric using time}.
 		\end{proof}
 
@@ -714,15 +726,15 @@
 			Setting $T = 1/256(C+C')\sqrt{\Phi_0}$ and $\gamma = 1/4\sqrt{\Phi_0}$, we get
 			\[ \Pr\left[\max_{t\in[0,T]} f(\Phi_t) \geq -\frac{1}{3\Phi_0}\right] \leq 2\exp(-8). \]
 			Using our earlier observation about $f$,
-			\[ \Pr\left[\max_{t\in[0,T]} \Phi_t \geq 8\Phi_0 \right] \leq 2\exp(-8) \leq 0.01. \]
+			\[ \Pr\left[\max_{t\in[0,T]} \Phi_t \geq 8\Phi_0 \right] \leq 2\exp(-8) \leq 0.01. \qedhere \]
 		\end{proof}
 
-		Over the next few sections, we look at the best bound attained (as of the time of writing) of the isoperimetric constant, as described in \cite{chen2021constant}.
+		Over the next few sections, we look at the best bound attained (as of the time of writing) of the isoperimetric constant, as described in \cite{chen2021constant}. The proof 
 
 	\subsubsection{An Almost Constant Bound}
 
 		Here, we prove that there is a constant $c$ such that for any log-concave $p$ in $\Rn$,
-		\[ \psi_p \geq \frac{1}{n^{c'\sqrt{\log \log n / \log n}} \sqrt{\rho(p)}}. \]
+		\[ \psi_p \geq \frac{1}{n^{c'\sqrt{\log \log n / \log n}} \opnorm{A}^{1/2}}. \]
 		To get this, we set the control matrix $C_t$ in \Cref{eqn: main stoch local} as $A^{-1}$. The resulting stochastic differential equations are then
 		\begin{equation}
 			\label{eqn: chen main stoch local}
@@ -734,7 +746,7 @@
 		\end{equation}
 
 		To begin, for any integer $n \geq 1$, define
-		\[ \psi_n = \inf_{\substack{\text{$p$ is log-concave in $\R^n$} \\ \text{and has compact support}}} \psi_p\sqrt{\rho(p)}. \]
+		\[ \psi_n = \inf_{\substack{\text{$p$ is log-concave in $\R^n$} \\ \text{and has compact support}}} \psi_p\opnorm{A}^{1/2}. \]
 
 		% With a proof very similar to \Cref{basic estimate}, we have
 		% \begin{equation}
@@ -774,7 +786,7 @@
 		\[ \Gamma_t = \Tr(A_t^q). \]
 		It is quite easy to see that $\Gamma_t^{1/q} \geq \opnorm{A_t}$.
 
-		\begin{lemma}
+		\begin{flem}
 			With the above definition,
 			\begin{equation}
 				\label{kls chen bound A}
@@ -785,13 +797,56 @@
 				\label{kls chen bound B}
 				\d{\Gamma_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}\Gamma_t\d{t} + (\text{martingale term}).
 			\end{equation}
-		\end{lemma}
-		% \begin{proof}
-			
-		% \end{proof}
+		\end{flem}
+		\begin{proof}
+			Let $\d{\Gamma_t} = \delta_t \d{t} + \text{(martingale term)}$. We wish to show that
+			\[ \delta_t \leq 2q^2\Gamma_t \min\left\{ \frac{1}{t} , c\psi_n^{-2}\opnorm{A_t} \right\} \]
+			for a suitable constant $c$.\\
+			Denote the expression on the right by $\kappa^{-1}$.\\
+			Recall the Poincar\'{e} constant from \Cref{sec: poincare constant}.
+			Since $p_t$ is more log-concave than the Gaussian $\exp(-t\norm{x}^2/2)$, $\zeta_{p_t}$ is at least $t$.
+			Also, by the definition of $\psi_n$, the Poincar\'{e} constant is at least $c\psi_n^2 / \opnorm{A_t}$. So, $\zeta_{p_t} \geq \kappa$.\\
+			Recalling \eqref{eqn: dAt expression}, let $\d{(A_t)_{i,j}} = \langle\xi_{i,j},\d{W}_t\rangle - (A_t^2)_{i,j} \d{t}$, where
+			\[ \xi_{i,j} = \int_{\Rn} x x_i x_j p_t(x+\mu_t) \d{x}. \]
+			To bound $\delta_t$, we use the following lemma. Let $0 < \lambda_1 \leq \cdots \leq \lambda_n$ be the eigenvalues of $A_t$. Then for any smooth function $f$,
+			\[ \d{ \sum_{i=1}^n f(\lambda_i) } = \left( \frac{1}{2} \sum_{i,j = 1}^n \norm{\xi_{i,j}}^2 \frac{f'(\lambda_i) - f'(\lambda_j)}{\lambda_i - \lambda_j} - \sum_{i=1}^n \lambda_i^2 f'(\lambda_i) \right) \d{t} + \text{(martingale term)}. \]
+			If $\lambda_i - \lambda_j = 0$, we interpret the corresponding term as $f''(\lambda_i)$. The $\xi_{i,j}$ are expressed in the basis of the eigenvectors.\\
+			Substituting $f$ as $t \mapsto t^q$,
+			\begin{align*}
+				\delta_t &= q \left( \frac{1}{2} \sum_{i,j = 1}^n \norm{\xi_{i,j}}^2 \frac{\lambda_i^{q-1} - \lambda_j^{q-1}}{\lambda_i - \lambda_j} - \sum_{i=1}^n \lambda_i^{q+1} \right) \\
+					&\leq q \left( \frac{1}{2} \sum_{i,j = 1}^n \frac{q-1}{2} \norm{\xi_{i,j}}^2 (\lambda_i^{q-2} + \lambda_j^{q-2}) - \sum_{i=1}^n \lambda_i^{q+1} \right) \\
+					&\leq \frac{q(q+1)}{2} \sum_{i,j = 1}^n \norm{\xi_{i,j}}^2 \lambda_i^{q-2}.
+			\end{align*}
+			Denote
+			\[ \xi_{i,j,k} = \expec[X_i X_j X_k], \;\;\; \xi_{i} = (\xi_{i,j,k})_{j,k=1,\ldots,n} = \expec[X_i X X^\top] \in \R^{n\times n}. \]
+			Observe that $\xi_{i,j} = (\xi_{i,j,k})_{k = 1,\ldots,n} \in \Rn$ and further, $\sum_{j=1}^n\norm{\xi_{i,j}}^2 \leq \Tr(\xi_i^2)$. Therefore, it suffices to upper bound
+			\[ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2). \]
+			To control the growth of the individual traces,
+			\begin{align*}
+				\Tr(\xi_i^2) &= \Tr \left(\xi_i \expec[ X_i X X^\top ] \right) \\
+					&= \expec\left[ X_i \langle \xi_i X , X \rangle \right] \\
+					&\leq \sqrt{\expec[X_i^2]} \sqrt{\expec\left[ \langle \xi_i X , X \rangle^2 \right]}.
+			\end{align*}
+			As we are working in the basis of the eigenvectors of $A_t$, the first term is upper bounded by $\sqrt{\lambda_i}$.\\
+			Using the definition of the Poincar\'{e} constant on the function $t \mapsto \langle \xi t , t \rangle$ together with our earlier bound using $\kappa$,
+			\[ \Var \langle \xi_i X, X \rangle \leq \frac{1}{\zeta_p} \expec\left[ \norm{ 2 \xi_i X }^2 \right] = \leq \frac{4}{\kappa} \expec\left[ \norm{ \xi_i X }^2 \right] = \frac{4}{\kappa} \Tr\left(A_t \xi_i^2\right).  \]
+			Therefore,
+			\[ \Tr(\xi_i^2) \leq 2 \sqrt{\frac{\lambda_i}{\kappa}} \sqrt{ \sum_{j,k=1}^n \lambda_j \xi_{i,j,k}^2 }. \]
+			Going back to the original expression we care about,
+			\begin{align*}
+				\sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) &\leq \frac{2}{\sqrt{\kappa}} \sum_{i=1}^n \lambda_i^{q-(3/2)} \sqrt{ \sum_{j,k=1}^n \lambda_j \xi_{i,j,k}^2 } \\
+					&\leq \frac{2}{\sqrt{\kappa}} \sqrt{ \sum_{i=1}^n \lambda_i^q } \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-3} \lambda_j \xi_{i,j,k}^2 } \\
+					&\leq \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-2} \xi_{i,j,k}^2 } \\
+					&= \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) },
+			\end{align*}
+			where the second-to-last inequality follows since $\lambda_i^{q-3}\lambda_j + \lambda_j^{q-3}\lambda_i \leq \lambda_i^{q-2} + \lambda_j^{q-2}$.
+			Therefore,
+			\[ \delta_t \leq \frac{q(q-1)}{2} \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) \leq \frac{2q(q-1)}{\kappa} \Gamma_t, \]
+			completing the proof.
+		\end{proof}
 
 		\begin{corollary}
-			\label{chen: expectation of potential A}
+			\label{chen: expectation of potential A}	
 			With the above definitions, for $t_2 > t_1 > 0$, we have
 			\begin{equation}
 				\expec[\Gamma_{t_2}^{1/q}] \leq \expec[\Gamma_{t_1}^{1/q}] \left(\frac{t_2}{t_1}\right)^{2q}.	
@@ -817,9 +872,9 @@
 			Define the stopping time $\tau = \inf\{t \geq 0 : \opnorm{A_t} \geq 2 \}$ and set $X_t = \Gamma_{\min\{t,\tau\}}$. Using \eqref{kls chen bound B}, we have
 			\[ \d{X_t} \lesssim q^2\psi_n^{-2}\opnorm{A_t}X_t\d{t} + \text{(martingale term)}. \]
 			Using the definition of $X_t$ to bound $\opnorm{A_t}$ by a constant and taking the expectation on either side,
-			\[ \d{\expec[X_t]} \lesssim q^2\psi_n^{-2}\expec[X_t]\d{t} \]
-			and therefore, setting $q = \lceil 40 \log n \rceil$,
-			\[ \expec[X_T] \lesssim n \exp(c\log^2 (n)\psi_n^{-2}T) \leq n^2, \]
+			\[ \d{\expec[X_t]} \lesssim q^2\psi_n^{-2}\expec[X_t]\d{t}. \]
+			Setting $q = \lceil 40 \log n \rceil$,
+			\[ \expec[X_T] \lesssim n \exp(c\log^2 (n)\psi_n^{-2}T) \leq n^2 \]
 			for some constant $c$ and where the last inequality arises from the choice of $T$. Therefore,
 			\[ n^2 \geq \expec[X_t] \geq \Pr\left[ \opnorm{A_t} > 2 \right] \cdot 2^{40 \log n}, \]
 			proving the claim.\\
