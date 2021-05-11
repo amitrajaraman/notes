@@ -1145,7 +1145,7 @@ We continue the proof over two lemmas. In \Cref{localization lemma lemma 2}, we 
 	The hyperplane supporting the half-space is referred to as a \textit{bisecting hyperplane}. It remains to show that it is possible to choose a $H$ at each step such that the $K_i$ shrink to a $0$ or $1$-dimensional body.\\
 
 	\textbf{Claim.} Given any $(n-2)$-dimensional affine subspace $A$, there is a bisecting hyperplane containing it.\\
-	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the half-space on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle $S^1$ in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is not difficult to show, and is left as an exercise%\footnote{Alternatively, this is a trivial application of the \href{https://en.wikipedia.org/wiki/Borsuk-Ulam_theorem}{Borsuk-Ulam Theorem}.}\\
+	This is easily shown by taking any hyperplane containing $A$, rotating it about $A$, and using the continuity of the resulting map that maps a hyperplane to the integral over the half-space on a particular side. This reduces to showing that for a continuous map $g$ from the unit circle $S^1$ in $\R^2$ to $\R$, there exists $x$ on the unit circle such that $f(x)=f(-x)$. This is not difficult to show, and is left as an exercise.\\%\footnote{Alternatively, this is a trivial application of the \href{https://en.wikipedia.org/wiki/Borsuk-Ulam_theorem}{Borsuk-Ulam Theorem}.}\\
 
 	Now, choose $A_0,A_1,\ldots$ to be the sequence of $(n-2)$-dimensional affine subspaces defined by $x_i=r_1$ and $x_j=r_2$ for $1\leq i<j\leq n$, where $r_1$ and $r_2$ are rational. For each $i$, let $P_i$ be the bisecting hyperplane of $K_i$ that passes through $A_i$ and define $K_{i+1}=A_i\cap H_i$, where $H_i$ is a half-space with supporting hyperplane $P_i$.\\
 	We wish to show that $\bigcap_i K_i$ is at most $1$-dimensional. Suppose instead that it is (at least) $2$-dimensional. Then the projection of $K$ onto one of the planes spanned by two coordinates axes (say $x_1$ and $x_2$) must be two-dimensional, and therefore has a rational interior point $(r_1,r_2)$. However, the hyperplane defined by $x_1=r_1$, $x_2=r_2$ is one of the $A_i$, and in this case, $P_i$ bisects $K$, and therefore also $K_{i+1}$, which is a contradiction.
@@ -1181,8 +1181,7 @@ Therefore, we assume that $K$ is a segment. Let $a$ and $b$ be the endpoints of 
 	Therefore, this integral is non-negative and the claim is proved (the expression for $h$ is non-negative by an identical argument).
 \end{proof}
 
-Let us now get back to the main proof equipped with the above two intermediate steps.\\
-We need to somehow get from the above concave function $\psi$ to a linear function.
+Now, we wish to convert $\psi$ to a linear function.
 
 \begin{proof}[Continued Proof.]
 	Define $\psi$, $a$, and $b$ as in the previous lemma but further, make two assumptions: 
