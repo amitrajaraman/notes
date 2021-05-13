@@ -735,12 +735,12 @@
 			\[ \Pr\left[\max_{t\in[0,T]} \Phi_t \geq 8\Phi_0 \right] \leq 2\exp(-8) \leq 0.01. \qedhere \]
 		\end{proof}
 
-		Over the next few sections, we look at the best bound attained (as of the time of writing) of the isoperimetric constant, as described in \cite{chen2021constant}. The proof 
+		Over the next few sections, we look at the best bound attained (as of the time of writing) of the isoperimetric constant, as described in \cite{chen2021constant}.
 
 	\subsubsection{An Almost Constant Bound}
 
 		Here, we prove that there is a constant $c$ such that for any log-concave $p$ in $\Rn$,
-		\[ \psi_p \geq \frac{1}{n^{c'\sqrt{\log \log n / \log n}} \opnorm{A}^{1/2}}. \]
+		\[ \psi_p \geq \frac{1}{n^{c \sqrt{\log \log n / \log n}} \opnorm{A}^{1/2}}. \]
 		Rather than the original proof given in \cite{chen2021constant}, we give a slightly modified proof from \href{https://www.him.uni-bonn.de/fileadmin/him/Lecture_Notes/chen_lecture_notes.pdf}{here}. Again, we set the control matrix $C_t$ in \Cref{eqn: main stoch local} as the identity matrix.
 		% To get this, we set the control matrix $C_t$ in \Cref{eqn: main stoch local} as $A^{-1}$. The resulting stochastic differential equations are then
 		% \begin{equation}
@@ -822,7 +822,7 @@
 			Substituting $f$ as $t \mapsto t^q$,
 			\begin{align*}
 				\delta_t &= q \left( \frac{1}{2} \sum_{i,j = 1}^n \norm{\xi_{i,j}}^2 \frac{\lambda_i^{q-1} - \lambda_j^{q-1}}{\lambda_i - \lambda_j} - \sum_{i=1}^n \lambda_i^{q+1} \right) \\
-					&\leq q \left( \frac{1}{2} \sum_{i,j = 1}^n \frac{q-1}{2} \norm{\xi_{i,j}}^2 (\lambda_i^{q-2} + \lambda_j^{q-2}) - \sum_{i=1}^n \lambda_i^{q+1} \right) \\
+					&\leq q \left( \frac{1}{2} \sum_{i,j = 1}^n (q-1) \norm{\xi_{i,j}}^2 \left(\frac{\lambda_i^{q-2} + \lambda_j^{q-2}}{2}\right) - \sum_{i=1}^n \lambda_i^{q+1} \right) \\
 					&\leq \frac{q(q-1)}{2} \sum_{i,j = 1}^n \norm{\xi_{i,j}}^2 \lambda_i^{q-2}.
 			\end{align*}
 			Denote
@@ -900,7 +900,8 @@
 			\[ \expec[\Gamma_t^{1/q}] \leq \left(\frac{t}{T_0}\right)^{2q} \expec[\Gamma_{T_0}^{1/q}] \leq \left(\frac{t}{T_0}\right)^{2q} 3n^{1/q}. \]
 			So, for any $T_1 > T_0$,
 			\begin{align*}
-				\expec\left[\int_0^{T_1} \expec[\opnorm{A_t}] \d{t} \right] &\leq 3T_1 + 3n^{1/q} \expec\left[\int_{T_1}^{T_2} \left(\frac{t}{T_0}\right)^{2q} \d{t} \right] \\
+				\expec\left[ \int_0^{T_1} \opnorm{A_t} \right] &= \int_0^{T_1} \expec[\opnorm{A_t}] \d{t} \\
+					&\leq 3T_1 + 3n^{1/q} \int_{T_0}^{T_1} \left(\frac{t}{T_0}\right)^{2q} \d{t} \\
 					&\leq \frac{3}{100} + 3 \frac{ n^{1/q} }{2q+1} \frac{T_1^{2q+1}}{T_0^{2q}} \leq \frac{3}{100} + 3 n^{1/q} \frac{T_1^{2q+1}}{T_0^{2q}}.
 			\end{align*}
 			How large can we make $T_1$ while ensuring that the integral we care about (for the purposes of \Cref{chen basic estimate}) remains less than $1/8$?\\
