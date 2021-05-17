@@ -845,7 +845,7 @@
 				\sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) &\leq \frac{2}{\sqrt{\kappa}} \sum_{i=1}^n \lambda_i^{q-(3/2)} \sqrt{ \sum_{j,k=1}^n \lambda_j \xi_{i,j,k}^2 } \\
 					&\leq \frac{2}{\sqrt{\kappa}} \sqrt{ \sum_{i=1}^n \lambda_i^q } \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-3} \lambda_j \xi_{i,j,k}^2 } \\
 					&\leq \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-2} \xi_{i,j,k}^2 } \\
-					&= \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) },
+					&\leq \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) },
 			\end{align*}
 			where the second-to-last inequality follows since $\lambda_i^{q-3}\lambda_j + \lambda_j^{q-3}\lambda_i \leq \lambda_i^{q-2} + \lambda_j^{q-2}$.
 			Therefore,
@@ -862,7 +862,7 @@
 		\end{corollary}
 		\begin{proof}
 			The function $x \mapsto x^{1/q}$ is concave. Therefore, the It\^{o} term in $\d{\Gamma_t^{1/q}}$ is negative and we have
-			\[ \d{\Gamma_t^{1/q}} \leq \frac{1}{q} \Gamma_t^{1-1/q}\d{\Gamma_t} \leq \frac{2q}{t} \Gamma_t + \text{(martingale term)}, \]
+			\[ \d{\Gamma_t^{1/q}} \leq \frac{1}{q} \Gamma_t^{1/q-1}\d{\Gamma_t} \leq \frac{2q}{t} \Gamma_t^{1/q} + \text{(martingale term)}, \]
 			where the second inequality follows from \eqref{kls chen bound A}. Taking the expectation on either side to eliminate the martingale term,
 			\[ \d{\expec[\Gamma_t^{1/q}]} \leq \frac{2q^2}{t} \expec[\Gamma_t^{1/q}]\d{t}, \]
 			so for $t_2 > t_1 > 0$, we have
