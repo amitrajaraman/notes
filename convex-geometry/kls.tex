@@ -55,7 +55,7 @@
 		\begin{proof}
 			The first implying the second is quite easy to show. For the converse, suppose that the second holds but the first does not.\\
 			Adding a sufficiently small quantity to $f_3$ and $f_4$, we may further assume that they are (strictly) positive. We may also assume that $f_1$ and $f_2$ are positive (Why?). Choose some $A$ such that
-			\[ \frac{\left(\int_K f_1\right)^\alpha}{\left(\int_K f_3\right)^\alpha} > A > \frac{\left(\int_K f_4\right)^\beta}{\left(\int_K f_2\right)^\beta}. \]
+			\[ \left(\frac{\int_K f_1}{\int_K f_3}\right)^\alpha > A > \left(\frac{\int_K f_4}{\int_K f_2}\right)^\beta. \]
 			Then,
 			\[ \int_K f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_K A^{1/\beta}f_2 - f_4 > 0. \]
 			Using \Cref{localization lemma}, there is some needle $N$ such that
@@ -915,7 +915,7 @@
 			Simplifying,
 			\[ \psi_n \gtrsim \left(\frac{c}{\log n}\right)^{q} n^{-1/2q} \]
 			for some universal constant $c$. Taking $q$ of the order of $\left(\log n / \log \log n\right)^{1/2}$,
-			\[ \psi_n \gtrsim e^{c' \sqrt{\log n \log \log n} }, \]
+			\[ \psi_n \gtrsim e^{-c' \sqrt{\log n \log \log n} }, \]
 			completing the proof.
 		\end{proof}
 
