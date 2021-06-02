@@ -55,7 +55,7 @@
 		\begin{proof}
 			The first implying the second is quite easy to show. For the converse, suppose that the second holds but the first does not.\\
 			Adding a sufficiently small quantity to $f_3$ and $f_4$, we may further assume that they are (strictly) positive. We may also assume that $f_1$ and $f_2$ are positive (Why?). Choose some $A$ such that
-			\[ \frac{\left(\int_K f_1\right)^\alpha}{\left(\int_K f_3\right)^\alpha} > A > \frac{\left(\int_K f_4\right)^\beta}{\left(\int_K f_2\right)^\beta}. \]
+			\[ \left(\frac{\int_K f_1}{\int_K f_3}\right)^\alpha > A > \left(\frac{\int_K f_4}{\int_K f_2}\right)^\beta. \]
 			Then,
 			\[ \int_K f_1 - A^{1/\alpha}f_3 > 0 \text{ and } \int_K A^{1/\beta}f_2 - f_4 > 0. \]
 			Using \Cref{localization lemma}, there is some needle $N$ such that
@@ -219,15 +219,15 @@
 
 		The content of this section is closely related to that of volume computation, primarily \Cref{pro sandwiching}, which discussed sandwiching.
 
-		Given a convex body $K\subseteq\Rn$ and $f:K\to\R^m$, denote by $\expec_K(f)$ the ``average of $f$ over $K$''. That is,
+		Given a convex body $K\subseteq\Rn$ and $f:K\to\R^m$, denote by $\expec_K(f)$ the average of $f$ over $K$. That is,
 		\[ \expec_K(f) = \frac{1}{\vol(K)} \int_{K} f(x)\d{x}. \]
-		Denote by $b(K)=\expec_K(x)$ the center of gravity of $K$, also known as the ``baricenter'' of $K$. If $K$ is clear from context, we often denote it as just $b$. Denote by $A(K)$ the $n\times n$ matrix of inertia
+		Denote by $b(K)=\expec_K(x)$ the center of gravity of $K$, also known as the barycenter of $K$. If $K$ is clear from context, we often denote it as just $b$. Denote by $A(K)$ the $n\times n$ matrix of inertia
 		\[ A(K) = \expec_K((x-b)(x-b)^\top). \]
 		Denote by $M_p(K)$ the $p$th moment of $K$
 		\[ M_p(K) = \expec_K\left(\norm{x-b}^p\right). \]
 		It is seen that $M_2(K)$ is the trace of $A(K)$. Further, the average squared distance between points in $K$ is
 		\[ \frac{1}{\vol(K)^2} \int_K \int_K \norm{x-y}^2\d{x}\d{y} = 2M_2(K). \]
-		It is seen that as $p\to\infty$, $M_p(K)^{1/p}$ converges to $\sup_{x\in K} \norm{x-b}$.
+		As $p\to\infty$, $M_p(K)^{1/p}$ converges to $\sup_{x\in K} \norm{x-b}$.
 
 		\begin{fdef}[Isotropic]
 			A body $K$ is said to be in \textit{isotropic position} if $b=0$ and $A(K)=I$, the identity matrix.\footnotemark\\
@@ -253,7 +253,7 @@
 			\begin{itemize}
 				\item Suppose that $\sqrt{(n+2)/n}B_2^n\not\subseteq K$. Choosing our basis appropriately, we may assume that $K$ is contained in the half-space $x_1 > -\sqrt{(n+2)/n}$. Now, we have
 				\[ \int_K x_1 = 0 \text{ and } \int_K (x_1^2 - 1) = 0. \]
-				Using \Cref{cor: if positive on convex set convex on some needle} (or rather, an extension of it with a weak inequality on $\int g$), we get some needle $N=([a,b],\ell)$. We may assume that $[a,b]$ is contained in the $x_1$ axis. so that
+				Using \Cref{cor: if positive on convex set convex on some needle} (or rather, an extension of it with a weak inequality on $\int g$), we get some needle $N=([a,b],\ell)$. We may assume that $[a,b]$ is contained in the $x_1$ axis, so that
 				\[ \int_a^b x_1\ell(x_1)^{n-1} = 0 \text{ and } \int_a^b x_1^2\ell(x_1)^{n-1} \geq \int_a^b \ell(x_1)^{n-1}. \]
 				We have $a > -\sqrt{\frac{n+2}{n}}$. It is easy to see\footnote{If $|b|>|a|$, then the first equality implies that $\ell$ cannot be increasing. Otherwise, we can use the second inequality to justify the assumption.} that we may assume that $\ell$ is decreasing, and thus may suppose that is of the form $t-x$ for some $\lambda\geq b$. We can then manually (and tediously) compute the integrals to arrive at a contradiction.
 
@@ -267,7 +267,7 @@
 					 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \left( \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u) \langle v^\circ, u\rangle\right)^2 + \frac{\varphi(u)^n}{n(n+1)^2}\norm{v}^2 \right) \d{u} \\
 					 &= \frac{1}{\vol(K)} \left( \int_{\partial B_2^n} \frac{\varphi(u)^n}{n} \left(\frac{\sqrt{n(n+2)}}{n+1}\norm{v} + \sqrt{\frac{n}{n+2}}\varphi(u)\langle v^\circ, u\rangle\right)^2 \d{u} \right) + \frac{\norm{v}^2}{(n+1)^2}
 				\end{align*}
-				Note that this gives a bound of $\norm{v}\leq n+1$. To get the bound mentioned in the theorem, it remains to bound the integral by a suitable positive quantity. Now, we have
+				This gives a bound of $\norm{v}\leq n+1$. To get the bound mentioned in the theorem, it remains to bound the integral by a suitable positive quantity. Now, we have
 				\begin{align*}
 					0 = b(K) &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \int_{0}^{\varphi(u)} t^{n-1} (v+tu) \d{t}\d{u} \\
 					 &= \frac{1}{\vol(K)} \int_{\partial B_2^n} \frac{\varphi(u)^n}{n}v + \frac{\varphi(u)^{n+1}}{n+1}u \d{u} \\
@@ -329,7 +329,7 @@
 		\end{proof}
 
 
-		Let $K$ be an arbitrary convex body and for each $x\in K$, let $\chi_K(x)$ denote the longest segement in $K$ that has midpoint $x$. Let
+		Let $K$ be an arbitrary convex body and for each $x\in K$, let $\chi_K(x)$ denote the longest segment in $K$ that has midpoint $x$. Let
 		\[ \chi(K) = \frac{1}{\vol(K)} \int_K \chi_K(x). \]
 		Note that $\chi(K)=\diam(K \cap (2x-K))$.
 
@@ -379,7 +379,7 @@
 \subsection{A More Detailed Look}
 
 	Henceforth, we write $a\gtrsim b$ if there is some constant $c$ (independent of dimension and all parameters under consideration) such that $a \geq c b$.\\
-	Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by a similar proof), it just says that
+	Generalizing \Cref{kls conj hyperplane} to an arbitrary log-concave density (by a nearly identical proof), it just says that
 	\[ \inf_{H\text{ is a halfspace}} \frac{p(\partial H)}{\min\{p(H),p(\Rn\setminus H)\}} \gtrsim \frac{1}{\sqrt{\opnorm{A}}}, \]
 	where $A$ is the covariance matrix of $p$ and $\opnorm{A}$ is the largest eigenvalue of $A$.
 
@@ -435,7 +435,7 @@
 
 		\begin{fcon}[Thin-Shell Conjecture]
 			\label{con: thin shell conjecture}
-			Let $p$ be a isotropic log-concave density. Then
+			Let $p$ be an isotropic log-concave density. Then
 			\[ \sigma_p^2 \coloneqq \expec_{X\sim p}\left[(\norm{X}-\sqrt{n})^2\right] \lesssim 1. \]
 			Equivalently, $\Var_{X\sim p}(\norm{X}^2) \lesssim 1$.
 		\end{fcon}
@@ -492,7 +492,7 @@
 		\end{equation}
 		with $p_t$ and $\mu_t$ defined by
 		\[ p_t(x) = \frac{e^{\langle c_t,x\rangle - (t/2)\norm{x}^2}p(x)}{\int_{\Rn}e^{\langle c_t,y\rangle - (t/2)\norm{y}^2}p(y)\d{y}}\text{ and } \mu_t(x) = \expec_{x\sim p_t} [x]. \]
-		Sometimes, to add another method to control the covariance, we often add in a \textit{control matrix} $C_t$ to control the covariance $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
+		Sometimes, to add another method to control the covariance, we add in a \textit{control matrix} $C_t$ to control the covariance matrix $A_t$ of the density $p_t$ at time $t$. This is incorporated into the previous equations as
 		\begin{equation}
 			\label{eqn: main stoch local}
 			\begin{gathered}
@@ -528,8 +528,8 @@
 		\end{align}
 
 		One important result that we have not mentioned thus far is due to \cite{milman2008isoperimetricprofile}, which proves that the \textit{isoperimetric profile} $I_p : [0,1]\to\Rp$, defined by
-		\[ I_p(t) = \inf_{\substack{S\subseteq\Rn \\ p(S) = t}} \frac{p(\partial S)}{\min\{p(S),p(\Rn\setminus S)\}} \]
-		is concave. In particular, since $I_p(t) = I_p(1-t)$, it attains its maximum at $1/2$. Therefore, to bound the isoperimetric coefficient (and prove the KLS Conjecture), it suffices to check subsets of measure $1/2$.\\
+		\[ I_p(t) = \inf_{\substack{S\subseteq\Rn \\ p(S) = t}} p(\partial S) \]
+		is concave. In particular, since $I_p(t) = I_p(1-t)$, it attains its maximum at $1/2$. Concavity implies that $I_p(t)/t$ attains its minimum at $t = 1/2$, and therefore to bound the isoperimetric coefficient (and prove the KLS Conjecture), it suffices to check subsets of measure $1/2$.\\
 
 		With this added information, we desire from stochastic localization that the covariance matrix does not explode. % what do we desire from stochastic localization?
 		% \begin{enumerate}
@@ -845,7 +845,7 @@
 				\sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) &\leq \frac{2}{\sqrt{\kappa}} \sum_{i=1}^n \lambda_i^{q-(3/2)} \sqrt{ \sum_{j,k=1}^n \lambda_j \xi_{i,j,k}^2 } \\
 					&\leq \frac{2}{\sqrt{\kappa}} \sqrt{ \sum_{i=1}^n \lambda_i^q } \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-3} \lambda_j \xi_{i,j,k}^2 } \\
 					&\leq \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i,j,k=1}^n \lambda_i^{q-2} \xi_{i,j,k}^2 } \\
-					&= \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) },
+					&\leq \frac{2}{\sqrt{\kappa}} \Gamma_t^{1/2} \sqrt{ \sum_{i=1}^n \lambda_i^{q-2} \Tr(\xi_i^2) },
 			\end{align*}
 			where the second-to-last inequality follows since $\lambda_i^{q-3}\lambda_j + \lambda_j^{q-3}\lambda_i \leq \lambda_i^{q-2} + \lambda_j^{q-2}$.
 			Therefore,
@@ -862,7 +862,7 @@
 		\end{corollary}
 		\begin{proof}
 			The function $x \mapsto x^{1/q}$ is concave. Therefore, the It\^{o} term in $\d{\Gamma_t^{1/q}}$ is negative and we have
-			\[ \d{\Gamma_t^{1/q}} \leq \frac{1}{q} \Gamma_t^{1-1/q}\d{\Gamma_t} \leq \frac{2q}{t} \Gamma_t + \text{(martingale term)}, \]
+			\[ \d{\Gamma_t^{1/q}} \leq \frac{1}{q} \Gamma_t^{1/q-1}\d{\Gamma_t} \leq \frac{2q}{t} \Gamma_t^{1/q} + \text{(martingale term)}, \]
 			where the second inequality follows from \eqref{kls chen bound A}. Taking the expectation on either side to eliminate the martingale term,
 			\[ \d{\expec[\Gamma_t^{1/q}]} \leq \frac{2q^2}{t} \expec[\Gamma_t^{1/q}]\d{t}, \]
 			so for $t_2 > t_1 > 0$, we have
@@ -915,7 +915,7 @@
 			Simplifying,
 			\[ \psi_n \gtrsim \left(\frac{c}{\log n}\right)^{q} n^{-1/2q} \]
 			for some universal constant $c$. Taking $q$ of the order of $\left(\log n / \log \log n\right)^{1/2}$,
-			\[ \psi_n \gtrsim e^{c' \sqrt{\log n \log \log n} }, \]
+			\[ \psi_n \gtrsim e^{-c' \sqrt{\log n \log \log n} }, \]
 			completing the proof.
 		\end{proof}
 
