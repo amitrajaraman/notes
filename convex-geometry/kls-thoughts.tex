@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{convGeo}
+
+\begin{document}
+
+\thispagestyle{empty}
+\titleBC
+
+\section{Thoughts on the KLS Conjecture}
+
+\subsection{Introduction}
+
+To begin with, let us describe a needle decomposition procedure to prove the KLS Conjecture given in \cite{leevempala2018klssurvey}. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E) / \mu(E)$ below (over all $E$).\\
+Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities
+\[ p_i = p \indic_{K_i} \frac{\mu(K)}{\mu(K_i)}. \]
+Observe that
+\begin{equation}
+	\label{eqn 1}
+	\begin{gathered}
+		p = p_1 \frac{\mu(K_1)}{\mu(K)} + p_2 \frac{\mu(K_2)}{\mu(K)} \\
+		\mu = \mu_1 \frac{\mu(K_1)}{\mu(K)} + \mu_2 \frac{\mu(K_2)}{\mu(K)}
+	\end{gathered}
+\end{equation}
+More generally, suppose we have some space $\Omega$ with a probability measure $\nu$ on it such that
+\begin{equation}
+	\label{eqn 2: disintegration}
+	\mu = \int_\Omega \mu_{\omega} \d{\nu}(\omega),
+\end{equation}
+where the $(\mu_\omega)$ are log-concave measures on $\Rn$. In the above example, we can take $\Omega = \{1,2\}$ and $\nu(\{i\}) = \mu(K_i) / \mu(K)$.\\
+Then, given any set $E$ of measure $1/2$, we have
+\begin{align}
+	\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
+		&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
+\end{align}
+where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant for any choice of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
+
+\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
+
+``Needle decomposition" refers to the process of performing the step we used to obtain \eqref{eqn 1} until the bodies $K_\omega$ become one-dimensional. We repeatedly split the bodies in a way that the quantity $\mu_\omega(E)$ remains constant at $1/2$. Suppose that we do so and the final limiting set of needles is $(K_\omega)_{\omega\in\Omega}$. Then, we can use one-dimensional isoperimetry to get that for any $\omega$, $\psi_\omega \gtrsim \opnorm{A_\omega}^{-1/2}$. We also have that $\mu_\omega(E) = 1/2$, so
+\begin{equation}
+	\label{eqn 3}
+	\mu^+(\partial E) \gtrsim \mu(E) \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
+\end{equation}
+We wish to bound the integral on the right below.\\
+
+To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
+\[ \int_{\Rn} p(x) xx^\top \d{x} = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \d{x} \d{\nu(\omega)}. \]
+Thus,
+\[ A + bb^\top = \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)}, \]
+where $A$ and $b$ (resp. $A_\omega$ and $b_\omega$) refer to the covariance matrix and barycenter of $\mu$ (resp. $\mu_\omega$) respectively.\\
+Assume without loss of generality that $b = 0$. Taking the trace on either side of the above expression,
+\begin{align*}
+	\Tr(A) &= \int_\Omega \Tr(A_\omega) + \norm{b_\omega}^2 \d{\nu(\omega)} \\
+		&\geq \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)}.
+\end{align*}
+One can then use H\"older's inequality to get
+\[ \left(\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \right) \left( \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \right)^2 \geq 1 \]
+and so,
+\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \Tr(A)^{-1/2}.  \]
+Substituting this back in \eqref{eqn 3}, we get $\psi_p \gtrsim \Tr(A)^{-1/2}$, that is, $\psi_n \gtrsim n^{-1/2}$.\\
+
+\subsection{An alternate way to look at stochastic localization}
+
+Let us return to \eqref{eqn 4}. In the above method of needle decomposition, we attempted to exercise control over the quantity $\mu_\omega(E) ( 1 - \mu_\omega(E) )$ for all $\omega$ by fixing $\mu_\omega(E)$ at $1/2$. We then used one-dimensional isoperimetry to estimate $\psi_\omega$ as $\opnorm{A_\omega}^{-1/2}$.\\
+How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we instead try to control $\psi_\omega$ here. We define a martingale $(p_t)$, that is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
+$\int_\Omega \mu_t(E) ( 1 - \mu_t(E) )$, which is exactly what papers such as \cite{chen2021constant} do.
+
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+\end{document}
