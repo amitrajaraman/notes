@@ -654,7 +654,7 @@
 					&\lesssim \max_{\norm{\zeta}_2 \leq 1} \sqrt{\zeta^\top A \zeta} \expec_{y \sim \tilde{p}} \left[(y^\top w)^2\right] & (\tilde{p}\text{ is isotropic}) \\
 					&= \opnorm{A}^{1/2} \norm{w}_2^2.
 			\end{align*}
-			The second-to-last inequality uses a reverse Jensen-like inequality, which says that if $q$ is a log-concave density in $\Rn$ and $k\geq 1$, then
+			The second-to-last inequality uses a reverse H\"{o}lder-like inequality, which says that if $q$ is a log-concave density in $\Rn$ and $k\geq 1$, then
 			\[ \expec_{x \sim q} \norm{x}^k \leq (2k)^k \left(\expec_{x \sim q} \norm{x}^2 \right)^{k/2}. \]
 			We use the above with $k=4$ and $x = y^\top w$, which has a one-dimensional log-concave distribution.\\
 			The bound for a general $C$ isn't too difficult to show by writing it as $\sum \lambda_i v_i v_i^\top$ in terms of its eigenvalues $\lambda_i \geq 0$ and eigenvectors $v_i$.
