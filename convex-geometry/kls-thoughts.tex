@@ -14,9 +14,9 @@
 \begin{itemize}
 	\item We refer to measures by greek symbols such as $\mu$ and $\nu$ and their densities by lowercase alphabets beginning from $p$.
 	\item $B$ refers to the Euclidean ball of radius $1$ in $\Rn$ (the value of $n$ is usually understandable from context).
-	\item Given a measure $\mu$ on $\Rn$ and a set $X$ whose support is at most $(n-1)$-dimensional, $\mu^+(X)$ refers to the ``surface area'' of the set $X$, that is,
+	\item Given a measure $\mu$ on $\Rn$ and an $(n-1)$-dimensional surface(?) $S$ in $\Rn$, $\mu^+(S)$ refers to the ``surface area'' of the set $S$, that is,
 	\[ \mu^+(X) = \lim_{\varepsilon \to 0} \frac{\mu(X + \varepsilon B )}{2\varepsilon}. \]
-	Alternatively, if $X \subseteq \Rn$, then
+	Alternatively, if $X \subseteq \Rn$ is compact, then
 	\[ \mu^+(\partial X) = \lim_{\varepsilon \to 0} \frac{\mu(X + \varepsilon B) - \mu(X)}{\varepsilon}. \]
 	\item While needles in \cite{KLSConjecture} refer to one-dimensional segments with a polynomial factor ($\ell^{n-1}$ where $\ell$ is linear) in particular, we use them more generally to refer to log-concave measures with a one-dimensional support.
 \end{itemize}
@@ -26,8 +26,12 @@
 \subsection{Introduction}
 
 To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ below (over all such $E$).\\
-Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities
-\[ p_i = p \indic_{K_i} \frac{\mu(K)}{\mu(K_i)}. \]
+Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities given by
+\[ p_i(x) =
+\begin{cases}
+	p(x) \frac{\mu(K)}{\mu(K_i)}, & x \in K_i, \\
+	0, & \text{otherwise.}
+\end{cases} \]
 Observe that
 \begin{equation}
 	\label{eqn 1}
@@ -59,7 +63,7 @@ where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage 
 We wish to bound the integral on the right below.\\
 
 To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
-\[ \int_{\Rn} p(x) xx^\top \d{x} = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \d{x} \d{\nu(\omega)}. \]
+\[ \int_{\Rn} p(x) xx^\top \dif x = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \dif x \dif {\nu(\omega)}. \]
 Thus,
 \begin{equation}
 	\label{eqn 5}
@@ -98,7 +102,7 @@ for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this i
 
 Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
 \[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
-for some needle decomposition preserving $\mu_\omega(E)$.\\
+for some needle decomposition preserving $\mu_\omega(E)$ (it would in fact be enough to show this with some set $A\subseteq \Omega$ instead of $\Omega$ such that $\nu(A)$ is lower-bounded by a constant).\\
 Neglecting the $b_\omega b_\omega^\top$ term, it suffices to show that
 \[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }. \]
 The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway.
