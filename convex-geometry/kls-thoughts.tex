@@ -23,90 +23,109 @@
 
 \section{Measure Disintegration}
 
-\subsection{Introduction}
+	\subsection{Introduction}
 
-To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ below (over all such $E$).\\
-Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities given by
-\[ p_i(x) =
-\begin{cases}
-	p(x) \frac{\mu(K)}{\mu(K_i)}, & x \in K_i, \\
-	0, & \text{otherwise.}
-\end{cases} \]
-Observe that
-\begin{equation}
-	\label{eqn 1}
-	\begin{gathered}
-		p = p_1 \frac{\mu(K_1)}{\mu(K)} + p_2 \frac{\mu(K_2)}{\mu(K)} \\
-		\mu = \mu_1 \frac{\mu(K_1)}{\mu(K)} + \mu_2 \frac{\mu(K_2)}{\mu(K)}
-	\end{gathered}
-\end{equation}
-More generally, suppose we have some space $\Omega$ with a probability measure $\nu$ on it such that
-\begin{equation}
-	\label{eqn 2: disintegration}
-	\mu = \int_\Omega \mu_{\omega} \d{\nu}(\omega),
-\end{equation}
-where the $(\mu_\omega)$ are log-concave measures on $\Rn$. In the above example, we can take $\Omega = \{1,2\}$ and $\nu(\{i\}) = \mu(K_i) / \mu(K)$ for $i\in\Omega$.\\
-Then, given any set $E$ of measure $1/2$, we have
-\begin{align}
-	\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
-		&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
-\end{align}
-where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant independent of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
+		To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ below (over all such $E$).\\
+		Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities given by
+		\[ p_i(x) =
+		\begin{cases}
+			p(x) \frac{\mu(K)}{\mu(K_i)}, & x \in K_i, \\
+			0, & \text{otherwise.}
+		\end{cases} \]
+		Observe that
+		\begin{equation}
+			\label{eqn 1}
+			\begin{gathered}
+				p = p_1 \frac{\mu(K_1)}{\mu(K)} + p_2 \frac{\mu(K_2)}{\mu(K)} \\
+				\mu = \mu_1 \frac{\mu(K_1)}{\mu(K)} + \mu_2 \frac{\mu(K_2)}{\mu(K)}
+			\end{gathered}
+		\end{equation}
+		More generally, suppose we have some space $\Omega$ with a probability measure $\nu$ on it such that
+		\begin{equation}
+			\label{eqn 2: disintegration}
+			\mu = \int_\Omega \mu_{\omega} \d{\nu}(\omega),
+		\end{equation}
+		where the $(\mu_\omega)$ are log-concave measures on $\Rn$. In the above example, we can take $\Omega = \{1,2\}$ and $\nu(\{i\}) = \mu(K_i) / \mu(K)$ for $i\in\Omega$.\\
+		Then, given any set $E$ of measure $1/2$, we have
+		\begin{align}
+			\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
+				&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
+		\end{align}
+		where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant independent of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
 
-\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
+	\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
 
-``Needle decomposition" refers to the process of performing the step we used to obtain \eqref{eqn 1} until the bodies $K_\omega$ become one-dimensional. We repeatedly split the bodies in a way that the quantity $\mu_\omega(E)$ remains constant at $1/2$. Suppose that we do so and the final limiting set of needles is $(K_\omega)_{\omega\in\Omega}$. Then, we can use one-dimensional isoperimetry to get that for any $\omega$, $\psi_\omega \gtrsim \opnorm{A_\omega}^{-1/2}$. We also have that $\mu_\omega(E) = 1/2$, so
-\begin{equation}
-	\label{eqn 3}
-	\mu^+(\partial E) \gtrsim \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
-\end{equation}
-We wish to bound the integral on the right below.\\
+		``Needle decomposition" refers to the process of performing the step we used to obtain \eqref{eqn 1} until the bodies $K_\omega$ become one-dimensional. We repeatedly split the bodies in a way that the quantity $\mu_\omega(E)$ remains constant at $1/2$. Suppose that we do so and the final limiting set of needles is $(K_\omega)_{\omega\in\Omega}$. Then, we can use one-dimensional isoperimetry to get that for any $\omega$, $\psi_\omega \gtrsim \opnorm{A_\omega}^{-1/2}$. We also have that $\mu_\omega(E) = 1/2$, so
+		\begin{equation}
+			\label{eqn 3}
+			\mu^+(\partial E) \gtrsim \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
+		\end{equation}
+		We wish to bound the integral on the right below.\\
 
-To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
-\[ \int_{\Rn} p(x) xx^\top \dif x = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \dif x \dif {\nu(\omega)}. \]
-Thus,
-\begin{equation}
-	\label{eqn 5}
-	A + bb^\top = \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)},
-\end{equation}
-where $A$ and $b$ (resp. $A_\omega$ and $b_\omega$) refer to the covariance matrix and barycenter of $\mu$ (resp. $\mu_\omega$) respectively.\\
-Assume without loss of generality that $b = 0$. Taking the trace on either side of the above expression,
-\begin{align*}
-	\Tr(A) &= \int_\Omega \Tr(A_\omega) + \norm{b_\omega}^2 \d{\nu(\omega)} \\
-		&\geq \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)},
-\end{align*}
-where the inequality follows from the fact that $A_\omega$ is a covariance matrix so is positive semi-definite.
-One can then use H\"older's inequality to get
-\[ \left(\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \right) \left( \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \right)^2 \geq 1 \]
-and so,
-\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \Tr(A)^{-1/2}.  \]
-Substituting this back in \eqref{eqn 3}, we get $\psi_p \gtrsim \Tr(A)^{-1/2}$, that is, $\psi_n \gtrsim n^{-1/2}$.
+		To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
+		\[ \int_{\Rn} p(x) xx^\top \dif x = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \dif x \dif {\nu(\omega)}. \]
+		Thus,
+		\begin{equation}
+			\label{eqn 5}
+			A + bb^\top = \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)},
+		\end{equation}
+		where $A$ and $b$ (resp. $A_\omega$ and $b_\omega$) refer to the covariance matrix and barycenter of $\mu$ (resp. $\mu_\omega$) respectively.\\
+		Assume without loss of generality that $b = 0$. Taking the trace on either side of the above expression,
+		\begin{align*}
+			\Tr(A) &= \int_\Omega \Tr(A_\omega) + \norm{b_\omega}^2 \d{\nu(\omega)} \\
+				&\geq \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)},
+		\end{align*}
+		where the inequality follows from the fact that $A_\omega$ is a covariance matrix so is positive semi-definite.
+		One can then use H\"older's inequality to get
+		\[ \left(\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \right) \left( \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \right)^2 \geq 1 \]
+		and so,
+		\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \Tr(A)^{-1/2}.  \]
+		Substituting this back in \eqref{eqn 3}, we get $\psi_p \gtrsim \Tr(A)^{-1/2}$, that is, $\psi_n \gtrsim n^{-1/2}$.
 
-\subsection{An alternate way to look at stochastic localization}
+	\subsection{An alternate way to look at stochastic localization}
 
-Let us return to \eqref{eqn 4}. In the above method of needle decomposition, we attempted to exercise control over the quantity $\mu_\omega(E) ( 1 - \mu_\omega(E) )$ for all $\omega$ by fixing $\mu_\omega(E)$ at $1/2$.\\
+		Let us return to \eqref{eqn 4}. In the above method of needle decomposition, we attempted to exercise control over the quantity $\mu_\omega(E) ( 1 - \mu_\omega(E) )$ for all $\omega$ by fixing $\mu_\omega(E)$ at $1/2$.\\
 
-How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we try to control $\psi_\omega$ by defining a martingale $(p_t)$ whose isoperimetric constant is easily bounded. That is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
-\[ \int_\Omega \mu_t(E) ( 1 - \mu_t(E) ) \d{\nu(\omega)}, \]
-which is exactly what papers such as \cite{chen2021constant} do.
+		How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we try to control $\psi_\omega$ by defining a martingale $(p_t)$ whose isoperimetric constant is easily bounded. That is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
+		\[ \int_\Omega \mu_t(E) ( 1 - \mu_t(E) ) \d{\nu(\omega)}, \]
+	which is exactly what papers such as \cite{chen2021constant} do.
 
-\subsection{What next?}
+	\subsection{What next?}
 
-Going back to needle decompositions again, we wish to show that there exists a needle decomposition conserving $\mu_\omega(E) = 1/2$ such that
-\[ \int_{\Omega} \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{A}^{-1/2}. \]
-\eqref{eqn 5} for $b = 0$ gives
-\[ \opnorm{A} = \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }. \]
-Therefore, it would suffice to show that
-\[ \int_\Omega \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
-for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this inequality equivalent to the KLS Conjecture? Do there exist needle decompositions not obtained by the bisection method that conserve $\mu_\omega(E)$ and satisfy the above inequality?}\\
+		Going back to needle decompositions again, we wish to show that there exists a needle decomposition conserving $\mu_\omega(E) = 1/2$ such that
+		\[ \int_{\Omega} \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{A}^{-1/2}. \]
+		\eqref{eqn 5} for $b = 0$ gives
+		\[ \opnorm{A} = \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }. \]
+		Therefore, it would suffice to show that
+		\[ \int_\Omega \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
+		for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this inequality equivalent to the KLS Conjecture? Do there exist needle decompositions not obtained by the bisection method that conserve $\mu_\omega(E)$ and satisfy the above inequality?}\\
 
-Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
-\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
-for some needle decomposition preserving $\mu_\omega(E)$ (it would in fact be enough to show this with some set $A\subseteq \Omega$ instead of $\Omega$ such that $\nu(A)$ is lower-bounded by a constant).\\
-Neglecting the $b_\omega b_\omega^\top$ term, it suffices to show that
-\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }. \]
-The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway.
+		Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
+		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
+		for some needle decomposition preserving $\mu_\omega(E)$ (it would in fact be enough to show this with some set $A\subseteq \Omega$ instead of $\Omega$ such that $\nu(A)$ is lower-bounded by a constant).\\
+		Neglecting the $b_\omega b_\omega^\top$ term, it suffices to show that
+		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }. \]
+		The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway.
 
+\section{More on Decompositions and a Potential}
+
+	\subsubsection{Hyperplane Bisections}
+
+		As before, suppose we have a log-concave probability measure $\mu$ with density $p$ on the body $K$, and we fix some $E \subseteq K$ with $\mu(E) = 1/2$. Let us define the function $f_{E,K} : \Rn \setminus \{0\} \to \R$ by
+		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x}^2 \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right| \]
+		That is, if $H$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) is $H$, the value of the above function at $x$ is equal to $|\mu(E \cap H^+) - \mu((\Rn\setminus E) \cap H^+)|$ where $H^+$ is either of the halfspaces defined by $H$.\\
+		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is. Indeed, $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
+		For nice(?) $E$, $f_{E,K}$ is continuous.\\
+
+		The primary tool used in \cite{lov-sim-on7} to prove the localization lemma was showing that there exists a bisecting hyperplane passing through any $(n-2)$-dimensional affine space. How does this translate in terms of the above defined function?\\
+		Suppose we have an $(n-2)$-dimensional affine space orthogonal to the subspace defined by $y,z\in\Rn$ and passing through $y$. What is the set of hyperplanes passing through this space? Suppose that $x$ defines a hyperplane passing through this space. Then $x$ is orthogonal to the plane, and so orthogonal to the space itself. That is, it must lie in the subspace spanned by $y$ and $z$. Further, $y-x$ is orthogonal to $x$. That is, the set of all these $x$ forms a circle $S$ in the $2$-dimensional subspace spanned by $y,z$ passing through $0$.\\
+		The conclusion of the localization method is that either
+		\begin{itemize}
+			\item $f(w) = 0$ for some $w \in S \setminus \{0\}$ or
+			\item The limit of $f(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this makes sense and that the directional limit along either direction of the circle is the same. 
+		\end{itemize}
+
+		More generally, suppose we have some one-dimensional smooth curve $C$ in $\Rn$ that passes through the origin. Then, as before either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits to $0$ is equal to $0$.
 \bibliographystyle{alpha}
 \bibliography{references}
 
