@@ -104,28 +104,58 @@
 		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
 		for some needle decomposition preserving $\mu_\omega(E)$ (it would in fact be enough to show this with some set $A\subseteq \Omega$ instead of $\Omega$ such that $\nu(A)$ is lower-bounded by a constant).\\
 		Neglecting the $b_\omega b_\omega^\top$ term, it suffices to show that
-		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }. \]
-		The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway.
+		\begin{equation}
+			\label{eqn: needle nearly aligned}
+			\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }.
+		\end{equation}
+		The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway. If the direction of the one-dimensional body $K_\omega$ is $u_\omega$, then the above is equivalent to
+		\begin{equation}
+			\sup_{\norm{\zeta} \leq 1} \int_\Omega \Var_{x \sim p_\omega}(x) \langle \zeta , u_\omega \rangle^2 \dif \nu(\omega) \gtrsim \int_\Omega \Var_{x \sim p_\omega}(x) \dif \nu(\omega)	
+		\end{equation}
 
-\section{More on Decompositions and a Potential}
+\section{More on decompositions}
 
-	\subsubsection{Hyperplane Bisections}
+	\subsection{Hyperplane bisections}
 
 		As before, suppose we have a log-concave probability measure $\mu$ with density $p$ on the body $K$, and we fix some $E \subseteq K$ with $\mu(E) = 1/2$. Let us define the function $f_{E,K} : \Rn \setminus \{0\} \to \R$ by
 		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x}^2 \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right| \]
-		That is, if $H$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) is $H$, the value of the above function at $x$ is equal to $|\mu(E \cap H^+) - \mu((\Rn\setminus E) \cap H^+)|$ where $H^+$ is either of the halfspaces defined by $H$.\\
+		That is, if $H_x$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) and $H_x^+$ is either of the resulting halfspaces, the value of the above function at $x$ is equal to $|\mu(E \cap H_x^+) - \mu((\Rn\setminus E) \cap H_x^+)|$.\\
 		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is. Indeed, $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
 		For nice(?) $E$, $f_{E,K}$ is continuous.\\
 
 		The primary tool used in \cite{lov-sim-on7} to prove the localization lemma was showing that there exists a bisecting hyperplane passing through any $(n-2)$-dimensional affine space. How does this translate in terms of the above defined function?\\
-		Suppose we have an $(n-2)$-dimensional affine space orthogonal to the subspace defined by $y,z\in\Rn$ and passing through $y$. What is the set of hyperplanes passing through this space? Suppose that $x$ defines a hyperplane passing through this space. Then $x$ is orthogonal to the plane, and so orthogonal to the space itself. That is, it must lie in the subspace spanned by $y$ and $z$. Further, $y-x$ is orthogonal to $x$. That is, the set of all these $x$ forms a circle $S$ in the $2$-dimensional subspace spanned by $y,z$ passing through $0$.\\
+		Suppose we have an $(n-2)$-dimensional affine space orthogonal to the subspace defined by $y,z\in\Rn$ and passing through $y$.\\
+		Suppose that $x$ defines a hyperplane containing this affine space. Then $x$ is orthogonal to the plane, and so orthogonal to the space itself. That is, it must lie in the subspace spanned by $y$ and $z$. Further, $y-x$ is orthogonal to $x$. That is, the set of all these $x$ forms a circle $S$ passing through $0$ contained in the $2$-dimensional subspace spanned by $y,z$.\\
 		The conclusion of the localization method is that either
 		\begin{itemize}
 			\item $f(w) = 0$ for some $w \in S \setminus \{0\}$ or
 			\item The limit of $f(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this makes sense and that the directional limit along either direction of the circle is the same. 
 		\end{itemize}
 
-		More generally, suppose we have some one-dimensional smooth curve $C$ in $\Rn$ that passes through the origin. Then, as before either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits to $0$ is equal to $0$.
+		More generally, suppose we have some one-dimensional smooth curve $C$ in $\Rn$ that passes through the origin. Then, as before, either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
+
+		A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a one-dimensional ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
+
+		An interesting question is to generally characterize these functions.
+
+	\subsection{Perfectly aligned bisections need not be possible in \texorpdfstring{$(n-1)$}{(n-1)}-dimensional bodies}
+
+		It is not too difficult to see that given an $n$-dimensional body $K$ and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$ (meaning that an affine shift of $\Span(\{u\})$ is contained in $K_\omega$) -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
+		In terms of our function $f_{E,K}$, we are essentially just considering
+		\[ S = \{ x \in \Q^n : \langle x , u \rangle = 0 \} \]
+		and arguing that given a $n$-dimensional body $K$, there exists some $x \in S$ such that $f_{E,K}(x) = 0$ and $H_x$ intersects $K$.
+
+		However, we need not be able to go from $(n-1)$ dimensions to lower while maintaining that all the bodies contain $u$. There are simple counterexamples to show this. Our primary tool is to consider an appropriate curve and saying that $f_{E,K} = 0$ somewhere on the curve. However, it may be shown that any curve which would give something meaningful (the hyperplanes corresponding to the points on the curve must intersect the body) while maintaining alignedness of the bodies must pass through the projection of the origin on the body. However the value of $f_{E,K}$ at this point is $0$ anyway (the body would be contained in the corresponding hyperplane), so the method as a whole is useless.
+
+		A natural next question is: can we give up perfect alignedness in exchange for near alignedness, which is all we would really need to show KLS?
+
+	\subsection{A potential function}
+
+		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \langle x , u \rangle^2 \gtrsim 1$.\\
+		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by minimizing a potential function such as
+		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{\langle x , u \rangle}{\norm{x}}\right) \]
+		and at each step, choosing the $x$ that minimizes $\Phi$.
+
 \bibliographystyle{alpha}
 \bibliography{references}
 
