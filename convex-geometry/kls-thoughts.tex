@@ -138,23 +138,31 @@
 
 		An interesting question is to generally characterize these functions.
 
-	\subsection{Perfectly aligned bisections need not be possible in \texorpdfstring{$(n-1)$}{(n-1)}-dimensional bodies}
+	\subsection{Aligned 2-dimensional decompositions are always possible}
 
-		It is not too difficult to see that given an $n$-dimensional body $K$ ($n \geq 2$) and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$ (meaning that a shift of $\Span\{u\}$ is contained in $K_\omega$) -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
-		In terms of our function $f_{E,K}$, if we have $u = e_1$, we are essentially just considering
-		\[ S = \{ x \in \Q^n : \langle x , u \rangle = 0 \} \]
-		and arguing that given a $n$-dimensional body $K$, there exists some $x \in S$ such that $f_{E,K}(x) = 0$ and $H_x$ intersects $K$.
+		Suppose we have an $n$-dimensional body $K$ with $n>2$ along with some direction $u$ in $\Rn$. We claim that it is possible to decompose this into a set of $(n-1)$-dimensional bodies $\{K_\omega\}$ such that any of these bodies contains our specified direction $u$ (meaning that a translational shift of $\Span(\{u\})$ is contained in the minimal affine space containing any $K_\omega$).\\
 
-		However, we need not be able to go from $(n-1)$ dimensions to lower while maintaining that all the bodies contain $u$. There are simple counterexamples to show this. Our main tool so far has been to consider an appropriate curve and saying that $f_{E,K} = 0$ somewhere on the curve. However, it may be shown that any curve which would give something meaningful (the hyperplanes corresponding to the points on the curve must intersect the body) while maintaining alignedness of the bodies must pass through the projection of the origin on the body. However the value of $f_{E,K}$ at this point is $0$ anyway (the body would be contained in the corresponding hyperplane), so the method as a whole is useless.
+		To prove this, assume without loss of generality that $u = e_n$. Consider the set of $(n-2)$-dimensional affine spaces 
+		\[ S = \{ \{x \in \Rn : x_i = q_1, x_j = q_2\} : q_1, q_2 \in \Q, 1 \leq i < j \leq n-1 \}. \]
+		This is similar to the argument involved in \cite{lov-sim-on7} except that we only consider the set of $(n-2)$-dimensional affine spaces that contain $u$. As the argument goes there, all the bodies must decompose into at most $(n-1)$-dimensional bodies in the limiting step -- if not, then there exists some affine space in $S$ that intersects the $n$-dimensional body, and choosing the corresponding bisecting hyperplane results in a contradiction.\\
 
-		A natural next question is: can we give up perfect alignedness in exchange for near alignedness, which is all we would really need to show KLS?
+		In fact, it turns out that we can decompose it into a set of $2$-dimensional bodies that all contain our specified direction!\\
+
+		This is easily done using induction on $n$. Reducing the $n$-dimensional body to a set of $(n-1)$-dimensional bodies and then each of these smaller bodies to $2$-dimensional bodies gets the job done. It should be noted that this argument does not work out if the body under consideration is $2$-dimensional, since it does not make sense to have a $0$-dimensional affine space containing our direction.\\
+
+		% It is not too difficult to see that given an $n$-dimensional body $K$ ($n \geq 2$) and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$  -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
+		% In terms of our function $f_{E,K}$, if we have $u = e_1$, we are essentially just considering
+		% \[ S = \{ x \in \Q^n : \langle x , u \rangle = 0 \} \]
+		% and arguing that given a $n$-dimensional body $K$, there exists some $x \in S$ such that $f_{E,K}(x) = 0$ and $H_x$ intersects $K$.
+
+		A natural next question is: can we give up perfect alignedness in exchange for near alignedness, which is all we really need to show KLS?
 
 	\subsection{A potential function}
 
 		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \frac{\langle x , u \rangle^2}{\norm{x}^2} \gtrsim 1$.\\
 		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
 		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
-		and at each step, choosing the $x$ that minimizes $\Phi$.
+		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, it would be minimized if the corresponding term is $0$. Note that the argument of \cite{lov-sim-on7} is just the above potential without the second term (not taking alignment into account at all).
 
 \bibliographystyle{alpha}
 \bibliography{references}
