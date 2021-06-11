@@ -151,7 +151,7 @@
 
 	\subsection{A potential function}
 
-		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \langle x , u \rangle^2 \gtrsim 1$.\\
+		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \frac{\langle x , u \rangle^2}{\norm{x}^2} \gtrsim 1$.\\
 		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
 		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
 		and at each step, choosing the $x$ that minimizes $\Phi$.
