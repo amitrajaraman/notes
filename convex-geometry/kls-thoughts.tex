@@ -1,70 +1,187 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{convGeo}
+\usepackage{kls-thoughts}
 
 \begin{document}
 
 \thispagestyle{empty}
 \titleBC
 
-\section{Thoughts on the KLS Conjecture}
+\setcounter{section}{-1}
 
-\subsection{Introduction}
+\section{Notation}
 
-To begin with, let us describe a needle decomposition procedure to prove the KLS Conjecture given in \cite{leevempala2018klssurvey}. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E) / \mu(E)$ below (over all $E$).\\
-Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities
-\[ p_i = p \indic_{K_i} \frac{\mu(K)}{\mu(K_i)}. \]
-Observe that
-\begin{equation}
-	\label{eqn 1}
-	\begin{gathered}
-		p = p_1 \frac{\mu(K_1)}{\mu(K)} + p_2 \frac{\mu(K_2)}{\mu(K)} \\
-		\mu = \mu_1 \frac{\mu(K_1)}{\mu(K)} + \mu_2 \frac{\mu(K_2)}{\mu(K)}
-	\end{gathered}
-\end{equation}
-More generally, suppose we have some space $\Omega$ with a probability measure $\nu$ on it such that
-\begin{equation}
-	\label{eqn 2: disintegration}
-	\mu = \int_\Omega \mu_{\omega} \d{\nu}(\omega),
-\end{equation}
-where the $(\mu_\omega)$ are log-concave measures on $\Rn$. In the above example, we can take $\Omega = \{1,2\}$ and $\nu(\{i\}) = \mu(K_i) / \mu(K)$.\\
-Then, given any set $E$ of measure $1/2$, we have
-\begin{align}
-	\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
-		&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
-\end{align}
-where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant for any choice of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
+\begin{itemize}
+	\item We refer to measures by greek symbols such as $\mu$ and $\nu$ and their densities by lowercase alphabets beginning from $p$.
+	\item $B$ refers to the Euclidean ball of radius $1$ in $\Rn$ (the value of $n$ is usually understandable from context).
+	\item Given a measure $\mu$ on $\Rn$ and an $(n-1)$-dimensional surface(?) $S$ in $\Rn$, $\mu^+(S)$ refers to the ``surface area'' of the set $S$, that is,
+	\[ \mu^+(X) = \lim_{\varepsilon \to 0} \frac{\mu(X + \varepsilon B )}{2\varepsilon}. \]
+	Alternatively, if $X \subseteq \Rn$ is compact, then
+	\[ \mu^+(\partial X) = \lim_{\varepsilon \to 0} \frac{\mu(X + \varepsilon B) - \mu(X)}{\varepsilon}. \]
+	\item While needles in \cite{KLSConjecture} refer to one-dimensional segments with a polynomial factor ($\ell^{n-1}$ where $\ell$ is linear) in particular, we use them more generally to refer to log-concave measures with a one-dimensional support.
+\end{itemize}
 
-\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
+\section{Measure Disintegration}
 
-``Needle decomposition" refers to the process of performing the step we used to obtain \eqref{eqn 1} until the bodies $K_\omega$ become one-dimensional. We repeatedly split the bodies in a way that the quantity $\mu_\omega(E)$ remains constant at $1/2$. Suppose that we do so and the final limiting set of needles is $(K_\omega)_{\omega\in\Omega}$. Then, we can use one-dimensional isoperimetry to get that for any $\omega$, $\psi_\omega \gtrsim \opnorm{A_\omega}^{-1/2}$. We also have that $\mu_\omega(E) = 1/2$, so
-\begin{equation}
-	\label{eqn 3}
-	\mu^+(\partial E) \gtrsim \mu(E) \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
-\end{equation}
-We wish to bound the integral on the right below.\\
+	\subsection{Introduction}
 
-To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
-\[ \int_{\Rn} p(x) xx^\top \d{x} = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \d{x} \d{\nu(\omega)}. \]
-Thus,
-\[ A + bb^\top = \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)}, \]
-where $A$ and $b$ (resp. $A_\omega$ and $b_\omega$) refer to the covariance matrix and barycenter of $\mu$ (resp. $\mu_\omega$) respectively.\\
-Assume without loss of generality that $b = 0$. Taking the trace on either side of the above expression,
-\begin{align*}
-	\Tr(A) &= \int_\Omega \Tr(A_\omega) + \norm{b_\omega}^2 \d{\nu(\omega)} \\
-		&\geq \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)}.
-\end{align*}
-One can then use H\"older's inequality to get
-\[ \left(\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \right) \left( \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \right)^2 \geq 1 \]
-and so,
-\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \Tr(A)^{-1/2}.  \]
-Substituting this back in \eqref{eqn 3}, we get $\psi_p \gtrsim \Tr(A)^{-1/2}$, that is, $\psi_n \gtrsim n^{-1/2}$.\\
+		To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ below (over all such $E$).\\
+		Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities given by
+		\[ p_i(x) =
+		\begin{cases}
+			p(x) \frac{\mu(K)}{\mu(K_i)}, & x \in K_i, \\
+			0, & \text{otherwise.}
+		\end{cases} \]
+		Observe that
+		\begin{equation}
+			\label{eqn 1}
+			\begin{gathered}
+				p = p_1 \frac{\mu(K_1)}{\mu(K)} + p_2 \frac{\mu(K_2)}{\mu(K)} \\
+				\mu = \mu_1 \frac{\mu(K_1)}{\mu(K)} + \mu_2 \frac{\mu(K_2)}{\mu(K)}
+			\end{gathered}
+		\end{equation}
+		More generally, suppose we have some space $\Omega$ with a probability measure $\nu$ on it such that
+		\begin{equation}
+			\label{eqn 2: disintegration}
+			\mu = \int_\Omega \mu_{\omega} \d{\nu}(\omega),
+		\end{equation}
+		where the $(\mu_\omega)$ are log-concave measures on $\Rn$. In the above example, we can take $\Omega = \{1,2\}$ and $\nu(\{i\}) = \mu(K_i) / \mu(K)$ for $i\in\Omega$.\\
+		Then, given any set $E$ of measure $1/2$, we have
+		\begin{align}
+			\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
+				&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
+		\end{align}
+		where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant independent of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
 
-\subsection{An alternate way to look at stochastic localization}
+	\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
 
-Let us return to \eqref{eqn 4}. In the above method of needle decomposition, we attempted to exercise control over the quantity $\mu_\omega(E) ( 1 - \mu_\omega(E) )$ for all $\omega$ by fixing $\mu_\omega(E)$ at $1/2$. We then used one-dimensional isoperimetry to estimate $\psi_\omega$ as $\opnorm{A_\omega}^{-1/2}$.\\
-How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we instead try to control $\psi_\omega$ here. We define a martingale $(p_t)$, that is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
-$\int_\Omega \mu_t(E) ( 1 - \mu_t(E) )$, which is exactly what papers such as \cite{chen2021constant} do.
+		``Needle decomposition" refers to the process of performing the step we used to obtain \eqref{eqn 1} until the bodies $K_\omega$ become one-dimensional. We repeatedly split the bodies in a way that the quantity $\mu_\omega(E)$ remains constant at $1/2$. Suppose that we do so and the final limiting set of needles is $(K_\omega)_{\omega\in\Omega}$. Then, we can use one-dimensional isoperimetry to get that for any $\omega$, $\psi_\omega \gtrsim \opnorm{A_\omega}^{-1/2}$. We also have that $\mu_\omega(E) = 1/2$, so
+		\begin{equation}
+			\label{eqn 3}
+			\mu^+(\partial E) \gtrsim \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
+		\end{equation}
+		We wish to bound the integral on the right below.\\
+
+		To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
+		\[ \int_{\Rn} p(x) xx^\top \dif x = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \dif x \dif {\nu(\omega)}. \]
+		Thus,
+		\begin{equation}
+			\label{eqn 5}
+			A + bb^\top = \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)},
+		\end{equation}
+		where $A$ and $b$ (resp. $A_\omega$ and $b_\omega$) refer to the covariance matrix and barycenter of $\mu$ (resp. $\mu_\omega$) respectively.\\
+		Assume without loss of generality that $b = 0$. Taking the trace on either side of the above expression,
+		\begin{align*}
+			\Tr(A) &= \int_\Omega \Tr(A_\omega) + \norm{b_\omega}^2 \d{\nu(\omega)} \\
+				&\geq \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)},
+		\end{align*}
+		where the inequality follows from the fact that $A_\omega$ is a covariance matrix so is positive semi-definite.
+		One can then use H\"older's inequality to get
+		\[ \left(\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \right) \left( \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \right)^2 \geq 1 \]
+		and so,
+		\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \Tr(A)^{-1/2}.  \]
+		Substituting this back in \eqref{eqn 3}, we get $\psi_p \gtrsim \Tr(A)^{-1/2}$, that is, $\psi_n \gtrsim n^{-1/2}$.
+
+	\subsection{An alternate way to look at stochastic localization}
+
+		Let us return to \eqref{eqn 4}. In the above method of needle decomposition, we attempted to exercise control over the quantity $\mu_\omega(E) ( 1 - \mu_\omega(E) )$ for all $\omega$ by fixing $\mu_\omega(E)$ at $1/2$.\\
+
+		How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we try to control $\psi_\omega$ by defining a martingale $(p_t)$ whose isoperimetric constant is easily bounded. That is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
+		\[ \int_\Omega \mu_t(E) ( 1 - \mu_t(E) ) \d{\nu(\omega)}, \]
+	which is exactly what papers such as \cite{chen2021constant} do.
+
+	\subsection{What next?}
+
+		Going back to needle decompositions again, we wish to show that there exists a needle decomposition conserving $\mu_\omega(E) = 1/2$ such that
+		\[ \int_{\Omega} \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{A}^{-1/2}. \]
+		\eqref{eqn 5} for $b = 0$ gives
+		\[ \opnorm{A} = \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }. \]
+		Therefore, it would suffice to show that
+		\[ \int_\Omega \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
+		for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this inequality equivalent to the KLS Conjecture? Do there exist needle decompositions not obtained by the bisection method that conserve $\mu_\omega(E)$ and satisfy the above inequality?}\\
+
+		Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
+		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
+		for some needle decomposition preserving $\mu_\omega(E)$ (it would in fact be enough to show this with some set $A\subseteq \Omega$ instead of $\Omega$ such that $\nu(A)$ is lower-bounded by a constant).\\
+		Neglecting the $b_\omega b_\omega^\top$ term, it suffices to show that
+		\begin{equation}
+			\label{eqn: needle nearly aligned}
+			\int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega \d{\nu(\omega)} }.
+		\end{equation}
+		The above inequality essentially asks if there exists a needle decomposition where the needles are ``nearly aligned''. Indeed, if the segments of the needles are perfectly aligned, then equality holds above. We are allowing a constant factor of leeway. If the direction of the one-dimensional body $K_\omega$ is $u_\omega$, then the above is equivalent to
+		\begin{equation}
+			\sup_{\norm{\zeta} \leq 1} \int_\Omega \Var_{x \sim p_\omega}(x) \langle \zeta , u_\omega \rangle^2 \dif \nu(\omega) \gtrsim \int_\Omega \Var_{x \sim p_\omega}(x) \dif \nu(\omega)	
+		\end{equation}
+
+\section{More on decompositions}
+
+	\subsection{Hyperplane bisections}
+
+		As before, suppose we have a log-concave probability measure $\mu$ with density $p$ on the body $K$, and we fix some $E \subseteq K$ with $\mu(E) = 1/2$. Let us define the function $f_{E,K} : \Rn \setminus \{0\} \to \R$ by
+		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
+		That is, if $H_x$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) and $H_x^+$ is either of the resulting halfspaces, the value of the above function at $x$ is equal to $|\mu(E \cap H_x^+) - \mu((\Rn\setminus E) \cap H_x^+)|$.\\
+		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is -- $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
+		For nice(?) $E$, $f_{E,K}$ is continuous.\\
+
+		The primary tool used in \cite{lov-sim-on7} to prove the localization lemma was that there exists a bisecting hyperplane passing through any $(n-2)$-dimensional affine space. How would this translate in terms of the above defined function?\\
+		Suppose we have an $(n-2)$-dimensional affine space orthogonal to the subspace spanned by $y,z\in\Rn$ and passing through $y$.\\
+		Suppose that $x$ defines a hyperplane containing this affine space. Then $x$ is orthogonal to the plane, and so orthogonal to the space itself. That is, it must lie in the subspace spanned by $y, z$. Further, $y-x$ is orthogonal to $x$. That is, the set of all these $x$ forms a circle passing through $0$ contained in the $2$-dimensional subspace spanned by $y,z$.\\
+		The conclusion of the localization method is that for any circle $S$ passing through $0$, either
+		\begin{itemize}
+			\item $f(w) = 0$ for some $w \in S \setminus \{0\}$ or
+			\item The limit of $f(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this is well-defined and that the directional limit along either direction of the circle is the same. 
+		\end{itemize}
+
+		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin. Then, as before, either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
+
+		A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
+
+		An interesting question is to generally characterize these functions.
+
+	\subsection{Aligned 2-dimensional decompositions are always possible}
+
+		Suppose we have an $n$-dimensional body $K$ with $n>2$ along with some direction $u$ in $\Rn$. We claim that it is possible to decompose this into a set of $(n-1)$-dimensional bodies $\{K_\omega\}$ such that any of these bodies contains our specified direction $u$ (meaning that a translational shift of $\Span(\{u\})$ is contained in the minimal affine space containing any $K_\omega$).\\
+
+		To prove this, assume without loss of generality that $u = e_n$. Consider the set of $(n-2)$-dimensional affine spaces 
+		\[ S = \{ \{x \in \Rn : x_i = q_1, x_j = q_2\} : q_1, q_2 \in \Q, 1 \leq i < j \leq n-1 \}. \]
+		This is similar to the argument involved in \cite{lov-sim-on7} except that we only consider the set of $(n-2)$-dimensional affine spaces that contain $u$. As the argument goes there, all the bodies must decompose into at most $(n-1)$-dimensional bodies in the limiting step -- if not, then there exists some affine space in $S$ that intersects the $n$-dimensional body, and choosing the corresponding bisecting hyperplane results in a contradiction.\\
+
+		In fact, it turns out that we can decompose it into a set of $2$-dimensional bodies that all contain our specified direction!\\
+
+		This is easily done using induction on $n$. Reducing the $n$-dimensional body to a set of $(n-1)$-dimensional bodies and then each of these smaller bodies to $2$-dimensional bodies gets the job done. It should be noted that this argument does not work out if the body under consideration is $2$-dimensional, since it does not make sense to have a $0$-dimensional affine space containing our direction.\\
+
+		% It is not too difficult to see that given an $n$-dimensional body $K$ ($n \geq 2$) and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$  -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
+		% In terms of our function $f_{E,K}$, if we have $u = e_1$, we are essentially just considering
+		% \[ S = \{ x \in \Q^n : \langle x , u \rangle = 0 \} \]
+		% and arguing that given a $n$-dimensional body $K$, there exists some $x \in S$ such that $f_{E,K}(x) = 0$ and $H_x$ intersects $K$.
+
+		A natural next question is: can we give up perfect alignedness in exchange for near alignedness, which is all we really need to show KLS?
+
+	\subsection{A potential function}
+
+		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \frac{\langle x , u \rangle^2}{\norm{x}^2} \gtrsim 1$.\\
+		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
+		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
+		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, the expression would trivially be minimized if the corresponding term is $0$ irrespective of the other term.
+
+	% %%% NOT DONE YET!
+
+	% 	Suppose that we obtain $K_\omega$, $\mu_\omega$ by bisecting with the hyperplanes $(H_{x_{\omega_n}})_{n \in \N}$. Let $K_{\omega_n}$, $\mu_{\omega_n}$ be the body and corresponding measure after bisecting with the first $n$ hyperplanes. Then,
+	% 	\begin{enumerate}
+	% 		\item The value of $\mu_\omega(E)$ is bounded by
+	% 		\[ \mu(E) \prod_{n \in \N} \left( 1 - \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right) \leq \mu_\omega(E) \leq \mu(E) \prod_{n \in \N} \left( 1 + \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right), \]
+	% 		where the $\pm$ depends on which of the two halfspaces we choose.
+	% 	\end{enumerate}
+
+	% \subsection{The Poincar\'{e} Inequality}
+
+	% 	Given a probability measure $\mu$ on $\Rn$ with density $p$, its Poincar\'{e} constant is defined by
+	% 	\[ \zeta_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2^2}{\Var_{x \sim p} g(x)}. \]
+	% 	We also define the Cheeger constant by
+	% 	\[ h_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2}{\expec_{x \sim p} \left| g(x) - \expec_{x \sim p} g(x) \right|}. \]
+	% 	Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p \gtrsim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$.\\
+	% 	How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
+	% 	So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
 
 
 \bibliographystyle{alpha}
