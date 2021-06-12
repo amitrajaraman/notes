@@ -1,0 +1,300 @@
+\section{Preliminaries}
+
+\subsection{Metric Spaces}
+
+\begin{definition}
+    A \textit{metric space} is an ordered pair $(M,d)$ where $M$ is a set and $d:M\times M\to \mathbb{R}$ is a \textit{metric} on $S$, that is, a function such that for all $x,y,z\in M$,
+    \begin{enumerate}[(i)]
+        \item $d(x,y)=0\iff x=y$,
+        \item $d(x,y)=d(y,x)$, and
+        \item $d(x,z)\leq d(x,y)+d(y,z)$.
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}
+    If $d$ is a metric over a set $M$, then $d(x,y)\geq 0$ for all $x,y\in M$.
+\end{theorem}
+\begin{proof}
+    For $x,y\in M$, We have
+    \begin{align*}
+        d(x,y)+d(y,x)&\geq d(x,x) \\
+        d(x,y)+d(x,y)&\geq 0 \\
+        d(x,y)&\geq 0
+    \end{align*}
+    Note that equality occurs if and only if $x=y$.
+\end{proof}
+
+\subsection{Combinatorics}
+
+If $n,m\in\mathbb{Z}$ with $0\leq m\leq n$, the binomial coefficient $\binom{n}{m}$ is defined by
+$$\binom{n}{m}=\frac{n!}{m!(n-m)!}$$
+where $0!=1$ and $m!=m(m-1)(m-2)\cdots(2)(1)$ for $m>0$.
+
+\begin{lemma}
+    The number of unordered selections of $m$ distinct objects that can be made from a set of $n$ distinct objects is $\binom{n}{m}$.
+\end{lemma}
+
+\begin{theorem}[Binomial Theorem]
+    Let $x,y\in\mathbb{R}$ and $n\in\mathbb{N}$. Then
+    $$(x+y)^n = \sum_{i=0}^n \binom{n}{i}x^iy^{n-i}.$$
+\end{theorem}
+
+\begin{definition}
+\label{defBalancedBlockDesign}
+    A \textit{balanced block design} consists of a set $S$ of $v$ elements, called \textit{points} or \textit{varieties}, and a collection of $b$ subsets of $S$, called \textit{blocks}, such that for some fixed $k,r,\lambda\in\mathbb{N}$,
+    \begin{enumerate}[(i)]
+        \item each block contains exactly $k$ points,
+        \item each point lies in exactly $r$ blocks, and
+        \item each pair of points occurs together in exactly $\lambda$ blocks.
+    \end{enumerate}
+    Such a design is called a $(b,v,r,k,\lambda)$-design.
+\end{definition}
+
+\begin{example}
+    Take $S=\{1,2,3,4,5,6,7\}$ and the subsets as $\{1,2,4\}$, $\{2,3,5\}$, $\{3,4,6\}$, $\{4,5,7\}$, $\{5,6,1\}$, $\{6,7,2\}$, $\{7,1,3\}$. This is a $(7,7,3,3,1)$-design.
+\end{example}
+
+Note that in a balanced block design, $bk=vr$ and $r(k-1)=\lambda(v-1)$.
+
+\begin{definition}
+    The \textit{incidence matrix} $A=(a_{ij})$ of a $(b,v,r,k,\lambda)$-design is a $v\times b$ matrix whose $i,j$th entry is given by
+    $$
+    a_{ij}=
+    \begin{cases}
+    1 & x_i\in B_j \\
+    0 & x_i\not\in B_j
+    \end{cases}
+    $$
+\end{definition}
+
+Note that the number of $1$s in any column is $k$ and the number of $1$s in any row is $r$.
+
+\begin{example}
+\label{incidenceMatrixOf77331Des}
+    The incidence matrix corresponding to the example given above is
+    $$\left(
+    \begin{matrix}
+    1 & 1 & 0 & 1 & 0 & 0 & 0 \\
+    0 & 1 & 1 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 1 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1 & 1 & 0 & 1 \\
+    1 & 0 & 0 & 0 & 1 & 1 & 0 \\
+    0 & 1 & 0 & 0 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 0 & 0 & 0 & 1
+    \end{matrix}
+    \right).
+    $$
+\end{example}
+
+\begin{definition}
+    A $(b,v,r,k,\lambda)$-design is called \textit{symmetric} if $v=b$ and $k=r$. Such a design is referred to as a $(v,k,\lambda)$-design.
+\end{definition}
+
+% \begin{definition}
+%     A \textit{projective plane of order $n$} is a $(n^2+n+1, n+1, 1)$-design.
+% \end{definition}
+
+\begin{definition}
+    A \textit{Hadamard design} is a $(4t-1,2t-1,t-1)$-design.
+\end{definition}
+
+\subsection{Number Theory}
+Unless mentioned otherwise, assume that $p$ is a prime.
+\begin{theorem}[Fundamental Theorem of Arithmetic]
+    In $\mathbb{N}$, every number greater than $1$ can be represented as a product of prime numbers, and further, this representation is unique up to the order of the factors.
+\end{theorem}
+
+\begin{definition}
+    The \textit{greatest common divisor} (abbreviated gcd) of two or more numbers not all $0$ is defined to be the largest positive integer that divides each of the integers.
+\end{definition}
+
+The gcd of two integers $x,y$ is denoted $(x,y)$.
+
+If $a$ divides $b$, we write $a\mid b$.
+
+\begin{lemma}[Bezout's Lemma]
+\label{BezoutsLemma}
+    If $x$ and $y$ are nonzero integers and $d=(x,y)$, there exist $\alpha,\beta\in\mathbb{Z}$ such that $\alpha x+\beta y=d$. Furthermore, $d$ is the smallest positive integer that can be represented in the form $\alpha x+\beta y$ where $\alpha,\beta\in\mathbb{Z}$.
+\end{lemma}
+
+\vspace{2mm}
+If $m\mid (a-b)$ for integers $a,b,m$, we write $a\equiv b\Mod m$.
+
+\begin{definition}
+    Let $a,m$ be integers. A \textit{modular multiplicative inverse} of $a$ modulo $m$ is an integer $x$ such that $ax\equiv 1\Mod m$.
+\end{definition}
+
+\begin{theorem}
+    Let $a,m\in\mathbb{Z}$. The modular multiplicative inverse of $a$ modulo $m$ exists if and only if $(a,m)=1$.
+\end{theorem}
+\begin{proof}
+    We have
+    \begin{align*}
+        ax\equiv 1\Mod m&\iff ax-1=ms\text{ for some $s\in\mathbb{Z}$} \\
+                        &\iff ax-ms=1\text{ for some $s\in\mathbb{Z}$} \\
+                        &\iff (a,m)\mid1 \\
+                        &\iff (a,m)=1
+    \end{align*}
+\end{proof}
+
+% \begin{theorem}
+% \label{Euler Totient}
+%     For $n\in\mathbb{N}$, define
+%     $$\varphi(n):=|\{m\in\mathbb{N}\mid 1\leq m\leq n, (m,n)=1\}|$$
+%     called \textit{Euler's totient function} or \textit{Euler's indicator}. Then
+%     $$\varphi(n)=n\prod_{p:p\mid n}\left(1-\frac 1p\right)\text{ and}$$
+%     $$\sum_{d:d\mid n}\varphi(d)=n$$
+% \end{theorem}
+% \begin{proof}
+%     Let us prove the first part. Let $p_1,p_2,\ldots,p_k$ be the prime factors of $n$. We must show that $$\varphi(n)=n-\sum_{r}\frac{n}{p_r}+\sum_{r>s}\frac{n}{p_rp_s}-\cdots.$$
+%     Note that $\dfrac{n}{p_r}$ is the number of numbers in $\{1,2,\ldots,n\}$ divisible by $p_r$, $\dfrac{n}{p_rp_s}$ is the number of numbers in the range divisible by $p_rp_s$ and so on. That is, we must show that 
+%     $$\varphi(n)=\sum_{i=1}^n\left(1-\sum_{r:p_r\mid i}1+\sum_{r>s,p_rp_s\mid i}1-\cdots\right)$$
+%     Now, let $l(i)$ be the number of primes in $p_1,p_2,\ldots,p_k$ that divide $i$. Then we must show that $$\varphi(n)=\sum_{i=1}^n\left(1-\binom{l(i)}{1}+\binom{l(i)}{2}-\cdots\right).$$
+%     Now note that the expression we are summing is equal to $1$ whenever $l(i)=0$, that is, $(n,i)=1$ and is equal to $0$ otherwise. This is exactly what we want, the number of numbers in $\{1,2,3,\ldots,n\}$ that are coprime to $n$. Thus our formula is correct.
+    
+%     It is straightforward to check that given the above formula, if we have $m,n$ such that $(m,n)=1$, $\varphi(mn)=\varphi(m)\varphi(n)$, that is, $\varphi$ is \textit{multiplicative}. In fact, if $(m,n)=1$, it can be checked that $\sum_{d\mid n}\varphi(d)$ is multiplicative. It is straightforward that $$\sum_{d\mid p^i}\varphi(d)=1+(p-1)+(p^2-p)+\cdots+(p^j-p^{j-1})=p^j.$$
+%     Then as $\sum_{d\mid n}\varphi(d)$ is multiplicative, for $n=p_1^{a_1}p_2^{a_2}\cdots p_k^{a_k}$
+%     \begin{align*}
+%         \sum_{d\mid n}\varphi(d)&=\prod_{i=1}^k\left(\sum_{d\mid p_i^{a_i}}\varphi(d)\right) \\
+%                                 &=\prod_{i=1}^k p_i^{a_i} = n
+%     \end{align*}
+% \end{proof}
+
+% \begin{theorem}[Euler's Theorem]
+%     If $(a,m)=1$ for integers $a,m$ then $a^{\varphi(m)}\equiv 1\Mod m$.
+% \end{theorem}
+
+\begin{theorem}[Stirling's Approximation]
+\label{stirlingApproximation}
+    For every integer $n\geq 1$, we have
+    $$\sqrt{2\pi n}\left(\frac{n}{e}\right)^ne^{\lambda_1(n)}< n!< \sqrt{2\pi n}\left(\frac{n}{e}\right)^ne^{\lambda_2(n)}$$
+    where
+    $$\lambda_1(n)=\frac{1}{12n+1}\text{ and }\lambda_2(n)=\frac{1}{12n}.$$
+\end{theorem}
+
+\clearpage
+
+\subsection{Group Theory}
+
+\begin{definition}
+    A group $(G,\cdot)$ is a set $G$ along with a binary operation $\cdot:G\times G\to G$ (We write $\cdot((a,b))$ as $a\cdot b$ for $a,b\in G$) such that
+    \begin{enumerate}[(i)]
+        \item $(a\cdot b)\cdot c=a\cdot(b\cdot c)$ for all $a,b,c\in G$,
+        \item There exists an \textit{identity} element $e\in G$ such that $a\cdot e=e\cdot a=a$ for all $a\in G$ (this identity element is unique, see \ref{identityUnique} below), and
+        \item For all $a\in G$, there exists an element $b\in G$ (called the \textit{inverse} of $a$) such that $ab=ba=e$.
+    \end{enumerate}
+\end{definition}
+
+A group $(G,\cdot)$ in which $a\cdot b=b\cdot a$ for all $a,b\in G$ is called an \textit{abelian group}.
+
+The identity element of a group written multiplicatively is usually written as $1$.
+
+\begin{theorem}
+\label{identityUnique}
+    The identity element of a group is unique.
+\end{theorem}
+\begin{proof}
+    Let $e$ and $e'$ be identities of a group $(G,\cdot)$. We have $e\cdot e'=e$ as $e'$ is an identity and $e\cdot e'=e'$ as $e$ is an identity. Thus, $e=e'$ and the identity is unique.
+\end{proof}
+
+A common example of a group is $\mathbb{Z}$ under addition.
+
+\vspace{2mm}
+We define the set $\mathbb{Z}/n\mathbb{Z}$ for some integer $n$ as follows. Let $\sim$ be a relation given by
+$$a\sim b\text{ if and only if }n\mid (b-a).$$
+It may be shown that $\sim$ is an equivalence relation. Each equivalence class is given by $\overline{a}=\{a+kn\mid k\in\mathbb{Z}\}$. There are precisely $n$ equivalence classes, namely $\overline{0}, \overline{1}, \ldots, \overline{n-1}$. These $n$ equivalence classes are the elements of the set $\mathbb{Z}/n\mathbb{Z}$.
+
+For $\overline{a}, \overline{b}\in \mathbb{Z}/n\mathbb{Z}$, we further define addition and multiplication as
+$$\overline{a}+\overline{b}=\overline{a+b}\text{ and }\overline{a}\cdot\overline{b}=\overline{a\cdot b}$$
+
+It may be checked that the above is well-defined.
+
+We see that $\mathbb{Z}/n\mathbb{Z}$ is an abelian group under the addition operation with identity $\overline{0}$ and the inverse of $\overline{a}$ as $\overline{-a}$. We denote this group as $\mathbb{Z}/n\mathbb{Z}$ or $\mathbb{Z}_n$.
+
+\vspace{2mm}
+We often drop the $\cdot$ and simply write $a\cdot b$ as $ab$ and write the group $(G,\cdot)$ as just $G$. We also write $aa\cdots a$ ($n$ times) as $a^n$.
+
+\begin{theorem}
+    Let $G$ be a group. Then the inverse of any element of the group is unique.
+\end{theorem}
+\begin{proof}
+    Let $a\in G$ and $b,c$ be inverses of $a$. We have $ab=ac=1$. Premultiplying by $b$ gives $(ba)b=(ba)c$, that is, $b=c$.
+\end{proof}
+
+\begin{definition}
+    Let $G$ be a group. A subset $H$ of $G$ is a subgroup of $G$ if $H$ is nonempty and it is closed under products and inverses. That is, $a,b\in H$ implies $a^{-1}\in H$ and $ab\in H$. If $H$ is a subgroup of $G$, we write $H\leq G$.
+\end{definition}
+
+Note that if $H\leq G$, the identity of $G$ belongs to $H$ as well.
+
+\begin{definition}
+    If $G$ is a group and $a\in G$, the smallest positive integer $n$ such that $a^n=1$ is called the \textit{order} of $a$.
+\end{definition}
+
+In the above case, the set $\{1,a,a^2,\ldots,a^{n-1}\}$ form a \textit{cyclic} subgroup with $a$ as \textit{generator}. Note that the order of this subgroup is equal to the order of $a$.
+
+\begin{definition}
+\label{cosetDef}
+    Let $H$ be a subgroup of group $G$. For any $a\in G$, the set $aH=\{ah\mid h\in H\}$ is called a \textit{left coset} or just \textit{coset}. An element of a coset is called a \textit{representative} of the coset.
+\end{definition}
+
+\begin{theorem}
+\label{cosetPartition}
+    Let $N$ be a subgroup of a group $G$. The set of left cosets of $H$ in $G$ partition $G$. Furthermore, for all $u,v\in G$, $uN=vN$ if and only if $v^{-1}u\in N$.
+\end{theorem}
+\begin{proof}
+    First of all, as $N\leq G$, $1\in N$. Thus $g\in gN$ for all $g\in G$, that is,
+    $$G=\bigcup_{g\in G}gN$$
+    To show that distinct left cosets have empty intersection, let $uN\cap vN\neq\emptyset$ for some $u,v\in G$. We must show that $uN=vN$. Let $x\in uN\cap vN$. Then $x=un=vm$ for some $n,m\in N$. This gives $u=v(mn^{-1})$. For any $t\in N$, $ut=v(mn^{-1}t)\in vN$ as $mn^{-1}t\in N$. Thus $uN\subseteq vN$. Similarly, we get $vN\subseteq uN$. Therefore, $uN=vN$ if they have nonempty intersection and we get that the set of left cosets partition $G$.
+    
+    By the first part of this theorem, we get $uN=vN$ if and only if $u\in vN$, which is equivalent to $v^{-1}u\in N$.
+\end{proof}
+
+% \begin{definition}
+%     Let $H$ be a subgroup of group $G$. Consider the set $gHg^{-1}=\{ghg^{-1}\mid h\in H\}$ for some $g\in G$. $H$ is called a \textit{normal subgroup} if $gHg^{-1}=H$ for all $g\in G$.
+% \end{definition}
+
+If $H$ is a normal subgroup of group $G$, the set of cosets of $H$ in $G$ again form a group by defining $(aH)(bH)=(ab)H$. This multiplication makes sense as $H$ is normal. This group is called the \textit{quotient group} and is denoted by $G/H$.
+
+\begin{theorem}[Lagrange's Theorem]
+\label{LagrangesTheorem}
+    If $H$ is a subgroup of a finite group $G$, $|H|$ divides $|G|$ and the number of left cosets of $H$ in $G$ is $\frac{|G|}{|H|}$.
+\end{theorem}
+\begin{proof}
+    Let $|H|=n$ and the number of left cosets of $H$ be $k$. As the set of left cosets partition $G$, by the map $F:H\to gH$ defined by $h\mapsto gh$ is a surjection from $H$ to the left coset $gH$. Further, $F$ is injective as $gh_1=gh_2\implies h_1=h_2$. This proves $|gH|=|H|=n$. Since $G$ is partitioned into $k$ subsets each of cardinality $n$, $|G|=kn$. Thus $k=\frac{|G|}{n}=\frac{|G|}{|H|}$.
+\end{proof}
+
+As a corollary, note that the order of any element of a finite group divides the order of the group.
+
+% \begin{definition}
+%     Let $A$ be a subset of group $G$. The subgroup of $G$ \textit{generated} by $A$ is
+%     $$\langle A\rangle=\bigcap_{\substack{A\subseteq H \\ H\leq G}}H.$$
+% \end{definition}
+
+% That is, it is the ``smallest" subgroup of a group that contains the given set. It can also be expressed only in terms of the subset alone as
+
+% $$\langle A\rangle = \{{a_1}^{\epsilon_1}{a_2}^{\epsilon_2}\cdots{a_n}^{\epsilon_n}\mid  n\in\mathbb{Z}, n\geq0\text{ and }a_i\in A,\epsilon_i=\pm1\text{ for each }i\}.$$
+
+\begin{theorem}[Cauchy's Theorem]
+\label{CauchyTheorem}
+    If $G$ is a finite group and $p$ is a prime dividing the order of $G$, then $G$ contains an element of order $p$.
+\end{theorem}
+
+We omit the proof of the above theorem.
+
+% \begin{definition}
+%     A group $G$ is called the \textit{direct sum} of subgroups $H_1$ and $H_2$ if
+%     \begin{enumerate}[(i)]
+%         \item $H_1$ and $H_2$ are normal in $G$
+%         \item The intersection of $H_1$ and $H_2$ contains only the identity element of $G$.
+%         \item $G$ is generated by the subgroups $H_1$ and $H_2$.
+%     \end{enumerate}
+% \end{definition}
+
+% \begin{theorem}[Fundamental Theorem of Finite Abelian Groups]
+%     Any finite abelian group is a direct sum of cyclic groups.
+% \end{theorem}
+
+% The proof of this theorem is beyond the scope of this text. We merely state the theorem for later use.
+
+\clearpage

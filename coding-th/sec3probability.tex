@@ -1,0 +1,236 @@
+\section{Introduction to Probability}
+
+\subsection{Introduction}
+
+\begin{definition}
+    A \textit{probability space} is a triple $(\Omega,\mathcal{F},P)$, such that
+    \begin{enumerate}[(i)]
+        \item $\Omega$ is a non-empty set called the \textit{sample space}.
+        \item $\mathcal{F}$ is a subset of $2^\Omega$ (the power set of $\Omega$) called the \textit{event space}, such that
+        \begin{itemize}
+            \item $\Omega\in\mathcal{F}$,
+            \item if $A\in\mathcal{F}$, then $\Omega\setminus A\in\mathcal{F}$, and
+            \item $\mathcal{F}$ is closed under countable unions. That is, if $A_1,A_2,\ldots\in \mathcal{F}$ then $\bigcup_{i\in\mathbb{N}} A_i\in\mathcal{F}$.
+        \end{itemize}
+        \item $P$, the \textit{probability distribution}, is a function from $\mathcal{F}$ to $[0,1]$ such that
+        \begin{itemize}
+            \item $P(\Omega)=1$ and
+            \item if $A_1,A_2,\ldots\in\mathcal{F}$ is a collection of pairwise disjoint sets, then
+            $$P\left(\bigcup_{i\in X}A_i\right)=\sum_{i\in X}P(A_i).$$
+        \end{itemize}
+    \end{enumerate}
+\end{definition}
+
+We shall restrict ourselves to the case where $\Omega$ is a finite set.
+
+We abuse notation and for $\omega\in\Omega$, denote $P(\{\omega\})$ as $P(\omega)$.
+
+\begin{definition}
+    Let $\dom$ be a finite set. The \textit{uniform distribution over $\dom$}, denoted $\unif_\dom$, is the one corresponding to the probability space $(\dom,2^\dom,p)$, where $$p(A)=\frac{|A|}{|\dom|}\text{ for any } A\subseteq\dom.$$
+\end{definition}
+
+\begin{definition}
+\label{randVarDef}
+    Let $(\Omega,\mathcal{F},P)$ be a probability space. A (real-valued) \textit{random variable} is a function $X:\Omega\to \mathbb{R}$ such that
+    $$\{\omega\in\Omega\mid X(\omega)\leq r\}\in\mathcal{F}\text{ for all }r\in\mathbb{R}.$$
+\end{definition}
+
+In the above case, the \textit{expectation} of $X$ is defined as
+$$\expec[X]=\sum_{\omega\in\Omega}P(\omega)X(\omega).$$
+
+\vspace{2mm}
+In this report, we primarily consider binary random variables, that is, random variables which map to $\{0,1\}$.
+
+\begin{definition}
+    Let $(\Omega,\mathcal{F},P)$ be a probability space. Given an \textit{event} $E\in\mathcal{F}$, we define its \textit{indicator variable} to be the random variable $\mathbbm{1}_E:\Omega\to\{0,1\}$ such that for each $\omega\in\Omega$,
+    $$
+    \mathbbm{1}_E(\omega)=
+    \begin{cases}
+    1 & \text{if $\omega\in E$} \\
+    0 & \text{otherwise.}
+    \end{cases}
+    $$
+\end{definition}
+
+We occasionally abuse notation and use $E$ instead of $\mathbbm{1}_E$.
+
+\vspace{2mm}
+Now that we have the concept of a random variable, we can talk of the probability that the random variable has a given value. For example, given a probability space $(\Omega,\mathcal{F},P)$, a corresponding random variable $V$, and $x\in\mathbb{R}$, we can write
+$$\Pr[V\geq x]=P\left(\{\omega\in\Omega\mid V(\omega)\geq x\}\right).$$
+The right expression is well-defined due to the property given in \ref{randVarDef}.
+
+\vspace{2mm}
+And now that we have the above, we can \textit{abstract away} the details of $\Omega$ and $\mathcal{F}$. We can talk merely of the different elements of the image of the random variable and the associated probabilities.
+
+\begin{definition}
+    The \textit{Bernoulli distribution} with parameter $p\in[0,1]$ is the binary random variable $X$ such that for $x\in\{0,1\}$
+    $$
+    \Pr[X=x]=
+    \begin{cases}
+    p & \text{if }x=1 \\
+    1-p & \text{if }x=0.
+    \end{cases}
+    $$
+\end{definition}
+
+\begin{definition}
+    The \textit{binomial distribution} with parameters $n\in\mathbb{N}$ and $p\in[0,1]$ is the random variable $B$ to $\{0,1,2,\ldots,n\}$ such that for $k\in\{0,1,2,\ldots,n\}$,
+    $$\Pr[B=k]=\binom{n}{k}p^k(1-p)^{n-k}.$$
+\end{definition}
+
+\subsection{Some Results}
+
+\begin{lemma}
+    Let $(\Omega,\mathcal{F},P)$ be a probability space and $E\in\mathcal{F}$ be any event. Then
+    $$\expec[\mathbbm{1}_E]=P(E)$$
+\end{lemma}
+
+\begin{theorem}[Linearity of Expectation]
+    Given random variables $V_1,V_2,\ldots,V_m$ defined over the same domain $\dom$ and with the same probability distribution $p$, 
+    $$\expec\left[\sum_{i=1}^m V_i\right]=\sum_{i=1}^m\expec[V_i].$$
+\end{theorem}
+
+\begin{theorem}
+\label{binomExpec}
+    Let $X$ be a binomial distribution with parameters $n$ and $p$. Then
+    $$\expec[X]=np.$$
+\end{theorem}
+\begin{proof}
+    We have
+    \begin{align*}
+        \expec[X] &= \sum_{i=0}^n i\Pr[X=i] \\
+                  &= \sum_{i=1}^n i\binom{n}{i}p^i(1-p)^{n-i} \\
+                  &= \sum_{i=1}^n n\binom{n-1}{i-1}p^i(1-p)^{n-i} \\
+                  &= \sum_{i=1}^n np\binom{n-1}{i-1}p^{i-1}(1-p)^{n-i} \\
+                  &= np \sum_{i=0}^{n-1} \binom{n-1}{i}p^i(1-p)^{n-1-i} \\
+                  &= np (p+1-p)^{n-1} \\
+                  &= np.
+    \end{align*}
+\end{proof}
+
+\begin{theorem}[Union Bound]
+\label{unionBound}
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space. Given events $E_1,E_2,\ldots,E_m$,
+    $$P\left(\bigcup_{i=1}^m E_i\right)\leq \sum_{i=1}^m\Pr(E_i).$$
+\end{theorem}
+
+The union bound is tight if for every $i,j\in[m]$ such that $i\neq j$,
+$$E_i\cap E_j=\emptyset$$
+
+We omit the proofs of the above results as they are relatively easy to check.
+
+\begin{theorem}[Markov Bound]
+\label{MarkovBound}
+    Let $V$ be a non-negative random variable. Then for any $t>0$,
+    $$\Pr[V\geq t]\leq\frac{\expec[V]}{t}.$$
+\end{theorem}
+\begin{proof}
+    We have
+    \begin{align*}
+        \expec[V] &= \sum_{i\in[0,t)}i\Pr[V=i]+\sum_{i\in[t,\infty)}i\Pr[V=i] \\
+                  &\geq \sum_{i\in[t,\infty)}i\Pr[V=i] \\
+                  &\geq t\sum_{i\in[t,\infty)}\Pr[V=i] \\
+                  &= t\Pr[V\geq t].
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+    Let $V$ be a non-negative random variable. Then for any $a\geq1$,
+    $$\Pr[V\geq a\expec[V]]\leq \frac{1}{a}.$$
+\end{corollary}
+
+Putting $t=a\expec[V]$ in the Markov bound gives the required result.
+
+\begin{definition}
+    Two random variables $A$ and $B$ are called \textit{independent} if for every $a,b$ in the ranges of $A,B$ respectively,
+    $$\Pr[(A=a)\vee(B=b)]=\Pr[A=a]\Pr[B=b].$$
+\end{definition}
+
+\begin{definition}
+    Let $X,Y$ be two random variables defined over the same probability space. Let $X$ take the distinct values $x_1,x_2,\ldots,x_n$ and $Y$ take the distinct values $y_1,y_2,\ldots,y_m$. For some $i,j$, we then define the probability of $X=x_i$ \textit{conditioned} over $Y=y_j$ as
+    $$\Pr[X=x_i\mid Y=y_j]=\frac{\Pr[X=x_i\wedge Y=y_j]}{\Pr[Y=y_j]}$$
+\end{definition}
+
+The above is straightforward to check using the definition of conditional probability.
+
+\begin{theorem}[Multiplicative Chernoff Bound]
+\label{multChernoff}
+    Let $X_1,X_2,\ldots,X_m$ be independent binary random variables and $X=\sum X_i$. Then for $0<\varepsilon\leq 1$,
+    $$\Pr[|X-\expec[X]|>\varepsilon\expec[X]]<2e^{-\varepsilon^2\expec[X]/3}$$
+\end{theorem}
+
+\begin{theorem}[Additive Chernoff Bound]
+\label{addChernoff}
+    Let $X_1,X_2,\ldots,X_m$ be independent binary random variables and $X=\sum X_i$. Then for $0<\varepsilon\leq 1$,
+    $$\Pr[|X-\expec[X]|>\varepsilon m]<2e^{-\varepsilon^2m/2}$$
+\end{theorem}
+
+The Chernoff bounds can be proved by applying the Markov bound \ref{MarkovBound} to $e^{tX}$ to get
+$$\expec[X\geq a]\leq \min_{t>0} e^{-ta}\prod_i\expec[e^{tX_i}]$$
+and
+$$\expec[X\leq a]\leq \min_{t>0} e^{ta}\prod_i\expec[e^{-tX_i}]$$
+and bounding the resultant expression after putting a suitable value of $a$.
+
+\subsection{The Probabilistic Method}
+\label{probabilisticMethod}
+
+The probabilistic method is a method used to show the existence of objects that exhibit certain properties without giving an explicit construction.
+
+Say we must show the existence of an object $\mathscr{C}$ that has property $\mathscr{P}$. This is done by defining a probability distribution $\mathscr{D}$ over all such objects and showing that when an object $\mathscr{C}$ is chosen according to $\mathscr{D}$,
+$$\Pr[\mathscr{C}\text{ has property }\mathscr{P}]>0\text{ or }\Pr[\mathscr{C}\text{ doesn't have property }\mathscr{P}]<1$$
+
+This can be simplified by defining sub-properties $P_1,P_2,\ldots,P_m$ such that
+$\mathscr{P}=P_1\wedge P_2\wedge\cdots\wedge P_m$ and then showing that for all valid $i$,
+$$\Pr[\mathscr{C}\text{ doesn't have property }P_i]<\frac{1}{m}$$
+and then using the union bound \ref{unionBound}.
+
+\vspace{2mm}
+Finally, if $f$ is a function from the set of objects to $\mathbb{R}$, then $\expec[f(\mathscr{C})]\leq b$ for some $b\in\mathbb{R}$ implies that there exists an object $\mathscr{C}_0$ such that $f(\mathscr{C}_0)\leq b$.
+
+\subsection{The Entropy Function}
+
+\begin{definition}
+    Let $q\in\mathbb{Z}$ and $x\in\mathbb{R}$ such that $q\geq 2$ and $0\leq x\leq 1$. Then the \textit{$q$-ary entropy function} is defined as follows:
+    $$H_q(x)=x\log_q(q-1)-x\log_q(x)-(1-x)\log_q(1-x).$$
+\end{definition}
+
+We take $0\log_q(0)=0$.
+
+\vspace{2mm}
+The following graph shows the behaviour of $H_q(x)$ for some values of $q$.
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin=0, xmax=1.2,
+        ymin=0, ymax=1.1,
+        xlabel=$x$, ylabel=$H_q(x)$,
+        axis lines=middle,
+        xtick={0.5,1},
+        ytick={1},
+        xlabel style={at={(ticklabel* cs:1)},anchor=north west},
+        ylabel style={at={(ticklabel* cs:1)},anchor=south east},
+        legend style={
+            at={(-0.1,0.6)},
+            anchor=east
+            }
+    ]
+    \addplot[samples=1000, color=red, domain=0:1]{-x*log2(x)-(1-x)*log2(1-x)};
+    \addplot[samples=1000, color=blue, domain=0:1]{x*ln(2)/ln(3)-x*ln(x)/ln(3)-(1-x)*ln(1-x)/ln(3)};
+    \addplot[samples=1000, color=olive, domain=0:1]{x*ln(3)/ln(4)-x*ln(x)/ln(4)-(1-x)*ln(1-x)/ln(4)};
+    
+    \legend{$q=2$, $q=3$, $q=4$}
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+$H_q$ attains its maximum value of $1$ at $1-\dfrac{1}{q}$.
+
+\vspace{1mm}
+The binary entropy function $H_2$ is denoted as $H_\mathsf{Ber}$.
+
+\vspace{1mm}
+Note that $$q^{-H_q(p)}=\left(\frac{p}{q-1}\right)^{p}(1-p)^{1-p}$$
+
+
+\clearpage

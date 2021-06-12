@@ -1,0 +1,431 @@
+\section{Linear Codes}
+
+\subsection{Introduction to Linear Codes}
+
+\begin{definition}
+    A \textit{linear code} over $\mathbb{F}_q$ is a subspace of $V(n,q)$ for some positive integer $n$.
+\end{definition}
+
+Note that the dimension (recall \ref{dimCodeDef}) of a linear code is equal to its dimension as a vector space.
+
+We denote by $\textbf{0}$ the element of a linear code that consists of all $0$s.
+
+If a linear code is a $k$-dimensional subspace of $V(n,q)$, we call it an $[n,k]_q$-code. If we further wish to specify the minimum distance $d$ of the code, we call it an $[n,k,d]_q$-code.
+
+\begin{lemma}
+    If $x,y\in V(n,q)$, then $d(x,y)=\wt(x-y)$.
+\end{lemma}
+\begin{proof}
+    $x-y$ is nonzero exactly wherever $x$ and $y$ differ. The result follows.
+\end{proof}
+
+\begin{theorem}
+\label{minDistIsMinWeight}
+    Let $C$ be a linear code and $\wt(C)=\min\{\wt(x)\mid x\in C\setminus\{0\}\}$. Then $d(C)=\wt(C)$.
+\end{theorem}
+\begin{proof}
+    There exist $x,y\in C$ such that $d(x,y)=d(C)$, that is, $\wt(x-y)=d(C)$. This gives $d(C)=\wt(x-y)\geq \wt(C)$ since $x-y\in C$.
+    
+    Let $x\in C$ such that $\wt(x)=\wt(C)$. Then $\wt(C)=d(x,\textbf{0})\geq d(C)$.
+    
+    This gives $d(C)=\wt(C)$.
+\end{proof}
+
+Note that to find the minimum distance in any general code, we must make $\binom{m}{2}$ comparisons, but in a linear code, we only need to examine the weights of $M-1$ codewords.
+
+% \begin{theorem}
+%     In a binary linear code $C$, either all the codewords have even weight or exactly half have even weight and half have odd weight.
+% \end{theorem}
+% \begin{proof}
+%     Let $w\in C$ have odd weight. If no such $x$ exists, then all codewords have even weight. Let $C_e$ be the subset of $C$ which contains all codewords of even weight and $C_o$ the subset of $C$ which contains all codewords of odd weight.
+    
+%     Consider the function $f:C_e\to C_o$ defined by $x\mapsto x+w$ for $x\in C_e$. This function makes sense as given any $x\in C_e$, $\wt(x+w)=\wt(x)+\wt(w)-2\wt(x\cap w)$. As $\wt(x)+\wt(w)$ is odd, $x+w\in C_o$. We claim that $f$ is a bijection. Given any $y\in C_o$, $y-w\in C_e$ by a similar argument that we used to show that that the function is well-defined. This shows that the map is surjective. Next, given any $x,y\in C_e$, $x+w=y+w\implies x=y$ so the map is injective and thus bijective. Thus, $|C_e|=|C_o|$ if $C_o$ is non-empty. The result follows.
+% \end{proof}
+
+\begin{definition}
+    Let $C$ be an $[n,k]_q$-code. A $k\times n$ matrix whose rows form a basis of $C$ is called a \textit{generator matrix} of $C$.
+\end{definition}
+
+Note that if $G$ is a generator matrix of an $[n,k]_q$-code $C$, $C=\{\textbf{x}G\mid \textbf{x}\in V(n,k)\}$.
+
+For example, the generator matrix of the $q$-ary repetition code of length $n$ over $\mathbb{F}_q$ is the $1\times n$ matrix $\begin{pmatrix}1 & 1 & \cdots & 1\end{pmatrix}$.
+
+\begin{definition}
+    Two linear codes over $\mathbb{F}_q$ are called \textit{equivalent} if one can be obtained from the other by a combination of the following operations:
+    \begin{enumerate}[(i)]
+        \item Permutation of the positions of the code.
+        \item Multiplication of the symbols appearing in a fixed position by a non-zero scalar.
+    \end{enumerate}
+\end{definition}
+
+Alternatively, two linear codes are equivalent if they are isomorphic.
+
+Note that this is \textit{not} the same as the definition of equivalence we gave earlier in \ref{equivalent1}.
+
+\begin{theorem}
+    Two $k\times n$ matrices generate the same $[n,k]_q$-code over $\mathbb{F}_q$ if one matrix can be obtained from the other by a combination of the following operations:
+    \begin{enumerate}[(i)]
+        \item Permutation of the rows.
+        \item Multiplication of a row by a non-zero scalar.
+        \item Addition of scalar multiple of one row to another.
+        \item Permutation of the columns.
+        \item Multiplication of a column by a non-zero scalar.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    The first three conditions merely replace one basis of the code with another. The final two conditions are those in the definition of equivalence of linear codes.
+\end{proof}
+
+\begin{theorem}
+    Let $G$ be a generator matrix of an $[n,k]_q$-code. $G$ generates the same code as as a matrix in the \textit{standard form} $(I_k\mid A)$, where $I_k$ is the $k\times k$ identity matrix and $A$ is a $k\times (n-k)$ matrix.
+\end{theorem}
+\begin{proof}
+    Let $G=(g_{ij})$ and let $\textbf{r}_1,\textbf{r}_2,\ldots,\textbf{r}_k$ and $\textbf{c}_1,\textbf{c}_2,\ldots,\textbf{c}_n$ be the rows and columns of the matrix respectively. We repeat the following three step procedure for $j=1,2,\ldots,k$, which transforms $\textbf{c}_j$ into the required form leaving the first $j-1$ columns unchanged. Suppose that $G$ has already been transformed to
+    $$
+    \begin{pmatrix}
+    1 & 0 & \cdots & 0 & g_{1j} & \cdots & g_{1n} \\
+    0 & 1 & \cdots & 0 & g_{2j} & \cdots & g_{2n} \\
+    \vdots & \vdots &  & \vdots & \vdots & & \vdots \\
+    0 & 0 & \cdots & 1 & g_{j-1,j} & \cdots & g_{j-1,n} \\
+    0 & 0 & \cdots & 0 & g_{jj} & \cdots & g_{jn} \\
+    \vdots & \vdots & & \vdots & \vdots & & \vdots \\
+    0 & 0 & \cdots & 0 & g_{nj} & \cdots & g_{nn}
+    \end{pmatrix}.
+    $$
+    \begin{enumerate}
+        \item if $g_{jj}=0$ and $g_{ij}\neq 0$ for some $i>j$, we interchange $\textbf{r}_i$ and $\textbf{r}_j$. Otherwise, if $g_{jj}=0$ and $g_{ji}\neq 0$ for some $i>j$, interchange $\textbf{c}_i$ and $\textbf{c}_j$ (the existence of such an $i$ is guaranteed by the fact that the rows are linearly independent).
+        \item Multiply $\textbf{r}_j$ with $g_{jj}^{-1}$ (which is well-defined as $g_{jj}\neq 0$).
+        \item For each $i=1,2,\ldots,k$, replace $\textbf{r}_i$ with $\textbf{r}_i-g_{ij}\textbf{r}_j$.
+    \end{enumerate}
+    The column $\textbf{c}_j$ then has the required form. After we repeat this procedure for $j=1,2,\ldots,k$, the generator matrix will be in standard form.
+\end{proof}
+
+\subsection{Encoding and Decoding with Linear Codes}
+
+Let $C$ be an $[n,k]_q$-code with generator matrix $G$ over $\mathbb{F}_q$. For any $\textbf{u}\in V(k,q)$ (here we represent $\textbf{u}$ by a row vector), we have $\textbf{u}G\in C$ as this is merely a linear combination of the row vectors of $G$.
+
+\vspace{2mm}
+This suggests a way to encode message vectors of $\mathbb{F}_q^k$. Note that the encoding function briefly described above given by $\textbf{u}\mapsto \textbf{u}G$ for $\textbf{u}\in V(k,q)$ maps the vector space $V(k,q)$ onto $C$.
+
+\vspace{2mm}
+This is even easier to understand in the case where the generator matrix is in standard form. Let $G=(I_k\mid A)$ where $A=(a_{ij}i$ implies is a $k\times (n-k)$ matrix.
+The message vector $\textbf{u}$ is encoded as $\textbf{x}=\textbf{u}G=x_1x_2\cdots x_kx_{k+1}\cdots x_n$. Here, $x_i=u_i$ for $1\leq i\leq k$ and $x_i=\sum_{j=1}^k a_{ji}u_j$ for $k+1\leq i\leq n$.
+
+\vspace{1mm}
+Note that in addition to the message $\textbf{u}$, $\textbf{x}$ contains extra information. The message digits $x_{k+1},x_{k+2},\ldots,x_n$ are called \textit{check digits} and represent the redundancy we mentioned at the start of this report. They provide protection against any errors that might occur.
+
+\vspace{2mm}
+Now, suppose the codeword $\textbf{x}$ is sent through the channel and the received codeword is $\textbf{y}$. We define the \textit{error vector} $\textbf{e}$ to be $$\textbf{e}=\textbf{y}-\textbf{x}.$$
+
+\begin{definition}
+    Suppose that $C$ is an $[n,k]_q$-code over $\mathbb{F}_q$ and $\textbf{a}\in V(n,q)$. Then for $\textbf{a}\in C$, the \textit{coset} $\textbf{a}+C$ is given by
+    $$\textbf{a}+C=\{\textbf{a}+\textbf{x}\mid \textbf{x}\in C\}.$$
+\end{definition}
+
+This corresponds to \ref{cosetDef} considering $V(n,q)$ as a group under addition.
+
+\begin{lemma}
+    The set of cosets of a code in $V(n,q)$ partition $V(n,q)$. Furthermore, for $\textbf{a},\textbf{b}\in V(n,q)$, $\textbf{a}+C=\textbf{b}+C$ if and only if $\textbf{b}\in \textbf{a}+C$.
+\end{lemma}
+\begin{proof}
+    This follows from \ref{cosetPartition}.
+\end{proof}
+
+\begin{theorem}[Lagrange's Theorem]
+    Suppose $C$ is an $[n,k]_q$-code over $\mathbb{F}_q$. Then every coset of $C$ in $V(n,q)$ contains exactly $q^k$ elements.
+\end{theorem}
+\begin{proof}
+    This follows from \ref{LagrangesTheorem}.
+\end{proof}
+
+\begin{definition}
+    A vector having minimum weight in a coset is called a \textit{coset leader}. If a coset has more than one vector of minimum weight, we choose any such vector and call it the coset leader.
+\end{definition}
+
+
+A \textit{Slepian standard array} or simply \textit{standard array} of an $[n,k]_q$-code $C$ is a $q^{n-k}\times q^k$ array of the elements of $V(n,q)$ which is constructed as follows.
+\begin{enumerate}
+    \item List the codewords of $C$, starting with $\textbf{0}$, in the first row.
+    \item Choose any vector of minimum weight not already in the array. Write this as the first entry of the following row. Denote this vector as the coset leader.
+    \item Fill out the row by adding the coset leader to the codeword at the top of each column. The sum of the coset leader of row $i$ and the $j$th codeword becomes the $i,j$th element of the array.
+    \item Repeat the above two steps until all the cosets and every vector of $V(n,q)$ appears in the array.
+\end{enumerate}
+That is, each row of the standard array represents a coset with the coset leader written on the left.
+
+Note that any element of the array is equal to the sum of the first element of the row and column of said element.
+
+For example, the standard array corresponding to the code $C=\{0000,1011,0101,1110\}$ is
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+    \hline
+     0000 & 1011 & 0101 & 1110 \\ \hline
+     1000 & 0011 & 1101 & 0110 \\ \hline
+     0100 & 1111 & 0001 & 1010 \\ \hline
+     0010 & 1001 & 0111 & 1100 \\ \hline
+\end{tabular}
+\end{center}
+
+\vspace{2mm}
+Now, if we want to decode a received vector, we may do so by identifying the error vector $\textbf{e}$ with the first element of the row containing the received vector and the decoded word as the first element of the column. That is, we decode an element as the codeword at the top of its column in the standard array.
+
+\vspace{1mm}
+The error vectors which will be corrected are precisely the coset leaders.
+
+\vspace{2mm}
+Let $C$ be an $[n,k,2t+1]_q$-code. Then $C$ can correct any $t$ errors. This implies every vector of weight $i\leq t$ is a coset leader. Determining the number of coset leaders of weight $i>t$ is problematic in the general case however. It is easy to establish that in the case of perfect codes, this is equal to $0$ for each $i>t$. However, these values are not known even for several well-known families of codes.
+
+\vspace{2mm}
+The primary issues with standard array decoding are that
+\begin{itemize}
+    \item It requires a massive amount of storage as we store every single vector in $V(n,q)$. For example, a binary code of length $32$ would require $2^{32}$ entries.
+    \item It takes a large amount of time to locate a given vector in the array due to its size.
+\end{itemize}
+
+\subsection{Some results on Binary Linear Codes}
+We now restrict ourselves to binary linear codes. We assume that the channel is a binary symmetric channel with symbol error probability $p$.
+
+\begin{theorem}
+    Let $C$ be a binary $[n,k]_2$-code and for $i=0,1,\ldots,n$ let $\alpha_i$ denote the number of coset leaders of weight $i$. Then the probability that a decoded vector decoded using a standard array is the codeword $\textbf{c}$ which was sent is
+    $$P_\text{corr}(\textbf{c})=\sum_{i=0}^n\alpha_ip^i(1-p)^{n-i}$$
+\end{theorem}
+\begin{proof}
+    The probability that the error vector is a given vector of weight $i$ is $p^i(1-p)^{n-i}$. As there are $\alpha_i$ such errors, the probability that the error vector is one of the acceptable error vectors is the sum of $\alpha_ip^i(1-p)^{n-i}$ over $i=0,1,2,\ldots,n$.
+\end{proof}
+
+The probability that the decoded word is \textit{not} the codeword $\textbf{c}$ sent, called the \textit{word error rate}, is given by
+$$P_\text{err}(\textbf{c})=1-P_\text{corr}(\textbf{c}).$$
+
+\begin{definition}
+    Let $C$ be an $[n,k]_q$-code. The \textit{rate} of $C$ is defined by $$R(C)=\frac{k}{n}.$$
+\end{definition}
+
+The rate captures a way to measure the redundancy of a code. The higher the redundancy, the lower the rate is. Therefore, an efficient code will have a high rate.
+
+\vspace{2mm}
+A natural question to ask would be:
+
+\textit{Given a code of distance $d$, what is the largest rate $R$ that it can have?}
+
+% \subsection{Symbol Error Rate}
+
+% Oftentimes, a more useful quantity is the \textit{symbol error rate} $P_\text{symb}$, which is the average probability that a symbol is in error after decoding.
+
+% \begin{theorem}
+%     If a standard array is used for a binary $[n,k]_2$-code and the messages are equally likely, then $P_\text{symb}$ does not depend on which codeword was sent and is given by
+%     $$P_\text{symb}=\frac{1}{k}\sum_{i=1}^{2^k}F_iP_i$$
+%     where $F_i$ is the weight of the first $k$ places of the codeword at the top of the $i$th column of the standard array and $P_i$ is the probability that the error vector is in this $i$th column. 
+% \end{theorem}
+% \begin{proof}
+%     Let $\textbf{u}=u_1u_2\cdots u_k\in V(k,2)$ be the initial message vector. $\textbf{u}$ is encoded to $x=x_1x_2\cdots x_n$ where $x_i=u_i$ for $1\leq i\leq k$. After passing through the channel, the received word is $\textbf{y}=y_1y_2\cdots y_n$. The decoded word is the vector at the top of the column of the standard array that contains $\textbf{y}$ and the received message is the first $k$ symbols of the decoded word.
+    
+%     The symbol error rate is merely the probability that $\textbf{y}$ is in a different column than $\textbf{x}$. The probability that $\textbf{y}$ is in the same column as $\textbf{x}$ is equal to the probability the error vector is one of the coset leaders.
+% \end{proof}
+
+% \begin{theorem}
+%     For a binary $[n,k]_2$-code,
+%     $$\frac{1}{k}P_\text{err}\leq P_\text{symb}\leq P_\text{err}.$$
+% \end{theorem}
+
+\subsection{Error Detection in  Binary Linear Codes}
+
+We now consider error \textit{detection}. If the codeword sent is $\textbf{x}$, we will fail to detect an error if and only if the received vector $\textbf{y}$ is a codeword as well, that is, $\textbf{e}=\textbf{y}-\textbf{x}$ is a codeword.
+
+For any code $C$ and $\textbf{c}\in C$, we denote by $P_\text{undetec}(\textbf{c})$ the probability that an incorrect codeword is received, which is independent of the codeword sent in the binary symmetric channel case.
+
+\begin{theorem}
+    Let $C$ be a binary $[n,k]_2$-code transmitted through a binary symmetric channel of symbol error probability $p$. Let $A_i$ be the number of codewords of $C$ of weight $i$ for each valid $i$. Then if $C$ is used for error detection, for any $\textbf{c}\in C$,
+    $$P_\text{undetec}(\textbf{c})=\sum_{i=1}^n A_ip^i(1-p)^{n-i}.$$
+\end{theorem}
+\begin{proof}
+    We must simply find the probability that the error vector is in $C$. As the probability that there are exactly $i$ specific errors is $p^i(1-p)^{n-i}$ and there are $A_i$ codewords of weight $i$, the result follows.
+\end{proof}
+
+If we detect an error, we might ask to retransmit the data again. In this case, the probability that we will request retransmission is given by
+$$P_\text{retrans}(\textbf{c})=1-(1-p)^n-P_\text{undetec}(\textbf{c}).$$
+The above follows as $(1-p)^n$ is the probability that no error occurs and $P_\text{undetec}$ is the probability that an error occurs but we do not detect it.
+
+\subsection{The Dual Code}
+
+\begin{definition}
+    Let $C$ be a linear $[n,k]_q$-code. The \textit{dual code} of $C$, denoted $C^\perp$, is the orthogonal subspace of $C$ with respect to $V(n,q)$, that is,
+    $$C^\perp=\{\textbf{v}\in V(n,q)\mid \textbf{v}\perp\textbf{w}\text{ for all }\textbf{w}\in C\}.$$
+\end{definition}
+
+\begin{lemma}
+\label{perpIffvGT=O}
+    Let $C$ be an $[n,k]_q$-code with generator matrix $G$. Then $\textbf{v}\in V(n,q)$ is an element of $C^\perp$ if and only if $\textbf{v}G^\text{T}=O$.
+\end{lemma}
+\begin{proof}
+    Let $\textbf{r}_1,\textbf{r}_2,\ldots,\textbf{r}_k$ be the row vectors of $G$ which form a basis of $C$.
+    
+    If $\textbf{v}\in C^\perp$, then $\textbf{v}$ is orthogonal to every element of $C$ and in particular, the row vectors of $G^\text{T}$, so the `only if' part of the lemma follows.
+    
+    To prove the `if' part of the lemma, let $\textbf{u}$ be any element of $C$. We have that $\textbf{v}\cdot\textbf{r}_i$ for each $i$ as $\textbf{v}G^\text{T}=0$. Then $u=a_1\textbf{r}_1+a_2\textbf{r}_2+\cdots+a_k\textbf{r}_k$ for scalars $a_1,a_2,\ldots,a_k$ and so
+    \begin{align*}
+        \textbf{v}\cdot \textbf{u} &= \textbf{v}\cdot(a_1\textbf{r}_1+a_2\textbf{r}_2+\cdots+a_k\textbf{r}_k) \\
+                                  &= a_1(\textbf{v}\cdot\textbf{r}_1)+a_2(\textbf{v}\cdot\textbf{r}_2)+\cdots+a_k(\textbf{v}\cdot\textbf{r}_k) = 0
+    \end{align*}
+    
+    This proves the required result.
+\end{proof}
+
+\begin{theorem}
+\label{dimDual}
+    Let $C$ be a linear $[n,k]_q$-code over $\mathbb{F}_q$. Then $C^\perp$ is a linear $[n,n-k]_q$-code.
+\end{theorem}
+\begin{proof}
+    Let us first show that $C^\perp$ is a linear code. Let $\textbf{v}_1,\textbf{v}_2\in C^\perp$. Then for all $\alpha,\beta\in \mathbb{F}_q$ and $\textbf{u}\in C$, $(\alpha \textbf{v}_1+\beta \textbf{v}_2)\cdot \textbf{u}=\alpha(\textbf{v}_1\cdot \textbf{u})+\beta(\textbf{v}_2\cdot \textbf{u})=0$. That is, $\alpha \textbf{v}_1+\beta \textbf{v}_2\in C^\perp$. Thus $C^\perp$ is a subspace of $V(n,q)$ and is a linear code.
+    
+    We shall now show that $C^\perp$ has dimension $n-k$. Let $G=(g_{ij})$ be a generator matrix of $C$. Then $C^\perp$ contains exactly those vectors $\textbf{v}=v_1v_2\cdots v_k$ satisfying
+    $$\sum_{i=1}^n g_{ij}v_j=0\text{ for }i=1,2,\ldots,k.$$
+    It is a standard result that the solution space of a system of $k$ independent homogeneous equations and $n$ unknowns has dimension $n-k$. Thus $C^\perp$ is of dimension $n-k$.
+\end{proof}
+
+\subsection{The Parity-Check Matrix}
+
+\begin{definition}
+    Let $C$ be a linear $[n,k]_q$-code. A \textit{parity-check matrix} $H$ of $C$ is a generator matrix of $C^\perp$.
+\end{definition}
+
+Thus $H$ is an $(n-k)\times n$ matrix that satisfies $GH^\text{T}=O$, where $G$ is a generator matrix of $C$.
+
+Note that \ref{perpIffvGT=O} gives
+$$C=\{\textbf{x}\in V(n,q)\mid \textbf{x}H^\text{T}=O\}.$$
+
+The rows of a parity-check matrix give parity checks on the corresponding code. That is, they say that certain linear combinations of the coordinates are equal to $0$.
+
+For example, if a code $C$ has parity-check matrix
+$$H=
+\begin{pmatrix}
+1 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1
+\end{pmatrix}
+$$
+then the code is given by
+$$C=\{(x_1,x_2,x_3,x_4)\in V(4,2)\mid x_1+x_2=x_3+x_4=0\}.$$
+
+\begin{lemma}
+    Let $G$ be a generator matrix of an $[n,k]_q$-code $C_1$. If $H$ is an $(n-k)\times n$ parity check matrix of a code $C_2$ such that $GH^\text{T}=O$, then $C_1=C_2$.
+\end{lemma}
+\begin{proof}
+   We shall first show $C_1\subseteq C_2$. Given any $\textbf{u}\in C_1$, there exists $\textbf{x}\in V(n,q)$ such that $\textbf{u}=\textbf{x}G$. Then
+   $$\textbf{u}H^\text{T}=(\textbf{x}G)H^\text{T}=\textbf{x}(GH^\text{T})=0.$$
+   That is, $\textbf{u}\in C_2$.
+   
+   To prove the converse, note that $\dim C_2=n-(n-k)=\dim C_1$.  As $C_1\subseteq C_2$ and $\dim C_1=\dim C_2$, $C_1=C_2$.
+\end{proof}
+
+\begin{theorem}
+    If $G=(I_k\mid A)$ is the standard form generator matrix of a linear $[n,k]_q$-code $C$, then a parity check matrix of $C$ is $H=(-A^\text{T}\mid I_{n-k})$.
+\end{theorem}
+\begin{proof}
+   $H$ is an $(n-k)\times n$ matrix so it is of the correct size. We shall show that every row of $G$ is orthogonal to every row of $H$.
+   Let
+   $$G=
+   \begin{pmatrix}
+   1 & \cdots & 0 & \vline & a_{11} & \cdots & a_{1,n-k} \\
+   \vdots & & \vdots  & \vline & \vdots & & \vdots \\
+   0 & \cdots & 1 & \vline & a_{n1} & \cdots & a_{n,n-k}
+   \end{pmatrix}.
+   $$
+   Then
+   $$H=
+   \begin{pmatrix}
+   -a_{11} & \cdots & -a_{n1} & \vline & 1 & \cdots & 0 \\
+   \vdots & & \vdots & \vline & \vdots & & \vdots \\
+   -a_{1,n-k} & \cdots & -a_{n,n-k} & \vline & 0 & \cdots & 1
+   \end{pmatrix}.
+   $$
+   Then the inner product of the $i$th row of $G$ and the $j$th row of $H$ is
+   $0+\cdots+0+(-a_{ij})+0+\cdots+0+(a_{ij})+0+\cdots+0=0$
+\end{proof}
+
+\begin{definition}
+    An $(n-k)\times n$ parity check matrix $H$ is said to be in \textit{standard form} if $H=(B\mid I_{n-k})$.
+\end{definition}
+
+\begin{theorem}
+\label{minLinearlyDependentColumns}
+    Let $C$ be an $[n,k,d]_q$-code with parity-check matrix $H$. Then $d$ is the minimum number of linearly dependent columns in $H$.
+\end{theorem}
+\begin{proof}
+   By \ref{minDistIsMinWeight}, we must show that $d$, the minimum weight of a nonzero codeword in $C$ is equal to $t$, the minimum number of linearly dependent columns.
+   
+   \vspace{1mm}
+   Let $\textbf{c}=(c_1,c_2,\ldots,c_n)\in C$ such that $\wt(\textbf{c})=d$. We have $\textbf{c}H^\text{T}=O$, which gives that
+   $$\sum_{i=1}^n c_iH_i=\textbf{0}$$
+   where $H_i$ represents the $i$th column of $H$. Note that we can skip multiplication for the terms where $c_i=0$. This leaves $\wt(c)$ linearly dependent columns. Thus $d\geq t$.
+   
+   \vspace{1mm}
+   For the other direction, let $H_{i_1}, H_{i_2}, \ldots, H_{i_t}$ be linearly dependent. Then there exist nonzero scalars $c'_{i_1}, \ldots, c'_{i_t}$ such that
+   $$\sum_{j=1}^t c'_{i_j}H_{i_j}=\textbf{0}.$$
+   The $c_{i_j}$s are nonzero due to the minimality of $t$. Now let $\textbf{c}'=(c'_1,c'_2,\ldots,c'_n)$ where $c'_{j}=0$ for $j\not\in\{i_1,i_2,\ldots,i_t\}$. This gives $\textbf{c'}H^\text{T}=O$ and thus $c'\in C$. This implies $d=\wt(c')\leq t$. The required result follows.
+\end{proof}
+
+\subsection{Syndrome Decoding}
+
+\begin{definition}
+    Let $H$ be a parity-check matrix of an $[n,k]_q$-code $C$. Then for any vector $\textbf{y}\in V(n,q)$, the $1\times(n-k)$ row vector
+    $$\syn(\textbf{y})=\textbf{y}H^\text{T}$$
+    is called the \textit{syndrome} of $\textbf{y}$.
+\end{definition}
+
+Note the following.
+\begin{itemize}
+    \item If the rows of $H$ are $\textbf{r}_1,\textbf{r}_2,\ldots,\textbf{r}_{n-k}$, then for $\textbf{y}\in C$,
+    $$\syn(\textbf{y})=(\textbf{y}\cdot\textbf{h}_1,\textbf{y}\cdot\textbf{h}_2,\ldots,\textbf{y}\cdot\textbf{h}_{n-k}).$$
+    \item $S(\textbf{y})=0\iff \textbf{y}\in C$.
+\end{itemize}
+
+\begin{lemma}
+    Let $C$ be a linear code and $\textbf{u}, \textbf{v}\in C$. $\textbf{u}$ and $\textbf{v}$ are in the same coset of $C$ if and only if they have the same syndrome.
+\end{lemma}
+\begin{proof}
+   $\textbf{u}$ and $\textbf{v}$ are in the same coset
+   \begin{align*}
+       &\iff \textbf{u}-\textbf{v}\in C \\
+       &\iff (\textbf{u}-\textbf{v})H^\text{T}=0 \\
+       &\iff \textbf{u}H^\text{T}=\textbf{v}H^\text{T} \\
+       &\iff \syn(\textbf{u})=\syn(\textbf{v})
+   \end{align*}
+\end{proof}
+
+\begin{corollary}
+    There is a bijection between cosets and syndromes.
+\end{corollary}
+
+In standard array decoding, one of the issues that we faced was that the time taken to locate a vector is very large. We fix this by calculating the syndrome $\syn(\textbf{e})$ for each coset leader $\textbf{e}$ and extend the standard array by listing the syndromes in an extra column.
+
+\vspace{2mm}
+For example, consider the code $C=\{0000,1011,0101,1110\}$. A parity-check matrix of $C$ is given by
+$$
+H=
+\begin{pmatrix}
+    1 & 0 & 1 & 0 \\
+    1 & 1 & 0 & 1
+\end{pmatrix}
+$$
+Thus, the modified standard array corresponding to the code $C=\{0000,1011,0101,1110\}$ is
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+    \hline
+     0000 & 1011 & 0101 & 1110 & 00 \\ \hline
+     1000 & 0011 & 1101 & 0110 & 11 \\ \hline
+     0100 & 1111 & 0001 & 1010 & 01 \\ \hline
+     0010 & 1001 & 0111 & 1100 & 10 \\ \hline
+\end{tabular}
+\end{center}
+
+The decoding algorithm is as follows.
+\begin{enumerate}
+    \item When a vector $\textbf{y}$ is received, calculate $\syn(\textbf{y})=\textbf{y}H^\text{T}$ and locate $\syn(\textbf{y})$ in the syndromes column of the array.
+    \item Locate $\textbf{y}$ in the corresponding row and decode it as the codeword at the top of the column containing $\textbf{y}$.
+\end{enumerate}
+
+This works because if $\textbf{y}=\textbf{x}+\textbf{e}$, where $\textbf{x}$ is the codeword sent and $\textbf{e}$ is the error vector, $$\syn(\textbf{y})=(\textbf{x}+\textbf{e})H^\text{T}=\textbf{e}H^\text{T}=\syn(\textbf{e}).$$
+
+The second issue we had in standard array decoding was that we had to store all the elements of $V(n,q)$ in the array. However, note that now we only need to store the syndromes and the coset leaders (and the code, of course) in the computer memory. This is called a \textit{syndrome look-up table}.
+
+%\subsection{Incomplete Decoding and the ISBN code} pg74, ray hill
+
+\clearpage

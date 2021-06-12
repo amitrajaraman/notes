@@ -1,0 +1,222 @@
+\section{Several Bounds}
+
+In this section we describe numerous useful bounds.
+
+\subsection{Bounding Volume using the Entropy Function}
+
+\begin{definition}
+    Let $q\geq 2$ and $n\geq r\geq 1$ be integers. Then the \textit{volume} of a Hamming ball of radius $r$ is given by
+    $$\Vol_q(r,n)=|B_q(\textbf{0}, r)|=\sum_{i=0}^r\binom{n}{i}(q-1)^i.$$
+\end{definition}
+
+\begin{theorem}
+\label{volumeBound1}
+    Let $q\geq 2$ be an integer and $0\leq p\leq 1-\frac{1}{q}$ be a real. Then
+    \begin{enumerate}[(i)]
+        \item $\Vol_q(pn,n)\leq q^{H_q(p)n}$.
+        \item for large enough $n$, $\Vol_q(pn,n)\geq q^{H_q(p)n-o(n)}$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+\phantom{owo}
+\begin{enumerate}[(i)]
+    \item We have
+    \begin{align*}
+        1 &= \sum_{i=1}^n\binom{n}{i}p^i(1-p)^{n-i} \\
+          &\geq \sum_{i=1}^{pn}\binom{n}{i} p^i(1-p)^{n-i} \\
+          &= \sum_{i=1}^{pn}\binom{n}{i} (q-1)^i \left(\frac{p}{(1-p)(q-1)}\right)^i (1-p)^n \\
+          &\geq \sum_{i=1}^{pn}\binom{n}{i} (q-1)^i(1-p)^n \left(\frac{p}{(1-p)(q-1)}\right)^{pn} & \text{$\frac{p}{(1-p)(q-1)}\leq 1$ as $p\leq 1-\frac{1}{q}$} \\
+          &= \sum_{i=1}^{pn}\binom{n}{i} (q-1)^i(1-p)^n \left(\frac{p}{(1-p)(q-1)}\right)^{pn} \\
+          &= \sum_{i=1}^{pn}\binom{n}{i} (q-1)^i(1-p)^{n(1-p)} \left(\frac{p}{q-1}\right)^{pn}\\
+          &= \sum_{i=1}^{pn}\binom{n}{i} (q-1)^i q^{-H_q(p)n}\\
+          &\geq \Vol_q(pn,n)q^{-H_q(p)n}.
+    \end{align*}
+    (i) follows.
+    
+    \item Using Stirling's Approximation \ref{stirlingApproximation}, we have
+    \begin{align*}
+        \binom{n}{pn} &= \frac{n!}{(pn)!(n(1-p))!} \\
+                      &> \frac{(n/e)^n}{(pn/e)^{pn} (n(1-p)/e)^{n(1-p)}} \cdot \frac{1}{\sqrt{2\pi p(1-p)n}}\cdot e^{\lambda_1(n)-\lambda_2(pn)-\lambda_2(n(1-p))} \\
+                      &= \frac{1}{p^{pn}(1-p)^{n(1-p)}} l(n)
+    \end{align*}
+    where $$l(n)=\frac{e^{\lambda_1(n)-\lambda_2(pn)-\lambda_2(n(1-p))}}{\sqrt{2\pi p(1-p)n}}.$$ Note that $l(n)=q^{-o(n)}$.
+    
+    Now, we have
+    \begin{align*}
+        \Vol_q(pn,n)&= \sum_{i=1}^{pn}\binom{n}{i}(q-1)^i \\
+                    &\geq \binom{n}{pn}(q-1)^{pn} \\
+                    &> \frac{(q-1)^{pn}}{p^{pn}(1-p)^{n(1-p)}} l(n) \\
+                    &= q^{H_q(p)} q^{-o(n)}.
+    \end{align*}
+    This proves the required result.
+\end{enumerate}
+\end{proof}
+
+\subsection{The Hamming Bound and the Singleton Bound}
+
+Recall the Hamming Bound \ref{hammingBound} which put a bound on the dimension $k$ in terms of $n,q$ and $d$:
+
+$$\frac{k}{n}\leq 1 - \frac{\log_q\Vol_q\left(\left\lfloor\frac{d-1}{2}\right\rfloor, n\right)}{n}.$$
+
+From \ref{volumeBound1}, we have
+$$\Vol_q\left(\left\lfloor\frac{d-1}{2}\right\rfloor, n\right) \leq q^{H_q\left(\frac{\delta}{2}\right)n-o(n)}.$$
+
+Putting everything in terms of rate and relative distance,
+
+$$R\leq 1-H_q\left(\frac{\delta}{2}\right)+o(1)$$
+
+\begin{theorem}[Singleton Bound]
+    For valid $n,q,d$, we have
+    $$A_q(n,d)\leq q^{n-d+1}.$$
+\end{theorem}
+\begin{proof}
+    Let $C$ be an $(n,A_q(n,d),d)_q$-code. Let $C'$ be the code of length $(n-d+1)$ code obtained by deleting the first $d-1$ letters of each codeword of $C$. Since the minimum distance of $C$ is $d$, the words obtained after deleting the first $d-1$ letters of distinct codewords of $C$ must also be distinct. This implies that $|C'| =|C| =A_q(n,d)$. As $| C'| \leq q^{n-d+1}$, the result follows.
+\end{proof}
+
+The asymptotic version of the singleton bound gives that
+$$\frac{k}{n}\leq 1-\frac{d}{n}+\frac{1}{n}.$$
+Alternatively,
+$$R\leq 1-\delta+o(1).$$
+
+\subsection{The Gilbert-Varshamov Bound}
+
+\begin{theorem}[Gilbert-Varshamov Bound]
+    For valid $n,q,d$, we have
+    $$A_q(n,d)\geq \frac{q^n}{\sum_{i=1}^{d-1}\binom{n}{i}(q-1)^i}$$
+\end{theorem}
+
+\begin{proof}
+    Let $C$ be a $(n,A_q(n,d),d)_q$-code. Then for all $x\in\Sigma^n$, there exists $c_x\in C$ such that $d(x,c_x)< d$.
+    
+    This gives
+    
+    $$\left| \bigcup_{c\in C}B(c,d-1)\right| =q^n.$$
+    
+    If the above equality does not hold, then there exists some $v\in \Sigma^n\setminus C$ such that $d(c,v)\geq d$ for all $c\in C$, which contradicts the maximality of $C$.
+    
+    We now have
+    \begin{align*}
+        q^n &= \left| \bigcup_{c\in C}B(c,d-1)\right|  \\
+            &\leq \sum_{c\in C}\left| B(c,d-1)\right|  \\
+            &= A_q(n,d) |B(c,d-1)|  \\
+            &= A_q(n,d)\Vol_q(d-1,n)
+    \end{align*}
+    
+    Substituting the value of $\Vol_q(d-1,n)$ proves the required result.
+\end{proof}
+
+In terms of rate and relative distance, we have $\Vol_q(d-1,n)\leq q^{H_q(\delta)n}$ by \ref{volumeBound1}.
+
+\vspace{2mm}
+The asymptotic version of the Gilbert-Varshamov bound gives that for every $0<\delta\leq 1-\frac{1}{q}$ there exists a code of rate $R$ and relative distance $\delta$ such that $$R\geq 1-H_q(\delta).$$
+
+%SHOW LINEAR CODE CONSTRUCTION?
+%ex 4.9
+
+\subsection{The Plotkin Bound}
+
+\begin{lemma}[Mapping Lemma]
+\label{mappingLemma}
+    Let $C\subseteq[q]^n$. Then there exists a function $f:C\to \mathbb{R}^{nq}$ such that
+    \begin{enumerate}[(i)]
+        \item for every $\textbf{c}\in C$, $\norm{f(c)}=1$.
+        \item for every $\textbf{c}_1\neq \textbf{c}_2$ in $C$,
+        $$f(\textbf{c}_1)\cdot f(\textbf{c}_2)=1-\left(\frac{q}{q-1}\right)\left(\frac{d(\textbf{c}_1,\textbf{c}_2)}{n}\right)$$
+    \end{enumerate}
+\end{lemma}
+
+\begin{proof}
+    Define $\varphi:[q]\to\mathbb{R}^q$ by
+    $$\varphi(i)=\left(\frac{1}{q},\frac{1}{q},\cdots,\frac{1-q}{q},\cdots,\frac{1}{q}\right) \text{ for each $i\in[q]$}.$$
+    
+    Note that for any $i\neq j$ in $[q]$,
+    $$\norm{\varphi(i)}^2=\frac{q-1}{q}
+    \text{ and }
+    \varphi(i)\cdot\varphi(j)=-\frac{1}{q}.$$
+    Define the required function $f$ as follows. For each $\textbf{c}=(c_1,c_2,\ldots,c_n)\in [q]^n$,
+    $$f(\textbf{c})=\sqrt{\frac{q}{n(q-1)}}(\varphi(c_1),\varphi(c_2),\ldots,\varphi(c_n))$$
+    (Identify this vector in $(\mathbb{R}^q)^n$ to the corresponding one in $R^{nq}$) It may be verified by the reader that this $f$ satisfies both conditions mentioned in the question.
+\end{proof}
+
+\begin{theorem}[Plotkin Bound]
+    Let $C$ be an $(n,M,d)_q$-code. Then
+    \begin{enumerate}[(i)]
+        \item If $d= n\left(1-\frac{1}{q}\right)$, $M\leq 2qn$.
+        \item If $d> n\left(1-\frac{1}{q}\right)$, then $M\leq \frac{qd}{qd-(q-1)n}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Let $C=\{c_1,c_2,\ldots,c_M\}$. Let $f$ be the function mentioned in the mapping lemma \ref{mappingLemma}. For $i\neq j$ in $[M]$,
+    \begin{align*}
+        f(c_i)\cdot f(c_j) &= 1 - \left(\frac{q}{q-1}\right)\left(\frac{d(c_i,c_j)}{n}\right) \\
+                           &\leq 1 - \frac{qd}{(q-1)n}.
+    \end{align*}
+    
+    \begin{enumerate}[(i)]
+        \item If $d=n(1-\frac{1}{q})$, then $f(i)\cdot f(j)\leq 0$ for all $i\neq j$, and the required result follows by the first part of \ref{geometricLemma}.
+        
+        \item If $d>n(1-\frac{1}{q})$, then we have
+        $$f(c_i)\cdot f(c_j) \leq -\left(\frac{qd-(q-1)n}{(q-1)n}\right) \leq 0.$$
+        The result then follows by the second part of \ref{geometricLemma}.
+    \end{enumerate}
+\end{proof}
+
+We now present the following bound, which is an improvement on part (i) of the Plotkin bound in the binary case.
+
+\begin{theorem}
+    Let $C$ be a binary $(n,M,\frac{n}{2})_2$-code. Then $M\leq 2n$.
+\end{theorem}
+\begin{proof}
+    Let $C=\{\textbf{c}_1,\textbf{c}_2,\ldots,\textbf{c}_M\}$ and $\textbf{c}_i=(c_{i,1},c_{i,2},\ldots,c_{i,n})$ fo each $i$. Consider the map $f:C\to\mathbb{R}^n$ given by
+    $$f(\textbf{c}_i)=((-1)^{c_{i,1}}, (-1)^{c_{i,2}},\ldots,(-1)^{c_{i,n}}) \text{ for each $i$.}$$
+    For any valid $i\neq j$,
+    $$f(\textbf{c}_i)\cdot f(\textbf{c}_j)=n-2d(\textbf{c}_i,\textbf{c}_j)\leq 0.$$
+    The result follows on using \ref{geometricLemma} on the $f(\textbf{c}_i)$'s.
+\end{proof}
+
+\subsection{The Griesmer Bound}
+
+\begin{lemma}
+\label{griesmerPrelim}
+    If there exists an $[n,k,d]_q$-code, then there also exists an $[n-d,k-1,d'\geq\lceil\frac{d}{q}\rceil]_q$-code.
+\end{lemma}
+\begin{proof}
+    Let $C$ be an $[n,k,d]_q$-code. Let $G$ be a generator matrix of $C$ such that the first row vector of $G$ is of the form $\textbf{v}=(1,1,\ldots,1,0,0,\ldots,0)$ where all $\alpha_i$s are non-zero (We may assume this by considering an equivalent code). Write $G$ as follows.
+    $$G=
+    \begin{pmatrix}
+    1 & \cdots & 1 & 0 & \cdots & 0 \\
+    * & * & * & & G' & \\
+    \end{pmatrix}
+    $$
+    where $G'$ is a $(k-1)\times (n-d)$ matrix. Consider the code $C'$ generated by $G'$. $C'$ clearly has length $n-d$ and dimension $k-1$. Let $d'$ be the length of $C'$. Let $\textbf{u}\in C'$ such that $\wt(\textbf{u})=d'$. Then there exists some $\textbf{w}=(w_1,w_2,\ldots,w_d)\in\mathbb{F}_q^d$ such that $(\textbf{w}\mid \textbf{u})\in C$, where $(\textbf{w}\mid \textbf{u})$ represents the concatenation of $w$ and $u$.
+    
+    By the Pigeonhole Principle, there exists $\alpha\in\mathbb{F}_q$ such that at least $\lceil\frac{d}{q}\rceil$ of $w_1,w_2,\ldots,w_d$ are equal to $\alpha$.
+    
+    Since $(\textbf{w}\mid \textbf{u})-\alpha \textbf{v}\in C$, we have
+    \begin{align*}
+        d &\leq \wt((\textbf{w}\mid \textbf{u})-\alpha \textbf{v}) \\
+          &= \wt((\textbf{w} - (\alpha,\alpha,\ldots,\alpha))\mid \textbf{u}) \\
+          &= \wt(\textbf{w}- (\alpha,\alpha,\ldots,\alpha)) + \wt(\textbf{u}) \\
+          &\leq \left(d-\left\lceil\frac{d}{q}\right\rceil\right)+d'
+    \end{align*}
+    This gives $d'\geq \left\lceil\dfrac{d}{q}\right\rceil$, which proves the result.
+\end{proof}
+
+\begin{theorem}[Griesmer Bound]
+    For any $[n,k,d]_q$-code,
+    $$n\geq\sum_{i=0}^{k-1}\left\lceil\frac{d}{q^i}\right\rceil.$$
+\end{theorem}
+\begin{proof}
+    For a given $k$ and $d$, we denote by $N_{k,d}$ the minimum value of $n$ for which there exists an $[n,k,d]$-code. We shall prove the result by induction on $k$. The base case $k=0$ is clear.
+    
+    Let the result be true for $k=k_0-1$ and let $C$ be an $[N_{k_0,d},k_0,d]$-code. Then by \ref{griesmerPrelim}, there exists an $[N_{k_0,d}-d, k_0-1, d'\geq \lceil\frac{d}{q}\rceil]$-code. By the induction, this gives
+    \begin{align*}
+        N_{k_0,d}-d &\geq \sum_{i=0}^{k-2}\left\lceil\frac{\lceil\frac{d}{q}\rceil}{q^i}\right\rceil \\
+                    &\geq \sum_{i=0}^{k-2}\left\lceil\frac{d}{q^{i+1}}\right\rceil \\
+    \end{align*}
+    Thus,
+    $$N_{k_0,d}\geq \sum_{i=0}^{k-1}\left\lceil\frac{d}{q^i}\right\rceil$$
+    and the result is proved.
+\end{proof}
+
+\clearpage
