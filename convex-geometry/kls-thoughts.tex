@@ -162,7 +162,27 @@
 		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \frac{\langle x , u \rangle^2}{\norm{x}^2} \gtrsim 1$.\\
 		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
 		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
-		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, it would be minimized if the corresponding term is $0$. Note that the argument of \cite{lov-sim-on7} is just the above potential without the second term (not taking alignment into account at all).
+		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, the expression would trivially be minimized if the corresponding term is $0$ irrespective of the other term.
+
+	% %%% NOT DONE YET!
+
+	% 	Suppose that we obtain $K_\omega$, $\mu_\omega$ by bisecting with the hyperplanes $(H_{x_{\omega_n}})_{n \in \N}$. Let $K_{\omega_n}$, $\mu_{\omega_n}$ be the body and corresponding measure after bisecting with the first $n$ hyperplanes. Then,
+	% 	\begin{enumerate}
+	% 		\item The value of $\mu_\omega(E)$ is bounded by
+	% 		\[ \mu(E) \prod_{n \in \N} \left( 1 - \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right) \leq \mu_\omega(E) \leq \mu(E) \prod_{n \in \N} \left( 1 + \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right), \]
+	% 		where the $\pm$ depends on which of the two halfspaces we choose.
+	% 	\end{enumerate}
+
+	% \subsection{The Poincar\'{e} Inequality}
+
+	% 	Given a probability measure $\mu$ on $\Rn$ with density $p$, its Poincar\'{e} constant is defined by
+	% 	\[ \zeta_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2^2}{\Var_{x \sim p} g(x)}. \]
+	% 	We also define the Cheeger constant by
+	% 	\[ h_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2}{\expec_{x \sim p} \left| g(x) - \expec_{x \sim p} g(x) \right|}. \]
+	% 	Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p \gtrsim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$.\\
+	% 	How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
+	% 	So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
+
 
 \bibliographystyle{alpha}
 \bibliography{references}
