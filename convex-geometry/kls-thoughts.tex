@@ -118,7 +118,7 @@
 	\subsection{Hyperplane bisections}
 
 		As before, suppose we have a log-concave probability measure $\mu$ with density $p$ on the body $K$, and we fix some $E \subseteq K$ with $\mu(E) = 1/2$. Let us define the function $f_{E,K} : \Rn \setminus \{0\} \to \R$ by
-		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x}^2 \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
+		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
 		That is, if $H_x$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) and $H_x^+$ is either of the resulting halfspaces, the value of the above function at $x$ is equal to $|\mu(E \cap H_x^+) - \mu((\Rn\setminus E) \cap H_x^+)|$.\\
 		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is -- $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
 		For nice(?) $E$, $f_{E,K}$ is continuous.\\
