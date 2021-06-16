@@ -1,0 +1,265 @@
+\section{Field Theory and Linear Algebra}
+
+\subsection{Introduction to Fields}
+
+\begin{definition}
+    A field $(F,+,\cdot)$ is a set $F$ along with two binary operations $+:F\times F\to F$ and $\cdot:F\times F\to F$ (We write $+((a,b))$ and $\cdot((a,b))$ as $a+b$ and $a\cdot b$ respectively for $a,b\in F$) such that
+    \begin{enumerate}[(i)]
+        \item $+$ and $\cdot$ are associative. That is, $(a+b)+c=a+(b+c)$ and $a\cdot(b\cdot c)=(a\cdot b)\cdot c$ for all $a,b,c\in F$.
+        \item $+$ and $\cdot$ are commutative. That is, $a+b=b+a$ and $a\cdot b=b\cdot a$ for all $a,b\in F$.
+        \item There exist two distinct elements in $F$ called $0$ and $1$ such that $a+0=a$ and $a\cdot 1=a$ for all $a\in F$.
+        \item For every $a\in F$, there exists an element in $F$, denoted $-a$, such that $a+(-a)=0$.
+        \item For every $a\neq 0$ in $F$, there exists an element in $F$, denoted $a^{-1}$ or $1/a$, such that $aa^{-1}=1$.
+        \item Multiplication is distributive over addition, that is, $a\cdot(b+c)=a\cdot b+a\cdot c$ for all $a,b,c\in F$.
+    \end{enumerate}
+\end{definition}
+
+The above definition is just equivalent to saying that a field is a set $F$ along with two binary operations $+:F\times F\to F$ and $\cdot:F\times F\to F$ such that $(F,+)$ is an abelian group with identity $0$, $(F\setminus\{0\},\cdot)$ is an abelian group with identity $1$, and multiplication distributes over addition.
+
+\vspace{2mm}
+We shall often represent a field $(F,+,\cdot)$ as just $F$ and $a\cdot b$ for $a,b\in F$ as just $ab$.
+
+Common examples of fields are $\mathbb{R}$ and $\mathbb{Q}$.
+
+\begin{theorem}
+\label{multiplyByZero}
+    Let $F$ be a field. For all $a,b\in F$,
+    \begin{enumerate}[(i)]
+        \item $a0=0$.
+        \item $ab=0\implies a=0$ or $b=0$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+\phantom{owo}
+\begin{enumerate}
+    \item We have $a(0)=a(0+0)=a0+a0$. Adding $-(a0)$ on either side gives the required result.
+    \item If $a\neq 0$, $a$ has a multiplicative inverse. Then we have $(a^{-1}a)b=a^{-1}0$ which gives $b=0$. This is the required result.
+\end{enumerate}
+\end{proof}
+
+A \textit{finite field} is a field with a finite set of elements. The number of elements in a finite field is called its \textit{order}.
+
+\begin{theorem}
+    For $n\in\mathbb{N}$, consider the set $\mathbb{Z}_n$ with addition and multiplication defined modulo $n$, that is, $\overline{a}+\overline{b}=\overline{a+b}$ and $\overline{a}\cdot\overline{b}=\overline{ab}$ for $\overline{a}, \overline{b}\in\mathbb{Z}_n$. $\mathbb{Z}_n$ is a field if and only if $n$ is a prime.
+\end{theorem}
+\begin{proof}
+If $n$ is not a prime, then there exist $a,b\in\mathbb{N}$ both less than $n$ such that $ab=n$, that is, $\overline{a}\cdot\overline{b}=\overline{0}$. As the group $\mathbb{Z}_n$ under addition has identity $\overline{0}$, we see that $\mathbb{Z}_n$ cannot be a field by \ref{multiplyByZero}.
+
+For prime $n$, $\mathbb{Z}_n$ is a field as for any $a\not\in \overline{0}$, $(a,n)=1$ and thus a modular multiplicative inverse exists for every element of $\mathbb{Z}_n\setminus\{0\}$ (Recall \ref{BezoutsLemma}).
+\end{proof}
+
+This field, called the \textit{prime field} of order $n$, is denoted $\mathbb{F}_n$.
+
+\vspace{2mm}
+Let $F$ be a field. For $a\in F, n\in\mathbb{N}$, we denote $a+a+\cdots+a$ ($n$ times) as $na$ and $aa\cdots a$ ($n$ times) as $a^n$.
+
+\subsection{Characteristic of a Field}
+
+\begin{definition}
+    Let $F$ be a field. The smallest positive integer $n$ such that $n1=0$ is called the \textit{characteristic} of $F$ and is denoted $\charac F$. If no such $n$ exists, we say that $F$ has characteristic $0$.
+\end{definition}
+
+Note that if $\charac F=n$, then $na=0$ for all $a\in F$ ($na=n(1a)=(n1)a=0$).
+
+\begin{theorem}
+    Let $F$ be a finite field. Then $\charac F$ is prime.
+\end{theorem}
+\begin{proof}
+    On the contrary, assume that $n=\charac F$ is composite, that is, $n=ab$ for some $a,b\in\mathbb{N}$, $a,b>1$. We have $n1=0$, that is, $(a1)(b1)=0$. Then \ref{multiplyByZero} implies that $a1=0$ or $b1=0$. As $a,b<n$ and $n$ is the smallest positive integer such that $n1=0$, this is a contradiction. Thus, $n$ must be prime.
+\end{proof}
+
+\begin{theorem}
+    Let $F$ be a finite field. Then the order of $F$ is equal to $p^n$ for some prime $p$ and $n\in\mathbb{N}$.
+\end{theorem}
+\begin{proof}
+    Let $\charac F=p$. Then since $1$ has order $p$ in the group $(F,+)$, $p$ divides the order of $F$.
+    
+    \vspace{1mm}
+    Let $q\neq p$ be another prime dividing the order of $F$. By \ref{CauchyTheorem}, there exists an element of order $q$ in $(F,+)$, that is, there is some non-zero $a$ such that $qa=0$. We also have $pa=0$ because $p = \charac F$. As $p$ and $q$ are distinct primes, $(p,q)=1$.
+    
+    \vspace{1mm}
+    By \ref{BezoutsLemma}, there exist $m,n\in\mathbb{Z}$ such that $mp+nq=1$. We then have $mp(a)+nq(a)=1(a)$ which implies $0=m(pa)+n(qa)=a$. This is a contradiction.
+    
+    \vspace{1mm}
+    Thus, $p$ is the only prime that divides the order of $F$.
+\end{proof}
+
+\begin{definition}
+    Fields $F$ and $G$ are \textit{isomorphic} if there is a bijection $\varphi:F\to G$ such that $\varphi(x+y)=\varphi(x)+\varphi(y)$ and $\varphi(xy)=\varphi(x)\varphi(y)$ for all $x,y\in F$. Such a map is called an \textit{isomorphism}.
+\end{definition}
+
+\begin{theorem}
+    Given any prime power $q$, there exists a unique field of order $q$ (up to isomorphism).
+\end{theorem}
+
+We omit the proof of the above theorem.
+
+\vspace{2mm}
+Given the above, we unambiguously denote the field of order $q$ as $\mathbb{F}_q$.
+
+\subsection{Introduction to Linear Algebra}
+We assume that the reader has an introductory level knowledge of linear algebra and merely state the definitions and theorems without proofs for the sake of completeness.
+
+\begin{definition}
+    Let $(V,+)$ be an abelian group, $\mathbb{F}$ a field, and let a multiplication $\mathbb{F}\times V\to V$ exist such that
+    \begin{enumerate}[(i)]
+        \item $1\textbf{a}=\textbf{a}$ for all $\textbf{a}\in V$.
+        \item $\alpha(\beta \textbf{a})=(\alpha\beta)\textbf{a}$ for all $\alpha,\beta\in\mathbb{F}$ and $\textbf{a}\in V$.
+        \item $\alpha(\textbf{a}+\textbf{b})=\alpha \textbf{a}+\alpha \textbf{b}$ for all $\alpha\in\mathbb{F}$ and $\textbf{a},\textbf{b}\in V$.
+        \item $(\alpha+\beta)\textbf{a}=\alpha \textbf{a}+\beta \textbf{a}$ for all $\alpha,\beta\in\mathbb{F}$ and $\textbf{a}\in V$.
+    \end{enumerate}
+    
+    Then $V$ is called a \textit{vector space} over $\mathbb{F}$. The identity of $(V,+)$ is denoted by $\textbf{0}$.
+\end{definition}
+
+In this case, the elements of $V$ are called \textit{vectors} and the elements of $\mathbb{F}$ are called \textit{scalars}.
+
+\vspace{2mm}
+Let $q$ be a prime power and $n\in\mathbb{N}$. We denote the vector space $\mathbb{F}_q^n$ over $\mathbb{F}_q$ by $V(n,q)$.
+
+
+\begin{definition}
+    Let $V$ be a vector space over $\mathbb{F}$. A non-empty subset $W$ of $V$ is a \textit{subspace} of $V$ if it is a vector space over $\mathbb{F}$ under the same addition and scalar multiplication defined for $V$. 
+\end{definition}
+
+\begin{theorem}
+    A non-empty subset $W$ of a vector space $V$ over $\mathbb{F}$ is subspace if and only if $\textbf{x},\textbf{y}\in W\implies \textbf{x}+\textbf{y}\in W$ and $\textbf{x}\in W, \alpha\in\mathbb{F}\implies \alpha \textbf{x}\in W$.
+\end{theorem}
+
+\begin{definition}
+    A \textit{linear combination} of $r$ vectors $\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_r$ in a vector space $V$ over $\mathbb{F}$ is a vector of the form $a_1\textbf{v}_1+a_2\textbf{v}_2+\cdots+a_r\textbf{v}_r$ where $a_i\in\mathbb{F}$ for all valid $i$.
+\end{definition}
+
+\begin{definition}
+    A set of vectors $\{\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_r\}$ is said to be \textit{linearly dependent} if there are scalars $a_1$, $a_2,\ldots,a_r$ not all $0$ such that
+    $$a_1\textbf{v}_1+a_2\textbf{v}_2+\cdots+a_r\textbf{v}_r=\textbf{0}.$$
+\end{definition}
+
+\begin{definition}
+    A set of vectors $\{\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_r\}$ is said to be \textit{linearly independent} if it is not linearly dependent, that is,
+    $$a_1\textbf{v}_1+a_2\textbf{v}_2+\cdots+a_r\textbf{v}_r=\textbf{0}\implies a_1=a_2=\cdots=a_r=0$$
+    for scalars $a_1,a_2,\ldots,a_r$.
+\end{definition}
+
+\begin{definition}
+    Let $V$ be a vector space and $S=\{\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_r\}$ be a subset of $V$. $S$ is called a \textit{spanning set} or \textit{generating set} of $V$ if every element of $V$ can be expressed as a linear combination of elements of $S$.
+\end{definition}
+
+\begin{definition}
+    A spanning set of a vector space $V$ which is also linearly independent is called a \textit{basis} of $V$.
+\end{definition}
+
+\begin{theorem}
+    Let $V$ be a vector space. Any spanning set of $V$ contains a basis of $V$.
+\end{theorem}
+
+\begin{theorem}
+    Let $W$ be a subspace of vector space $V(n,q)$ and $B=\{\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_k\}$ a basis of $W$. Then
+    \begin{enumerate}[(i)]
+        \item Every vector in $W$ can be expressed \textit{uniquely} as a linear combination of elements of $B$.
+        \item $W$ contains exactly $q^k$ vectors.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Let $V$ be a vector space and $B$ be a finite basis of $V$. The number of elements in $B$ is called the \textit{dimension} of $V$ and is denoted $\dim V$. We also then say that $V$ is a \textit{finite-dimensional vector space}. If $B$ is infinite, we say that $V$ is \textit{infinite-dimensional}.
+\end{definition}
+
+It can be shown that the dimension of a vector space is independent of our choice of basis. Unless mentioned otherwise, assume that any vector space mentioned henceforth is finite-dimensional.
+
+\subsection{Inner Product Spaces}
+\begin{definition}
+    Let $V$ be a vector space over $\mathbb{F}=\mathbb{R}$ or $\mathbb{C}$. An \textit{inner product} on $V$ is a function $V\times V\to\mathbb{F}$, given by $(\textbf{u},\textbf{v})\mapsto \langle \textbf{u},\textbf{v}\rangle$. For all $\textbf{u},\textbf{v},\textbf{w}\in V,\alpha\in\mathbb{F}$, it must satisfy the following axioms:
+    
+    \begin{enumerate}[(i)]
+        \item $\langle \textbf{u},\textbf{v}\rangle = \overline{\langle \textbf{v},\textbf{u}\rangle}$ \quad(Hermitian property or conjugate symmetry)
+        \item $\langle \textbf{u}, \textbf{v}+\textbf{w}\rangle = \langle \textbf{u},\textbf{v}\rangle + \langle \textbf{u},\textbf{w}\rangle$ \quad(additivity)
+        \item $\langle \textbf{u},\alpha\textbf{v}\rangle = \alpha\langle \textbf{u},\textbf{v}\rangle$ \quad(homogeneity)
+        \item $\langle \textbf{v},\textbf{v}\rangle\geq 0$ with $\langle \textbf{v},\textbf{v}\rangle=0\iff \textbf{v}=0$ \quad(positive definite)
+    \end{enumerate}
+\end{definition}
+
+An \textit{inner product space} is a vector space with an inner product defined on it.
+
+For example, the dot product defines an inner product on $\mathbb{R}^n$ as a vector space.
+
+\vspace{2mm}
+Omitting positive definiteness, we extend this idea similarly to vector spaces over finite fields (We take $\overline x=x$ for scalar $x$). Let $\textbf{u}=u_1u_2\cdots u_n$ and $\textbf{v}=v_1v_2\cdots v_n$ be elements of $V(n,q)$. The dot product of $\textbf{u}$ and $\textbf{v}$ is given by
+$$\textbf{u}\cdot \textbf{v}=u_1v_1+u_2v_2+\cdots+u_nv_n.$$
+
+\begin{definition}
+    The \textit{norm} of a vector $\textbf{v}$ in an inner product space $V$ is given by $$\norm{\textbf{v}}=\sqrt{v\cdot v}.$$
+\end{definition}
+
+While we state the following definitions and theorems for inner product spaces, they also hold for $V(n,q)$ under the dot product.
+
+\begin{definition}
+    Let $V$ be an inner product space and $u,v\in V$. If $\textbf{u}\cdot \textbf{v}=0$, we say that $\textbf{u}$ and $\textbf{v}$ are \textit{orthogonal} and write $u\perp v$.
+\end{definition}
+
+\begin{lemma}
+    For any $\textbf{u},\textbf{v},\textbf{w}\in V(n,q)$ and $\alpha,\beta\in\mathbb{F}_q$,
+    \begin{enumerate}[(i)]
+        \item $\textbf{u}\cdot \textbf{v}=\textbf{v}\cdot \textbf{u}$.
+        \item $(\alpha\textbf{u}+\beta\textbf{v})\cdot\textbf{w}=\alpha(\textbf{u}\cdot\textbf{w})+\beta(\textbf{v}\cdot\textbf{w})$.
+    \end{enumerate}
+\end{lemma}
+
+\begin{definition}
+    Let $V$ be an inner product space and $W$ a subspace of $V$, we define the \textit{orthogonal subspace} of $W$ by
+    $$W^\perp=\{\textbf{v}\in V\mid\textbf{v}\perp\textbf{w}\text{ for all }\textbf{w}\in W\}.$$
+\end{definition}
+
+\begin{theorem}
+    Let $V$ be a finite dimensional inner product space and $W$ be a subspace of $V$. Then $\dim W+\dim W^\perp = \dim V$.
+\end{theorem}
+
+We discuss the proof of a specific form of the above theorem (which is what we require) in \ref{dimDual}.
+
+\begin{theorem}
+    Let $V$ be an inner product space and $W$ be a subspace of $V$. Then $(W^\perp)^\perp=W$.
+\end{theorem}
+\begin{proof}
+    We clearly have $W\subseteq (W^\perp)^\perp$. But $\dim (W^\perp)^\perp=n-(n-k)=k=\dim W$ and thus $W=(W^\perp)^\perp$.
+\end{proof}
+
+\subsection{The Geometric Lemma}
+
+\begin{lemma}[Geometric Lemma]
+\label{geometricLemma}
+    Let $\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_m\in\mathbb{R}^n$ be non-zero vectors.
+    \begin{enumerate}[(i)]
+        \item If $\textbf{v}_i\cdot \textbf{v}_j\leq 0$ for all $i\neq j$, then $m\leq 2n$.
+        \item Let each $\textbf{v}_i$ be a unit vector. If $\textbf{v}_i\cdot \textbf{v}_j\leq -\varepsilon< 0$ for all $i\neq j$, $m\leq 1+\frac{1}{\varepsilon}$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \phantom{owo}
+    \begin{enumerate}[(i)]
+        \item We shall prove this by induction on $n$. The base case $n=0$ is clear as then we have $m=0$ as well.
+        
+        Since we only care about the sign of $\textbf{v}_i\cdot \textbf{v}_j$, assume without loss of generality that $\textbf{v}_m=(1,0,0,\ldots,0)$. For each $i\in[m-1]$, let $\textbf{v}_i=(\alpha_i,v_{i,1},v_{i,2},\ldots,v_{i,m-1})$ and $\textbf{w}_i=(v_{i,1},v_{i,2},\ldots,v_{i,m-1})$. Then as $\textbf{v}_i\cdot \textbf{v}_m\leq 0$ for each $i\in[m-1]$, we have $\alpha_i\leq 0$ for each such $i$.
+        
+        We now claim that at most one of the $\textbf{w}_i$s can be equal to the all zero vector \textbf{0}. To prove this, assume otherwise (w.l.o.g.) that $\textbf{w}_j=\textbf{w}_{m-1}=\textbf{0}$ for some $j$. Then
+        $$\textbf{w}_j\cdot\textbf{w}_{m-1}=\alpha_j\alpha_{m-1}>0 \quad \text{(as each $\textbf{v}_i$ is non-zero)}$$
+        
+        Thus assume w.l.o.g. that $\textbf{v}_1,\textbf{v}_2,\ldots,\textbf{v}_{m-2}$ are all non-zero vectors that also have non-zero $\textbf{w}_i$ for each $i$. Note that for each $i,j\in[m-2]$,
+        $$\textbf{y}_i\cdot\textbf{y}_j=\textbf{w}_i\textbf{w}_j-\alpha_i\alpha_j\leq \textbf{v}_i\cdot \textbf{v}_j\leq \textbf{0}.$$
+        
+        Applying the induction on the $\textbf{y}_i$s for $i\in[m-2]$, we have
+        $$m-2\leq 2(n-1).$$
+        
+        The result follows.
+        
+        \item Let $\textbf{z}=\textbf{v}_1+\textbf{v}_2+\cdots+\textbf{v}_m.$ Then
+        \begin{align*}
+            0 &\leq \norm{\textbf{z}}^2 \\
+            &= \sum_{i=1}^m\norm{\textbf{v}_i}^2+2\sum_{i<j}\textbf{v}_i\cdot\textbf{v}_j \\
+            &\leq m + 2\binom{m}{2}(-\varepsilon) \\
+            &= m(1-\varepsilon m+\varepsilon).
+        \end{align*}
+        The result follows.
+    \end{enumerate}
+\end{proof}
+
+\clearpage

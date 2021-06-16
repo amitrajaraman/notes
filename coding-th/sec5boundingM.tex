@@ -1,0 +1,186 @@
+\section{Bounds on the Number of Codewords}
+
+An ideal $(n,M,d)_q$-code has a small value of $n$ (so the data can be transmitted faster), a large value of $M$ (so a larger number of messages can be transmitted), and a large value of $d$ (to detect/correct many errors).
+
+\subsection{Some Useful Bounds}
+
+We shall attempt to optimize the value of $M$ keeping the other two fixed.
+
+\begin{definition}
+We denote by $A_q(n,d)$ the largest value of $M$ such that there exists a $q$-ary $(n,M,d)_q$-code.
+\end{definition}
+
+\begin{theorem}
+For all $n,q\in\mathbb{N}$,
+\begin{enumerate}[(i)]
+    \item $A_q(n,1)=q^n$.
+    \item $A_q(n,n)=q$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\phantom{owo}
+\begin{enumerate}[(i)]
+    \item $M\leq q^n$ as the code is a subset of $\Sigma^n$. As $\Sigma^n$ is of length $n$ and has minimum distance $1$, $A_q(n,1)=q^n$.
+    \item If the minimum distance of a code is $n$, any two codewords differ at all $n$ places. Thus the symbols appearing in any fixed position in the $M$ codewords must be distinct, giving $M\leq q$. The $q$-ary repetition code of length $n$ is an $(n,q,n)_q$-code so $A_q(n,n)=q$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}
+\label{equivalent1}
+    Two $q$-ary codes are \textit{equivalent} if one can be obtained from the other by a combination of the following operations:
+    \begin{enumerate}[(i)]
+        \item permutation of the positions of the code.
+        \item permutation of the symbols appearing in a fixed position.
+    \end{enumerate}
+\end{definition}
+
+Note that if we represent an $(n,M,d)_q$-code as an $M\times n$ array, (i) corresponds to rearranging the columns and (ii) corresponds to a renaming of the symbols in a given column.
+
+As distances between codewords remain the same, two equivalent codes have the same value of length, cardinality, and minimum distance.
+
+\begin{lemma}
+    Any $(n,M,d)_q$-code over $\{0,1,\ldots,q-1\}$ is equivalent to an $(n,M,d)_q$-code (over $\{0,1,\ldots,q-1\}$) that contains the codeword $\textbf{0}=000\cdots 0$.
+\end{lemma}
+\begin{proof}
+    Consider any codeword $x=x_1x_2\cdots x_n$. For each $i$, apply the permutation of symbols
+    $$\left(\begin{matrix}x_i & 0 & j & \\ \downarrow & \downarrow & \downarrow & \text{for all $j\neq x_i,0$} \\ 0 & x_i & j & \end{matrix}\right).$$
+\end{proof}
+
+Let $\Sigma=\mathbb{F}_2$. For some $n\in\mathbb{N}$, consider $x,y$ be two vectors in $\Sigma^n$, where $x=x_1x_2\cdots x_n$ and $y=y_1y_2\cdots y_n$. $x+y$ is given by the component wise sum in $\mathbb{F}_2$. $x\cap y$ is defined to be the component wise multiplication in $\mathbb{F}_2$. That is, $x+y=(x_1+y_1, x_2+y_2, \ldots, x_n+y_n)$ and $x\cap y=(x_1y_1, x_2y_2,\ldots, x_ny_n)$.
+    
+\begin{lemma}
+    For any $x,y\in\mathbb{F}_2^n$, $d(x,y)=\wt(x+y)$.
+\end{lemma}
+\begin{proof}
+    $x+y$ has a $1$ wherever $x_i\neq y_i$ and $0$ elsewhere. As $\wt(x)$ is just the number of $1$s in $x$, $d(x,y)=\wt(x+y)$.
+\end{proof}
+
+\begin{lemma}
+\label{BinaryDistancePIE}
+    For any $x,y\in\mathbb{F}_2^n$, $d(x,y)=\wt(x)+\wt(y)-2\wt(x\cap y)$.
+\end{lemma}
+\begin{proof}
+    We have $d(x,y)=\wt(x+y)$, the number of $1$s in $x+y$, from the previous lemma. This is given by the number of positions with $1$ in $x$ $+$ the number of positions with $1$ in $y$ $-$ the number of positions with $1$ in both $x$ and $y$. This is just $\wt(x)+\wt(y)-2\wt(x\cap y)$.
+\end{proof}
+
+\begin{theorem}
+    Let $d$ be odd. Then a binary $(n,M,d)_2$-code exists if and only if a binary $(n+1,M,d+1)_2$-code exists.
+\end{theorem}
+\begin{proof}
+    Let $C$ be a binary $(n,M,d)_2$-code for odd $d$. Construct a code $C'$ such that for each $x=x_1x_2\cdots x_n\in C$, we extend it to $x'=x_1x_2\cdots x_{n+1}$ where $x_{n+1}=\sum_{i=1}^n x_i$. This is called adding an \textit{overall parity check}.
+    
+    \vspace{1mm}
+    As $\wt(x')$ is even for any $x'\in C'$ (because $\wt(x')\equiv 2x_{n+1}\Mod 2$), $d(C')$ is even by \ref{BinaryDistancePIE}. Clearly, $d\leq d(C')\leq d+1$. As $d$ is odd, $d(C')=d+1$. Thus $C'$ is an $(n+1,M,d+1)_2$ code.
+    
+    \vspace{2mm}
+    In the other direction, let $C'$ be a binary $(n+1,M,d+1)_2$-code. Choose $x,y\in C'$ such that $d(x,y)=d+1$. Construct a code by choosing any position where they differ and deleting this position from all codewords. The resulting code has minimum distance $d$ and is thus an $(n,M,d)_2$-code.
+\end{proof}
+
+\begin{corollary}
+    Let $d$ be odd. then $A_2(n+1,d+1)=A_2(n,d)$.
+\end{corollary}
+\begin{proof}
+    This follows from the previous theorem.
+\end{proof}
+
+\begin{definition}
+    For any $u\in\Sigma^n$ (where $|\Sigma|=q$) and any integer $r\geq 0$, the \textit{Hamming ball} or \textit{sphere} of radius $r$ and centre $u$ is given by
+    $$B_q(u,r)=\{v\in\Sigma^n\mid d(u,v)\leq r\}.$$
+\end{definition}
+
+If $q$ is understood, we simply write $B(u,r)$.
+
+\vspace{2mm}
+This gives more insight into why a code is $s$-error correcting if $d(C)>2s$ (if $u$ is received, the transmitted codeword will be the unique codeword in $B_q(u,s)$).
+
+\begin{lemma}
+\label{numWordsInSphere}
+    Let $\Sigma$ contain $q$ symbols. The number of words in a ball of radius $r$ in $\Sigma^n$ is exactly
+    $$\sum_{i=0}^r \binom{n}{i}(q-1)^i.$$
+\end{lemma}
+\begin{proof}
+    The number of words at a distance of exactly $i$ from a given word $x$ is given by choosing exactly $i$ positions from the $n$ positions and then picking one of $q-1$ symbols to replace the symbol at each of those positions. This is equal to $\binom{n}{i}(q-1)^i$. The required result is the sum of this quantity over $\{i:0\leq i\leq r\}$.
+\end{proof}
+
+\begin{theorem}[The Hamming bound]
+\label{hammingBound}
+    An $(n,M,2t+1)_q$-code satisfies
+    $$M\sum_{i=0}^t \binom{n}{i}(q-1)^i\leq q^n.$$
+\end{theorem}
+\begin{proof}
+    Note that two balls of radius $t$ centered at distinct codewords have no words in common as the minimum distance of the code is $2t+1$. The number of words in each ball is $\sum_{i=0}^t\binom{n}{i}(q-1)^i$ by \ref{numWordsInSphere}. The total number of words in the $M$ balls is $M$  multiplied by this quantity, which must be less than or equal to $q^n$, the total number of words in $\Sigma^n$. This gives the required result.
+\end{proof}
+
+The Hamming bound provides an upper bound on $A_q(n,d)$.
+
+In general for an $(n,M,d)_q$-code, 
+$$M\sum_{i=0}^{\left\lfloor\frac{d-1}{2}\right\rfloor} \binom{n}{i}(q-1)^i\leq q^n.$$
+
+In the binary case, the Hamming bound gives
+$$M\sum_{i=0}^{\left\lfloor\frac{d-1}{2}\right\rfloor}\binom{n}{i}\leq 2^n.$$
+
+For an $(n,M,d)_q$-code of dimension $k$,
+$$k\leq n - \log_q\left(\sum_{i=0}^{\left\lfloor\frac{d-1}{2}\right\rfloor} \binom{n}{i}(q-1)^i\right)$$
+
+% However, the Hamming bound is not particularly useful in binary codes when $n<2d$. 
+
+\subsection{Perfect Codes}
+
+A code which achieves the Hamming bound is called a \textit{perfect code}.
+
+\begin{definition}
+    An $(n,M,d)_q$-code is called a \textit{perfect code} if it satisfies
+    $$M\sum_{i=0}^{\left\lfloor\frac{d-1}{2}\right\rfloor} \binom{n}{i}(q-1)^i = q^n.$$
+\end{definition}
+
+The repetition code of length $n$, where $n$ is odd, is a perfect code. These codes, along with codes that contain exactly one codeword and codes that are the entirety of $\Sigma^n$, are called \textit{trivial} perfect codes.
+
+\vspace{2mm}
+An example of a nontrivial perfect code is the following.
+
+Let $\textbf{0}=0000000$, $\textbf{1}=1111111$, $a_1=1101000$, $a_2=0110100$, $a_3=0011010$, $a_4=0001101$, $a_5=1000110$, $a_6=0100011$, $a_7=1010001$. We further define $b_i$ as the same as $a_i$ except that all $0$s are replaced with $1$s and all $1$s are replaced with $0$s. Then the code $C$ containing $\textbf{0}, \textbf{1}$, all the $a_i$s and all the $b_i$s is a (nontrivial) perfect code.
+Note that the $a_i$s correspond to the rows of the matrix in \ref{incidenceMatrixOf77331Des}.
+
+\vspace{2mm}
+For any $i,j\in[7]$, $i\neq j$,
+$$d(a_i,a_j)=\wt(a_i)+\wt(a_j)-2\wt(a_i+a_j)=3+3-2=4.$$
+Also, $d(\textbf{0}, a_i)=d(\textbf{1}, b_i)=3$ and $d(\textbf{0}, b_i)=d(\textbf{1}, a_i)=4$.
+
+Finally, $a_i$ and $b_j$ differ exactly where $a_i$ and $a_j$ agree so $d(a_i,b_j)=7-d(a_i,a_j)=3$.
+
+Thus $C$ is a $(7,16,3)_2$-code. It may be checked that this is a perfect code.
+
+\vspace{2mm}
+We shall study perfect codes more in detail later on.
+
+\begin{theorem}
+    If there exists a Hadamard $(4t-1,2t-1,t-1)$-design, then
+    $$A_q(4t-1,2t-1)\geq 8t.$$
+\end{theorem}
+\begin{proof}
+    Similar to the construction described above, construct a code $C$ containing $\textbf{0}$, $\textbf{1}$, the vectors $a_i$ corresponding to each of the rows of the incidence matrix of the Hadamard design and the vectors $b_i$ which are the same as $a_i$ except that all $0$s are replaced with $1$s and all $1$s are replaced with $0$s.
+    
+    \vspace{1mm}
+    As each vertex is present in exactly $2t-1$ blocks, there are $(2t-1)$ $1$s in each row and thus
+    $$d(\textbf{0}, a_i)=2t-1 \text{ for all valid $i$.}$$
+    Similarly,
+    $$d(\textbf{0}, b_i)=d(\textbf{1}, a_i)=2t\text{ and } d(\textbf{1}, b_i)=2t-1.$$
+    We also have 
+    \begin{align*}
+        d(a_i,a_j) &= \wt(a_i)+\wt(a_j)-2\wt(a_i\cap a_j) \\
+                   &= 2t-1+2t-1-2\wt(a_i\cap a_j).    
+    \end{align*}
+    
+    As mentioned earlier, $\wt(a_i)=\wt(a_j)=2t-1$. $\wt(a_i\cap a_j)$ is the number of blocks in which the vertices corresponding to $a_i$ and $a_j$ are both present, which is equal to $t-1$.
+    
+    Thus, $d(a_i, a_j)=(2t-1)+(2t-1)-2(t-1)=2t-1$ for all valid $i,j$. Similarly, we get $d(b_i,b_j)=2t-1$ and $d(a_i, b_j)=2t$.
+    
+    \vspace{1mm}
+    The number of codewords in this code is $2+2(4t-1)=8t$. The minimum distance of this code is $2t-1$ and its length is $4t-1$.
+    
+    Therefore, the resulting code is a $(4t-1,8t,2t-1)_2$-code.
+\end{proof}
+
+This provides another bound on $A_q(n,d)$. Namely, if a Hadamard $(4t-1,2t-1,t-1)$-design exists, $A_q(4t-1,2t-1)\geq 8t$.
+
+\clearpage

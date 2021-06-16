@@ -1,0 +1,224 @@
+\section{Introduction}
+
+\subsection{Why is Coding Theory required?}
+The English language has an enormous amount of redundancy. For instance, it's likely that the reader has seen the following text or something like it:
+
+\vspace{1mm}
+\texttt{Fi yuo cna raed tihs yuo hvae a sgtrane mnid. Olny srmat poelpe cna raed tish.}
+
+\vspace{1mm}
+While we have no doubt about the smartness of the reader, the above is \textit{not} a good test of the same. It merely means that the massive amount of redundancy in the language allows effective communication even in the presence of (an acceptable amount of) errors.
+
+Of course, even in the digital realm, we expect to see errors as no system is truly foolproof. To understand the data even in the presence of errors, digital systems use redundancy as well.
+
+\vspace{2mm}
+Error-correcting codes (or just codes) are clever ways of representing data by introducing some redundancy such that the original data we want transmitted can be recovered even if parts of the data have errors.
+
+When packets are transmitted over the internet, some packets get corrupted or lost in transmission. To deal with data corruption, a form of correction called ``CRC Checksum" is used. This is not a very good code. It searches for errors, and if an error is detected, it requests the data again. However, for obvious reasons, this is not always feasible. For instance, if we are receiving a transmission from a Mars Rover, we cannot just request the information again, it is simply not practical. Codes can also be seen in non-communication examples such as bank balances, bar codes and the memory of a computer. In these cases as well`, the data cannot be requested again.
+
+\vspace{2mm}
+In this report, we shall mainly focus on codes in the communication scenario. There is a sender who wants to send symbols over a noisy channel. He first encodes the symbols into a \textit{codeword} of $n$ symbols and sends it over the \textit{channel}. The receiver gets a \textit{received word} of $n$ symbols. He then tries to \textit{decode} the received word to recover the original symbols.
+
+\vspace{2mm}
+We make the assumption in this text that the sender and receiver have no method to communicate outside of the channel.
+
+\vspace{2mm}
+As we mentioned earlier, redundancy enables us to detect errors in a code with higher likelihood. A basic question that comes to mind is ``What is the minimum amount of redundancy required to ensure a high probability of detecting all errors in a code?"
+
+\vspace{2mm}
+The following diagram shows essentially what occurs in the process of encoding and decoding.
+
+\begin{center}
+\begin{tikzpicture}[->, >=stealth', node distance=2.8cm, block_center/.style ={rectangle, draw=black, fill=white,
+      text width=4.5em, text centered,
+      minimum height=3em}]
+    \node[block_center] (msg) {Message};
+    \node[right of=msg, block_center] (codeword) {Codeword};
+    \node[right of=codeword] (channel) {Channel};
+    \node[right of=channel, align=center, block_center] (received) {Received\\Word};
+    \node[right of=received, align=center, block_center] (decoded) {Decoded\\Word};
+    \node[right of=decoded, align=center, block_center] (received2) {Received\\Message};
+    \node[below=1.5cm of channel] (noise) {Noise};
+    \draw (msg) edge (codeword)
+          (codeword) edge (channel)
+          (channel) edge (received)
+          (received) edge (decoded)
+          (decoded) edge (received2)
+          (noise) edge (channel);
+\end{tikzpicture}
+\end{center}
+
+During the course of this report, we primarily follow the texts \textit{A First Course in Coding Theory} \cite{hill} for sections $4$ through $6$ and \textit{Essential Coding Theory} \cite{esse} for sections $7$ through $9$.
+
+\subsection{Basics and Definitions}
+
+\begin{definition}
+    A \textit{block code} $C$ over an alphabet $\Sigma$ is a non-empty subset of $\Sigma^n$ for some $n\in\mathbb{N}$.
+\end{definition}
+
+Henceforth, we shall refer to ``block code" as just ``code".
+
+A \textit{$q$-ary code of length $n$} is a subset of $\Sigma^n$ where $|\Sigma|=q$.
+
+\begin{definition}
+    Elements of a code are called \textit{codewords}. The \textit{length} of a code $C$ over an alphabet $\Sigma$ is the $n$ for which $C\subseteq\Sigma^n$.
+\end{definition}
+
+A code $C$ of cardinality $M$ and length $n$ can be written as an $M\times n$ array whose rows are the codewords of $C$.
+
+\begin{definition}
+\label{dimCodeDef}
+    Let $C$ be a code of cardinality $M$ over $\Sigma$ where $|\Sigma|=q$. Then the \textit{dimension} of $C$ is given by
+    $$k=\log_q(M)$$
+\end{definition}
+
+\begin{example}
+\label{parityCodeAndRepCodeExample}
+    Let us look at two codes over $\mathbb{F}_2=\{0,1\}$. The first code is called the \textit{parity code}, denoted $C_\oplus$. Given any $(x_1,x_2,x_3)\in \{0,1\}^3$, its corresponding codeword is
+    $$C_\oplus((x_1,x_2,x_3))=(x_1,x_2,x_3,x_1+x_2+x_3).$$
+    That is, the final bit gives the sum of the first three bits modulo $2$. If a single error (a single bit-flip) occurs in $C_\oplus$, we can \textit{detect} it, since then the sum of the first three bits modulo $2$ will not be equal to the final bit.
+    
+    The second, called the \textit{repetition code} (represented $C_{n,\text{rep}}$), which is a very na\"ive approach involves repeating each bit $n$ times. For instance, for $n=3$, we have
+    $$C_{3,\text{rep}}((x_1,x_2,x_3))=(x_1,x_1,x_1,x_2,x_2,x_2,x_3,x_3,x_3)$$
+\end{example}
+
+
+$C_{3,\text{rep}}$ is stronger since if a bit-flip occurs, not only can we detect it, we can \textit{correct} it and recover the original message by taking the symbol repeated $2$ or more times in each set of $3$ bits.
+
+\vspace{2mm}
+We shall now attempt to formalize the meanings of encoding and decoding. As we wish to send a message through a channel by converting it to a codeword and then sending the codeword, we may use $[|C|]$ to list all the messages that we can send.
+
+\begin{definition}
+    Let $C\subseteq\Sigma^n$. An equivalent description of the code $C$ is an injective mapping $E:[|C|]\to\Sigma^n$ called the \textit{encoding function}.
+\end{definition}
+ 
+To decode on the other hand, we must obtain a message from whatever word we receive (which may have errors).
+ 
+\begin{definition}
+    Let $C\subseteq\Sigma^n$ be a code. A mapping $D:\Sigma^n\to[|C|]$ is called a \textit{decoding function} of $C$.
+\end{definition}
+
+
+\begin{definition}
+    For $\textbf{x}=(x_1,x_2,\ldots,x_n), \textbf{y}=(y_1,y_2,\ldots,y_n)\in\Sigma^n$, we define the \textit{Hamming distance} between $\textbf{x}$ and $\textbf{y}$ as
+    $$d(\textbf{x},\textbf{y})=|\{i\in[n]\mid x_i\neq y_i\}|.$$
+    If $\Sigma$ is a field, then for $\textbf{x}\in\Sigma^n$, we define the \textit{Hamming weight} of $\textbf{x}$ to be
+    $$\wt(\textbf{x})=d(\textbf{x},\textbf{0})$$
+    where $\textbf{0}$ represents the all zero vector $(0,0,\ldots,0)$.
+\end{definition}
+
+We see that the Hamming distance $d$ defines a metric on $\Sigma^n$ as
+\begin{enumerate}
+    \item $d(\textbf{x},\textbf{y})=0$ if and only if $\{i\in[n]\mid x_i\neq y_i\}=\emptyset$. This is equivalent to saying that $x_i=y_i$ for all $i\in[n]$, that is, $\textbf{x}=\textbf{y}$.
+    \item $d(\textbf{x},\textbf{y})=|\{i\in[n]\mid x_i\neq y_i\}|=|\{i\in[n]\mid y_i\neq x_i\}|=d(\textbf{y},\textbf{x}).$
+    \item Note that the minimum number of steps required to change $\textbf{x}$ to $\textbf{z}$ is $d(\textbf{x},\textbf{z})$. We can change $\textbf{x}$ to $\textbf{z}$ by changing $\textbf{x}$ to $\textbf{y}$ in $d(\textbf{x},\textbf{y})$ steps then $\textbf{y}$ to $\textbf{z}$ in $d(\textbf{y},\textbf{z})$ steps. This gives $d(\textbf{x},\textbf{z})\leq d(\textbf{x},\textbf{y})+d(\textbf{y},\textbf{z})$.
+\end{enumerate}
+
+Although the Hamming distance metric may not always be a very appropriate metric, it provides a good way to measure how ``close" two strings are.
+
+\vspace{2mm}
+We assume the following noise model called the \textit{Adversarial Noise Model}, which was first studied by Hamming:
+
+\textit{Any error pattern can occur during transmission as long as the total number of errors is bounded. This means that both the location and the nature of the errors is arbitrary.}
+
+\vspace{2mm}
+We define error correction and detection in terms of the (Hamming) distance between a codeword and the word that is received after passing the codeword through the channel. Note that the output word is not fixed for a given codeword since we assume the Adversarial Noise Model.
+\begin{definition}
+    Let $C\subseteq\Sigma^n$ and let $t\geq 1$ be an integer. $C$ is said to be \textit{$t$-error correcting} if there exists a decoding function $D$ such that for every $\textbf{m}\in[|C|]$, $\textbf{y}\in\Sigma^n$ where
+    \begin{enumerate}[(i)]
+        \item $d(C(\textbf{m}),\textbf{y})\leq t$ and
+        \item $C(\textbf{m})$ can become $\textbf{y}$ after passing through the channel,
+    \end{enumerate}
+    we have $D(\textbf{y})=\textbf{m}$.
+\end{definition}
+
+\begin{definition}
+    Let $C\subseteq\Sigma^n$ and let $t\geq 1$ be an integer. $C$ is said to be \textit{$t$-error detecting} if there exists a detecting procedure $D:\Sigma^n\to\{0,1\}$ such that for every $\textbf{m}\in[|C|]$, $\textbf{y}\in\Sigma^n$ where
+    \begin{enumerate}
+        \item $1\leq d(C(\textbf{m}),\textbf{y})\leq t$ and
+        \item $C(\textbf{m})$ can become $\textbf{y}$ after passing through the channel,
+    \end{enumerate}
+    we have $D(\textbf{y})=1$ if $\textbf{y}\in C$ and $0$ otherwise.
+\end{definition}
+
+So going back to the example discussed, $C_\oplus$ is a $1$-error detecting code and $C_{3,\text{rep}}$ is a $1$-error correcting code (and a $2$-error detecting code).
+
+\begin{definition}
+    If we receive a word $\textbf{y}$ after passing a codeword through a channel, \textit{nearest neighbour decoding} or \textit{minimum distance decoding} decodes $\textbf{y}$ as codeword $\textbf{x}'$ such that $d(\textbf{x}',\textbf{y})$ is minimum.
+\end{definition}
+
+\begin{definition}
+    If we receive a word $\textbf{y}$ after passing a codeword through a channel, \textit{maximum likelihood decoding} decodes $\textbf{y}$ as codeword $\textbf{x}'$ such that $\Pr(\textbf{y}\text{ received}\mid \textbf{x}\text{ sent})$ is maximum.
+\end{definition}
+
+\vspace{2mm}
+We now consider a specific type of channel.
+
+\begin{definition}
+    Consider an alphabet $\Sigma$. A corresponding channel is called a 
+    \textit{$q$-ary symmetric channel} if
+    \begin{enumerate}[(i)]
+        \item Each symbol has the same probability $p<\frac{1}{2}$, called the \textit{symbol error probability}, of becoming erroneous.
+        \item If a symbol becomes erroneous, then each of the $q-1$ other symbols of $\Sigma$ is equally likely to replace it.
+    \end{enumerate}
+\end{definition}
+
+A $q$-ary symmetric channel is denoted $q\SC_p$ and a binary symmetric channel is denoted $\BSC_p$.
+
+Note that if the error vector $\textbf{e}$ is drawn from $q\mathsf{SC}_p$, $\wt(\textbf{e})$ follows a binomial distribution with parameters $n$ and $p$.
+
+\vspace{2mm}
+The probability that a received codeword of length $n$ has an error in exactly $i$ specific places is $p^{i}(1-p)^{n-i}$. Since $p<\frac{1}{2}$, it is more probable that a fewer number of errors occur.
+
+\vspace{2mm}
+Consider the code $C=\{000,111\}$ for the binary alphabet $\{0,1\}$ passed through a binary symmetric channel. Say $000$ is transmitted. Then following nearest neighbour decoding, the probability that the received codeword is decoded as $000$ (that is, the received codeword is $000,100,010$ or $001$) is $(1-p)^3+3p(1-p)^2=(1-p)^2(1+2p)$. For any word $\textbf{c}$ in $C$, the \textit{word error probability} of $C$, denoted $P_\text{err}(\textbf{c})$, denotes the probability that $\textbf{c}$ is interpreted incorrectly after passing through a channel (Note that by symmetry, this is equal for any codeword in this case). Here,
+$$P_\text{err}(\textbf{c})=1-(1-p)^2(1+2p)=3p^2-2p^3.$$
+
+\begin{definition}
+    For any code $C$, the \textit{minimum distance} is defined as
+    $$d(C)=\min\{d(\textbf{x},\textbf{y})\mid \textbf{x},\textbf{y}\in C, \textbf{x}\neq \textbf{y}\}.$$
+\end{definition}
+
+\begin{theorem}
+\label{DetectAndCorrectForGivenMinDist}
+\phantom{owo}
+\begin{enumerate}[(i)]
+    \item A code $C$ is $s$-error detecting if $d(C)>s$.
+    \item A code $C$ is $s$-error correcting $d(C)>2s$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\phantom{uwu}
+\begin{enumerate}[(i)]
+    \item Suppose a codeword $\textbf{x}$ is transmitted, and the received codeword $\textbf{y}$ has $s$ or fewer errors. Then $d(\textbf{x},\textbf{y})\leq s$ and as $\textbf{x}\in C$, $\textbf{y}\not\in C$ and the error can be detected.
+    \item Supposed a codeword $\textbf{x}$ is transmitted and the received codeword $\textbf{y}$ has $s$ or fewer errors. Then $d(\textbf{x},\textbf{y})\leq s$. We claim that the codeword $\textbf{x}'$ such that $d(\textbf{x}',\textbf{y})$ is minimum is unique and equal to $\textbf{x}$. If $\textbf{x}'\neq \textbf{x}$, then $d(\textbf{y},\textbf{x}')\leq d(\textbf{x},\textbf{y})\leq s$. Then $d(\textbf{x},\textbf{x}')\leq d(\textbf{x},\textbf{y})+d(\textbf{y},\textbf{x}')\leq s+s=2s$ as $d$ is a metric. However, we have $d(C)>2s$, which is a contradiction. Thus, $\textbf{x}'=\textbf{x}$ and $C$ can correct up to $s$ errors.
+\end{enumerate}
+\end{proof}
+
+\begin{corollary}
+    Let a code $C$ have minimum distance $d$. Then
+    \begin{enumerate}[(i)]
+        \item $C$ is $(d-1)$-error detecting.
+        \item $C$ is $\left\lfloor{\dfrac{d-1}{2}}\right\rfloor$-error correcting.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    We have $d>s$ if and only if $s\leq d-1$ and $d>2s$ if and only if $s\leq \left\lfloor\dfrac{d-1}{2}\right\rfloor$. Combining this with \ref{DetectAndCorrectForGivenMinDist} gives the required result.
+\end{proof}
+
+\textit{Notation.} An \textit{$(n,M,d)_q$-code} is a code of length $n$, cardinality $M$ and minimum distance $d$ over an alphabet $\Sigma$ such that $|\Sigma|=q$.
+
+For example, the code $\{000,111\}$ over $\{0,1\}$ is a $(3,2,3)_2$-code.
+
+\begin{definition}
+    Let $C$ be a code of length $n$ and minimum distance $d$. The \textit{relative distance} of $C$ is given by
+    $\delta=\frac{d}{n}.$
+\end{definition}
+
+\begin{definition}
+    For $q,n\in\mathbb{N}$, the \textit{repetition code of length $n$} over an alphabet $\Sigma$ is the code whose codewords are $aa\cdots a$ (repeated $n$ times) where $a\in\Sigma$.
+\end{definition}
+
+A $q$-ary repetition code of length $n$ is an $(n,q,n)_q$-code. It is represented by $C_{n,\text{rep}}$.
+
+\clearpage

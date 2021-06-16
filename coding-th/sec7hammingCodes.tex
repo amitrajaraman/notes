@@ -1,0 +1,205 @@
+\section{Perfect Codes}
+
+\subsection{Binary Hamming Codes}
+
+\begin{definition}
+    Define the $r\times (2^r-1)$ matrix $\textbf{H}_r$ over $\mathbb{F}_2$, such that the $i$th column of $\textbf{H}_r$, $1\leq i\leq 2^r-1$ is the binary representation of $i$.
+\end{definition}
+
+For example,
+$$
+\textbf{H}_3=
+\begin{pmatrix}
+    0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+    0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+    1 & 0 & 1 & 0 & 1 & 0 & 1
+\end{pmatrix}.
+$$
+
+\begin{definition}
+    For $r>1$, the $[2^r-1, 2^r-r-1]_2$-code that has parity-check matrix $\textbf{H}_r$ is called the \textit{Hamming code} and is denoted $C_{H,r}$.
+\end{definition}
+
+In other words, the code $C_{H,r}$ is given by
+$$C_{H,r}=\{\textbf{c}\in\{0,1\}^{2^r-1}\mid \textbf{c}\textbf{H}_r^\text{T}=O\}.$$
+
+\begin{theorem}
+    For $r>1$, the $[2^r-1,2^r-r-1]_2$ Hamming code has minimum distance $3$.
+\end{theorem}
+\begin{proof}
+    Due to \ref{minLinearlyDependentColumns}, this is equivalent to showing that the minimum number of linearly dependent columns in $\textbf{H}_r$ is $3$. Since distinct numbers have distinct binary representations, the sum of two columns cannot be equal to $0$ so the minimum distance is $\geq 3$. It is equal to $3$ as the sum of the first three columns of $\textbf{H}_r$ is $0$.
+    $$
+    \begin{pmatrix}
+        0 \\ 0 \\ 1    
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        0 \\ 1 \\ 0    
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        0 \\ 1 \\ 1    
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        0 \\ 0 \\ 0
+    \end{pmatrix}
+    $$
+\end{proof}
+
+\begin{theorem}
+    For $r>1$, the code $C_{H,r}$ is a perfect code.
+\end{theorem}
+\begin{proof}
+    The code $C_{H,r}$ is a $[2^r-1,2^r-r-1,3]_2$-code. It may be checked that this satisfies the condition for a perfect code.
+\end{proof}
+
+
+Decoding Hamming codes using syndrome decoding is very effective due to the nature of the code.
+
+\begin{enumerate}
+    \item When a vector $\textbf{y}$ is received, calculate its syndrome $\syn(\textbf{y})=\textbf{y}H^\text{T}$.
+    \item If $\syn(\textbf{y})=0$, then assume that $\textbf{y}$ was the codeword sent.
+    \item If $\syn(\textbf{y})\neq 0$, then assuming a single error, $\syn(\textbf{y})$ gives the binary representation of the error position and so the error can be corrected.
+\end{enumerate}
+
+This works because the syndrome of $00\cdots 010\cdots 00$ (with $1$ in the $j$th position) is simply the transpose of the $j$th column of $H$, which is the binary representation of $j$.
+
+\vspace{2mm}
+For example, if we consider $\textbf{H}_3$ and $\textbf{y}=1101011$, then
+$\syn(\textbf{y})=110$, indicating that the error is in the $6$th position and $\textbf{y}$ must be decoded as $1101001$.
+
+\vspace{2mm}
+We now generalize the Hamming code.
+
+\begin{definition}
+    Define the $r\times n$ matrix $H_{q,r}$ where each column is a nonzero vector from $V(r,q)$ such that the first nonzero entry is $1$.    
+\end{definition}
+
+For example,
+$$H_{3,2}=
+\begin{pmatrix}
+    0 & 1 & 1 & 1 \\
+    1 & 0 & 1 & 2
+\end{pmatrix}
+$$
+
+\begin{definition}
+    For $r>1$, the $\left[\dfrac{q^r-1}{q-1}, \dfrac{q^r-1}{q-1}-r\right]_q$-code which has generator matrix equal to $H_{q,r}$ is called the \textit{$q$-ary Hamming code} and is denoted $C_{H,r,q}$.
+\end{definition}
+
+\begin{theorem}
+    $C_{H,n,q}$ has minimum distance $3$.
+\end{theorem}
+\begin{proof}
+    As no two columns are linearly dependent, the minimum distance of $C_{H,n,q}$ must be $\geq 3$. It is equal to $3$ as
+    $$
+    \begin{pmatrix}
+        0 \\ 0 \\ 1    
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        0 \\ 1 \\ 0    
+    \end{pmatrix}
+    +
+    \begin{pmatrix}
+        0 \\ 1 \\ 1    
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        0 \\ 0 \\ 0
+    \end{pmatrix}.
+    $$
+\end{proof}
+
+\begin{theorem}
+    $C_{H,n,q}$ is a perfect code.
+\end{theorem}
+\begin{proof}
+    It may be checked that the parameters of the $q$-ary Hamming code satisfy the Hamming bound.
+\end{proof}
+
+Thus, $C_{H,n,q}$ is a single error-correcting code.
+
+\begin{corollary}
+    If $q$ is a prime power and $n=\frac{q^r-1}{q-1}$ for some integer $r>1$, then
+    $$A_q(n,3)=q^{n-r}$$
+\end{corollary}
+\begin{proof}
+    $C_{H,n,q}$ is a perfect $(n,M,3)$-code where $n=\frac{q^r-1}{q-1}$ and $M=q^{n-r}$.
+\end{proof}
+
+Decoding $q$-ary Hamming codes is also done using syndrome decoding.
+\begin{enumerate}
+    \item When a vector $\textbf{y}$ is received, calculate its syndrome $\syn(\textbf{y})=\textbf{y}H^\text{T}$.
+    \item If $\syn(\textbf{y})=0$, then assume that $\textbf{y}$ was the codeword sent.
+    \item If $\syn(\textbf{y})\neq 0$, then assuming a single error, $\syn(\textbf{y})=b\textbf{H}^\text{T}_j$ for some $b\in\mathbb{F}_q$ and $j$ where $\textbf{H}_j$ represents the $j$th column of $H$. The error is corrected by subtracting $b$ from the $j$th entry of $y$.
+\end{enumerate}
+
+\subsection{Family of Codes}
+
+\begin{definition}
+    Let $q\geq 2$. Let $(n_i)_{i\geq 1}$ be an increasing sequence (of lengths) and there exist sequences $(M_i)_{i\geq1}$ and $(d_i)_{i\geq 1}$ such that for each $i\geq 1$, there exists an $(n_i,M_i,d_i)$-code $C_i$. We also define $k_i$ to be the dimension of $C_i$ for each $i$. Then the sequence $(C_i)_{i\geq1}$ is said to be a \textit{family of codes}.
+\end{definition}
+
+\begin{definition}
+    Let $C=(C_i)_{i\geq 1}$ be a family of codes and let $k_i$ be the dimension of $C_i$ for each $i\geq 1$. The \textit{rate} of $C$ is defined by
+    $$R(C)=\lim_{i\to\infty}\left(\frac{k_i}{n_i}\right).$$
+    The \textit{relative distance} of $C$ is defined by
+    $$\delta(C)=\lim_{i\to\infty}\left(\frac{d_i}{n_i}\right).$$
+\end{definition}
+
+For example, consider $C_H$, the family of binary Hamming codes with $n_i=2^i-1$, $k_i=2^i-i-1$ and $d_i=3$. Then
+$$R(C_H)=\lim_{i\to\infty}\left(1-\frac{i}{2^i-1}\right)=1$$
+and
+$$\delta(C_H)=\lim_{i\to\infty}\left(\frac{3}{2^i-1}\right)=0.$$
+
+\vspace{2mm}
+Earlier, we mentioned that we desire codes that have high rates. Or more precisely, given the minimum distance $d$, what is the largest rate that the code can have? However, this comparison is slightly unfair since we are comparing an raw parameter with a ratio of two parameters. Now, we desire families of codes that have both high rates \textit{and} high relative distances. The following question, which makes more sense than the previous one, is the one we will now attempt to answer:
+
+\textit{What is the optimal tradeoff between $R(C)$ and $\delta(C)$ for a given family of codes $C$?}
+
+\subsection{The Hadamard and Simplex codes}
+
+\begin{definition}
+    For $r>1$, the \textit{Simplex code}, denoted $C_{\text{Sim},r}$ is given by $C_{H,r}^\perp$.
+\end{definition}
+
+Note that this is merely the code which has generator matrix equal to $\textbf{H}_r$.
+
+\begin{definition}
+    For $r>1$, the \textit{Hadamard code}, denoted $C_{\text{Had},r}$ is the code which has generator matrix equal to the resultant matrix on adding an all $0$s column to $\textbf{H}_r$.
+\end{definition}
+
+Both the Simplex code and the Hadamard code are $[2^r-1,r]_2$-codes.
+
+\begin{theorem}
+    For $r>1$, $C_{\text{Had},r}$ is a $[2^r-1,r,2^{r-1}]$-code.
+\end{theorem}
+\begin{proof}
+    We shall in fact show that every non-zero codeword in $C_{\text{Had},r}$ has weight $2^{r-1}$ and the result will follow from \ref{minDistIsMinWeight}.
+    
+    For any codeword $\textbf{c}$, we have $\textbf{c}=\textbf{x}\textbf{H}_r^\text{T}$ for some nonzero $\textbf{x}=(x_1,x_2,\ldots,x_r)$ in $V(r,q)$. As $\textbf{x}$ is nonzero, assume that $x_i=1$ for some $i$.
+    
+    Note that the $j$th bit of $\textbf{c}$ is $\textbf{x}\cdot \textbf{H}_r^j$, where $\textbf{H}_r^j$ represents the $j$th row vector of $\textbf{H}_r$.
+    
+    Now, split the columns of the generator matrix $\textbf{H}_r$ into $2^{r-1}$ disjoint pairs $(\textbf{u},\textbf{v})$ such that $\textbf{v}=\textbf{u}+\textbf{e}_i$, where $\textbf{e}_i$ is the vector which has $1$ in the $i$th position and $0$ everywhere else. Then,
+    $$
+    \textbf{x}\cdot\textbf{v}
+    =\textbf{x}\cdot\textbf{u}+\textbf{x}\cdot\textbf{e}_i
+    =\textbf{x}\cdot\textbf{u}+x_i
+    =\textbf{x}\cdot\textbf{u}+1.
+    $$
+    That is, exactly one of $\textbf{x}\cdot\textbf{v}$ and $\textbf{x}\cdot\textbf{u}$ is $1$. As the choice of the pair $(\textbf{u},\textbf{v})$ was arbitrary, we have shown that for any nonzero codeword $\textbf{c}$, $\wt(\textbf{c})=2^{r-1}$.
+\end{proof}
+
+\begin{theorem}
+    For $r>1$, $C_{\text{Sim},r}$ is a $[2^r-1,r,2^{r-1}]$-code.
+\end{theorem}
+\begin{proof}
+    Observe that any codeword of $C_{\text{Had},r}$ is given by padding a $0$ onto the beginning of a codeword of $C_{\text{Sim},r}$. As all codewords of $C_{\text{Had},r}$ have weight $2^{r-1}$, any codeword of $C_{\text{Sim},r}$ also has weight $2^{r-1}$. The result follows.
+\end{proof}
+
+%\subsection{Characterization of the Perfect Codes} (golay)
+
+\clearpage

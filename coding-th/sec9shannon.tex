@@ -1,0 +1,246 @@
+\section{Shannon's Theorem}
+
+\subsection{Introduction and the statement of the theorem}
+
+Recall the binary symmetric channel $\BSC_p$. We use the notation $\textbf{e}\sim\BSC_p$ to denote an error vector $\textbf{e}$ that is drawn according to the distribution induced by $\BSC_p$.
+
+\vspace{2mm}
+In this section, we shall discuss Shannon's theorem which was given in his remarkable paper titled ``A Mathematical Theory of Communication" that gave birth to the subject of Coding Theory (and Information Theory).
+
+\vspace{2mm}
+He defined a quantity called the \textit{capacity}, which is a real number such that (reliable) communication is possible if and only if the rate is less than the capacity. That is, if the capacity is $C$ and we desire rate $R<C$, then there exists some code of rate $R$ that guarantees a negligible probability of incorrect communication.
+
+\begin{theorem}[Shannon's Theorem for $\BSC_p$]
+    Let $p,\varepsilon$ be reals such that $0\leq p<\frac{1}{2}$ and $0< \varepsilon\leq \frac{1}{2}-p$. Then the following statements are true for large enough $n$:
+    \begin{enumerate}[(i)]
+        \item There exist real $\delta>0$, an encoding function $E:\{0,1\}^k\to\{0,1\}^n$ and a decoding function $D:\{0,1\}^n\to\{0,1\}^k$ where $k\leq \lfloor n(1-H_\mathsf{Ber}(p+\varepsilon))\rfloor$, such that for every $\textbf{m}\in\{0,1\}^k$,
+        $$\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e})\neq \textbf{m}]\leq 2^{-\delta n}.$$
+        \item If $k\geq\lceil n(1-H_\mathsf{Ber}(p)+\varepsilon)\rceil$, then for pair of encoding function and decoding function $E:\{0,1\}^k\to\{0,1\}^n$ and $D:\{0,1\}^n\to\{0,1\}^k$ respectively, there exists $\textbf{m}\in\{0,1\}^k$ such that
+        $$\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e})\neq \textbf{m}]\geq\frac{1}{2}.$$
+    \end{enumerate}
+\end{theorem}
+
+While we have only considered the binary case, a similar result holds for the $q$-ary case. Note that by Shannon's Theorem, the capacity of $\BSC_p$, which we loosely defined earlier, is equal to $1-H_\mathsf{Ber}(p)$. For $q\SC_p$, the capacity is equal to $1-H_q(p)$.
+
+\vspace{2mm}
+We also state another version of Shannon's theorem as follows.
+
+\begin{theorem*}
+    The \textit{capacity} $\mathscr{C}(P)$ of a binary symmetric channel of symbol error probability $p$ is given by
+    $$\mathscr{C}(p)=1+p\log p+(1-p)\log(1-p).$$
+
+    If $0<R<\mathscr{C}(p)$, then for any $\varepsilon>0$, there exists for sufficiently large $n$, an $[n,k]_q$-code $C$ of rate $\frac{k}{n}\geq R$ such that $P_\text{err}(C)<\varepsilon$.
+\end{theorem*}
+
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[
+        xmin=0, xmax=1.2,
+        ymin=0, ymax=1.1,
+        xlabel=$p$, ylabel=$\mathscr{C}(p)$,
+        axis lines=middle,
+        xtick={0.5,1},
+        ytick={1},
+        xlabel style={at={(ticklabel* cs:1)},anchor=north west},
+        ylabel style={at={(ticklabel* cs:1)},anchor=south east}
+    ]
+    \addplot[samples=2000, color=red, domain=-1:1]{1+x*log2(x)+(1-x)*log2(1-x)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+\subsection{Proof of the second part}
+
+If $p=0$, we have $k\geq n(1-H_\mathsf{Ber}(p)+\varepsilon)>n$ and the result follows. Therefore, we shall assume that $p>0$.
+
+We shall prove this by contradiction. Assume that for every $\textbf{m}\in\{0,1\}^k$, we have
+$$\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e})\neq \textbf{m}]<\frac{1}{2}.$$
+For each $\textbf{m}$, define
+$$D_\textbf{m}=\{\textbf{y}\in\{0,1\}^n\mid D(\textbf{y})=\textbf{m}\}$$
+and for $\gamma>0$, let
+$$S_{\textbf{m},\gamma}=\{\textbf{y}\in\{0,1\}^n\mid |d(\textbf{y}, E(\textbf{m}))-pn|\leq\gamma pn\}.$$
+Note that $S_{\textbf{m},\gamma}$ represents the shell between radius $(1-\gamma)pn$ and $(1+\gamma)pn$ around $E(\textbf{m})$. Now, by our assumption, we have
+$$\Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\not\in D_{m}]<\frac{1}{2}.$$
+We have
+\begin{align*}
+    \expec[d(E(\textbf{m}),\textbf{e})] &= \expec[d(\textbf{0}, \textbf{e})] \\
+            &= \expec[\wt(\textbf{e})] \\
+            &= pn\quad\text{(by \ref{binomExpec})}.
+\end{align*}
+
+Then by the multiplicative Chernoff bound \ref{multChernoff}, we have
+
+\begin{align*}
+    \Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\not\in S_{\textbf{m},\gamma}] &<2e^{-\gamma^2pn/3} \\ 
+    &= 2^{-\Omega(\gamma^2n)}.
+\end{align*}
+
+Using the Union Bound \ref{unionBound} gives
+$$\Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\not\in S_{\textbf{m},\gamma}\cap D_{\textbf{m}}]\leq \frac{1}{2}+2^{-\Omega(\gamma^2n)}.$$
+
+Then for sufficiently large $n$, we have
+$$\Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\in D_{\textbf{m}}\cap S_{\textbf{m},\gamma}]\geq \frac{1}{2}-2^{-\Omega(\gamma^2n)}\geq \frac{1}{4}.$$
+We also trivially have
+$$\Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\in D_{\textbf{m}}\cap S_{\textbf{m},\gamma}]\leq p_\text{max}\cdot|D_\textbf{m}\cap S_{\textbf{m},\gamma}|$$
+where
+\begin{align*}
+    p_\text{max} &= \max_{\textbf{y}\in S_{\textbf{m},\gamma}}\Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}=\textbf{y}] \\
+    &\leq \max_{d\in[pn(1-\gamma), pn(1+\gamma)]}p^d(1-p)^{n-d}.
+\end{align*}
+Here the second equality arises due to the fact that the channel is $\BSC_p$. However, since $p<\frac{1}{2}$, the function $p^d(1-p)^{n-d}$ is decreasing in $d$ and the maximum value is attained at the minimum value of $d$ within the range.
+\begin{align*}
+    p_\text{max} &\leq p^{pn(1-\gamma)}(1-p)^{n-pn(1-\gamma)} \\
+                 &= \left(\frac{1-p}{p}\right)^{\gamma pn}p^{pn}(1-p)^{n(1-p)} \\
+                 &= \left(\frac{1-p}{p}\right)^{\gamma pn}2^{-n H_\mathsf{Ber}(p)}.
+\end{align*}
+Thus we have
+$$\frac{1}{4}\leq \Pr_{\textbf{e}\sim\BSC_p}[E(\textbf{m})+\textbf{e}\in D_{\textbf{m}}\cap S_{\textbf{m},\gamma}]\leq \left(\frac{1-p}{p}\right)^{\gamma pn}2^{-n H_\mathsf{Ber}(p)}\cdot |D_\textbf{m}\cap S_{\textbf{m},\gamma}|$$
+which implies that
+$$|D_\textbf{m}\cap S_{\textbf{m},\gamma}|\geq \frac{1}{4}\left(\frac{1-p}{p}\right)^{-\gamma pn}2^{n H_\mathsf{Ber}(p)}.$$
+
+Now note that as $D$ is a function, the set of $D_\textbf{m}$s partitions the set $\{0,1\}^n$. Thus,
+
+\begin{align*}
+    2^n &= \sum_{\textbf{m}\in\{0,1\}^k} |D_\textbf{m}| \\
+        &\geq \sum_{\textbf{m}\in\{0,1\}^k} |D_\textbf{m}\cap S_{\textbf{m},\gamma}| \\
+        &\geq \sum_{\textbf{m}\in\{0,1\}^k}\frac{1}{4} \left(\frac{1-p}{p}\right)^{-\gamma pn} 2^{n H_\mathsf{Ber}(p)} \\
+        &= 2^{k-2} \left(\frac{1}{p}-1\right)^{-\gamma pn} 2^{n H_\mathsf{Ber}(p)} \\
+        &= 2^{k-2}\cdot 2^{nH_\mathsf{Ber}(p)-\gamma pn\log(1/p-1)}
+\end{align*}
+
+Put $\gamma=\dfrac{\varepsilon}{2p\log\left(\frac{1}{p}-1\right)}$ in the above inequality to get
+$$2^n > 2^{k+nH_\mathsf{Ber}(p)-\varepsilon n}.$$
+It follows that
+$$k<n(1-H_\mathsf{Ber}(p)+\varepsilon)$$
+which is a contradiction and therefore the second part of the theorem is proved.
+
+\subsection{Proof of the first part}
+
+We prove the first part of Shannon's Theorem by the probabilistic method, the idea of which was discussed in section \ref{probabilisticMethod}.
+
+If $E(\textbf{m})$ is the message transmitted and $\textbf{e}$ is the error pattern, let $\textbf{y}$ be the received word $E(\textbf{m})+\textbf{e}$.
+
+We denote by $\Pr[\textbf{y}\mid E(\textbf{m})]$ the probability that $\textbf{y}$ is the received word if $E(\textbf{m})$ is the transmitted message. Then for any $\varepsilon'>0$,
+
+\begin{align*}
+\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]= &\sum_{\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\cdot \mathbbm{1}_{D(\textbf{y})\neq \textbf{m}} \\
+&+ \sum_{\textbf{y}\not\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\cdot \mathbbm{1}_{D(\textbf{y})\neq \textbf{m}}
+\end{align*}
+
+Simplifying the second term in the above expression,
+
+\begin{align*}
+    \sum_{\textbf{y}\not\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\cdot \mathbbm{1}_{D(\textbf{y})\neq \textbf{m}} &\leq \sum_{\textbf{y}\not\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})] \\
+    &= \Pr[d(\textbf{y}, E(\textbf{m}))-pn>\varepsilon'n] \\
+    &\leq e^{-\varepsilon'^2n/2}\quad\text{(by the additive Chernoff Bound \ref{addChernoff})}
+\end{align*}
+
+That is,
+
+$$\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}] \leq \sum_{\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\cdot \mathbbm{1}_{D(\textbf{y})\neq \textbf{m}} + e^{-\varepsilon'^2n/2}$$
+
+We now consider a random distribution of $E$. For every $\textbf{m}\in\{0,1\}^k$, pick $E(\textbf{m})$ uniformly and independently at random from $\{0,1\}^n$. Let the decoding function $D$ be the maximum likelihood decoding function.
+
+\vspace{2mm}
+Let us take the expectation on both sides of the above inequality over this distribution of $E$. Due to the linearity of expectation and the fact that the distributions on $\textbf{e}$ and $E$ are independent,
+
+$$\expec_E\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right] \leq \sum_{\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\cdot \expec_E\left[\mathbbm{1}_{D(\textbf{y})\neq \textbf{m}}\right] + e^{-\varepsilon'^2n/2}$$
+
+We shall now simplify the right side of the above expression. By \ref{unionBound} and since $D$ is the maximum likelihood decoding function,
+
+\begin{align*}
+    \expec_E\left[\mathbbm{1}_{D(\textbf{y})\neq \textbf{m}}\right] &= \Pr_E\left[\mathbbm{1}_{D(\textbf{y})\neq \textbf{m}}   \mid E(\textbf{m}) \right] \\
+    &\leq \sum_{\textbf{m}'\neq \textbf{m}} \Pr[d(E(\textbf{m}', \textbf{y}))\leq d(E(\textbf{m}),\textbf{y})\mid E(\textbf{m})]
+\end{align*}
+
+where ``$\mid E(\textbf{m})$" means that we are conditioning on the event that $E(\textbf{m})$ is the transmitted message.
+
+As $\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)$, it follows that $d(E(\textbf{m}), \textbf{y})\leq (p+\varepsilon')n$. Then
+
+\begin{align*}
+    \expec_E\left[\mathbbm{1}_{D(\textbf{y})\neq \textbf{m}}\right] &\leq \sum_{\textbf{m}'\neq \textbf{m}} \Pr[d(E(\textbf{m}', \textbf{y}))\leq (p+\varepsilon')n\mid E(\textbf{m})] \\
+    &= \sum_{\textbf{m}'\neq \textbf{m}} \Pr[E(\textbf{m}')\in B(E(\textbf{m}), (p+\varepsilon')n)\mid E(\textbf{m})] \\
+    &= \sum_{\textbf{m}'\neq \textbf{m}} \frac{\Vol_2((p+\varepsilon')n, n)}{2^n} \quad\text{(as the choice of $E(\textbf{m})$) and $E(\textbf{m}')$ are independent)} \\
+    &\leq \sum_{\textbf{m}'\neq \textbf{m}} 2^{n(H_\mathsf{Ber}(p+\varepsilon')-1)}\quad\text{(by \ref{volumeBound1})} \\
+    &< 2^k\cdot 2^{n(H_\mathsf{Ber}(p+\varepsilon')-1)} \\
+    &\leq 2^{n(1-H_\mathsf{Ber}(p+\varepsilon))}\cdot 2^{n(H_\mathsf{Ber}(p+\varepsilon')-1)}\quad\text{(due to our choice of $k$)} \\
+    &= 2^{-n(H_\mathsf{Ber}(p+\varepsilon)-(H_\mathsf{Ber}(p+\varepsilon'))}.
+\end{align*}
+
+Putting this back in our initial expression, 
+
+$$\expec_E\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]
+\leq
+e^{-\varepsilon'^2n/2} +
+2^{-n(H_\mathsf{Ber}(p+\varepsilon)-(H_\mathsf{Ber}(p+\varepsilon'))} \cdot
+\sum_{\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]$$
+
+Then because
+
+$$\sum_{\textbf{y}\in B(E(\textbf{m}), (p+\varepsilon')n)}\Pr[\textbf{y}\mid E(\textbf{m})]\leq \sum_{\textbf{y}\in \{0,1\}^n}\Pr[\textbf{y}\mid E(\textbf{m})]=1$$
+
+it follows that
+
+$$\expec_E\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]
+\leq
+e^{-\varepsilon'^2n/2} +
+2^{-n(H_\mathsf{Ber}(p+\varepsilon)-(H_\mathsf{Ber}(p+\varepsilon'))}$$
+
+Then for large enough $n$ and small enough $\delta'$, 
+$$\expec_E\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]
+\leq
+2^{-\delta'n}
+$$
+
+However, we are not yet done. We have shown that for any arbitrary $\textbf{m}$, the expectation of the error probability is bounded above by the required quantity. However, we must show that the error probability is bounded above for all $\textbf{m}$ \textit{simultaneously}.
+
+Consider the uniform random distribution of $\textbf{m}$ over $\{0,1\}^k$. Then as the above inequality holds for all $\textbf{m}$,
+
+$$\expec_\textbf{m}\left[\expec_E\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]\right]
+\leq
+2^{-\delta'n}
+$$
+
+As the distributions over $\textbf{m}$ and $E$ are defined over different domains, we can switch the order of the expectations to get
+
+$$\expec_E\left[\expec_\textbf{m}\left[\Pr_{\textbf{e}\sim\BSC_p}[D(E(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]\right]
+\leq
+2^{-\delta'n}
+$$
+
+By the probabilistic method, there exists an encoding function $E^*$ (and decoding function $D^*$) such that
+
+$$\expec_\textbf{m}\left[\Pr_{\textbf{e}\sim\BSC_p}[D^*(E^*(\textbf{m})+\textbf{e}\neq \textbf{m}]\right]\leq 2^{-\delta'n}$$
+
+This says that the \textit{average} error probability is exponentially small, while what we need to show is that the \textit{maximum} error probability is exponentially small.
+
+We shall show this ``expurgating", which involves throwing away half the messages.
+
+\vspace{2mm}
+Let the messages be ordered as $\textbf{m}_1,\textbf{m}_2,\ldots, \textbf{m}_{2^k}$. For each $i$, define
+$$P_i=\Pr_{\textbf{e}\sim\BSC_p}[D^*(E^*(\textbf{m}_i)+\textbf{e})\neq \textbf{m}_i].$$ Assume that $P_1\leq P_2\leq\cdots\leq P_{2^k}$. We claim that $P_{2^{k-1}}\leq 2\cdot 2^{-\delta'n}$.
+
+By the definition of $P_i$,
+\begin{align*}
+    \frac{1}{2^k}\sum_{i=1}^{2^k}P_i
+    &=\expec_\textbf{m}\left[\Pr_{\textbf{e}\sim\BSC_p}\left[D^*(E^*(\textbf{m})+\textbf{e})\neq \textbf{m}\right]\right] \\
+    &\leq 2^{\delta'n}.
+\end{align*}
+
+We shall prove the claim by method of contradiction. Assume that $P_{2^{k-1}}>2\cdot 2^{-\delta'n}$. Then we have
+\begin{align*}
+    \frac{1}{2^k}\sum_{i=1}^{2^k}P_i
+    &\geq \frac{1}{2^k}\sum_{i=2^{k-1}}^{2^k}P_i \\
+    &> \frac{1}{2^k}\sum_{i=2^{k-1}}^{2^k} 2\cdot 2^{\delta'n} \\
+    &\geq 2^{-\delta'n}
+\end{align*}
+which is a contradiction. Thus $P_{2^{k-1}}\leq 2\cdot 2^{-\delta'n}$.
+
+\vspace{2mm}
+Now the final code we require has $\textbf{m}_1,\textbf{m}_2,\ldots, \textbf{m}_{2^{k-1}}$ as its messages (and thus has dimension $k'=k-1$). If we have $k\leq \lfloor(n+1)(1-H_\mathsf{Ber}(p+\varepsilon))\rfloor$, then we have
+$k'\leq \lfloor n(1-H_\mathsf{Ber}(p+\varepsilon))\rfloor$. Setting $\delta=\delta'+\frac{1}{n}$, we have that for every $\textbf{m}\in \{0,1\}^{k'}$,
+$$\Pr_{\textbf{e}\sim\BSC_p}[D^*(E^*(\textbf{m})+\textbf{e})\neq \textbf{m}]\leq 2^{-\delta n}.$$
+
+\vspace{2mm}
+This completes the proof of Shannon's Theorem.
