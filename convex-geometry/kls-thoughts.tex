@@ -132,11 +132,11 @@
 			\item The limit of $f(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this is well-defined and that the directional limit along either direction of the circle is the same. 
 		\end{itemize}
 
-		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin. Then, as before, either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
+		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin.\footnote{Smoothness is not required, only that the curve is differentiable at the origin.} Then, as before, either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
 
-		A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
+		% A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
 
-		An interesting question is to generally characterize these functions.
+		An interesting question is to generally characterize these functions $f_{E,K}$.
 
 	\subsection{Aligned 2-dimensional decompositions are always possible}
 
@@ -164,24 +164,24 @@
 		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
 		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, the expression would trivially be minimized if the corresponding term is $0$ irrespective of the other term.
 
-	% %%% NOT DONE YET!
+	%%% NOT DONE YET!
 
-	% 	Suppose that we obtain $K_\omega$, $\mu_\omega$ by bisecting with the hyperplanes $(H_{x_{\omega_n}})_{n \in \N}$. Let $K_{\omega_n}$, $\mu_{\omega_n}$ be the body and corresponding measure after bisecting with the first $n$ hyperplanes. Then,
-	% 	\begin{enumerate}
-	% 		\item The value of $\mu_\omega(E)$ is bounded by
-	% 		\[ \mu(E) \prod_{n \in \N} \left( 1 - \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right) \leq \mu_\omega(E) \leq \mu(E) \prod_{n \in \N} \left( 1 + \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right), \]
-	% 		where the $\pm$ depends on which of the two halfspaces we choose.
-	% 	\end{enumerate}
+		% Suppose that we obtain $K_\omega$, $\mu_\omega$ by bisecting with the hyperplanes $(H_{x_{\omega_n}})_{n \in \N}$. Let $K_{\omega_n}$, $\mu_{\omega_n}$ be the body and corresponding measure after bisecting with the first $n$ hyperplanes. Then,
+		% \begin{enumerate}
+		% 	\item The value of $\mu_\omega(E)$ is bounded by
+		% 	\[ \mu(E) \prod_{n \in \N} \left( 1 - \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right) \leq \mu_\omega(E) \leq \mu(E) \prod_{n \in \N} \left( 1 + \frac{f_{E,K_{\omega_n}}(x_{\omega_n})}{\mu_{\omega_n}(H_{\omega_n}^\pm)} \right), \]
+		% 	where the $\pm$ depends on which of the two halfspaces we choose.
+		% \end{enumerate}
 
-	% \subsection{The Poincar\'{e} Inequality}
+	\subsection{The Poincar\'{e} Inequality}
 
-	% 	Given a probability measure $\mu$ on $\Rn$ with density $p$, its Poincar\'{e} constant is defined by
-	% 	\[ \zeta_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2^2}{\Var_{x \sim p} g(x)}. \]
-	% 	We also define the Cheeger constant by
-	% 	\[ h_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2}{\expec_{x \sim p} \left| g(x) - \expec_{x \sim p} g(x) \right|}. \]
-	% 	Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p \gtrsim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$.\\
-	% 	How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
-	% 	So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
+		Given a probability measure $\mu$ on $\Rn$ with density $p$, its Poincar\'{e} constant is defined by
+		\[ \zeta_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2^2}{\Var_{x \sim p} g(x)}. \]
+		We also define the Cheeger constant by
+		\[ h_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2}{\expec_{x \sim p} \left| g(x) - \expec_{x \sim p} g(x) \right|}. \]
+		Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p^2 \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p^2 \lesssim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$.\\
+		How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
+		So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
 
 
 \bibliographystyle{alpha}
