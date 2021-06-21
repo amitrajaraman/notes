@@ -112,6 +112,7 @@
 		\begin{equation}
 			\sup_{\norm{\zeta} \leq 1} \int_\Omega \Var_{x \sim p_\omega}(x) \langle \zeta , u_\omega \rangle^2 \dif \nu(\omega) \gtrsim \int_\Omega \Var_{x \sim p_\omega}(x) \dif \nu(\omega)	
 		\end{equation}
+		Another way to prove the $n^{-1/2}$ bound is to take the expectation of the term on the left of the above for $\zeta$ being drawn uniformly from $S^{n-1}$.
 
 \section{More on decompositions}
 
@@ -128,11 +129,13 @@
 		Suppose that $x$ defines a hyperplane containing this affine space. Then $x$ is orthogonal to the plane, and so orthogonal to the space itself. That is, it must lie in the subspace spanned by $y, z$. Further, $y-x$ is orthogonal to $x$. That is, the set of all these $x$ forms a circle passing through $0$ contained in the $2$-dimensional subspace spanned by $y,z$.\\
 		The conclusion of the localization method is that for any circle $S$ passing through $0$, either
 		\begin{itemize}
-			\item $f(w) = 0$ for some $w \in S \setminus \{0\}$ or
-			\item The limit of $f(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this is well-defined and that the directional limit along either direction of the circle is the same. 
+			\item $f_{E,K}(w) = 0$ for some $w \in S \setminus \{0\}$ or
+			\item The limit of $f_{E,K}(w)$ as $w$ goes to $0$ along the circle is equal to $0$ -- this corresponds to a bisecting hyperplane passing through the origin itself. It is not too difficult to check that this is well-defined and that the directional limit along either direction of the circle is the same. 
 		\end{itemize}
 
-		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin.\footnote{Smoothness is not required, only that the curve is differentiable at the origin.} Then, as before, either $f(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
+		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin.\footnote{Smoothness is not required, only that the curve is differentiable at the origin.} Then, as before, either $f_{E,K}(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
+
+		It may be shown that as a consequence, there exists a surface passing through the origin on which $f_{E,K}$ is equal to $0$.
 
 		% A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
 
