@@ -88,16 +88,18 @@
 
 		How does stochastic localization fit into this? Instead of controlling $\mu_\omega(E)$, we try to control $\psi_\omega$ by defining a martingale $(p_t)$ whose isoperimetric constant is easily bounded. That is, $\expec[p_t] = p$ (this is just an integral of the form of $\eqref{eqn 1}$) and further, the isoperimetric constant of $\mu_t$ is lower bounded by $t^{1/2}$. Then, the problem comes down to estimating
 		\[ \int_\Omega \mu_t(E) ( 1 - \mu_t(E) ) \d{\nu(\omega)}, \]
-	which is exactly what papers such as \cite{chen2021constant} do.
+		which is exactly what papers such as \cite{chen2021constant} do.
+
+
 
 	\subsection{What next?}
 
 		Going back to needle decompositions again, we wish to show that there exists a needle decomposition conserving $\mu_\omega(E) = 1/2$ such that
-		\[ \int_{\Omega} \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{A}^{-1/2}. \]
+		\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \opnorm{A}^{-1/2}. \]
 		\eqref{eqn 5} for $b = 0$ gives
 		\[ \opnorm{A} = \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }. \]
 		Therefore, it would suffice to show that
-		\[ \int_\Omega \frac{1}{\opnorm{A_\omega}^{1/2}} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
+		\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
 		for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this inequality equivalent to the KLS Conjecture? Do there exist needle decompositions not obtained by the bisection method that conserve $\mu_\omega(E)$ and satisfy the above inequality?}\\
 
 		Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
@@ -114,7 +116,33 @@
 		\end{equation}
 		Another way to prove the $n^{-1/2}$ bound is to take the expectation of the term on the left of the above for $\zeta$ being drawn uniformly from $S^{n-1}$.
 
+	\subsection{Equivalence of KLS and good needle decompositions}
+
+		In an earlier section, we showed that if for a fixed $E$ there exists a needle decomposition $\{K_\omega\}$ such that
+		\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim 1, \]
+		then the KLS conjecture holds. What about the reverse direction?\\
+
+		Let us begin with a body $K$ with isoperimetric constant $\psi$. We claim that it is possible to split $K$ into $K_1$, $K_2$ such that $\psi_1 = \psi_2 = \psi$, where $\psi_1$ and $\psi_2$ are the isoperimetric constants of the measure restricted to $K_1$ and $K_2$ respectively.\\
+
+		First of all, $\psi \geq \psi_i$. Indeed, if $E \subseteq K_i$ attains its isoperimetric constant, then $\psi \geq \mu^+(\partial E) / \mu(E) ( 1 - \mu(E) ) = \psi_i$.\\
+
+		The reverse bound can be shown to be attained using a ham-sandwich type argument.\\
+		Let $E\subseteq K$ attain the isoperimetric constant $\psi$. Usual bisection bisects the signed measure with density $p(y) (\indic_E - \indic_{\Rn \setminus E})$. We can use a ham-sandwich type argument to further bisect the $\mu^+(\partial E)$ part of it as well. For $\varepsilon > 0$, consider the signed measure with density $p(y) \left( \frac{1}{\varepsilon} \indic_{\partial E + \varepsilon B_2^n} - \mu^+(\partial E)\right)$. Taking the limit of the bisecting hyperplane as $\varepsilon \to 0$ ensures that $\mu_i^+(\partial E) = \mu^+(\partial E)$. The resulting bisection preserves isoperimetry because
+		\[ \psi_i \geq \frac{\mu_i^+(\partial E)}{\mu_i(E) ( 1 - \mu_i(E) )} = \frac{\mu^+(\partial E)}{\mu(E) ( 1 - \mu(E) )} = \psi. \]
+
+		In the limiting case of the bisections, we have
+		\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim \int_\Omega \psi_\omega \mu_\omega(E) ( 1 - \mu_\omega(E)) = \int_\Omega \psi \mu(E) ( 1 - \mu(E) ) \gtrsim \psi, \]
+		so if KLS holds, there always exists a good needle decomposition.
+
+		It is conjectured in \cite{leevempala2018klssurvey} that \emph{any} needle decomposition is good.
+
+		By a Markov argument, this integral inequality holds iff there exists a needle decomposition for each $E$ such that
+		\[ \int_A \opnorm{A_\omega} \d{\nu}(\omega) \lesssim 1, \]
+		where $A \subseteq \Omega$ such that $\nu(A) \gtrsim 1$.
+
 \section{More on decompositions}
+
+	While we have not mentioned it thus far, a useful result to know is that the KLS conjecture on the class of log-concave measures is equivalent to the KLS conjecture on the class of indicator functions on convex bodies. In particular, the class of log-concave functions is the smallest containing the class of indicator functions on convex bodies that is closed under taking marginals and weak limits, as shown in \cite{AlonsoGutirrez2015}.
 
 	\subsection{Hyperplane bisections}
 
@@ -122,7 +150,7 @@
 		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
 		That is, if $H_x$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) and $H_x^+$ is either of the resulting halfspaces, the value of the above function at $x$ is equal to $|\mu(E \cap H_x^+) - \mu((\Rn\setminus E) \cap H_x^+)|$.\\
 		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is -- $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
-		For nice(?) $E$, $f_{E,K}$ is continuous.\\
+		For nice $E$, $f_{E,K}$ is continuous.\\
 
 		The primary tool used in \cite{lov-sim-on7} to prove the localization lemma was that there exists a bisecting hyperplane passing through any $(n-2)$-dimensional affine space. How would this translate in terms of the above defined function?\\
 		Suppose we have an $(n-2)$-dimensional affine space orthogonal to the subspace spanned by $y,z\in\Rn$ and passing through $y$.\\
@@ -136,6 +164,9 @@
 		More generally, suppose we have some smooth curve $C$ in $\Rn$ that passes through the origin.\footnote{Smoothness is not required, only that the curve is differentiable at the origin.} Then, as before, either $f_{E,K}(w) = 0$ for some $w \in C \setminus \{0\}$ or one of the directional limits at $0$ (along $C$) is equal to $0$.\\
 
 		It may be shown that as a consequence, there exists a surface passing through the origin on which $f_{E,K}$ is equal to $0$.
+
+		In general, if we start off with $E$ of some measure (not necessarily $1/2$) that we want to preserve, we can define $f_{E,K}(x)$ as
+		\[ \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \mu(\Rn\setminus E)\indic_E - \mu(E)\indic_{\Rn \setminus E} ) \dif y \right| \]
 
 		% A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
 
@@ -153,6 +184,8 @@
 
 		This is easily done using induction on $n$. Reducing the $n$-dimensional body to a set of $(n-1)$-dimensional bodies and then each of these smaller bodies to $2$-dimensional bodies gets the job done. It should be noted that this argument does not work out if the body under consideration is $2$-dimensional, since it does not make sense to have a $0$-dimensional affine space containing our direction.\\
 
+		In general, given $k$ directions, it is possible to decompose a body $K$ into $\{K_\omega\}$ such that each of the $K_\omega$ is $(n-k)$-dimensional and each of them contains these $k$ directions.
+
 		% It is not too difficult to see that given an $n$-dimensional body $K$ ($n \geq 2$) and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$  -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
 		% In terms of our function $f_{E,K}$, if we have $u = e_1$, we are essentially just considering
 		% \[ S = \{ x \in \Q^n : \langle x , u \rangle = 0 \} \]
@@ -163,11 +196,19 @@
 	\subsection{A potential function}
 
 		Let us fix $\mu$, $p$, $K$, and $E$ as usual. Also suppose we have some direction $u$. We wish to decompose the body into needles in a way that all of them are nearly in the direction of $u$. Equivalently, the hyperplanes chosen for bisection should all nearly contain $u$. That is, the set of $x$ corresponding to the hyperplanes $\{H_x\}$ must all be nearly orthogonal to $u$. So, at each step, the $x$ chosen must be such that $\langle x , u \rangle$ is small -- more precisely, $1 - \frac{\langle x , u \rangle^2}{\norm{x}^2} \gtrsim 1$.\\
-		Also, as seen from \Cref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
+		Also, as seen from \eqref{eqn 4}, all we really want is that $\mu_\omega(E)(1-\mu_\omega(E)) \gtrsim 1$, it might be fine to instead just minimize $f_{E,K}$ instead of ensuring that it is exactly equal to $0$. So, one may choose the $x$ corresponding to the bisecting hyperplane at each step by constructing a potential function such as
 		\[ \Phi(x) = \left(1 + f_{E,K}(x)\right) \left(1 + \frac{|\langle x , u \rangle|}{\norm{x}}\right) \]
-		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, the expression would trivially be minimized if the corresponding term is $0$ irrespective of the other term.
+		and at each step, choosing the $x$ that minimizes $\Phi$. The reason for adding the $1$ is that otherwise, the expression would trivially be minimized if the corresponding term is $0$ irrespective of the other term.\\
 
-	%%% NOT DONE YET!
+		We might be able to choose our potential function more wisely.\\
+		Recall that in our bound of the isoperimetric constant using needle decompositions, we don't really require that $\mu_\omega(E) = 1/2$ for each $\omega$, we only require that $\mu_\omega(E) (1 - \mu_\omega(E)) \gtrsim 1$. Suppose we have a body $K$ and we split it using the hyperplane $H_x$. Let $K_1 = H_x^+ \cap K$. Then, it is not too difficult to show that
+		\[ \mu_2(E) = \mu(E) + \frac{f_{E,K}(x)}{2\mu(H_x^+)}. \]
+		In general, if we start off with $K_1 = K$, and we form $K_{i+1}$ by intersecting $K_i$ with the half-space $H_{x_i}^+$ such that the limiting body is $K_\omega$, then
+		\[ \mu_\omega(E) = \mu(E) + \sum_{n\in\N} \frac{f_{E,K_n}(x_n)}{2\mu_n(H_{x_n}^+)}. \]
+		Our goal should be to minimize the quantity on the right, so a suitable potential might involve something along the lines of $f_{E,K}(x) / 2 \min\{ \mu(H_x^+) , \mu(H_x^-) \}$.\\
+
+		It would be nice to have a similar handy quantity for the alignment part of it as well -- if we start off with a body $K$ and bisect it using $H_{x_1}^+, H_{x_2}^+, \cdots$ to get a limiting one-dimensional body $K_\omega$, how do we represent the ``direction'' of $K_\omega$ in terms of the $x_n$ (and perhaps some quantities involving $K$)?
+
 
 		% Suppose that we obtain $K_\omega$, $\mu_\omega$ by bisecting with the hyperplanes $(H_{x_{\omega_n}})_{n \in \N}$. Let $K_{\omega_n}$, $\mu_{\omega_n}$ be the body and corresponding measure after bisecting with the first $n$ hyperplanes. Then,
 		% \begin{enumerate}
@@ -182,10 +223,9 @@
 		\[ \zeta_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2^2}{\Var_{x \sim p} g(x)}. \]
 		We also define the Cheeger constant by
 		\[ h_p = \inf_{g\text{ smooth}} \frac{\expec_{x \sim p} \norm{\grad g(x)}_2}{\expec_{x \sim p} \left| g(x) - \expec_{x \sim p} g(x) \right|}. \]
-		Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p^2 \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p^2 \lesssim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$.\\
+		Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p^2 \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p^2 \lesssim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$ (this is a consequence of Cheeger's inequality -- see \cite{CheegerInequality,Maz60}).\\
 		How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
 		So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
-
 
 \bibliographystyle{alpha}
 \bibliography{references}
