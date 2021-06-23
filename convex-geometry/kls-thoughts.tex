@@ -90,8 +90,6 @@
 		\[ \int_\Omega \mu_t(E) ( 1 - \mu_t(E) ) \d{\nu(\omega)}, \]
 		which is exactly what papers such as \cite{chen2021constant} do.
 
-
-
 	\subsection{What next?}
 
 		Going back to needle decompositions again, we wish to show that there exists a needle decomposition conserving $\mu_\omega(E) = 1/2$ such that
@@ -100,7 +98,7 @@
 		\[ \opnorm{A} = \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }. \]
 		Therefore, it would suffice to show that
 		\[ \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu(\omega)} \gtrsim \opnorm{\int_{\Omega} A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} }^{-1/2} \]
-		for some needle decomposition that conserves $\mu_\omega(E)$.\footnote{Is this inequality equivalent to the KLS Conjecture? Do there exist needle decompositions not obtained by the bisection method that conserve $\mu_\omega(E)$ and satisfy the above inequality?}\\
+		for some needle decomposition that conserves $\mu_\omega(E)$.\\
 
 		Using H\"{o}lder's inequality as we did in the proof of the $n^{-1/2}$ bound, it is seen that it suffices to show
 		\[ \int_\Omega \opnorm{A_\omega} \d{\nu(\omega)} \lesssim \opnorm{ \int_\Omega A_\omega + b_\omega b_\omega^\top \d{\nu(\omega)} } \]
@@ -184,7 +182,7 @@
 
 		This is easily done using induction on $n$. Reducing the $n$-dimensional body to a set of $(n-1)$-dimensional bodies and then each of these smaller bodies to $2$-dimensional bodies gets the job done. It should be noted that this argument does not work out if the body under consideration is $2$-dimensional, since it does not make sense to have a $0$-dimensional affine space containing our direction.\\
 
-		In general, given $k$ directions, it is possible to decompose a body $K$ into $\{K_\omega\}$ such that each of the $K_\omega$ is $(n-k)$-dimensional and each of them contains these $k$ directions.
+		In general, given $k$ directions, it is possible to decompose a body $K$ into $\{K_\omega\}$ such that each of the $K_\omega$ is $(k+1)$-dimensional and each of them contains these $k$ directions.
 
 		% It is not too difficult to see that given an $n$-dimensional body $K$ ($n \geq 2$) and a direction $u$, it is possible to split it into $\{K_\omega\}_{\omega \in \Omega}$ such that each of the $K_\omega$ is $(n-1)$-dimensional and further, each of them contains $u$  -- this can be done by considering the set of $(n-2)$-dimensional affine spaces that contain $u$ and using an argument similar to that involved in the proof of the localization lemma.\\
 		% In terms of our function $f_{E,K}$, if we have $u = e_1$, we are essentially just considering
