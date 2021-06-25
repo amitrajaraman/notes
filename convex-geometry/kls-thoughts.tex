@@ -145,7 +145,7 @@
 	\subsection{Hyperplane bisections}
 
 		As before, suppose we have a log-concave probability measure $\mu$ with density $p$ on the body $K$, and we fix some $E \subseteq K$ with $\mu(E) = 1/2$. Let us define the function $f_{E,K} : \Rn \setminus \{0\} \to \R$ by
-		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
+		\[ f_{E,K}(x) = \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x}^2 \}} p(y) ( \indic_E - \indic_{\Rn \setminus E} ) \dif y \right|. \]
 		That is, if $H_x$ is the hyperplane defined by $x$ (orthogonal to $x$ and passing through it) and $H_x^+$ is either of the resulting halfspaces, the value of the above function at $x$ is equal to $|\mu(E \cap H_x^+) - \mu((\Rn\setminus E) \cap H_x^+)|$.\\
 		This serves as a measure of how ``imbalanced'' the hyperplane corresponding to $x$ is -- $f_{E,K}(x) = 0$ iff the hyperplane corresponds to $x$ is a bisecting hyperplane (where bisecting means that $\mu(E \cap K_\omega) = \frac{1}{2} \mu(K_\omega) $, as in needle decompositions).\\
 		For nice $E$, $f_{E,K}$ is continuous.\\
@@ -164,7 +164,7 @@
 		It may be shown that as a consequence, there exists a surface passing through the origin on which $f_{E,K}$ is equal to $0$.
 
 		In general, if we start off with $E$ of some measure (not necessarily $1/2$) that we want to preserve, we can define $f_{E,K}(x)$ as
-		\[ \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x} \}} p(y) ( \mu(\Rn\setminus E)\indic_E - \mu(E)\indic_{\Rn \setminus E} ) \dif y \right| \]
+		\[ \left| \int_{\{ z \in \Rn : \langle z , x \rangle \geq \norm{x}^2 \}} p(y) ( \mu(\Rn\setminus E)\indic_E - \mu(E)\indic_{\Rn \setminus E} ) \dif y \right| \]
 
 		% A consequence of this nice property is that given any non-zero $x \in \Rn$, there exists a ``barrier'' curve $C$ in $\Rn$ separating $x$ from $0$ such that $f(y) = 0$ for any $y \in C$.
 
@@ -224,6 +224,21 @@
 		Equation (5.8) in \cite{LedouxCheegerPoincareConstant} shows that for log-concave $\mu$, $h_p^2 \sim \zeta_p$.\footnote{Even for $\mu$ that is not log-concave, it is true that $h_p^2 \lesssim \zeta_p$.} Further, more relevant to our interests, $\zeta_p \sim \psi_p^2$ (this is a consequence of Cheeger's inequality -- see \cite{CheegerInequality,Maz60}).\\
 		How is the isoperimetric inequality related to these? Suppose that in the definition of the Cheeger constant, we set $g = \indic_E$ for some set $E$ (or rather, a sequence of smooth functions converging to $\indic_E$). Then, $\norm{\grad g(x)}$ behaves like a Dirac delta function on $\partial E$, and we get that $\expec_{x \sim p} \norm{\grad g(x)}$ is just $\mu^+(\partial E)$. The denominator on the other hand is the variance of a Bernoulli random variable with parameter $\mu(E)$, which is equal to $\mu(E)(1 - \mu(E))$.\\
 		So, the inside expression as a whole becomes $\mu^+(\partial E) / \mu(E) ( 1 - \mu(E) )$, which is precisely the expression involved in the isoperimetric constant!
+
+	\subsection{Arbitrary cuts through the barycenter tend to be good}
+
+		% change to \mu(H_x^+ \cap E) - \mu(H_x^+ \cap (\Rn \setminus E))
+
+		Suppose $\mu$ is a centered log-concave measure with density $p$. Let $E \subseteq \Rn$ with $\mu(E) = 1/2$. Consider the function $g_0 : S^{n-1} \to \R$ given by
+		\[ g_0(x) = \mu(H_x^+ \cap E) - \mu(H_x^+ \cap (\Rn\setminus E)), \]
+		where $H_x^+ = \{ z \in \Rn : \langle z , x \rangle \geq 0 \}$.\\
+		It is not too difficult to show that $g_0$ is Lipschitz with a Lipschitz constant independent of $\mu$ and $n$.\\
+		A consequence of the concentration of measure phenomenon is that given a $1$-Lipschitz function $f$ on $S^{n-1}$ with median $\med f$, if $\sigma$ is the rotation-invariant (uniform) probability measure on $S^{n-1}$,
+		\[ \sigma ( \{ |f - \med f| \geq \varepsilon \} ) \leq 2e^{-n\varepsilon^2/2} \]
+		and $|\med f - \expec f| \leq 12n^{-1/2}$.\\
+		In our context, $\expec g_0 = 0$. Therefore,
+		\[ \sigma ( \{ |g_0 - \med g_0| \geq 1/8 \} ) \leq 2e^{-nC}, \]
+		where $C$ is some constant independent of $n$ and $\mu$. So, for large $n$, we see that $g_0$ is almost constant on the entirety of $S^{n-1}$, so a random hyperplane through the barycenter is good with high probability.\\
 
 \bibliographystyle{alpha}
 \bibliography{references}
