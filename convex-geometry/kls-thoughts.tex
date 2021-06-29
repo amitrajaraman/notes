@@ -25,7 +25,7 @@
 
 	\subsection{Introduction}
 
-		To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ below (over all such $E$).\\
+		To begin with, let us describe a needle decomposition procedure given in \cite{leevempala2018klssurvey} to prove the KLS Conjecture. Suppose that we are given a log-concave measure $\mu$ with density $p$ with compact convex support $K$. Let us also fix a subset $E\subseteq K$ of measure $1/2$. We would like to bound $\mu^+(\partial E)$ from below (over all such $E$).\\
 		Now, suppose that we have some hyperplane $H$ that divides space into two half-spaces $H_1$ and $H_2$. Let $K_i = K \cap H_i$ and further assume that $\mu(E \cap H_i) = \frac{1}{2}\mu(K_i)$ for each $i$. Consider the measures $\mu_1$ and $\mu_2$ with densities given by
 		\[ p_i(x) =
 		\begin{cases}
@@ -51,7 +51,7 @@
 			\mu^+(\partial E) &= \int_{\Omega} \mu_\omega^+(\partial E) \d{\nu}(\omega)  \nonumber \\
 				&\geq \int_\Omega \psi_\omega \mu_\omega(E) (1-\mu_\omega(E)) \d{\nu}(\omega), \label{eqn 4}
 		\end{align}
-		where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right below by some constant independent of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
+		where $\psi_\omega$ is the isoperimetric constant of $\mu_\omega$. If we manage to bound the expression on the right from below by some constant independent of $E$, then the KLS conjecture follows. It is also worth noting that the decomposition we choose may be dependent on $E$ itself, we only require that the lower bound constant does not depend on this choice of $E$.
 
 	\subsection{A proof of the \texorpdfstring{$n^{-1/2}$}{n-12} bound using needle decompositions}
 
@@ -60,7 +60,7 @@
 			\label{eqn 3}
 			\mu^+(\partial E) \gtrsim \int_\Omega \opnorm{A_\omega}^{-1/2} \d{\nu}(\omega).
 		\end{equation}
-		We wish to bound the integral on the right below.\\
+		We wish to bound the integral on the right from below.\\
 
 		To do so, consider \eqref{eqn 2: disintegration} (or rather, the similar expression for the density $p$). Then, we have that
 		\[ \int_{\Rn} p(x) xx^\top \dif x = \int_\Omega \int_{\Rn} p_\omega(x) xx^\top \dif x \dif {\nu(\omega)}. \]
@@ -114,29 +114,29 @@
 		\end{equation}
 		Another way to prove the $n^{-1/2}$ bound is to take the expectation of the term on the left of the above for $\zeta$ being drawn uniformly from $S^{n-1}$.
 
-	\subsection{Equivalence of KLS and good needle decompositions}
+	% \subsection{Equivalence of KLS and good needle decompositions}
 
-		In an earlier section, we showed that if for a fixed $E$ there exists a needle decomposition $\{K_\omega\}$ such that
-		\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim 1, \]
-		then the KLS conjecture holds. What about the reverse direction?\\
+	% 	In an earlier section, we showed that if for a fixed $E$ there exists a needle decomposition $\{K_\omega\}$ such that
+	% 	\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim 1, \]
+	% 	then the KLS conjecture holds. What about the reverse direction?\\
 
-		Let us begin with a body $K$ with isoperimetric constant $\psi$. We claim that it is possible to split $K$ into $K_1$, $K_2$ such that $\psi_1 = \psi_2 = \psi$, where $\psi_1$ and $\psi_2$ are the isoperimetric constants of the measure restricted to $K_1$ and $K_2$ respectively.\\
+	% 	Let us begin with a body $K$ with isoperimetric constant $\psi$. We claim that it is possible to split $K$ into $K_1$, $K_2$ such that $\psi_1 = \psi_2 = \psi$, where $\psi_1$ and $\psi_2$ are the isoperimetric constants of the measure restricted to $K_1$ and $K_2$ respectively.\\
 
-		First of all, $\psi \geq \psi_i$. Indeed, if $E \subseteq K_i$ attains its isoperimetric constant, then $\psi \geq \mu^+(\partial E) / \mu(E) ( 1 - \mu(E) ) = \psi_i$.\\
+	% 	First of all, $\psi \geq \psi_i$. Indeed, if $E \subseteq K_i$ attains its isoperimetric constant, then $\psi \geq \mu^+(\partial E) / \mu(E) ( 1 - \mu(E) ) = \psi_i$.\\
 
-		The reverse bound can be shown to be attained using a ham-sandwich type argument.\\
-		Let $E\subseteq K$ attain the isoperimetric constant $\psi$. Usual bisection bisects the signed measure with density $p(y) (\indic_E - \indic_{\Rn \setminus E})$. We can use a ham-sandwich type argument to further bisect the $\mu^+(\partial E)$ part of it as well. For $\varepsilon > 0$, consider the signed measure with density $p(y) \left( \frac{1}{\varepsilon} \indic_{\partial E + \varepsilon B_2^n} - \mu^+(\partial E)\right)$. Taking the limit of the bisecting hyperplane as $\varepsilon \to 0$ ensures that $\mu_i^+(\partial E) = \mu^+(\partial E)$. The resulting bisection preserves isoperimetry because
-		\[ \psi_i \geq \frac{\mu_i^+(\partial E)}{\mu_i(E) ( 1 - \mu_i(E) )} = \frac{\mu^+(\partial E)}{\mu(E) ( 1 - \mu(E) )} = \psi. \]
+	% 	The reverse bound can be shown to be attained using a ham-sandwich type argument.\\
+	% 	Let $E\subseteq K$ attain the isoperimetric constant $\psi$. Usual bisection bisects the signed measure with density $p(y) (\indic_E - \indic_{\Rn \setminus E})$. We can use a ham-sandwich type argument to further bisect the $\mu^+(\partial E)$ part of it as well. For $\varepsilon > 0$, consider the signed measure with density $p(y) \left( \frac{1}{\varepsilon} \indic_{\partial E + \varepsilon B_2^n} - \mu^+(\partial E)\right)$. Taking the limit of the bisecting hyperplane as $\varepsilon \to 0$ ensures that $\mu_i^+(\partial E) = \mu^+(\partial E)$. The resulting bisection preserves isoperimetry because
+	% 	\[ \psi_i \geq \frac{\mu_i^+(\partial E)}{\mu_i(E) ( 1 - \mu_i(E) )} = \frac{\mu^+(\partial E)}{\mu(E) ( 1 - \mu(E) )} = \psi. \]
 
-		In the limiting case of the bisections, we have
-		\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim \int_\Omega \psi_\omega \mu_\omega(E) ( 1 - \mu_\omega(E)) = \int_\Omega \psi \mu(E) ( 1 - \mu(E) ) \gtrsim \psi, \]
-		so if KLS holds, there always exists a good needle decomposition.
+	% 	In the limiting case of the bisections, we have
+	% 	\[ \int_{\Omega} \opnorm{A_\omega}^{-1/2} \gtrsim \int_\Omega \psi_\omega \mu_\omega(E) ( 1 - \mu_\omega(E)) = \int_\Omega \psi \mu(E) ( 1 - \mu(E) ) \gtrsim \psi, \]
+	% 	so if KLS holds, there always exists a good needle decomposition.
 
-		It is conjectured in \cite{leevempala2018klssurvey} that \emph{any} needle decomposition is good.
+	% 	It is conjectured in \cite{leevempala2018klssurvey} that \emph{any} needle decomposition is good.
 
-		By a Markov argument, this integral inequality holds iff there exists a needle decomposition for each $E$ such that
-		\[ \int_A \opnorm{A_\omega} \d{\nu}(\omega) \lesssim 1, \]
-		where $A \subseteq \Omega$ such that $\nu(A) \gtrsim 1$.
+	% 	By a Markov argument, this integral inequality holds iff there exists a needle decomposition for each $E$ such that
+	% 	\[ \int_A \opnorm{A_\omega} \d{\nu}(\omega) \lesssim 1, \]
+	% 	where $A \subseteq \Omega$ such that $\nu(A) \gtrsim 1$.
 
 \section{More on decompositions}
 
