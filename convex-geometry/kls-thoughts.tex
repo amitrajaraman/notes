@@ -229,7 +229,7 @@
 
 		% change to \mu(H_x^+ \cap E) - \mu(H_x^+ \cap (\Rn \setminus E))
 
-		Suppose $\mu$ is a centered log-concave measure with density $p$. Let $E \subseteq \Rn$ with $\mu(E) = 1/2$. Consider the function $g_0 : S^{n-1} \to \R$ given by
+		Suppose $\mu$ is an isotropic log-concave measure with density $p$. Let $E \subseteq \Rn$ with $\mu(E) = 1/2$. Consider the function $g_0 : S^{n-1} \to \R$ given by
 		\[ g_0(x) = \mu(H_x^+ \cap E) - \mu(H_x^+ \cap (\Rn\setminus E)), \]
 		where $H_x^+ = \{ z \in \Rn : \langle z , x \rangle \geq 0 \}$.\\
 		It is not too difficult to show that $g_0$ is Lipschitz with a Lipschitz constant independent of $\mu$ and $n$.\\
@@ -237,7 +237,7 @@
 		\[ \sigma ( \{ |f - \med f| \geq \varepsilon \} ) \leq 2e^{-n\varepsilon^2/2} \]
 		and $|\med f - \expec f| \leq 12n^{-1/2}$.\\
 		In our context, $\expec g_0 = 0$. Therefore,
-		\[ \sigma ( \{ |g_0 - \med g_0| \geq 1/8 \} ) \leq 2e^{-nC}, \]
+		\[ \sigma ( \{ |g_0 - \med g_0| \geq \varepsilon \} ) \leq 2e^{-nC\varepsilon^2}, \]
 		where $C$ is some constant independent of $n$ and $\mu$. So, for large $n$, we see that $g_0$ is almost constant on the entirety of $S^{n-1}$, so a random hyperplane through the barycenter is good with high probability.\\
 
 \bibliographystyle{alpha}
