@@ -240,6 +240,59 @@
 		\[ \sigma ( \{ |g_0 - \med g_0| \geq \varepsilon \} ) \leq 2e^{-nC\varepsilon^2}, \]
 		where $C$ is some constant independent of $n$ and $\mu$. So, for large $n$, we see that $g_0$ is almost constant on the entirety of $S^{n-1}$, so a random hyperplane through the barycenter is good with high probability.\\
 
+\section{The Slicing Conjecture}
+	
+	Like the KLS Conjecture, the slicing conjecture is one of the main open questions in convex geometry.
+
+	\begin{fcon}[Slicing Conjecture]
+		Any convex body $K\subseteq\R^n$ of volume $1$ has at least one hyperplane section $H$ such that
+		\[ \vol_{n-1}(K \cap H) \gtrsim 1. \]
+	\end{fcon}
+
+	\cite{slicing-conjecture-equivalent} shows that this is equivalent to
+
+	\begin{fcon}[Slicing Conjecture, Reformulated]
+		For any isotropic log-concave density $p$ on $\Rn$, the slicing constant $L_p \coloneqq p(0)^{1/n}$ is $\lesssim 1$.
+	\end{fcon}
+
+	Bourgain's original paper \cite{bourgain-slicing} proves the slicing conjecture for unconditional convex bodies, that is, convex bodies $K$ such that $(x_1,\ldots,x_n) \in K$ iff $(|x_1|,\ldots,|x_n|) \in K$.
+
+	Proposition I.2 in \cite{entropy-slicing} shows that there is a link between the slicing conjecture of a distribution and its entropy. Indeed, we have
+	\begin{equation}
+		1 + \log \norm{f}_\infty^{1/n} \geq \frac{1}{n} h(X) \geq \log \norm{f}_\infty^{1/n},
+	\end{equation}
+	where $X$ is a random vector in $\Rn$ with log-concave density $f$ and $\norm{f}_\infty = \sup_{x \in \Rn} f(x)$.\\
+	The \emph{entropy power} of a random vector $X : \Omega \in \Rn$ is given by
+		\[ \mathcal{N}(X) = \frac{1}{2\pi e} e^{2h(X)/n}. \]
+	Thus, the slicing conjecture is true if and only if for any random variable $X$ in $\Rn$ with isotropic log-concave density $f$, $\mathcal{N}(X) \gtrsim 1$.
+
+	\cite{entropy-bound-1D-slicing} extensively discusses the slicing conjecture and the related problem of entropy minimization over $1$-dimensional symmetric (even) log-concave distributions with a fixed variance.\\
+	Over the class of $1$-dimensional symmetric log-concave distributions, it shows
+		\[ \Var(X) \ge \mathcal{N}(X) \geq \frac{6}{\pi e}\Var(X), \]
+	with the upper bound being attained uniquely for the Gaussian distribution and the lower uniquely for the uniform distribution. \\
+	The result on the slicing constant directly is that for any even log-concave function $f$ on $\R$,
+		\[ f(0)^p \int |x|^p f(x) \dif x \le 2^{-p} \Gamma(p+1) \left( \int f(x) \dif x \right)^{p+1} \]
+	with equality being attained for symmetrized exponential distributions.\\
+	% The proof is easily generalized to spherically symmetric functions $f$ on $\Rn$ (functions such that for any $x\in\Rn$ and $\theta\in S^{n-1}$, $f(x) = f(\norm{x}\theta)$) to get
+	% \[ f(0)^p \int_{\Rn} \norm{x}^p f(x) \dif x \le \frac{n}{\pi^{np/2}} \left(\frac{\Gamma(n+p)\Gamma(1 + n/2)^{p/n}}{\Gamma(n)^{1+p/n}}\right) \left( \int_{\Rn} f(x) \dif x \right)^{1 + p/n}, \]
+	% with equality being attained for $f(x) = Ae^{-a\norm{x}}$. In particular, for isotropic spherically symmetric log-concave functions $f$ on $\Rn$,
+	% \[ f(0)^{1/n} \le \frac{1}{\sqrt{\pi}} \left( \frac{\Gamma(n+2)\Gamma(1 + n/2)^{2/n}}{\Gamma(n)^{1+2/n}} \right) \xrightarrow{n\to\infty} \frac{1}{\sqrt{\pi}}. \]
+
+	Let us attempt to generalize this to unconditional convex bodies. Let $f$ be an unconditional log-concave function. We claim that
+	\begin{equation}
+		f(0)^p \left( \prod_{1 \le i \le n} \int_{\Rn} |x_i|^p f(x_i) \dif x_i \right) \le \left( 2^{-p} \Gamma(p+1) \right)^n \left( \int_{\Rn} f(x) \dif x \right)^{p+1}.
+	\end{equation}
+	Assume that $f(0) = 1$. Let $g(x) = \exp\left(-\sum_{i=1}^n a_i |x_i|\right)$, where the $a_i$ are chosen such that $\int_{\Rn} f = \int_{\Rn} g$. We claim that for any $i \in \{1,2,\ldots,n\}$,
+		\[ \int_{\Rn} |x_i|^p f(x) \dif x \leq \int_{\Rn} |x_i|^p g(x) \dif x. \]
+	If we let $f_i$, $g_i$ be the marginal of $f$, $g$ on the  $x_i$ axis, then the above is equivalent to
+	\[ \int_{\R} |x_i|^p f_i(x_i) \dif x_i \le \int_{\R} |x_i|^p g_i(x_i) \dif x_i. \]
+	Due to the unconditionality of $f$ (and $g$), $f_i$ and $g_i$ are symmetric log-concave functions. In fact, since $g_i$ is of the form $Ce^{-a_i |x_i|}$, $f_i - g_i$ changes sign either not at all (in which case we take $x_0 = 0$) or exactly twice, at $x_i = \pm x_0$. Thus,
+		\[ \int_{\R} |x_i|^p (f_i(x_i) - g_i(x_i)) \dif x_i = \int_{\R} (|x_i|^p - |x_0|^p) (f_i(x_i) - g_i(x_i)) \dif x_i \le 0 \]
+	since the integrand is always non-positive.\\
+	So, it suffices to check the inequality for $g$, which is easily done.\\
+
+	The reader might have observed that we have $n$ ``degrees of freedom'' (each of the $a_i$), but we are only really using one of them to ensure that $\int f = \int g$. Could we generalize to an even broader class of functions, hopefully such that we actually use all the freedom we have?
+
 \bibliographystyle{alpha}
 \bibliography{references}
 
