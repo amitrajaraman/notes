@@ -272,7 +272,7 @@
 	with the upper bound being attained uniquely for the Gaussian distribution and the lower uniquely for the uniform distribution. \\
 	The result on the slicing constant directly is that for any even log-concave function $f$ on $\R$,
 		\[ f(0)^p \int |x|^p f(x) \dif x \le 2^{-p} \Gamma(p+1) \left( \int f(x) \dif x \right)^{p+1} \]
-	with equality being attained for symmetrized exponential distributions.\\
+	with equality being attained iff $f$ is a symmetrized exponential distribution.\\
 	% The proof is easily generalized to spherically symmetric functions $f$ on $\Rn$ (functions such that for any $x\in\Rn$ and $\theta\in S^{n-1}$, $f(x) = f(\norm{x}\theta)$) to get
 	% \[ f(0)^p \int_{\Rn} \norm{x}^p f(x) \dif x \le \frac{n}{\pi^{np/2}} \left(\frac{\Gamma(n+p)\Gamma(1 + n/2)^{p/n}}{\Gamma(n)^{1+p/n}}\right) \left( \int_{\Rn} f(x) \dif x \right)^{1 + p/n}, \]
 	% with equality being attained for $f(x) = Ae^{-a\norm{x}}$. In particular, for isotropic spherically symmetric log-concave functions $f$ on $\Rn$,
@@ -291,7 +291,7 @@
 	since the integrand is always non-positive.\\
 	So, it suffices to check the inequality for $g$, which is easily done.\\
 
-	In particular, for any unconditional isotropic log-concave density $p$, $L_p = p(0)^{1/n} \leq \sqrt{\Gamma(3)/4} = 1/\sqrt{2}$.\\
+	In particular, for any unconditional isotropic log-concave density $p$, $L_p = p(0)^{1/n} \leq \sqrt{\Gamma(3)/4} = 1/\sqrt{2}$, where equality holds iff each of its marginals are symmetrized exponentials.\\
 
 	In the above proof, we have $n$ ``degrees of freedom'' (each of the $a_i$), but we are only really using one of them to ensure that $\int f = \int g$. Could we generalize to an even broader class of functions, hopefully such that we actually use all the freedom we have?
 
