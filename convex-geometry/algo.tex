@@ -1078,10 +1078,10 @@ Before we move on to the main algorithm, we set up some prerequisite results to 
 \subsubsection{Log-Concave Functions}
 
 A function $f:\R^n\to\R^{\geq 0}$ is said to be \textit{log-concave} if for any $x,y\in\R^n$ and $0<\lambda<1$,
-\[ f(\lambda x + (1-\lambda)y) \leq f(x)^\lambda f(y)^{1-\lambda}. \]
-If $f$ is positive, this just means that $\log f$ is concave. While we did not mention this by name, we discussed similar ideas back in the (multiplicative) Brunn-Minkowski inequality (\ref{eqn multiplicative brunn minkowski}).\\
+\[ f(\lambda x + (1-\lambda)y) \geq f(x)^\lambda f(y)^{1-\lambda}. \]
+This just means that $\log f$ is concave (with the convention that $\log 0 = -\infty$). While we did not mention this by name, similar ideas were discussed back in the (multiplicative) Brunn-Minkowski inequality (\ref{eqn multiplicative brunn minkowski}).\\
 
-It is quite obvious that if $f$ and $g$ are log-concave functions, then so are $fg$ and $\min\{f,g\}$. The following is far less obvious however.
+It is quite obvious that if $f$ and $g$ are log-concave functions, then so are $fg$ and $\min\{f,g\}$. The following result due to \cite{Prkopa1973OnLC} is also true.
 
 \begin{lemma}
 \label{convolution of log concave functions is log concave}
