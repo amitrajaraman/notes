@@ -1,0 +1,227 @@
+\documentclass{article}
+
+\title{Group Theory}
+\author{Amit Rajaraman}
+\date{December 2019}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\S\S\thesubsection.}{0.2cm}{\large}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{Group Theory}}
+\chead{\sffamily{\thepage}}
+\rhead{\sffamily{-Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setlength\parindent{0pt}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Inn}{Inn}
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\numberwithin{exercise}{section}
+\newtheorem*{solution}{Solution}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+Abstract Algebra by Dummit and Foote \cite{dummyfeet} is the book primarily used as reference while making these notes.
+
+\tableofcontents
+\clearpage
+
+\input{sec1introToGroups}
+\input{sec2subgroups}
+\input{sec3quotientGroupsAndHomos}
+\bibliographystyle{plain}
+\bibliography{references}
+\section*{Acknowledgements}
+    I would like to acknowledge \href{https://aryamanmaithani.github.io/}{Aryaman Maithani}'s help in pointing out errors in these notes.
+    
+    % Note: The converse of Lagrange's Theorem (If $k\in\mathbb{Z}^{+}$ such that $k\mid|G|$, then there exists a subgroup of $G$ of order $k$) holds if $G$ is a finite abelian group.
+    
+    % To define a homomorphism from a group $G$ to $G'$, it is not enough to define the value of $\varphi$ at the generators of $G$, we must also ensure that the relations are satisfied. That is, if we have a relation $r=1$, where $r$ is some combination of generators, then we must also have that $\varphi (r)=1$.
+    
+    % Let $H\leq G$. The set of left cosets of $H$ in $G$ is in bijection with the set of right cosets of $H$ in $G$ ($x\mapsto x^{-1}$ maps each left coset to a right coset).
+    
+    % In a group $G$, a sequence of subgroups $$1=N_{0} \leq N_{1} \leq N_{2} \leq\cdots\leq N_{k-1}\leq N_{k}=G$$ is called a \textit{composition series} if $N_{i} \unlhd N_{i+1}$ and $N_{i+1}/N_{i}$ is a simple group, $0\leq i\leq k-1$. If the above sequence is a composition series, the quotient groups $N_{i+1}/N_{i}$ are called \textit{composition factors} of $G$.
+    
+    % \textit{Jordan-H{\"o}lder Theorem:} Let $G$ be a finite group with $G\neq 1$. Then
+    % \begin{enumerate}[i]
+    %     \item $G$ has a composition series.
+    %     \item The composition factors in a composition series are unique. Namely, if $1=N_{0} \leq N_{1} \leq N_{2} \leq\cdots\leq N_{r-1}\leq N_{r}=G$ and $1=M_{0} \leq M_{1} \leq M_{2} \leq\cdots\leq M_{s-1}\leq M_{s}=G$, then $r=s$ and there is some permutation $\pi$ of $\{1,2,\cdots, r\}$ such that $M_{\pi(i)}/M_{\pi(i)-1}\cong N_{i}/N_{i-1}$. Note that the series itself need not be unique, but the composition factors are unique.
+    % \end{enumerate}    
+    
+    % \textit{Feit-Thompson}: If $G$ is a simple group of odd order, then $G\cong Z_p$ for some prime $p$.
+    
+    % A group $G$ is \textit{solvable} if there is a composition series of $G$ such that every composition factor of $G$ is abelian.
+    
+    % Let $G$ be a finite group. The following are equivalent:
+    % \begin{enumerate}[i]
+    %     \item $G$ is solvable.
+    %     \item $G$ has a composition series such that every composition factor is cyclic.
+    %     \item All composition factors of $G$ are of prime order.
+    %     \item $G$ has a chain of subgroups: $1=N_{0} \leq N_{1} \leq N_{2} \leq\cdots\leq N_{t-1}\leq N_{t}=G$ such that each $N_i$ is a normal subgroup of $G$ and $N_{i+1}/N_{i}$ is abelian, $0\leq i\leq t-1$.
+    %     \item For every divisor $n$ of $|G|$ such that $\left(n,\frac{|G|}{n}\right)=1$, $G$ has a subgroup of order $n$.
+    %     \item There exists a normal subgroup $N$ of $G$ such that both $N$ and $G/N$ are solvable.
+    % \end{enumerate}
+    
+    % The permutation $\sigma$ is odd if and only if the number of cycles of even length in its cycle decomposition is odd.
+    
+    % $A_n$, the alternating group of degree $n$, is a non-abelian simple group for all $n\geq5$.
+    
+    % An action of $G$ on $A$ may also be viewed as a faithful action of $G/\ker \varphi$ on $A$.
+
+    % Let $G$ be a group acting on a nonempty set $A$. For each $g\in G$, the map $\sigma_{g}:A\to A$ defined by $\sigma_{g}(a)=g\cdot a$ is a permutation of $A$. There is a homomorphism associated with this action of $G$ on $A$ given as $\varphi:G\to S_A$ defined by $\varphi(g)=\sigma_{g}$ called the \textit{permutation representation} associated with this action. The kernel of this action is the same as the kernel of $\varphi$.
+    
+    % \begin{definition}
+    % If $G$ is a group, a \textit{permutation representation} of $G$ is any homomorphism of $G$ into the symmetric group $S_A$ for some nonempty set $A$. We shall say that the given action \textit{affords} or \textit{induces} the associated permutation representation of $G$.
+    % \end{definition}
+    
+    % Let $G$ be a group acting on the nonempty set $A$. The relation on $A$ defined by $a\sim b$ if and only if $a=g\cdot b$ for some $g\in G$ is an equivalence relation. For each $a\in A$, the number of elements in the equivalence class containing $a$ is $|G:G_a|$, where $G_a$ is the stabilizer of $a$.
+    
+    % Let $G$ be a group, let $H$ be a subgroup of $G$ and let $G$ act by left multiplication on the set $A$ of left cosets of $H$ in $G$. Let $\pi_H$ be the associated permutation representation afforded by this action. Then
+    % \begin{enumerate}[i]
+    %     \item $G$ acts transitively on $A$.
+    %     \item the stabilizer in $G$ of the point $1H\in A$ is the subgroup $H$.
+    %     \item the kernel of the action (i.e., the kernel of $\pi_H$) is $\cap_{x\in G}xHx^{-1}$ and $\ker\pi_H$ is the largest normal subgroup of $G$ contained in $H$.
+    % \end{enumerate}
+    
+    % \textit{Cayley's Theorem}: If $G$ is a group of order $n$, then $G$ is isomorphic to a subgroup of $S_n$.
+    
+    % \textit{Proof}: Just put $H=\{1\}$ in the previous point to get a homomorphism from $G$ to $S_G$. Since the kernel is contained in $H=\{1\}$, $G$ is isomorphic to its image in $S_G$.
+    
+    % If $G$ is a finite group and $p$ is the smallest prime dividing $|G|$,  any subgroup of index $p$ is normal. Note that, however, a group need not necessarily have a subgroup of index $p$.
+    
+    % \begin{proof}
+    % We have $H\leq G$ and $|G:H|=p$. Let $\pi_H$ be the permutation representation given by multiplication on the set of left cosets of $H$ in $G$. Let $K=\ker \pi_H$ and $|H:K|=k$. Then $|G:K|=|G:H||H:K|$ As there are $p$ left cosets of $H$ in $G$, we have that $G/K$ is isomorphic to a subgroup of $S_p$ (the image of $G$ under $\pi_H$). This implies $pk\mid p!$ and $k\mid (p-1)!$. The minimality of $p$ implies that $|H:K|=1$ and $H=K\unlhd G$.
+    % \end{proof}
+    
+    % Two subsets $S$ and $T$ of $G$ are said to be conjugate in $G$ if there exists $g\in G$ such that $T=gSg^{-1}$.
+    
+    % The number of conjugates of a subset $S$ of $G$ is the index of the normalizer of $S$, $|G:N_G(S)|$. It follows that the number of conjugates of an element $s$ of $G$ is the index of the centralizer of $s$, $|G:C_G(s)|$. (as $N_G(\{s\})=C_G(s)$)
+    
+    % \textit{The Class Equation}: Let $G$ be a finite group and let $g_1, g_2, \cdots g_r$ be representatives of the distinct conjugacy classes of $G$ not contained in the center $Z(G)$ of G. Then $$|G|=|Z(G)|+\sum_{i=1}^{r}|G:C_G(g_i)|$$ Note that this is useless for abelian groups.
+    
+    % If $p$ is a prime and $P$ is a group of prime power order $p^{\alpha}$ for some integer $\alpha\geq 1$, then $P$ has a nontrivial center: $Z(P)\neq \{1\}$.
+    
+    % \begin{corollary}
+    % If $|P|=p^2$ for some prime $p$, then $P$ is abelian. More precisely, $P$ is isomorphic to either $Z_{p^2}$ or $Z_p\times Z_p$.
+    % \end{corollary}
+    
+    % Let $\tau, \sigma$ be members of the symmetric group $S_n$. Then, $\tau\sigma\tau^{-1}$ is obtained from $\sigma$ by replacing each entry $i$ in the cycle decomposition of $\sigma$ with $\tau(i)$.
+    
+    % If $\sigma\in S_n$ is the product of disjoint cycles of lengths $n_1,n_2,\cdots, n_r$ with $n_1\leq n_2\leq\cdots\leq n_r$ (including its $1$-cycles) then the integers $n_1,n_2,\cdots,n_r$ are called the cycle type of $\sigma$.
+    
+    % Two elements of $S_n$ are conjugate if and only if they have the same cycle type. The number of conjugacy classes of $S_n$ equals the number of partitions of $n$.
+    
+    % If $\sigma$ is an $m$-cycle in $S_n$, then $C_{S_n}(\sigma)=\{\sigma^i\tau\mid 0\leq i\leq m-1, \tau\in S_{n-m}\}$ where $S_{n-m}$ denotes the subgroup of $S_n$ which fixes the integers appearing in the $m$-cycle $\sigma$. $|C_{S_{n}}(\sigma)|=m\cdot(n-m)!$.
+    
+    % If $H\unlhd G$, then for every conjugacy class $\mathcal{K}$ of $G$, either $\mathcal{K}\subseteq H$ or $\mathcal{K}\cap H = \emptyset$.
+    
+    % If $Z(G)$ is of index $n$, any conjugacy class of $G$ is of order atmost $n$. 
+    
+    % Assume $H\unlhd G$, $\mathcal{K}$ is a conjugacy class of $G$ contained in $H$ and $x\in\mathcal{K}$. Then, $\mathcal{K}$ is a union of $k$ conjugacy classes of equal size in $H$, where $k = |G\mathrel{:}HC_G(x)|$.
+    
+    % Let $H\unlhd G$. Then $G$ acts by conjugation on $H$ as automorphisms of $H$. More specifically, the action of $G$ on $H$ by conjugation is defined for each $g\in G$ by $h\mapsto ghg^{-1}$ for each $h\in H$. For each $g\in G$, conjugation by $g$ is an automorphism of $H$. The permutation representation afforded by this action is a homomorphism of $G$ into $\operatorname{Aut}(H)$ with kernel $C_G(H)$. In particular, $G/C_G(H)$ is isomorphic to a subgroup of $\Aut(H)$.
+    
+    % \begin{corollary}
+    % For any $H\leq G$, $N_G(H)/C_G(H)$ is isomorphic to a subgroup of $\Aut(H)$. In particular, putting $H=G$, $G/Z(G)$ is isomorphic to a subgroup of $\Aut(G)$.
+    % \end{corollary}
+    
+    % Let $G$ be a group and $g\in G$. Conjugation by $g$ is called an \textit{inner automorphism} of $G$ and the subgroup of $\Aut(G)$ consisting of all inner automorphisms of $G$ is called $\Inn(G)$. We have that $\Inn(G)\cong G/Z(G)$ and $\Inn(G)\unlhd\Aut(G)$ ($\Aut(G)/\Inn(G)$ is called the outer isomorphism group of $G$)
+    
+    % $\Aut(Z_n)\cong (\mathbb{Z}/n\mathbb{Z})^{\times}$
+    
+    % \begin{definition}
+    % A subgroup $H$ of $G$ is called \textit{characteristic} in $G$, denoted by $H \operatorname{char} G$, if every automorphism of $G$ maps $H$ to itself, i.e., $\sigma(H)=H$ for all $\sigma\in\Aut(G)$.
+    % \end{definition}
+    
+    % Then,
+    % \begin{enumerate}[i]
+    %     \item characteristic subgroups are normal,
+    %     \item if $H$ is the unique subgroup of $G$ of a given order, then $H \operatorname{char} G$,
+    %     \item if $K\operatorname{char} H$ and $H\unlhd G$, then $K\unlhd G$ and
+    %     \item if $K\operatorname{char} H$ and $H\operatorname{char} G$, then $K\operatorname{char} G$.
+    % \end{enumerate}
+    
+    % Let $G$ be a group of order $pq$, where $p$ and $q$ are primes (not necessarily distinct) with $p\leq q$. If $p\nmid q-1$, $G$ is cyclic. The proof that $G$ is abelian is as follows.
+    
+    % \begin{proof}
+    % If $Z(G)\neq 1$, then Lagrange's Theorem forces $G/Z(G)$ to be cyclic and hence $G$ to be abelian. Hence we may assume $Z(G)=1$.
+    
+    % If every nonidentity element of $G$ has order $p$, then the centralizer of every nonidentity element has index $q$, so the class equation for $G$ reads $pq = 1 + kq$. This is impossible since $q$ divides $pq$ and $kq$ but not $1$. Thus $G$ contains an element $x$ of order $q$.
+    
+    % Let $H=\langle x\rangle$. Since $H$ has index $p$ and $p$ is the smallest prime that divides $|G|$, $H$ is normal in $G$. Since $Z(G)=1$, we must have $C_G(H)=H$. Thus $G/H=N_G(H)/C_G(H)$ is a group of order $p$ isomorphic to a subgroup of $\Aut(H)$. But $\Aut(H)$ has order $\varphi(q)=q-1$ which by Lagrange's Theorem would imply $p\mid q-1$, contrary to the assumption.
+    % \end{proof}
+    
+    % It can further be checked that every such group is cyclic.
+    
+    % Descriptions of isomorphism types of some automorphism groups:
+    
+    % \begin{itemize}
+    %     \item The automorphism group of the cyclic group of order $p^n$ is cyclic of order $p^{n-1}(p-1)$.
+    %     \item For all $n\geq 3$ the automorphism type of the cyclic group of order $2^n$ is isomorphic to $Z_{2}\times Z_{2^{n-2}}$, and in particular is not cyclic but has a cyclic subgroup of index $2$.
+    %     \item Let $p$ be a prime and let $V$ be an abelian group (written additively) with the property that $pv=0$ for all $v\in V$. If $|V|=p^n$, then $V$ is an n-dimensional vector space over the field $\mathbb{F}_p=\mathbb{Z}/p\mathbb{Z}$. The automorphisms of $V$ are precisely the nonsingular linear transformations from $V$ to itself, that is, $$\Aut(V)\cong GL(V)\cong GL_n(\mathbb{F}_p).$$ In particular, the order of $\Aut(V)$ is $(p^{n}-1)(p^{n}-p)(p^{n}-p^{2})\cdots(p^n-p^{n-1})$.
+    %     \item For all $n\neq 6$ we have $\Aut(S_{n})=\Inn(S_{n})\cong S_{n}$. For $n=6$, we have $|\Aut(S_{6})\mathrel{:}\Inn(S_{6})|=2$.
+    %     \item $\Aut(D_8)\cong D_8$ and $\Aut(Q_8)\cong S_4$.
+    % \end{itemize}
+    
+    % \begin{definition}
+    % Let $G$ be a group and $p$ be a prime.
+    % \begin{itemize}
+    %     \item A group of order $p^{\alpha}$ for some $\alpha\geq 1$ is called a \textit{$p$-group}.
+    %     \item If $G$ is a group of order $p^{\alpha}m$, where $p\nmid m$, then a subgroup of order $p^{\alpha}$ is called a \textit{Sylow $p$-subgroup} of $G$.
+    %     \item The set of Sylow $p$-subgroups will be denote by $Syl_{p}(G)$ and the number of Sylow $p$-subgroups of $G$ will be denoted by $n_{p}(G)$ (or just $n_p$).
+    % \end{itemize}
+    % \end{definition}
+    
+    % \textit{Sylow's Theorem}: Let $G$ be a group of order $p^{\alpha}m$ where $p$ is a prime that does not divide $m$.
+    % \begin{enumerate}
+    %     \item Sylow $p$-subgroups of $G$ exist, i.e., $Syl_p(G)\neq\emptyset$.
+    %     \item If $P$ is a Sylow $p$-subgroup of $G$ and $Q$ is any $p$-subgroup of $G$, then there exists $g\in G$ such that $Q\leq gPg^{-1}$, i.e., $Q$ is contained in some conjugate of $P$. In particular, any two Sylow $p$-subgroups of $G$ are conjugate in $G$.
+    %     \item The number of Sylow $p$-subgroups of $G$ is of the form $1+kp$, i.e., $$n_p\equiv 1\Mod p.$$ Further, $n_p$ is the index in $G$ of the normalizer $N_G(P)$ for any Sylow $p$-subgroup $P$, hence $$n_p\mid m.$$
+    % \end{enumerate}
+    
+    % Any two Sylow $p$-subgroups of a group (for the same prime $p$) are isomorphic.
+    
+    % Let $P\in Syl_p(G)$. If $Q$ is any $p$-subgroup of $G$, then $Q\cap N_G(P)=Q\cap P$.
+    
+    % Let $P$ be a Sylow $p$-subgroup of $G$. Then the following are equivalent:
+    % \begin{enumerate}
+    %     \item $P$ is the unique Sylow $p$-subgroup of $G$, i.e., $n_p=1$
+    %     \item $P\unlhd G$
+    %     \item $P\operatorname{char} G$
+    %     \item All subgroups generated by elements of $p$-power order are $p$-groups, i.e., if $X$ is any subset of $G$ such that $|x|$ is a power of $p$ for all $x\in X$, then $\langle X\rangle$ is a $p$-group.
+    % \end{enumerate}
+    
+\end{document}

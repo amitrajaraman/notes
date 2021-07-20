@@ -1,0 +1,331 @@
+\section{Subgroups}
+
+\subsection{Definitions and Basics}
+Although we have defined subgroups in section $1$, we repeat the definition here.
+\begin{definition}
+Let $G$ be a group. A subset $H$ of $G$ is a subgroup of $G$ if $H$ is nonempty and it is closed under products and inverses. That is, $x,y\in H$ implies $x^{-1}\in H$ and $xy\in H$. If $H$ is a subgroup of $G$, we write $H\leq G$.
+\end{definition}
+
+If $H\leq G$ and $H\neq G$, we write $H<G$.
+
+\begin{example}
+    $\mathbb{Z}\leq\mathbb{Q}$ and $\mathbb{Q}\leq\mathbb{R}$ under the operation of addition.
+    
+    If $G=D_{2n}$, $H=\{1,r,r^2,\ldots,r^{n-1}\}$ is a subgroup of $G$.
+\end{example}
+
+Note that the relation $\leq$ is transitive. That is, if $K\leq H$ and $H\leq G$, then $K\leq G$.
+
+\begin{theorem}[Subgroup Criterion]
+\label{SubgroupCriterion}
+A subset $H$ of a group $G$ is a subgroup if and only if
+\begin{enumerate}
+    \item $H\neq\emptyset$.
+    \item for all $x,y\in H$, $xy^{-1}\in H$.
+\end{enumerate}
+Further, if $H$ is finite, then it suffices to check that $H$ is nonempty and is closed under multiplication.
+\end{theorem}
+\begin{proof}
+    If $H\leq G$, the two given statements clearly hold as $H$ contains the identity of $G$ and is closed under inverses and multiplication.
+    
+    To prove the converse, let $x$ be any element of $H$ (which exists as $H\neq\emptyset$). We have $xx^{-1}\in H\implies 1\in H$. As $H$ contains $1$, for any element $h$ of $H$, $H$ contains $1h^{-1}=h^{-1}$, that is, it is closed under inverses. For any $x$ and $y$ in $H$, as $y^{-1}\in H$, we have that $x(y^{-1})^{-1}=xy\in H$, that is, $H$ is closed under multiplication.
+    
+    \vspace{1mm}
+    To prove the second part, we see that $x,x^2,x^3,\ldots\in H$ for any $x\in H$. Using \ref{finGrpFinOrd}, we see that $x$ is of finite order $n$. Then $x^{-1}=x^{n-1}\in H$ so $H$ is closed under inverses.
+\end{proof}
+
+\begin{exercise}
+    Let $G$ be a group and $H,K$ be subgroups of $G$. Show that $H\cup K$ is a subgroup if and only if $H\subseteq K$ or $K\subseteq H$.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group and $H,K$ be subgroups of $G$. Show that $H\cap K$ is also a subgroup of $G$.
+\end{exercise}
+
+\begin{exercise}
+\label{subgrIntersubgr}
+    Let $G$ be a group. Prove that the intersection of an arbitrary nonempty collection of subgroups of $G$ is again a subgroup of $G$.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group of order $n>2$. Show that $G$ cannot have a subgroup $H$ of order $n-1$.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group. Let $H=\{g\in G\mid |g|<\infty\}$. Show that $H\leq G$ if $G$ is abelian. In this case, $H$ is called the \textit{torsion subgroup} of $G$. Give an example where $G$ is non-abelian and $H$ is not a subgroup of $G$.
+\end{exercise}
+
+\begin{exercise}
+    Let $H$ be a subgroup of $\mathbb{Q}$ under addition with the property that $\frac 1x\in H$ for every nonzero $x\in H$. Show that $H=\{0\}$ or $\mathbb{Q}$.
+\end{exercise}
+
+
+
+\subsection{Centralizers, Normalizers, Stabilizers and Kernels}
+
+We now introduce some important subgroups.
+
+\begin{definition}
+    Let $G$ be a group and $A$ be any nonempty subset of $A$. Define
+    $$C_G(A)=\{g\in G\mid gag^{-1}=a\text{ for all }a\in A\}.$$
+    This subset is called the \textit{centralizer} of $A$ in $G$.
+\end{definition}
+
+Since $gag^{-1}=g$ if and only if $ga=ag$, $C_G(A)$ is the set of all elements that commute with every element of $A$.
+
+Now observe that $C_G(A)$ is a subgroup of $G$ as first of all, $1\in C_G(A)$ so $C_G(A)\neq\emptyset$, and second of all, if $x,y\in C_G(A)$, we have $xax^{-1}=a$ and $yay^{-1}=a$, that is, $y^{-1}ay=a$ for all $a\in A$. We then have $a=xax^{-1}=x(y^{-1}ay)x^{-1}=(xy^{-1})a(xy^{-1})^{-1}$ so $xy^{-1}\in C_G(A)$. Thus, $C_G(A)\leq G$.
+
+\begin{definition}
+    Let $G$ be a group. Define
+    $$Z(G)=\{g\in G\mid gx=xg\text{ for all }x\in G\}.$$
+    This subset is called the \textit{center} of $G$.
+\end{definition}
+
+$Z(G)$ is the set of all elements that commute with every element of $G$.
+
+As $Z(G)=C_G(G)$, we have $Z(G)\leq G$.
+
+\begin{definition}
+    Let $G$ be a group and $A$ be a subset of $G$. Define $gAg^{-1}=\{gag^{-1}\mid a\in A\}$. Define
+    $$N_G(A)=\{g\in G\mid gAg^{-1}=A\}.$$
+    This set is called the \textit{normalizer} of $A$ in $G$.
+\end{definition}
+
+The proof that $N_G(A)\leq G$ is similar to that we used to prove that $C_G(A)\leq G$.
+
+Note that $C_G(A)\leq N_G(A)$.
+
+\vspace{2mm}
+If $G$ is an abelian group, $Z(G)=G$. Further, for any subset $A$ of $G$, $N_G(A)=C_G(A)=G$ as $gag^{-1}=gg^{-1}a=a$ for all $a\in A, g\in G$.
+
+\begin{exercise}
+    Show that the center of $D_8$ is $\{1,r^2\}$.
+\end{exercise}
+
+The fact that centralizers and normalizers are subgroups is in fact a special case of a results in group actions. 
+
+We now introduce stablizers and kernels of group actions.
+
+\begin{definition}
+    Let $G$ be a group that acts on a set $S$. Let $s\in S$ be some fixed elements. Define
+    $$G_s=\{g\in G\mid g\cdot s=s\}$$
+\end{definition}
+
+We shall now show that $G_s\leq G$. First of all, $1\in G_s$ by the definition of a group action. If $x,y\in G_s$, we have
+\begin{align*}
+    s &= 1\cdot s \\
+      &= (x^{-1}x)\cdot s \\
+      &= x^{-1}\cdot (x\cdot s) \\
+      &= x^{-1}\cdot s
+\end{align*}
+so $x^{-1}\in G_s$ and
+\begin{align*}
+    (xy)\cdot s &= x\cdot(y\cdot s) \\
+                &= x\cdot s \\
+                &= s
+\end{align*}
+We see that $G_s$ is nonempty and is closed under inverses and multiplication. It is thus a subgroup of $G$.
+
+Recall the definition of a \textit{kernel} of an action, \ref{defKerGrpAc}. Using \ref{subgrIntersubgr} and the fact that $G_s\leq G$ for all $s\in S$ yields the result that the kernel of any group action is a subgroup of the group.
+
+\vspace{3mm}
+We now see that $C_G(A)$ is merely the kernel of the group action of $G$ acting on $A$ as $g\cdot a= gag^{-1}$ (so it is a subgroup of $G$) and $N_G(A)$ is the stabilizer of the group action of $G$ acting on $\mathcal{P}(A)$ (the power set of $A$) as $g\cdot A=gAg^{-1}$ (so it is a subgroup of $G$).
+
+\begin{exercise}
+    Prove that $C_G(Z(G))=N_G(Z(G))=G$.
+\end{exercise}
+
+\begin{exercise}
+    Prove that $H\leq N_G(H)$ for a subgroup $H$ of a group $G$.
+\end{exercise}
+
+\begin{exercise}
+    For any subgroup $H$ of group $G$ and subset $A$ of $G$, define $N_H(A)=\{h\in H\mid hAh^{-1}=A\}$. Prove that $N_H(A)=N_G(A)\cap H$ and deduce that $N_H(A)\leq N_G(A)$.
+\end{exercise}
+
+\begin{exercise}
+    Let $F$ be a field and the Heisenberg group $H(F)$ be defined as in \ref{defOfHeisenbergGrp}. Determine $Z(H(F))$ and prove that $Z(H(F))\cong (F,+)$.
+\end{exercise}
+
+\subsection{Cyclic Groups and Cyclic Subgroups}
+
+\begin{definition}
+    A group $H$ is \textit{cyclic} if there is some element $x\in H$ such that $H=\{x^n\mid n\in\mathbb{Z}\}$.
+\end{definition}
+
+In this case we write $H=\langle x\rangle$ and say that $H$ is \textit{generated} by $x$ and $x$ is a generator of $H$. The generator of a cyclic group need not be unique (as if $x$ is a generator, so is $-x$).
+
+Note that any cyclic group is abelian.
+
+\begin{example}
+    The group $(\mathbb{Z},+)$ is generated by $1$ (here $1$ is the integer $1$ and not the identity).
+\end{example}
+
+\begin{theorem}
+\label{orderOfCycGrpisOrderOfGen}
+    Let $H=\langle x\rangle$. Then $|H|=|x|$ (where if one side of the inequality is infinite, so is the other).
+\end{theorem}
+
+\begin{proof}
+    This proof is trivial and is left as an exercise to the reader.
+\end{proof}
+
+It is observed that there is a great deal of similarity between $H=\langle x\rangle$, where $|x|=n$, and $\mathbb{Z}/n\mathbb{Z}$. Both of them appear to have very similar structure. It turns out that these two groups are isomorphic, which we shall prove shortly. First, let us prove the following.
+
+\begin{theorem}
+\label{orderGCD}
+    Let $G$ be an arbitrary group, $x\in G$, and let $m,n\in\mathbb{Z}$. If $x^n=1$ and $x^m=1$, then $x^d=1$, where $d=(m,n)$. In particular, if $x^m=1$ for some $m\in\mathbb{Z}$, then $|x|\mid m$.
+\end{theorem}
+
+\begin{proof}
+    By the Euclidean algorithm, there exist integers $r$ and $s$ such that $d=mr+ns$. We have
+    $$x^d=x^{mr+ns}=(x^m)^r(x^n)^s=1.$$
+    This proves our first claim.
+    
+    Next, let $n=|x|$ and $x^m=1$. We have $x^d$=1, where $d=(|x|,m)$. Note that $0<d\leq |x|$ and $|x|$ is the smallest positive integer $k$ such that $x^k=1$. This implies that $d=|x|$ and $|x|=(|x|,m)$. Thus, $|x|\mid m$. 
+\end{proof}
+
+\begin{theorem}
+\label{cyclicOfSameOrderAreIso}
+    Any two cyclic groups of the same order are isomorphic. More specifically,
+    \begin{enumerate}
+        \item if $n\in\mathbb{Z}^+$ and $H=\langle x\rangle$ and $K=\langle y\rangle$ are both of order $n$, $H\cong K$.
+        \item if $\langle x\rangle$ is an infinite cyclic group, $(\mathbb{Z},+)\cong\langle x\rangle$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+Let $\langle x\rangle$ and $\langle y\rangle$ be two cyclic groups of finite order $n$. Let $\varphi:\langle x\rangle\to\langle y\rangle$ be defined by $\phi(x^k)=y^k$. Let us first prove that $\varphi$ is well defined, that is, if $x^a=x^b$, then $\varphi(x^a)=\varphi(x^b)$. If $x^a=x^b$, $x^{b-a}=1$ and \ref{orderGCD} implies that $n\mid b-a$. Let $b=a+tn$ so
+$\varphi(x^b)=\varphi(x^{a+tn})=y^{a+tn}=(y^n)^ty^a=y^a=\varphi(x^a)$. Thus $\varphi$ is well-defined. $\varphi$ is a homomorphism as $\varphi(x^a)\varphi(x^b)=y^ay^b=y^{a+b}=\varphi(x^ax^b)$. $\varphi$ is injective as any element $y^a$ of $\langle y\rangle$ is the image of $x^a$. As $\varphi$ is a surjection between two sets of equal finite order, it is a bijection and $\varphi$ is an isomorphism.
+
+\vspace{2mm}
+Let $\langle x\rangle$ be an infinite cyclic group. Consider the map $\varphi:(\mathbb{Z},+)\to\langle x\rangle$ given by $\varphi(k)=x^k$ for $k\in\mathbb{Z}$. This function is a homomorphism as $\varphi(a)\varphi(b)=x^ax^b=x^{a+b}=\varphi(a+b)$. Since $x^a\neq x^b$ for $a\neq b$, $\varphi$ is an injection. As any element $x^a\in\langle x\rangle$ is the image of $a\in\mathbb{Z}$, $\varphi$ is a surjection. Thus $\varphi$ is a bijection and an isomorphism.
+\end{proof}
+
+For each $n\in\mathbb{Z}^+$, let $\mathbb{Z}_n$ be the cyclic group of order $n$. $\mathbb{Z}_n\cong\mathbb{Z}/n\mathbb{Z}$.
+
+\begin{theorem}
+\label{orderIsOrderByGCD}
+    Let $G$ be a group, $x\in G$ and $a\in\mathbb{Z}-\{0\}$.
+    \begin{enumerate}
+        \item If $|x|=\infty$, $|x^a|=\infty$.
+        \item If $|x|=n<\infty$, $|x^a|=\frac{n}{(n,a)}$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \phantom{owo}
+    \begin{enumerate}
+        \item On the contrary, let $|x^a|=k<\infty$. Then $(x^a)^k=x^{ak}=1$. Also $x^{-ak}=1$. Since one of $ak$ and $-ak$ must be positive, some positive power of $x$ is $1$, which contradicts the fact that $|x|=\infty$. Thus, $|x^a|=\infty$.
+        \item Let $y=x^a, d=(n,a), a=bd$ and $n=cd$ for some $b,c\in\mathbb{Z}$. We must show that $|y|=c$. We have $y^c=(x^a)^c=(x^{bd})^c=(x^{cd})^b=(x^n)^b=1$. \ref{orderGCD} implies that $|y|\mid c$. We also have $x^{a|y|}=1$ which implies that $|x|\mid a|y|$. This gives $cd\mid bd|y|$, that is, $c\mid b|y|$. However, since $(b,c)=1$, we have $c\mid |y|$. As $|y|\mid c$ and $c\mid |y|$, $|y|=c$.
+    \end{enumerate}
+\end{proof}
+
+\begin{corollary}
+\label{ifDivThenOrderIsDiv}
+    A corollary of the second part of the above theorem is that if $a\mid n$, $|x^a|=\frac na$.
+\end{corollary}
+
+\begin{exercise}
+    Assume $|x|=n<\infty$. Then $H=\langle x^a\rangle$ if and only if $(a,n)=1$.
+\end{exercise}
+\begin{proof}
+    We have that $x^a$ generates a group of order $|x^a|$. This subgroup equals $H$ if and only if $|x^a|=|x|$, that is, $\frac{n}{(a,n)}=n$. This is equivalent to $(a,n)=1$.
+\end{proof}
+
+This implies that the total number of generators of a cyclic group of order $n$ is $\varphi(n)$, where $\varphi$ is Euler's totient function.
+
+\begin{theorem}
+    Let $H=\langle x\rangle$ be a cyclic group.
+    \begin{enumerate}
+        \item Every subgroup of $H$ is cyclic. More precisely, if $K\leq H$, either $K=\{1\}$ or $K=\langle x^d\rangle$, where $d$ is the smallest positive integer such that $x^d\in K$.
+        \item If $|H|=\infty$, then for distinct nonnegative integers $a,b$, $\langle x^a\rangle\neq\langle x^b\rangle$. Also, $\langle x^m\rangle=\langle x^{|m|}\rangle$ so the nontrivial subgroups of $H$ are in bijection with $\mathbb{N}$.
+        \item If $|H|=n<\infty$, then for each positive integer $a$ dividing $n$, there is a unique subgroup of $H$ of order $a$, namely $\langle x^{n/a}\rangle$. Furthermore, for every integer $m$, $\langle x^m\rangle=\langle x^{(n,m)}\rangle$. (So the subgroups of $H$ are in bijection with the positive integers of $n$)
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    \phantom{beegyoshi}
+    \begin{enumerate}
+        \item Let $d$ be the smallest positive integer such that $x^d\in K$. As $K$ is a group, $x^kd\in K$ for any $k\in\mathbb{Z}$. Let $x^a\in K$ for some $a\in\mathbb{Z}$. Write $a=qd+r$ where $q,r\in\mathbb{Z}$ and $0\leq r<d$. Then $x^r=x^{a}x^{-qd}\in K$ as $K$ is a group. However, by the minimality of $d$ and the fact that $0\leq r<d$, we get $r=0$. As $d$ divides any $a$ such that $x^a\in K$ and $\langle x^d\rangle\leq K$, we have $K=\langle x^d\rangle$.
+        \item This proof is similar to that of the third part so we leave it as an exercise to the reader.
+        \item Use \ref{ifDivThenOrderIsDiv} to get that $|x^{n/a}|=a$, which gives that $\langle x^{n/a}\rangle$ is of order $a$. We must now prove that this is the unique subgroup of order $a$. Let $b\in\mathbb{Z}$ such that $\langle x^b\rangle$ is of order $a$. We have that the order of $\langle x^b\rangle$ is equal to $|x^b|$ from \ref{orderOfCycGrpisOrderOfGen}. Using \ref{orderIsOrderByGCD} gives $a=\frac{n}{(n,b)}$ so $\frac na=(n,b)$. In particular, $\frac na\mid b$. This implies that $\langle x^b\rangle\leq\langle x^\frac{n}{a}\rangle$. However, since they are of equal finite order, $\langle x^b\rangle=\langle x^\frac{n}{a}\rangle$ and $\langle x^\frac{n}{a}\rangle$ is the unique subgroup of order $a$. 
+    \end{enumerate}
+\end{proof}
+
+\begin{exercise}
+    Let $p$ be a prime and $n\in\mathbb{Z}^+$. Show that if $x$ is an element of a group $G$ such that $x^{p^n}=1$, then $|x|=p^m$ for some $m\leq n$.
+\end{exercise}
+
+\begin{exercise}
+    Prove that $\mathbb{Z}_2\times\mathbb{Z}_2$, $\mathbb{Z}_2\times\mathbb{Z}$ and $\mathbb{Z}\times\mathbb{Z}$ are not cyclic.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group and $x\in G$. Prove that $g\in N_G(\langle x\rangle)$ if and only if $gxg^{-1}=x^a$ for some $a\in\mathbb{Z}$.
+\end{exercise}
+
+\begin{exercise}
+    Show that $(\mathbb{Z}/2^n\mathbb{Z})^\times$ is not cyclic for any $n\geq 3$.
+\end{exercise}
+
+\subsection{Subgroups Generated by a Subset of a Group}
+
+Throughout mathematics, there is a recurring theme wherein given an object $G$ and a subset $A$ of $G$, what is the smallest subobject of $G$ that contains $A$? For example, readers familiar with linear algebra might realize that the unique smallest subobject of a vector space that contains a given subset is just the linear span of that subset.
+
+To make this precise in terms of groups, we can think of the minimal group as the intersection of all the subgroups that contain the given subset. This makes sense as the intersection of two subgroups is a subgroup. This was given as a question in \ref{subgrIntersubgr} but for the sake of completeness, we shall prove it here.
+
+\begin{theorem}
+\label{IntersectionOfSubgroups}
+    If $\mathcal{A}$ is a nonempty collection of subgroups of a group $G$, the intersection of all members of $\mathcal{A}$ is also a subgroup of $G$.
+\end{theorem}
+\begin{proof}
+    Let $$K=\bigcap_{H\in\mathcal{A}}H.$$
+    Since $1\in H$ for every $H\in\mathcal{A}$, $1\in K$, that is, $K\neq\emptyset$. If $x,y\in K$, then $x,y\in H$ for every $H\in\mathcal{A}$. Since each $H$ is a subgroup, we have $xy^{-1}\in H$ for every $H\in\mathcal{A}$, that is, $xy^{-1}\in K$ for every $x,y\in K$. By the subgroup criterion \ref{SubgroupCriterion}, $K$ is a subgroup of $G$.
+\end{proof}
+
+We now make explicit the definition of the minimal subgroup that contains a subset.
+\begin{definition}
+    Let $A$ be any susbet of $G$. Define
+    $$\langle A\rangle=\bigcap_{\substack{A\subseteq H \\ H\leq G}}H.$$
+    This is called the \textit{subgroup of $G$ generated by $A$}.
+\end{definition}
+
+If we take $\mathcal{A}=\{H\leq G\mid A\subseteq H\}$, we see that $\langle A\rangle\in\mathcal{A}$.
+
+We shall now try to express the subgroup generated by a subset in terms of the subset itself. Let
+$$\bar{A} = \{{a_1}^{\epsilon_1}{a_2}^{\epsilon_2}\cdots{a_n}^{\epsilon_n}\mid  n\in\mathbb{Z}, n\geq0\text{ and }a_i\in A,\epsilon_i=\pm1\text{ for each }i\}.$$
+and $\bar A=\{1\}$ if $A=\emptyset$. $\bar A$ is the set of all \textit{words} of elements of $A$ and their inverses.
+
+\begin{theorem}
+    Let $G$ be a group and $A$ a subset of $G$. Then $\langle A\rangle = \bar A$.
+\end{theorem}
+\begin{proof}
+We shall first prove that $\bar A$ is a group. First of all, $\bar A\neq\emptyset$ for any $A$. If $a=a_1^{\epsilon_1}a_2^{\epsilon_2}\cdots a_n^{\epsilon_n}$ and $b=b_1^{\delta_1}b_2^{\delta_2}\cdots b_m^{\delta_m}$ are in $\bar A$, where $a,b$ are written in the same form as in the definition of $\bar A$, then $ab^{-1}=a_1^{\epsilon_1}a_2^{\epsilon_2}\cdots a_n^{\epsilon_n}b_m^{-\delta_m}b_{m-1}^{-\delta_{m-1}}\cdots b_1^{-\delta_1}\in \bar A$ as each power is still of the form $\pm 1$. \ref{SubgroupCriterion} implies that $\bar{A}$ is a subgroup.
+
+Next, as any $a\in A$ can be written as $a^1$, $A\subseteq \bar A$ and so $\langle A\rangle\subseteq\bar A$. But as $\langle A\rangle$ is a group and is closed under inverses and multiplication, $\bar A\subseteq\langle A\rangle$. This implies that $\bar A=\langle A\rangle$.
+\end{proof}
+
+From this point on, we shall use $\langle A\rangle$ for $\bar A$. We can alternatively write $\langle A\rangle$ as
+$$\langle A\rangle=\{a_1^{\alpha_1}a_2^{\alpha_2}\cdots a_n^{\alpha_n}\mid n\in\mathbb{Z}\text{ and for each }i, a_1\in A, \alpha_i\in\mathbb{Z}\text{ and }a_i\neq a_{i+1}\}$$
+
+\begin{exercise}
+    Prove that the group of positive rationals under multiplication is generated by $\{\frac 1p\mid p \text{ is a prime}\}$.
+\end{exercise}
+
+\begin{exercise}
+    A group $G$ is called finitely generated if there is some finite set $A$ such that $G=\langle A\rangle$.
+    \begin{enumerate}[(a)]
+        \item Prove that every finitely generated subgroup of $\mathbb{Q}$ is cyclic.
+        \item Prove that $\mathbb{Q}$ is not finitely generated.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    A nontrivial abelian group $A$ is called \textit{divisible} if for each $a\in A$ and nonzero integer $k$, there exists $x\in A$ such that $x^k=a$.
+    \begin{enumerate}[(a)]
+        \item Prove that $\mathbb{Q}$ is divisible.
+        \item Prove that no finite abelian group is divisible.
+    \end{enumerate}
+\end{exercise}
+
+\clearpage

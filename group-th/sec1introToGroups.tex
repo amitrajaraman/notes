@@ -1,0 +1,360 @@
+\section{Introduction to Groups}
+    
+\subsection{Definitions and Basics}
+
+\begin{definition}
+    A group $G$ is an ordered pair $(G,*)$ where $G$ is a set and $*$ is a binary operation such that
+    \begin{enumerate}
+        \item $(a*b)*c=a*(b*c)$ for all $a,b,c\in G$, that is, $G$ is associative.
+        \item There exists an element $e$ in $G$, which we call an \textit{identity} of $G$, such that for all $g\in G$, $a*e=e*a=a$.
+        \item For each $g\in G$, there exists an element $g^{-1}\in G$ called an \textit{inverse} of $g$ such that $g*g^{-1}=g^{-1}g=e$.
+    \end{enumerate}
+\end{definition}
+
+We say that $G$ is a group under $*$ if $(G,*)$ is a group. If $*$ is clear from context, we sometimes just say that $G$ is a group.
+
+We further say that $G$ is a \textit{finite group} if $G$ is a finite set. Note that any group is nonempty.
+
+\begin{definition}
+    We say that a group $(G,*)$ is \textit{abelian} if $a*b=b*a$ for all $a,b\in G$.
+\end{definition}
+
+\begin{exercise}
+    Show that $\mathbb{Z}, \mathbb{R}, \mathbb{C}$ and $\mathbb{Q}$ are abelian groups under the addition operation.
+\end{exercise}
+\begin{exercise}
+    Show that $\mathbb{R}\setminus\{0\}, \mathbb{C}\setminus\{0\}$ and $\mathbb{Q}\setminus\{0\}$ are abelian groups under the multiplication operation.
+\end{exercise}
+
+We define the set $\mathbb{Z}/n\mathbb{Z}$ for some integer $n$ as follows. Let $\sim$ be an equivalence class given by
+$$a\sim b\text{ if and only if }n\mid (b-a).$$
+Each equivalence class is given by $\overline{a}=\{a+kn\mid k\in\mathbb{Z}\}$. There are precisely $n$ equivalence classes, namely $\overline{0}, \overline{1}, \ldots, \overline{n-1}$. These $n$ equivalence classes are the elements of the set $\mathbb{Z}/n\mathbb{Z}$.
+
+For $\overline{a}, \overline{b}\in \mathbb{Z}/n\mathbb{Z}$, we further define addition and multiplication as
+$$\overline{a}+\overline{b}=\overline{a+b}\text{ and }\overline{a}\cdot\overline{b}=\overline{a\cdot b}$$
+
+It may be checked by the reader the above operations are well-defined.
+
+We see that $\mathbb{Z}/n\mathbb{Z}$ is an abelian group under the addition operation with $e=\overline{0}$ and the inverse of $\overline{a}$ as $\overline{-a}$. We denote this group as $\mathbb{Z}/n\mathbb{Z}$.
+
+Further, recall from number theory that a number $a$ has a multiplicative inverse modulo $n$ if and only if $(a,n)=1$. We also see that the set of equivalence classes $\overline{a}$ which have multiplicative inverses modulo $n$ is also an abelian group under multiplication. We denote this group as $(\mathbb{Z}/n\mathbb{Z})^\times$.
+
+
+\begin{definition}
+    Let $(A,\star)$ and $(B,\diamond)$ be two groups. We can form a new group $A\times B$, called the \textit{direct product} of $A$ and $B$, whose elements are those in the cartesian product, and whose operation $\cdot$ is as follows.
+    $$(a_1,b_1)\cdot(a_2,b_2)=(a_1\star a_2, b_1\diamond b_2)\text{ for all }a_1,a_2\in A, b_1,b_2\in B$$
+\end{definition}
+
+\begin{theorem}
+Let $G$ be a group under an operation $\star$. Then
+\begin{enumerate}
+    \item The identity of $G$ is unique.
+    \item For each $g\in G$, $g^{-1}$ is unique.
+    \item For each $g\in G$, $(g^{-1})^{-1}=g$.
+    \item For any $a_1,a_2,\ldots,a_n\in G$, the value of $a_1\star a_2\star\cdots\star a_n$ is independent of how we bracket it. This is called the \textit{generalized associative law}.
+    \item For $a,b\in G$, $(a\star b)^{-1}=b^{-1}\star a^{-1}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+We prove each of the parts of the theorem.
+\begin{enumerate}
+    \item Let $f$ and $g$ be two identities of $G$. We have $f\star g=f$ and $f\star g=g$, which implies that $f=g$. Thus the identity of a group is unique.
+    \item Let $a,b\in G$ be two inverses of some $g\in G$. We have
+    \begin{align*}
+        a\star g &= b\star g\text{ where $e$ is the identity of $G$} \\
+        a\star g\star a &= b\star g\star a \\
+        a\star e &= b\star e \\
+        a &= b
+    \end{align*}
+    \item We have $g^{-1}g=gg^{-1}=e$ which implies that $(g^{-1})^{-1}=g$.
+    \item We leave this as an exercise to the reader. The idea is induction on $n$. First show the basis, then that any bracketing of $k$ elements $g_1,\ldots,g_k$ can be reduced to $g_1\star (g_2\star(\cdots g_k))\cdots)$. Next, argue that $a_1\star a_2\star \cdots\star a_n$ can be reduced to $(a_1\star\cdots\star a_k)\star(a_{k+1}\star\cdots\star a_n)$ for some $k$. Apply the induction condition on each subproduct to complete the result.
+    \item Using the fourth result in this theorem on $(a\star b)\star(b^{-1}\star a^{-1})$ and $(b^{-1}\star a^{-1})\star (a\star b)$ gives the required result.
+\end{enumerate}
+\end{proof}
+
+\textit{Notation.} Henceforth, for any group $G$ under operation $\star$, we shall write $a\star b$ as $ab$ unless it is needed that we mention it explicitly.
+
+For some group $G$, $g\in G$ and $n\in \mathbb{Z}^+$, we write $xxx\cdots x$ ($n$ times) as $x^n$.
+
+We usually write the identity element of any group as $1$.
+
+\begin{theorem}
+Let $G$ be a group and let $a,b\in G$. The equations $ax=b$ and $ya=b$ have unique solutions for $x,y\in G$. In particular, $ax=bx$ if and only if $a=b$ and $ya=yb$ if and only if $a=b$.
+\end{theorem}
+\begin{proof}
+Premultiplying and postmultiplying the two equations respectively and using the fact that inverses are unique gives the unique solution for $x$ and $y$.
+\end{proof}
+
+\begin{definition}
+Let $G$ be a group and $x\in G$. Let $n$ be the smallest positive integer such that $x^n=1$. This number is called the \textit{order} of $x$ and is denoted by $|x|$. If no positive power of $x$ is the identity, $x$ has order defined to be infinity and is said to be of infinite order.
+\end{definition}
+
+\begin{theorem}
+\label{finGrpFinOrd}
+    Any element of a finite group is of finite order.
+\end{theorem}
+\begin{proof}
+    Let $x\in G$. There are only finitely many distinct elements among $x,x^2,x^3,\ldots$. If $x^a=x^b$ for some integers $a,b$ such that $b>a$, we have $x^{b-a}=1$, that is, $x$ is of finite order.
+\end{proof}
+
+\begin{example}
+In any group, the only element of order $1$ is the identity. In the (additive) groups $\mathbb{R}, \mathbb{Z}, \mathbb{Q}$ and $\mathbb{C}$, any non-identity element is of order infinity. In $(\mathbb{Z}/7\mathbb{Z})^\times$, $\overline{2}$ is of order $3$.
+\end{example}
+
+\begin{definition}
+Let $G=\{g_1,g_2,\ldots,g_n\}$ be a finite group with $g_1=1$. The \textit{multiplication table} of $G$ is an $n\times n$ matrix whose $i,j$ element is $g_ig_j$.
+\end{definition}
+
+This is a helpful way to understand the structure of any group.
+
+\begin{definition}
+Let $G$ be a group under an operation $\star$. A subset $H$ of $G$ is called a \textit{subgroup} of $G$ if $H$ also forms a group under the operation $\star$.
+\end{definition}
+
+\begin{example}
+$\mathbb{Q}$ is a subgroup of $\mathbb{R}$ under addition.
+\end{example}
+
+\begin{exercise}
+    If $x,g\in G$. Prove that $|x|=|gxg^{-1}|$. Deduce that $|ab|=|ba|$ for any $a,b\in G$.
+\end{exercise}
+\begin{exercise}
+    Let $G$ be a group. Prove that if $x^2=1$ for all $x\in G$, $G$ is abelian.
+\end{exercise}
+\begin{exercise}
+    If $x$ is an element of a group $G$, prove that $\{x^n\mid n\in\mathbb{Z}\}$ is a subgroup of $G$. This subgroup is called the \textit{cyclic subgroup} generated by $x$.
+\end{exercise}
+\begin{exercise}
+    If $x$ is an element of infinite order in $G$, prove that $x^n, n\in\mathbb{Z}$ are all distinct. Deduce that if $x^i=x^j$ for some $i,j\in\mathbb{Z}, i\neq j$, $x$ is of finite order.
+\end{exercise}
+\begin{exercise}
+    Let $A,B$ be two groups and let $a\in A, b\in B$. Show that $(a,1)$ and $(1,b)$ commute in $A\times B$. Further show that the order of $(a,b)$ in $A\times B$ is the least common multiple of $|a|$ and $|b|$.
+\end{exercise}
+\begin{exercise}
+\label{k4q1}
+    Let $G=\{1,a,b,c\}$ be a group of order $4$. If $G$ has no elements of order $4$, prove that there is a unique group table for $G$. Deduce that $G$ is abelian. This group is called the \textit{Klein four-group}.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group of even order. Prove that $G$ contains an element of order $2$.
+\end{exercise}
+
+\subsection{Dihedral Groups}
+
+For each $n\in\mathbb{Z}^+$, $n\geq 3$, let $D_{2n}$ be the set of symmetries of a regular $n$-gon. A symmetry is any rigid motion of the $n$-gon which can be done by taking a copy of the polygon, moving it around in $3$-dimensional space and superimposing it on the original polygon.
+
+We can think of this as first labeling the $n$ vertices as $1,2,\ldots,n$ and describing each symmetry of the permutation $\sigma$ of $\{1,2,\ldots,n\}$ corresponding to this symmetry.
+
+We make $D_{2n}$ into a group by defining $st$ for $s,t\in D_{2n}$ to be the symmetry obtained by first applying $t$ then $s$. That is, if $s,t$ have corresponding permutations $\sigma$ and $\tau$, the permutation corresponding to $st$ is $\sigma\circ\tau$.
+
+\vspace{2mm}
+To find the order of $D_{2n}$, we first observe, vertex $1$ can go to any vertex $i, 1\leq i\leq n$. Next, as $2$ must remain adjacent to $1$ even after applying the symmetry, it can go to either $i+1$ or $i-1$. As we have fixed the position of two of the vertices and the polygon is rigid, we have fixed the entire permutation. We have $n\times 2=2n$ possible permutations and so, the order of $D_{2n}$ is $2n$.
+
+\vspace{2mm}
+This group is called the \textit{dihedral group of order $2n$}.
+
+These $2n$ symmetries are the $n$ rotations by $2\pi i/n$ radians about the center for $i=1,2,\ldots,n$ and the $n$ reflections about the $n$ lines of symmetry.
+
+\vspace{2mm}
+Let $r$ be the rotation symmetry that rotates the $n$-gon by $2\pi i/n$ radians and let $s$ be the reflection symmetry that reflects the $n$-gon about the axis passing through vertex $1$ and the origin.
+
+\begin{exercise}
+    Prove the following.
+    \begin{enumerate}
+        \item $1,r,r^2,\ldots,r^{n-1}$ are all distinct and $r^n=1$, so $|r|=n$.
+        \item $|s|=2$.
+        \item $s\neq r^i$ for any $i$.
+        \item $sr^i\neq sr^j$ for all $0\leq i,j\leq n-1, i\neq j$ so 
+        $$D_{2n}=\{1,r,r^2,\ldots,r^{n-1},s,sr,\ldots,sr^{n-1}\}.$$
+        \item $rs=sr^{-1}$.
+        \item $r^is=sr^{-i}$.
+    \end{enumerate}
+\end{exercise}
+
+After doing the above exercise, we observe that all the elements of $D_{2n}$ have a unique representation of the form $s^kr^i$ where $k=0\text{ or }1$ and $0\leq i\leq n-1$.
+
+\vspace{4mm}
+With the above expression of $D_{2n}$ purely in terms of $r$ and $s$ as motivation, we introduce a new concept which can help in the expression of groups in a compact way.
+\begin{definition}
+We say that a subset $S$ of a group $G$ is a \textit{set of generators} of $G$ if every element in $G$ can be written as a product of elements in $S$ and their inverses. We indicate this by $G=\langle S\rangle$. 
+\end{definition}
+
+For example, $\mathbb{Z}=\langle\{1\}\rangle$.
+
+Any equations in $G$ that the generators satisfy are called \textit{relations} in $G$. So in $D_{2n}$, we have the relations $r^n=1, s^2=1$ and $rs=sr^{-1}$. It turns out that any relation in $G$ can be deduced from these three relations.
+
+In general, if some group $G$ is generated by a set $S$ and there exist relations $R_1,R_2,\ldots,R_m$ such that any relation in $G$ can be deduced from these relations, we shall call the generators and the relations together a \textit{presentation} of $G$. We write $$G=\langle S\mid R_1, R_2,\ldots, R_m\rangle.$$
+
+For example,
+$$D_{2n}=\langle\{r,s\}\mid r^n=1, s^2=1, rs=sr^{-1}\rangle.$$
+
+Very often, given a presentation there is some non-obvious relation that can be deduced from the given relations.
+
+There is in fact a(n as of the time of writing, unsolved) problem called the \textit{word problem} in groups, which asks for a way to determine whether two ``words" (products of elements of the group and their inverses) are equal given a set of relations.
+
+\begin{exercise}
+    Let
+    $$X_{2n}=\langle\{x,y\}\mid x^n=y^2=1, xy=yx^2\rangle.$$
+    Show that if $n=3k$, $X_{2n}$ has order $6$. (Note the similarity between $X_{2n}$ and $D_6$ in this case. 
+    
+    Also show that if $(3,n)=1$, then $x=1$.
+\end{exercise}
+
+\subsection{Symmetric groups}
+
+Let $\Omega$ be any nonempty set and $S_\Omega$ the set of all bijections from $\Omega$ to $\Omega$ (that is, all permutations). Make $S_\Omega$ a group under function composition. (Function composition is associative, the identity is the identity mapping on $\Omega$ and any bijection has an inverse)
+
+In the case where $\Omega=\{1,2,\ldots,n\}$, we denote $S_\Omega$ by $S_n$ and call it the \textit{symmetric group of order $n$}.
+
+It is a simple combinatorial exercise to show that $S_n$ has exactly $n!$ elements. We now describe a notation to write the elements of $S_n$, called the \textit{cycle decomposition} of any permutation. A \textit{cycle} is a string of integers that cyclically permutes the elements of this string (leaving all other integers fixed). So the cycle $(a_1\:a_2\:a_3\:\cdots\:a_k)$ sends $a_1$ to $a_2$, $a_2$ to $a_3$, \ldots, $a_{k-1}$ to $a_k$ and $a_k$ to $a_1$. In general, for any element of $S_n$ can be rearranged and written as $k$ (disjoint) cycles as
+$$\sigma=(a_1\:a_2\:\cdots\:a_{m_1})(a_{m_1+1}\:a_{m_1+2}\:\cdots\:a_{m_2})\cdots(a_{m_{k-1}+1}\:a_{m_{k-1}+2}\:\cdots\:a_{m_k})$$
+This notation is very easy to read as to determine what an element $i$ is sent to, we just need to find the element written after $i$ in the cycle decomposition.
+
+Any permutation $\sigma$ can also be easily written as its cycle decomposition using the following algorithm.
+\begin{enumerate}
+    \item To start a new cycle, pick the smallest number in $\{1,2,\ldots,n\}$ that has not appeared in a previous cycle. Call it $a$. Begin the new cycle $(a$.
+    \item Let $\sigma(a)=b$. If $b=a$, close with a parenthesis and return to step $1$. If $b\neq a$, write $b$ next to $a$ so the cycle becomes $(a b$.
+    \item Let $\sigma(b)=c$. If $c=a$, close with a parenthesis and return to step $1$. If $c\neq a$, write $c$ next to $b$ and repeat this step using $c$ as $b$ until the cycle closes.
+\end{enumerate}
+Naturally this process gives the correct cycle decomposition.
+The \textit{length} of a cycle is the number of integers which appear in it. A cycle of length $l$ is called an $l$-cycle. We further adopt the convention that $1$-cycles are not written. (So if some $i$ does not appear in the cycle decomposition, it is understood that the permutation fixes $i$) The identity permutation is written as $1$.
+
+So the final step in the algorithm is to remove all $1$-cycles.
+
+\vspace{3mm}
+Note that
+$$(1\:3)\circ(1\:2)=(1\:2\:3)\text{ and }(1\:2)\circ(1\:3)=(1\:3\:2).$$
+This shows that $S_n$ is a non-abelian group for all $n\geq 3$.
+
+Further, since disjoint cycles permute elements in disjoint sets, disjoint cycles commute.
+
+\begin{exercise}
+    Let $\sigma=(1\:2\:\cdots\:m)$. Show that $\sigma^i$ is also an $m$-cycle if and only if $(m,i)=1$.
+\end{exercise}
+\begin{exercise}
+    Show that the order of an $l$-cycle in $S_n$ is $l$. Deduce that the order of any element in $S_n$ is the least common multiple of the lengths of the cycles in its cycle decomposition.
+\end{exercise}
+\begin{exercise}
+    Let $p$ be a prime. Show that an element of $S_n$ is of order $p$ if and only if its cycle decomposition is a product of commuting $p$-cycles.
+\end{exercise}
+
+\subsection{Matrix Groups}
+For the sake of understanding matrix groups, we define a field as follows.
+
+A field is a set F together with two binary operations $+$ and $\cdot$ such that $(F,+)$ is an abelian group (call its identity $0$) and $(F-\{0\},\cdot)$ is an abelian group. Further, $$a\cdot(b+c)=a\cdot b+a\cdot c\text{ for all $a,b,c\in F$}.$$
+
+For each $n\in\mathbb{Z}^+$, we define $GL_n(F)$ to be the set of all $n\times n$ matrices whose elements are elements of F and whose determinant is nonzero. $GL_n(F)$ is a group under matrix multiplication, and is called the \textit{general linear group of order $n$}.
+
+We have the following results (which we shall not prove in these notes).
+\begin{enumerate}
+    \item if $F$ is a finite field, then $|F|=p^m$ for some prime $p$ and integer $m$.
+    \item if $|F|=q<\infty$, then $|GL_n(F)|=(q^n-1)(q^n-q)(q^n-q^2)\cdots(q^n-q^{n-1})$.
+\end{enumerate}
+
+\begin{exercise}
+\label{defOfHeisenbergGrp}
+    Let $F$ be a field. Define $$H(F)=\left\{\begin{pmatrix}1 & a & b \\ 0 & 1 & c \\ 0 & 0 & 1\end{pmatrix}\mathrel{\Bigg|} a,b,c\in F\right\}$$
+    Prove that $H(F)$ is a group under matrix multiplication. This group is called the \textit{Heisenberg group} over $F$.
+\end{exercise}
+
+\subsection{Homomorphisms and Isomorphisms}
+We define homomorphisms and isomorphisms here, but shall discuss them much more in detail later on.
+\begin{definition}
+\label{homomorphismDef}
+Let $(G,\star)$ and $(H,\diamond)$ be two groups. A map $\varphi:G\to H$ such that
+$$\varphi(x\star y)=\varphi(x)\diamond\varphi(y)\text{ for all $x,y\in G$}$$
+is called a \textit{homomorphism}.
+\end{definition}
+
+The above condition is often compactly written as $$\varphi(xy)=\varphi(x)\varphi(y).$$
+
+\begin{definition}
+\label{defineFiberAndKer}
+    Let $G,H$ be two groups and $\varphi:G\to H$ be a homomorphism. The \textit{kernel} of $\varphi$ is defined as follows.
+    $$\operatorname{ker}(\varphi)=\{g\in G\mid \varphi(g)=1_H\}$$
+    where $1_H$ is the identity element of $H$. The \textit{fiber} of an element $h\in H$ is defined as
+    $$\varphi^{-1}(h)=\{g\in G\mid \varphi(g)=h\}.$$
+\end{definition}
+
+We see that the kernel of a homomorphism is just the fiber of the identity.
+
+\begin{definition}
+\label{isomorphismDef}
+Let $G,H$ be two groups. A map $\varphi:G\to H$ is called an \textit{isomorphism} and we say $G$ and $H$ are isomorphic if $\varphi$ is a homomorphism and $\varphi$ is a bijection. If $G$ and $H$ are isomorphic, we write $G\cong H$.
+\end{definition}
+
+Intuitively, two groups being isomorphic mean that they have the same structure.
+
+\begin{exercise}
+    Show that the relation $\cong$ is an equivalence relation.
+\end{exercise}
+
+\begin{example}
+    The map $f:\mathbb{R}\to\mathbb{R}^+$ given by $f(x)=e^x$ for all $x\in\mathbb{R}$ is an isomorphism from $(\mathbb{R},+)$ to $(\mathbb{R}^+,\times)$.
+\end{example}
+
+\begin{exercise}
+    Let $\Omega$ and $\Delta$ be two finite sets. Show that $S_\Omega\cong S_\Delta$ if and only if $|\Omega|=|\Delta|$.
+\end{exercise}
+
+Isomorphisms are extremely useful in the study of abstract structures such as groups because if we want to study some group, it will do equally well to study a group that is isomorphic to this one.
+
+\begin{exercise}
+    Let $G$ and $H$ be two groups and $\varphi:G\to H$ be an isomorphism. Then prove that
+    \begin{enumerate}
+        \item if $G$ and $H$ are finite, $|G|=|H|$.
+        \item $G$ is abelian if and only if $H$ is abelian.
+        \item for all $x\in G$, $|x|=|\varphi(x)|$.
+    \end{enumerate}
+\end{exercise}
+
+We can deduce from the third part of the above exercise that $(\mathbb{R},+)$ is not isomorphic to $(\mathbb{R},\times)$ as $-1$ is of order $2$ in $(\mathbb{R},\times)$ but there is no element of order $2$ in $(\mathbb{R},+)$.
+
+\begin{exercise}
+    Prove that $(\mathbb{R}-\{0\},\times)$ is not isomorphic to $(\mathbb{C}-\{0\},\times)$.
+\end{exercise}
+\begin{exercise}
+    Prove that the additive groups $\mathbb{Z}$ and $\mathbb{Q}$ are not isomorphic.
+\end{exercise}
+\begin{exercise}
+    Let $G,H$ be groups and $\varphi:G\to H$ be a homomorphism. Prove that the image of $G$ under $\varphi$ is a subgroup of $H$.
+\end{exercise}
+
+\subsection{Group Actions}
+We define group actions here, but shall discuss them much more in detail later on.
+\begin{definition}
+    A group action of a group $G$ on a set $A$ is a map from $G\times A$ to $A$ (written as $g\cdot a$ for all $g\in G, a\in A$) such that
+    \begin{enumerate}
+        \item $g_1\cdot(g_2\cdot a)=(g_1g_2)\cdot a$ for all $g_1,g_2\in G, a\in A$.
+        \item $1\cdot a=a$ for all $a\in A$.
+    \end{enumerate}
+\end{definition}
+
+We say that $G$ is a group acting on the set $A$ in the above definition.
+
+More precisely, this is called a \textit{left} group action. We have a similar notion of a \textit{right} group action.
+
+\begin{theorem}
+    For some fixed $g\in G$, consider the map $\sigma_g:A\to A$ given by $\sigma_g(a)=g\cdot a$. Then $\sigma_g$ is a permutation of $A$. Further, the map $G\to S_A$ given by $g\mapsto \sigma_g$ is a homomorphism.
+\end{theorem}
+\begin{proof}
+    Consider $\sigma_{g^{-1}}:A\to A$. We shall show that $\sigma_{g^{-1}}$ is an inverse of $\sigma_g$. To see this, note that
+    $$\sigma_{g^{-1}}\circ\sigma_g(a)=g^{-1}\cdot(g\cdot a)=(g^{-1}g)\cdot a=1\cdot a=a\text{ for all $g\in G$}$$
+    so $\sigma_{g^{-1}}\circ\sigma_g$ is the identity map on $A$. Similarly, $\sigma_g\circ\sigma_g^{-1}$ is also the identity map on $A$. As $\sigma_g$ has a two-sided inverse, it is a bijection and thus a permutation of $A$.
+    
+    To see that the given map is a homomorphism, note that $$\sigma_{g_1}\circ\sigma_{g_2}(a)=g_1\cdot(g_2\cdot a)=(g_1g_2)\cdot a=\sigma_{g_1g_2}(a)\text{ for all $g_1,g_2\in G, a\in A$}.$$
+    
+    and $1\cdot a=a$ for all $a\in A$.
+\end{proof}
+
+\begin{definition}
+\label{defKerGrpAc}
+    Let a group $G$ act on a set $A$. We define the kernel of the group action as
+    $$\{g\in G\mid g\cdot a=a\text{ for all }a\in A\}$$
+\end{definition}
+
+Note that any group acts on itself by the group operation itself. This action is called the \textit{left regular action} of $G$ on itself.
+
+If a group $G$ acts on a set $A$ and distinct elements of $G$ induce distinct permutations, the action is said to be \textit{faithful}.
+
+\clearpage

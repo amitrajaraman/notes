@@ -1,0 +1,505 @@
+\section{Quotient Groups and Homomorphisms}
+
+\subsection{Definitions and Basics}
+In this chapter, we shall introduce the concept of a \textit{quotient group}, a way of ``dividing" a group by a subgroup.
+
+We shall see that this act of ``quotienting out" is very intimately related to the study of homomorphisms. Given a homomorphism, recall the fiber of an element \ref{defineFiberAndKer}. We see a very natural way of multiplying two fibers together by multiplying the elements the fibers correspond to. That is, given $a,b$, we define $\varphi^{-1}(a)\varphi^{-1}(b)=\varphi^{-1}(ab)$.
+
+We can think of this solely in terms of representatives of the fibers as well, and get rid of the homomorphism part of the definition as well. The resulting group of fibers can be thought of as the original group quotiented out by the kernel. That is, we send the kernel to the identity of the new group. As expected, this ``quotient group" will be isomorphic to the image of the homomorphism.
+
+\vspace{2mm}
+Although we defined the kernel of a homomorphism earlier, we shall restate the definition here.
+\begin{definition}
+    If $\varphi$ is a homomorphism $\varphi:G\to H$, the \textit{kernel} of $\varphi$ is defined as
+    $$\ker\varphi=\{g\in G\mid\varphi(g)=1\}.$$
+    Here $1$ is the identity in $H$.
+\end{definition}
+
+\begin{theorem}
+    Let $G,H$ be groups and $\varphi:G\to H$ be a homomorphism. Then
+    \begin{enumerate}
+        \item $\varphi(1_G)=1_H$, where $1_G$ and $1_H$ are the identities in $G$ and $H$ respectively.
+        \item $\varphi(g^{-1})=(\varphi(g))^{-1}$
+        \item $\varphi(g^n)=(\varphi(g))^n$ for all $n\in\mathbb{Z}$
+        \item $\ker\varphi\leq G$
+        \item $\operatorname{im}\varphi\leq H$, where $\operatorname{im}\varphi$ is the image of $G$ under $\varphi$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+\phantom{owo}
+\begin{enumerate}
+    \item We have $\varphi(1_G)\varphi(1_G)=\varphi(1_G)$. Multiplying by $(\varphi(1_G))^{-1}$ on either side gives the required result.
+    \item We have $\varphi(g)\varphi(g^{-1})=\varphi(gg^{-1})=\varphi(1_G)=1_H$. Premultiplying by $(\varphi(g))^{-1}$ gives the required result.
+    \item This is left as an exercise to the reader. It requires a simple induction on $n\in\mathbb{Z}^+$. (Part 2 of this theorem implies that it is true for negative $n$ as well)
+    \item Since $1_G\in\ker\varphi$, $\varphi\neq\emptyset$. If $x,y\in\ker\varphi$, $\varphi(xy^{-1})=\varphi(x)\varphi(y^{-1})=(\varphi(y))^{-1}=1_H$ so $xy^{-1}\in\ker\varphi$. Thus $\ker\varphi\leq G$.
+    \item Since $1_H\in\operatorname{im}\varphi$, $\operatorname{im}\varphi\neq\emptyset$. If $x,y\in\operatorname{im}\varphi$, that is, $x=\varphi(a)$ and $y=\varphi(b)$ for some $a,b\in G$, then $xy^{-1}=\varphi(a)(\varphi(b))^{-1}=\varphi(ab^{-1})\in\operatorname{im}\varphi$. Thus $\operatorname{im}\varphi\leq H$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}
+    Let $\varphi:G\to H$ be a homomorphism with kernel $K$. The \textit{quotient group} or \textit{factor group} $G/K$ (read $G$ \textit{mod} $K$) is a group whose elements are the fibers of $\varphi$ with multiplication defined as follows. If $X$ is the fiber above $a$ and $Y$ is the fiber above $ab$, their product is the fiber above $ab$. 
+\end{definition}
+
+\begin{definition}
+    For any $N\leq G$ and any $g\in G$, define
+    $$gN=\{gn\mid n\in N\}\text{ and }Ng=\{ng\mid n\in N\}$$
+    called a \textit{left coset} and a \textit{right coset} respectively. Any element of a coset is called a \textit{representative} for the coset.
+\end{definition}
+
+\begin{theorem}
+\label{fiberIsIndepOfRep}
+    Let $\varphi:G\to H$ be a homomorphism of groups with kernel $K$. Let $\varphi^{-1}(a)=X\in G/K$. Then for any $u\in X$, $X=uK=Ku$.
+\end{theorem}
+\begin{proof}
+    We shall prove that $X=uK$ and leave the other part as an exercise (the proof is nearly the same).
+    
+    For any $k\in K,$ $\varphi(uk)=\varphi(u)\varphi(k)=a1_H=a$ so $uk\in X$. This gives $uK\subseteq X$. Now, let $g\in X$ and $k=u^{-1}g$. Then $\varphi(k)=\varphi(u^{-1}g)=\varphi(u^{-1})\varphi(g)=a^{-1}a=1_H$ so $k\in K$. This establishes the reverse inclusion and thus $uK=X$.
+\end{proof}
+
+We shall mainly deal with left cosets, but most theorems work equally well taking right cosets instead of left cosets.
+
+\begin{theorem}
+\label{describeCosetMultiplication}
+    Let $G$ be a group and $K$ be the kernel of some homomorphism from $G$ to another group. Then the set of left cosets of $K$ in $G$ with operation defined by $$uK\cdot vK=(uv)K$$ forms a group. It is well-defined in the sense that if we take any representatives $u_1,u_2$ for $uK,vK$ respectively, $u_1u_2$ will lie in $(uv)K$.
+\end{theorem}
+\begin{proof}
+    Let $K$ be the kernel of the homomorphism $\varphi:G\to H$. Let $X=\varphi^{-1}(a)$ and $Y=\varphi^{-1}(b)$ for some $a,b\in H$. Let $u,v$ be representatives of $X$ and $Y$ so that $X=uK$ and $Y=vK$. Then
+    \begin{align*}
+        \varphi(u)\varphi(v) &= ab \\
+        \varphi(uv) &= ab \\
+        uv &\in \varphi^{-1}(ab)
+    \end{align*}
+    This gives $\varphi^{-1}(ab)=(uv)K$ (We already have $XY=\varphi^{-1}(ab)$). Thus the multiplication is well-defined.
+\end{proof}
+
+The thing to take away from this theorem is that the multiplication is \textit{independent} of the representatives chosen. Namely, the coset $(uv)K$ is independent of the representatives $u$ and $v$ chosen.
+
+When quotienting out by a kernel $K$, we usually write an element of the quotient group $uK$ as $\overline u$ and $G/K$ as $\overline G$. So the above theorem says $\overline u\,\overline v=\overline{uv}$.
+
+With quotient groups introduced, the notation for the group $\mathbb{Z}/n\mathbb{Z}$ makes perfect sense. It is just the group $\mathbb{Z}$ quotiented out by $n\mathbb{Z}$.
+
+\vspace{2mm}
+This raises another question. Can we quotient out by any subgroup of a group and have the multiplication make sense? As we will see shortly, the multiplication described makes sense \textit{if and only if} the subgroup is the kernel of some homomorphism. We shall also describe soon the criteria for a subgroup to be the kernel of some homomorphism.
+
+\begin{theorem}
+\label{cosetsPartitionsGroup}
+    Let $N$ be a subgroup of a group $G$. The set of left cosets of $N$ in $G$ partition $G$. Furthermore, for all $u,v\in G$, $uN=vN$ if and only if $v^{-1}u\in N$.
+\end{theorem}
+\begin{proof}
+    First of all, as $N\leq G$, $1\in N$. Thus $g\in gN$ for all $g\in G$, that is,
+    $$G=\bigcup_{g\in G}gN$$
+    To show that distinct left cosets have empty intersection, let $uN\cap vN\neq\emptyset$ for some $u,v\in G$. We must show that $uN=vN$. Let $x\in uN\cap vN$. Then $x=un=vm$ for some $n,m\in N$. This gives $u=v(mn^{-1})$. For any $t\in N$, $ut=v(mn^{-1}t)\in vN$ as $mn^{-1}t\in N$. Thus $uN\subseteq vN$. Similarly, we get $vN\subseteq uN$. Therefore, $uN=vN$ if they have nonempty intersection and we get that the set of left cosets partition $G$.
+    
+    By the first part of this theorem, we get $uN=vN$ if and only if $u\in vN$, that is, $u=vn$ for some $n\in N$ which is equivalent to $v^{-1}u\in N$.
+\end{proof}
+
+\begin{theorem}
+\label{cosetOperationMakesSenseIffNormal}
+    Let $N$ be a subgroup of a group $G$.
+    \begin{enumerate}
+        \item The operation on the left cosets of $N$ in $G$ given by
+        $$(uN)\cdot(vN)=(uv)N$$
+        is well defined if and only if $gng^{-1}\in N$ for all $g\in G$ and $n\in N$.
+        \item If the above operation is well-defined, it makes the set of left cosets of $N$ into a group. In particular, the identity of this group is $N$ and the inverse of $gN$ is $g^{-1}N$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \phantom{owo}
+    \begin{enumerate}
+        \item Assume first that the operation is well-defined, that is,
+        $$\text{for all }u_1,u_2\in uN\text{ and }v_1,v_2\in vN, u_1v_1N=u_2v_2N.$$
+        Setting $u_1=1,u_2=n$ and $v_1=v_2=g^{-1}$, we get
+        $g^{-1}N=ng^{-1}N$. From \ref{cosetsPartitionsGroup}, this is true if and only if $(g^{-1})^{-1}ng^{-1}\in N$, that is, $gng^{-1}\in N$.
+        
+        To prove the converse, let $u_1,u_2\in uN$ and $v_1,v_2\in vN$. We have $u_2=u_1n$ and $v_2=v_1m$ for some $n,m\in N$.
+        \begin{align*}
+            u_2v_2 &= u_1nv_1m \\
+                   &= (u_1v_1)(v_1^{-1}nv_1)m
+        \end{align*}
+        As $v_1^{-1}nv_1\in N$ and $m\in N$, $(v_1^{-1}nv_1)m=n_1\in N$. That is, $u_2v_2=(u_1v_1)n_1$ for some $n_1\in N$ and the two cosets $(u_1v_1)N$ and $(u_2v_2)N$ are not disjoint. \ref{cosetsPartitionsGroup} implies that $(u_1v_1)N=(u_2v_2)N$.
+        \item This proof is immediate once we have the operation. It is associative as $uN(vN\,wN)=(u(vw))N=((uv)w)N=(uN\,vN)wN$. The identity being equal to $N=1N$ and the inverse of $gN$ being $g^{-1}N$ are equally easy to check from the definition of multiplication.
+    \end{enumerate}
+\end{proof}
+
+Note that the above condition gets rid of the homomorphism part which we initially required while proving that the operation is well-defined.
+
+\begin{definition}
+\label{defineNormal}
+    Let $N$ be a subgroup of a group $G$. The element $gng^{-1}$ is called the \textit{conjugate} of $n\in N$ by $g$. The set $gNg^{-1}=\{gng^{-1}\mid n\in N\}$ is called the \textit{conjugate} of $N$ by $g$. The element $g$ is said to \textit{normalize} $N$ is $gNg^{-1}=N$. $N$ is called \textit{normal} if every element of $G$ normalized $N$, that is, $gNg^{-1}=N$ for all $g\in G$. If $N$ is a normal subgroup of $G$, we write $N\unlhd G$.
+\end{definition}
+
+\begin{theorem}
+\label{normalSubgroupEquivalences}
+    Let $N$ be a subgroup of the group $G$. The following are equivalent.
+    \begin{enumerate}
+        \item $N\unlhd G$.
+        \item $N_G(N)=G$. ($G$ is the normalizer of $N$ in $G$)
+        \item $gN=Ng$ for all $g\in G$.
+        \item The operation of left cosets described in \ref{describeCosetMultiplication} makes the set of left cosets into a group.
+        \item $gNg^{-1}\subseteq N$ for all $g\in G$.
+        \item $N$ is the kernel of some homomorphism.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    The equivalences between $1, 2$ and $3$ follow directly from the definitions. The equivalence between $4$ and $5$ was proved in \ref{cosetOperationMakesSenseIffNormal}.
+    
+    Let us prove the equivalence between $3$ and $5$. If $3$ holds, then $5$ is clearly true as $gNg^{-1}=N\subseteq N$ for all $g\in G$. If $5$ holds, we have $g^{-1}Ng\subseteq N$ for all $g\in G$, that is, $gNg^{-1}\supseteq N$. As we have inclusion (between $N$ and $gNg^{-1}$) both ways, $gNg^{-1}=N$ for all $g\in G$ and $3$ is true.
+    
+    \vspace{1mm}
+    Finally, we shall prove equivalence between $1$ and $6$. If $6$ holds, then by \ref{describeCosetMultiplication}, $4$ holds and thus $1$ holds. Conversely, if $N\unlhd G$, let $H=G/N$ and define $\pi:G\to G/N$ by $\pi(g)=gN$ for all $g\in G$. We have $\pi(g_1g_2)=(g_1g_2)N=(g_1N)(g_2N)=\pi(g_1)\pi(g_2)$. This proves $\pi$ is a homomorphism. Now
+    \begin{align*}
+        \ker\pi &= \{g\in G\mid \pi(g)=1N\} \\
+                    &= \{g\in G\mid gN=N\} \\
+                    &= \{g\in G\mid g\in N\}=N
+    \end{align*}
+    Thus $N$ is the kernel of $\pi$ and all equivalences are proved.
+\end{proof}
+
+\textit{Note.}  Normality is not transitive. That is, if $K\unlhd H$ and $H\unlhd G$, it is not necessary that $K\unlhd G$. For example, $\langle s \rangle \unlhd \langle s, r^2 \rangle \unlhd D_8$ but $\langle s\rangle$ is not normal in $D_8$.
+
+\vspace{2mm}
+The homomorphism constructed in the proof of the final equivalence in the above theorem is given a name.
+\begin{definition}
+    Let $N\unlhd G$. The homomorphism $\pi:G\to G/N$ defined by $\pi(g)=gN$ is called the \textit{natural projection (homomorphism)} of $G$ onto $G/N$. If $\overline H\leq G/N$ is a subgroup of $G/N$, the \textit{complete preimage} of $\overline H$ in $G$ is the preimage of $\overline H$ under the natural projection homomorphism.
+\end{definition}
+
+\textit{Note.} Readers who are familiar with category theory might recognize the word \textit{natural}, which has a more precise meaning described there.
+
+\vspace{1mm}
+We now have a criterion for determining when a subgroup $N$ of a group $G$ is the kernel of some homomorphism, which is completely independent of the ``homomorphism part", namely, $N_G(N)=G$.
+
+\vspace{1mm}
+The study of homomorphic images of a group is thus equivalent to the study of quotient groups.
+
+\begin{example}
+For any group $G$, $1\unlhd G$ and $G\unlhd G$.
+
+If $G$ is an abelian group, any subgroup $N$ of $G$ is normal because $gng^{-1}=gg^{-1}n=n$ for any $g,n\in G$.
+
+If $N\leq Z(G)$, $N\unlhd G$.
+\end{example}
+
+\begin{exercise}
+    Prove that if $G/Z(G)$ is cyclic, $G$ is abelian.
+\end{exercise}
+
+\begin{exercise}
+    Prove that quotient groups of a cyclic group are cyclic.
+\end{exercise}
+
+\begin{exercise}
+\label{completePreimageIsSubgroup}
+    Let $\varphi:G\to H$ be a homomorphism and $E\leq H$. Prove that $\varphi^{-1}(E)\leq G$. If $E\unlhd H$, prove that $\varphi^{-1}(E)\unlhd G$.
+\end{exercise}
+
+\begin{exercise}
+\label{barGeneratorsToGetBar}
+    Let $G$ be a group, $N$ be a normal subgroup of $G$ and $\overline G=G/N$. Let $S$ be a generating set of $G$, that is, $G=\langle S\rangle$. Prove that $\overline G=\langle\overline S\rangle$.
+\end{exercise}
+
+\begin{exercise}
+    Let $N\unlhd G$ and $H\leq G$. Prove that $N\cap H\unlhd H$.
+\end{exercise}
+
+\begin{exercise}
+    Let $H$ and $K$ be normal subgroups of $G$ with $H\cap K=\{1\}$. Prove that $xy=yx$ for all $x\in H, y\in K$.
+\end{exercise}
+
+\begin{exercise}
+    Prove that if $H\leq G$ and $N\unlhd H$, then $H\leq N_G(N)$. Deduce that $N_G(N)$ is the largest subgroup of $G$ in which $N$ is normal.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group and $N=\langle x^{-1}y^{-1}xy\mid x,y\in G\rangle$. Prove that $N\unlhd G$ and $G/N$ is abelian. ($N$ is called the \textit{commutator subgroup} of $G$)
+\end{exercise}
+
+\subsection{More Cosets and Lagrange's Theorem}
+
+The following theorem is one of the more important theorems in Group Theory, which we shall see over and over.
+
+\begin{theorem}[Lagrange's Theorem]
+\label{LagrangesTheorem}
+    If $H$ is a subgroup of a finite group $G$, $|H|\mid |G|$ and the number of left cosets of $H$ in $G$ is $\frac{|G|}{|H|}$.
+\end{theorem}
+\begin{proof}
+    Let $|H|=n$ and the number of left cosets of $H$ be $k$. By \ref{cosetsPartitionsGroup}, the set of left cosets partition $G$. By the definition of a coset, the map $H\to gH$ defined by $h\mapsto gh$ is a surjection from $H$ to the left coset $gH$. Further, this map is injective as $gh_1=gh_2\implies h_1=h_2$. This proves $|gH|=|H|=n$. Since $G$ is partitioned into $k$ subsets each of cardinality $n$, $|G|=kn$. Thus $k=\frac{|G|}{n}=\frac{|G|}{|H|}$.
+\end{proof}
+
+\begin{definition}
+    If $G$ is a group and $H\leq G$, the number of left cosets of $H$ in $G$ is called the \textit{index of $H$ in $G$} and is denoted as $|G:H|$ or $[G:H]$.
+\end{definition}
+
+In the case of finite groups, $|G:H|=\frac{|G|}{|H|}$.
+
+\begin{corollary}
+\label{orderOfElementDividesOrderofGroup}
+    If $G$ is a finite group and $x\in G$, the order of $x$ divides the order of $G$.
+\end{corollary}
+\begin{proof}
+    By \ref{orderOfCycGrpisOrderOfGen}, $|\langle x\rangle|=|x|$. As $|\langle x\rangle|$ divides $|G|$, the order of $x$ divides the order of $G$.
+\end{proof}
+
+\begin{corollary}
+    If $G$ is a group of prime order $p$, then $G$ is cyclic and hence $G\cong\mathbb{Z}_p$.
+\end{corollary}
+\begin{proof}
+    Let $x\in G$, $x\neq 1$. Then $|\langle x\rangle|$ is greater than $1$ and divides $|G|$. As $|G|$ is prime, $|\langle x\rangle|=|G|$ and thus $G$ is cyclic. \ref{cyclicOfSameOrderAreIso} completes the proof.
+\end{proof}
+
+\begin{exercise}
+    Let $G=\{1,a,b,c\}$ be a group of order $4$. If $G$ has no elements of order $4$, prove that there is a unique group table for $G$. Deduce that $G$ is abelian. This group is called the \textit{Klein four-group}. Recall that we did this exact question in \ref{k4q1}. It is hopefully far easier for the reader using Lagrange's Theorem.
+\end{exercise}
+
+\begin{definition}
+    Let $H$ and $K$ be subgroups and define
+    $$HK=\{hk\mid h\in H,k\in K\}.$$
+\end{definition}
+
+\begin{theorem}
+    If $H$ and $K$ are finite subgroups of a group then
+    $$|HK|=\frac{|H||K|}{|H\cap K|}$$
+\end{theorem}
+\begin{proof}
+    Note that $$HK=\bigcup_{h\in H}hK.$$
+    Since each coset of $K$ has $|K|$ elements, it suffices to find the number of distinct left cosets of the form $hK$ where $h\in H$. Two cosets $h_1K$ and $h_2K$, $h_1,h_2\in H$ are equal if and only if $h_2^{-1}h_1\in K$. That is, $h_2^{-1}h_1\in H\cap K$, which is equivalent to $h_2(H\cap K)=h_1(H\cap K)$. That is, the number of distinct left cosets of the form $hK$, $h\in H$ is equal to the number of distinct left cosets of the form $h(H\cap K)$, $h\in H$. By Lagrange's Theorem, this is equal to $\frac{|H|}{|H\cap K|}$. As each coset has order $|K|$, $|HK|=\frac{|H||K|}{|H\cap K|}$
+\end{proof}
+
+\begin{theorem}
+\label{HKisSubIffHK=KH}
+    If $H$ and $K$ are subgroups of a group, $HK$ is a subgroup if and only if $HK=KH$.
+\end{theorem}
+\begin{proof}
+    First assume that $HK=KH$. Let $a=h_1k_1, b=h_2k_2\in HK$ for some $h_1,h_2\in H$ and $k_1,k_2\in K$. Then $ab^{-1}=h_1k_1k_2^{-1}h_2^{-1}$. As $KH=HK$, $(k_1k_2^{-1})h_2^{-1}=h_3k_3$ for some $h_3\in H,k_3\in K$. Then $ab^{-1}=(h_1h_3)k_3\in HK$. $HK$ is nonempty as both $H$ and $K$ are nonempty and thus $HK$ is a subgroup by the subgroup criterion.
+    
+    Next, let $HK$ be a subgroup. Since $K\subseteq HK$ and $H\subseteq HK$, as $HK$ is closed under multiplication, $KH\subseteq HK$. To show the reverse inclusion, let $a\in HK$. Let $a^{-1}=hk\in HK$ for some $h\in H$ and $k\in K$. Then $a=(hk)^{-1}=k^{-1}h^{-1}\in KH$ (as $k^{-1}\in K, h^{-1}\in H$). Thus the reverse inclusion is established and $HK=KH$.
+\end{proof}
+
+\textit{Note.} $HK=KH$ does \textit{not} imply the elements of $H$ commute with those of $K$.
+
+\begin{corollary}
+\label{HKSubgroupIfKunlhdG}
+    If $H$ and $K$ are subgroups of $G$ and $H\leq N_G(K)$, then $HK$ is a subgroup of $G$. In particular, if $K\unlhd G$, then $HK\leq G$ for any $H\leq G$.
+\end{corollary}
+\begin{proof}
+    We shall prove that $HK=KH$. let $h\in H,k\in K$. By assumption, $hkh^{-1}\in K$ so $hk=(hkh^{-1})h\in KH$. This gives $HK\subseteq KH$. Similarly, $kh=h(h^{-1}kh)\in HK$. This establishes the reverse inclusion and $HK=KH$. By \ref{HKisSubIffHK=KH}, the corollary follows.
+\end{proof}
+
+\begin{definition}
+    Let $K$ be a subgroup of group $G$. If $A$ is any subset of $N_G(K)$ ($C_G(K)$), we say that $A$ \textit{normalizes} (\textit{centralizes}) $K$.
+\end{definition}
+
+\begin{exercise}
+    Let $G=S_4$, $H=D_8$ and $K=\langle (1\:2\:3)\rangle$, where we consider $D_8$ as a subgroup of $S_4$ by identifying each symmetry with the respective permutation on the vertices of a square. Prove that $HK=G$.
+\end{exercise}
+
+\begin{exercise}
+    Show that if $|G|=pq$ for some primes $p$ and $q$, then either $G$ is abelian or $Z(G)$ is $\{1\}$.
+\end{exercise}
+
+\begin{exercise}
+    Let $H$ be a subgroup of group $G$. Prove that if $n\in\mathbb{Z}^+$ and $H$ is the unique subgroup of $G$ of finite order $n$, then $H\unlhd G$.
+\end{exercise}
+
+\begin{exercise}
+    Let $H\leq G$ and $g\in G$. Prove that if the right coset $Hg$ is equal to some left coset of $H$ in $G$, then it is equal to $gH$.
+\end{exercise}
+
+\begin{exercise}
+    Use Lagrange's Theorem in $(\mathbb{Z}/n\mathbb{Z})^\times$ to prove Euler's Theorem: $a^{\varphi(n)}\equiv 1\Mod n$ for every integer $a$ relatively prime to $n$, where $\varphi$ is Euler's totient function.
+\end{exercise}
+
+\begin{exercise}
+    Let $H\leq G$. Show that the map $x\mapsto x^{-1}$ sends a left coset of $H$ in $G$ to a right coset of $H$ in $G$ and is a bijection between the set of left cosets and the set of right cosets.
+\end{exercise}
+
+\begin{exercise}
+    Suppose that $H$ and $K$ are subgroups of finite index in the group $G$ with $|G:H|=m$ and $|G:K|=n$. Prove that $\operatorname{lcm}(m,n)\leq|G:H\cap K|\leq mn$. Deduce that if $(m,n)=1$ then $|G:H\cap K|=|G:H||G:K|$.
+\end{exercise}
+
+\begin{exercise}
+    Let $H\leq K\leq G$. Prove that $|G:H|=|G:K||K:H|$.
+\end{exercise}
+
+\begin{exercise}
+\label{exercCauchyThm}
+    This exercise presents a proof of \textit{Cauchy's Theorem}. Let $G$ be a finite group and $p$ a prime dividing $|G|$. Let $\mathcal{S}$ be as follows.
+    $$\mathcal{S}=\{(x_1,x_2,\ldots,x_p)\mid x_i\in G\text{ and } x_1x_2\cdots x_p=1\}$$
+    Define the relation $\sim$ on $\mathcal{S}$ by letting $\alpha\sim\beta$ if $\alpha$ is a cyclic permutation of $\beta$.
+    \begin{enumerate}[(a)]
+        \item Show that $\mathcal{S}$ has $|G|^{p-1}$ elements, and hence has order divisible by $p$.
+        \item Prove that that a cyclic permutation of an element of $\mathcal{S}$ is again an element of $\mathcal{S}$.
+        \item Show that $\sim$ is an equivalence relation.
+        \item Prove that an equivalence class contains a single element if and only if it is of the form $(x,x,\ldots,x)$ with $x^p=1$.
+        \item Prove that every equivalence class has order $1$ or $p$. Deduce that $|G|^{p-1}=k+pd$, where $k$ is the number of classes of size $1$ and $d$ is the number of classes of size $p$.
+        \item Since $\{(1,1,\ldots,1)\}$ is an equivalence class of size $1$, conclude that there must be a non-identity element in $G$ of order $p$.
+    \end{enumerate}
+    
+    Cauchy's Theorem states that if $G$ is a finite group and $p$ is a prime dividing $|G|$, $G$ has an element of order $p$. We shall give another proof of this later in the text.
+\end{exercise}
+
+\subsection{The Isomorphism Theorems}
+
+In this section, we discuss some consequences of the relations between quotient groups and homomorphisms.
+
+\begin{theorem}[The First Isomorphism Theorem]
+\label{FirstIsoTheorem}
+    If $\varphi:G\to H$ is a homomorphism, $\ker\varphi\unlhd G$ and $G/\ker\varphi\cong\varphi(G)$.
+\end{theorem}
+\begin{proof}
+    The first part has been proved in \ref{normalSubgroupEquivalences}. Let $\ker\varphi=K$. To prove the second part, prove that the map $\phi:G/K\to\varphi(G)$ given by $\phi(X)=\varphi(g)$, where $g$ is a representative of $X\in G/K$ is well-defined and an isomorphism. This is left as an exercise to the reader.
+\end{proof}
+
+\begin{corollary}
+    Let $\varphi:G\to H$ be an homomorphism. Prove that
+    \begin{enumerate}
+        \item $\varphi$ is injective if and only if $\ker\varphi=\{1\}$.
+        \item $|G:\ker\varphi|=|\varphi(G)|$.
+    \end{enumerate}
+\end{corollary}
+\begin{proof}
+    By \ref{fiberIsIndepOfRep}, $\varphi$ is injective $\iff$ $\varphi^{-1}(a)$ is a singleton set for every $a\in H$ $\iff$ $\ker\varphi$ is a singleton set, that is, $\ker\varphi=\{1\}$.
+    
+    $2$ follows from the second part of \ref{FirstIsoTheorem}.
+\end{proof}
+
+To readers who are familiar with linear algebra, the second part of the above corollary might appear similar to the rank-nullity theorem.
+
+\begin{theorem}[The Second or Diamond Isomorphism Theorem]
+\label{SecondIsoTheorem}
+    Let $A$ and $B$ be subgroups of a group $G$ such that $A\leq N_G(B)$. Then $AB\leq G$, $B\unlhd AB$, $A\cap B\unlhd A$ and $AB/B\cong A/A\cap B$.
+\end{theorem}
+\begin{proof}
+    \ref{HKSubgroupIfKunlhdG} gives $AB\leq G$. Since $A\leq N_G(B)$ and $B\leq N_G(B)$ trivially, $AB\leq N_G(B)$, that is, $B\unlhd AB$.
+    
+    Consider the map $\varphi:A\to AB/B$ which is the restrictions of the natural projection homomorphism $\pi:AB\to AB/B$ to $A$. The identity of $AB/B$ is the coset $1B$. The kernel of $\varphi$ is $\{a\in A\mid aB=1B\}=A\cap B$. $\varphi$ is a surjection as given any coset $abB=aB\in AB/B$ for some $a\in A$ and $b\in B$, we have $\varphi(a)=abB$. Thus by \ref{FirstIsoTheorem}, $A\cap B\unlhd A$ and $A/A\cap B\unlhd AB/B$.
+\end{proof}
+
+The reason the above theorem is called the Diamond Isomorphism Theorem is hopefully clear from the following diagram.
+
+\begin{center}
+\begin{tikzpicture}[node distance=1.5cm]
+    \node (G) {$G$};
+    \node[below of=G] (AB) {$AB$};
+    \node[below right of=AB] (B) {$B$};
+    \node[below left of=AB] (A) {$A$};
+    \node[below right of=A] (AiB) {$A\cap B$};
+    \node[below of=AiB] (1) {$1$};
+    \draw (G) edge (AB)
+          (AB) edge (A)
+          (AB) edge[above right] node {$\unlhd$} (B)
+          (A) edge[below left] node {$\unlhd$} (AiB)
+          (B) edge (AiB)
+          (AiB) edge (1);
+\end{tikzpicture}
+\end{center}
+
+\begin{theorem}[The Third Isomorphism Theorem]
+\label{ThirdIsoTheorem}
+    Let $G$ be a group and let $H,K$ be normal subgroups of $G$ such that $H\leq K$. Then $(K/H)\unlhd (G/H)$ and $(G/H)/(K/H)\cong G/K$.
+\end{theorem}
+\begin{proof}
+    Let $X\in K/H, Y\in G/H$. Then we can write $X=kH$ and $Y=gH$ for some $k\in K,g\in G$. We have $YXY^{-1}=(gH)(kH)(gH)^{-1}=(gkg^{-1})H$. As $K\unlhd G$, $gkg^{-1}=k'$ for some $k'\in K$. That is, $YXY^{-1}=k'H\in K/H$. Thus $Y (K/H) Y^{-1}\subseteq (K/H)$ for any $Y\in (G/H)$. By \ref{normalSubgroupEquivalences}, $(K/H)\unlhd (G/H)$.
+    
+    \vspace{1mm}
+    Consider $\varphi:(G/H)\to (G/K)$ defined by $gH\mapsto gK$ for all $g\in G$. This is well-defined as $g_1H=g_2H\iff g_1g_2^{-1}\in H\implies g_1g_2^{-1}\in K\iff g_1K=g_2K$ for $g_1,g_2\in G$. Since $g$ can be any element of $G$, $\varphi$ is a surjective homomorphism. We have
+    \begin{align*}
+        \ker\varphi &= \{gH\in (G/H)\mid gK=K\} \\
+                    &= \{gH\in (G/H)\mid g\in K\} \\
+                    &= (K/H)
+    \end{align*}
+    Apply the first isomorphism theorem \ref{FirstIsoTheorem} to get $(G/H)/(K/H)\cong (G/K)$.
+\end{proof}
+
+\begin{theorem}[The Fourth or Lattice Isomorphism Theorem]
+\label{FourthIsoTheorem}
+    Let $N$ be a normal subgroup of group $G$. Then there is a bijection from the set of subgroups $A$ of $G$ which contain $N$ to the set of subgroups $\overline A=A/N$ of $G/N$. This bijection has the following properties. For all $A,B\leq G$ with $N\leq A$ and $N\leq B$,
+    \begin{enumerate}
+        \item $A\leq B$ if and only if $\overline A\leq\overline B$
+        \item if $A\leq B$, then $|B:A|=|\overline B:\overline A|$
+        \item $\overline{\langle A,B\rangle}=\langle\overline A,\overline B\rangle$
+        \item $\overline{A\cap B}=\overline A\cap\overline B$
+        \item $A\unlhd G$ if and only if $\overline A\unlhd\overline G$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Consider the map $\varphi$ from the set of subgroups of $G$ which contain $N$ to the set of subgroups of $(G/N)$ given by $A\mapsto A/N$. This map is clearly surjective as given any $(A/N)\in (G/N)$, $A$ maps to it. Let us now prove that $\varphi$ is injective. Suppose we have $(A/N)=(B/N)$. We wish to show that $A=B$. Let $a\in A$ and $b\in B$ such that $aN=bN$, that is, $a\in bN$. However, $N\subseteq B$ so $a\in bB=B$. This gives $A\subseteq B$. Similarly, $B\subseteq A$ and therefore, $A=B$. Thus $\varphi$ is a bijection.
+    \begin{enumerate}
+        \item If $A\leq B$, we trivially have $(A/N)\leq(B/N)$. If $(A/N)\leq(B/N)$, then given any $a\in A$, there exists $b\in B$ such that $aN=bN$, that is, $a\in bN\subseteq bB=B$. Thus $A\subseteq B$ and $A\leq B$.
+        
+        \item Consider the map $\psi$ from the set of cosets of $A$ in $B$ to the set of cosets of $\overline{A}$ in $\overline{B}$ given by $bA\mapsto bN(A/N)$. This map is injective (and well-defined) as $(b_1N)(A/N)=(b_2N)(A/N)\iff (b_1^{-1}b_2)N\in (A/N)\iff b_1^{-1}b_2\in A\iff b_1A=b_2A$.
+        
+        $\psi$ is surjective as $b$ ranges over all of $B$ in $bN(A/N)$. As $\psi$ is a bijection, we have $|B:A|=|\overline{B}:\overline{A}|$.
+        
+        \item To prove that $\overline{\langle A,B\rangle}\subseteq \langle\overline{A},\overline{B}\rangle$, we must show that given any $x\in A\cup B$, $xN\in \langle\overline{A},\overline{B}\rangle$. This is clearly true as $xN\in \overline{A}\cup\overline{B}$.
+        
+        For the reverse inclusion, if $xN\in \overline{A}\cup\overline{B}$, then $xN=gN$ for some $g\in A\cup B$, giving $x^{-1}g\in N\subseteq A\cup B$ and so $x\in A\cup B\subseteq\langle A,B\rangle$. Therefore $\overline{\langle A,B\rangle}=\langle\overline A,\overline B\rangle$.
+        
+        \item This proof is similar to that of $3$ and is left as an exercise.
+        
+        \item This was given as an exercise in \ref{completePreimageIsSubgroup} (consider the maps $\varphi$ and $\varphi^{-1}$).
+        
+    \end{enumerate}
+\end{proof}
+
+During the course of proving the isomorphism theorems, we often considered a map $\varphi$ on $G/N$ in several places in terms of the $g$ in $gN$ and proved that it is well-defined by proving that it is equal for any representative of $gN$. We are essentially defining a homomorphism $\phi$ on $G$ by specifying the value on $g$. Then this independence of $g$ is just equivalent to saying that the map is trivial on $N$, that is, $\varphi$ is well-defined on $G/N$ if and only if $N\leq\ker\phi$.
+
+In this case we say that $\phi$ factors through $N$ and $\varphi$ is the \textit{induced homomorphism} on $G/N$. This can be denoted as the following diagram which \textit{commutes}, that is, $\phi=\varphi\circ\pi$.
+\begin{center}
+\begin{tikzpicture}[->, >=stealth', node distance=2cm]
+    \node (G) {$G$};
+    \node[right of=G] (GN) {$G/N$};
+    \node[below of=GN] (H) {$H$};
+    \draw (G) edge[above] node {$\pi$} (GN)
+          (GN) edge[right] node {$\varphi$} (H)
+          (G) edge[below left] node {$\phi$} (H);
+\end{tikzpicture}
+\end{center}
+
+\begin{exercise}
+    Prove that if $H$ is a normal subgroup of group $G$ of prime index $p$, then for all $K\leq G$ either $K\leq H$ or $G=HK$ and $|K:K\cap H|=p$.
+\end{exercise}
+
+\begin{exercise}
+    Let $M$ and $N$ be normal subgroups of $G=MN$. Prove that $(G/M\cap N)\cong (G/M)\times (G/N)$.
+\end{exercise}
+
+\begin{exercise}
+    Let $G$ be a group of order $p^a m$, where $p$ is a prime that does not divide $m$. Let $P$ be a subgroup of $G$ of order $p^a$ and $N$ a normal subgroup of $G$ of order $p^bn$, where $p$ does not divide $n$. Prove that $|P\cap N|=p^b$ and $|PN/N|=p^{a-b}$. (We shall read about these type of subgroups in detail when we discuss Sylow $p$-subgroups)
+\end{exercise}
+
+\begin{exercise}
+    A subgroup $H$ of a finite group $G$ is called a \textit{Hall subgroup} of $G$ if $(|G:H|,|H|)=1$. Prove that if $H$ is a Hall subgroup of $G$ and $N\unlhd G$, then $H\cap N$ is a Hall subgroup of $N$ and $HN/N$ is a Hall subgroup of $G/N$.
+\end{exercise}
+
+\subsection{Composition Series}
+
+Although proving Cauchy's Theorem was given as an exercise in \ref{exercCauchyThm}, we shall prove the following (weaker) result.
+
+\begin{lemma}
+    Let $G$ be a finite abelian group and $p$ be a prime dividing $|G|$. Then $G$ contains an element of order $p$.
+\end{lemma}
+
+\begin{definition}
+    A non-trivial group $G$ is called \textit{simple} if the only normal subgroups of $G$ are $\{1\}$ and $G$.
+\end{definition}
+
+By Lagrange's Theorem, any group of prime order is simple. Also, every abelian simple group is isomorphic to $\mathbb{Z}_p$ for some prime $p$.
+
+\begin{definition}
+    Let $G$ be a group. A sequence of subgroups
+    $$\{1\}\leq N_0\leq N_1\leq N_2\leq\cdots\leq N_{k-1}\leq N_k=G$$
+    is called a \textit{composition series} if $N_i\unlhd N_{i+1}$ and $N_{i+1}/N_i$ is a simple group for each valid $i$. The quotient groups $N_{i+1}/N_i$ are then called \textit{composition factors}.
+\end{definition}
+
+\begin{theorem}[Jordan-H\"older]
+    Let $G$ be a non-trivial finite group. Then
+    \begin{enumerate}[(i)]
+        \item $G$ has a composition series and
+        \item if $\{1\}=N_0\leq N_1\leq\cdots\leq N_r=G$ and $\{1\}=M_0\leq M_1\leq\cdots\leq M_s=G$ are two composition series of $G$, then $r=s$ and there is some permutation $\pi$ of $\{1,2,\ldots,r\}$ such that
+        $M_{\pi(i)}/M_{\pi(i)-1}\cong N_i/N_{i-1}$ for each $1\leq i\leq r$.
+    \end{enumerate}
+\end{theorem}
+
+
+
+\clearpage
