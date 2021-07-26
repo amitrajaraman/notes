@@ -1,0 +1,95 @@
+\title{CS 305: Computer Architecture}
+\author{Amit Rajaraman}
+\date{Fall 2021}
+
+\usepackage{tgpagella}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,amscd}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[tmargin=1in, bmargin=1in, lmargin=0.75in, rmargin=0.75in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{cleveref}
+\usepackage{mathtools}
+\usepackage{doi}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{esvect}
+\usepackage{lastpage}
+\usepackage{anyfontsize}
+
+\usepackage[square,numbers]{natbib}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\sffamily\large\bfseries}{\thesubsection.}{0.2cm}{\large}
+\titleformat{\subsubsection}[block]{\sffamily\large\bfseries}{\normalsize\thesubsubsection.}{0.15cm}{\normalsize}
+% \titleclass{\subsubsubsection}{straight}[\subsection]
+% \newcounter{subsubsubsection}[subsubsection]
+% \renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+% \titleformat{\subsubsubsection}
+%   {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+% \titlespacing*{\subsubsubsection}
+% {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{CS 305: Computer Architecture}}
+\chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
+\rhead{\sffamily{Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength\parindent{0pt}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewcommand{\emptyset}{\varnothing}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newenvironment{ftheo}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
+  {\end{theorem}\end{shaded}}
+\newtheorem{lemma}[theorem]{Lemma}
+\newenvironment{flem}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{lemma}}
+  {\end{lemma}\end{shaded}}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newenvironment{fdef}
+  {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
+  {\end{definition}\end{shaded}}
+\newtheorem*{conjecture*}{Conjecture}
+\newenvironment{fcon}
+  {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{conjecture*}}
+  {\end{conjecture*}\end{shaded}}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge CS 305: Computer Architecture} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large\textbf{Amit Rajaraman}}\\ % Author name
+    
+    \vspace{0.4cm}
+    Last updated \today % Year published
+
+\endgroup}
