@@ -20,7 +20,7 @@
 	For a vertex $v$, denote by $d(v) = |N(v)|$ the \emph{degree} of $v$ -- the number of edges incident on it.\\
 	For $v \in V$ and $K \subseteq V$, $d(v,K)$ is the number of edges
 	\[ \left|\{ u \in K : uv \in E \}\right| \]
-	from $v$ into $K$
+	from $v$ into $K$.
 
 \section{Introduction}
 
@@ -44,11 +44,15 @@
 		Now, consider the graph $G$ with vertex set $[4]$ and edge set $\{\{1,3\},\{3,2\},\{2,4\}\}$. This graph appears to be the same as the path graph of length $3$, but how do we make this correspondence more concrete?\\
 		Relabeling vertices doesn't create a ``new'' graph.
 
-		\begin{definition}
+		\begin{definition}[Graph Isomorphism]
 			Two graphs $G = (V,E)$ and $G' = (V',E')$ are said to be \textbf{isomorphic} and we write $G \simeq G'$ if there exists a bijection $f : V \to V'$ such that there is an edge between two vertices $u$ and $v$ in $G$ if and only if there is an edge between $f(u)$ and $f(v)$ in $G'$.
 		\end{definition}
 
 		If two graphs are isomorphic, they are identical for our purposes (we only care about graphs up to isomorphism).
+
+		\begin{definition}[Subgraph]
+			Given a graph $G = (V,E)$, a \textbf{subgraph} $H = (V',E')$ is a graph such that $V' \subseteq V$ and $E' \subseteq E$. Given $V' \subseteq V$, the subgraph \emph{induced} by $V'$ on $G$ is that with vertex set $V'$ and edge set $\binom{V'}{2} \cap E$.
+		\end{definition}
 
 	\subsection{The birth of Extremal Graph Theory}
 
@@ -70,7 +74,7 @@
 		\label{Mantel's Theorem}
 			If $G_n$ has no triangle, then
 			\[ e(G_n) \le \left\lfloor \frac{n^2}{4} \right\rfloor. \]
-			Further, equality is attained iff $G_n$ is equal to $K_{\lfloor n/2\rfloor , \lceil n/2 \rceil}$.
+			Further, equality is attained iff $G_n \simeq K_{\lfloor n/2\rfloor , \lceil n/2 \rceil}$.
 		\end{ftheo}
 		\begin{proof}
 			Suppose $G_n$ has no triangles. Saying that $G_n$ has no triangles is equivalent to saying that for distinct adjacent $u,v$, $N(u) \cap N(v) = \emptyset$.\\
