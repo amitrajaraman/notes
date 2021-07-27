@@ -17,14 +17,14 @@
 	A graph $G_n$ is a graph with $n$ vertices.\\
 	Given a graph $G$, $e(G)$ is the number of edges $G$ has.\\
 	For a vertex $v$, denote by $N(v)$ the set of \emph{neighbours} of $v$ -- all the vertices that have an edge to $v$.\\
-	For a vertex $v$, denote by $d(v) = |N(v)|$ the \emph{degree} of $v$ -- the number of edges incident on it.\\
+	For a vertex $v$, denote by $d_G(v) = |N(v)|$ the \emph{degree} of $v$ -- the number of edges incident on it. If the graph $G$ is clear from context, we write simply $d(V)$. \\
 	For $v \in V$ and $K \subseteq V$, $d(v,K)$ is the number of edges
 	\[ \left|\{ u \in K : uv \in E \}\right| \]
 	from $v$ into $K$.
 
 \section{Introduction}
 
-	\subsection{What are Graphs?}
+	\subsection{Basic Definitions}
 
 		\begin{fdef}
 			A (simple undirected) \textbf{graph} $G$ is an ordered pair $(V,E)$ where $V$ is a finite set called the \emph{vertex set} and $E$, called the \emph{edge set}, is a subset of $\binom{V}{2}$, where $\binom{S}{k}$ represents the set of all $k$-element subsets of $S$.
@@ -44,17 +44,40 @@
 		Now, consider the graph $G$ with vertex set $[4]$ and edge set $\{\{1,3\},\{3,2\},\{2,4\}\}$. This graph appears to be the same as the path graph of length $3$, but how do we make this correspondence more concrete?\\
 		Relabeling vertices doesn't create a ``new'' graph.
 
-		\begin{definition}[Graph Isomorphism]
+		\begin{fdef}[Graph Isomorphism]
 			Two graphs $G = (V,E)$ and $G' = (V',E')$ are said to be \textbf{isomorphic} and we write $G \simeq G'$ if there exists a bijection $f : V \to V'$ such that there is an edge between two vertices $u$ and $v$ in $G$ if and only if there is an edge between $f(u)$ and $f(v)$ in $G'$.
-		\end{definition}
+		\end{fdef}
 
 		If two graphs are isomorphic, they are identical for our purposes (we only care about graphs up to isomorphism).
 
-		\begin{definition}[Subgraph]
-			Given a graph $G = (V,E)$, a \textbf{subgraph} $H = (V',E')$ is a graph such that $V' \subseteq V$ and $E' \subseteq E$. Given $V' \subseteq V$, the subgraph \emph{induced} by $V'$ on $G$ is that with vertex set $V'$ and edge set $\binom{V'}{2} \cap E$.
-		\end{definition}
+		We now give a few more definitions that are useful.
 
-	\subsection{The birth of Extremal Graph Theory}
+		\begin{fdef}[Subgraph]
+			Given a graph $G = (V,E)$, a \textbf{subgraph} $H = (V',E')$ is a graph such that $V' \subseteq V$ and $E' \subseteq E$. Given $V' \subseteq V$, the subgraph \emph{induced} by $V'$ on $G$ is that with vertex set $V'$ and edge set $\binom{V'}{2} \cap E$.
+		\end{fdef}
+
+		\begin{fdef}[$r$-partite Graph]
+			A graph $G = (V,E)$ is said to be \textbf{$r$-partite} if there exists a partition $V_1, V_2, \ldots, V_r$ of $V$ such that for any edge $e = uv \in E$, $u$ and $v$ are in distinct $V_i$. That is, there are no edges within any of the $V_i$.\\
+			In particular, a $2$-partite graph is said to be \textbf{bipartite}.
+		\end{fdef}
+
+		\begin{fdef}[Independent Set]
+			Given a graph $G=(V,E)$, $I \subseteq V$ is said to be \textbf{independent} if no two vertices of $I$ are adjacent (the subgraph induced by $I$ is null).\\
+			$\alpha(G)$, the \emph{independence number} of $G$, denotes the size of the largest independent set in $G$.
+		\end{fdef}
+
+		\begin{fdef}[Clique]
+			Given a graph $G=(V,E)$, $K \subseteq V$ is said to be a \textbf{clique} if any two vertices of $K$ are adjacent (the subgraph induced by $I$ is complete).
+			$\omega(G)$, the \emph{clique number} of $G$, denotes the size of the largest clique in $G$.
+		\end{fdef}
+
+		\begin{fdef}[Complement Graph]
+			Given a graph $G=(V,E)$, the \textbf{complement graph} of $G$ is $\bar{G} = (V,\binom{V}{2} \setminus E)$.
+		\end{fdef}
+
+		Observe that $S \subseteq V$ is independent in $G$ if and only if $S$ is a clique in $\bar{G}$. In particular, $\alpha(G) = \omega(\bar{G})$.
+
+	\subsection{The Birth of Extremal Graph Theory}
 
 		Extremal graph theory is motivated by the following simple problem:
 
@@ -108,9 +131,10 @@
 		In particular, when $r \mid n$,
 		\[ t_r(n) = \binom{r}{2} \left(\frac{n}{r}\right)^2 = \frac{n^2}{2} \left(1 - \frac{1}{r}\right). \]
 
+
 		Here, we give three proofs of Tur\'{a}n's Theorem.
 
-		\begin{proof}[Proof 1 of Tur\'{a}n's Theorem]
+		\begin{proof}[Proof of Tur\'{a}n's Theorem]
 			We perform strong induction on $n+r$. We have already proved the result for $r=2$.\\
 			Suppose $e(G_n) \ge t_r(n)$ and $G_n$ is $K_{r+1}$-free, where $r > 2$. We wish to prove that $G \simeq T_r(n)$.\\
 			Since $t_r(n) \ge t_{r-1}(n)$ (check this!), the inductive hypothesis implies that $G$ has a copy $K \subseteq V$ of $K_r$. Observe that for $v \not\in K$, $d(v,K) \le r-1$ -- otherwise, there would be a copy of $K_{r+1}$ in $G$.\\
@@ -118,7 +142,64 @@
 			\[ t_r(n) \le e(G_n) \le t_r(n-r) + (r-1)(n-r) + \binom{r}{2}. \]
 			However, as can be checked manually, $t_r(n-r) + (r-1)(n-r) + \binom{r}{2} = t_r(n)$!\\
 			It follows that equality holds everywhere -- $e(G_n) = t_r(n)$, $e(V \setminus K) = t_r(n-r)$, and $d(v,K) = r-1$ for all $v \in V \setminus K$.\\
-			This graph is then isomorphic to $T_r(n)$ -- for each $v \in V \setminus K$, we can put the vertex in $K$ that is not adjacent to $v$ in the same bucket as $v$. Then, the only edges are those between distinct buckets (Why?).
+			This graph is then isomorphic to $T_r(n)$ -- for each $v \in V \setminus K$, we can put the vertex in $K$ that is not adjacent to $v$ in the same bucket as $v$. Then, the only edges are those between distinct buckets (Why?), so $G_n \simeq T_r(n)$.
+		\end{proof}
+
+		\begin{proof}[Erd\H{o}s' Proof of Tur\'{a}n's Theorem]
+			Erd\H{o}s proves a slightly more general claim: given a $K_{r+1}$-free graph $G_n$, there exists an $r$-partite graph $H$ on $V$ such that $d_G(v) \le d_H(v)$ for all $v \in V$.\\
+			It is then a simple task to check that among the $r$-partite graphs on $n$ vertices, the Tur\'{a}n graph $T_r(n)$ has the most edges.\\
+
+			To prove our claim, we perform induction on $r$.\\
+			The claim is trivial for the base case $r=1$.\\
+			Now, suppose the claim holds for values less than $r$. Let $v_0 \in V$ such that $d_G(v_0) = \max_{v \in V} d_G(v)$ (the vertex of maximum degree in $G$) and $W = N(z)$. Since $G$ is $K_{r+1}$-free, $W$ is $K_r$-free. Inductively, there is an $(r-1)$-partite graph $H'$ on $W$ such that for all $v \in W$, $d_{H'}(v) \ge d_W(v)$.\\
+			Let $U = V \setminus W$. For each $u \in U$, remove all its edges in $G$ and set its new neighbour set as $W$.\\
+			Our desired graph $H$ is that with these edges along with those in $H'$ and the edges from $v_0$ to $W$. That is, the $r$th part is $U \cup \{v_0\}$ and the remaining $(r-1)$ parts are those formed by $H'$. The graph is clearly $r$-partite by definition. What about the degree inequality?
+			\begin{itemize}
+				\item $d_G(v_0) = d_H(v_0)$ trivially.
+				\item For $u \in U$, $d_H(u) = d_G(v_0) \ge d_G(u)$.
+				\item For $w \in W$,
+				\[ d_H(w) = |U| + 1 + d_{H'}(w) \ge |U| + 1 + d_W(w) \ge d_U(w) + 1 + d_W(w) = d_G(w). \qedhere \]
+			\end{itemize}
+
+			(Why does equality imply that the graph is isomorphic to $T_r(n)$?)
+		\end{proof}
+
+		\begin{ftheo}[Tur\'{a}n's Theorem, reformulation]
+			If $d = e(G_n) / n$ is the average degree of the vertices of $G_n$, then $G_n$ has an independent set of size at least $n/(d+1)$.
+		\end{ftheo}
+
+		\begin{proof}
+			Why is this equivalent to Tur\'{a}n's Theorem?\\
+			If $G_n$ has no $K_{r+1}$, then $\alpha(\bar{G}) \le r$. If $\bar{G_n}$ has average degree $d$, the above result would imply that $r \ge n/(d+1)$, that is, $d \le (n/r) - 1$. The total number of edges in $G_n$ is then
+			\[ \binom{n}{2} - \frac{nd}{2} \le \binom{n}{2} - \frac{n}{2} \left(\frac{n}{r} - 1\right) = \frac{n^2}{2} \left(1 - \frac{1}{r}\right), \]
+			which gives Tur\'{a}n's bound!\\
+
+			Let us now get to the proof of the above reformulation. First, consider the following algorithm to come up with \emph{some} independent set in $G$:
+			\begin{enumerate}
+				\item Order $V$ to get $\{v_1,\ldots,v_n\}$ and initialize $S = \emptyset$.
+				\item Add $v_1$ to $S$.
+				\item Having processed vertices $v_1$ through $v_i$, add $v_{i+1}$ to $S$ iff there is no vertex in $S$ that is adjacent to $v_{i+1}$.
+			\end{enumerate}
+			It is clear that this always produces an independent set, but the size of the independent set depends on the ordering we choose at the beginning.\\
+			For a given ordering $\sigma$, denote by $\mathcal{A}(\sigma)$ the independent set produced by the algorithm.\\
+			How do we choose a ``good'' ordering?\\
+			Enter the probabilistic method. Pick a random order, that is, a (uniformly) random permutation $\pi$ of the vertices in $V$. Then,
+			\begin{align*}
+				\expec[ | \mathcal{A}(\pi) | ] &= \expec\left[ \sum_{v \in V} \indic_{v \in \mathcal{A}(\pi)} \right] \\
+				&= \sum_{v \in V} \expec\left[ \indic_{v \in \mathcal{A}(\pi)} \right] \\
+				&= \sum_{v \in V} \Pr\left[ v \in \mathcal{A}(\pi) \right].
+			\end{align*}
+			Fix some $v \in V$. What is the probability that $v \in \mathcal{A}(\pi)$?\\
+			If at the time of processing $v$ for the ordering $\pi$, $N(v) \cap S \ne \emptyset$, then $v$ is not picked. In particular, if $v$ is the first element of $N(v) \cup \{v\}$ in the ordering $\pi$, then it is definitely chosen by the algorithm. The probability of this occurring is $\frac{1}{d(v) + 1}$.
+			So,
+			\begin{align*}
+				\expec[ |\mathcal{A}(\pi)| ] &= \sum_{v \in V} \Pr\left[ \indic_{v \in \mathcal{A}(\pi)} \right] \\
+				&\ge \sum_{v \in V} \frac{1}{d(v) + 1} \\
+				&\stackrel{\small{(*)}}{\ge} \frac{n^2}{\sum_{v \in V} (d(v) + 1)} = \frac{n}{d+1},
+			\end{align*}
+			% where $(*)$ follows from \href{https://en.wikipedia.org/wiki/Cauchy%E2%80%93Schwarz_inequality#Titu's_lemma_-_Positive_real_numbers}{Titu's Lemma}.\\
+			where $(*)$ follows from the \href{https://en.wikipedia.org/wiki/HM-GM-AM-QM_inequalities}{AM-HM inequality}.\\
+			Since the expectation of $|\mathcal{A}(\pi)|$ is at least $n/(d+1)$, there must exist some permutation $\sigma$ such that $|\mathcal{A}(\sigma)| \ge n/(d+1)$, proving the result.
 		\end{proof}
 
 
