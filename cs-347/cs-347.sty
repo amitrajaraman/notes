@@ -1,6 +1,6 @@
-\title{The KLS Conjecture}
+\title{CS 347: Operating Systems}
 \author{Amit Rajaraman}
-\date{Winter 2020}
+\date{Fall 2021}
 
 \usepackage{amsmath,amssymb,amsthm,amsfonts,amscd}
 \usepackage{bbm}
@@ -20,6 +20,12 @@
 \usepackage{esvect}
 \usepackage{commath}
 \usepackage{lastpage}
+\usepackage{tgpagella}
+\usepackage{anyfontsize}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows, matrix}
+\tikzset{->, >=stealth', node distance = 2cm}
+
 
 \usepackage[square,numbers]{natbib}
 
@@ -36,7 +42,7 @@
 % {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 \usepackage{fancyhdr}
-\lhead{\sffamily{The KLS Conjecture}}
+\lhead{\sffamily{CS 347: Operating Systems}}
 \chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
 \rhead{\sffamily{Amit Rajaraman}}
 \cfoot{}
@@ -62,7 +68,6 @@
 \newcommand{\diam}{\operatorname{diam}}
 \newcommand{\rad}{\operatorname{rad}}
 \renewcommand{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand{\grad}{\nabla}
 \newcommand{\opnorm}[1]{\norm{#1}_{\text{op}}}
 \newcommand{\indic}{\mathbbm{1}}
 \renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
@@ -124,7 +129,7 @@
 \newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
     \centering % Center all text
     
-    \def\CP{\Huge \scshape The KLS Conjecture} % Title
+    \def\CP{\Huge \scshape CS 347: Operating Systems} % Title
     
     \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
     \HRule{0.5pt} \\[0.6cm]
