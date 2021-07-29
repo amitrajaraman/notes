@@ -219,10 +219,12 @@
 			Fix $s, t \in \N$ with $t \ge s \ge 2$ and $m,n\in\N$.
 			The \textbf{Zarankiewicz function} $z(m,n;s,t)$ is the maximum number of edges in a bipartite graph $G = (A \sqcup B, E)$ such that
 			\begin{itemize}
-				\item the two components $A$ and $B$ of the graph are of cardinality $m$ and $n$ respectively\footnote{by ``components'' of the bipartite graph we mean that for any edge $uv$ in the graph, $u\in A$ and $v\in B$ or $u \in B$ and $v\in A$.}, and
-				\item there exist no $S \subseteq A$, $T \subseteq B$ with $|S|=s$, $|T|=t$, and all edges between $S$ and $T$ present in $E$.
+				\item the two components $A$ and $B$ of the graph are of cardinality $m$ and $n$ respectively\footnotemark, and
+				\item there exist no $S \subseteq A$, $T \subseteq B$ with $|S|=s$, $|T|=t$, and all edges between $S$ and $T$ present in $E$.\footnotemark
 			\end{itemize}
 		\end{fdef}
+		\footnotetext[1]{by ``components'' of the bipartite graph we mean that for any edge $uv$ in the graph, $u\in A$ and $v\in B$ or $u \in B$ and $v\in A$.}
+		\footnotetext[2]{we make the tacit assumption that $s \le m$ and $t \le n$.}
 
 		For ease of writing, we refer to the above described criterion as the \emph{Zarankiewicz condition}.
 
@@ -277,22 +279,22 @@
 			Note that $K_{2,2}\simeq C_4$. Therefore, a square-free graph on $n$ vertices has $\mathcal{O}(n^{3/2})$ edges.\\
 
 			In fact, this bound is tight! We give an algebraic construction of a suitable graph with no $K_{2,2}$, known as the \emph{Levi graph for the projective plane}.\\
-			Let $p$ be prime and consider the $3$-dimensional vector space $\mathcal{V} = \mathbb{F}_p^3$ (over $\mathbb{F}_p$). Let $\mathcal{P}$ and $\mathcal{L}$ be the set of all $1$- and $2$-dimensional subspaces of $\mathcal{V}$ respectively.\\
+			Let $q$ be a prime power and consider the $3$-dimensional vector space $\mathcal{V} = \mathbb{F}_q^3$ (over $\mathbb{F}_q$). Let $\mathcal{P}$ and $\mathcal{L}$ be the set of all $1$- and $2$-dimensional subspaces of $\mathcal{V}$ respectively.\\
 			Define the graph $G = ( \mathcal{P} \sqcup \mathcal{L} , E )$ as follows. For $x \in \mathcal{P}$ and $L \in \mathcal{L}$, let $x$ be adjacent to $L$ in $G$ iff $x \subseteq L$.\\
 			We claim that $G$ has no $K_{2,2}$. Suppose otherwise and let $x_1,x_2\in\mathcal{P}$ and $L_1,L_2\in\mathcal{L}$ such that the $x_i$ are adjacent to the $L_j$. If $x_1 = \langle u \rangle$ and $x_2 = \langle v \rangle$, then $u$ and $v$ are linearly independent, which implies that $L_i = \langle u,v\rangle$. This contradicts the fact that the $L_i$ are distinct!\\
 			What are the cardinalities of $\mathcal{P}$ and $\mathcal{L}$?
 			\begin{itemize}
-				\item To get a $1$-dimensional subspace, we pick a non-zero $u$ and consider $\langle u\rangle$. In $\mathcal{V}$, there are $p^3 - 1$ non-zero $u$. We must now divide by $p-1$ to account for the fact that linearly dependent vectors generate the same $1$-dimensional subspace. Any non-zero $u$ has precisely $p-1$ non-zero multiples. Therefore,
-				\[ |\mathcal{P}| = \frac{p^3 - 1}{p - 1} = p^2 + p + 1. \]
+				\item To get a $1$-dimensional subspace, we pick a non-zero $u$ and consider $\langle u\rangle$. In $\mathcal{V}$, there are $q^3 - 1$ non-zero $u$. We must now divide by $q-1$ to account for the fact that linearly dependent vectors generate the same $1$-dimensional subspace. Any non-zero $u$ has precisely $q-1$ non-zero multiples. Therefore,
+				\[ |\mathcal{P}| = \frac{q^3 - 1}{q - 1} = q^2 + q + 1. \]
 
-				\item Any two-dimensional subspace can be uniquely chosen by considering the complementary $1$-dimensional subspace. As a result,
-				\[ |\mathcal{L}| = |\mathcal{P}| = p^2 + p + 1. \]
+				\item It turns out that the number of $2$-dimensional subspace is equal to the number of $1$-dimensional subspaces (more generally, the number of $d$-dimensional subspaces is equal to the number of $(n-d)$-dimensional subspaces of $\mathbb{F}_q^n$), so
+				\[ |\mathcal{L}| = q^2 + q + 1. \]
 			\end{itemize}
 			How many edges does $G$ have?\\
-			Fix $x = \langle u \rangle \in \mathcal{P}$. We wish to determine how many $L\in\mathcal{L}$ are adjacent to $x$ in $G$. Such an $L$ can be created by choosing $v \not\in x$ and letting $L = \langle u,v\rangle$.\\The number of choices of $v$ is $p^3 - p$, but each such subspace is repeated for $p^2-p$ choices of $v$ since the cardinality of $\langle u,v\rangle$ is $p^2$. Therefore,
-			\[ d(x) = \frac{p^3 - p}{p^2 - p} = p + 1. \]
+			Fix $x = \langle u \rangle \in \mathcal{P}$. We wish to determine how many $L\in\mathcal{L}$ are adjacent to $x$ in $G$. Such an $L$ can be created by choosing $v \not\in x$ and letting $L = \langle u,v\rangle$.\\The number of choices of $v$ is $q^3 - q$, but each such subspace is repeated for $q^2 - q$ choices of $v$ since the cardinality of $\langle u,v\rangle$ is $q^2$. Therefore,
+			\[ d(x) = \frac{q^3 - q}{q^2 - q} = q + 1. \]
 			The total number of edges is
-			\[ |\mathcal{P}| (p + 1) = (p+1)(p^2+p+1) = p^3 + 2p^2 + 2p + 1, \]
+			\[ |\mathcal{P}| (q + 1) = (q+1)(q^2+q+1) = q^3 + 2q^2 + 2q + 1, \]
 			which is $\mathcal{O}(|\mathcal{P}|^{3/2})$!
 			Therefore, our $\mathcal{O}(n^{3/2})$ bound is tight. It in fact turns out that the Levi graph is the ``best possible'' in some sense.
 		\end{enumerate}
