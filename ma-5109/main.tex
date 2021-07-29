@@ -77,7 +77,7 @@
 
 		Observe that $S \subseteq V$ is independent in $G$ if and only if $S$ is a clique in $\bar{G}$. In particular, $\alpha(G) = \omega(\bar{G})$.
 
-	\subsection{The Birth of Extremal Graph Theory}
+	\subsection{\texorpdfstring{$K_{r+1}$}{K r+1}-free graphs}
 
 		Extremal graph theory is motivated by the following simple problem:
 
@@ -183,14 +183,14 @@
 			It is clear that this always produces an independent set, but the size of the independent set depends on the ordering we choose at the beginning.\\
 			For a given ordering $\sigma$, denote by $\mathcal{A}(\sigma)$ the independent set produced by the algorithm.\\
 			How do we choose a ``good'' ordering?\\
-			Enter the probabilistic method. Pick a random order, that is, a (uniformly) random permutation $\pi$ of the vertices in $V$. Then,
+			Enter the probabilistic method. Define the random variable $\pi$ to be uniformly random on the set of all permutations of $V$. Then,
 			\begin{align*}
 				\expec[ | \mathcal{A}(\pi) | ] &= \expec\left[ \sum_{v \in V} \indic_{v \in \mathcal{A}(\pi)} \right] \\
 				&= \sum_{v \in V} \expec\left[ \indic_{v \in \mathcal{A}(\pi)} \right] \\
 				&= \sum_{v \in V} \Pr\left[ v \in \mathcal{A}(\pi) \right].
 			\end{align*}
-			Fix some $v \in V$. What is the probability that $v \in \mathcal{A}(\pi)$?\\
-			If at the time of processing $v$ for the ordering $\pi$, $N(v) \cap S \ne \emptyset$, then $v$ is not picked. In particular, if $v$ is the first element of $N(v) \cup \{v\}$ in the ordering $\pi$, then it is definitely chosen by the algorithm. The probability of this occurring is $\frac{1}{d(v) + 1}$.
+			Fix some $v \in V$ and permutation $\sigma$. What is the probability that $v \in \mathcal{A}(\sigma)$?\\
+			If at the time of processing $v$ for the ordering $\sigma$, $N(v) \cap S \ne \emptyset$, then $v$ is not picked. In particular, if $v$ is the first element of $N(v) \cup \{v\}$ in the ordering $\sigma$, then it is definitely chosen by the algorithm. The probability of this occurring is $\frac{1}{d(v) + 1}$.
 			So,
 			\begin{align*}
 				\expec[ |\mathcal{A}(\pi)| ] &= \sum_{v \in V} \Pr\left[ \indic_{v \in \mathcal{A}(\pi)} \right] \\
@@ -201,6 +201,98 @@
 			where $(*)$ follows from the \href{https://en.wikipedia.org/wiki/HM-GM-AM-QM_inequalities}{AM-HM inequality}.\\
 			Since the expectation of $|\mathcal{A}(\pi)|$ is at least $n/(d+1)$, there must exist some permutation $\sigma$ such that $|\mathcal{A}(\sigma)| \ge n/(d+1)$, proving the result.
 		\end{proof}
+
+	\subsection{The Zarankiewicz Theorem}
+
+		Tur\'{a}n's Theorem is the primary result that birthed Graph Theory. To generalize the notion of $K_{r+1}$-freeness, define the following.
+
+		\begin{fdef}[Extremal Function]
+			Given a graph $H$, define the \textbf{extremal function} $\exx(n;H)$ as the maximum number of edges in a graph on $n$ vertices without $H$ as a subgraph.
+		\end{fdef}
+
+		With this notation, Tur\'{a}n's Theorem then says that $\exx(n;K_{r+1}) = t_r(n)$, with equality iff $G \simeq T_r(n)$.
+
+		\begin{fdef}
+			Fix $s, t \in \N$ with $t \ge s \ge 2$ and $m,n\in\N$.
+			The \textbf{Zarankiewicz function} $z(m,n;s,t)$ is the maximum number of edges in a bipartite graph $G = (A \sqcup B, E)$ such that
+			\begin{itemize}
+				\item the two components $A$ and $B$ of the graph are of cardinality $m$ and $n$ respectively\footnote{by ``components'' of the bipartite graph we mean that for any edge $uv$ in the graph, $u\in A$ and $v\in B$ or $u \in B$ and $v\in A$.}, and
+				\item there exist no $S \subseteq A$, $T \subseteq B$ with $|S|=s$, $|T|=t$, and all edges between $S$ and $T$ present in $E$.
+			\end{itemize}
+		\end{fdef}
+
+		For ease of writing, we refer to the above described criterion as the \emph{Zarankiewicz condition}.
+
+		That is, we ``forbid'' the subgraph $K_{s,t}$ with the components of size $s$ and $t$ on the side of $A$ and $B$ respectively.\\
+
+		The \textbf{Zarankiewicz problem} asks for a closed form representation of $z(m,n;s,t)$. Failing this, for fixed $t$, it asks for a tight asymptotic bound on $z(n,n;t,t)$ as $n$ grows large.\\
+		Perhaps surprisingly, this problem remains unsolved! (as of the time of writing these notes)
+
+		\begin{ftheo}[K\H{o}v\'{a}ri-S\'{o}s-Tur\'{a}n Theorem]
+			For $t\ge s\ge 2$ and $m,n\in\N$,
+			$$z(m,n;s,t) \le (s-1)^{1/t} (n-t+1)m^{1-1/t} + (t-1)m.$$
+		\end{ftheo}
+		\begin{proof}
+			Let $G$ be bipartite with vertex set $A \sqcup B$ and satisfy the Zarankiewicz condition.\\
+			Fix $a \in A$. By definition, $|N(a)| = d(a)$. Now, $\binom{d(a)}{t}$ is the number of $t$-element subsets of $N(a)$. We may assume that for all $a \in A$, $d(a) \ge t-1$. Indeed, otherwise, we may add arbitrary edges to $a$ to make its degree $t-1$; any vertex from $A$ in a subgraph isomorphic to $K_{s,t}$ must have at least degree $t$ so $a$ cannot be part of it.
+
+			We have that
+			\begin{align*}
+				\sum_{x \in A} \binom{d(x)}{t} &= \left| \{ (x,T) : x \in A, T \subseteq N(x), |T|=t \} \right| \\
+				&= \sum_{\substack{T \subseteq B \\ |T| = t}} |\{x \in A : T \subseteq N(x)\}|.
+			\end{align*}
+			If we fix a $T$, then the number of such $x$ for that $T$ is at most $s-1$, due to our assumption. As a result,
+			\[ \sum_{x \in A} \binom{d(x)}{t} \le \binom{n}{t} (s-1). \]
+			Now, observe that the function
+			\[ f(x) = \frac{x(x-1)\cdots(x-t+1)}{t!} \]
+			is convex on $[t-1,\infty)$.
+			Using \href{https://en.wikipedia.org/wiki/Jensen%27s_inequality#Finite_form}{Jensen's inequality} together with our assumption that $d(x) \ge t-1$ for all $x\in A$,
+			\begin{align*}
+				\binom{n}{t} (s-t) &\ge \sum_{x\in A} \binom{d(x)}{t} \\
+				 &\ge m \binom{\frac{1}{m}\sum_{x\in A} d(x)}{t} \\
+				 &= m \binom{e(G)/m}{t}.
+			\end{align*}
+			Let $d = e(G)/m$, the average degree of the vertices in $A$. Simplifying the above expression,
+			\[ \frac{s-1}{m} \ge \frac{d(d-1)\cdots (d-t+1)}{n(n-1)\cdots(n-t+1)} \ge \left(\frac{d-t+1}{n-t+1}\right)^t, \]
+			where the second inequality follows from the fact that $d \le n$. Therefore,
+			\[ e(G) \le m \left( \left(\frac{s-1}{m}\right)^{1/t} (n-t+1) + (t-1) \right) = (s-1)^{1/t} (n-t+1) m^{1 - 1/t} + (t-1)m, \]
+			completing the proof.
+		\end{proof}
+
+		What are some consequences of the above bound?
+		\begin{enumerate}
+			\item We get a bound on $\exx(n;K_{s,t})$. We claim that for $n\in\N$ and $s,t\ge 2$,
+			\[ \exx(n;K_{s,t}) \le \frac{1}{2} z(n,n;s,t). \]
+			Indeed, if $G_n = (V,E)$ has no $K_{s,t}$, make a bipartite graph $G'$ that has vertex set $V \times \{0,1\}$ such that $uv$ is an edge in $G$ iff $\{(u,0),(v,1)\}$ is an edge in $G'$.\\
+			$G'$ satisfies the Zarankiewicz condition. If there do exist $S \subseteq V\times\{0\}$ and $T' \subseteq V \times \{1\}$ such that all $S$-$T$ edges are in $G$, then $\pi_1(S) \cap \pi_1(T') = \emptyset$ (otherwise, a vertex would be adjacent to itself in $G$, which is clearly false). This implies that $K_{s,t} \subseteq G$, which is a contradiction.\\
+			Since $e(G') = 2e(G)$, the claim follows.
+
+			\item When $s=t=2$, we get
+			\[ z(m,n;2,2) \le (n-1)m^{1/2} + m \text{ and } z(n,n;2,2) \le (n-1)n^{1/2} + n. \]
+			Therefore,
+			\[ \exx(n;K_{2,2}) \le \frac{1}{2} (n + (n-1)\sqrt{n}). \]
+			Note that $K_{2,2}\simeq C_4$. Therefore, a square-free graph on $n$ vertices has $\mathcal{O}(n^{3/2})$ edges.\\
+
+			In fact, this bound is tight! We give an algebraic construction of a suitable graph with no $K_{2,2}$, known as the \emph{Levi graph for the projective plane}.\\
+			Let $p$ be prime and consider the $3$-dimensional vector space $\mathcal{V} = \mathbb{F}_p^3$ (over $\mathbb{F}_p$). Let $\mathcal{P}$ and $\mathcal{L}$ be the set of all $1$- and $2$-dimensional subspaces of $\mathcal{V}$ respectively.\\
+			Define the graph $G = ( \mathcal{P} \sqcup \mathcal{L} , E )$ as follows. For $x \in \mathcal{P}$ and $L \in \mathcal{L}$, let $x$ be adjacent to $L$ in $G$ iff $x \subseteq L$.\\
+			We claim that $G$ has no $K_{2,2}$. Suppose otherwise and let $x_1,x_2\in\mathcal{P}$ and $L_1,L_2\in\mathcal{L}$ such that the $x_i$ are adjacent to the $L_j$. If $x_1 = \langle u \rangle$ and $x_2 = \langle v \rangle$, then $u$ and $v$ are linearly independent, which implies that $L_i = \langle u,v\rangle$. This contradicts the fact that the $L_i$ are distinct!\\
+			What are the cardinalities of $\mathcal{P}$ and $\mathcal{L}$?
+			\begin{itemize}
+				\item To get a $1$-dimensional subspace, we pick a non-zero $u$ and consider $\langle u\rangle$. In $\mathcal{V}$, there are $p^3 - 1$ non-zero $u$. We must now divide by $p-1$ to account for the fact that linearly dependent vectors generate the same $1$-dimensional subspace. Any non-zero $u$ has precisely $p-1$ non-zero multiples. Therefore,
+				\[ |\mathcal{P}| = \frac{p^3 - 1}{p - 1} = p^2 + p + 1. \]
+
+				\item Any two-dimensional subspace can be uniquely chosen by considering the complementary $1$-dimensional subspace. As a result,
+				\[ |\mathcal{L}| = |\mathcal{P}| = p^2 + p + 1. \]
+			\end{itemize}
+			How many edges does $G$ have?\\
+			Fix $x = \langle u \rangle \in \mathcal{P}$. We wish to determine how many $L\in\mathcal{L}$ are adjacent to $x$ in $G$. Such an $L$ can be created by choosing $v \not\in x$ and letting $L = \langle u,v\rangle$.\\The number of choices of $v$ is $p^3 - p$, but each such subspace is repeated for $p^2-p$ choices of $v$ since the cardinality of $\langle u,v\rangle$ is $p^2$. Therefore,
+			\[ d(x) = \frac{p^3 - p}{p^2 - p} = p + 1. \]
+			The total number of edges is
+			\[ |\mathcal{P}| (p + 1) = (p+1)(p^2+p+1) = p^3 + 2p^2 + 2p + 1, \]
+			which is $\mathcal{O}(|\mathcal{P}|^{3/2})$!
+			Therefore, our $\mathcal{O}(n^{3/2})$ bound is tight. It in fact turns out that the Levi graph is the ``best possible'' in some sense.
+		\end{enumerate}
 
 
 \end{document}
