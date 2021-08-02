@@ -210,10 +210,15 @@
 		Tur\'{a}n's Theorem is the primary result that birthed Extremal Graph Theory. To generalize the problem studied in the previous section, define the following.
 
 		\begin{fdef}[Extremal Function]
-			Given a graph $H$, define the \textbf{extremal function} $\exx(n;H)$ as the maximum number of edges in a graph on $n$ vertices without $H$ as a subgraph.
+			Given a graph $H$, define the \textbf{extremal function}
+			\begin{equation}
+				\label{eqn: def extremal function}
+				\exx(n;H) = \max_{\substack{\text{no subgraph of }G_n \\\text{is isomorphic to }H}} e(G_n)
+			\end{equation}
+			as the maximum number of edges in a graph on $n$ vertices without $H$ as a subgraph.
 		\end{fdef}
 
-		With this notation, Tur\'{a}n's Theorem then says that $\exx(n;K_{r+1}) = t_r(n)$, with equality iff $G \simeq T_r(n)$.
+		With this notation, Tur\'{a}n's Theorem then says that $\exx(n;K_{r+1}) = t_r(n)$, with the corresponding maximum in \eqref{eqn: def extremal function} being attained iff $G_n \simeq T_r(n)$.
 
 		\begin{fdef}
 			Fix $s, t \in \N$ with $t \ge s \ge 2$ and $m,n\in\N$.
