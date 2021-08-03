@@ -239,6 +239,7 @@
 		Perhaps surprisingly, this problem remains unsolved! (as of the time of writing these notes)
 
 		\begin{ftheo}[K\H{o}v\'{a}ri-S\'{o}s-Tur\'{a}n Theorem]
+			\label{theo: kovari sos turan}
 			For $t\ge s\ge 2$ and $m,n\in\N$,
 			$$z(m,n;s,t) \le (s-1)^{1/t} (n-t+1)m^{1-1/t} + (t-1)m.$$
 		\end{ftheo}
@@ -257,11 +258,12 @@
 			\[ f(x) = \frac{x(x-1)\cdots(x-t+1)}{t!} \]
 			is convex on $[t-1,\infty)$.
 			Using \href{https://en.wikipedia.org/wiki/Jensen%27s_inequality#Finite_form}{Jensen's inequality} together with our assumption that $d(x) \ge t-1$ for all $x\in A$,
-			\begin{align*}
-				\binom{n}{t} (s-t) &\ge \sum_{x\in A} \binom{d(x)}{t} \\
-				 &\ge m \binom{\frac{1}{m}\sum_{x\in A} d(x)}{t} \\
-				 &= m \binom{e(G)/m}{t}.
-			\end{align*}
+			\begin{align}
+				\binom{n}{t} (s-1) &\ge \sum_{x\in A} \binom{d(x)}{t} \nonumber \\
+				 &\ge m \binom{\frac{1}{m}\sum_{x\in A} d(x)}{t} \nonumber
+				  \\
+				 &= m \binom{e(G)/m}{t}. \label{eqn: kovari sos turan intermediate step}
+			\end{align}
 			Let $d = e(G)/m$, the average degree of the vertices in $A$. Simplifying the above expression,
 			\[ \frac{s-1}{m} \ge \frac{d(d-1)\cdots (d-t+1)}{n(n-1)\cdots(n-t+1)} \ge \left(\frac{d-t+1}{n-t+1}\right)^t, \]
 			where the second inequality follows from the fact that $d \le n$. Therefore,
@@ -269,15 +271,22 @@
 			completing the proof.
 		\end{proof}
 
-		What are some consequences of the above bound?
-		\begin{enumerate}
-			\item We get a bound on $\exx(n;K_{s,t})$. We claim that for $n\in\N$ and $s,t\ge 2$,
-			\[ \exx(n;K_{s,t}) \le \frac{1}{2} z(n,n;s,t). \]
+		Next, let us look at some consequences of the above bound.
+
+		\subsubsection{The Zarankiewicz problem and the extremal function for complete bipartite graphs}
+
+			We get a bound on $\exx(n;K_{s,t})$. We claim that for $n\in\N$ and $s,t\ge 2$,
+			\begin{equation}
+				\label{eqn: exx n Kst and z n n s t}
+				\exx(n;K_{s,t}) \le \frac{1}{2} z(n,n;s,t).
+			\end{equation}
 			Indeed, if $G_n = (V,E)$ has no $K_{s,t}$, make a bipartite graph $G'$ that has vertex set $V \times \{0,1\}$ such that $uv$ is an edge in $G$ iff $\{(u,0),(v,1)\}$ is an edge in $G'$.\\
 			$G'$ satisfies the Zarankiewicz condition. If there do exist $S \subseteq V\times\{0\}$ and $T' \subseteq V \times \{1\}$ such that all $S$-$T$ edges are in $G$, then $\pi_1(S) \cap \pi_1(T') = \emptyset$ (otherwise, a vertex would be adjacent to itself in $G$, which is clearly false). This implies that $K_{s,t} \subseteq G$, which is a contradiction.\\
 			Since $e(G') = 2e(G)$, the claim follows.
 
-			\item When $s=t=2$, we get
+		\subsubsection{The case where \texorpdfstring{$s=t=2$}{s=t=2}}
+
+			When $s=t=2$, we get
 			\[ z(m,n;2,2) \le (n-1)m^{1/2} + m \text{ and } z(n,n;2,2) \le (n-1)n^{1/2} + n. \]
 			Therefore,
 			\[ \exx(n;K_{2,2}) \le \frac{1}{2} (n + (n-1)\sqrt{n}). \]
@@ -301,8 +310,118 @@
 			The total number of edges is
 			\[ |\mathcal{P}| (q + 1) = (q+1)(q^2+q+1) = q^3 + 2q^2 + 2q + 1, \]
 			which is $\mathcal{O}(|\mathcal{P}|^{3/2})$!
-			Therefore, our $\mathcal{O}(n^{3/2})$ bound is tight. It in fact turns out that the Levi graph is the ``best possible'' in some sense.
-		\end{enumerate}
+			Therefore, our $\mathcal{O}(n^{3/2})$ bound is tight.\\
+			In fact, the Levi graph is optimal in the case where $n = 2(q^2 + q + 1)$, as seen in \Cref{theo: levi graph optimality}.
 
+		\begin{corollary}
+			\label{theo: levi graph optimality}
+			For $n\in\N$,
+			\begin{equation}
+				\label{eqn: z n n 2 2}
+				z(n,n;2,2) \le \frac{n (1 + \sqrt{4n-3})}{2}.
+			\end{equation}
+			Consequently,
+			\begin{equation}
+				\label{eqn: exx n C4}
+				\exx(n;C_4) \le \frac{1}{4} n (1 + \sqrt{4n-3}).
+			\end{equation}
+		\end{corollary}
+		\begin{proof}
+			\Cref{eqn: exx n C4} clearly follows from \Cref{eqn: z n n 2 2,eqn: exx n Kst and z n n s t}, so it suffices to show the first equation. \Cref{eqn: kovari sos turan intermediate step} in the proof of the \nameref{theo: kovari sos turan} for the case where $s=t=2$ just says that
+			\[ \binom{n}{2} \ge n \binom{d}{2}, \]
+			where $d = e(G)/m$. That is, $d^2 - d - (n-1) \le 0$. Then,
+			\[ d \le \frac{1 + \sqrt{1 + 4(n-1)}}{2} = \frac{1 + \sqrt{4n-3}}{2}, \]
+			which is exactly the bound we want. This bound is tight in the case where $n = 2(q^2+q+1)$, as seen in the Levi graph.
+		\end{proof}
+
+		Before we move on to the next section, let us build a tiny bit of intuition for why the construction of the Levi graph works.\\
+		The projective plane is chosen to ensure that any two distinct points determine a unique line (which holds even in the non-projective plane setting), and any two distinct lines determine a unique point. This corresponds to the absence of $K_{2,2}$ -- if it \emph{was} present as a subgraph, then there would be two lines (points) that determine two points (lines), which cannot happen!
+
+	\subsubsection{The case where \texorpdfstring{$s=t=3$}{s=t=3}}
+
+		We next look at $\exx(n;K_{3,3})$.\\
+
+		The \Cref{theo: kovari sos turan} here gives
+		\[ z(n,n;3,3) \le (2)^{1/3} (n-2)n^{2/3} + 2n, \]
+		which is $\mathcal{O}(n^{5/3})$.
+
+		Similar to the Levi graph, we construct an (algebraic) extremal example. Let $p$ be a prime and fix some $r\in\mathbb{F}_p$.
+		Consider the graph $G$ that has vertex set $\mathcal{V} = \mathbb{F}_p^3$ where $(x,y,z)$ is adjacent to $(u,v,w)$ iff 
+		\begin{equation}
+			\label{eqn: exx n n 3 3}
+			(x-u)^2 + (y-v)^2 + (z-w)^2 = r.
+		\end{equation}
+		Before moving on to explaining why this works, let us try to impart some intuition. \eqref{eqn: exx n n 3 3} resembles the equation of a sphere in $\R^3$. If we take three spheres of the same radius, the points of intersection of all three must lie on two circles, corresponding to the circles of intersection of two pairs of spheres. Since any two circles meet at atmost two points, the absence of $K_{3,3}$ follows.\\
+		It may be shown that even over $\F_p$, two ``spheres'' intersect on a ``circle'' and any two circles meet at at most $2$ points (Check this!).\\
+		So, if we have a $K_{3,3}$ in the described graph, we have three spheres (centered at each of the three points) that intersect at three points, which is not possible.\\
+
+		It remains to count the number of edges in this graph. To do so, let us estimate the degree of $(0,0,0)$, since all vertices have the same degree (Why?). That is, we want to determine
+		\[ |\{(x,y,z)\in\mathbb{F}_p^3 : x^2 + y^2 + z^2 = r\}|. \]
+		Letting $z$ be arbitrary, we want to find
+		\[ N(\xi) = |\{(x,y)\in\mathbb{F}_p^2 : x^2 + y^2 = \xi\}| \]
+		for any arbitrary $\xi \in \mathbb{F}_p$.
+
+		\begin{fdef}[Legendre Symbol]
+			For $a \in \mathbb{F}_p$, define the \textbf{Legendre symbol}
+			\[
+				\left(\frac{a}{p}\right) =
+				\begin{cases}
+					1, & \text{$a\in\mathbb{F}_p^\times$ is a square}, \\
+					-1, & \text{$a\in\mathbb{F}_p^\times$ is not a square}, \\
+					0, & a=0.
+				\end{cases}
+			\]
+		\end{fdef}
+
+		With the above, it is not too difficult to see that
+		\[ N(\xi) = \sum_{(a,b): a + b = \xi} \left(1 + \left(\frac{a}{p}\right) \right) \left(1 + \left(\frac{b}{p}\right)\right). \]
+
+		Let us now compute the above quantity.
+		\begin{itemize}
+			\item First of all,
+			\[ \sum_{(a,b): a + b = \xi} 1 = p. \]
+
+			\item Observe that
+			\[ \sum_{a \in \mathbb{F}_p} \left(\frac{a}{p}\right) = 0. \]
+			Indeed, the number of squares and non-squares in $\F_p^\times$ is the same. As a result,
+			\[ \sum_{(a,b): a + b = \xi} \left(\frac{a}{p}\right) = \sum_{a\in\mathbb{F}_p} \left(\frac{a}{p}\right) = 0. \]
+		\end{itemize}
+
+		Therefore,
+		\begin{equation}
+			\label{eqn: N xi eliminating middle terms}
+			N(\xi) = p + \sum_{(a,b) : a + b = \xi} \left(\frac{a}{p}\right) \left(\frac{b}{p}\right).
+		\end{equation}
+
+		Notice that the map $\F_p^\times \to \{-1,1\}$ given by $x \mapsto \left(\frac{x}{p}\right)$ is a group homomorphism.
+		\clearpage
+
+		\begin{lemma}
+			If $\xi\ne 0$, $N(\xi) = N(1)$.
+		\end{lemma}
+
+		\begin{proof}
+			Using \eqref{eqn: N xi eliminating middle terms} and letting $a' = a/\xi$ and $b'=b/\xi$,
+			\begin{align*}
+				N(\xi) - p &= \sum_{a+b=\xi} \left(\frac{a}{p}\right) \left(\frac{b}{p}\right) \\
+				&= \sum_{a'+b'=1} \left(\frac{a'\xi}{p}\right) \left(\frac{b'\xi}{p}\right) \\
+				&= \sum_{a'+b'=1} \left(\frac{a'}{p}\right) \left(\frac{b'}{p}\right) \left(\frac{\xi^2}{p}\right) \\
+				&= \sum_{a'+b'=1} \left(\frac{a'}{p}\right) \left(\frac{b'}{p}\right) = N(1) - p. \qedhere
+			\end{align*}
+		\end{proof}
+
+		So, we have
+		\begin{align*}
+			(p-1)(N(1) - p) &= \sum_{\xi\in\F_p^\times} \sum_{(a,b) : a+b=\xi} \left(\frac{a}{p}\right)\left(\frac{b}{p}\right) \\
+			&= \sum_{\xi\in\F_p^\times} \sum_{a\in\F_p} \left(\frac{a}{p}\right) \left(\frac{\xi-a}{p}\right) \\
+			&= \sum_{a\in\F_p} \left( \left(\frac{a}{p}\right) \sum_{\xi\in\F_p^\times} \left(\frac{\xi-a}{p}\right) \right) \\
+			&= \sum_{a\in\F_p} \left(\frac{a}{p}\right) \left(0 - \left(\frac{-a}{p}\right)\right) \\
+			&= -\left(\frac{-1}{p}\right) \sum_{a\in\F_p} \left(\frac{a^2}{p}\right) & \text{(using the group homomorphism property)} \\
+			&= -(p-1)\left(\frac{-1}{p}\right)
+		\end{align*}
+
+		and therefore, $N(1) = p - \left(\frac{-1}{p}\right)$.\\
+		If we choose $r$ to be a non-square, then $r-z^2 \neq 0$ for any $z\in\F_p$ and $N(r-z^2) = p - \left(\frac{-1}{p}\right)$. In this case, the degree of $(0,0,0)$ is of the order of $p^2$. The size $n$ of the vertex set $\mathcal{V}$ is $p^3$, so the number of edges is of the order of $p^5$ which is $\Theta(n^{5/3})$ and thus, the bound given by the \nameref{theo: kovari sos turan} is (asymptotically) tight.
+		
 
 \end{document}
