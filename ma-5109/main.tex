@@ -140,7 +140,7 @@
 		\begin{proof}[Proof of Tur\'{a}n's Theorem]
 			We perform strong induction on $n+r$. We have already proved the result for $r=2$.\\
 			Suppose $e(G_n) \ge t_r(n)$ and $G_n$ is $K_{r+1}$-free, where $r > 2$. We wish to prove that $G \simeq T_r(n)$.\\
-			Since $t_r(n) \ge t_{r-1}(n)$ (check this!), the inductive hypothesis implies that $G$ has a copy $K \subseteq V$ of $K_r$. Observe that for $v \not\in K$, $d(v,K) \le r-1$ -- otherwise, there would be a copy of $K_{r+1}$ in $G$.\\
+			Since $t_r(n) > t_{r-1}(n)$\footnote{To show this, use the fact that any $(r-1)$-partite graph can be thought of as $r$-partite graph with one of the pieces being empty, and then that the Tur\'{a}n graph has the most edges among $r$-partite graphs.}, the inductive hypothesis implies that $G$ has a copy $K \subseteq V$ of $K_r$. Observe that for $v \not\in K$, $d(v,K) \le r-1$ -- otherwise, there would be a copy of $K_{r+1}$ in $G$.\\
 			As a result, $e(V \setminus K, K) \le (r-1)(n-r)$. By the induction hypothesis, $e(V\setminus K, V\setminus K) \le t_r(n-r)$. Therefore,
 			\[ t_r(n) \le e(G_n) \le t_r(n-r) + (r-1)(n-r) + \binom{r}{2}. \]
 			However, as can be checked manually, $t_r(n-r) + (r-1)(n-r) + \binom{r}{2} = t_r(n)$!\\
