@@ -3,6 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{cs-305}
 
+\renewcommand{\arraystretch}{1.2}
+
 \begin{document}
 
 \thispagestyle{empty}
@@ -16,7 +18,7 @@
 
 		What is a computer? It includes anything from a smartphone to an iPad to a data center. Let us delay what ``computer architecture'' means to the end of the course and try to figure out what it should mean for now. Historically, the heavy lifting is done by the computer architecture. The computing stack is as follows: we have problems, for which we design algorithms, which we implement in programming languages/compilers, which are run using an operating/database/network system, which require computer architecture to run (which is the focus of this course).
 
-		Most software companies nowadays such as Microsoft, Amazon, and Facebook build their own processors or chips.
+		Most software companies nowadays build their own processors or chips.
 
 		Since the dawn of time (1946 for our purposes), any computer has 5 components -- the processor which consists of control and datapath, memory, input, and output. Computer architecture changes over time depending on our requirements.
 
@@ -102,7 +104,7 @@
 
 			Now, suppose are running some C code wherein we call a function, and return after the successful running of the function. How do we return to the appropriate place after the code finishes running?
 
-			\item \texttt{\textbf{jal}} and \texttt{jr} (\texttt{j}ump \texttt{a}nd \texttt{l}ink and \texttt{j}ump \texttt{r}egister): \texttt{jal L1} jumps to the label \texttt{L1} which has to be instruction to be executed next and saves the address of the next instruction (PC + 4)\footnote{One might expect to jump to PC+4 instead. We shall look at the reason for the 8 later.} in \texttt{\$ra}. \texttt{ra} is a special register that stores the return address. \texttt{jr \$ra} then returns to the required spot after execution of the intermediate function.
+			\item \texttt{\textbf{jal}} and \texttt{jr} (\texttt{j}ump \texttt{a}nd \texttt{l}ink and \texttt{j}ump \texttt{r}egister): \texttt{jal L1} jumps to the label \texttt{L1} which has to be instruction to be executed next and saves the address of the next instruction (PC + 8)\footnote{One might expect to jump to PC+4 instead. We shall look at the reason for the 8 later.} in \texttt{\$ra}. \texttt{ra} is a special register that stores the return address. \texttt{jr \$ra} then returns to the required spot after execution of the intermediate function.
 		\end{itemize}
 
 		It is possible that some code in the main function accesses, say, register \texttt{\$R2} and something in a called function accesses register \texttt{\$R2} as well. How do we coordinate this? What data is really accessed when we access a certain register (does the function then attempt to access main's data?) What is the protocol using which the caller and callee interact? MIPS allows \emph{four} arguments to be passed from the caller to the callee while using \texttt{jal}, which uses registers \texttt{\$a0} through \texttt{\$a3}. A callee returns upto two values to the caller, using registers \texttt{\$v0} and \texttt{\$v1}.\\
@@ -147,5 +149,147 @@
 
 		The stack is also used to store local variables and data structures for a function along with the return addresses. To look at these, we have a \emph{frame pointer} (\texttt{\$fp}). It points to the highest address (on the downward growing stack) in the procedure frame and is used to look at local variables and saved registers. It stays there throughout the procedure while the stack pointer moves around. This is just to make life easier for the compiler/programmer. Technically, we do not require it and can make do with the stack pointer alone (with a suitable offset), but that is very inconvenient.
 
+	\subsection{Instruction Decoding}
+
+		We have seen how MIPS instructions allow the programmer to interact with the processor. How are these instructions decoded?\\
+		Recall that instructions are of size 32 bits (in MIPS). How does the processor infer these bits?\\
+		Since MIPS has 32 registers, any register can be specified using $5$ bits. A $32$ bit R-type instruction is split into 4 parts:
+		\begin{itemize}
+			\item Bits 0 through 15 specify the immediate.
+			\item Bits 16 through 20 specify a register \texttt{rt}.
+			\item Bits 21 through 25 specify another register \texttt{rs}.
+			\item Bits 26 through 31 specify an operation \texttt{op}, such as say \texttt{add}, \texttt{mul}, \texttt{lw}, \texttt{bne}, etc.
+		\end{itemize}
+		A general instruction in MIPS has
+		\begin{itemize}
+			\item an operation code \texttt{op},
+			\item up to three registers \texttt{\$rs}, \texttt{\$rt}, and \texttt{\$rd},
+			\item \texttt{shamt} (\texttt{sh}ift \texttt{am}oun\texttt{t}) for logical operations, and
+			\item the functionality field \texttt{funct}.
+		\end{itemize}
+		Let us look at the value of each of the above parameters for a couple of instructions.
+		\begin{center}
+		\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+			\hline
+			Instruction & Format & \texttt{op} & \texttt{rs} & \texttt{rt} & \texttt{rd} & \texttt{shamt} & \texttt{funct} & \texttt{address} \\ \hline
+			\texttt{add} & R & 0 & reg & reg & reg & 0 & 32 & n.a. \\
+			\texttt{sub} & R & 0 & reg & reg & reg & 0 & 34 & n.a. \\
+			\texttt{addi} & I & 8 & reg & reg & n.a. & n.a. & n.a. & constant \\
+			\texttt{lw} & I & 35 & reg & reg & n.a. & n.a. & n.a. & address \\
+			\texttt{sw} & I & 43 & reg & reg & n.a. & n.a. & n.a. & address \\ \hline
+		\end{tabular}
+		\end{center}
+		The format R means that it is a register-type instruction, while I means that it is an immediate-type instruction.\\
+		We see that the \texttt{funct} field is what differs \texttt{add} and \texttt{sub}.\\
+		The lowest 16 bits are not used by I instructions since they are replaced by a constant or address, as specified. The op code informs the processor how to treat the last set of fields, as three or one.\\
+
+		In all, the three types of instructions are:
+		\begin{center}
+		\begin{tabular}{|c||p{2cm}|p{1.6cm}|p{1.6cm}|p{1.6cm}|p{1.6cm}|p{2cm}|}
+			\hline
+			Type & 31 \hfill 26 & 25 \hfill 21 & 20 \hfill 16 & 15 \hfill 11 & 10 \hfill 06 & 05 \hfill 00 \\ \hline
+			R & \multicolumn{1}{c|}{opcode} & \multicolumn{1}{c|}{\texttt{\$rs}} & \multicolumn{1}{c|}{\texttt{\$rt}} & \multicolumn{1}{c|}{\texttt{\$rd}} & \multicolumn{1}{c|}{\texttt{shamt}} & \multicolumn{1}{c|}{\texttt{funct}} \\ \hline
+			I & \multicolumn{1}{c|}{opcode} & \multicolumn{1}{c|}{\texttt{\$rs}} & \multicolumn{1}{c|}{\texttt{\$rt}} & \multicolumn{3}{c|}{immediate} \\ \hline
+			J & \multicolumn{1}{c|}{opcode} & \multicolumn{5}{c|}{address} \\ \hline
+		\end{tabular}
+		\end{center}
+
+		Such a format is good since
+		\begin{itemize}
+			\item We have fixed length instructions which allows for convenient decoding.
+			\item Fields are at the same or similar location.
+			\item All three formats look similar.
+		\end{itemize}
+
+		Next, let us look at 5 addressing modes of the MIPS ISA.
+
+		\begin{itemize}
+			\item Immediate: We have already seen this above. For example, \texttt{addi \$t0 \$t1 5} is in this mode.
+			\item Register: We have seen this as well. For example, \texttt{add \$t0 \$t1 \$t2} is in this mode.
+			\item Base: It has an opcode, \texttt{\$rs}, \texttt{\$rt}, and an address.\\
+			Here, the address is given by a register. For example, \texttt{lw \$t1 4(\$s2)} or \texttt{lw \$t1 (\$s2)}. We possibly add a constant to the address in a register, and access the memory pointed at by this.
+			\item PC-relative: These are essentially the J-type instructions we looked at earlier. The label gives an offset, which is what we jump to. An example of this is \texttt{beq \$t0 \$t1 end}.
+			\item Pseudodirect: It has an opcode and an address.\\
+			An example of this is \texttt{jal}. We concatenate the content of the PC and the address provided to get another address, using which we get the operand.
+		\end{itemize}
+
+	\subsection{Why ISAs?}
+
+		\subsubsection{Microarchitecture v. ISAs}
+
+			The ISA is the interface between hardware and software. It enables the programmer to not bother about what is going on under the hood at all.\\
+			A \emph{microarchitecure} is a specific implementaiton of an ISA (which the programmer cannot see/access). For example, the \texttt{add} instruction would come under the ISA, but the specific implementation of an adder (ripple carry/lookahead) comes under the microarchitecture.\\
+			We shall look at microarchitecture in more detail in a later part of the course.
+
+			The actual working of the ISA can be thought of using a state machine. As long as the new state that is moved to on receiving an instruction satisfies the ISA specifications, it will work. The information held in the processor at the end of an instruction provides context for the next instruction.
+
+			Computer architecture as a whole focuses on both ISA and microarchitecture.
+
+			% x86 registers have 128/256-bit registers and 1-bit regs too!
+
+			Now, should we keep the ISA closer to the hardware or closer to the high-level software? This leads to two schools of thought -- the latter being called CISC (Complex Instruction Set of Computers) and the former being RISC (Reduced Instruction Set of Computers).\\
+			If we are closer to high-level language, there is a small semantic gap between the two and we have complex instructions. For example, quicksort may be an instruction. An example of a CISC architecture is something like x86.\\
+			If we are closer to hardware, there is a large semantic gap and instructions are quite simple. An example of a RISC architecture is MIPS.\\
+			Irrespective of whether we use CISC or RISC, an app's instruction count is defined by the compiler \emph{and} the ISA.
+
+			x86 is slightly complicated since it converts CISC operations to RISC operations, and generates \emph{microoperations}. It is an intelligent CISC-RISC decoder. This consumes 2\% of the chip area.
+
+			In any ISA, there are various factors we must take into account:
+			\begin{itemize}
+				\item Simplicity
+				\item Performance, power, cost, time to market
+				\item RISC v. CISC
+				\item Fixed v. Variable encoding
+				\item Endianness
+				\item Number of registers per instruction
+				\item Code size
+				\item Open sourcedness
+			\end{itemize}
+
+		\subsubsection{ISAs other than MIPS}
+
+			There are various common ISAs other than MIPS. For example,
+			\begin{itemize}
+				\item \emph{x86}, which is used by Intel, AMD in laptops, desktops, and servers.\\
+				x86 has thousands of instructions. Some differences are:
+				\begin{itemize}
+					\item A single operand can act as both a source and destination. For example \texttt{add \$s0 \$s1} adds \texttt{\$s0} and \texttt{\$s1}, then stores the result in \texttt{\$s0}.
+					\item An operand can be in memory as well. For example, \texttt{add \$s0 Mem[\$s1]} can be done.
+					\item Fixed length instructions are not there any more.
+				\end{itemize}
+				In variable width instructions, different isntructions can take a different number of bytes. It occupies a smaller code footprint and is compact as a result. However, fixed length instructions (like those in MIPS, which occupy 4 bytes) lend themselves to simple decoding despite occupying a larger memory footprint.
+
+				\item \emph{ARM}, which is used by Arm, Qualcomm, Apple, and Samsung.\\
+				The primary reason one would look at ARM with the \emph{thumb instruction set} is that it is useful in embedded devices (which have low memory), where we require low code density. Instead of using normal 32-bit instructions, we use ``thumb'' instructions that are only 16 bits. 32-bit registers have 16-bit counterparts.
+				\item More recently, \emph{RISC-V}, an open-source ISA, has been gaining popularity.
+			\end{itemize}
+
+			RISC was created to enable better compiler control. It was motivated by memory stalls (no work is done during a complex instruction when there is a stall). It enables the compiler to optimize the code, and allows discovery of fine-grained parallelism to reduce the stalls.
+
+		\subsection{Endianness}
+
+			\emph{Endianness} refers to the byte ordering within a word (or the bit ordering within a byte).
+			\begin{itemize}
+				\item In the \emph{big endian} notation, the address of the most significant byte is the word address. This is used in MIPS.
+				\item In the \emph{little endian} notation, the address of the least significant byte is the word address. This is used in x86.
+			\end{itemize}
+
+			To understand this better, consider the following snippet of code.
+
+			\begin{verbatim}
+				unsigned int i = 1;
+				char *c = (char*)&i;
+				printf("%d", *c)
+			\end{verbatim}
+
+			If the ISA follows the big endian notation, the output is 0 and if it follows the little endian notation, the output is 1.
+
+		\subsection{Alignment}
+
+			Ideally, any address should be aligned. For example, suppose we want to access the 4th byte starting from an address \texttt{y}. This requires that \texttt{y\%4} is 0.\\
+			For example, MIPS does not allow unaligned access. On the other hand, x86 does not enforce any alignment. It is the compiler's duty to generate aligned or unaligned access.\\
+			Alignment is desired to enable faster transfer of data. Indeed, if a 4-byte word is not aligned, then we need to access the memory twice to get the entire word (once for each of the two parts split across). This will become clearer once we understand caches later.
+
+			\texttt{LOAD}s and \texttt{STORE}s need an alignment network that ensures the data loaded/written is aligned. This alignment network differs based on the endianness.
 
 \end{document}

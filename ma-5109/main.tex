@@ -69,7 +69,7 @@
 				\end{equation}
 				there exist pairwise disjoint subsets $V_1,\ldots,V_{r+1}$ of $V$ such that for each $i$,
 				\[ |V_i| = t \ge \frac{\varepsilon \log n}{2^{r-1}(r-1)!} \]
-				and the complete $(r+1)$-partite graph on these vertices is contained in $G_n$.
+				and the complete $(r+1)$-partite graph on these subsets is contained in $G_n$.
 			\end{ftheo}
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 2]
@@ -81,7 +81,7 @@
 				\end{equation}
 				there exist pairwise disjoint subsets $V_1,\ldots,V_{r+1}$ of $V$ such that for each $i$,
 				\[ |V_i| = t \ge \frac{\varepsilon \log n}{2^{r+1}(r-1)!} \]
-				and the complete $(r+1)$-partite graph on these vertices is contained in $G_n$.
+				and the complete $(r+1)$-partite graph on these subsets is contained in $G_n$.
 			\end{ftheo}
 
 			Observe the difference in the exponent of $2$ in the denominator of $t$ in the two versions.
@@ -92,15 +92,19 @@
 			for all $\varepsilon > 0$.
 
 			\begin{fcor}
-				If $\chi(H) = r+1$, there exists $n_0$ such that for all $n\ge n_0$ and $\varepsilon >0$,
-				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 + \mathcal{O}(n). \]
+				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, there exists $n_0$ such that for all $n\ge n_0$,
+				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
 			\end{fcor}
+
+			% \begin{fdef}
+			% 	A graph $G$ is said to be \textbf{$c$-dense} (for $0<c<1$), if $e(G_n) \ge cn^2$.
+			% \end{fdef}
 
 			\begin{proof}[Proof of \nameref{theo: erdos-stone v1}]
 				We first show the result for $r=1$. Let $G_n$ be a graph such that $\delta(G_n) \ge \varepsilon n$. We want a ``large'' $t$ such that $K_{t,t}$ is isomorphic to a subgraph $G_n$.\\
 				Suppose that $G_n$ is $K_{t,t}$-free (we shall fix $t$ later).
 				Now, we have that
-				\[ t \binom{n}{t} \stackrel{(1)}{\ge} |\{(v,T) : v\in V, T \subseteq N(v), |T|=t\}| = \sum_{v\in V} \binom{d(v)}{t} \stackrel{(2)}{\ge} n \binom{\varepsilon n}{t}, \]
+				\[ t \binom{n}{t} \stackrel{(1)}{>} |\{(v,T) : v\in V, T \subseteq N(v), |T|=t\}| = \sum_{v\in V} \binom{d(v)}{t} \stackrel{(2)}{\ge} n \binom{\varepsilon n}{t}, \]
 				where $(2)$ follows from the hypothesis on $\delta(G_n)$ and $(1)$ follows due to our assumption that $G_n$ is $K_{t,t}$-free.\\
 				Therefore,
 				\[ n\binom{\varepsilon n}{t} < t \binom{n}{t}. \]
@@ -120,7 +124,7 @@
 				% 	t \log\left(1 - \frac{t-1}{\varepsilon n}\right) &\to 0 \\
 				% 	t \left(\frac{t-1}{\varepsilon n} + \frac{1}{2}\left(\frac{t-1}{2n}\right)^2 + \frac{1}{3} \left(\frac{t-1}{\varepsilon n}\right)^3\right) &\to 0.
 				% \end{align*}
-				If $\varepsilon n > t^4$, the above holds.\\
+				If $\varepsilon n > t^4$, the above holds (Why?).\\
 				That is, if $t < (\varepsilon n)^{1/4}$, then for sufficiently large $n, t$,
 				\[ \left(1 - \frac{t-1}{\varepsilon n}\right)^{-t} < 2 \]
 				and
@@ -129,10 +133,61 @@
 				\[ \log(2t) + t \log\left(\frac{1}{\varepsilon}\right) < \log n, \]
 				then we arrive at a contradiction. In particular,
 				\[ t = \lceil \varepsilon \log n \rceil \]
-				is a suitable choice (Why?).
+				is a suitable choice (Why?), completing the proof of the theorem for $r=1$.\\
 
-				This completes the proof of the theorem for $r=1$.
+				Now, let us prove the general case by performing induction on $r$. Let $G_n$ be a graph with
+				\[ \delta(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)n. \]
+				Now,
+				\[ 1 - \frac{1}{r} + \varepsilon > 1 - \frac{1}{r-1} + \frac{1}{r(r-1)}. \]
+				Let $\varepsilon' = 1 / r(r-1)$. By induction, there are $V_1',\ldots,V_r'$ such that 
+				\[ |V_i'| = t' \ge \frac{\log n}{r(r-1) 2^{r-2} (r-2)!} = \frac{\log n}{2^{r-2} r!} \]
+				for each $i$ and the complete $r$-partite graph on these sets is a subgraph of $G_n$. Let $K = \bigcup V_i'$.\\
+				We obviously have $\varepsilon < 1/r$, since the claim is vacuously true otherwise.\\
+				We shall find $V_i \subseteq V_i'$ for each $1 \le i \le r$ and some $V_{r+1} \subseteq V \setminus K$ such that the complete bipartite graph on $(V_1,\ldots,V_{r+1})$ is the required subgraph of $G_n$.\\
+				Now, define
+				\[ U = \left\{x \in V\setminus K : d(x,K) \ge \left(1 - \frac{1}{r} + \lambda\right)|K| \right\} \]
+				for some $\lambda$ we shall fix later. We shall bound $e(K,V\setminus K)$ in two different ways. From the perspective of $K$,
+				\[ e(K,V\setminus K) \ge |K| \left(\left(1 - \frac{1}{r} + \varepsilon\right)n - |K|\right). \]
+				From the perspective of $V\setminus K$,
+				\begin{align*}
+					e(K, V\setminus K) &= e(V\setminus (K\sqcup U), K) + e(U,K) \\
+					&\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right)|K| + |U||K|.
+				\end{align*}
+				Putting the two together,
+				\begin{align*}
+					|K| \left(\left(1 - \frac{1}{r} + \varepsilon\right)n - |K|\right) &\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right)|K| + |U||K| \\
+					\left(1 - \frac{1}{r} + \varepsilon\right)n - |K| &\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right) + |U|.
+				\end{align*}
+				Set $\lambda = \varepsilon/2$. We then have
+				\[ \frac{r}{2}\varepsilon n \le \left(1 - \frac{r\varepsilon}{2}\right)(|U| + |K|). \]
+				% ??????? Am I not getting (1 - r \varepsilon/2)(|U|+|K|).
+				So,
+				\[ |U| \ge \frac{r\varepsilon}{2 - r\varepsilon} n - |K| \stackrel{(*)}{\ge} \frac{\varepsilon}{1-\varepsilon}n - rt', \]
+				where $(*)$ follows from the fact that $r\varepsilon/(2-r\varepsilon)$ is increasing in $r$ and $r\ge 2$.\\
+				Since $t'$, and thus $rt'$, is of the order of $\log n$, the first term in the expression dominates for sufficiently large $n$. So, for $n\gg 0$, $|U| = \varepsilon n/(1-\varepsilon) \ge \varepsilon n$.
 			\end{proof}
+
+			% \begin{flem}
+			% 	Let $d$ be the average degree of $G$. Then $G$ contains a (non-empty) subgraph $H$ with $\delta(H) \ge d/2$.
+			% \end{flem}
+
+			Now,
+			\begin{align*}
+				\left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right)|K| &\ge \left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right) rt' \\
+				&\ge (r-1)t' + \frac{\varepsilon r}{2} t'.	
+			\end{align*}
+			This implies that each $u \in U$ has at least $(\varepsilon r/2)t'$ neighbours in each $V_i'$.\\
+			We can now use a pigeonhole argument to choose a subset of $U$ whose vertices are all adjacent to some common set of vertices in each $V_i'$. To do so, consider
+			\[ |\{(u, W_1,\ldots,W_r) : W_i \subseteq V_i', |W_i| = (\varepsilon r/2)t',\text{ and $u$ is adjacent to all the vertices of each $W_i$}\}|. \]
+			By our earlier observation, this must be at least $|U| \ge \varepsilon n$.\\
+			On the other hand, it is at most the number of ways of choosing the $W_i$, which is $\binom{t'}{(\varepsilon r/2)t'}^r$.\\
+			In particular, using a pigeonhole argument, there exist $V_1,\ldots,V_r$ and a $V_{r+1}\subseteq U$ such that $V_i \subseteq V_i'$ for each $1\le i\le r$ and for all $u \in V_{r+1}$, $(u,V_1,\ldots,V_r)$ is in the set whose cardinality we just considered, and $|V_{r+1}| \ge \varepsilon n / \binom{t'}{(\varepsilon r/2)t'}^r$. Let us now bound this expression.
+			\begin{align*}
+				|V_{r+1}| &\ge \dfrac{\varepsilon n}{\dbinom{t'}{(\varepsilon r/2)t'}^r} \\
+				&\ge \frac{\varepsilon n}{ (2e/\varepsilon r)^{\varepsilon r^2/2}} & \text{(see \href{https://math.stackexchange.com/questions/132625/}{here} for the bound used)} \\
+				&\ge 
+			\end{align*}
+
 
 \bibliographystyle{alpha}
 \bibliography{references}
