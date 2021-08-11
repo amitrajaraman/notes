@@ -140,7 +140,10 @@
 				Now,
 				\[ 1 - \frac{1}{r} + \varepsilon > 1 - \frac{1}{r-1} + \frac{1}{r(r-1)}. \]
 				Let $\varepsilon' = 1 / r(r-1)$. By induction, there are $V_1',\ldots,V_r'$ such that 
-				\[ |V_i'| = t' \ge \frac{\log n}{r(r-1) 2^{r-2} (r-2)!} = \frac{\log n}{2^{r-2} r!} \]
+				\begin{equation}
+					\label{eqn: ESS expression for t'}
+					|V_i'| \ge t' = \frac{\log n}{r(r-1) 2^{r-2} (r-2)!} = \frac{\log n}{2^{r-2} r!}
+				\end{equation}
 				for each $i$ and the complete $r$-partite graph on these sets is a subgraph of $G_n$. Let $K = \bigcup V_i'$.\\
 				We obviously have $\varepsilon < 1/r$, since the claim is vacuously true otherwise.\\
 				We shall find $V_i \subseteq V_i'$ for each $1 \le i \le r$ and some $V_{r+1} \subseteq V \setminus K$ such that the complete bipartite graph on $(V_1,\ldots,V_{r+1})$ is the required subgraph of $G_n$.\\
@@ -164,29 +167,68 @@
 				So,
 				\[ |U| \ge \frac{r\varepsilon}{2 - r\varepsilon} n - |K| \stackrel{(*)}{\ge} \frac{\varepsilon}{1-\varepsilon}n - rt', \]
 				where $(*)$ follows from the fact that $r\varepsilon/(2-r\varepsilon)$ is increasing in $r$ and $r\ge 2$.\\
-				Since $t'$, and thus $rt'$, is of the order of $\log n$, the first term in the expression dominates for sufficiently large $n$. So, for $n\gg 0$, $|U| = \varepsilon n/(1-\varepsilon) \ge \varepsilon n$.
+				Since $t'$, and thus $rt'$, is of the order of $\log n$, the first term in the expression dominates for sufficiently large $n$. So, for $n\gg 0$, $|U| \ge \varepsilon n$.\\
+
+				Now,
+				\begin{align*}
+					\left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right)|K| &\ge \left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right) rt' \\
+					&\ge (r-1)t' + \frac{\varepsilon r}{2} t'.	
+				\end{align*}
+				This implies that each $u \in U$ has at least $(\varepsilon r/2)t'$ neighbours in each $V_i'$.\\
+				We can now use a pigeonhole argument to choose a subset of $U$ whose vertices are all adjacent to some common set of vertices in each $V_i'$. To do so, consider
+				\[ |\{(u, W_1,\ldots,W_r) : W_i \subseteq V_i', |W_i| = (\varepsilon r/2)t',\text{ and $u$ is adjacent to all the vertices of each $W_i$}\}|. \]
+				By our earlier observation, this must be at least $|U| \ge \varepsilon n$.\\
+				On the other hand, it is at most the number of ways of choosing the $W_i$, which is $\binom{t'}{(\varepsilon r/2)t'}^r$.\\
+				In particular, using a pigeonhole argument, there exist $V_1,\ldots,V_r$ and a $V_{r+1}\subseteq U$ such that $V_i \subseteq V_i'$ for each $1\le i\le r$ and for all $u \in V_{r+1}$, $(u,V_1,\ldots,V_r)$ is in the set whose cardinality we just considered, and $|V_{r+1}| \ge \varepsilon n / \binom{t'}{(\varepsilon r/2)t'}^r$. Let us now bound this expression.
+				\begin{align*}
+					|V_{r+1}| &\ge \dfrac{\varepsilon n}{\dbinom{t'}{(\varepsilon r/2)t'}^r} \\
+					&\ge \frac{\varepsilon n}{ (2e/\varepsilon r)^{t'\varepsilon r^2/2}} & \text{(see \href{https://math.stackexchange.com/questions/132625/}{here} for the bound used)} \\
+					&\ge \varepsilon n\cdot\left(\frac{\varepsilon}{e}\right)^{t'\varepsilon r^2/2} & (\text{since $r \ge 2$, $2/r \le 1$}).
+				\end{align*}
+				Setting
+				\[ t = \frac{\varepsilon\log n}{2^{r-1}(r-1)!}, \]
+				we see that $t = \varepsilon rt'/2$.\\
+				Keeping in mind that the bound we want is $|V_{r+1}| \ge t$,
+				\begin{align*}
+					\log \left(n \left(\frac{\varepsilon}{e}\right)^{t' \varepsilon r^2/2}\right) &\ge \log n + \frac{\varepsilon r^2 t'}{2} \log\left(\frac{\varepsilon}{e}\right) \\
+					&\ge t' \left( 2^{r-2} r! - \log\left(\frac{e}{\varepsilon}\right) \cdot \frac{\varepsilon r^2}{2} \right) & \text{(using the expression for $t'$ in \eqref{eqn: ESS expression for t'})} \\
+					&\ge t' \left( 2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4} \right) & \text{($-\varepsilon \log(e/\varepsilon)$ is decreasing in $\varepsilon$)} \\
+					&\ge e \log(t') \left(2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4}\right) & \text{$x/\log x \ge e$ for $x>1$} \\
+					&\ge \log(rt'/2).
+				\end{align*}
+				Therefore, $V_{r+1} \ge t$. Since $|V_i| = \varepsilon rt'/2 = t$ by definition, the proof is complete.
 			\end{proof}
+
+			Whew. Before we move onto the proof of the second version of the Erd\H{o}s-Stone-Simonovits Theorem, we give a lemma that will assist in its proof (and perhaps provide a reprieve from the computational hell of the proof we just did).
+
+			\begin{flem}
+				For $n\gg 0$, if $e(G_n) \ge (c+\varepsilon)\binom{n}{2}$ for some $c > 0$ and $\varepsilon > 0$, then there exists $H\subseteq G_n$ such that
+				\begin{enumerate}
+					\item $|H| \ge \sqrt{\varepsilon} n$.
+					\item $\delta(H) \ge c|H|$.
+				\end{enumerate}
+			\end{flem}
+
+			\begin{proof}
+				Assume that $G_n$ itself does not satisfy the conclusions. Then, there exists some $x_n \in V(G_n)$ such that $d(x_n) < cn$.\\
+				Let $H_{n-1} = G \setminus \{x_n\}$. If $H_{n-1}$ fails the second conclusion of the theorem, there exists $x_{n-1} \in V(H_{n-1})$ such that $d(x_{n-1}) < c (n-1)$.\\
+				Repeating the above, we get a sequence of graphs $G_n = H_n \supsetneq H_{n-1} \supsetneq \cdots \supsetneq H_{n-\ell}$, where $V(H_{n-r}) \setminus V(H_{n-r-1}) = \{x_{n-r}\}$ for each $r$. Further, for each $i$, $d_{H_i}(x_i) < c i$ for $i = n-\ell,\ldots,n$.\\
+				Now,
+				\[ e(H_{n-\ell}) = e(H_{n-(\ell-1)}) - d_{H_{n-(\ell-1)}} (x_{n-(\ell-1)}) > e(H_{n-(\ell-1)}) - c(n-(\ell-1)) > e(H_n) -  \]
+			\end{proof}
+
+			% In particular, taking $c = 1 - \frac{1}{r} + \frac{\delta}{2}$ reduces v2 to v1.
+
+			\begin{proof}[Proof of \nameref{theo: erdos-stone v2}]
+				We shall reduce this Theorem to an instance of $\nameref{theo: erdos-stone v1}$. Let $G_n$
+			\end{proof}
+
 
 			% \begin{flem}
 			% 	Let $d$ be the average degree of $G$. Then $G$ contains a (non-empty) subgraph $H$ with $\delta(H) \ge d/2$.
 			% \end{flem}
 
-			Now,
-			\begin{align*}
-				\left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right)|K| &\ge \left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right) rt' \\
-				&\ge (r-1)t' + \frac{\varepsilon r}{2} t'.	
-			\end{align*}
-			This implies that each $u \in U$ has at least $(\varepsilon r/2)t'$ neighbours in each $V_i'$.\\
-			We can now use a pigeonhole argument to choose a subset of $U$ whose vertices are all adjacent to some common set of vertices in each $V_i'$. To do so, consider
-			\[ |\{(u, W_1,\ldots,W_r) : W_i \subseteq V_i', |W_i| = (\varepsilon r/2)t',\text{ and $u$ is adjacent to all the vertices of each $W_i$}\}|. \]
-			By our earlier observation, this must be at least $|U| \ge \varepsilon n$.\\
-			On the other hand, it is at most the number of ways of choosing the $W_i$, which is $\binom{t'}{(\varepsilon r/2)t'}^r$.\\
-			In particular, using a pigeonhole argument, there exist $V_1,\ldots,V_r$ and a $V_{r+1}\subseteq U$ such that $V_i \subseteq V_i'$ for each $1\le i\le r$ and for all $u \in V_{r+1}$, $(u,V_1,\ldots,V_r)$ is in the set whose cardinality we just considered, and $|V_{r+1}| \ge \varepsilon n / \binom{t'}{(\varepsilon r/2)t'}^r$. Let us now bound this expression.
-			\begin{align*}
-				|V_{r+1}| &\ge \dfrac{\varepsilon n}{\dbinom{t'}{(\varepsilon r/2)t'}^r} \\
-				&\ge \frac{\varepsilon n}{ (2e/\varepsilon r)^{\varepsilon r^2/2}} & \text{(see \href{https://math.stackexchange.com/questions/132625/}{here} for the bound used)} \\
-				&\ge 
-			\end{align*}
+
 
 
 \bibliographystyle{alpha}
