@@ -193,13 +193,22 @@
 					\log \left(n \left(\frac{\varepsilon}{e}\right)^{t' \varepsilon r^2/2}\right) &\ge \log n + \frac{\varepsilon r^2 t'}{2} \log\left(\frac{\varepsilon}{e}\right) \\
 					&\ge t' \left( 2^{r-2} r! - \log\left(\frac{e}{\varepsilon}\right) \cdot \frac{\varepsilon r^2}{2} \right) & \text{(using the expression for $t'$ in \eqref{eqn: ESS expression for t'})} \\
 					&\ge t' \left( 2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4} \right) & \text{($-\varepsilon \log(e/\varepsilon)$ is decreasing in $\varepsilon$)} \\
-					&\ge e \log(t') \left(2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4}\right) & \text{$x/\log x \ge e$ for $x>1$} \\
+					% &\ge e \log(t') \left(2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4}\right) & \text{$x/\log x \ge e$ for $x>1$} \\
 					&\ge \log(rt'/2).
 				\end{align*}
 				Therefore, $V_{r+1} \ge t$. Since $|V_i| = \varepsilon rt'/2 = t$ by definition, the proof is complete.
 			\end{proof}
 
-			Whew. Before we move onto the proof of the second version of the Erd\H{o}s-Stone-Simonovits Theorem, we give a lemma that will assist in its proof (and perhaps provide a reprieve from the computational hell of the proof we just did).
+			Whew. Let us now give a simple corollary of the above result.
+
+			\begin{fpor}
+				Suppose $H_1,\ldots,H_m$ are graphs. Then, for any $\varepsilon > 0$ and $n \gg 0$,
+				\[ \exx(n;H_1,\ldots,H_m) \le \left(1 - \frac{1}{r} + \varepsilon\right)\frac{n^2}{2} - O(n^2), \]
+				where $r+1=\max\{\chi(H_1),\ldots,\chi(H_m)\}$.
+			\end{fpor}
+
+
+			Before we move onto the proof of the second version of the Erd\H{o}s-Stone-Simonovits Theorem, we give a lemma that will assist in its proof.
 
 			\begin{flem}
 				For $n\gg 0$, if $e(G_n) \ge (c+\varepsilon)\binom{n}{2}$ for some $c > 0$ and $\varepsilon > 0$, then there exists $H\subseteq G_n$ such that
@@ -212,16 +221,29 @@
 			\begin{proof}
 				Assume that $G_n$ itself does not satisfy the conclusions. Then, there exists some $x_n \in V(G_n)$ such that $d(x_n) < cn$.\\
 				Let $H_{n-1} = G \setminus \{x_n\}$. If $H_{n-1}$ fails the second conclusion of the theorem, there exists $x_{n-1} \in V(H_{n-1})$ such that $d(x_{n-1}) < c (n-1)$.\\
-				Repeating the above, we get a sequence of graphs $G_n = H_n \supsetneq H_{n-1} \supsetneq \cdots \supsetneq H_{n-\ell}$, where $V(H_{n-r}) \setminus V(H_{n-r-1}) = \{x_{n-r}\}$ for each $r$. Further, for each $i$, $d_{H_i}(x_i) < c i$ for $i = n-\ell,\ldots,n$.\\
+				Repeating the above, we get a sequence of graphs $G_n = H_n \supsetneq H_{n-1} \supsetneq \cdots \supsetneq H_{\ell}$, where $V(H_{n-r}) \setminus V(H_{n-r-1}) = \{x_{n-r}\}$ for each $r$ and $\ell \ge \sqrt{\varepsilon} n$. Further, for each $i$, $d_{H_i}(x_i) < c i$ for $i = \ell,\ldots,n$.\\
 				Now,
-				\[ e(H_{n-\ell}) = e(H_{n-(\ell-1)}) - d_{H_{n-(\ell-1)}} (x_{n-(\ell-1)}) > e(H_{n-(\ell-1)}) - c(n-(\ell-1)) > e(H_n) -  \]
+				\begin{align*}
+					e(H_\ell) &> e(H_n) - \left(cn + c(n-1) + \cdots + c(\ell+1)\right) \\
+					&= (c+\varepsilon)\binom{n}{2} - c \left(\frac{n(n+1)}{2} - \frac{\ell(\ell+1)}{2}\right) \\
+					&= (c+\varepsilon)\binom{n}{2} - c \left(\binom{n}{2} + n - \binom{\ell+1}{2}\right) \\
+					&= \varepsilon\binom{n}{2} - cn + c \binom{\ell+1}{2}.
+				\end{align*}
+				Now, the final expression must be at most $\binom{\ell}{2}$ (since $H_\ell$ has $\ell$ vertices).\\
+				As a result, it would suffice to show that the above expression on taking $\ell = \lfloor \varepsilon n \rfloor$ is greater than $\binom{\ell}{2}$ for sufficiently large $n$ (this implies that the sequence must stop before reaching this $\ell$ due to one of the graphs satisfying the conclusions). Indeed, this is seen to be true as
+				\begin{align*}
+					\varepsilon\binom{n}{2} - cn + c\binom{\ell+1}{2} &\ge \varepsilon\binom{n}{2} + c\left(\frac{(\lfloor\sqrt{\varepsilon}n\rfloor+1)\lfloor\sqrt{\varepsilon}n\rfloor}{2} - n\right) \\
+					&\ge \varepsilon\binom{n}{2} & (\text{for sufficiently large $n$}) \\
+					&\ge \binom{\ell}{2},
+				\end{align*}
+				completing the proof.
 			\end{proof}
 
 			% In particular, taking $c = 1 - \frac{1}{r} + \frac{\delta}{2}$ reduces v2 to v1.
 
-			\begin{proof}[Proof of \nameref{theo: erdos-stone v2}]
-				We shall reduce this Theorem to an instance of $\nameref{theo: erdos-stone v1}$. Let $G_n$
-			\end{proof}
+			% \begin{proof}[Proof of \nameref{theo: erdos-stone v2}]
+			% 	We shall reduce this Theorem to an instance of \nameref{theo: erdos-stone v1}. Let $G_n$
+			% \end{proof}
 
 
 			% \begin{flem}

@@ -193,7 +193,9 @@
 				\label{eqn: def extremal function}
 				\exx(n;H) = \max_{\substack{\text{no subgraph of }G_n \\\text{is isomorphic to }H}} e(G_n)
 			\end{equation}
-			as the maximum number of edges in a graph on $n$ vertices without $H$ as a subgraph.
+			as the maximum number of edges in a graph on $n$ vertices without $H$ as a subgraph.\\
+			More generally, given graphs $H_1,\ldots,H_m$, define
+			\[ \exx(n;H_1,\ldots,H_m) = \max_{\substack{\text{no subgraph of }G_n \\\text{is isomorphic to a }H_i}} e(G_n). \]	
 		\end{fdef}
 
 		With this notation, Tur\'{a}n's Theorem then says that $\exx(n;K_{r+1}) = t_r(n)$, with the corresponding maximum in \eqref{eqn: def extremal function} being attained iff $G_n \simeq T_r(n)$.
