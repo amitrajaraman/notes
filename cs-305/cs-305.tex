@@ -28,7 +28,7 @@
 		Abstractions are useful if we only care about \emph{what} we want to do. But if we want to know how or why we are doing something, they are all but useless -- so we aim to break them in this course.\\
 
 		\textbf{MIPS} is a simple yet expressive instruction set architecture (ISA) which we shall use in this course. It is used even today in embedded devices, routers, modems etc. The ISA provides an interface between hardware and software -- it veils complexity through a set of simple instructions.\\
-		For example, \texttt{a = b + c} might be the C code, which gets converted to \texttt{add \$1, \$2, \$3} (assembly language) by the compiler, which in turn gets converted to some binary string (machine language) by the assembler.\\
+		For example, \texttt{a=b+c} might be the C code, which gets converted to \texttt{add \$t1 \$t2 \$t3} (assembly language) by the compiler, which in turn gets converted to some binary string (machine language) by the assembler.\\
 		Operands can be located either in registers or in memory. Registers (32-bit addresses) are closer to the processor so are easier and cheaper to access, while memory (DRAM addresses) is costlier to access. However, registers are limited -- we don't have a lot of them.
 
 	\subsection{Introduction to MIPS}
@@ -37,23 +37,25 @@
 
 		Let us zoom into the processor for a moment. We have a set of registers (tens of them -- 32 or 64 for example) and an Arithmetic/Logic Unit (ALU). The processor communicates with the memory through the \emph{address bus} (the processor sends the address to the memory) and the \emph{data bus} (the memory sends data to the processor). The processor can directly access the data of registers, whereas memory has to be accessed in two steps (using the two buses).
 
-		Let us look at the most basic operation of MIPS: \textbf{\texttt{add}}. In \texttt{add \$0, \$1, \$2}, \texttt{add} is the operation, \texttt{\$0} is the destination, and \texttt{\$1} and \texttt{\$2} are the sources. Each of these three (\texttt{\$n}) refers to a certain register. Most ALU operations in MIPS have two sources and one destination.
+		Let us look at the most basic operation of MIPS: \textbf{\texttt{add}}. In \texttt{add \$1, \$2, \$3}, \texttt{add} is the operation, \texttt{\$1} is the destination, and \texttt{\$2} and \texttt{\$3} are the sources. Each of these three refers to a certain register. Most ALU operations in MIPS have two sources and one destination.
 
-		If we want to do \texttt{a = b + c - d}, we can do
+		If we want to do \texttt{a=b+c-d}, we can do
 		\begin{verbatim}
 			add $t0, $s1, $s2
 			sub $s0, $t0, $s3
 		\end{verbatim}
-		Here, \texttt{\$t0} is a temporary register. We also use constants in our program. For this, MIPS have instructions that end with \texttt{i}, where \texttt{i} means ``immediate''. For example, \texttt{addi \$s0, \$s0, 10} adds 10 (the \texttt{i} refers to the fact that 10 is a constant). The constants are represented in 16-bit 2s complement form.
+		Here, \texttt{\$t0} is a temporary register. We also use constants in our program. For this, MIPS have instructions that end with \texttt{i}, where \texttt{i} means ``\texttt{i}mmediate''. For example, \texttt{addi \$s0, \$s0, 10} adds 10 (the \texttt{i} refers to the fact that 10 is a constant). The constants are represented in 16-bit 2s complement form.
 
 		We do not need \texttt{subi} since we can use an appropriate constant with \textbf{\texttt{addi}} instead.
 
-		\texttt{\$0} or \texttt{\$zero} is a special register that contains zero. In particular, \texttt{a=b} becomes \texttt{add \$s1, \$s2, \$zero}. This begs the question, why would we add when can move instead? This leads to the \emph{pseudo-instruction} \texttt{move \$s1, \$s2}. This is not an actual instruction and is merely used for programming convenience.
+		\texttt{\$0} or \texttt{\$zero} is a special register that contains zero. In particular, \texttt{a=b} becomes \texttt{add \$s1, \$s2, \$zero}.
+		% This begs the question, why would we add when can move instead?
+		This leads to the \emph{pseudo-instruction} \texttt{move \$s1 \$s2}, which is not an actual instruction (meaning that when running the code, it is translated to a simpler instruction) and is merely used for programming convenience.
 
-		Let us next look at a couple of logical operations:
+		Let us next look at a couple of \texttt{l}ogical operations:
 		\begin{itemize}
-			\item \textbf{\texttt{sll}} shifts to the left,
-			\item \textbf{\texttt{srl}} shifts to the right, and
+			\item \textbf{\texttt{sll}} \texttt{s}hifts to the \texttt{l}eft,
+			\item \textbf{\texttt{srl}} \texttt{s}hifts to the \texttt{r}ight, and
 			\item \textbf{\texttt{and}}, \textbf{\texttt{or}}, \textbf{\texttt{nor}}, \textbf{\texttt{andi}}, and \textbf{\texttt{ori}} mean the usual thing.
 		\end{itemize}
 		Interestingly, there is no \texttt{not} instruction, we instead use \texttt{nor} with one operand as \texttt{0}. When we are dealing with these instructions, one must understand that we are dealing with 32 raw bits, not a 32-bit number. 
@@ -63,11 +65,12 @@
 			lui $t0, 0xAAAA
 			ori $t0, $t0, 0xF0F0
 		\end{verbatim}
+		The above sequence of operations can be shortened to the pseudo-operation \texttt{li \$t0 0xAAAAF0F0}.\\
 		Note that all constants used in the operations are only 16 bits long.
 
 	\subsection{Operations on Memory}
 
-		Before 1944, memory only stored the data required to perform an operation. So, the stored program as the binary is stored in memory. Von Neumann then came up with the idea to store instructions in memory as well. We refer to a ``word'' by a 4-byte binary string. Memory is then just a collection of words. The \textit{program counter} (PC) or \textit{instruction pointer} (IP) is a special register that stores the address of the instruction. So, if we have a 32-bit processor and the address are of width 32 bits as well, the processor fetches PC, PC+4, PC+8,$\ldots$ sequentially.
+		Before 1944, memory only stored the data required to perform an operation. So, the stored program as the binary is stored in memory. Von Neumann then came up with the idea to store instructions in memory as well. We refer to a 4-byte binary string as a  ``word''. Memory is then just a collection of words. The \textit{program counter} (PC) or \textit{instruction pointer} (IP) is a special register that stores the address of the instruction. So, if we have a 32-bit processor and the address are of width 32 bits as well, the processor fetches PC, PC+4, PC+8,$\ldots$ sequentially.
 
 		When we want some operation done,
 		\begin{enumerate}
