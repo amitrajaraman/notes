@@ -58,6 +58,12 @@
 			A graph $G$ is said to be \textbf{connected} if for any pair of vertices $u, v$, there is a sequence $u=v_0,v_1,\ldots,v_r = v$ for some $r$ such that $v_{i-1} v_i$ is an edge for each $i\in[r]$.
 		\end{fdef}
 
+		\begin{fdef}[Girth]
+			The \textbf{girth} of a graph $G$ is the smallest $k$ ($>2$) for which $C_k$ is isomorphic to a subgraph of $G$.
+		\end{fdef}
+
+		If $G$ has no cycles, it is said to have infinite girth.
+
 	\subsection{\texorpdfstring{$K_{r+1}$}{K r+1}-free graphs}
 
 		Extremal graph theory is motivated by the following simple problem:
@@ -81,14 +87,14 @@
 			Further, equality is attained iff $G_n \simeq K_{\lfloor n/2\rfloor , \lceil n/2 \rceil}$.
 		\end{ftheo}
 		\begin{proof}
-			Suppose $G_n$ has no triangles. Saying that $G_n$ has no triangles is equivalent to saying that for distinct adjacent $u,v$, $N(u) \cap N(v) = \emptyset$.\\
+			Suppose $G_n$ has no triangles. Saying that $G_n$ has no triangles is equivalent to saying that for distinct adjacent $u,v$, $\Gamma(u) \cap \Gamma(v) = \emptyset$.\\
 			So, $d(u) + d(v) \le n$. Therefore,
 			\begin{align*}
 				ne(G_n) &\stackrel{(1)}{\ge} \sum_{uv \in E} d(u) + d(v) \\
-					&= \sum_{uv \in E} |N(u) \cup N(v)| \\
-					&= \left| (e, w) : e = uv \in E, w \in N(u) \cup N(v) \right| \\
-					&= \sum_{u\in V} |\{ (e , w) : w \in N(u) , e = uv \in E \}| \\
-					&= \sum_{u \in V} |\{ (v,w) : v,w \in N(u) \}| \\
+					&= \sum_{uv \in E} |\Gamma(u) \cup \Gamma(v)| \\
+					&= \left| (e, w) : e = uv \in E, w \in \Gamma(u) \cup \Gamma(v) \right| \\
+					&= \sum_{u\in V} |\{ (e , w) : w \in \Gamma(u) , e = uv \in E \}| \\
+					&= \sum_{u \in V} |\{ (v,w) : v,w \in \Gamma(u) \}| \\
 					&\stackrel{(2)}{=} \sum_{u \in V} d(u)^2 \\
 					&\stackrel{(3)}{\ge} \frac{1}{n} \left( \sum_{u \in V} d(u) \right)^2 \\
 					&\stackrel{(4)}{=} \frac{4 e(G_n)^2}{n},
@@ -96,7 +102,7 @@
 			where $(2)$ follows from the changing the main thing being summed over to $u$, the ``middle'' vertex in the $L$-like structure, $(3)$ follows from the \href{https://en.wikipedia.org/wiki/Cauchy-Schwarz_inequality}{Cauchy-Schwarz inequality}, and $(3)$ follows from the \href{https://en.wikipedia.org/wiki/Handshaking_lemma}{handshaking lemma}.\\
 
 			What happens when equality is attained? Let us look at the case where $n$ is even.\\
-			$(1)$ is only tight when $d(u) + d(v) = n$ for all edges $uv$ and $(3)$ is only tight when $d(u)$ is a constant (independent of $u$). This implies that $d(u) = \frac{n}{2}$ for every $u\in V$. Now, if $uv$ is an edge, $N(u) \cap N(v) = \emptyset$ implies that $N(u) \cup N(v) = V$, and so $G_n = K_{\frac{n}{2}, \frac{n}{2}}$.\\
+			$(1)$ is only tight when $d(u) + d(v) = n$ for all edges $uv$ and $(3)$ is only tight when $d(u)$ is a constant (independent of $u$). This implies that $d(u) = \frac{n}{2}$ for every $u\in V$. Now, if $uv$ is an edge, $\Gamma(u) \cap \Gamma(v) = \emptyset$ implies that $\Gamma(u) \cup \Gamma(v) = V$, and so $G_n = K_{\frac{n}{2}, \frac{n}{2}}$.\\
 			The case where $n$ is odd is analyzed similarly, with slight nuances in $(3)$ since exact equality is not attained.
 		\end{proof}
 		
@@ -132,7 +138,7 @@
 
 			To prove our claim, we perform induction on $r$.\\
 			The claim is trivial for the base case $r=1$.\\
-			Now, suppose the claim holds for values less than $r$. Let $v_0 \in V$ such that $d_G(v_0) = \max_{v \in V} d_G(v)$ (the vertex of maximum degree in $G$) and $W = N(z)$. Since $G$ is $K_{r+1}$-free, $W$ is $K_r$-free. Inductively, there is an $(r-1)$-partite graph $H'$ on $W$ such that for all $v \in W$, $d_{H'}(v) \ge d_W(v)$.\\
+			Now, suppose the claim holds for values less than $r$. Let $v_0 \in V$ such that $d_G(v_0) = \max_{v \in V} d_G(v)$ (the vertex of maximum degree in $G$) and $W = \Gamma(z)$. Since $G$ is $K_{r+1}$-free, $W$ is $K_r$-free. Inductively, there is an $(r-1)$-partite graph $H'$ on $W$ such that for all $v \in W$, $d_{H'}(v) \ge d_W(v)$.\\
 			Let $U = V \setminus W$. For each $u \in U$, remove all its edges in $G$ and set its new neighbour set as $W$.\\
 			Our desired graph $H$ is that with these edges along with those in $H'$ and the edges from $v_0$ to $W$. That is, the $r$th part is $U \cup \{v_0\}$ and the remaining $(r-1)$ parts are those formed by $H'$. The graph is clearly $r$-partite by definition. What about the degree inequality?
 			\begin{itemize}
@@ -171,7 +177,7 @@
 				&= \sum_{v \in V} \Pr\left[ v \in \mathcal{A}(\pi) \right].
 			\end{align*}
 			Fix some $v \in V$ and permutation $\sigma$. What is the probability that $v \in \mathcal{A}(\sigma)$?\\
-			If at the time of processing $v$ for the ordering $\sigma$, $N(v) \cap S \ne \emptyset$, then $v$ is not picked. In particular, if $v$ is the first element of $N(v) \cup \{v\}$ in the ordering $\sigma$, then it is definitely chosen by the algorithm. The probability of this occurring is $\frac{1}{d(v) + 1}$.
+			If at the time of processing $v$ for the ordering $\sigma$, $\Gamma(v) \cap S \ne \emptyset$, then $v$ is not picked. In particular, if $v$ is the first element of $\Gamma(v) \cup \{v\}$ in the ordering $\sigma$, then it is definitely chosen by the algorithm. The probability of this occurring is $\frac{1}{d(v) + 1}$.
 			So,
 			\begin{align*}
 				\expec[ |\mathcal{A}(\pi)| ] &= \sum_{v \in V} \Pr\left[ \indic_{v \in \mathcal{A}(\pi)} \right] \\
@@ -225,12 +231,12 @@
 		\end{ftheo}
 		\begin{proof}
 			Let $G$ be bipartite with vertex set $A \sqcup B$ and satisfy the Zarankiewicz condition.\\
-			Fix $a \in A$. By definition, $|N(a)| = d(a)$. Now, $\binom{d(a)}{t}$ is the number of $t$-element subsets of $N(a)$. We may assume that for all $a \in A$, $d(a) \ge t-1$. Indeed, otherwise, we may add arbitrary edges to $a$ to make its degree $t-1$; any vertex from $A$ in a subgraph isomorphic to $K_{s,t}$ must have at least degree $t$ so $a$ cannot be part of it.
+			Fix $a \in A$. By definition, $|\Gamma(a)| = d(a)$. Now, $\binom{d(a)}{t}$ is the number of $t$-element subsets of $\Gamma(a)$. We may assume that for all $a \in A$, $d(a) \ge t-1$. Indeed, otherwise, we may add arbitrary edges to $a$ to make its degree $t-1$; any vertex from $A$ in a subgraph isomorphic to $K_{s,t}$ must have at least degree $t$ so $a$ cannot be part of it.
 
 			We have that
 			\begin{align*}
-				\sum_{x \in A} \binom{d(x)}{t} &= \left| \{ (x,T) : x \in A, T \subseteq N(x), |T|=t \} \right| \\
-				&= \sum_{\substack{T \subseteq B \\ |T| = t}} |\{x \in A : T \subseteq N(x)\}|.
+				\sum_{x \in A} \binom{d(x)}{t} &= \left| \{ (x,T) : x \in A, T \subseteq \Gamma(x), |T|=t \} \right| \\
+				&= \sum_{\substack{T \subseteq B \\ |T| = t}} |\{x \in A : T \subseteq \Gamma(x)\}|.
 			\end{align*}
 			If we fix a $T$, then the number of such $x$ for that $T$ is at most $s-1$, due to our assumption. As a result,
 			\[ \sum_{x \in A} \binom{d(x)}{t} \le \binom{n}{t} (s-1). \]

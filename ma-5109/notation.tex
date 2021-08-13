@@ -1,17 +1,25 @@
 \section{Notation}
-	
 	We use $[n]$ to represent $\{1,2,\ldots,n\}$.\\
+
 	For integers $a$ and $b$, $[a,b]$ means $\{a,a+1,\ldots,b\}$.\\
+
 	A graph $G_n$ is a graph with $n$ vertices.\\
+
 	Given a graph $G$, $e(G)$ is the number of edges $G$ has.\\
+
 	For a vertex $v$, denote by $N(v)$ or $\Gamma(v)$ the set of \emph{neighbours} of $v$ -- all the vertices that have an edge to $v$.\\
-	For a vertex $v$, denote by $d_G(v) = |N(v)|$ the \emph{degree} of $v$ -- the number of edges incident on it. If the graph $G$ is clear from context, we write simply $d(V)$. \\
+
+	For a vertex $v$, denote by $d_G(v) = |\Gamma(v)|$ the \emph{degree} of $v$ -- the number of edges incident on it. If the graph $G$ is clear from context, we write simply $d(V)$. \\
+	
 	For $v \in V$ and $K \subseteq V$, $d(v,K)$ is the number of edges
 	\[ \left|\{ u \in K : uv \in E \}\right| \]
 	from $v$ into $K$.\\
+	
 	Given a graph $G = (V,E)$, denote by $\delta(G)$ and $\Delta(G)$ the minimum and maximum degree in $G$ respectively. That is,
 	\[ \delta(G) = \min_{v \in V} d(v) \text{ and } \Delta(G) = \max_{v \in V} d(v). \]
 
-	We shorten ``there exists $n_0$ such that for all $n > n_0$'' to ``for all $n$ sufficiently large'', which in turn is shortened to ``for all $n\gg 0$''.
+	We shorten ``there exists $n_0$ such that for all $n > n_0$'' to ``for all $n$ sufficiently large'', which in turn is shortened to ``for all $n\gg 0$''.\\
+
+	We say that something occurs ``with high probability'' if the probability of the complement occurring converges to $0$ as the input size grows to $\infty$.
 
 \clearpage

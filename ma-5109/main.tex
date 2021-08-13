@@ -28,6 +28,10 @@
 			% Recall that we have already seen that $\exx(n;C_4) \le c n^{3/2}$ for some universal constant $c$.\\
 			Using \href{https://proofwiki.org/wiki/Graph_is_Bipartite_iff_No_Odd_Cycles}{the folklore result} that a graph is bipartite iff it has no odd cycle, we have
 			\[ \exx(n;C_{2k+1}) \ge \left\lfloor \frac{n^2}{4} \right\rfloor. \]
+			\begin{remark}
+				It in fact turns out that for $n\gg 0$, $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$, as we shall see later..
+			\end{remark}
+
 			Is there any more general relationship between forbidden subgraphs and $r$-partite graphs?
 
 			\begin{fdef}[Chromatic Number]
@@ -58,7 +62,7 @@
 			Can we do better?\\
 			This is answered by the Erd\H{o}s-Stone-Simonovits Theorem.
 
-		\subsubsection{The Result}
+		\subsubsection{The result}
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 1]
 				\label{theo: erdos-stone v1}
@@ -105,7 +109,7 @@
 				We first show the result for $r=1$. Let $G_n$ be a graph such that $\delta(G_n) \ge \varepsilon n$. We want a ``large'' $t$ such that $K_{t,t}$ is isomorphic to a subgraph $G_n$.\\
 				Suppose that $G_n$ is $K_{t,t}$-free (we shall fix $t$ later).
 				Now, we have that
-				\[ t \binom{n}{t} \stackrel{(1)}{>} |\{(v,T) : v\in V, T \subseteq N(v), |T|=t\}| = \sum_{v\in V} \binom{d(v)}{t} \stackrel{(2)}{\ge} n \binom{\varepsilon n}{t}, \]
+				\[ t \binom{n}{t} \stackrel{(1)}{>} |\{(v,T) : v\in V, T \subseteq \Gamma(v), |T|=t\}| = \sum_{v\in V} \binom{d(v)}{t} \stackrel{(2)}{\ge} n \binom{\varepsilon n}{t}, \]
 				where $(2)$ follows from the hypothesis on $\delta(G_n)$ and $(1)$ follows due to our assumption that $G_n$ is $K_{t,t}$-free.\\
 				Therefore,
 				\[ n\binom{\varepsilon n}{t} < t \binom{n}{t}. \]
@@ -254,55 +258,158 @@
 	\subsection{An Introduction to Random Graphs}
 
 		\begin{fdef}[Erd\H{o}s-R\'{e}nyi Model]
-			Fix $0\le p\le 1$. The \textbf{Erd\H{o}s-R\'{e}nyi random graph model}, denoted $G(n,p)$ is the random variable which is a graph with vertex set $[n]$, such that for each $\{i,j\} \in \binom{[n]}{2}$, $\{i,j\}$ is an edge with probability $p$, independently across distinct pairs.
+			Fix $0\le p\le 1$. The \textbf{Erd\H{o}s-R\'{e}nyi random graph model}, denoted $G_{n,p}$ is the random variable which is a graph with vertex set $[n]$, such that for each $\{i,j\} \in \binom{[n]}{2}$, $\{i,j\}$ is an edge with probability $p$, independently across distinct pairs.
 		\end{fdef}
 
-		% That is, $G(n,p)$ is a distribution on all graphs with vertex set $[n]$. 
+		% That is, $G_{n,p}$ is a distribution on all graphs with vertex set $[n]$. 
 		So, for any graph $H$ on vertex set $[n]$,
-		\[ \Pr(G(n,p) = H) = p^{e(H)} (1-p)^{\binom{n}{2} - e(H)}. \]
+		\[ \Pr(G_{n,p} = H) = p^{e(H)} (1-p)^{\binom{n}{2} - e(H)}. \]
 
 		\begin{remark}
-			If $p=1/2$, this is the uniform distribution on the set of graphs on $[n]$.
+			$G_{n,1/2}$ is the uniform distribution on the set of graphs on $[n]$.
 		\end{remark}
 
 		A recurring theme in probability theory is that random objects tend to behave very nicely given a large number of samples (along the lines of the laws of large numbers and the central limit theorem).
 
-		\subsubsection{A motivating extremal problem}
+		\subsubsection{A motivating extremal problem (bounding \texorpdfstring{$\exx(n;C_{2k}$)}{ex(n;C2k)})}
 
-			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$. We have already seen that $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$. Is it true that $\exx(n;C_{2k+1}) = \lfloor n^2 / 4 \rfloor$ for $n \gg 0$?\\
-			While \Cref{theo: ESS exx square tight coloring} does say that $\exx(n;C_{2k+1}) \le (1/4 + o(1)) n^2$, it \emph{could} still be as large as $n^2/4 + n^{1.99}$, say.\\
-			It turns out, however, that our claim happens to be true, as we shall see later.\\
+			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$.\\
+			% We have already seen that $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$. Is it true that $\exx(n;C_{2k+1}) = \lfloor n^2 / 4 \rfloor$ for $n \gg 0$?\\
+			% While \Cref{theo: ESS exx square tight coloring} does say that $\exx(n;C_{2k+1}) \le (1/4 + o(1)) n^2$, it \emph{could} still be as large as $n^2/4 + n^{1.99}$, say.\\
+			% It turns out, however, that our claim happens to be true, as we shall see later.\\
 
-			Before moving to this however, let us look at $\exx(n;C_{2k})$, and at the very least get a lower bound on this quantity.
+			% Before moving to this however, let us look at $\exx(n;C_{2k})$, and at the very least get a lower bound on this quantity.
 
 			\begin{ftheo}
+				\label{theo: C_2k free}
 				For any $k$, there exists a constant $c$ such that for $n \gg 0$, there is a $C_k$-free $G_n$ with
 				\[ e(G_n) \geq c \cdot n^{1 + 1/(k-1)}. \]
 			\end{ftheo}
 
-			The above result does not give anything useful for $k$ odd.
+			The above result does not yield anything useful for $k$ odd.
 
 			\begin{proof}
-				Consider $G(n,p)$ for some $p$ we shall fix later. Let $N(G)$ be the number of copies of $C_k$ in a given graph $G$.\\
+				Consider $G_{n,p}$ for some $p$ we shall fix later. Let $N(G)$ be the number of copies of $C_k$ in a given graph $G$.\\
 				Given a cycle $(v_1,\ldots,v_k)$, observe that the sequences $(v_2,v_3,\ldots,v_k, v_1)$ and $(v_k,v_{k-1},\ldots,v_1)$ determine the same cycle. That is, performing cyclic shifts of a sequence of vertices or reversing their order around gives the same cycle.\\
-				Let $\mathcal{C}$ be the set of all these cycles.\footnote{This can be made more formal by taking all length $k$ sequences of $[n]$ consisting of distinct elements and considering the equivalence classes formed by the equivalence relation defined in the previous paragraph.} By our observation,
+				Let $\mathcal{C}$ be the set of all these cycles.\footnote{This can be made more formal by taking all length $k$ sequences of $[n]$ consisting of distinct elements and considering the equivalence classes formed by the equivalence relation defined on the previous line.} By our observation,
 				\[ |\mathcal{C}| = \frac{n(n-1)\cdots(n-k+1)}{2k} = \frac{n!}{2k\cdot k!}. \]
 				Now,
 				\begin{align*}
-					\expec[N(G(n,p))] &= \expec\left[ \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] \\ 
+					\expec[N(G_{n,p})] &= \expec\left[ \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] \\ 
 					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \Pr\left[ \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] & \text{(linearity of expectation)} \\
 					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} p^k \\
 					&= \frac{n!}{2k \cdot k!} p^k.
 				\end{align*}
 				This quantity is obviously less than $(np)^k / 2k$. If $p$, and thus the expectation is small, we expect to not see many $C_k$s. On the other hand,
 				\begin{align*}
-					\expec[e(G(n,p))] &= \expec \left[ \sum_{\{i,j\} \in \binom{[n]}{2}} \indic_{ij\text{ is an edge}} \right] \\
+					\expec[e(G_{n,p})] &= \expec \left[ \sum_{\{i,j\} \in \binom{[n]}{2}} \indic_{ij\text{ is an edge}} \right] \\
 					&= \binom{n}{2} p.
 				\end{align*}
 				Given a graph, if we delete an (arbitrary) edge from each copy of $C_k$ in it, we will be left with no cycles. That is, given any graph $G$, there is a graph on the same vertex set with $e(G) - N(G)$ edges that is $C_k$-free. Inspired by this, by the linearity of expectation,
-				\[ \expec[e(G(n,p)) - N(G(n,p))] \ge \binom{n}{2} p - \frac{(np)^k}{2k}. \]
+				\[ \expec[e(G_{n,p}) - N(G_{n,p})] \ge \binom{n}{2} p - \frac{(np)^k}{2k}. \]
 				If we set $p = \left(\frac{k}{2}\right)^{1/(k-1)} n^{-1 + 1/(k-1)}$, then the above quantity is at least $n(n-1)p/4 \ge c \cdot n^{1 + 1/(k-1)}$ for an appropriate constant $c$ and $n\gg 0$, completing the proof.
 			\end{proof}
+
+		\subsubsection{Digression: A coloring result of Erd\H{o}s}
+
+			The question we consider in this section is:
+
+			\begin{quote}
+				Are there $C_3$-free graphs with large chromatic number?
+			\end{quote}
+
+			More generally,
+
+			\begin{quote}
+				Are there graphs with large chromatic number and large girth?
+			\end{quote}
+
+			For example, if the girth of a graph is $7$, then there cannot be adjacent vertices $v,w$ such that $\Gamma(v) \cap \Gamma(u)$ and $\Gamma(w) \cap \Gamma(u)$ are non-empty for some $u$ distinct from $v,w$. As a result, we can draw a ``$2$-step tree'' rooted at any $u$, which has $\Gamma(u)$ at the first level and the neighbours (other than $u$) of vertices of $\Gamma(u)$ at the second.\\
+			This seems to suggest some level of sparseness in the graph, due to which there are not too many edges and as a result, the chromatic number is low. However, it turns out that this intuition is not true, as proved by Erd\H{o}s in \cite{erdos_1959_girth_chromaticnum}.
+
+			\begin{ftheo}
+				There exist graphs with arbitrarily large girth and chromatic number. That is, given a $g,k \ge 3$, there exists a graph $G_n$  such that $\girth(G) > g$ and $\chi(G) > k$.
+			\end{ftheo}
+
+			\begin{proof}
+				Consider $G_{n,p}$ for some $p$ we fix later. Further assume that $np \ge 1$.\\% (if $p < 1/n$, the graph is extremely sparse).\\
+				Given a graph $G$, let $N_i(G)$ (for $3 \le i \le g$) be the number of cycles of size $i$ in $G$. As we saw in the proof of \Cref{theo: C_2k free},
+				\[ \expec[N_i(G_{n,p})] = \frac{n!}{2i \cdot i!} p^i < \frac{(np)^i}{6}. \]
+				Let $N = \sum_{i=3}^g N_i$. Then
+				\begin{align*}
+					\expec\left[N(G_{n,p})\right] &= \expec\left[\sum_{i=3}^g N_i(G_{n,p})\right] \\
+					&< \frac{(np)^3}{6} \left(\frac{(np)^{g-2} - 1}{np - 1}\right) \\
+					&< \frac{(np)^g}{3}. & \text{(since $np\ge 1$)}
+				\end{align*}
+				Using \href{https://en.wikipedia.org/wiki/Markov%27s_inequality}{Markov's inequality},
+				\begin{equation}
+					\label{eqn: 2.5}
+					\Pr\left[ N(G_{n,p}) > \frac{2}{3} (np)^g \right] < \frac{1}{2} \\
+				\end{equation}
+				This takes care of the girth (we want the above probability to be small).
+				On the other hand, we need to make the chromatic number large. Towards this, observe that $\chi(G) \ge n/\alpha(G)$ (Why?). % Try thinking of a colouring as a splitting of the graph into independent sets).
+				We have
+				\begin{align*}
+					\Pr\left[\alpha(G_{n,p}) \ge r\right] &= \Pr\left[ \bigcup_{X\subseteq [n]: |X|=r} \{X\text{ is independent}\} \right] \\
+					&\le \sum_{X \subseteq [n] : |X|=r} \Pr[X\text{ is independent}] & \\% (\text{by the \href{https://en.wikipedia.org/wiki/Boole%27s_inequality}{union bound}}) \\
+					&= \sum_{X \subseteq [n] : |X|=r} (1-p)^{\binom{r}{2}} \\
+					&\le \binom{n}{r} \cdot e^{-pr(r-1)/2} \\
+					&\le \left(\frac{en}{r}\right)^r \cdot e^{-pr^2/3} \\
+					&= \left(\frac{e^{1-pr/3}n}{r}\right)^r.
+				\end{align*}
+				We shall choose $r$ and $p$ such that with positive probability, $N(G_{n,p}) \le 2(np)^g/3$ \emph{and} $\alpha(G_{n,p}) < r$. This implies the existence of a graph $G_n$ such that both of the above hold.\\
+				We cannot use the tactic of removing edges we did in the earlier proof since that might increase $\alpha$. Deleting vertices on the other hand works, since this can increase neither $\alpha$ nor $N$.\\
+				If we delete a single vertex from each cycle involved in $N$, the resulting graph will have girth greater than $g$. That is, given a graph $G_n$, there exists a graph with at least $n - N(G_n)$ vertices that has girth greater than $g$. Denote this corresponding graph as $G_n'$.\\
+
+				Set $p = n^{1/(g+1) - 1}$. In this case, $2(np)^g/3 < n/2$ for $n\gg 0$ and using \eqref{eqn: 2.5},
+				\begin{equation}
+					\label{eqn: 2.6}
+					\Pr\left[ n - N(G_{n,p}) > \frac{n}{2} \right] \ge \frac{1}{2}.
+				\end{equation}
+				% On the other hand, we want $\Pr[\alpha(G_{n,p}) \ge r]$ to be small. This is accomplished if
+				% \begin{align*}
+				% 	en &\ll e^{pr/3} \\
+				% 	\log n &\ll \frac{pr}{3}.
+				% \end{align*}
+				Set $r = 4 \log n / p = 4 n^{1 - 1/(g+1)} \log n$. For these values of $p$ and $r$,
+				\begin{equation}
+					\label{eqn: 2.7}
+					\Pr\left[\alpha(G_{n,p}) \ge r\right] \xrightarrow{n\to\infty} 0.
+				\end{equation}
+
+				Using \eqref{eqn: 2.6}, our construction of $G'$, and \eqref{eqn: 2.7}, it is true with with positive probability that
+				\[ |G_{n,p}'| \ge \frac{n}{2}, \girth(G_{n,p}') > g, \]
+				and
+				\[ \chi(G_{n,p}') \ge \frac{n}{\alpha(G_{n,p}')} \ge \frac{n}{r} = \frac{n^{1/(g+1)}}{4\log n} \xrightarrow{n\to\infty} \infty. \]
+				Therefore, for $g,k \ge 3$, there exists $n\gg 0$ and graph $G$ on $n$ vertices such that $\girth(G) > g$ and $\chi(G) > k$. 
+			\end{proof}
+
+	\subsection{Szemer\'{e}di's Regularity Lemma}
+
+		The second of our powerful results in extremal graph theory (after the Erd\H{o}s-Stone-Simonovits Theorem) is Szemer\'{e}di's Regularity Lemma, which says that any sufficiently large graph behaves in some way like a random graph.
+
+		\subsubsection{Motivation}
+
+			First, let us give a bound from probability theory that will be useful.
+
+			\begin{flem}[Chernoff Bound]
+				\label{chernoff bound}
+				Suppose $X \sim B(n,p)$, the \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial distribution} with parameters $n,p$. Then for any $t \ge 0$,
+				\[ \Pr\left[ X - \expec[X] \ge t \right] \le \exp\left(-\frac{t^2}{2\left(\expec[X] + t/3\right)}\right) \]
+				and
+				\[ \Pr\left[ X - \expec[X] \le -t \right] \le \exp\left(-\frac{t^2}{2\expec[X]}\right). \]
+			\end{flem}
+
+			Fix disjoint $A, B \subseteq [n]$ and let $|A|=a$, $|B|=b$. Then given a graph $G$ on $[n]$,
+			\[ e(A,B) = \sum_{x \in A, y \in B} \indic_{xy \in E(G)}. \]
+			Fix $0<p<1$. Then if $G \sim G_{n,p}$,
+			\[ e(A,B) \sim B\left( ab, p \right). \]
+			By the \nameref{chernoff bound}, for some fixed constant $c$,
+			\[ \Pr\left[ |e(A,B) - pab| > c \left(b\sqrt{pa\log\left(\frac{2n}{b}\right)}\right) \right] \xrightarrow{n\to\infty} 0 \]
+
+			In particular, if $a = b = \alpha n$ for some $0 < \alpha < 1/3$, then with high probability,
+			\[ |e(A,B) - pab| = \mathcal{O}\left(b\sqrt{ap\log\left(\frac{2n}{b}\right)}\right) \]
+			for any sets $A, B$ of sizes $a$ and $b$ respectively.
 
 
 \bibliographystyle{alpha}
