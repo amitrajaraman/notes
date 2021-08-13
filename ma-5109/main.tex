@@ -58,7 +58,7 @@
 			Can we do better?\\
 			This is answered by the Erd\H{o}s-Stone-Simonovits Theorem.
 
-		\subsubsection{The Statement}
+		\subsubsection{The Result}
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 1]
 				\label{theo: erdos-stone v1}
@@ -92,6 +92,7 @@
 			for all $\varepsilon > 0$.
 
 			\begin{fcor}
+				\label{theo: ESS exx square tight coloring}
 				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, there exists $n_0$ such that for all $n\ge n_0$,
 				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
 			\end{fcor}
@@ -250,7 +251,58 @@
 			% 	Let $d$ be the average degree of $G$. Then $G$ contains a (non-empty) subgraph $H$ with $\delta(H) \ge d/2$.
 			% \end{flem}
 
+	\subsection{An Introduction to Random Graphs}
 
+		\begin{fdef}[Erd\H{o}s-R\'{e}nyi Model]
+			Fix $0\le p\le 1$. The \textbf{Erd\H{o}s-R\'{e}nyi random graph model}, denoted $G(n,p)$ is the random variable which is a graph with vertex set $[n]$, such that for each $\{i,j\} \in \binom{[n]}{2}$, $\{i,j\}$ is an edge with probability $p$, independently across distinct pairs.
+		\end{fdef}
+
+		% That is, $G(n,p)$ is a distribution on all graphs with vertex set $[n]$. 
+		So, for any graph $H$ on vertex set $[n]$,
+		\[ \Pr(G(n,p) = H) = p^{e(H)} (1-p)^{\binom{n}{2} - e(H)}. \]
+
+		\begin{remark}
+			If $p=1/2$, this is the uniform distribution on the set of graphs on $[n]$.
+		\end{remark}
+
+		A recurring theme in probability theory is that random objects tend to behave very nicely given a large number of samples (along the lines of the laws of large numbers and the central limit theorem).
+
+		\subsubsection{A motivating extremal problem}
+
+			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$. We have already seen that $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$. Is it true that $\exx(n;C_{2k+1}) = \lfloor n^2 / 4 \rfloor$ for $n \gg 0$?\\
+			While \Cref{theo: ESS exx square tight coloring} does say that $\exx(n;C_{2k+1}) \le (1/4 + o(1)) n^2$, it \emph{could} still be as large as $n^2/4 + n^{1.99}$, say.\\
+			It turns out, however, that our claim happens to be true, as we shall see later.\\
+
+			Before moving to this however, let us look at $\exx(n;C_{2k})$, and at the very least get a lower bound on this quantity.
+
+			\begin{ftheo}
+				For any $k$, there exists a constant $c$ such that for $n \gg 0$, there is a $C_k$-free $G_n$ with
+				\[ e(G_n) \geq c \cdot n^{1 + 1/(k-1)}. \]
+			\end{ftheo}
+
+			The above result does not give anything useful for $k$ odd.
+
+			\begin{proof}
+				Consider $G(n,p)$ for some $p$ we shall fix later. Let $N(G)$ be the number of copies of $C_k$ in a given graph $G$.\\
+				Given a cycle $(v_1,\ldots,v_k)$, observe that the sequences $(v_2,v_3,\ldots,v_k, v_1)$ and $(v_k,v_{k-1},\ldots,v_1)$ determine the same cycle. That is, performing cyclic shifts of a sequence of vertices or reversing their order around gives the same cycle.\\
+				Let $\mathcal{C}$ be the set of all these cycles.\footnote{This can be made more formal by taking all length $k$ sequences of $[n]$ consisting of distinct elements and considering the equivalence classes formed by the equivalence relation defined in the previous paragraph.} By our observation,
+				\[ |\mathcal{C}| = \frac{n(n-1)\cdots(n-k+1)}{2k} = \frac{n!}{2k\cdot k!}. \]
+				Now,
+				\begin{align*}
+					\expec[N(G(n,p))] &= \expec\left[ \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] \\ 
+					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \Pr\left[ \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] & \text{(linearity of expectation)} \\
+					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} p^k \\
+					&= \frac{n!}{2k \cdot k!} p^k.
+				\end{align*}
+				This quantity is obviously less than $(np)^k / 2k$. If $p$, and thus the expectation is small, we expect to not see many $C_k$s. On the other hand,
+				\begin{align*}
+					\expec[e(G(n,p))] &= \expec \left[ \sum_{\{i,j\} \in \binom{[n]}{2}} \indic_{ij\text{ is an edge}} \right] \\
+					&= \binom{n}{2} p.
+				\end{align*}
+				Given a graph, if we delete an (arbitrary) edge from each copy of $C_k$ in it, we will be left with no cycles. That is, given any graph $G$, there is a graph on the same vertex set with $e(G) - N(G)$ edges that is $C_k$-free. Inspired by this, by the linearity of expectation,
+				\[ \expec[e(G(n,p)) - N(G(n,p))] \ge \binom{n}{2} p - \frac{(np)^k}{2k}. \]
+				If we set $p = \left(\frac{k}{2}\right)^{1/(k-1)} n^{-1 + 1/(k-1)}$, then the above quantity is at least $n(n-1)p/4 \ge c \cdot n^{1 + 1/(k-1)}$ for an appropriate constant $c$ and $n\gg 0$, completing the proof.
+			\end{proof}
 
 
 \bibliographystyle{alpha}
