@@ -298,4 +298,30 @@
 
 			\texttt{LOAD}s and \texttt{STORE}s need an alignment network that ensures the data loaded/written is aligned. This alignment network differs based on the endianness.
 
+\section{The Processor}
+
+	\subsection{Single-Cycle Processors}
+
+		In a \textbf{single-cycle processor}, all operations take a single cycle. The \textbf{clock cycle} (a unit of time) is defined based on the time required to execute the longest instruction. There are two paths of interest: \emph{datapath} (which deals with anything that stores data or operates on data) and \emph{control} (which deals with when to do what). 
+
+		The clock cycle provides discrete time intervals to the processor. It is based on a \emph{clock rate}, which depends on the processor frequency. For example, a 1 GHz processor has a clock cycle of 1ns.
+
+		Since we are looking at the von Neumann model, let us first look at instruction memory (so if we provide an address through the PC, it will return the corresponding instruction). We are not concerned with how programs are loaded into this memory.\\
+		The program counter, on taking a PC as input, returns PC+4.\\
+		In the register file have two registers for reading (of 5 bits each), one register for writing, and a 32-bit width \texttt{wd} for the data we want to write. The output is two datas of 32 bits each. Depending on whether we want to read or write, there is a control signal.\\
+		The ALU takes as input two 32-bit operands, uses \texttt{op} to decide to which operation to perform, and returns the 32-bit result.\\
+		Finally, the data memory has an input address (32 bits), a control signal to see if we want to read or write, a 32-bit input data, and a 32-bit output data.\\
+
+		Now that we have all of the above machinery for the data path, what do we do?\\
+		First, we fetch an instruction from memory (received in the data bus) using the PC (through the address bus).\\
+		We then decode the instruction to figure out exactly what we need to do. For example, suppose we wish to perform \texttt{add \$8 \$9 \$10}. We first give the two input registers \texttt{\$9} and \texttt{\$10} in the \texttt{rs1} and \texttt{rs2} fields of the register file, getting the corresponding values stored in \texttt{rd1} and \texttt{rd2}. We then put these values (along with the opcode) through the ALU to add them up. This is returned back to the register file (in \texttt{wd}) along with the output register \texttt{\$8}, where the value is stored. The control signals change appropriately throughout.\\
+
+		The control signals are decided by the upper 6 bits. Some examples are \texttt{MemRead} (read from memory when true), \texttt{MemWrite} (write to memory when true), \texttt{RegWrite} (write to the given register when true), \texttt{MemToReg} (memory to register when true and ALU to register when false), \texttt{RegDst} (use \texttt{rd} field when true and \texttt{rt} field when false), \texttt{ALUop} (use lower 16 bits of instruction when true and second register when false), \texttt{ALUsrc}, and \texttt{PCsrc} (go to branch target when true and PC+4 when false).\\
+
+		We do not prefer single cycle processors since the clock cycle time is the longest possible datapath.
+
+		\subsection{The Iron Law}
+
+			The time to execute a program is equal to the product of the number of instructions per program, the number of cycles per instruction, and the time taken per cycle. The first of these comes under the source code, compiler and ISA. The second comes under the ISA and microarchitecture. The third comes under the microarchitecture technology.
+
 \end{document}

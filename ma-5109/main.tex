@@ -29,7 +29,7 @@
 			Using \href{https://proofwiki.org/wiki/Graph_is_Bipartite_iff_No_Odd_Cycles}{the folklore result} that a graph is bipartite iff it has no odd cycle, we have
 			\[ \exx(n;C_{2k+1}) \ge \left\lfloor \frac{n^2}{4} \right\rfloor. \]
 			\begin{remark}
-				It in fact turns out that for $n\gg 0$, $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$, as we shall see later..
+				It in fact turns out that for $n\gg 0$, $\exx(n;C_{2k+1}) = \lfloor n^2/4 \rfloor$, as we shall see later..
 			\end{remark}
 
 			Is there any more general relationship between forbidden subgraphs and $r$-partite graphs?
@@ -66,7 +66,7 @@
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 1]
 				\label{theo: erdos-stone v1}
-				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, there exists some $n_0$ such that for any $n \ge n_0$ and graph $G_n$, if
+				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, for $n\gg 0$ and any graph $G_n$, if
 				\begin{equation}
 					\label{eqn: erdos-stone v1 condition}
 					\delta(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)n,
@@ -78,7 +78,7 @@
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 2]
 				\label{theo: erdos-stone v2}
-				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, there exists some $n_0$ such that for any $n \ge n_0$ and graph $G_n$, if
+				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, for $n\gg 0$ and any graph $G_n$, if
 				\begin{equation}
 					\label{eqn: erdos-stone v2 condition}
 					e(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)\binom{n}{2},
@@ -97,7 +97,7 @@
 
 			\begin{fcor}
 				\label{theo: ESS exx square tight coloring}
-				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, there exists $n_0$ such that for all $n\ge n_0$,
+				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, for $n\gg 0$,
 				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
 			\end{fcor}
 
@@ -410,6 +410,94 @@
 			In particular, if $a = b = \alpha n$ for some $0 < \alpha < 1/3$, then with high probability,
 			\[ |e(A,B) - pab| = \mathcal{O}\left(b\sqrt{ap\log\left(\frac{2n}{b}\right)}\right) \]
 			for any sets $A, B$ of sizes $a$ and $b$ respectively.
+
+			This seems to say that the actual number of edges between two sets of the given size does not deviate very much from the expected number of edges between the two sets. The expression on the right is of the order of $\mathcal{O}(n\sqrt{n})$, which is asymptotically less than the expectation $pab = \mathcal{O}(n^2)$.
+
+		\subsubsection{The Result}
+
+			The regularity lemma gives a qualitative version of the above observation. Before we move to the actual result, let us provide some notation.
+
+			\begin{fdef}[Density]
+				Given a graph $G = (V,E)$ andr $U,W \subseteq V$, the \textbf{density} $d(U,W)$ is equal to $e(U,W) / |U||W|$.
+			\end{fdef}
+
+			\begin{remark}
+				Here, $e(U,W)$ is $\{(u,w) \in U \times W : \{u,w\} \in E\}$. If $U$ and $W$ are disjoint, this is the same as our earlier definition of $e(\cdot,\cdot)$. If they are not disjoint however, edges within the intersection are counted \emph{twice} in our current definition.\\
+				This does not matter all that much since we usually apply the regularity lemma on disjoint sets.
+			\end{remark}
+
+			\begin{fdef}[$\varepsilon$-regular pair]
+				Suppose $0 < \varepsilon < 1$. A pair of subsets $(U,W)$ is said to be \textbf{$\varepsilon$-regular} if for any $A \subseteq U$, $B\subseteq W$ with $|A| \ge \varepsilon |U|$ and $|B| \ge \varepsilon |W|$, we have
+				\[ |d(A,B) - d(U,W)| \le \varepsilon \]
+			\end{fdef}
+
+			This corresponds to some sort of uniform behaviour throughout the sets, where subsets behave similarly to their parent sets in terms of density. If $(U,W)$ is $\varepsilon$-regular, all sufficiently large subsets of $U,W$ have roughly the same edge density as $(U,W)$.
+
+			\begin{ftheo}[Szemer\'{e}di's Regularity Lemma]
+				Given $0 < \varepsilon < 1$, there exists $M$ such that for $n\gg 0$, any graph $G_n$ admits a vertex partition $\mathcal{P} = V_0 \sqcup V_1 \sqcup \cdots \sqcup V_k$, where
+				\begin{itemize}
+					\item $k \le M$,
+					\item $|V_0| \le \varepsilon n$ ($V_0$ is known as an ``exceptional set''),
+					\item $V_i$ for $1\le i\le k$, and
+					\item the number of $\varepsilon$-\emph{ir}regular pairs $(V_i,V_j)$ ($1 \le i,j\le k$) is at most $\varepsilon k^2$.
+				\end{itemize}
+			\end{ftheo}
+			Such a partition is often referred to as an \textbf{$\varepsilon$-regular partition}.\\
+			% Qualitiatively, this means that any graph can be split into a bunch of pieces such that the edges between them are almost random, and the non-random part is small.\\
+
+			To prove this, we use an ``energy increment'' argument.
+
+			\begin{fdef}[Energy]
+				Given a graph $G_n$ with vertex set $V$, for disjoint $U,W \subseteq V$, define the \textbf{energy} of the pair $(U,W)$ by
+				\[ q(U,W) = \frac{|U||W|}{n^2} d^2(U,W). \]
+				If $\mathcal{U} = \{U_1,\ldots,U_m\}$ and $\mathcal{W} = \{W_1,\ldots,W_\ell\}$ are partitions of $U$ and $W$ respectively, then the energy of the pair $(\mathcal{U},\mathcal{W})$ is
+				\[ q(\mathcal{U},\mathcal{W}) = \sum_{\substack{1\le i\le m \\ 1 \le j \le \ell}} q(U_i,W_j). \]
+			\end{fdef}
+
+			\begin{lemma}
+				If $U,W$ are disjoint subsets of $V$ and $\mathcal{U},\mathcal{W}$ are partitions of $U,W$ respectively, then
+				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \]
+			\end{lemma}
+
+			\begin{proof}
+				Independently pick $u,w$ uniformly randomly from $V$. Define the random variable
+				\[ Z(u,w) =
+				\begin{cases}
+					d(U', W'), & u \in U' \in \mathcal{U}, w \in W' \in \mathcal{W}, \\
+					0, & \text{otherwise.}
+				\end{cases}
+				\]
+				Then,
+				\begin{align*}
+					\expec[Z]^2 &= \left(\sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} d(U',W') \left(\frac{|U'||W'|}{|U||W|}\right)\right)^2 \\
+						&= \left(\frac{1}{|U||W|} \sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} e(U',W')\right)^2 \\
+						&= d(U,W)^2 \\
+						&= \frac{n^2}{|U||W|} q(U,W) \text{ and} \\
+					\expec[Z^2] &= \sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} d^2(U',W') \left(\frac{|U'||W'|}{|U||W|}\right) \\
+						&= \frac{n^2}{|U||W|} q(\mathcal{U},\mathcal{W}).
+				\end{align*}
+				Since variance is always non-negative, $\expec[Z^2] \ge \expec[Z]^2$ and thus,
+				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \qedhere \]
+			\end{proof}
+
+			Partitioning increases energy! Also observe that since the random variable $Z$ is at most $1$, so is the energy.\\
+
+			\begin{lemma}
+				If $(U,W)$ is $\varepsilon$-irregular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U,W$ respectively such that
+				\[ q(\mathcal{U},\mathcal{W}) > q(U,W) + \varepsilon^4 \frac{|U||W|}{n^2}. \]
+			\end{lemma}
+			\begin{proof}
+				By the $\varepsilon$-irregularity, there exist $U_1\subseteq U$ and $W_1\subseteq W$ with $|U_1| \ge \varepsilon|U|$, $|W_1| \ge \varepsilon|W|$, and
+				\[ |d(U_1,W_1) - d(U,W)| > \varepsilon. \]
+				Consider the partitions $\mathcal{U} = \{U_1,U\setminus U_1\}$ and $\mathcal{W} = \{W_1,W\setminus W_1\}$. With the same $Z$ as in the proof of the previous lemma,
+				\begin{align*}
+					\expec[Z^2] - \expec[Z]^2 &= \expec[(Z - \expec[Z])^2] \\
+						&\ge \expec[(Z - \expec[Z])^2 \indic_{u\in U', w\in W'}] \\
+						&= \varepsilon^4.
+				\end{align*}
+				The claim follows.
+			\end{proof}
+
 
 
 \bibliographystyle{alpha}
