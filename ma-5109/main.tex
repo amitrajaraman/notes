@@ -434,7 +434,8 @@
 			This corresponds to some sort of uniform behaviour throughout the sets, where subsets behave similarly to their parent sets in terms of density. If $(U,W)$ is $\varepsilon$-regular, all sufficiently large subsets of $U,W$ have roughly the same edge density as $(U,W)$.
 
 			\begin{ftheo}[Szemer\'{e}di's Regularity Lemma]
-				Given $0 < \varepsilon < 1$, there exists $M$ such that for $n\gg 0$, any graph $G_n$ admits a vertex partition $\mathcal{P} = V_0 \sqcup V_1 \sqcup \cdots \sqcup V_k$, where
+				\label{theo: szemeredi's regularity lemma}
+				Given $0 < \varepsilon < 1$, there exists $M$ such that for $n\gg 0$, any graph $G_n$ admits a vertex partition $\mathcal{P} = (V_0, V_1, \ldots, V_k)$, where
 				\begin{itemize}
 					\item $k \le M$,
 					\item $|V_0| \le \varepsilon n$ ($V_0$ is known as an ``exceptional set''),
@@ -442,19 +443,22 @@
 					\item the number of $\varepsilon$-\emph{ir}regular pairs $(V_i,V_j)$ ($1 \le i,j\le k$) is at most $\varepsilon k^2$.
 				\end{itemize}
 			\end{ftheo}
-			Such a partition is often referred to as an \textbf{$\varepsilon$-regular partition}.\\
+			Such a partition where the number of $\varepsilon$-regular pairs is at most $\varepsilon k^2$ is often referred to as an \textbf{$\varepsilon$-regular partition}.\\
 			% Qualitiatively, this means that any graph can be split into a bunch of pieces such that the edges between them are almost random, and the non-random part is small.\\
 
-			To prove this, we use an ``energy increment'' argument.
+			We present the proof of the above, that uses an ``energy increment'' argument, over a series of lemmas.\\
 
 			\begin{fdef}[Energy]
 				Given a graph $G_n$ with vertex set $V$, for disjoint $U,W \subseteq V$, define the \textbf{energy} of the pair $(U,W)$ by
 				\[ q(U,W) = \frac{|U||W|}{n^2} d^2(U,W). \]
 				If $\mathcal{U} = \{U_1,\ldots,U_m\}$ and $\mathcal{W} = \{W_1,\ldots,W_\ell\}$ are partitions of $U$ and $W$ respectively, then the energy of the pair $(\mathcal{U},\mathcal{W})$ is
 				\[ q(\mathcal{U},\mathcal{W}) = \sum_{\substack{1\le i\le m \\ 1 \le j \le \ell}} q(U_i,W_j). \]
+				For a partition $\mathcal{P}$ of $V$, let
+				\[ q(\mathcal{P}) = q(\mathcal{P},\mathcal{P}) = \sum_{U,W\in\mathcal{P}} q(U,W) . \]
 			\end{fdef}
 
 			\begin{lemma}
+				\label{lemma: szemeredi lemma energy increases on partitioning}
 				If $U,W$ are disjoint subsets of $V$ and $\mathcal{U},\mathcal{W}$ are partitions of $U,W$ respectively, then
 				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \]
 			\end{lemma}
@@ -480,10 +484,13 @@
 				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \qedhere \]
 			\end{proof}
 
-			Partitioning increases energy! Also observe that since the random variable $Z$ is at most $1$, so is the energy.\\
+			Partitioning increases energy! Also observe that since the random variable $Z$ is at most $1$ ($1/2$, in fact), so is the energy.\\
+			This also implies that if the partition $\mathcal{Q}$ is a refinement of $\mathcal{P}$, then
+			\[ q(\mathcal{Q}) \ge q(\mathcal{P}). \]
 
 			\begin{lemma}
-				If $(U,W)$ is $\varepsilon$-irregular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U,W$ respectively such that
+				\label{lemma: szemeredi lemma energy increases for irregular}
+				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U,W$ respectively such that
 				\[ q(\mathcal{U},\mathcal{W}) > q(U,W) + \varepsilon^4 \frac{|U||W|}{n^2}. \]
 			\end{lemma}
 			\begin{proof}
@@ -497,6 +504,59 @@
 				\end{align*}
 				The claim follows.
 			\end{proof}
+
+			\begin{flem}
+				\label{lemma: final step of szemeredi's regularity lemma}
+				Suppose $0 < \varepsilon < 1/4$ and let $\mathcal{P} = (V_0,V_1,\ldots,V_k)$ be a partition of $V$ such that
+				\begin{itemize}
+				 	\item $\mathcal{P}$ is not $\varepsilon$-regular (there are at least $\varepsilon k^2$ irregular pairs),
+				 	\item $\mathcal{P} \setminus \{V_0\}$ is equitable\footnotemark, and
+				 	\item $|V_0| \le \varepsilon n$.
+				\end{itemize}
+				Then, there is a refinement $\mathcal{Q} = (V_0',V_1',\ldots,V_\ell')$ of $\mathcal{P}$ such that
+				\begin{itemize}
+					\item $\ell \le k 4^k$,
+					\item $\mathcal{Q} \setminus \{V_0'\}$ is equitable,
+					\item $|V_0'| \le |V_0| + n / 2^k$, and
+					\item $q(\mathcal{Q}) \ge q(\mathcal{P}) + \varepsilon^5/2$.
+				\end{itemize}
+			\end{flem}
+			\footnotetext{All the blocks of the partition are of equal size.}
+
+			Observe that with the above lemma, \nameref{theo: szemeredi's regularity lemma} follows near-immediately.\\
+			Begin with a partition $\mathcal{P}_0 = (V_0,V_1,V_2)$ with $|V_1| = |V_2| = \lfloor n/2\rfloor$.
+			 The energy of any partition is at most $1$. If we start with a partition $(V_0,V_1,V_2)$ with $|V_1| = |V_2| = \lfloor n/2\rfloor$ and continue partitioning until we attain $\varepsilon$-regularity (with the above lemma), we must terminate after at most $2/\varepsilon^5$ steps! Taking $n\gg 0$ gives the required bounds on $|V_0|$.\\
+			Further, since the size of the refined partition is bounded between quantities dependent solely on the old partition, the size of the final partition after termination of the above process is at most some quantity dependent only on $\varepsilon$ (this quantity might be massive, but that is besides the point).
+
+			\begin{proof}
+				Let $|V_i| = t$ for all $1\le i\le k$.\\
+				Suppose $(V_i,V_j)$ is an $\varepsilon$-irregular pair in $\mathcal{P}$ and let $(V_{i,1},V_{i,2})$ and $(V_{j,1},V_{j,2})$ be the partitions of $V_i,V_j$ respectively described in \Cref{lemma: szemeredi lemma energy increases for irregular}. If $\mathcal{Q}_1$ is this particular refinement
+				\[ \mathcal{P} \cup \{V_{i,1},V_{i,2},V_{j,1},V_{j,2}\} \setminus \{V_i,V_j\} \]
+				of $\mathcal{P}$, then
+				\[ q(\mathcal{Q}_1) \ge q(\mathcal{P}) + \varepsilon^4 \frac{|V_i||V_j|}{n^2} \]
+				Let us similarly produce refinements corresponding to all irregular pairs of $\mathcal{P}$. Let $\mathcal{Q}'$ be the ``common'' refinement of all these partitions $(\mathcal{Q}_i)$. That is, for each $v \in V$, $v$ is placed in the subset $\bigcap_{W \in \mathcal{Q}_i : v \in W} W$.\\
+				We then have
+				\begin{align}
+					q(\mathcal{Q}') &\ge q(\mathcal{P}) + \varepsilon^4 \cdot \frac{t^2}{n^2} (\varepsilon k^2) \nonumber \\
+					&= q(\mathcal{P}) + \varepsilon^5 \frac{(tk)^2}{n^2} \nonumber \\
+					&\ge q(\mathcal{P}) + \frac{\varepsilon^5}{2}. & \text{($tk = n - |V_0| \ge (1-\varepsilon)n \ge 3n/4$ and $9/16 \ge 1/2$)} \label{eqn: 2.7}
+				\end{align}
+				To make the partition $\mathcal{Q}'$ equitable, create the partition $\mathcal{Q}$ using it as follows.\\
+				Suppose we partition $V_i$ into $(V_{ij})$, where $V_{ij}$ is formed due to the irregularity of $(V_i,V_j)$. Partition each of these parts of $\mathcal{Q}'$ into sets of size $b\coloneqq \lfloor t/4^k\rfloor$. Whatever residual part cannot be cut out in this manner, we merge with $V_0$.\\
+				Since partitioning can only increase energy, this operation will only strengthen \eqref{eqn: 2.7}, if anything.\\
+
+				Since the size of any block of $\mathcal{Q}$ is $b$, the number of blocks is at most $n/b = k 4^k$.\\
+				Finally, what is the size of $|V_0'|$?\\
+				$\mathcal{Q}'$ has at most $k\cdot 2^{k-1}$ parts (there are at most $(k-1)$ $2$-part partitions of each block of $\mathcal{P}$, and together they give a partition of size at most $2^{k-1}$). So,\\
+				\begin{align*}
+					|V_0'| &\le |V_0| + |\mathcal{Q}'| b \\
+					&\le |V_0| + k 2^{k-1} \frac{t}{4^k} \\
+					&\le |V_0| + \frac{n}{2^k},
+				\end{align*}
+				as desired.
+			\end{proof}
+
+
 
 
 
