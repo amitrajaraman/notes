@@ -439,7 +439,7 @@
 				\begin{itemize}
 					\item $k \le M$,
 					\item $|V_0| \le \varepsilon n$ ($V_0$ is known as an ``exceptional set''),
-					\item $V_i$ for $1\le i\le k$, and
+					\item all the $V_i$ for $1\le i\le k$ are of equal size, and
 					\item the number of $\varepsilon$-\emph{ir}regular pairs $(V_i,V_j)$ ($1 \le i,j\le k$) is at most $\varepsilon k^2$.
 				\end{itemize}
 			\end{ftheo}
@@ -459,12 +459,12 @@
 
 			\begin{lemma}
 				\label{lemma: szemeredi lemma energy increases on partitioning}
-				If $U,W$ are disjoint subsets of $V$ and $\mathcal{U},\mathcal{W}$ are partitions of $U,W$ respectively, then
+				If $U$,$W$ are disjoint subsets of $V$ and $\mathcal{U}$,$\mathcal{W}$ are partitions of $U$,$W$ respectively, then
 				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \]
 			\end{lemma}
 
 			\begin{proof}
-				Independently pick $u,w$ uniformly randomly from $V$. Define the random variable
+				Independently pick $u$,$w$ uniformly randomly from $V$. Define the random variable
 				\[ Z(u,w) =
 				\begin{cases}
 					d(U', W'), & u \in U' \in \mathcal{U}, w \in W' \in \mathcal{W}, \\
@@ -490,7 +490,7 @@
 
 			\begin{lemma}
 				\label{lemma: szemeredi lemma energy increases for irregular}
-				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U,W$ respectively such that
+				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U$,$W$ respectively such that
 				\[ q(\mathcal{U},\mathcal{W}) > q(U,W) + \varepsilon^4 \frac{|U||W|}{n^2}. \]
 			\end{lemma}
 			\begin{proof}
@@ -509,7 +509,7 @@
 				\label{lemma: final step of szemeredi's regularity lemma}
 				Suppose $0 < \varepsilon < 1/4$ and let $\mathcal{P} = (V_0,V_1,\ldots,V_k)$ be a partition of $V$ such that
 				\begin{itemize}
-				 	\item $\mathcal{P}$ is not $\varepsilon$-regular (there are at least $\varepsilon k^2$ irregular pairs),
+				 	\item $\mathcal{P} \setminus \{V_0\}$ is not $\varepsilon$-regular (there are at least $\varepsilon k^2$ irregular pairs),
 				 	\item $\mathcal{P} \setminus \{V_0\}$ is equitable\footnotemark, and
 				 	\item $|V_0| \le \varepsilon n$.
 				\end{itemize}

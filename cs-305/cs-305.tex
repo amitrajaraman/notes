@@ -186,7 +186,7 @@
 		\end{tabular}
 		\end{center}
 		The format R means that it is a register-type instruction, while I means that it is an immediate-type instruction.\\
-		We see that the \texttt{funct} field is what differs \texttt{add} and \texttt{sub}.\\
+		We see that the \texttt{funct} field is what differs \texttt{add} from \texttt{sub}.\\
 		The lowest 16 bits are not used by I instructions since they are replaced by a constant or address, as specified. The op code informs the processor how to treat the last set of fields, as three or one.\\
 
 		In all, the three types of instructions are:
@@ -224,7 +224,7 @@
 		\subsubsection{Microarchitecture v. ISAs}
 
 			The ISA is the interface between hardware and software. It enables the programmer to not bother about what is going on under the hood at all.\\
-			A \emph{microarchitecure} is a specific implementaiton of an ISA (which the programmer cannot see/access). For example, the \texttt{add} instruction would come under the ISA, but the specific implementation of an adder (ripple carry/lookahead) comes under the microarchitecture.\\
+			A \emph{microarchitecure} is a specific implementation of an ISA (which the programmer cannot see/access). For example, the \texttt{add} instruction would come under the ISA, but the specific implementation of an adder (ripple carry/lookahead) comes under the microarchitecture.\\
 			We shall look at microarchitecture in more detail in a later part of the course.
 
 			The actual working of the ISA can be thought of using a state machine. As long as the new state that is moved to on receiving an instruction satisfies the ISA specifications, it will work. The information held in the processor at the end of an instruction provides context for the next instruction.
@@ -263,14 +263,14 @@
 					\item An operand can be in memory as well. For example, \texttt{add \$s0 Mem[\$s1]} can be done.
 					\item Fixed length instructions are not there any more.
 				\end{itemize}
-				In variable width instructions, different isntructions can take a different number of bytes. It occupies a smaller code footprint and is compact as a result. However, fixed length instructions (like those in MIPS, which occupy 4 bytes) lend themselves to simple decoding despite occupying a larger memory footprint.
+				In variable width instructions, different instructions can take a different number of bytes. It occupies a smaller code footprint and is compact as a result. However, fixed length instructions (like those in MIPS, which occupy 4 bytes) lend themselves to simple decoding despite occupying a larger memory footprint.
 
 				\item \emph{ARM}, which is used by Arm, Qualcomm, Apple, and Samsung.\\
 				The primary reason one would look at ARM with the \emph{thumb instruction set} is that it is useful in embedded devices (which have low memory), where we require low code density. Instead of using normal 32-bit instructions, we use ``thumb'' instructions that are only 16 bits. 32-bit registers have 16-bit counterparts.
-				\item More recently, \emph{RISC-V}, an open-source ISA, has been gaining popularity.
+				\item More recently, \emph{RISC-V}, an open-source ISA, has been gaining popularity.\\
+			RISC was created to enable better compiler control. It was motivated by memory stalls (no work is done during a complex instruction when there is a stall). It enables the compiler to optimize the code, and allows discovery of fine-grained parallelism to reduce the stalls.
 			\end{itemize}
 
-			RISC was created to enable better compiler control. It was motivated by memory stalls (no work is done during a complex instruction when there is a stall). It enables the compiler to optimize the code, and allows discovery of fine-grained parallelism to reduce the stalls.
 
 		\subsection{Endianness}
 
@@ -308,7 +308,7 @@
 
 		Since we are looking at the von Neumann model, let us first look at instruction memory (so if we provide an address through the PC, it will return the corresponding instruction). We are not concerned with how programs are loaded into this memory.\\
 		The program counter, on taking a PC as input, returns PC+4.\\
-		In the register file have two registers for reading (of 5 bits each), one register for writing, and a 32-bit width \texttt{wd} for the data we want to write. The output is two datas of 32 bits each. Depending on whether we want to read or write, there is a control signal.\\
+		In the register file, we have two registers for reading (of 5 bits each), one register for writing, and a 32-bit width \texttt{wd} for the data we want to write. The output is two datas of 32 bits each. Depending on whether we want to read or write, there is a control signal.\\
 		The ALU takes as input two 32-bit operands, uses \texttt{op} to decide to which operation to perform, and returns the 32-bit result.\\
 		Finally, the data memory has an input address (32 bits), a control signal to see if we want to read or write, a 32-bit input data, and a 32-bit output data.\\
 
