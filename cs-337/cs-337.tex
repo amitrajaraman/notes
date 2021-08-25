@@ -52,6 +52,8 @@
 
 		\subsubsection{The method of least squares}
 
+			\label{subsubsec: the method of least squares}
+
 			Suppose our data set is $\mathcal{D} = \{\langle x_i,y_i\rangle : 1 \le i \le m\}$, where each $y_i$ is in $\R$. In the method of least squares, our choice of error function is given by
 			\[ \varepsilon(f,\mathcal{D}) = \sum_{i=1}^m (f(x_i) - y_i)^2. \]
 			The squared difference is an extremely common error function for various reasons -- it is convex, non-negative, and well-behaved.
@@ -78,28 +80,119 @@
 			So,
 			\[ \varepsilon(w) = \norm{\Phi w - y}_2^2. \]
 
-			The minimum value of the above is just the distance from $y$ to $\mathcal{C}(\Phi)$, the column space of $\Phi$! Let $w^* = \argmin_{w} \varepsilon(w)$.\\
+			The minimum value of the above is just the distance from $y$ to $\mathcal{C}(\Phi)$, the column space of $\Phi$! Let $\hat{w} = \argmin_{w} \varepsilon(w)$.\\
 			In particular, if $y\in\mathcal{C}(\Phi)$, it is possible to get the cost to $0$.\\
-			The least square solution is then the distance from $y$ to the projection $\hat{y}$ of $y$ on $\mathcal{C}(\Phi)$. How do we find $\hat{y}$ and $w^*$?\\
+			The least square solution is then the distance from $y$ to the projection $\hat{y}$ of $y$ on $\mathcal{C}(\Phi)$. How do we find $\hat{y}$ and $\hat{w}$?\\
 			The line joining $y$ and $\hat{y}$ is orthogonal to $\mathcal{C}(\Phi)$. As a result, $(\hat{y} - y)^\top \Phi = 0$. Therefore,
 			\begin{align*}
 				\hat{y}^\top \Phi &= y^\top \Phi \\
-				(\Phi w^*)^\top \Phi &= y^\top \Phi \\
-				w^* &= (\Phi^\top \Phi)^{-1} \Phi^\top y.
+				(\Phi \hat{w})^\top \Phi &= y^\top \Phi \\
+				\hat{w} &= (\Phi^\top \Phi)^{-1} \Phi^\top y.
 			\end{align*}
-			This is well-defined only if $(\Phi^\top \Phi)$ is invertible and $\Phi$ has full column rank (Why?).
+			This is well-defined only if $(\Phi^\top \Phi)$ is invertible ($\Phi$ has full column rank).
 
-			\begin{remark}[Overfitting]
-				One might think that more basis functions means a better approximation. Indeed, this would mean that we have more ``freedom'', which should allow us to get a better function. However, this is not the case. While adding more basis functions allows us to emulate the \emph{training} data better, we might mimic it too closely and lose sight of the overall behaviour, which results in bad performance when it comes to the general \emph{testing} data.\\
-				This is very clearly seen in the following example where the output is slightly noisy linear data, and we have taken two cases: one wherein the basis function are just $\phi(x) = (1,x)$ (fitting a degree $1$ polynomial), and the second where $\phi(x) = (1,x,\ldots,x^{10})$ (fitting a degree $10$ polynomial).
+		\begin{remark}[Overfitting]
+			One might think that more basis functions means a better approximation. Indeed, this would mean that we have more ``freedom'', which should allow us to get a better function. However, this is not the case. While adding more basis functions allows us to emulate the \emph{training} data better, we might mimic it too closely and lose sight of the overall behaviour, which results in bad performance when it comes to the general \emph{testing} data.\\
+			This is very clearly seen in the following example where the output is slightly noisy linear data, and we have taken two cases: one wherein the basis function are just $\phi(x) = (1,x)$ (fitting a degree $1$ polynomial), and the second where $\phi(x) = (1,x,\ldots,x^{10})$ (fitting a degree $10$ polynomial).
 
-				\begin{figure}[H]
-					\centering
-					\caption{Overfitted data}
-					\copyrightbox[r]{\includegraphics[width = 0.4\linewidth]{overfitting.png}}{\textcopyright \href{https://commons.wikimedia.org/wiki/File:Overfitted_Data.png}{Overfitted Data} by Ghiles, licensed under \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0}, via Wikimedia Commons}
-				\end{figure}
+			\begin{figure}[H]
+				\centering
+				\caption{Overfitted data}
+				\copyrightbox[r]{\includegraphics[width = 0.4\linewidth]{overfitting.png}}{\textcopyright \href{https://commons.wikimedia.org/wiki/File:Overfitted_Data.png}{Overfitted Data} by Ghiles, licensed under \href{https://creativecommons.org/licenses/by-sa/4.0}{CC BY-SA 4.0}, via Wikimedia Commons}
+			\end{figure}
+		\end{remark}
 
-			\end{remark}
+	\subsection{Probabilistic Interpretations}
+
+		Let us jump away from regression for a moment and look at what happens if instead of trying to learn a function with inputs and outputs, we are instead trying to determine the parameters of some random variable given some datapoints drawn from it.
+
+		To do this, suppose that any observation $z$ is drawn from the random variable $Z$ with probability density/mass function $g_\theta$ (depending on the parameter $\theta$, which we are trying to learn). For example, if $Z$ is a gaussian with mean $\mu$ and variance $\sigma^2$, we might have $\theta = (\mu,\sigma^2)$ and
+		\[ g_\theta(z) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2} \right). \]
+	
+		% Now, let us work w
+
+		% Using an error function is not the only way to arrive at a good estimate of $w$. In fact, we need not even arrive at a single estimate of $w$, it might be better to finally arrive at some \emph{distribution} that represents how $w$ might behave depending on the information we have.\\
+
+		\subsubsection{Maximum likelihood estimation}
+
+			Suppose we are given a dataset $\mathcal{D} = \{z_1,\ldots,z_m\}$.\\
+			Also suppose that we have discrete outputs for the moment ($g_w$ is a probability \emph{mass} function). Then, define the \textbf{likelihood} function
+			\[ \mathcal{L}(\mathcal{D} \mid \theta) = \Pr[ \mathcal{D} \mid \theta ]. \]
+			Making the mild assumption that the various datapoints in $\mathcal{D}$ are drawn iid, this can be rewritten as
+			\[ \mathcal{L}(\mathcal{D} \mid \theta) = \prod_{i=1}^m g_\theta(z_i). \]
+			Even in the case where we have a continuous output (so a probability density function) instead, this expression remains the same.\\
+			As might be expected, in \emph{maximum likelihood estimation} (MLE), we choose that $w$ which maximizes the likelihood. Often, we work with the \emph{log}-likelihood $\ell$ as well, which is just defined by $\ell(\mathcal{D} \mid w) = \log \mathcal{L}(\mathcal{D} \mid w)$.\\
+
+		\subsubsection{Bayesian estimation}
+
+			In all that we have done so far, we have arrived at a single estimate for $w$ or $\theta$. However, this may not necessarily be the best option -- might it not be better to arrive at a probability distribution for $w$ which represents how likely various values are?\\
+			Bayesian estimation is one simple way of doing this.\\
+
+			We make the assumption initially that $\theta$ is drawn from some \textbf{prior} probability distribution $p$. Given the dataset $\mathcal{D} = \{z_1,\ldots,z_m\}$ (and the function $g_\theta$ from earlier), we try to improve on this prior to get to a \textbf{posterior} probability distribution that better reflects how $\theta$ behaves, now that we have knowledge about the dataset. To do this, we use Bayes' law:
+
+			\begin{align}
+				\Pr[\theta\mid\mathcal{D}] &= \frac{\Pr[\mathcal{D}\mid\theta] \Pr[\theta]}{\Pr[\mathcal{D}]} \nonumber \\
+					&= \frac{\Pr[\mathcal{D}\mid\theta] p(\theta)}{\int \Pr[\mathcal{D}\mid\alpha] p(\alpha) \dif \alpha}. \label{eqn: 1.1}
+			\end{align}
+
+			Note the contrast between this and MLE; in the the former we use $\Pr[\theta\mid\mathcal{D}]$, whereas in the latter we use $\Pr[\mathcal{D}\mid\theta]$.\\
+			We can then use the posterior to return some estimate of $\theta$.\\
+			In \emph{maximum a posteriori estimation} (MAP estimation), we return the mode of the posterior density.\\
+			In \emph{Bayesian estimation}, we return the mean of the posterior density.\\
+			In the pure Bayesian estimate, we do not return any point estimate for $\theta$ at all, and we instead use Bayes' rule to calculate the output given an input as
+			\[ \Pr[x \mid \mathcal{D}] = \int p(x\mid\theta) p(\theta\mid\mathcal{D}) \dif \theta \]
+
+			Now, the integral in the denominator of \eqref{eqn: 1.1} can be quite daunting. To deal with this, we introduce the idea of a \textbf{conjugate prior}. Such a prior is of the form that the base distribution of both the prior and the posterior are the same. This then enables us to skip the calculation of the denominator, since it merely leads to a constant to normalize the distribution (its integral must be $1$), and we know this constant from the structure of the distribution anyway. This can be better understood by an example. Suppose that the datapoints are drawn from a Bernoulli distribution with parameter $\theta$. We then have
+			\[ \Pr[\mathcal{D} \mid \theta] = \theta^r (1-\theta)^{m-r}, \]
+			where $r$ is the number of $1$s in $\mathcal{D}$. If we choose our prior to be a \href{https://en.wikipedia.org/wiki/Beta_distribution}{Beta distribution} with parameters $\alpha$ and $\beta$, then the numerator of \eqref{eqn: 1.1} is
+			\[ \theta^r (1-\theta)^{m-r} \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}. \]
+			This is proportional to $\theta^{\alpha+r-1}(1-\theta)^{m-r+\beta-1}$. Since the denominator only gives a constant multiplicative factor, the posterior must just be $\Beta(\alpha+r,\beta+m-r)$.\\
+
+			Some more examples are that the \href{https://en.wikipedia.org/wiki/Dirichlet_distribution}{Dirichlet distribution} is the conjugate prior to the multivariate Bernoulli and the Gaussian is the conjugate prior to the Gaussian.
+
+			% $y = w^\top \phi(x) + \varepsilon
+			% \varepsilon \sim \mathcal{N}(0,\sigma^2)
+			% w \sim \mathcal{N}(\mu_0,\Sigma_0)
+			% \Sigma_m^{-1} = \Sigma_0^{-1} + \frac{1}{\sigma^2} \Phi^\top \Phi
+			% \Sigma_m^{-1} \mu_m = \Sigma_0^{-1} \mu_0 + \Phi^\top y/\sigma^2$
+
+
+			Bayesian estimation takes care of overfitting
+
+		\subsubsection{Relating probabilistic interpretations and regression}
+
+			Let us jump back to regression. While we typically assume that our input/output pairs are initially taken from some basic (fixed) function $f$, this is typically not the case. Indeed, we usually have some amount of error when taking the observations itself. This error is commonly taken to be a Gaussian with $0$ mean and some (small) variance $\sigma^2$.\\
+			The output as a whole is then just a random variable, with the parameters involving our base parameter $\theta$ \emph{and} the input.\\
+			
+			For example, let our training data set be $\mathcal{D} = \{\langle x_1,y_1\rangle,\ldots,\langle x_m,y_m\rangle\}$ where the $x_i$ are in $\Rn$ and the $y_i$ in $\R$. Let us perform normal linear regression, but also add a Gaussian error of known variance $\sigma^2$. That is, if the input is $x$, we predict the distribution of the corresponding output $y$ to be $\mathcal{N}(w^\top x, \sigma^2)$.\\
+			Supposing we use MLE, we wish to determine
+			\[ \hat{w} = \argmax_{w} \frac{1}{(\sqrt{2\pi}\sigma)^m} \exp \left( -\frac{1}{2\sigma^2} \sum_{i=1}^m (y_i - w^\top x_i)^2 \right). \]
+			It is not too difficult to see that this is in fact the same solution as that given by the discussion in \hyperref[subsubsec: the method of least squares]{the method of least squares}.
+
+	\subsection{Regularisation}
+
+		As mentioned in a remark towards the end of \Cref{subsubsec: the method of least squares}, overfitting tends to make the error over the test data too large, due to large fluctuations in the model we learn (to emulate the training data better). However, this also leads to large coefficients of the learnt vector, and thus large norm. Regularisation attempts to fix this, by further adding in the constraint that $\norm{w}_2$ is not too large.\\
+
+		This leads to the \emph{penalized regularised least squares regression problem}, where the cost function is replaced with
+		\[ \norm{\Phi w - y}_2^2 + \lambda\Omega(w). \]
+		We are said to be performing
+		\begin{itemize}
+			\item \emph{ridge regression} if $\Omega(w) = \norm{w}_2^2$,
+			\item \emph{lasso regression} if $\Omega(w) = \norm{w}_1$, and
+			\item \emph{support-based penalty regression} if $\Omega(w) = \norm{w}_0$.\footnote{Here, $\norm{w}_0$ is equal to the number of non-zero components.}
+		\end{itemize}
+		The closed-form solutions to the first two can be computed by setting the gradient to $0$. In particular, the closed-form solution for ridge regression is
+		\[ \hat{w} = (\Phi^\top\Phi + \lambda I)^{-1} \Phi^\top y. \]
+		Also, this in fact corresponds to performing Bayes/MAP estimation with a multivariate Gaussian prior of mean $0$ and variance $(1/\lambda)I$.\\
+
+		Alternatively, we have the \emph{constrained regularised least squares regression problem}, where the cost function is the normal $\norm{\Phi w - y}_2^2$, but we have the added constraint that $\Omega(w) \le \theta$ for some fixed $\theta$.\\
+		We again have ridge, lasso, or support-based penalty regression depending on $\Omega$.\\
+		It in fact turns out that the above two constraints are equivalent -- for any penalized formulation with a $\lambda$, there is a corresponding constrained formulation problem with some $\theta$, and vice-versa.\\
+
+		Why is lasso regression interesting? Observe that the level curves of $\norm{w}_1$ (namely cross-polytopes) have many corners, and as a result, it is likely that many components of $w$ are close to $0$. That is, the learnt vector is likely very sparse, which is desirable.
+		
+
+
 
 
 
