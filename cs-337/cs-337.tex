@@ -12,9 +12,9 @@
 \tableofcontents
 \clearpage
 
-% \setcounter{section}{-1}
+\setcounter{section}{-1}
 
-% \input{notation}
+\input{notation}
 % \input{introduction}
 
 \section{Introduction}
@@ -56,7 +56,7 @@
 
 			Suppose our data set is $\mathcal{D} = \{\langle x_i,y_i\rangle : 1 \le i \le m\}$, where each $y_i$ is in $\R$. In the method of least squares, our choice of error function is given by
 			\[ \varepsilon(f,\mathcal{D}) = \sum_{i=1}^m (f(x_i) - y_i)^2. \]
-			The squared difference is an extremely common error function for various reasons -- it is convex, non-negative, and well-behaved.
+			This is an extremely common error function for various reasons -- it is convex, non-negative, and well-behaved.
 
 			In the case of linear regression, where any function $f$ is uniquely determined by a $w\in \Rn$, we can express the error in terms of this vector as
 			\[ \varepsilon(w) = \sum_{i=1}^m (w^\top \phi(x_i) - y_i)^2. \]
@@ -121,7 +121,7 @@
 			Making the mild assumption that the various datapoints in $\mathcal{D}$ are drawn iid, this can be rewritten as
 			\[ \mathcal{L}(\mathcal{D} \mid \theta) = \prod_{i=1}^m g_\theta(z_i). \]
 			Even in the case where we have a continuous output (so a probability density function) instead, this expression remains the same.\\
-			As might be expected, in \emph{maximum likelihood estimation} (MLE), we choose that $w$ which maximizes the likelihood. Often, we work with the \emph{log}-likelihood $\ell$ as well, which is just defined by $\ell(\mathcal{D} \mid w) = \log \mathcal{L}(\mathcal{D} \mid w)$.\\
+			As might be expected, in \emph{maximum likelihood estimation} (MLE), we choose that $w$ which maximizes the likelihood. Often, we work with the \emph{log}-likelihood $\ell$ as well, which is just defined by $\ell(\mathcal{D} \mid w) = \log \mathcal{L}(\mathcal{D} \mid w)$.
 
 		\subsubsection{Bayesian estimation}
 
@@ -171,28 +171,72 @@
 
 	\subsection{Regularisation}
 
-		As mentioned in a remark towards the end of \Cref{subsubsec: the method of least squares}, overfitting tends to make the error over the test data too large, due to large fluctuations in the model we learn (to emulate the training data better). However, this also leads to large coefficients of the learnt vector, and thus large norm. Regularisation attempts to fix this, by further adding in the constraint that $\norm{w}_2$ is not too large.\\
+		As mentioned in a remark towards the end of \Cref{subsubsec: the method of least squares}, overfitting tends to make the error over the test data too large, due to large fluctuations in the model we learn (to emulate the training data better). However, this also leads to large coefficients of the learnt vector, and thus large norm. Regularisation attempts to fix this, by further adding in the constraint that $\norm{w}_2$ is not too large.
 
-		This leads to the \emph{penalized regularised least squares regression problem}, where the cost function is replaced with
-		\[ \norm{\Phi w - y}_2^2 + \lambda\Omega(w). \]
-		We are said to be performing
-		\begin{itemize}
-			\item \emph{ridge regression} if $\Omega(w) = \norm{w}_2^2$,
-			\item \emph{lasso regression} if $\Omega(w) = \norm{w}_1$, and
-			\item \emph{support-based penalty regression} if $\Omega(w) = \norm{w}_0$.\footnote{Here, $\norm{w}_0$ is equal to the number of non-zero components.}
-		\end{itemize}
-		The closed-form solutions to the first two can be computed by setting the gradient to $0$. In particular, the closed-form solution for ridge regression is
-		\[ \hat{w} = (\Phi^\top\Phi + \lambda I)^{-1} \Phi^\top y. \]
-		Also, this in fact corresponds to performing Bayes/MAP estimation with a multivariate Gaussian prior of mean $0$ and variance $(1/\lambda)I$.\\
+		\subsubsection{Regularised regression}
 
-		Alternatively, we have the \emph{constrained regularised least squares regression problem}, where the cost function is the normal $\norm{\Phi w - y}_2^2$, but we have the added constraint that $\Omega(w) \le \theta$ for some fixed $\theta$.\\
-		We again have ridge, lasso, or support-based penalty regression depending on $\Omega$.\\
-		It in fact turns out that the above two constraints are equivalent -- for any penalized formulation with a $\lambda$, there is a corresponding constrained formulation problem with some $\theta$, and vice-versa.\\
+			This leads to the \emph{penalized regularised least squares regression problem}, where the cost function is replaced with
+			\[ \norm{\Phi w - y}_2^2 + \lambda\Omega(w). \]
+			We are said to be performing
+			\begin{itemize}
+				\item \emph{ridge regression} if $\Omega(w) = \norm{w}_2^2$,
+				\item \emph{lasso\footnote{this is an abbreviation for \emph{l}east \emph{a}bsolute \emph{s}hrinkage and \emph{s}election \emph{o}perator} regression} if $\Omega(w) = \norm{w}_1$, and
+				\item \emph{support-based penalty regression} if $\Omega(w) = \norm{w}_0$.
+			\end{itemize}
+			The closed-form solutions to the first two can be computed by setting the gradient to $0$. In particular, the closed-form solution for ridge regression is
+			\[ \hat{w} = (\Phi^\top\Phi + \lambda I)^{-1} \Phi^\top y. \]
+			Also, this turns out to be the same as performing Bayes/MAP estimation with a multivariate Gaussian prior of mean $0$ and variance $(1/\lambda)I$.\\
 
-		Why is lasso regression interesting? Observe that the level curves of $\norm{w}_1$ (namely cross-polytopes) have many corners, and as a result, it is likely that many components of $w$ are close to $0$. That is, the learnt vector is likely very sparse, which is desirable.
-		
+			Alternatively, we have the \emph{constrained regularised least squares regression problem}, where the cost function is the normal $\norm{\Phi w - y}_2^2$, but we have the added constraint that $\Omega(w) \le \theta$ for some fixed $\theta$.\\
+			We again have ridge, lasso, or support-based penalty regression depending on $\Omega$.\\
+			It in fact turns out that the above two constraints are equivalent -- for any penalized formulation with a $\lambda$, there is a corresponding constrained formulation problem with some $\theta$ (that depends on both $\lambda$ and the data), and vice-versa.\\
 
+			Why is lasso regression interesting? Observe that the level curves of $\norm{w}_1$ (namely cross-polytopes) have many corners on the axes, and as a result, it is likely that many components of $w$ are close to $0$ (as opposed to ridge regression where the level curves are rotationally invariant). That is, the learnt vector is likely very sparse, which is desirable.\\
+			The closed form solution is the MAP estimate of linear regression subject to the prior being the \href{https://en.wikipedia.org/wiki/Laplace_distribution}{Laplace distribution} with parameters $0$ and $\theta$. Note that the Laplace distribution is extremely similar to the Gaussian, except that we use the $L^1$ norm in the exponential instead of the $L^2$. The intuition that lasso regression leads to many parameters being close to $0$ is strengthened by the sparsity of the Laplace distribution (the density at $0$ is high).\\
+			However, there is no known closed form solution for the solution to lasso regression. Instead, it is solved iteratively with normal gradient descent. We have
+			\begin{align*}
+				\hat{w} &= \argmin_w \norm{\Phi w - y}_2^2 + \lambda\norm{w}_1 \\
+					&= \argmin_w E_{\text{LS}}(w) + \lambda\norm{w}_1.
+			\end{align*}
+			At the $k$th step, set
+			\begin{align*}
+				w_{\text{LS}}^{k+1} &= w_{\text{Lasso}}^{k} - \eta\nabla E_\text{LS}(w_\text{Lasso}^{k}) \\
+				(w_\text{Lasso}^{k+1})_{i} &=
+				\begin{cases}
+					(w_\text{LS}^{k+1})_i - \lambda\eta, & (w_\text{LS}^{k+1})_i > \lambda\eta, \\
+					(w_\text{LS}^{k+1})_i + \lambda\eta, & (w_\text{LS}^{k+1})_i < -\lambda\eta, \\
+					0, & \text{otherwise.}
+				\end{cases}
+			\end{align*}
+			We then estimate $\hat{w}$ as $w_\text{Lasso}^r$ for a suitably large $r$.
 
+		\subsubsection{Understanding regularisation}
+
+			Ridge regression might seem slightly silly from the perspective of just training error. Indeed, the the (minimized) error for the ridge cost function is always greater than the (minimized) error for normal least squares.\\
+
+			Suppose we are performing regression with a true function $g$ and let $f$ be our predicted/fitted function. We sample a bunch of points from $g$ to get a dataset, with possibly some noise that causes small perturbations.\\
+			There are three primary sources of test error:
+			\begin{itemize}
+				\item \emph{Bias}: This occurs due to the difference between the nature of the true function and fitted function. It is just equal to $\expec[f(x)] - g(x)$.
+				\item \emph{Variance}: This occurs due to the choice of our dataset. It is equal to $\Var(f(\hat{x}))$.
+				\item \emph{Noise}: This occurs due to the implicit noise that is present when we take measurements from the true function. For example, there may be an additive Gaussian noise with mean $0$ and variance $\sigma^2$. The noise is then just equal to the variance $\sigma^2$ of this component.
+			\end{itemize}
+
+			Now, suppose the noise is some random variable $\varepsilon$ with mean $0$ and variance $\sigma^2$. Then, given an input $x$, we observe the output $y$ as being drawn from $g(x)+\varepsilon$.\\
+			Suppose we are given a dataset $\mathcal{D} = \{\langle x_i,y_i\rangle : 1 \le i\le m\}$, and using it we predict the function $f$.\\
+			The question we would like to answer is: what is the expected test error $\expec[(f(\hat{x}) - (g(\hat{x}) + \varepsilon))^2]$ for a new input $\hat{x}$? The expectation is taken over both the sampled dataset and the distribution of $\varepsilon$.\\
+			Let $\hat{y} = g(\hat{x}) + \varepsilon$. We then have
+			\begin{align*}
+				\expec[(f(\hat{x}) - \hat{y})^2] &= \expec[f(\hat{x})^2] + \expec[\hat{y}^2] - 2 \expec[f(\hat{x})]\expec[\hat{y}] & \text{(assuming the dataset and $\varepsilon$ are independent)} \\
+					&= \expec[f(\hat{x})]^2 + \Var(f(\hat{x})) + \expec[\hat{y}^2] - 2 \expec[\hat{f}(x)] g(\hat{x}) \\
+					&= \expec[f(\hat{x})]^2 + \Var(f(\hat{x})) + \expec[g(\hat{x})^2 + \varepsilon^2] - 2 \expec[\hat{f}(x)] g(\hat{x}) \\
+					&= \expec[f(\hat{x})]^2  + g(\hat{x})^2 - 2 \expec[\hat{f}(x)] g(\hat{x}) + \Var(f(\hat{x})) + \sigma^2 \\
+					&= \underbrace{(\expec[f(\hat{x})] - g(\hat{x}))^2}_{\textstyle\text{Bias$^2$}} + \underbrace{\Var(f(\hat{x}))}_{\textstyle\text{Variance}} + \underbrace{\sigma^2 \mathstrut}_{\textstyle\text{Noise}}.
+			\end{align*}
+
+			Given the bias-variance tradeoff, how do we choose the best predictor? How do we set the model's parameters?\\
+			In \textbf{bootstrap sampling}, we repeatedly sample observations from a dataset with replacement. Given dataset $\mathcal{D}_b$, we repeatedly choose a $V_b$, train on $\mathcal{D}_b \setminus V_b$, then test on $V_b$.\\
+			So, the training set is that we use to actually train the algorithm. $V_b$ is the \emph{validation} or \emph{development} set, and is used for model selection and tuning hyperparameters. The test/evaluation set is that we use for testing finally.
 
 
 
