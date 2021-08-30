@@ -1,0 +1,619 @@
+\section{Fundamental Results in Extremal Graph Theory}
+
+	% In this section, we describe some fundamental, yet extremely powerful, results in extremal graph theory.
+
+	\subsection{The Erd\H{o}s-Stone-Simonovits Theorem}
+
+		\subsubsection{Motivation}
+
+			% Next, we look at $\exx(n;C_k)$.\\
+			% Recall that we have already seen that $\exx(n;C_4) \le c n^{3/2}$ for some universal constant $c$.\\
+			Using \href{https://proofwiki.org/wiki/Graph_is_Bipartite_iff_No_Odd_Cycles}{the folklore result} that a graph is bipartite iff it has no odd cycle, we have
+			\[ \exx(n;C_{2k+1}) \ge \left\lfloor \frac{n^2}{4} \right\rfloor. \]
+			\begin{remark}
+				It in fact turns out that for $n\gg 0$, $\exx(n;C_{2k+1}) = \lfloor n^2/4 \rfloor$, as we shall see later..
+			\end{remark}
+
+			Is there any more general relationship between forbidden subgraphs and $r$-partite graphs?
+
+			\begin{fdef}[Chromatic Number]
+				\label{def: chromatic number}
+				Given a graph $G$, its \textbf{chromatic number} is given by
+				\[ \chi(G) = \min\{r : G\text{ is $r$-partite}\}. \]
+			\end{fdef}
+
+			Alternatively, we can define the above using the following.
+
+			\begin{fdef}
+				\label{def: r-coloring}
+				Given a graph $G=(V,E)$, an \textbf{$r$-coloring} of $G$ is a function $f : V \to [r]$ such that for any $uv\in E$, $f(u) \ne f(v)$.\\
+				The chromatic number of a graph is the least $r$ such that it is $r$-colorable.
+			\end{fdef}
+
+			Suppose $H$ is an arbitrary graph such that $\chi(H) = r+1$. Then, no $r$-partite graph contains $H$. As a result,
+			\[ \exx(n;H) > t_r(n). \]
+			Our earlier observation on $\exx(n;C_{2k+1})$ is then just a consequence of the fact that $C_{2k+1}$ is $3$-colorable.
+
+			Let us give a more concrete example. Suppose we want to find $\exx(n;\mathsf{Petersen})$, where $\mathsf{Petersen}$ is the \href{https://en.wikipedia.org/wiki/Petersen_graph}{Petersen graph}.
+
+			% diagram?
+
+			It may be checked that $\mathsf{Petersen}$ has chromatic number $3$. So,
+			\[ \exx(n;\mathsf{Petersen}) > t_2(n) = \left\lfloor \frac{n^2}{4} \right\rfloor. \]
+
+			Can we do better?\\
+			This is answered by the Erd\H{o}s-Stone-Simonovits Theorem.
+
+		\subsubsection{The result}
+
+			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 1]
+				\label{theo: erdos-stone v1}
+				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, for $n\gg 0$ and any graph $G_n$, if
+				\begin{equation}
+					\label{eqn: erdos-stone v1 condition}
+					\delta(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)n,
+				\end{equation}
+				there exist pairwise disjoint subsets $V_1,\ldots,V_{r+1}$ of $V$ such that for each $i$,
+				\[ |V_i| = t \ge \frac{\varepsilon \log n}{2^{r-1}(r-1)!} \]
+				and the complete $(r+1)$-partite graph on these subsets is contained in $G_n$.
+			\end{ftheo}
+
+			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 2]
+				\label{theo: erdos-stone v2}
+				Let $r \ge 1$ and $0 < \varepsilon < 1/2$. Then, for $n\gg 0$ and any graph $G_n$, if
+				\begin{equation}
+					\label{eqn: erdos-stone v2 condition}
+					e(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)\binom{n}{2},
+				\end{equation}
+				there exist pairwise disjoint subsets $V_1,\ldots,V_{r+1}$ of $V$ such that for each $i$,
+				\[ |V_i| = t \ge \frac{\varepsilon \log n}{2^{r+1}(r-1)!} \]
+				and the complete $(r+1)$-partite graph on these subsets is contained in $G_n$.
+			\end{ftheo}
+
+			Observe the difference in the exponent of $2$ in the denominator of $t$ in the two versions.
+
+			For example, if $n \ge e^{32/\varepsilon}$ and \Cref{eqn: erdos-stone v2 condition} is satisfied, then $T_{3}(12)$, and thus $\mathsf{Petersen}$, is a subgraph of $G_n$.\\
+			Therefore, (replacing $\varepsilon$ with $2\varepsilon$)
+			\[ \exx(n;\mathsf{Petersen}) \le \left(\frac{1}{2} + 2\varepsilon\right)\binom{n}{2} \le \left(\frac{1}{4} + \varepsilon\right)n^2. \]
+			for all $\varepsilon > 0$.
+
+			\begin{fcor}
+				\label{theo: ESS exx square tight coloring}
+				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, for $n\gg 0$,
+				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
+			\end{fcor}
+
+			% \begin{fdef}
+			% 	A graph $G$ is said to be \textbf{$c$-dense} (for $0<c<1$), if $e(G_n) \ge cn^2$.
+			% \end{fdef}
+
+			\begin{proof}[Proof of \nameref{theo: erdos-stone v1}]
+				We first show the result for $r=1$. Let $G_n$ be a graph such that $\delta(G_n) \ge \varepsilon n$. We want a ``large'' $t$ such that $K_{t,t}$ is isomorphic to a subgraph $G_n$.\\
+				Suppose that $G_n$ is $K_{t,t}$-free (we shall fix $t$ later).
+				Now, we have that
+				\[ t \binom{n}{t} \stackrel{(1)}{>} |\{(v,T) : v\in V, T \subseteq \Gamma(v), |T|=t\}| = \sum_{v\in V} \binom{d(v)}{t} \stackrel{(2)}{\ge} n \binom{\varepsilon n}{t}, \]
+				where $(2)$ follows from the hypothesis on $\delta(G_n)$ and $(1)$ follows due to our assumption that $G_n$ is $K_{t,t}$-free.\\
+				Therefore,
+				\[ n\binom{\varepsilon n}{t} < t \binom{n}{t}. \]
+				So,
+				\begin{align*}
+					1 &< \frac{t}{n} \cdot \frac{n(n-1)\cdot (n-t+1)}{\varepsilon n(\varepsilon n-1)\cdot (\varepsilon n-t+1)} \\
+					&< \frac{t}{n} \cdot \left(\frac{n}{\varepsilon n-t+1}\right)^t \\
+					&= \frac{t}{n} \frac{1}{\varepsilon^t} \left(\frac{1}{1 - \frac{t-1}{\varepsilon n}}\right)^t.
+				\end{align*}
+				We desire a large $t$ such that the above results in a contradiction.
+				Let us look at the last term. Suppose we want
+				\[ \left(1 - \frac{t-1}{\varepsilon n}\right)^t \to 1. \]
+				Equivalently,
+				\[ t \log\left(1 - \frac{t-1}{\varepsilon n}\right) \to 0 \]
+				\[ t \left(\frac{t-1}{\varepsilon n} + \frac{1}{2}\left(\frac{t-1}{2n}\right)^2 + \frac{1}{3} \left(\frac{t-1}{\varepsilon n}\right)^3 + \cdots\right) \to 0. \]
+				% \begin{align*}
+				% 	t \log\left(1 - \frac{t-1}{\varepsilon n}\right) &\to 0 \\
+				% 	t \left(\frac{t-1}{\varepsilon n} + \frac{1}{2}\left(\frac{t-1}{2n}\right)^2 + \frac{1}{3} \left(\frac{t-1}{\varepsilon n}\right)^3\right) &\to 0.
+				% \end{align*}
+				If $\varepsilon n > t^4$, the above holds (Why?).\\
+				That is, if $t < (\varepsilon n)^{1/4}$, then for sufficiently large $n, t$,
+				\[ \left(1 - \frac{t-1}{\varepsilon n}\right)^{-t} < 2 \]
+				and
+				\[ 1 < \frac{t}{n} \cdot \frac{1}{\varepsilon^t} \left(1 - \frac{t-1}{\varepsilon n}\right)^{-t} < \frac{2t}{\varepsilon^t n}. \]
+				If the above is $\le 1$, we shall arrive at a contradiction. That is, if
+				\[ \log(2t) + t \log\left(\frac{1}{\varepsilon}\right) < \log n, \]
+				then we arrive at a contradiction. In particular,
+				\[ t = \lceil \varepsilon \log n \rceil \]
+				is a suitable choice (Why?), completing the proof of the theorem for $r=1$.\\
+
+				Now, let us prove the general case by performing induction on $r$. Let $G_n$ be a graph with
+				\[ \delta(G_n) \ge \left(1 - \frac{1}{r} + \varepsilon\right)n. \]
+				Now,
+				\[ 1 - \frac{1}{r} + \varepsilon > 1 - \frac{1}{r-1} + \frac{1}{r(r-1)}. \]
+				Let $\varepsilon' = 1 / r(r-1)$. By induction, there are $V_1',\ldots,V_r'$ such that 
+				\begin{equation}
+					\label{eqn: ESS expression for t'}
+					|V_i'| \ge t' = \frac{\log n}{r(r-1) 2^{r-2} (r-2)!} = \frac{\log n}{2^{r-2} r!}
+				\end{equation}
+				for each $i$ and the complete $r$-partite graph on these sets is a subgraph of $G_n$. Let $K = \bigcup V_i'$.\\
+				We obviously have $\varepsilon < 1/r$, since the claim is vacuously true otherwise.\\
+				We shall find $V_i \subseteq V_i'$ for each $1 \le i \le r$ and some $V_{r+1} \subseteq V \setminus K$ such that the complete bipartite graph on $(V_1,\ldots,V_{r+1})$ is the required subgraph of $G_n$.\\
+				Now, define
+				\[ U = \left\{x \in V\setminus K : d(x,K) \ge \left(1 - \frac{1}{r} + \lambda\right)|K| \right\} \]
+				for some $\lambda$ we shall fix later. We shall bound $e(K,V\setminus K)$ in two different ways. From the perspective of $K$,
+				\[ e(K,V\setminus K) \ge |K| \left(\left(1 - \frac{1}{r} + \varepsilon\right)n - |K|\right). \]
+				From the perspective of $V\setminus K$,
+				\begin{align*}
+					e(K, V\setminus K) &= e(V\setminus (K\sqcup U), K) + e(U,K) \\
+					&\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right)|K| + |U||K|.
+				\end{align*}
+				Putting the two together,
+				\begin{align*}
+					|K| \left(\left(1 - \frac{1}{r} + \varepsilon\right)n - |K|\right) &\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right)|K| + |U||K| \\
+					\left(1 - \frac{1}{r} + \varepsilon\right)n - |K| &\le \left(n - |U| - |K|\right) \left(1 - \frac{1}{r} + \lambda\right) + |U|.
+				\end{align*}
+				Set $\lambda = \varepsilon/2$. We then have
+				\[ \frac{r}{2}\varepsilon n \le \left(1 - \frac{r\varepsilon}{2}\right)(|U| + |K|). \]
+				% ??????? Am I not getting (1 - r \varepsilon/2)(|U|+|K|).
+				So,
+				\[ |U| \ge \frac{r\varepsilon}{2 - r\varepsilon} n - |K| \stackrel{(*)}{\ge} \frac{\varepsilon}{1-\varepsilon}n - rt', \]
+				where $(*)$ follows from the fact that $r\varepsilon/(2-r\varepsilon)$ is increasing in $r$ and $r\ge 2$.\\
+				Since $t'$, and thus $rt'$, is of the order of $\log n$, the first term in the expression dominates for sufficiently large $n$. So, for $n\gg 0$, $|U| \ge \varepsilon n$.\\
+
+				Now,
+				\begin{align*}
+					\left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right)|K| &\ge \left(1 - \frac{1}{r} + \frac{\varepsilon}{2} \right) rt' \\
+					&\ge (r-1)t' + \frac{\varepsilon r}{2} t'.	
+				\end{align*}
+				This implies that each $u \in U$ has at least $(\varepsilon r/2)t'$ neighbours in each $V_i'$.\\
+				We can now use a pigeonhole argument to choose a subset of $U$ whose vertices are all adjacent to some common set of vertices in each $V_i'$. To do so, consider
+				\[ |\{(u, W_1,\ldots,W_r) : W_i \subseteq V_i', |W_i| = (\varepsilon r/2)t',\text{ and $u$ is adjacent to all the vertices of each $W_i$}\}|. \]
+				By our earlier observation, this must be at least $|U| \ge \varepsilon n$.\\
+				On the other hand, it is at most the number of ways of choosing the $W_i$, which is $\binom{t'}{(\varepsilon r/2)t'}^r$.\\
+				In particular, using a pigeonhole argument, there exist $V_1,\ldots,V_r$ and a $V_{r+1}\subseteq U$ such that $V_i \subseteq V_i'$ for each $1\le i\le r$ and for all $u \in V_{r+1}$, $(u,V_1,\ldots,V_r)$ is in the set whose cardinality we just considered, and $|V_{r+1}| \ge \varepsilon n / \binom{t'}{(\varepsilon r/2)t'}^r$. Let us now bound this expression.
+				\begin{align*}
+					|V_{r+1}| &\ge \dfrac{\varepsilon n}{\dbinom{t'}{(\varepsilon r/2)t'}^r} \\
+					&\ge \frac{\varepsilon n}{ (2e/\varepsilon r)^{t'\varepsilon r^2/2}} & \text{(see \href{https://math.stackexchange.com/questions/132625/}{here} for the bound used)} \\
+					&\ge \varepsilon n\cdot\left(\frac{\varepsilon}{e}\right)^{t'\varepsilon r^2/2} & (\text{since $r \ge 2$, $2/r \le 1$}).
+				\end{align*}
+				Setting
+				\[ t = \frac{\varepsilon\log n}{2^{r-1}(r-1)!}, \]
+				we see that $t = \varepsilon rt'/2$.\\
+				Keeping in mind that the bound we want is $|V_{r+1}| \ge t$,
+				\begin{align*}
+					\log \left(n \left(\frac{\varepsilon}{e}\right)^{t' \varepsilon r^2/2}\right) &\ge \log n + \frac{\varepsilon r^2 t'}{2} \log\left(\frac{\varepsilon}{e}\right) \\
+					&\ge t' \left( 2^{r-2} r! - \log\left(\frac{e}{\varepsilon}\right) \cdot \frac{\varepsilon r^2}{2} \right) & \text{(using the expression for $t'$ in \eqref{eqn: ESS expression for t'})} \\
+					&\ge t' \left( 2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4} \right) & \text{($-\varepsilon \log(e/\varepsilon)$ is decreasing in $\varepsilon$)} \\
+					% &\ge e \log(t') \left(2^{r-2} r! - \log(2e) \cdot \frac{r^2}{4}\right) & \text{$x/\log x \ge e$ for $x>1$} \\
+					&\ge \log(rt'/2).
+				\end{align*}
+				Therefore, $V_{r+1} \ge t$. Since $|V_i| = \varepsilon rt'/2 = t$ by definition, the proof is complete.
+			\end{proof}
+
+			Whew. Let us now give a simple corollary of the above result.
+
+			\begin{fpor}
+				Suppose $H_1,\ldots,H_m$ are graphs. Then, for any $\varepsilon > 0$ and $n \gg 0$,
+				\[ \exx(n;H_1,\ldots,H_m) \le \left(1 - \frac{1}{r} + \varepsilon\right)\frac{n^2}{2} - \mathcal{O}(n^2), \]
+				where $r+1=\max\{\chi(H_1),\ldots,\chi(H_m)\}$.
+			\end{fpor}
+
+
+			Before we move onto the proof of the second version of the Erd\H{o}s-Stone-Simonovits Theorem, we give a lemma that will assist in its proof.
+
+			\begin{flem}
+				For $n\gg 0$, if $e(G_n) \ge (c+\varepsilon)\binom{n}{2}$ for some $c > 0$ and $\varepsilon > 0$, then there exists $H\subseteq G_n$ such that
+				\begin{enumerate}
+					\item $|H| \ge \sqrt{\varepsilon} n$.
+					\item $\delta(H) \ge c|H|$.
+				\end{enumerate}
+			\end{flem}
+
+			\begin{proof}
+				Assume that $G_n$ itself does not satisfy the conclusions. Then, there exists some $x_n \in V(G_n)$ such that $d(x_n) < cn$.\\
+				Let $H_{n-1} = G \setminus \{x_n\}$. If $H_{n-1}$ fails the second conclusion of the theorem, there exists $x_{n-1} \in V(H_{n-1})$ such that $d(x_{n-1}) < c (n-1)$.\\
+				Repeating the above, we get a sequence of graphs $G_n = H_n \supsetneq H_{n-1} \supsetneq \cdots \supsetneq H_{\ell}$, where $V(H_{n-r}) \setminus V(H_{n-r-1}) = \{x_{n-r}\}$ for each $r$ and $\ell \ge \sqrt{\varepsilon} n$. Further, for each $i$, $d_{H_i}(x_i) < c i$ for $i = \ell,\ldots,n$.\\
+				Now,
+				\begin{align*}
+					e(H_\ell) &> e(H_n) - \left(cn + c(n-1) + \cdots + c(\ell+1)\right) \\
+					&= (c+\varepsilon)\binom{n}{2} - c \left(\frac{n(n+1)}{2} - \frac{\ell(\ell+1)}{2}\right) \\
+					&= (c+\varepsilon)\binom{n}{2} - c \left(\binom{n}{2} + n - \binom{\ell+1}{2}\right) \\
+					&= \varepsilon\binom{n}{2} - cn + c \binom{\ell+1}{2}.
+				\end{align*}
+				Now, the final expression must be at most $\binom{\ell}{2}$ (since $H_\ell$ has $\ell$ vertices).\\
+				As a result, it would suffice to show that the above expression on taking $\ell = \lfloor \varepsilon n \rfloor$ is greater than $\binom{\ell}{2}$ for sufficiently large $n$ (this implies that the sequence must stop before reaching this $\ell$ due to one of the graphs satisfying the conclusions). Indeed, this is seen to be true as
+				\begin{align*}
+					\varepsilon\binom{n}{2} - cn + c\binom{\ell+1}{2} &\ge \varepsilon\binom{n}{2} + c\left(\frac{(\lfloor\sqrt{\varepsilon}n\rfloor+1)\lfloor\sqrt{\varepsilon}n\rfloor}{2} - n\right) \\
+					&\ge \varepsilon\binom{n}{2} & (\text{for sufficiently large $n$}) \\
+					&\ge \binom{\ell}{2},
+				\end{align*}
+				completing the proof.
+			\end{proof}
+
+			% In particular, taking $c = 1 - \frac{1}{r} + \frac{\delta}{2}$ reduces v2 to v1.
+
+			% \begin{proof}[Proof of \nameref{theo: erdos-stone v2}]
+			% 	We shall reduce this Theorem to an instance of \nameref{theo: erdos-stone v1}. Let $G_n$
+			% \end{proof}
+
+
+			% \begin{flem}
+			% 	Let $d$ be the average degree of $G$. Then $G$ contains a (non-empty) subgraph $H$ with $\delta(H) \ge d/2$.
+			% \end{flem}
+
+	\subsection{An Introduction to Random Graphs}
+
+		\begin{fdef}[Erd\H{o}s-R\'{e}nyi Model]
+			Fix $0\le p\le 1$. The \textbf{Erd\H{o}s-R\'{e}nyi random graph model}, denoted $G_{n,p}$ is the random variable which is a graph with vertex set $[n]$, such that for each $\{i,j\} \in \binom{[n]}{2}$, $\{i,j\}$ is an edge with probability $p$, independently across distinct pairs.
+		\end{fdef}
+
+		% That is, $G_{n,p}$ is a distribution on all graphs with vertex set $[n]$. 
+		So, for any graph $H$ on vertex set $[n]$,
+		\[ \Pr(G_{n,p} = H) = p^{e(H)} (1-p)^{\binom{n}{2} - e(H)}. \]
+
+		\begin{remark}
+			$G_{n,1/2}$ is the uniform distribution on the set of graphs on $[n]$.
+		\end{remark}
+
+		A recurring theme in probability theory is that random objects tend to behave very nicely given a large number of samples (along the lines of the laws of large numbers and the central limit theorem).
+
+		\subsubsection{A motivating extremal problem (bounding \texorpdfstring{$\exx(n;C_{2k}$)}{ex(n;C2k)})}
+
+			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$.\\
+			% We have already seen that $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$. Is it true that $\exx(n;C_{2k+1}) = \lfloor n^2 / 4 \rfloor$ for $n \gg 0$?\\
+			% While \Cref{theo: ESS exx square tight coloring} does say that $\exx(n;C_{2k+1}) \le (1/4 + o(1)) n^2$, it \emph{could} still be as large as $n^2/4 + n^{1.99}$, say.\\
+			% It turns out, however, that our claim happens to be true, as we shall see later.\\
+
+			% Before moving to this however, let us look at $\exx(n;C_{2k})$, and at the very least get a lower bound on this quantity.
+
+			\begin{ftheo}
+				\label{theo: C_2k free}
+				For any $k$, there exists a constant $c$ such that for $n \gg 0$, there is a $C_k$-free $G_n$ with
+				\[ e(G_n) \geq c \cdot n^{1 + 1/(k-1)}. \]
+			\end{ftheo}
+
+			The above result does not yield anything useful for $k$ odd.
+
+			\begin{proof}
+				Consider $G_{n,p}$ for some $p$ we shall fix later. Let $N(G)$ be the number of copies of $C_k$ in a given graph $G$.\\
+				Given a cycle $(v_1,\ldots,v_k)$, observe that the sequences $(v_2,v_3,\ldots,v_k, v_1)$ and $(v_k,v_{k-1},\ldots,v_1)$ determine the same cycle. That is, performing cyclic shifts of a sequence of vertices or reversing their order around gives the same cycle.\\
+				Let $\mathcal{C}$ be the set of all these cycles.\footnote{This can be made more formal by taking all length $k$ sequences of $[n]$ consisting of distinct elements and considering the equivalence classes formed by the equivalence relation defined on the previous line.} By our observation,
+				\[ |\mathcal{C}| = \frac{n(n-1)\cdots(n-k+1)}{2k} = \frac{n!}{2k\cdot k!}. \]
+				Now,
+				\begin{align*}
+					\expec[N(G_{n,p})] &= \expec\left[ \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] \\ 
+					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} \Pr\left[ \indic_{v_1v_2, v_2v_3, \ldots, v_{k-1}v_k, v_kv_1\text{ are edges}} \right] & \text{(linearity of expectation)} \\
+					&= \sum_{(v_1,\ldots,v_k) \in \mathcal{C}} p^k \\
+					&= \frac{n!}{2k \cdot k!} p^k.
+				\end{align*}
+				This quantity is obviously less than $(np)^k / 2k$. If $p$, and thus the expectation is small, we expect to not see many $C_k$s. On the other hand,
+				\begin{align*}
+					\expec[e(G_{n,p})] &= \expec \left[ \sum_{\{i,j\} \in \binom{[n]}{2}} \indic_{ij\text{ is an edge}} \right] \\
+					&= \binom{n}{2} p.
+				\end{align*}
+				Given a graph, if we delete an (arbitrary) edge from each copy of $C_k$ in it, we will be left with no cycles. That is, given any graph $G$, there is a graph on the same vertex set with $e(G) - N(G)$ edges that is $C_k$-free. Inspired by this, by the linearity of expectation,
+				\[ \expec[e(G_{n,p}) - N(G_{n,p})] \ge \binom{n}{2} p - \frac{(np)^k}{2k}. \]
+				If we set $p = \left(\frac{k}{2}\right)^{1/(k-1)} n^{-1 + 1/(k-1)}$, then the above quantity is at least $n(n-1)p/4 \ge c \cdot n^{1 + 1/(k-1)}$ for an appropriate constant $c$ and $n\gg 0$, completing the proof.
+			\end{proof}
+
+		\subsubsection{Digression: A coloring result of Erd\H{o}s}
+
+			The question we consider in this section is:
+
+			\begin{quote}
+				Are there $C_3$-free graphs with large chromatic number?
+			\end{quote}
+
+			More generally,
+
+			\begin{quote}
+				Are there graphs with large chromatic number and large girth?
+			\end{quote}
+
+			For example, if the girth of a graph is $7$, then there cannot be adjacent vertices $v,w$ such that $\Gamma(v) \cap \Gamma(u)$ and $\Gamma(w) \cap \Gamma(u)$ are non-empty for some $u$ distinct from $v,w$. As a result, we can draw a ``$2$-step tree'' rooted at any $u$, which has $\Gamma(u)$ at the first level and the neighbours (other than $u$) of vertices of $\Gamma(u)$ at the second.\\
+			This seems to suggest some level of sparseness in the graph, due to which there are not too many edges and as a result, the chromatic number is low. However, it turns out that this intuition is not true, as proved by Erd\H{o}s in \cite{erdos_1959_girth_chromaticnum}.
+
+			\begin{ftheo}
+				There exist graphs with arbitrarily large girth and chromatic number. That is, given a $g,k \ge 3$, there exists a graph $G_n$  such that $\girth(G) > g$ and $\chi(G) > k$.
+			\end{ftheo}
+
+			\begin{proof}
+				Consider $G_{n,p}$ for some $p$ we fix later. Further assume that $np \ge 1$.\\% (if $p < 1/n$, the graph is extremely sparse).\\
+				Given a graph $G$, let $N_i(G)$ (for $3 \le i \le g$) be the number of cycles of size $i$ in $G$. As we saw in the proof of \Cref{theo: C_2k free},
+				\[ \expec[N_i(G_{n,p})] = \frac{n!}{2i \cdot i!} p^i < \frac{(np)^i}{6}. \]
+				Let $N = \sum_{i=3}^g N_i$. Then
+				\begin{align*}
+					\expec\left[N(G_{n,p})\right] &= \expec\left[\sum_{i=3}^g N_i(G_{n,p})\right] \\
+					&< \frac{(np)^3}{6} \left(\frac{(np)^{g-2} - 1}{np - 1}\right) \\
+					&< \frac{(np)^g}{3}. & \text{(since $np\ge 1$)}
+				\end{align*}
+				Using \href{https://en.wikipedia.org/wiki/Markov%27s_inequality}{Markov's inequality},
+				\begin{equation}
+					\label{eqn: 2.5}
+					\Pr\left[ N(G_{n,p}) > \frac{2}{3} (np)^g \right] < \frac{1}{2} \\
+				\end{equation}
+				This takes care of the girth (we want the above probability to be small).
+				On the other hand, we need to make the chromatic number large. Towards this, observe that $\chi(G) \ge n/\alpha(G)$ (Why?). % Try thinking of a colouring as a splitting of the graph into independent sets).
+				We have
+				\begin{align*}
+					\Pr\left[\alpha(G_{n,p}) \ge r\right] &= \Pr\left[ \bigcup_{X\subseteq [n]: |X|=r} \{X\text{ is independent}\} \right] \\
+					&\le \sum_{X \subseteq [n] : |X|=r} \Pr[X\text{ is independent}] & \\% (\text{by the \href{https://en.wikipedia.org/wiki/Boole%27s_inequality}{union bound}}) \\
+					&= \sum_{X \subseteq [n] : |X|=r} (1-p)^{\binom{r}{2}} \\
+					&\le \binom{n}{r} \cdot e^{-pr(r-1)/2} \\
+					&\le \left(\frac{en}{r}\right)^r \cdot e^{-pr^2/3} \\
+					&= \left(\frac{e^{1-pr/3}n}{r}\right)^r.
+				\end{align*}
+				We shall choose $r$ and $p$ such that with positive probability, $N(G_{n,p}) \le 2(np)^g/3$ \emph{and} $\alpha(G_{n,p}) < r$. This implies the existence of a graph $G_n$ such that both of the above hold.\\
+				We cannot use the tactic of removing edges we did in the earlier proof since that might increase $\alpha$. Deleting vertices on the other hand works, since this can increase neither $\alpha$ nor $N$.\\
+				If we delete a single vertex from each cycle involved in $N$, the resulting graph will have girth greater than $g$. That is, given a graph $G_n$, there exists a graph with at least $n - N(G_n)$ vertices that has girth greater than $g$. Denote this corresponding graph as $G_n'$.\\
+
+				Set $p = n^{1/(g+1) - 1}$. In this case, $2(np)^g/3 < n/2$ for $n\gg 0$ and using \eqref{eqn: 2.5},
+				\begin{equation}
+					\label{eqn: 2.6}
+					\Pr\left[ n - N(G_{n,p}) > \frac{n}{2} \right] \ge \frac{1}{2}.
+				\end{equation}
+				% On the other hand, we want $\Pr[\alpha(G_{n,p}) \ge r]$ to be small. This is accomplished if
+				% \begin{align*}
+				% 	en &\ll e^{pr/3} \\
+				% 	\log n &\ll \frac{pr}{3}.
+				% \end{align*}
+				Set $r = 4 \log n / p = 4 n^{1 - 1/(g+1)} \log n$. For these values of $p$ and $r$,
+				\begin{equation}
+					\label{eqn: 2.7}
+					\Pr\left[\alpha(G_{n,p}) \ge r\right] \xrightarrow{n\to\infty} 0.
+				\end{equation}
+
+				Using \eqref{eqn: 2.6}, our construction of $G'$, and \eqref{eqn: 2.7}, it is true with with positive probability that
+				\[ |G_{n,p}'| \ge \frac{n}{2}, \girth(G_{n,p}') > g, \]
+				and
+				\[ \chi(G_{n,p}') \ge \frac{n}{\alpha(G_{n,p}')} \ge \frac{n}{r} = \frac{n^{1/(g+1)}}{4\log n} \xrightarrow{n\to\infty} \infty. \]
+				Therefore, for $g,k \ge 3$, there exists $n\gg 0$ and graph $G$ on $n$ vertices such that $\girth(G) > g$ and $\chi(G) > k$. 
+			\end{proof}
+
+	\subsection{Szemer\'{e}di's Regularity Lemma}
+
+		The second of our powerful results in extremal graph theory (after the Erd\H{o}s-Stone-Simonovits Theorem) is Szemer\'{e}di's Regularity Lemma, which says that any sufficiently large graph behaves in some way like a random graph.
+
+		\subsubsection{Motivation}
+
+			First, let us give a bound from probability theory that will be useful.
+
+			\begin{flem}[Chernoff Bound]
+				\label{chernoff bound}
+				Suppose $X \sim B(n,p)$, the \href{https://en.wikipedia.org/wiki/Binomial_distribution}{binomial distribution} with parameters $n,p$. Then for any $t \ge 0$,
+				\[ \Pr\left[ X - \expec[X] \ge t \right] \le \exp\left(-\frac{t^2}{2\left(\expec[X] + t/3\right)}\right) \]
+				and
+				\[ \Pr\left[ X - \expec[X] \le -t \right] \le \exp\left(-\frac{t^2}{2\expec[X]}\right). \]
+			\end{flem}
+
+			Fix disjoint $A, B \subseteq [n]$ and let $|A|=a$, $|B|=b$. Then given a graph $G$ on $[n]$,
+			\[ e(A,B) = \sum_{x \in A, y \in B} \indic_{xy \in E(G)}. \]
+			Fix $0<p<1$. Then if $G \sim G_{n,p}$,
+			\[ e(A,B) \sim B\left( ab, p \right). \]
+			By the \nameref{chernoff bound}, for some fixed constant $c$,
+			\[ \Pr\left[ |e(A,B) - pab| > c \left(b\sqrt{pa\log\left(\frac{2n}{b}\right)}\right) \right] \xrightarrow{n\to\infty} 0. \]
+
+			In particular, if $a = b = \alpha n$ for some $0 < \alpha < 1/3$, then with high probability,
+			\[ |e(A,B) - pab| = \mathcal{O}\left(b\sqrt{ap\log\left(\frac{2n}{b}\right)}\right) \]
+			for any sets $A, B$ of sizes $a$ and $b$ respectively.
+
+			This seems to say that the actual number of edges between two sets of the given size does not deviate very much from the expected number of edges between the two sets. The expression on the right is of the order of $\mathcal{O}(n\sqrt{n})$, which is asymptotically less than the expectation $pab = \mathcal{O}(n^2)$.
+
+		\subsubsection{The Result}
+
+			The regularity lemma gives a qualitative version of the above observation. Before we move to the actual result, let us provide some notation.
+
+			\begin{fdef}[Density]
+				Given a graph $G = (V,E)$ andr $U,W \subseteq V$, the \textbf{density} $d(U,W)$ is equal to $e(U,W) / |U||W|$.
+			\end{fdef}
+
+			\begin{remark}
+				Here, $e(U,W)$ is $\{(u,w) \in U \times W : \{u,w\} \in E\}$. If $U$ and $W$ are disjoint, this is the same as our earlier definition of $e(\cdot,\cdot)$. If they are not disjoint however, edges within the intersection are counted \emph{twice} in our current definition.\\
+				This does not matter all that much since we usually apply the regularity lemma on disjoint sets.
+			\end{remark}
+
+			\begin{fdef}[$\varepsilon$-regular pair]
+				Suppose $0 < \varepsilon < 1$. A pair of subsets $(U,W)$ is said to be \textbf{$\varepsilon$-regular} if for any $A \subseteq U$, $B\subseteq W$ with $|A| \ge \varepsilon |U|$ and $|B| \ge \varepsilon |W|$, we have
+				\[ |d(A,B) - d(U,W)| \le \varepsilon \]
+			\end{fdef}
+
+			This corresponds to some sort of uniform behaviour throughout the sets, where subsets behave similarly to their parent sets in terms of density. If $(U,W)$ is $\varepsilon$-regular, all sufficiently large subsets of $U,W$ have roughly the same edge density as $(U,W)$.
+
+			\begin{ftheo}[Szemer\'{e}di's Regularity Lemma]
+				\label{theo: szemeredi's regularity lemma}
+				Given $0 < \varepsilon < 1$, there exists $M$ such that for $n\gg 0$, any graph $G_n$ admits a vertex partition $\mathcal{P} = (V_0, V_1, \ldots, V_k)$, where
+				\begin{itemize}
+					\item $k \le M$,
+					\item $|V_0| \le \varepsilon n$ ($V_0$ is known as an ``exceptional set''),
+					\item all the $V_i$ for $1\le i\le k$ are of equal size, and
+					\item the number of $\varepsilon$-\emph{ir}regular pairs $(V_i,V_j)$ ($1 \le i,j\le k$) is at most $\varepsilon k^2$.
+				\end{itemize}
+			\end{ftheo}
+			Such a partition where the number of $\varepsilon$-regular pairs is at most $\varepsilon k^2$ is often referred to as an \textbf{$\varepsilon$-regular partition}.\\
+			% Qualitiatively, this means that any graph can be split into a bunch of pieces such that the edges between them are almost random, and the non-random part is small.\\
+
+			We present the proof of the above, that uses an ``energy increment'' argument, over a series of lemmas.\\
+
+			\begin{fdef}[Energy]
+				Given a graph $G_n$ with vertex set $V$, for disjoint $U,W \subseteq V$, define the \textbf{energy} of the pair $(U,W)$ by
+				\[ q(U,W) = \frac{|U||W|}{n^2} d^2(U,W). \]
+				If $\mathcal{U} = \{U_1,\ldots,U_m\}$ and $\mathcal{W} = \{W_1,\ldots,W_\ell\}$ are partitions of $U$ and $W$ respectively, then the energy of the pair $(\mathcal{U},\mathcal{W})$ is
+				\[ q(\mathcal{U},\mathcal{W}) = \sum_{\substack{1\le i\le m \\ 1 \le j \le \ell}} q(U_i,W_j). \]
+				For a partition $\mathcal{P}$ of $V$, let
+				\[ q(\mathcal{P}) = q(\mathcal{P},\mathcal{P}) = \sum_{U,W\in\mathcal{P}} q(U,W) . \]
+			\end{fdef}
+
+			\begin{lemma}
+				\label{lemma: szemeredi lemma energy increases on partitioning}
+				If $U$,$W$ are disjoint subsets of $V$ and $\mathcal{U}$,$\mathcal{W}$ are partitions of $U$,$W$ respectively, then
+				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \]
+			\end{lemma}
+
+			\begin{proof}
+				Independently pick $u$,$w$ uniformly randomly from $V$. Define the random variable
+				\[ Z(u,w) =
+				\begin{cases}
+					d(U', W'), & u \in U' \in \mathcal{U}, w \in W' \in \mathcal{W}, \\
+					0, & \text{otherwise.}
+				\end{cases}
+				\]
+				Then,
+				\begin{align*}
+					\expec[Z]^2 &= \left(\sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} d(U',W') \left(\frac{|U'||W'|}{|U||W|}\right)\right)^2 \\
+						&= \left(\frac{1}{|U||W|} \sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} e(U',W')\right)^2 \\
+						&= d(U,W)^2 \\
+						&= \frac{n^2}{|U||W|} q(U,W) \text{ and} \\
+					\expec[Z^2] &= \sum_{\substack{U' \in \mathcal{U} \\ W' \in \mathcal{W}}} d^2(U',W') \left(\frac{|U'||W'|}{|U||W|}\right) \\
+						&= \frac{n^2}{|U||W|} q(\mathcal{U},\mathcal{W}).
+				\end{align*}
+				Since variance is always non-negative, $\expec[Z^2] \ge \expec[Z]^2$ and thus,
+				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \qedhere \]
+			\end{proof}
+
+			Partitioning increases energy! Also observe that since the random variable $Z$ is at most $1$ ($1/2$, in fact), so is the energy.\\
+			This also implies that if the partition $\mathcal{Q}$ is a refinement of $\mathcal{P}$, then
+			\[ q(\mathcal{Q}) \ge q(\mathcal{P}). \]
+
+			\begin{lemma}
+				\label{lemma: szemeredi lemma energy increases for irregular}
+				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U$,$W$ respectively such that
+				\[ q(\mathcal{U},\mathcal{W}) > q(U,W) + \varepsilon^4 \frac{|U||W|}{n^2}. \]
+			\end{lemma}
+			\begin{proof}
+				By the $\varepsilon$-irregularity, there exist $U_1\subseteq U$ and $W_1\subseteq W$ with $|U_1| \ge \varepsilon|U|$, $|W_1| \ge \varepsilon|W|$, and
+				\[ |d(U_1,W_1) - d(U,W)| > \varepsilon. \]
+				Consider the partitions $\mathcal{U} = \{U_1,U\setminus U_1\}$ and $\mathcal{W} = \{W_1,W\setminus W_1\}$. With the same $Z$ as in the proof of the previous lemma,
+				\begin{align*}
+					\expec[Z^2] - \expec[Z]^2 &= \expec[(Z - \expec[Z])^2] \\
+						&\ge \expec[(Z - \expec[Z])^2 \indic_{u\in U', w\in W'}] \\
+						&= \varepsilon^4.
+				\end{align*}
+				The claim follows.
+			\end{proof}
+
+			\begin{flem}
+				\label{lemma: final step of szemeredi's regularity lemma}
+				Suppose $0 < \varepsilon < 1/4$ and let $\mathcal{P} = (V_0,V_1,\ldots,V_k)$ be a partition of $V$ such that
+				\begin{itemize}
+				 	\item $\mathcal{P} \setminus \{V_0\}$ is not $\varepsilon$-regular (there are at least $\varepsilon k^2$ irregular pairs),
+				 	\item $\mathcal{P} \setminus \{V_0\}$ is equitable\footnotemark, and
+				 	\item $|V_0| \le \varepsilon n$.
+				\end{itemize}
+				Then, there is a refinement $\mathcal{Q} = (V_0',V_1',\ldots,V_\ell')$ of $\mathcal{P}$ such that
+				\begin{itemize}
+					\item $\ell \le k 4^k$,
+					\item $\mathcal{Q} \setminus \{V_0'\}$ is equitable,
+					\item $|V_0'| \le |V_0| + n / 2^k$, and
+					\item $q(\mathcal{Q}) \ge q(\mathcal{P}) + \varepsilon^5/2$.
+				\end{itemize}
+			\end{flem}
+			\footnotetext{All the blocks of the partition are of equal size.}
+
+			\begin{proof}
+				Let $|V_i| = t$ for all $1\le i\le k$.\\
+				Suppose $(V_i,V_j)$ is an $\varepsilon$-irregular pair in $\mathcal{P}$ and let $(V_{i,1},V_{i,2})$ and $(V_{j,1},V_{j,2})$ be the partitions of $V_i,V_j$ respectively described in \Cref{lemma: szemeredi lemma energy increases for irregular}. If $\mathcal{Q}_1$ is this particular refinement
+				\[ \mathcal{P} \cup \{V_{i,1},V_{i,2},V_{j,1},V_{j,2}\} \setminus \{V_i,V_j\} \]
+				of $\mathcal{P}$, then
+				\[ q(\mathcal{Q}_1) \ge q(\mathcal{P}) + \varepsilon^4 \frac{|V_i||V_j|}{n^2} \]
+				Let us similarly produce refinements corresponding to all irregular pairs of $\mathcal{P}$. Let $\mathcal{Q}'$ be the ``common'' refinement of all these partitions $(\mathcal{Q}_i)$. That is, for each $v \in V$, $v$ is placed in the subset $\bigcap_{W \in \mathcal{Q}_i : v \in W} W$.\\
+				We then have
+				\begin{align}
+					q(\mathcal{Q}') &\ge q(\mathcal{P}) + \varepsilon^4 \cdot \frac{t^2}{n^2} (\varepsilon k^2) \nonumber \\
+					&= q(\mathcal{P}) + \varepsilon^5 \frac{(tk)^2}{n^2} \nonumber \\
+					&\ge q(\mathcal{P}) + \frac{\varepsilon^5}{2}. & \text{($tk = n - |V_0| \ge (1-\varepsilon)n \ge 3n/4$ and $9/16 \ge 1/2$)} \label{eqn: 2.7}
+				\end{align}
+				To make the partition $\mathcal{Q}'$ equitable, create the partition $\mathcal{Q}$ using it as follows.\\
+				Suppose we partition $V_i$ into $(V_{ij})$, where $V_{ij}$ is formed due to the irregularity of $(V_i,V_j)$. Partition each of these parts of $\mathcal{Q}'$ into sets of size $b\coloneqq \lfloor t/4^k\rfloor$. Whatever residual part cannot be cut out in this manner, we merge with $V_0$.\\
+				Since partitioning can only increase energy, this operation will only strengthen \eqref{eqn: 2.7}, if anything.\\
+
+				Since the size of any block of $\mathcal{Q}$ is $b$, the number of blocks is at most $n/b = k 4^k$.\\
+				Finally, what is the size of $|V_0'|$?\\
+				$\mathcal{Q}'$ has at most $k\cdot 2^{k-1}$ parts (there are at most $(k-1)$ $2$-part partitions of each block of $\mathcal{P}$, and together they give a partition of size at most $2^{k-1}$). So,\\
+				\begin{align*}
+					|V_0'| &\le |V_0| + |\mathcal{Q}'| b \\
+					&\le |V_0| + k 2^{k-1} \frac{t}{4^k} \\
+					&\le |V_0| + \frac{n}{2^k},
+				\end{align*}
+				as desired.
+			\end{proof}
+
+			Observe that with the above lemma, \nameref{theo: szemeredi's regularity lemma} follows without too much difficulty.\\
+			Begin with a partition $\mathcal{P}_0$ with $k_0$ parts, where $2^{k_0} \ge 2/\varepsilon$.\\
+			Given $\mathcal{P}_k$, let $\mathcal{P}_{k+1}$ be the partition defined by \Cref{lemma: final step of szemeredi's regularity lemma}. Since the energy of any partition is bounded above by $1$, this process must terminate after at most $2/\varepsilon^5$ steps.\\
+			Further, since the size of the refined partition is bounded between quantities dependent solely on the old partition, the size of the final partition after termination of the above process is at most some quantity dependent only on $\varepsilon$ (this quantity might be massive\footnote{Unbelievably so. For example, $\varepsilon=1/8$ gives a bound of the order of $4\uparrow\uparrow 2^{15}$ (using \href{https://en.wikipedia.org/wiki/Knuths_up-arrow_notation}{Knuth's up-arrow notation}). It further turns out that such a massive tetration-type bound is necessary, as proved in \cite{Gowers1997}.}, but that is besides the point).\\
+
+		\subsubsection{Interesting corollaries}
+
+			In this section, we cover several interesting corollaries of \nameref{theo: szemeredi's regularity lemma}.\\
+
+			Before we begin however, how do we process the regularity lemma? We typically begin with a ``cleaning'' of the graph as follows.
+			\begin{itemize}
+				\item Given $\varepsilon > 0$, get a partition as described in the lemma.
+				\item First, delete all edges between irregular pairs. This loses at most $(\varepsilon k^2) t^2 < \varepsilon n^2$ edges.
+				\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\eta t^2) < (\varepsilon/2)n^2$ edges.
+				\item Delete all edges inside the exceptional part $V_0$. This loses at most $(\varepsilon^2/2)n^2$ edges. 
+			\end{itemize}
+			All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$ (for $i\ne j$), then $d(V_i,V_j) \ge \varepsilon$.\\
+
+			Based on this, let us give a corollary of Szemer\'{e}di's Lemma.
+
+			\begin{ftheo}[Triangle Counting Lemma]
+				\label{theo: triangle counting lemma}
+				Suppose $V_1$,$V_2$,$V_3$ forms a pairwise $\varepsilon$-regular partition of the vertex set of graph $G_n$, and that $d(V_i,V_j) \ge d$ (for some $d\ge 2\varepsilon$). Then, there are at least 
+				\[ \varepsilon^2(1-2\varepsilon)(d-\varepsilon)|V_1||V_2||V_3| \]
+				triangles $xyz$ with $x\in V_1$, $y\in V_2$, $z\in V_3$. 
+			\end{ftheo}
+			\begin{proof}
+				Let
+				\[ X_1 = \{x\in V_1 : d(x,V_2) \le \varepsilon |V_2|\}. \]
+				We claim that $|X_1| < \varepsilon|V_1|$. Suppose otherwise. Then $e(X_1,V_2) / |X_1||V_2| < \varepsilon$ and further, $\varepsilon$-regularity implies that $d(X_1,V_2) \ge (d-\varepsilon)$, which leads to a contradiction.\\
+				Similarly, $X_2 \coloneqq \{x\in V_1 : d(x,V_3) \le \varepsilon|V_3|\}$ has size less than $\varepsilon|V_1|$ too.\\
+				For all $x\in V_1 \setminus (X_1 \cup X_2)$, $d(x,V_2) \ge \varepsilon|V_2|$ and $d(x,V_3) \ge \varepsilon|V_3|$. Fix such an $x$ and let $X_i' = \Gamma(x)\cap V_i$ (for $i=2,3$).\\
+				By the $\varepsilon$-regularity of $(V_2,V_3)$, $d(V_2,V_3) - d(X_2',X_3') \le \varepsilon$ so $d(X_2',X_3') \ge d-\varepsilon$. As a result,
+				\[ e(X_2',X_3') \ge (d-\varepsilon)|X_2'||X_3'| \ge (d-\varepsilon)\varepsilon^2|V_2||V_3|. \]
+				Therefore, the number of triangles of the desired form is at least
+				\[ \underbrace{(1-2\varepsilon)|V_1|}_{\substack{\text{the number of} \\ \text{such $x$}}}\cdot \underbrace{(d-\varepsilon)\varepsilon^2|V_2||V_3|}_{\substack{\text{the number of triangles} \\ \text{corresponding to each $x$}}}, \]
+				completing the proof.
+			\end{proof}
+
+			Along similar lines is the following result.
+
+			\begin{ftheo}[Triangle Removal Lemma]
+				\label{theo: triangle removal lemma}
+				Given $\varepsilon>0$, there exists $\delta$ (depending only on $\varepsilon$) such that for $n\gg 0$, any graph $G_n$ with at most $\delta n^3$ triangles can be made triangle-free by deleting at most $\varepsilon n^2$ edges.
+			\end{ftheo}
+			\begin{proof}
+				Start with an $(\varepsilon/4)$ regular partition of $G_n$ using Szemer\'{e}di's Regularity Lemma and the cleaning process from earlier. Delete all edges within each of the $V_i$. This costs at most $k (t^2/2) < (kt)^2/2k \le \varepsilon n^2/4$ edges.\\
+				So, we have lost $\le \varepsilon n^2$ edges in all. If there is a triangle remaining in the graph, it must come from a triple $(V_i,V_j,V_k)$ with all three pairs being $(\varepsilon/4)$-regular and density at least $\varepsilon/2$. We can then use the triangle counting lemma to conclude that there are at least $t^3 (\varepsilon/4)^3 (1 - \varepsilon/2) > n^3 (\varepsilon/8)^3 / M(\varepsilon)^3$. Letting $\delta$ to be the $1/6$ this quantity, we are done.
+			\end{proof}
+
+			Next, we describe Roth's Theorem. The result deals with a conjecture of Erd\H{o}s and Tur\'{a}n:
+			\begin{quote}
+				Given $\varepsilon > 0$ and $r\in\N$, there exists $N_0$ such that for all $N \ge N_0$, the following holds. If $A \subseteq [N]$ with $|A| \ge \varepsilon N$, then $A$ contains an arithmetic progression of length $r$. 
+			\end{quote}
+
+			Roth proved in the early 50s that the conjecture holds for $r=3$. Szemer\'{e}di proved in the early 70s that it holds for all $r$. In fact, Szemer\'{e}di had originally come up with the regularity lemma to prove this result (this is why it is a \emph{lemma}).
+
+			\begin{lemma}
+				\label{lemma: roth's theorem edge in unique triangle}
+				Suppose that every edge of $G_n$ is in exactly one triangle. Then, $e(G_n) = o(n^2)$.
+			\end{lemma}
+
+			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z_M$.\\
+			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z_M$ (Why?). \\
+			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a$,$c$,$b$ are in AP.\\
+			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z_M$.\\
+			This implies that any edge must be in a unique triangle.\\
+			By \Cref{lemma: roth's theorem edge in unique triangle}, $e(G) = o((3M)^2) = o(N^2)$. On the other hand, $e(G) = 3M|A|$. So, $3M|A| = o(N^2)$ and $|A| = o(N)$.
+
+			\begin{proof}[Proof of \Cref{lemma: roth's theorem edge in unique triangle}]
+				The number of triangles in $G_n$ is exactly $e(G_n)/3 = o(n^3)$. By the \nameref{theo: triangle removal lemma}, $G_n$ can be made triangle-free by removing $o(n^2)$ edges. However, we must remove at least $e(G_n)/3$ edges to make the graph triangle-free, so $e(G_n) = o(n^2)$.
+			\end{proof}
+
+			Inspired by this problem, a natural question to ask is: what is the maximum sized $A\subseteq[N]$ that is $3$-AP free?\\
+			Picking $A$ greedily gives $O(\sqrt{n})$ elements.\\
+			
+			It is possible to do better, as shown by \emph{Behrend's construction}.\\
+			The basic idea is that on a sphere, the midpoint of any two points does not lie on the sphere.\\
+			Consider the set $S = [k]^d\subseteq\R^d$ for some $k,d$. Observe that $\norm{x}^2 \le k^2 d$ for any point in $S$. By the pigeonhole principle, there is a (centered) sphere with at least $k^{d-2}/d$ of these points.\\
+			To get a subset $A$ from these points, project $x = (a_1,\ldots,a_d)$ to $\sum_{j=1}^d a_j (2k+1)^{j-1}$, thus converting it to an integer in base $(2k+1)$. Observe that if $x_1 \mapsto m_1$ and $x_2 \mapsto m_2$, then $(x_1 + x_2) \mapsto (m_1 + m_2)$. As a result, if $X$ is a subset of $S$ on a single sphere, its projection by this map gives a $3$-AP free subset.\\
+			The maximum element by this projection is $k\sum_{i=0}^{d-1} (2k+1)^{i} = ((2k+1)^d - 1)/2$. Set $(2k+1)^d = 2N+1$. By the argument from before, there is a $3$-AP free set of size $k^{d-2}/d$.\\
+			This achieves a bound of
+			\[ \frac{N}{e^{c\sqrt{\log n}}} \]
+			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta$!
