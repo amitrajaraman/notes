@@ -595,10 +595,10 @@
 				Suppose that every edge of $G_n$ is in exactly one triangle. Then, $e(G_n) = o(n^2)$.
 			\end{lemma}
 
-			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z_M$.\\
-			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z_M$ (Why?). \\
+			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z/M$.\\
+			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z/M$ (Why?). \\
 			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a$,$c$,$b$ are in AP.\\
-			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z_M$.\\
+			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z/M$.\\
 			This implies that any edge must be in a unique triangle.\\
 			By \Cref{lemma: roth's theorem edge in unique triangle}, $e(G) = o((3M)^2) = o(N^2)$. On the other hand, $e(G) = 3M|A|$. So, $3M|A| = o(N^2)$ and $|A| = o(N)$.
 
@@ -612,8 +612,69 @@
 			It is possible to do better, as shown by \emph{Behrend's construction}.\\
 			The basic idea is that on a sphere, the midpoint of any two points does not lie on the sphere.\\
 			Consider the set $S = [k]^d\subseteq\R^d$ for some $k,d$. Observe that $\norm{x}^2 \le k^2 d$ for any point in $S$. By the pigeonhole principle, there is a (centered) sphere with at least $k^{d-2}/d$ of these points.\\
-			To get a subset $A$ from these points, project $x = (a_1,\ldots,a_d)$ to $\sum_{j=1}^d a_j (2k+1)^{j-1}$, thus converting it to an integer in base $(2k+1)$. Observe that if $x_1 \mapsto m_1$ and $x_2 \mapsto m_2$, then $(x_1 + x_2) \mapsto (m_1 + m_2)$. As a result, if $X$ is a subset of $S$ on a single sphere, its projection by this map gives a $3$-AP free subset.\\
+			To get a subset $A$ from these points, project $x = (a_1,\ldots,a_d)$ to $\sum_{j=1}^d a_j (2k+1)^{j-1}$, thus converting it to an integer in base $(2k+1)$. Observe that if $x_1 \mapsto m_1$ and $x_2 \mapsto m_2$, then $(x_1 + x_2)/2 \mapsto (m_1 + m_2)/2$. As a result, if $X$ is a subset of $S$ on a single sphere, its projection by this map gives a $3$-AP free subset.\\
 			The maximum element by this projection is $k\sum_{i=0}^{d-1} (2k+1)^{i} = ((2k+1)^d - 1)/2$. Set $(2k+1)^d = 2N+1$. By the argument from before, there is a $3$-AP free set of size $k^{d-2}/d$.\\
 			This achieves a bound of
 			\[ \frac{N}{e^{c\sqrt{\log n}}} \]
-			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta$!
+			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta>0$!\\
+
+			\begin{definition}[Corner]
+				An $A\subseteq[N]^2$ is said to have a \textbf{corner} if the points $(x,y)$, $(x+d,y)$, and $(x,y+d)$ are in $A$ for some $d>0$ and $x$,$y\in[N]$.
+			\end{definition}
+
+			\begin{ftheo}[No Corners Theorem]
+				\label{no corners theorem}
+				Suppose $A\subseteq[N]^2$ has no corners. Then $|A| = o(N^2)$.
+			\end{ftheo}
+			\begin{proof}
+				First, let us get rid of the (slightly unnatural) $d>0$ clause.\\ Denote $A+A$ as $\{a+b : a,b\in A\}$ (the \href{https://en.wikipedia.org/wiki/Minkowski_addition}{Minkowski sum} of the two sets) and $x+A = \{x+a : a\in A\}$.\\
+				Obviously, $A+A\subseteq[2N]^2$. By the pigeonhole principle, there exists a $z\in[2N]^2$ such that $z=a+b$ in at least $|A|^2/4N^2$ ways. Consider $A' = A \cap (z-A)$ for such a $z$. Then
+				\[ |A'| \ge \frac{|A|^2}{4N^2} \]
+				by the definition of $z$. Further, $A'$ is \emph{symmetric} about $z/2$, that is, $A' = z - A'$ (Why?). As a result, there is a correspondence between corners with positive $d$ and negative $d$ in $A'$. Further, if $A$ is corner-free, so is $A'$. By the cardinality bound on $A'$, it suffices to show that $|A'|=o(N^2)$.\\
+				So, let us drop the $d > 0$ condition on corners and work with a corner-free $A$.\\
+
+				We construct a $3$-partite graph $G=(V,E)$. Let the three parts of $V$ be $H$, the set of horizontal lines in $[N]^2$, $V$, the set of vertical lines in $[N]^2$, and $D$, the set of line segments with slope $-1$ in $[2N]^2$.\\
+				Given $\ell$, $\ell'$ in distinct parts of the vertex set, let $\ell$ and $\ell'$ be adjacent if $\ell\cap\ell'\in A$. Triangles in this graph correspond to either corners or three lines all passing through a single vertex in $A$. Due to our assumption on $A$, each edge is in a unique triangle. The result then follows from \Cref{lemma: roth's theorem edge in unique triangle}.
+			\end{proof}
+
+			Let us go back to the triangle counting lemma for a moment. Let $(V_1,V_2)$, $(V_2,V_3)$, and $(V_3,V_1)$ all be $\varepsilon$-regular pairs with densities $d_{12}$,$d_{23}$,$d_{13}>2\varepsilon$. In a random graph on $V_1\sqcup V_2\sqcup V_3$ vertices with edge probabilities $d_{ij}$ between $V_i$ and $V_j$, the expected number of triangles is $|V_1||V_2||V_3| d_{12}d_{23}d_{31}$.\\
+			Ideally, we would have a result that the number of triangles is indeed close to this quantity (so the graph behaves almost randomly, in a sense similar to Szemer\'{e}di's Regularity Lemma).\clearpage
+
+			\begin{ftheo}[Graph Counting Lemma]
+				Let $G$ be a graph on $n$ vertices and $H$ a graph on $[k]$. Suppose $V_1,\ldots,V_k\subseteq V(G)$ (with the $V_i$ pairwise-disjoint) such that $(V_i,V_j)$ is $\varepsilon$-regular whenever $ij\in E(H)$. Then,
+				\[ \left|\{(v_1,\ldots,v_k) : v_i \in V_i \text{ and } \{v_1,\ldots,v_k\} \text{ form a copy of $H$ in $G$}\}\right| \]
+				is within $\varepsilon e(H)|V_1||V_2|\cdots|V_k|$ of the (expected) quantity
+				\[ \prod_{i=1}^k |V_i| \prod_{ij\in E(H)} d(V_i,V_j),  \]
+				assuming that $\prod_{ij\in E(H)} d(V_i,V_j) > \varepsilon e(H)$.
+			\end{ftheo}
+
+			\begin{proof}
+				We shall prove this by inducting on $e(H)$. If $e(H)=0$, the result is trivial.\\
+				Let us rephrase the problem probabilistically. Pick $v_i\in V_i$ independently and uniformly. Then, we wish to prove that
+				\begin{equation}
+					\label{eqn: 2.8}
+					\left|\Pr\left[ v_iv_j\in E(G) \text{ for all } ij\in E(H) \right] - \prod_{ij\in E(H)} d(V_i,V_j)\right| \le \varepsilon e(H).
+				\end{equation}
+				Suppose $\{1,2\}\in E(H)$. It suffices to show that
+				\begin{equation}
+					\label{eqn: 2.9}
+					\left| \Pr\left[ v_iv_j \in E(G) \text{ for all }ij\in E(H) \right] - d(V_1,V_2) \Pr\left[ v_iv_j\in E(G) \text{ for all }E(H)\setminus\{1,2\} \right] \right| \le \varepsilon.
+				\end{equation}
+				Indeed, by induction,
+				\begin{equation}
+					\label{eqn: 2.10}
+					\left| \Pr\left[ v_iv_j\in E(G) \text{ for all }E(H)\setminus\{1,2\} \right] - \prod_{\substack{ij\in H \\ ij\neq\{1,2\}}} d(V_i,V_j) \right| < \varepsilon(e(H) - 1),
+				\end{equation}
+				and \eqref{eqn: 2.8} follows on using the \href{https://en.wikipedia.org/wiki/Boole%27s_inequality}{union bound}. We shall prove that \eqref{eqn: 2.9} holds when we condition on the choices $v_i$ for $i>2$. Let
+				\[ A_j = \{ v_j \in V_j : \{v_j,v_i\} \in E(G) \text{ when } \{j,i\} \}\in E(H). \]
+				for $j = 1,2$. \Cref{eqn: 2.9} is then equivalent to
+				\begin{equation}
+					\label{eqn: 2.11}
+					\left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} \right| \le \varepsilon.
+				\end{equation}
+				We claim that \eqref{eqn: 2.11} holds for all $A_1$,$A_2$. If $|A_1| \ge \varepsilon|V_1|$ and $|A_2|\ge\varepsilon|V_2|$, then $\varepsilon$-regularity implies that $|d(A_1,A_2) - d(V_1,V_2)| \le \varepsilon$, that is,
+				\[ \left| \frac{e(A_1,A_2)}{|A_1||A_2|} - d(V_1,V_2) \right| \le \varepsilon. \]
+				So,
+				\[ \frac{|V_1||V_2|}{|A_1||A_2|} \left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} d(V_1,V_2) \right| \le \varepsilon, \]
+				and \eqref{eqn: 2.11} easily follows. If $|A_1| < \varepsilon|V_1|$, then the above follows immediately anyway, so we are done.
+			\end{proof}
