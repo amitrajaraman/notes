@@ -627,23 +627,24 @@
 				Suppose $A\subseteq[N]^2$ has no corners. Then $|A| = o(N^2)$.
 			\end{ftheo}
 			\begin{proof}
-				First, let us get rid of the (slightly unnatural) $d>0$ clause.\\ Denote $A+A$ as $\{a+b : a,b\in A\}$ (the \href{https://en.wikipedia.org/wiki/Minkowski_addition}{Minkowski sum} of the two sets) and $x+A = \{x+a : a\in A\}$.\\
-				Obviously, $A+A\subseteq[2N]^2$. By the pigeonhole principle, there exists a $z\in[2N]^2$ such that $z=a+b$ in at least $|A|^2/4N^2$ ways. Consider $A' = A \cap (z-A)$ for such a $z$. Then
+				First, let us get rid of the $d>0$ clause.\\
+				Denote by $A+A$ the set $\{a+b : a,b\in A\} \subseteq [2N]^2$ (the \href{https://en.wikipedia.org/wiki/Minkowski_addition}{Minkowski sum} of the two sets) and by $x+A$ $\{x+a : a\in A\}$.\\
+				By the pigeonhole principle, there exists a $z\in[2N]^2$ such that $z=a+b$ for at least $|A|^2/4N^2$ pairs $(a,b)\in A^2$. Consider $A' = A \cap (z-A)$ for such a $z$. Then
 				\[ |A'| \ge \frac{|A|^2}{4N^2} \]
-				by the definition of $z$. Further, $A'$ is \emph{symmetric} about $z/2$, that is, $A' = z - A'$ (Why?). As a result, there is a correspondence between corners with positive $d$ and negative $d$ in $A'$. Further, if $A$ is corner-free, so is $A'$. By the cardinality bound on $A'$, it suffices to show that $|A'|=o(N^2)$.\\
+				by the definition of $z$. It is not too difficult to see that $A' = (z - A')$. As a result, there is a correspondence between corners with positive $d$ and negative $d$ in $A'$. Further, if $A$ is corner-free, so is $A'$. By the cardinality bound on $A'$, it suffices to show that $|A'|=o(N^2)$.\\
 				So, let us drop the $d > 0$ condition on corners and work with a corner-free $A$.\\
 
-				We construct a $3$-partite graph $G=(V,E)$. Let the three parts of $V$ be $H$, the set of horizontal lines in $[N]^2$, $V$, the set of vertical lines in $[N]^2$, and $D$, the set of line segments with slope $-1$ in $[2N]^2$.\\
-				Given $\ell$, $\ell'$ in distinct parts of the vertex set, let $\ell$ and $\ell'$ be adjacent if $\ell\cap\ell'\in A$. Triangles in this graph correspond to either corners or three lines all passing through a single vertex in $A$. Due to our assumption on $A$, each edge is in a unique triangle. The result then follows from \Cref{lemma: roth's theorem edge in unique triangle}.
+				We construct a $3$-partite graph $G$. Let the three parts of the vertex set $V$ be the set $H$ of horizontal lines in $[N]^2$, the set $V$ of vertical lines in $[N]^2$, and the set $D$ of lines with slope $-1$ in $[2N]^2$.\\
+				Given $\ell$, $\ell'$ in distinct parts of $V$, let $\ell$ and $\ell'$ be adjacent in $G$ iff $\ell\cap\ell'\in A$. Triangles in this graph correspond to either corners or three lines all passing through a single point (that is in $A$). However, there are no corners in $A$, so each edge is in a unique triangle. The result then follows from \Cref{lemma: roth's theorem edge in unique triangle}.
 			\end{proof}
 
-			Let us go back to the triangle counting lemma for a moment. Let $(V_1,V_2)$, $(V_2,V_3)$, and $(V_3,V_1)$ all be $\varepsilon$-regular pairs with densities $d_{12}$,$d_{23}$,$d_{13}>2\varepsilon$. In a random graph on $V_1\sqcup V_2\sqcup V_3$ vertices with edge probabilities $d_{ij}$ between $V_i$ and $V_j$, the expected number of triangles is $|V_1||V_2||V_3| d_{12}d_{23}d_{31}$.\\
-			Ideally, we would have a result that the number of triangles is indeed close to this quantity (so the graph behaves almost randomly, in a sense similar to Szemer\'{e}di's Regularity Lemma).\clearpage
+			Let us go back to the triangle counting lemma for a moment. Let $(V_1,V_2)$, $(V_2,V_3)$, and $(V_3,V_1)$ all be $\varepsilon$-regular pairs with densities $d_{12}$, $d_{23}$, $d_{13}>2\varepsilon$. A random graph on $V_1\sqcup V_2\sqcup V_3$ with edge probabilities $d_{ij}$ between $V_i$ and $V_j$ has an expected number of triangles of $|V_1||V_2||V_3| d_{12}d_{23}d_{31}$.\\
+			Ideally, we would have a result that the number of triangles is indeed to this quantity (so the graph behaves almost randomly, in a sense similar to that in Szemer\'{e}di's Regularity Lemma).\clearpage
 
 			\begin{ftheo}[Graph Counting Lemma]
-				Let $G$ be a graph on $n$ vertices and $H$ a graph on $[k]$. Suppose $V_1,\ldots,V_k\subseteq V(G)$ (with the $V_i$ pairwise-disjoint) such that $(V_i,V_j)$ is $\varepsilon$-regular whenever $ij\in E(H)$. Then,
+				Let $G$ be a graph on $n$ vertices and $H$ a graph on $[k]$. Let $V_1,\ldots,V_k\subseteq V(G)$ be pairwise-disjoint such that $(V_i,V_j)$ is $\varepsilon$-regular whenever $ij\in E(H)$. Then,
 				\[ \left|\{(v_1,\ldots,v_k) : v_i \in V_i \text{ and } \{v_1,\ldots,v_k\} \text{ form a copy of $H$ in $G$}\}\right| \]
-				is within $\varepsilon e(H)|V_1||V_2|\cdots|V_k|$ of the (expected) quantity
+				is within $\varepsilon e(H)|V_1||V_2|\cdots|V_k|$ of
 				\[ \prod_{i=1}^k |V_i| \prod_{ij\in E(H)} d(V_i,V_j),  \]
 				assuming that $\prod_{ij\in E(H)} d(V_i,V_j) > \varepsilon e(H)$.
 			\end{ftheo}
@@ -665,7 +666,7 @@
 					\label{eqn: 2.10}
 					\left| \Pr\left[ v_iv_j\in E(G) \text{ for all }E(H)\setminus\{1,2\} \right] - \prod_{\substack{ij\in H \\ ij\neq\{1,2\}}} d(V_i,V_j) \right| < \varepsilon(e(H) - 1),
 				\end{equation}
-				and \eqref{eqn: 2.8} follows on using the \href{https://en.wikipedia.org/wiki/Boole%27s_inequality}{union bound}. We shall prove that \eqref{eqn: 2.9} holds when we condition on the choices $v_i$ for $i>2$. Let
+				and \eqref{eqn: 2.8} follows from \eqref{eqn: 2.9} and \eqref{eqn: 2.10} on using the \href{https://en.wikipedia.org/wiki/Boole%27s_inequality}{union bound}. We shall prove that \eqref{eqn: 2.9} holds when we condition on the choices $v_i$ for $i>2$, and thus generally. Let
 				\[ A_j = \{ v_j \in V_j : \{v_j,v_i\} \in E(G) \text{ when } \{j,i\} \}\in E(H). \]
 				for $j = 1,2$. \Cref{eqn: 2.9} is then equivalent to
 				\begin{equation}
@@ -676,5 +677,11 @@
 				\[ \left| \frac{e(A_1,A_2)}{|A_1||A_2|} - d(V_1,V_2) \right| \le \varepsilon. \]
 				So,
 				\[ \frac{|V_1||V_2|}{|A_1||A_2|} \left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} d(V_1,V_2) \right| \le \varepsilon, \]
-				and \eqref{eqn: 2.11} easily follows. If $|A_1| < \varepsilon|V_1|$, then the above follows immediately anyway, so we are done.
+				and \eqref{eqn: 2.11} easily follows. If $|A_1| < \varepsilon|V_1|$, then the above follows immediately anyway, since
+				\begin{align*}
+					\left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} \right| &= \frac{|A_1||A_2|}{|V_1||V_2|} \left| \frac{e(A_1,A_2)}{|A_1||A_2|} - d(V_1,V_2) \right| \\
+					&= \frac{|A_1||A_2|}{|V_1||V_2|} \left| d(A_1,A_2) - d(V_1,V_2) \right| \\
+					&\le \frac{|A_1|}{|V_1|} < \varepsilon,
+				\end{align*}
+				so we are done.
 			\end{proof}
