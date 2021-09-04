@@ -538,20 +538,20 @@
 			Given $\mathcal{P}_k$, let $\mathcal{P}_{k+1}$ be the partition defined by \Cref{lemma: final step of szemeredi's regularity lemma}. Since the energy of any partition is bounded above by $1$, this process must terminate after at most $2/\varepsilon^5$ steps.\\
 			Further, since the size of the refined partition is bounded between quantities dependent solely on the old partition, the size of the final partition after termination of the above process is at most some quantity dependent only on $\varepsilon$ (this quantity might be massive\footnote{Unbelievably so. For example, $\varepsilon=1/8$ gives a bound of the order of $4\uparrow\uparrow 2^{15}$ (using \href{https://en.wikipedia.org/wiki/Knuths_up-arrow_notation}{Knuth's up-arrow notation}). It further turns out that such a massive tetration-type bound is necessary, as proved in \cite{Gowers1997}.}, but that is besides the point).\\
 
-		\subsubsection{Interesting corollaries}
+	\subsection{Some Corollaries of Szemer\'{e}di's Regularity Lemma}
 
-			In this section, we cover several interesting corollaries of \nameref{theo: szemeredi's regularity lemma}.\\
+		In this section, we cover several interesting corollaries of \nameref{theo: szemeredi's regularity lemma}.\\
 
-			Before we begin however, how do we process the regularity lemma? We typically begin with a ``cleaning'' of the graph as follows.
-			\begin{itemize}
-				\item Given $\varepsilon > 0$, get a partition as described in the lemma.
-				\item First, delete all edges between irregular pairs. This loses at most $(\varepsilon k^2) t^2 < \varepsilon n^2$ edges.
-				\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\eta t^2) < (\varepsilon/2)n^2$ edges.
-				\item Delete all edges inside the exceptional part $V_0$. This loses at most $(\varepsilon^2/2)n^2$ edges. 
-			\end{itemize}
-			All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$ (for $i\ne j$), then $d(V_i,V_j) \ge \varepsilon$.\\
+		Before we begin however, how do we process the regularity lemma? We typically begin with a ``cleaning'' of the graph as follows.
+		\begin{itemize}
+			\item Given $\varepsilon > 0$, get a partition as described in the lemma.
+			\item First, delete all edges between irregular pairs. This loses at most $(\varepsilon k^2) t^2 < \varepsilon n^2$ edges.
+			\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\eta t^2) < (\varepsilon/2)n^2$ edges.
+			\item Delete all edges inside the exceptional part $V_0$. This loses at most $(\varepsilon^2/2)n^2$ edges. 
+		\end{itemize}
+		All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$ (for $i\ne j$), then $d(V_i,V_j) \ge \varepsilon$.\\
 
-			Based on this, let us give a corollary of Szemer\'{e}di's Lemma.
+		\subsubsection{The graph counting and removal lemmas}
 
 			\begin{ftheo}[Triangle Counting Lemma]
 				\label{theo: triangle counting lemma}
@@ -583,63 +583,8 @@
 				So, we have lost $\le \varepsilon n^2$ edges in all. If there is a triangle remaining in the graph, it must come from a triple $(V_i,V_j,V_k)$ with all three pairs being $(\varepsilon/4)$-regular and density at least $\varepsilon/2$. We can then use the triangle counting lemma to conclude that there are at least $t^3 (\varepsilon/4)^3 (1 - \varepsilon/2) > n^3 (\varepsilon/8)^3 / M(\varepsilon)^3$. Letting $\delta$ to be the $1/6$ this quantity, we are done.
 			\end{proof}
 
-			Next, we describe Roth's Theorem. The result deals with a conjecture of Erd\H{o}s and Tur\'{a}n:
-			\begin{quote}
-				Given $\varepsilon > 0$ and $r\in\N$, there exists $N_0$ such that for all $N \ge N_0$, the following holds. If $A \subseteq [N]$ with $|A| \ge \varepsilon N$, then $A$ contains an arithmetic progression of length $r$. 
-			\end{quote}
-
-			Roth proved in the early 50s that the conjecture holds for $r=3$. Szemer\'{e}di proved in the early 70s that it holds for all $r$. In fact, Szemer\'{e}di had originally come up with the regularity lemma to prove this result (this is why it is a \emph{lemma}).
-
-			\begin{lemma}
-				\label{lemma: roth's theorem edge in unique triangle}
-				Suppose that every edge of $G_n$ is in exactly one triangle. Then, $e(G_n) = o(n^2)$.
-			\end{lemma}
-
-			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z/M$.\\
-			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z/M$ (Why?). \\
-			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a,c,b$ are in AP.\\
-			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z/M$.\\
-			This implies that any edge must be in a unique triangle.\\
-			By \Cref{lemma: roth's theorem edge in unique triangle}, $e(G) = o((3M)^2) = o(N^2)$. On the other hand, $e(G) = 3M|A|$. So, $3M|A| = o(N^2)$ and $|A| = o(N)$.
-
-			\begin{proof}[Proof of \Cref{lemma: roth's theorem edge in unique triangle}]
-				The number of triangles in $G_n$ is exactly $e(G_n)/3 = o(n^3)$. By the \nameref{theo: triangle removal lemma}, $G_n$ can be made triangle-free by removing $o(n^2)$ edges. However, we must remove at least $e(G_n)/3$ edges to make the graph triangle-free, so $e(G_n) = o(n^2)$.
-			\end{proof}
-
-			Inspired by this problem, a natural question to ask is: what is the maximum sized $A\subseteq[N]$ that is $3$-AP free?\\
-			Picking $A$ greedily gives $O(\sqrt{n})$ elements.\\
-			
-			It is possible to do better, as shown by \emph{Behrend's construction}.\\
-			The basic idea is that on a sphere, the midpoint of any two points does not lie on the sphere.\\
-			Consider the set $S = [k]^d\subseteq\R^d$ for some $k,d$. Observe that $\norm{x}^2 \le k^2 d$ for any point in $S$. By the pigeonhole principle, there is a (centered) sphere with at least $k^{d-2}/d$ of these points.\\
-			To get a subset $A$ from these points, project $x = (a_1,\ldots,a_d)$ to $\sum_{j=1}^d a_j (2k+1)^{j-1}$, thus converting it to an integer in base $(2k+1)$. Observe that if $x_1 \mapsto m_1$ and $x_2 \mapsto m_2$, then $(x_1 + x_2)/2 \mapsto (m_1 + m_2)/2$. As a result, if $X$ is a subset of $S$ on a single sphere, its projection by this map gives a $3$-AP free subset.\\
-			The maximum element by this projection is $k\sum_{i=0}^{d-1} (2k+1)^{i} = ((2k+1)^d - 1)/2$. Set $(2k+1)^d = 2N+1$. By the argument from before, there is a $3$-AP free set of size $k^{d-2}/d$.\\
-			This achieves a bound of
-			\[ \frac{N}{e^{c\sqrt{\log n}}} \]
-			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta>0$!\\
-
-			\begin{definition}[Corner]
-				An $A\subseteq[N]^2$ is said to have a \textbf{corner} if the points $(x,y)$, $(x+d,y)$, and $(x,y+d)$ are in $A$ for some $d>0$ and $x,y\in[N]$.
-			\end{definition}
-
-			\begin{ftheo}[No Corners Theorem]
-				\label{no corners theorem}
-				Suppose $A\subseteq[N]^2$ has no corners. Then $|A| = o(N^2)$.
-			\end{ftheo}
-			\begin{proof}
-				First, let us get rid of the $d>0$ clause.\\
-				Denote by $A+A$ the set $\{a+b : a,b\in A\} \subseteq [2N]^2$ (the \href{https://en.wikipedia.org/wiki/Minkowski_addition}{Minkowski sum} of the two sets) and by $x+A$ $\{x+a : a\in A\}$.\\
-				By the pigeonhole principle, there exists a $z\in[2N]^2$ such that $z=a+b$ for at least $|A|^2/4N^2$ pairs $(a,b)\in A^2$. Consider $A' = A \cap (z-A)$ for such a $z$. Then
-				\[ |A'| \ge \frac{|A|^2}{4N^2} \]
-				by the definition of $z$. It is not too difficult to see that $A' = (z - A')$. As a result, there is a correspondence between corners with positive $d$ and negative $d$ in $A'$. Further, if $A$ is corner-free, so is $A'$. By the cardinality bound on $A'$, it suffices to show that $|A'|=o(N^2)$.\\
-				So, let us drop the $d > 0$ condition on corners and work with a corner-free $A$.\\
-
-				We construct a $3$-partite graph $G$. Let the three parts of the vertex set $V$ be the set $H$ of horizontal lines in $[N]^2$, the set $V$ of vertical lines in $[N]^2$, and the set $D$ of lines with slope $-1$ in $[2N]^2$.\\
-				Given $\ell$, $\ell'$ in distinct parts of $V$, let $\ell$ and $\ell'$ be adjacent in $G$ iff $\ell\cap\ell'\in A$. Triangles in this graph correspond to either corners or three lines all passing through a single point (that is in $A$). However, there are no corners in $A$, so each edge is in a unique triangle. The result then follows from \Cref{lemma: roth's theorem edge in unique triangle}.
-			\end{proof}
-
-			Let us go back to the triangle counting lemma for a moment. Let $(V_1,V_2)$, $(V_2,V_3)$, and $(V_3,V_1)$ all be $\varepsilon$-regular pairs with densities $d_{12}$, $d_{23}$, $d_{13}>2\varepsilon$. A random graph on $V_1\sqcup V_2\sqcup V_3$ with edge probabilities $d_{ij}$ between $V_i$ and $V_j$ has an expected number of triangles of $|V_1||V_2||V_3| d_{12}d_{23}d_{31}$.\\
-			Ideally, we would have a result that the number of triangles is indeed to this quantity (so the graph behaves almost randomly, in a sense similar to that in Szemer\'{e}di's Regularity Lemma).\clearpage
+			Let $(V_1,V_2)$, $(V_2,V_3)$, and $(V_3,V_1)$ all be $\varepsilon$-regular pairs with densities $d_{12}, d_{23}, d_{13}>2\varepsilon$. A random graph on $V_1\sqcup V_2\sqcup V_3$ with edge probabilities $d_{ij}$ between $V_i$ and $V_j$ has an expected number of triangles of $|V_1||V_2||V_3| d_{12}d_{23}d_{31}$.\\
+			Ideally, we would have a result that the number of triangles is indeed to this quantity (so the graph behaves almost randomly, in a sense similar to that in Szemer\'{e}di's Regularity Lemma).
 
 			\begin{ftheo}[Graph Counting Lemma]
 				\label{theo: graph counting lemma}
@@ -687,24 +632,83 @@
 				so we are done.
 			\end{proof}
 
-			Similarly, we also have the following.
+			The generalized version of the triangle removal lemma is the following.
 
 			\begin{ftheo}[Graph Removal Lemma]
 				Given $\varepsilon>0$ and any graph $H$, there exists $\delta$ (depending only on $\varepsilon$) such that for $n\gg 0$, any graph $G_n$ with at most $\delta n^3$ triangles can be made triangle-free by deleting at most $\varepsilon n^{V(H)}$ edges.
 			\end{ftheo}
 
+		\subsubsection{Roth's Theorem and Corners}
+
+			Next, we describe Roth's Theorem. The result deals with a conjecture of Erd\H{o}s and Tur\'{a}n:
+			\begin{quote}
+				Given $\varepsilon > 0$ and $r\in\N$, there exists $N_0$ such that for all $N \ge N_0$, the following holds. If $A \subseteq [N]$ with $|A| \ge \varepsilon N$, then $A$ contains an arithmetic progression of length $r$. 
+			\end{quote}
+
+			Roth proved in the early 50s that the conjecture holds for $r=3$. Szemer\'{e}di proved in the early 70s that it holds for all $r$. In fact, Szemer\'{e}di had originally come up with the regularity lemma to prove this result (this is why it is a \emph{lemma}).
+
+			\begin{flem}
+				\label{lemma: roth's theorem edge in unique triangle}
+				Suppose that every edge of $G_n$ is in exactly one triangle. Then, $e(G_n) = o(n^2)$.
+			\end{flem}
+
+			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z/M$.\\
+			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z/M$ (Why?). \\
+			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a,c,b$ are in AP.\\
+			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z/M$.\\
+			This implies that any edge must be in a unique triangle.\\
+			By \Cref{lemma: roth's theorem edge in unique triangle}, $e(G) = o((3M)^2) = o(N^2)$. On the other hand, $e(G) = 3M|A|$. So, $3M|A| = o(N^2)$ and $|A| = o(N)$.
+
+			\begin{proof}[Proof of \Cref{lemma: roth's theorem edge in unique triangle}]
+				The number of triangles in $G_n$ is exactly $e(G_n)/3 = o(n^3)$. By the \nameref{theo: triangle removal lemma}, $G_n$ can be made triangle-free by removing $o(n^2)$ edges. However, we must remove at least $e(G_n)/3$ edges to make the graph triangle-free, so $e(G_n) = o(n^2)$.
+			\end{proof}
+
+			Inspired by this problem, a natural question to ask is: what is the maximum sized $A\subseteq[N]$ that is $3$-AP free?\\
+			Picking $A$ greedily gives $O(\sqrt{n})$ elements.\\
+			
+			It is possible to do better, as shown by \emph{Behrend's construction}.\\
+			The basic idea is that on a sphere, the midpoint of any two points does not lie on the sphere.\\
+			Consider the set $S = [k]^d\subseteq\R^d$ for some $k,d$. Observe that $\norm{x}^2 \le k^2 d$ for any point in $S$. By the pigeonhole principle, there is a (centered) sphere with at least $k^{d-2}/d$ of these points.\\
+			To get a subset $A$ from these points, project $x = (a_1,\ldots,a_d)$ to $\sum_{j=1}^d a_j (2k+1)^{j-1}$, thus converting it to an integer in base $(2k+1)$. Observe that if $x_1 \mapsto m_1$ and $x_2 \mapsto m_2$, then $(x_1 + x_2)/2 \mapsto (m_1 + m_2)/2$. As a result, if $X$ is a subset of $S$ on a single sphere, its projection by this map gives a $3$-AP free subset.\\
+			The maximum element by this projection is $k\sum_{i=0}^{d-1} (2k+1)^{i} = ((2k+1)^d - 1)/2$. Set $(2k+1)^d = 2N+1$. By the argument from before, there is a $3$-AP free set of size $k^{d-2}/d$.\\
+			This achieves a bound of
+			\[ \frac{N}{e^{c\sqrt{\log n}}} \]
+			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta>0$!\\
+
+			\begin{definition}[Corner]
+				An $A\subseteq[N]^2$ is said to have a \textbf{corner} if the points $(x,y)$, $(x+d,y)$, and $(x,y+d)$ are in $A$ for some $d>0$ and $x,y\in[N]$.
+			\end{definition}
+
+			\begin{ftheo}[No Corners Theorem]
+				\label{no corners theorem}
+				Suppose $A\subseteq[N]^2$ has no corners. Then $|A| = o(N^2)$.
+			\end{ftheo}
+			\begin{proof}
+				First, let us get rid of the $d>0$ clause.\\
+				Denote by $A+A$ the set $\{a+b : a,b\in A\} \subseteq [2N]^2$ (the \href{https://en.wikipedia.org/wiki/Minkowski_addition}{Minkowski sum} of the two sets) and by $x+A$ $\{x+a : a\in A\}$.\\
+				By the pigeonhole principle, there exists a $z\in[2N]^2$ such that $z=a+b$ for at least $|A|^2/4N^2$ pairs $(a,b)\in A^2$. Consider $A' = A \cap (z-A)$ for such a $z$. Then
+				\[ |A'| \ge \frac{|A|^2}{4N^2} \]
+				by the definition of $z$. It is not too difficult to see that $A' = (z - A')$. As a result, there is a correspondence between corners with positive $d$ and negative $d$ in $A'$. Further, if $A$ is corner-free, so is $A'$. By the cardinality bound on $A'$, it suffices to show that $|A'|=o(N^2)$.\\
+				So, let us drop the $d > 0$ condition on corners and work with a corner-free $A$.\\
+
+				We construct a $3$-partite graph $G$. Let the three parts of the vertex set $V$ be the set $H$ of horizontal lines in $[N]^2$, the set $V$ of vertical lines in $[N]^2$, and the set $D$ of lines with slope $-1$ in $[2N]^2$.\\
+				Given $\ell$, $\ell'$ in distinct parts of $V$, let $\ell$ and $\ell'$ be adjacent in $G$ iff $\ell\cap\ell'\in A$. Triangles in this graph correspond to either corners or three lines all passing through a single point (that is in $A$). However, there are no corners in $A$, so each edge is in a unique triangle. The result then follows from \Cref{lemma: roth's theorem edge in unique triangle}.
+			\end{proof}
+
+
+		\subsubsection{A weaker version of the Erd\H{o}s-Stone-Simonovits Theorem}
+
 			Next, we shall prove a slightly weaker version of the \nameref{theo: erdos-stone v2} using \nameref{theo: szemeredi's regularity lemma}.
 
 			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 3]
-				Fix $t\in\N$ and $\varepsilon>0$. For $n\gg 0$, if $G_n$ is $K_{r+1}(t)$-free,\footnotemark then
+				Fix $t\in\N$ and $\varepsilon>0$. For $n\gg 0$, if $G_n$ is $K_{r+1}(t)$-free,\footnotemark  then
 				\[ e(G_n) \le \left( 1 - \frac{1}{r} \right) \frac{n^2}{2} + \varepsilon n^2. \]
 			\end{ftheo}
 			\footnotetext{This is the complete $(r+1)$-partite graph with $t$ vertices in each part, that is, $T_{r+1}(t(r+1))$.}
 
-			This is weaker than the original result we saw since here, $t$ is fixed, and as a result cannot grow to the $\log n$ estimate we gave earlier.
+			This is weaker than the original result we saw since here, $t$ is fixed and so cannot grow to the $\log n$ estimate we gave earlier.
 
-			\begin{proof}[Alternate proof of \nameref{theo: erdos-stone v2}]
-
+			\begin{proof}
 				Suppose $e(G_n) > (1 - 1/r) n^2/2 + \varepsilon n^2$ edges.\\
 				Let $\delta>0$ which we shall fix later. By Szemer\'{e}di's regularity lemma, we get a partition $(V_0,V_1,\ldots,V_k)$ such that $|V_0| \le \delta n$, $|V_i| = \ell$ (for some $\ell$) for $1\le i\le k$, and at most $\delta k^2$ of the pairs are $\delta$-irregular.\\
 				`Clean' the graph by deleting all edges within the $V_i$ (losing $\le \ell^2k/2$ edges), edges adjacent to $V_0$ (losing $\le \delta n^2$ edges), edges in irregular pairs (losing $\le \delta k^2\ell^2$ edges), and edges between pairs of density less than $\delta$ (losing $\le \ell\delta (k^2/2)$ edges).\\
@@ -721,9 +725,11 @@
 				then there are several copies of $K_{r+1}$ in $G$, completing the proof.
 			\end{proof}
 
+		\subsubsection{An application in computer science}
+
 			Now, we give a delightful application from computer science.\\
 			Suppose we are given a graph $G_n$ and we wish to check (algorithmically) whether $G$ has any triangles. An easy way to do this is to iterate through all triples and check if any of them form a triangle, which takes $\mathcal{O}(n^3)$ time.\\
-			We give a paradigm due to Shafi Goldwasser and Madhu Sudan. We want to come up with an algorithm that takes a \emph{constant} number of verifications, and still returns a reasonable output. It is clearly impossible to return the answer correctly all the time. The output we desire is such that with high probability,
+			In this context, we give a paradigm due to Shafi Goldwasser and Madhu Sudan. We want to come up with an algorithm that takes a \emph{constant} number of verifications, and still returns a reasonable output. It is clearly impossible to return the answer correctly all the time. The output we desire is such that with high probability,
 			\begin{itemize}
 				\item if $G_n$ has no triangles, our output is correct.
 				\item if $G_n$ has triangles and we output otherwise, then $G_n$ must be ``close'' to triangle-free.
