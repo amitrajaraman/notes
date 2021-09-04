@@ -375,7 +375,7 @@ We call a walk $\tilde{X}$ on $G$ \textit{rapidly mixing} if there exists a poly
 
 \begin{fdef}[Rapidly Mixing Random Walks]
 \label{def: rapidly mixing random walks}
-	Let $(G_i)_{i\in\N}$ be a sequence of graphs where $G_i$ has $n_i$ vertices and $n_i\to\infty$. We say that the simple random walks on $G_1,G_2,\ldots$ are \textit{randomly mixing} if there is a polynomial $f$ (depending only on the sequence $(G_i)$) such that if $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n_i)\log(1/\varepsilon)$, then $d(\tilde{X_i},t)\leq\varepsilon$ whenever $\tilde{X_i}$ is a simple random walk on $G_i$.
+	Let $(G_i)_{i\in\N}$ be a sequence of graphs where $G_i$ has $n_i$ vertices and $n_i\to\infty$. We say that the simple random walks on $G_1,G_2,\ldots$ are \textit{rapidly mixing} if there is a polynomial $f$ (depending only on the sequence $(G_i)$) such that if $0<\varepsilon<\frac{1}{3}$ and $t\geq f(\log n_i)\log(1/\varepsilon)$, then $d(\tilde{X_i},t)\leq\varepsilon$ whenever $\tilde{X_i}$ is a simple random walk on $G_i$.
 \end{fdef}
 
 There are some issues that arise when we want to synthesize a rapidly mixing walk. For example, suppose we have a random walk on $[-1,1]^n$ and we somehow find ourselves near one of the corners. Then the probability of leaving the corner is extremely low (of the order of $2^{-n}$) at each step, which would greatly hinder the speed of convergence.

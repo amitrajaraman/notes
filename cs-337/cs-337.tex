@@ -238,6 +238,70 @@
 			In \textbf{bootstrap sampling}, we repeatedly sample observations from a dataset with replacement. Given dataset $\mathcal{D}_b$, we repeatedly choose a $V_b$, train on $\mathcal{D}_b \setminus V_b$, then test on $V_b$.\\
 			So, the training set is that we use to actually train the algorithm. $V_b$ is the \emph{validation} or \emph{development} set, and is used for model selection and tuning hyperparameters. The test/evaluation set is that we use for testing finally.
 
+\section{Classification}
+
+	Suppose we wish to intelligently classify emails into two categories depending on whether they are spam or not. How do we learn a method to classify an email as spam?
+
+	It is not similar to regression where the function maps to $\R$, but we instead map to a discrete set $\{c_1,c_2,\ldots,c_k\}$.\\
+	The simple hack of mapping $c_i$ to $i$, say, and then performing usual regression. However, the ordering of the $c_i$ influences it significantly then, which is very undesirable, since the ordering doesn't mean anything.\\
+	A better idea would be to take $c_i$ as
+	\[ y_i = e_i \in \R^k, \]
+	to encode the idea that the various components are `independent'.\\
+	We present these ideas over the next few sections.
+
+	\subsection{Perceptron Classification}
+
+		\subsubsection{The basic idea}
+
+			Rather than mapping directly to $\mathcal{C} = \{c_1,\ldots,c_k\}$, we could map to some intermediate space which in turn maps to $\mathcal{C}$ (or a sequence of spaces and functions, the last of which is $\mathcal{C}$).\\
+
+			First, consider the binary classification problem, where $\mathcal{C} = \{-1,1\}$. Let $\mathcal{D} = \{ \langle x_i , y_i \rangle : 1 \le i \le m \}$, where each $y_i \in \{-1,1\}$. The ordering does not matter then (both orderings are equivalent), so we can learn a linear classifier. Suppose $f(x) = w^\top \phi(x)$.\\
+			Given a new input $x$, we predict the new output as $1$ if $f(x) \ge 0$ and $-1$ if $f(x) < 0$. So, we want
+			\[ y\cdot w^\top \phi(x) \ge 0. \]
+
+			We learn $w$ as follows. Starting with $w^{(0)} = 0$, we iterate over the dataset. If a point is correctly classified, we leave $w^{(r+1)} = w^{(r)}$. Otherwise, we marginally correct the weights by performing
+			\[ w^{(r+1)} = w^{(r)} + \eta y_{r+1}\phi(x_{r+1}), \]
+			for some (typically small) learning rate $\eta$.\\
+			Observe that the quantity $w^\top \phi(x)$ is the distance of $x_r$ from the hyperplane $\{x : w^\top\phi(x) = 0\}$.\\
+			So,
+			\[ y_{r+1}(w^{(r+1)})^\top \phi(x_r) = y_{r+1} (w^{(r)})^\top\phi(x_{r+1}) + \eta\norm{\phi(x_{r+1})}^2. \]
+			This makes the quantity $y_{r+1} w^\top \phi(x_r)$ less negative. We repeat the above process until $y_iw^\top\phi(x_i) \ge 0$ for all $i$ (or until we terminate). \\
+			This \textbf{perceptron} algorithm does not attempt to find the best separating hyperplane, it merely tries to find any separating hyperplane -- it need not provide any `breathing room' for the inputs. This is addressed by support vector machines, which we shall read later.\\
+			One issue with perceptron classification is that it does not acknowledge how much the estimate differs from the expected $\pm 1$ -- we only care that $yw^\top\phi(x) \ge 0$, not how positive it is.
+
+		\subsubsection{Convergence}
+
+			Now, suppose there exists some $u$ such that for all $i$, $y_i u^\top \phi(x_i) \ge 0$. It turns out that the perceptron update rule will then converge in a finite number of iterations. That is, perceptrons can model linearly separable functions.
+			\begin{proof}
+				Since we can normalize $u$ suppose that $\norm{u} = 1$. We can also normalize the dataset itself, so assume $\norm{\phi(x_i)} \le 1$ for all $i$. \\
+				Define the \emph{margin} $\gamma = \min_i |u^\top x_i|$.\\
+				Further make the assumption that $\eta = 1$ (the general case follows similarly.) \\
+				We claim that in at most $t = 1/\gamma^2$ updates, we will have $y_i {w^{(t)}}^\top x_i > 0$ for all $i$.\\
+				If we update $w^{(k)}$ to $w^{(k+1)} = w^{(k)} + y\phi(x)$ on reading the input $\langle x,y\rangle$,
+				\[ {w^{(k+1)}}^\top u =  (w^{(k)}+y\phi(x))^\top u \ge {w^{(k)}}^\top u + \gamma. \]
+				and
+				\[ \norm{w^{(k+1)}}^2 = \norm{w^{(k)} + y\phi(x)}^2 < \norm{w^{(k)}}^2 + 1. \]
+				As a result, after $k$ updates,
+				\[ {w^{(k)}}^\top u \ge k\gamma \text{ and } \norm{w^{(k)}}^2 \le k \]
+				so
+				\[ \sqrt{k} \ge \underbrace{\norm{w^{(k)}} \ge u^\top w^{(k)}}_{\text{Using Cauchy-Schwarz}} \ge k\gamma. \]
+				This gives $k \le 1/\gamma^2$, completing the proof.
+			\end{proof}
+
+		\subsubsection{Viewing the algorithm with a loss function}
+
+			Consider the loss function
+			\[ L_P(w^\top(\phi(x)),y) = \max\{ 0 , -yw^\top\phi(x) \}. \]
+			We can then apply the \emph{stochastic gradient descent} algorithm. Let $f_w(x) = w^\top\phi(x)$ and choose some example $\langle x_t,y_t\rangle$. We then compute the gradient of the loss of $f_w(x_t)$ with respect to $w$, then update the weight vector using it as
+			\[ w \gets w - \nabla_w L(f_w(x_t),y). \]
+			Perceptron update is then just stochastic gradient descent on this ``hinge loss''.\\
+			Similarly, we could use different loss functions.\\
+
+			Now, what $w$ should we use at the time of testing? Using the final $w$ is not always a good idea due to overfitting and the stochastic nature of the algorithm.\\
+			So, we usually use an intermediate $w$. The \emph{voted perceptron} algorithm counts votes for weight vectors tallying how many examples they have correctly classified. The \emph{averaged perceptron} algorithm uses the averaged weight vector (not necessarily the average of all weight vectors, but a suitable subset).
+
+
+
 
 
 % \bibliographystyle{alpha}

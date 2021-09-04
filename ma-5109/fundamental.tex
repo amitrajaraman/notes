@@ -441,12 +441,12 @@
 
 			\begin{lemma}
 				\label{lemma: szemeredi lemma energy increases on partitioning}
-				If $U$,$W$ are disjoint subsets of $V$ and $\mathcal{U}$,$\mathcal{W}$ are partitions of $U$,$W$ respectively, then
+				If $U,W$ are disjoint subsets of $V$ and $\mathcal{U},\mathcal{W}$ are partitions of $U,W$ respectively, then
 				\[ q(\mathcal{U},\mathcal{W}) \ge q(U,W). \]
 			\end{lemma}
 
 			\begin{proof}
-				Independently pick $u$,$w$ uniformly randomly from $V$. Define the random variable
+				Independently pick $u,w$ uniformly randomly from $V$. Define the random variable
 				\[ Z(u,w) =
 				\begin{cases}
 					d(U', W'), & u \in U' \in \mathcal{U}, w \in W' \in \mathcal{W}, \\
@@ -472,7 +472,7 @@
 
 			\begin{lemma}
 				\label{lemma: szemeredi lemma energy increases for irregular}
-				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U$,$W$ respectively such that
+				If $(U,W)$ is not $\varepsilon$-regular, there is a partition $\mathcal{U} = \{U_1,U_2\}$ and $\mathcal{W} = \{W_1,W_2\}$ of $U,W$ respectively such that
 				\[ q(\mathcal{U},\mathcal{W}) > q(U,W) + \varepsilon^4 \frac{|U||W|}{n^2}. \]
 			\end{lemma}
 			\begin{proof}
@@ -555,7 +555,7 @@
 
 			\begin{ftheo}[Triangle Counting Lemma]
 				\label{theo: triangle counting lemma}
-				Suppose $V_1$,$V_2$,$V_3$ forms a pairwise $\varepsilon$-regular partition of the vertex set of graph $G_n$, and that $d(V_i,V_j) \ge d$ (for some $d\ge 2\varepsilon$). Then, there are at least 
+				Suppose $V_1,V_2,V_3$ forms a pairwise $\varepsilon$-regular partition of the vertex set of graph $G_n$, and that $d(V_i,V_j) \ge d$ (for some $d\ge 2\varepsilon$). Then, there are at least 
 				\[ \varepsilon^2(1-2\varepsilon)(d-\varepsilon)|V_1||V_2||V_3| \]
 				triangles $xyz$ with $x\in V_1$, $y\in V_2$, $z\in V_3$. 
 			\end{ftheo}
@@ -597,7 +597,7 @@
 
 			How is this related to Roth's Theorem? Given $N\gg 0$ and $A\subseteq[N]$, suppose $A$ is $3$-AP free. Let $M = 2N+1$ and construct a $3$-partite graph $G$ whose three parts $X$, $Y$, and $Z$ are copies of $\Z/M$.\\
 			For $x\in X$, $y\in Y$, and $z\in Z$, keep an edge from $x$ to $y$ iff $y-x \in A$, $y$ to $z$ iff $z-y \in A$, and $z$ to $x$ iff $(z-x)/2 \in A$. The final part is well-defined since $2$ is invertible in $\Z/M$ (Why?). \\
-			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a$,$c$,$b$ are in AP.\\
+			Observe that if $xyz$ is a triangle with $a = y-x$, $b = z-y$, and $2c = z-x$, then $a+b=2c$, so $a,c,b$ are in AP.\\
 			Since $a$, $b$, and $c$ are all in $A$, then by our assumption we must have $a=b=c$, $y-x=z-y=(z-x)/2$, and so $x$, $y$, $z$ must be in AP in $\Z/M$.\\
 			This implies that any edge must be in a unique triangle.\\
 			By \Cref{lemma: roth's theorem edge in unique triangle}, $e(G) = o((3M)^2) = o(N^2)$. On the other hand, $e(G) = 3M|A|$. So, $3M|A| = o(N^2)$ and $|A| = o(N)$.
@@ -619,7 +619,7 @@
 			for some constant $c$. This is $\Omega(N^{1-\delta})$ for any (fixed) $\delta>0$!\\
 
 			\begin{definition}[Corner]
-				An $A\subseteq[N]^2$ is said to have a \textbf{corner} if the points $(x,y)$, $(x+d,y)$, and $(x,y+d)$ are in $A$ for some $d>0$ and $x$,$y\in[N]$.
+				An $A\subseteq[N]^2$ is said to have a \textbf{corner} if the points $(x,y)$, $(x+d,y)$, and $(x,y+d)$ are in $A$ for some $d>0$ and $x,y\in[N]$.
 			\end{definition}
 
 			\begin{ftheo}[No Corners Theorem]
@@ -642,7 +642,8 @@
 			Ideally, we would have a result that the number of triangles is indeed to this quantity (so the graph behaves almost randomly, in a sense similar to that in Szemer\'{e}di's Regularity Lemma).\clearpage
 
 			\begin{ftheo}[Graph Counting Lemma]
-				Let $G$ be a graph on $n$ vertices and $H$ a graph on $[k]$. Let $V_1,\ldots,V_k\subseteq V(G)$ be pairwise-disjoint such that $(V_i,V_j)$ is $\varepsilon$-regular whenever $ij\in E(H)$. Then,
+				\label{theo: graph counting lemma}
+				Let $G$ be a graph on $n$ vertices and $H$ a graph on $[k]$. Let $V_1,\ldots,V_k\subseteq V(G)$ such that $(V_i,V_j)$ is $\varepsilon$-regular whenever $ij\in E(H)$. Then,
 				\[ \left|\{(v_1,\ldots,v_k) : v_i \in V_i \text{ and } \{v_1,\ldots,v_k\} \text{ form a copy of $H$ in $G$}\}\right| \]
 				is within $\varepsilon e(H)|V_1||V_2|\cdots|V_k|$ of
 				\[ \prod_{i=1}^k |V_i| \prod_{ij\in E(H)} d(V_i,V_j),  \]
@@ -673,7 +674,7 @@
 					\label{eqn: 2.11}
 					\left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} \right| \le \varepsilon.
 				\end{equation}
-				We claim that \eqref{eqn: 2.11} holds for all $A_1$,$A_2$. If $|A_1| \ge \varepsilon|V_1|$ and $|A_2|\ge\varepsilon|V_2|$, then $\varepsilon$-regularity implies that $|d(A_1,A_2) - d(V_1,V_2)| \le \varepsilon$, that is,
+				We claim that \eqref{eqn: 2.11} holds for all $A_1,A_2$. If $|A_1| \ge \varepsilon|V_1|$ and $|A_2|\ge\varepsilon|V_2|$, then $\varepsilon$-regularity implies that $|d(A_1,A_2) - d(V_1,V_2)| \le \varepsilon$, that is,
 				\[ \left| \frac{e(A_1,A_2)}{|A_1||A_2|} - d(V_1,V_2) \right| \le \varepsilon. \]
 				So,
 				\[ \frac{|V_1||V_2|}{|A_1||A_2|} \left| \frac{e(A_1,A_2)}{|V_1||V_2|} - d(V_1,V_2) \frac{|A_1||A_2|}{|V_1||V_2|} d(V_1,V_2) \right| \le \varepsilon, \]
@@ -685,3 +686,58 @@
 				\end{align*}
 				so we are done.
 			\end{proof}
+
+			Similarly, we also have the following.
+
+			\begin{ftheo}[Graph Removal Lemma]
+				Given $\varepsilon>0$ and any graph $H$, there exists $\delta$ (depending only on $\varepsilon$) such that for $n\gg 0$, any graph $G_n$ with at most $\delta n^3$ triangles can be made triangle-free by deleting at most $\varepsilon n^{V(H)}$ edges.
+			\end{ftheo}
+
+			Next, we shall prove a slightly weaker version of the \nameref{theo: erdos-stone v2} using \nameref{theo: szemeredi's regularity lemma}.
+
+			\begin{ftheo}[Erd\H{o}s-Stone-Simonovits Theorem, Version 3]
+				Fix $t\in\N$ and $\varepsilon>0$. For $n\gg 0$, if $G_n$ is $K_{r+1}(t)$-free,\footnotemark then
+				\[ e(G_n) \le \left( 1 - \frac{1}{r} \right) \frac{n^2}{2} + \varepsilon n^2. \]
+			\end{ftheo}
+			\footnotetext{This is the complete $(r+1)$-partite graph with $t$ vertices in each part, that is, $T_{r+1}(t(r+1))$.}
+
+			This is weaker than the original result we saw since here, $t$ is fixed, and as a result cannot grow to the $\log n$ estimate we gave earlier.
+
+			\begin{proof}[Alternate proof of \nameref{theo: erdos-stone v2}]
+
+				Suppose $e(G_n) > (1 - 1/r) n^2/2 + \varepsilon n^2$ edges.\\
+				Let $\delta>0$ which we shall fix later. By Szemer\'{e}di's regularity lemma, we get a partition $(V_0,V_1,\ldots,V_k)$ such that $|V_0| \le \delta n$, $|V_i| = \ell$ (for some $\ell$) for $1\le i\le k$, and at most $\delta k^2$ of the pairs are $\delta$-irregular.\\
+				`Clean' the graph by deleting all edges within the $V_i$ (losing $\le \ell^2k/2$ edges), edges adjacent to $V_0$ (losing $\le \delta n^2$ edges), edges in irregular pairs (losing $\le \delta k^2\ell^2$ edges), and edges between pairs of density less than $\delta$ (losing $\le \ell\delta (k^2/2)$ edges).\\
+				The number of deleted edges is thus at most $4\delta n^2$. As a result, the graph after purification still has $>(1-1/r)n^2/2 + (\varepsilon - 4\delta)n^2$ edges. \\
+
+				Let $H$ be a graph on $[k]$ with vertex set $\{V_i : 1 \le i \le k\}$, and $V_i V_j \in E(H)$ iff $(V_i,V_j)$ is $(\varepsilon/8)$-regular with density at least $\varepsilon/4$.\\
+				By the pigeonhole principle, since $e(V_i,V_j) \le \ell^2$
+				\[ e(H) \ge \left( 1 - \frac{1}{r} + \varepsilon \right) \frac{n^2}{2\ell^2} \ge \left( 1 - \frac{1}{r} + \varepsilon \right) \frac{k^2}{2} . \]
+				By Tur\'{a}n's Theorem, $H$ contains $K_{r+1}$. Say $(V_1,\ldots,V_{r+1})$ form this $K_{r+1}$. All $(V_i,V_j)$ are $(\varepsilon/8)$-regular with density at least $\varepsilon/4$.\\
+				We now use the \nameref{theo: graph counting lemma}. Take $F = K_{r+1}(t)$. The number of copies of $F$ in $(V_1,\ldots,V_{r+1})$ is at least
+				\[ \prod_{i=1}^{r+1} |V_i|^t \left((\varepsilon/4)^{t^2\binom{r+1}{2}} - \delta t^2 \binom{r+1}{2}\right). \]
+				So, if
+				\[ \delta \le \frac{(\varepsilon/4)^{t^2\binom{r+1}{2}}}{2t^2\binom{r+1}{2}},  \]
+				then there are several copies of $K_{r+1}$ in $G$, completing the proof.
+			\end{proof}
+
+			Now, we give a delightful application from computer science.\\
+			Suppose we are given a graph $G_n$ and we wish to check (algorithmically) whether $G$ has any triangles. An easy way to do this is to iterate through all triples and check if any of them form a triangle, which takes $\mathcal{O}(n^3)$ time.\\
+			We give a paradigm due to Shafi Goldwasser and Madhu Sudan. We want to come up with an algorithm that takes a \emph{constant} number of verifications, and still returns a reasonable output. It is clearly impossible to return the answer correctly all the time. The output we desire is such that with high probability,
+			\begin{itemize}
+				\item if $G_n$ has no triangles, our output is correct.
+				\item if $G_n$ has triangles and we output otherwise, then $G_n$ must be ``close'' to triangle-free.
+			\end{itemize}
+			Such a randomized constant time algorithm is known as a \textbf{property tester}. The question we wish to answer is: which graph properties admit such testers?\\
+			For starters, does triangle-freeness admit a property tester? It turns out that it \emph{does}! The algorithm is in fact very simple.
+
+			\begin{itemize}
+				\item Pick a random triple $(x,y,z)$ and check if it forms a triangle.
+				\item If yes, return ``not triangle-free''.
+				\item If no, return ``$\varepsilon$-close to triangle-free'', where at most $\varepsilon n^2$ edges need to be deleted to remove all triangles.
+			\end{itemize}
+
+			Why is this a tester?\\
+			By the \nameref{theo: triangle removal lemma}, if $G_n$ is $\varepsilon$-close to being triangle-free, then $G_n$ has at most $\delta n^3$ triangles for some $\delta$. That is,
+			\[ \Pr[xyz \text{ is not a triangle}] \ge 1 - \frac{\delta n^3}{\binom{n}{3}} \ge 1 - 6\delta, \]
+			so our algorithm is indeed a property tester.
