@@ -714,7 +714,7 @@
 				`Clean' the graph by deleting all edges within the $V_i$ (losing $\le \ell^2k/2$ edges), edges adjacent to $V_0$ (losing $\le \delta n^2$ edges), edges in irregular pairs (losing $\le \delta k^2\ell^2$ edges), and edges between pairs of density less than $\delta$ (losing $\le \ell\delta (k^2/2)$ edges).\\
 				The number of deleted edges is thus at most $4\delta n^2$. As a result, the graph after purification still has $>(1-1/r)n^2/2 + (\varepsilon - 4\delta)n^2$ edges. \\
 
-				Let $H$ be a graph on $[k]$ with vertex set $\{V_i : 1 \le i \le k\}$, and $V_i V_j \in E(H)$ iff $(V_i,V_j)$ is $(\varepsilon/8)$-regular with density at least $\varepsilon/4$.\\
+				Let $H$ be a graph with vertex set $\{V_i : 1 \le i \le k\}$, and $V_i V_j \in E(H)$ iff $(V_i,V_j)$ is $(\varepsilon/8)$-regular with density at least $\varepsilon/4$.\\
 				By the pigeonhole principle, since $e(V_i,V_j) \le \ell^2$
 				\[ e(H) \ge \left( 1 - \frac{1}{r} + \varepsilon \right) \frac{n^2}{2\ell^2} \ge \left( 1 - \frac{1}{r} + \varepsilon \right) \frac{k^2}{2} . \]
 				By Tur\'{a}n's Theorem, $H$ contains $K_{r+1}$. Say $(V_1,\ldots,V_{r+1})$ form this $K_{r+1}$. All $(V_i,V_j)$ are $(\varepsilon/8)$-regular with density at least $\varepsilon/4$.\\
