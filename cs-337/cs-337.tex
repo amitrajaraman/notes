@@ -293,16 +293,53 @@
 			Consider the loss function
 			\[ L_P(w^\top(\phi(x)),y) = \max\{ 0 , -yw^\top\phi(x) \}. \]
 			We can then apply the \emph{stochastic gradient descent} algorithm. Let $f_w(x) = w^\top\phi(x)$ and choose some example $\langle x_t,y_t\rangle$. We then compute the gradient of the loss of $f_w(x_t)$ with respect to $w$, then update the weight vector using it as
-			\[ w \gets w - \nabla_w L(f_w(x_t),y). \]
-			Perceptron update is then just stochastic gradient descent on this ``hinge loss''.\\
+			\[ w \gets w - \nabla_w L_P(f_w(x_t),y). \]
+			Perceptron update is then just stochastic gradient descent on this ``hinge loss'' function.\\
 			Similarly, we could use different loss functions.\\
 
 			Now, what $w$ should we use at the time of testing? Using the final $w$ is not always a good idea due to overfitting and the stochastic nature of the algorithm.\\
-			So, we usually use an intermediate $w$. The \emph{voted perceptron} algorithm counts votes for weight vectors tallying how many examples they have correctly classified. The \emph{averaged perceptron} algorithm uses the averaged weight vector (not necessarily the average of all weight vectors, but a suitable subset).
+			So, we usually use an intermediate $w$. The \emph{voted perceptron} algorithm counts votes for weight vectors tallying how many examples they have correctly classified. The \emph{averaged perceptron} algorithm uses the averaged weight vector (not necessarily the average of all weight vectors, but a suitable subset).\\
 
+			Typically, rather than doing stochastic gradient descent datapoint by datapoint, we evaluate it in batches datapoint. That is, we do
+			\[ w \gets w - \frac{1}{|\mathcal{B}|} \sum_{(x,y) \in \mathcal{B}} \nabla_w L_P(f_w(x),y) \]
+			for a suitable batch $B$, which is intermediate between normal gradient descent and stochastic gradient descent. Observe that if $B$ is the entire dataset, we get ordinary gradient descent.
 
+	\subsection{Logistic Regression}
 
+		Recall that the function we use in perceptron classification is just a step function. Is it possible to do better, and possibly take care of smoothness issues? That is, instead of $\operatorname{sign}(w^\top\phi(x))$, can we use some more general $\Omega(w^\top \phi(x))$? In logistic regression, we use the \textit{sigmoid function} defined by
+		\[ \sigma(t) = \frac{1}{1+e^{-t}}. \]
+		Rather than looking at whether the value of the function is positive or negative, we instead see here whether it is greater than or less than $1/2$. Now, let us return to the binary classification problem, taking $\mathcal\{C\} = \{0,1\}$ instead of $\{-1,1\}$. Since the sigmoid maps into $(0,1)$, this also allows us a probabilistic interpretation as
+		\[ \Pr[y=1 \mid x] = \frac{1}{1+e^{-w^\top \phi(x)}} \text{ and } \Pr[y=0\mid x] = \frac{e^{-w^\top \phi(x)}}{1+e^{-w^\top \phi(x)}}. \]
+		That is, we can view it as a Bernoulli model with parameter $\sigma(w^\top\phi(x))$ (the `real' parameter of the problem is still $w$).\\
+		We can then do maximum likelihood estimation for the parameter of the Bernoulli (or minimize the error), and thus arrive at an estimate for $w$! We can also do something along the lines of Bayesian or MAP estimation.\\
+		To be more explicit, the maximum likelihood estimate is is
+		\begin{align*}
+			\hat{w} &= \argmax_w \mathcal{L}(\mathcal{D};w) \\
+				&= \argmax_w \Pr\left[ y_1,\ldots,y_m \mid w,x_1,\ldots,x_m \right] \\
+				&= \argmax_w \prod_{i=1}^m \Pr\left[ y_i \mid w, x_i \right] \\
+				&= \argmax_w \prod_{i=1}^m \sigma(w^\top\phi(x_i))^{y_i} (1 - \sigma(w^\top\phi(x_i)))^{1-y_i} \\
+				&= \argmax_w \sum_{i=1}^m y_i \log(w^\top \phi(x_i)) + (1 - y_i) \log(1-\sigma(w^\top\phi(x_i))) \\
+				&= \argmin_w \underbrace{- \sum_{i=1}^m y_i \log(w^\top \phi(x_i)) + (1 - y_i) \log(1-\sigma(w^\top\phi(x_i)))}_{-\log(\mathcal{L}(\mathcal{D};w))}.
+		\end{align*}
+		The average negative log-likelihood ($- 1/m \log(\mathcal{L}(\mathcal{D};w))$) is often referred to as the \emph{cross-entropy} loss function $E(w)$, and represents a ``distance'' between the data distribution (the $y_i$) and the model distribution (the $\sigma$). Cross-entropy is the average number of bits required to identify an event drawn from the dataset, if a coding scheme is used that is optimized for a modelled probability distribution $\Pr[y\mid\mathcal{M}]$ (as opposed to the `true' distribution $\Pr[y\mid\mathcal{D}]$).\\
+		Alternatively, we have
+		\[ E(w) = - \frac{1}{m} \sum_{i=1}^m y_i w^\top \phi(x_i) - \log(1 + e^{w^\top\phi(x_i)}). \]
+		The first component here resembles the loss in perceptron classification.\\
+		We do not have a simple closed-form solution for the cross-entropy loss function, so we apply gradient descent. The update rule looks like
+		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i) \right). \]
+		The stochastic version of this is
+		\[ w^{(k+1)} = w^{(k)} + \eta (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i). \]
+		We shall return to something similar when we study generalized linear models later in the course, of which perceptron, linear regression, and logistic regression are special cases.\\
+		The \emph{regularized} (logistic) cross-entropy loss function is
+		\[ E_r(w) = -\frac{1}{m} \sum_{i=1}^m y_i \log(w^\top \phi(x_i)) + (1 - y_i) \log(1-\sigma(w^\top\phi(x_i))) + \frac{\lambda}{2m}\norm{w}_2^2, \]
+		which attempts to avoid overfitting. The probabilistic interpretation of this is that this is the MAP estimate given a Gaussian prior on $w$ with mean $0$ and variance $1/\lambda$. In this case, the gradient descent update rule is
+		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i) - \lambda w^{(k)} \right). \]
 
+		Logistic regression is easily extended to even the multi-class scenario (say $k$ classes $1,\ldots,k$), by keeping a different weight vector $w_{c}$ for each $1\le c\le k-1$, then letting
+		\[ \Pr[y=c\mid x] = \frac{e^{-w_c^\top \phi(x)}}{1 + \sum_{i=1}^{k-1} e^{-w_i^\top \phi(x)}} \]
+		for $1\le c\le k-1$ and
+		\[ \Pr[y=k\mid x] = \frac{1}{1 + \sum_{i=1}^{k-1} e^{-w_i^\top \phi(x)}}. \]
+		We can have parameters for all $k$ classes, but this is not necessary since the $k$th class occurs iff none of the other $k-1$ classes occurs.
 
 % \bibliographystyle{alpha}
 % \bibliography{references}
