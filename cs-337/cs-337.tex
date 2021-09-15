@@ -308,9 +308,9 @@
 
 		Recall that the function we use in perceptron classification is just a step function. Is it possible to do better, and possibly take care of smoothness issues? That is, instead of $\operatorname{sign}(w^\top\phi(x))$, can we use some more general $\Omega(w^\top \phi(x))$? In logistic regression, we use the \textit{sigmoid function} defined by
 		\[ \sigma(t) = \frac{1}{1+e^{-t}}. \]
-		Rather than looking at whether the value of the function is positive or negative, we instead see here whether it is greater than or less than $1/2$. Now, let us return to the binary classification problem, taking $\mathcal\{C\} = \{0,1\}$ instead of $\{-1,1\}$. Since the sigmoid maps into $(0,1)$, this also allows us a probabilistic interpretation as
+		Rather than looking at whether the value of the function is positive or negative, we instead see here whether it is greater than or less than $1/2$. Now, let us return to the binary classification problem, taking $\mathcal{C} = \{0,1\}$ instead of $\{-1,1\}$. Since the sigmoid maps into $(0,1)$, this also allows us a probabilistic interpretation as
 		\[ \Pr[y=1 \mid x] = \frac{1}{1+e^{-w^\top \phi(x)}} \text{ and } \Pr[y=0\mid x] = \frac{e^{-w^\top \phi(x)}}{1+e^{-w^\top \phi(x)}}. \]
-		That is, we can view it as a Bernoulli model with parameter $\sigma(w^\top\phi(x))$ (the `real' parameter of the problem is still $w$).\\
+		That is, we can view it as a Bernoulli model with parameter $\sigma(w^\top\phi(x))$.\\
 		We can then do maximum likelihood estimation for the parameter of the Bernoulli (or minimize the error), and thus arrive at an estimate for $w$! We can also do something along the lines of Bayesian or MAP estimation.\\
 		To be more explicit, the maximum likelihood estimate is is
 		\begin{align*}
