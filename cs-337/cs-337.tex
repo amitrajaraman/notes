@@ -224,7 +224,7 @@
 			To reiterate, there are two (independent) sources of randomness: the dataset (we assume that there is some `nice' distribution over all possible datasets) and the noise.\\
 			Now, suppose the noise is some random variable $\varepsilon$ with mean $0$ and variance $\sigma^2$. That is, given an input $x$, we observe the output $y$ as being drawn from $g(x)+\varepsilon$.\\
 			Suppose that for a given dataset $\mathcal{D}$, we predict the function $f_\mathcal{D}$.\\
-			Fix some new input $\hat{x}$. The question we would like to answer is: what is the expected test error $\expec[(f(\hat{x}) - (g(\hat{x}) + \varepsilon))^2]$? The expectation is taken over both the dataset and the noise.\\
+			Fix some new input $\hat{x}$. The question we would like to answer is: what is the expected test error $\expec[(f_{\mathcal{D}}(\hat{x}) - (g(\hat{x}) + \varepsilon))^2]$? The expectation is taken over both the dataset and the noise.\\
 			Let $\hat{y} = g(\hat{x}) + \varepsilon$. We then have
 			\begin{align*}
 				\expec[(f_\mathcal{D}(\hat{x}) - \hat{y})^2] &= \expec[f_\mathcal{D}(\hat{x})^2] + \expec[\hat{y}^2] - 2 \expec[f_\mathcal{D}(\hat{x})]\expec[\hat{y}] & \text{($\mathcal{D}$ and $\varepsilon$ are independent)} \\
