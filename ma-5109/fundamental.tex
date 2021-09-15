@@ -546,7 +546,7 @@
 		\begin{itemize}
 			\item Given $\varepsilon > 0$, get a partition as described in the lemma.
 			\item First, delete all edges between irregular pairs. This loses at most $(\varepsilon k^2) t^2 < \varepsilon n^2$ edges.
-			\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\eta t^2) < (\varepsilon/2)n^2$ edges.
+			\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\varepsilon t^2) < (\varepsilon/2)n^2$ edges.
 			\item Delete all edges inside the exceptional part $V_0$. This loses at most $(\varepsilon^2/2)n^2$ edges. 
 		\end{itemize}
 		All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$ (for $i\ne j$), then $d(V_i,V_j) \ge \varepsilon$.\\
@@ -746,4 +746,70 @@
 			Why is this a tester?\\
 			By the \nameref{theo: triangle removal lemma}, if $G_n$ is $\varepsilon$-close to being triangle-free, then $G_n$ has at most $\delta n^3$ triangles for some $\delta$. That is,
 			\[ \Pr[xyz \text{ is not a triangle}] \ge 1 - \frac{\delta n^3}{\binom{n}{3}} \ge 1 - 6\delta, \]
-			so our algorithm is indeed a property tester.
+			so our algorithm is indeed a property tester.\\
+			We shall return to property testing in more detail later.
+
+		\subsubsection{The Frankl-Pach Theorem}
+
+			\begin{ftheo}[Frankl-Pach Theorem]
+				Suppose $s,r\in\N$ and $0<c<1$. Then, for $n\gg 0$,
+				\[ \exx(n;K_{r+1},K_{s,\lceil cn\rceil}) \le \left( c^{1/s} \left( 1 - \frac{1}{r} \right)^{1/s} + o(1) \right) n^2. \]
+			\end{ftheo}
+
+			Observe that one of the graphs we are forbidding depends on $n$ itself.
+
+			\begin{proof}
+				Let $\varepsilon > 0$ and $G$ be a graph on $n$ vertices that is $K_{r+1}$- and $K_{s,\lceil cn\rceil}$-free. Using Szemer\'{e}di's regularity lemma and the cleaning process, obtain a graph $G'$ such that
+				\begin{itemize}
+					\item $V(G') = V_1 \sqcup \cdots \sqcup V_k$ where $k=O_\delta(1)$,
+					\item $|V_i| = \ell$ for all $i$ and $V(G') \ge (1-\delta)n$,
+					\item All pairs $(V_i,V_j)$ are $\delta$-regular,
+					\item if $e(V_i,V_j) > 0$, $d(V_i,V_j) \ge \eta$, and
+					\item $e(G) - e(G') \le \varepsilon n^2$
+				\end{itemize}
+				for some $\delta,\eta > 0$ depending only on $\varepsilon$. Henceforth, we operate only in $G'$. \\
+
+				Construct a graph $H$ on vertex set $[k]$ with $ij\in E(H)$ iff $d(V_i,V_j)\ge \eta$. By the \nameref{theo: graph counting lemma}, if $H$ contains $K_{r+1}$, so does $G'$ and thus $G$.
+				Therefore, $H$ is $K_{r+1}$-free and by Tur\'{a}n's Theorem, $e(H) \le (1-1/r)k^2/2$.\\
+				Since $n\gg 0$ and $k=O_\delta(1)$, if $K_{s,\lceil cn\rceil}$ appears in $G$, one of the $V_i$s must have at least $s$ vertices for $n\gg 0$ (by a simple pigeonhole argument).\\
+				So, let us bound $e(G)$ given that $K_{s,\lceil cn\rceil}$ is forbidden and the size $s$ part of the bipartite graph does not come from a single $V_i$.\\
+				Similar to what we did in the \nameref{theo: kovari sos turan}, let us count pairs $(x,S)$ where $|S|=s$, $S\subseteq V_i$ for some $i$, and $x$ is adjacent to every $y\in S$. We call such a structure an \emph{$(i,s)$-claw}. We have that
+					\[ \text{number of $(i,s)$-claws } = \sum_{x\in V'} \sum_{i=1}^{k} \binom{|N(x)\cap V_i|}{s}. \]
+				On the other hand, by our assumption regarding $K_{s,\lceil cn\rceil}$-freeness,
+					\[ \text{number of $(i,s)$-claws } \le ( \lceil cn\rceil - 1 ) \sum_{i=1}^k \binom{|V_i|}{s} \le cn k \binom{\ell}{s}. \]
+				Therefore,
+					\[ \sum_{x\in V'}\sum_{i=1}^{k} \binom{|N(x)\cap V_i|}{s} \le cn k \binom{\ell}{s}. \]
+				Define $\mathcal{P} = \{ (x,i) : |N(x)\cap V_i| > 0 \}$. Applying Jensen's inequality in a manner similar to that in proof of the K\H{o}v\'{a}ri-S\'{o}s-Tur\'{a}n Theorem,
+					\begin{align*}
+						\sum_{(x,i)\in\mathcal{P}} \binom{|N(x)\cap V_i|}{s} &\ge |\mathcal{P}| \binom{(1/|\mathcal{P}|) \sum_{(x,i)\in\mathcal{P}} | N(x) \cap V_i| }{s} \\
+						&= |\mathcal{P}| \binom{2e(G')/|\mathcal{P}|}{s} \\
+						&= |\mathcal{P}| \binom{u}{s},
+					\end{align*}
+				where $u = 2e(G')/|\mathcal{P}|$. Then,
+					\begin{align*}
+						cn k \frac{\ell^s}{s!}  &\ge cn k \binom{\ell}{s} \\
+						&\ge \sum_{x\in V'}\sum_{i=1}^{k} \binom{|N(x)\cap V_i|}{s} \\
+						&= \sum_{(x,i) \in \mathcal{P}} \binom{|N(x)\cap V_i|}{s} \\
+						&\ge |\mathcal{P}| \binom{u}{s} \\
+						&\ge |\mathcal{P}| \frac{(u-s+1)^s}{s!}.
+					\end{align*}
+				Simplifying,
+					\begin{equation}
+						\label{eqn: 2.12}
+						e(G') \le \frac{u|\mathcal{P}|}{2} \le \frac{1}{2} \left((cn k)^{1/s} \ell | \mathcal{P} |^{1 - 1/s}  + |\mathcal{P}| (s-1)\right).
+					\end{equation}
+				To bound $|\mathcal{P}|$ from above, observe that
+					\[ |\mathcal{P}| \le e(H) \cdot 2 \ell \]
+				since each edge in $H$ gives at most $2\ell$ choices for $x$ (if the edge is $ij$, $x$ is in $V_i$ or $V_j$). By $K_{r+1}$-freeness, $e(H) \le (1 - 1/r) k^2/2$ so
+					\[ |\mathcal{P}| \le \left( 1 - \frac{1}{r} \right) k^2 \ell. \]
+				Substituting the above back in \eqref{eqn: 2.12},
+					\begin{align*}
+						e(G') &\le \frac{1}{2} \left((cn k)^{1/s} \ell | \mathcal{P} |^{1 - 1/s}  + |\mathcal{P}| (s-1)\right) \\
+							&\le \frac{1}{2} \left( (cn)^{1/s} \left( 1 - \frac{1}{r} \right)^{1/s} (k\ell)^{2-1/s} + \left( 1 - \frac{1}{r} \right) k^2\ell (s-1) \right) \\
+							&\le \frac{1}{2} \left( c^{1/s} \left( 1 - \frac{1}{r} \right)^{1/s} n^2 + \left( 1 - \frac{1}{r} \right) k (s-1) n \right) \\
+							&= \left( c^{1/s} \left( 1 - \frac{1}{r} \right)^{1/s} + o(1) \right) \frac{n^2}{2}.
+					\end{align*}
+				The result follows since $e(G) - e(G') \le \varepsilon n^2$.
+			\end{proof}
+
+			It turns out that the bound given by the Frankl-Pach Theorem is asymptotically tight!
