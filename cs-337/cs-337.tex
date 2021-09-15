@@ -25,7 +25,7 @@
 		Broadly, the goal of the field is to make a computer emulate human pattern recognition, which is second nature to us.
 		What do each of these words mean in the context of computer science? ``Learning'' and ``better'' usually depend heavily on the context surrounding our goals, and past experiences usually refers to a data set of some form. Broadly, there are two types of learning: \emph{supervised} and \emph{unsupervised}.\\
 
-		In the former, we have access to some \textbf{training data}, usually consisting of a set of pairs of input and output. The supervised learning algorithm then analyzes this data to produce an inferred function, which can then be used for determining what unknown inputs (not in the training data) must map to. This requires the algorithm to go from a smaller set of training data to a much broader set of inputs in a way that ``makes sense''. For example, given the heights and weights of a thousand people, we might be asked to determine the weight of a person of a person of some new height.\\
+		In the former, we have access to some \emph{training data}, usually consisting of a set of pairs of input and output. The supervised learning algorithm then analyzes this data to produce an inferred function, which can then be used for determining what unknown inputs (not in the training data) must map to. This requires the algorithm to go from a smaller set of training data to a much broader set of inputs in a way that ``makes sense''. For example, given the heights and weights of a thousand people, we might be asked to determine the weight of a person of a person of some new height.\\
 		In unsupervised learning on the other hand, we do not have access to any prior information, so we must classify them in some sensible manner. For example, given a set of fruits, we may wish to classify them into various groups. If we divide on the basis of colour (alone), we might get two groups -- apples and cherries in one and oranges and peaches in the other. If we divide on the basis of both colour and size, we might further divide the first of these groups into two. The computer is forced to create some compact internal representation of the features of these fruits, and from this we might even be able to generate \emph{new} fruits.\\
 
 		How does all this work? It might be simpler to grasp if we dive headlong into an example.
@@ -116,7 +116,7 @@
 		\subsubsection{Maximum likelihood estimation}
 
 			Suppose we are given a dataset $\mathcal{D} = \{z_1,\ldots,z_m\}$.\\
-			Also suppose that we have discrete outputs for the moment ($g_w$ is a probability \emph{mass} function). Then, define the \textbf{likelihood} function
+			Also suppose that we have discrete outputs for the moment ($g_w$ is a probability \emph{mass} function). Then, define the \emph{likelihood} function
 			\[ \mathcal{L}(\mathcal{D} \mid \theta) = \Pr[ \mathcal{D} \mid \theta ]. \]
 			Making the mild assumption that the various datapoints in $\mathcal{D}$ are drawn iid, this can be rewritten as
 			\[ \mathcal{L}(\mathcal{D} \mid \theta) = \prod_{i=1}^m g_\theta(z_i). \]
@@ -128,7 +128,7 @@
 			In all that we have done so far, we have arrived at a single estimate for $w$ or $\theta$. However, this may not necessarily be the best option -- might it not be better to arrive at a probability distribution for $w$ which represents how likely various values are?\\
 			Bayesian estimation is one simple way of doing this.\\
 
-			We make the assumption initially that $\theta$ is drawn from some \textbf{prior} probability distribution $p$. Given the dataset $\mathcal{D} = \{z_1,\ldots,z_m\}$ (and the function $g_\theta$ from earlier), we try to improve on this prior to get to a \textbf{posterior} probability distribution that better reflects how $\theta$ behaves, now that we have knowledge about the dataset. To do this, we use Bayes' law:
+			We make the assumption initially that $\theta$ is drawn from some \emph{prior} probability distribution $p$. Given the dataset $\mathcal{D} = \{z_1,\ldots,z_m\}$ (and the function $g_\theta$ from earlier), we try to improve on this prior to get to a \emph{posterior} probability distribution that better reflects how $\theta$ behaves, now that we have knowledge about the dataset. To do this, we use Bayes' law:
 
 			\begin{align}
 				\Pr[\theta\mid\mathcal{D}] &= \frac{\Pr[\mathcal{D}\mid\theta] \Pr[\theta]}{\Pr[\mathcal{D}]} \nonumber \\
@@ -142,7 +142,7 @@
 			In the pure Bayesian estimate, we do not return any point estimate for $\theta$ at all, and we instead use Bayes' rule to calculate the output given an input as
 			\[ \Pr[x \mid \mathcal{D}] = \int p(x\mid\theta) p(\theta\mid\mathcal{D}) \dif \theta \]
 
-			Now, the integral in the denominator of \eqref{eqn: 1.1} can be quite daunting. To deal with this, we introduce the idea of a \textbf{conjugate prior}. Such a prior is of the form that the base distribution of both the prior and the posterior are the same. This then enables us to skip the calculation of the denominator, since it merely leads to a constant to normalize the distribution (its integral must be $1$), and we know this constant from the structure of the distribution anyway. This can be better understood by an example. Suppose that the datapoints are drawn from a Bernoulli distribution with parameter $\theta$. We then have
+			Now, the integral in the denominator of \eqref{eqn: 1.1} can be quite daunting. To deal with this, we introduce the idea of a \emph{conjugate prior}. Such a prior is of the form that the base distribution of both the prior and the posterior are the same. This then enables us to skip the calculation of the denominator, since it merely leads to a constant to normalize the distribution (its integral must be $1$), and we know this constant from the structure of the distribution anyway. This can be better understood by an example. Suppose that the datapoints are drawn from a Bernoulli distribution with parameter $\theta$. We then have
 			\[ \Pr[\mathcal{D} \mid \theta] = \theta^r (1-\theta)^{m-r}, \]
 			where $r$ is the number of $1$s in $\mathcal{D}$. If we choose our prior to be a \href{https://en.wikipedia.org/wiki/Beta_distribution}{Beta distribution} with parameters $\alpha$ and $\beta$, then the numerator of \eqref{eqn: 1.1} is
 			\[ \theta^r (1-\theta)^{m-r} \cdot \theta^{\alpha-1} (1-\theta)^{\beta-1} \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}. \]
@@ -235,7 +235,7 @@
 			\end{align*}
 
 			Given the bias-variance tradeoff, how do we choose the best predictor? How do we set the model's parameters?\\
-			In \textbf{bootstrap sampling}, we repeatedly sample observations from a dataset with replacement. Given dataset $\mathcal{D}_b$, we repeatedly choose a $V_b$, train on $\mathcal{D}_b \setminus V_b$, then test on $V_b$.\\
+			In \emph{bootstrap sampling}, we repeatedly sample observations from a dataset with replacement. Given dataset $\mathcal{D}_b$, we repeatedly choose a $V_b$, train on $\mathcal{D}_b \setminus V_b$, then test on $V_b$.\\
 			So, the training set is that we use to actually train the algorithm. $V_b$ is the \emph{validation} or \emph{development} set, and is used for model selection and tuning hyperparameters. The test/evaluation set is that we use for testing finally.
 
 \section{Classification}
@@ -266,7 +266,7 @@
 			So,
 			\[ y_{r+1}(w^{(r+1)})^\top \phi(x_r) = y_{r+1} (w^{(r)})^\top\phi(x_{r+1}) + \eta\norm{\phi(x_{r+1})}^2. \]
 			This makes the quantity $y_{r+1} w^\top \phi(x_r)$ less negative. We repeat the above process until $y_iw^\top\phi(x_i) \ge 0$ for all $i$ (or until we terminate). \\
-			This \textbf{perceptron} algorithm does not attempt to find the best separating hyperplane, it merely tries to find any separating hyperplane -- it need not provide any `breathing room' for the inputs. This is addressed by support vector machines, which we shall read later.\\
+			This \emph{perceptron} algorithm does not attempt to find the best separating hyperplane, it merely tries to find any separating hyperplane -- it need not provide any `breathing room' for the inputs. This is addressed by support vector machines, which we shall read later.\\
 			One issue with perceptron classification is that it does not acknowledge how much the estimate differs from the expected $\pm 1$ -- we only care that $yw^\top\phi(x) \ge 0$, not how positive it is.
 
 		\subsubsection{Convergence}
