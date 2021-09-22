@@ -399,9 +399,9 @@
 		where the rows of $U$ are linearly independent and $\Sigma$ is a diagonal matrix with non-negative entries.\\
 		Mapping each datapoint $x_i$ to the $i$th row of $\mathcal{K}$ gives the required.\\
 
-		What about when our dataset is infinite? Indeed, in this case we can extend it to an eigen\emph{function} decomposition and write
+		What about when our set of features is infinite-dimensional? Indeed, in this case we can extend it to an eigen\emph{function} decomposition and write
 		\[ K(x_1,x_2) = \sum_{i=1}^\infty \alpha_i \phi_i(x_1) \phi_i(x_2), \]
-		where each $\alpha_i \ge 0$ and $\sum_{i=1}^\infty \alpha_i^2 < \infty$. The condition that $\alpha_i \ge 0$ corresponds to the fact that the matrix is positive semi-definite (all eigenvalues are non-negative). This is known as the \emph{Mercer kernel} decomposition.\\
+		where each $\alpha_i \ge 0$ and $\sum_{i=1}^\infty \alpha_i^2 < \infty$ (the $\alpha_i$ are eigenvalues and the $\phi_i$ are eigenfunctions). The condition that $\alpha_i \ge 0$ corresponds to the fact that the matrix is positive semi-definite (all eigenvalues are non-negative). This is known as the \emph{Mercer kernel} decomposition.\\
 
 		Equivalently, $K(x_1,x_2)$ is a Mercer kernel (and is said to satisfy Mercer's condition) if for all square integrable functions $g$,
 		\[ \iint K(x_1,x_2) g(x_1) g(x_2) \dif x_1 \dif x_2. \]
