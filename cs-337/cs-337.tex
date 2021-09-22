@@ -182,7 +182,7 @@
 				\item \emph{lasso\footnote{this is an abbreviation for \emph{l}east \emph{a}bsolute \emph{s}hrinkage and \emph{s}election \emph{o}perator} regression} if $\Omega(w) = \norm{w}_1$, and
 				\item \emph{support-based penalty regression} if $\Omega(w) = \norm{w}_0$.
 			\end{itemize}
-			The closed-form solutions to the first two can be computed by setting the gradient to $0$. In particular, the closed-form solution for ridge regression is
+			The closed-form solution to ridge regression can be computed by setting the gradient to $0$, and is given by
 			\[ \hat{w} = (\Phi^\top\Phi + \lambda I)^{-1} \Phi^\top y. \]
 			Also, this turns out to be the same as performing Bayes/MAP estimation with a multivariate Gaussian prior of mean $0$ and variance $(1/\lambda)I$.\\
 
@@ -266,7 +266,7 @@
 			We learn $w$ as follows. Starting with $w^{(0)} = 0$, we iterate over the dataset. If a point is correctly classified, we leave $w^{(r+1)} = w^{(r)}$. Otherwise, we marginally correct the weights by performing
 			\[ w^{(r+1)} = w^{(r)} + \eta y_{r+1}\phi(x_{r+1}), \]
 			for some (typically small) learning rate $\eta$.\\
-			Observe that the quantity $w^\top \phi(x)$ is the distance of $x_r$ from the hyperplane $\{x : w^\top\phi(x) = 0\}$.\\
+			Observe that the quantity $w^\top \phi(x_r)$ is the distance of $x_r$ from the hyperplane $\{x : w^\top\phi(x) = 0\}$.\\
 			So,
 			\[ y_{r+1}(w^{(r+1)})^\top \phi(x_r) = y_{r+1} (w^{(r)})^\top\phi(x_{r+1}) + \eta\norm{\phi(x_{r+1})}^2. \]
 			This makes the quantity $y_{r+1} w^\top \phi(x_r)$ less negative. We repeat the above process until $y_iw^\top\phi(x_i) \ge 0$ for all $i$ (or until we terminate). \\
@@ -277,16 +277,16 @@
 
 			Now, suppose there exists some $u$ such that for all $i$, $y_i u^\top \phi(x_i) \ge 0$. It turns out that the perceptron update rule will then converge in a finite number of iterations. That is, perceptrons can model linearly separable functions.
 			\begin{proof}
-				Since we can normalize $u$ suppose that $\norm{u} = 1$. We can also normalize the dataset itself, so assume $\norm{\phi(x_i)} \le 1$ for all $i$. \\
-				Define the \emph{margin} $\gamma = \min_i |u^\top x_i|$.\\
+				Since we can normalize $u$, suppose that $\norm{u} = 1$. We can also normalize the dataset itself, so assume $\norm{\phi(x_i)} \le 1$ for all $i$. \\
+				Define the \emph{margin} $\gamma = \min_i |u^\top \phi(x_i)| = \min_i y_i u^\top \phi(x_i)$.\\
 				Further make the assumption that $\eta = 1$ (the general case follows similarly.) \\
-				We claim that in at most $t = 1/\gamma^2$ updates, we will have $y_i {w^{(t)}}^\top x_i > 0$ for all $i$.\\
+				We claim that in at most $t = 1/\gamma^2$ updates, we will have $y_i (w^{(t)})^\top x_i > 0$ for all $i$.\\
 				If we update $w^{(k)}$ to $w^{(k+1)} = w^{(k)} + y\phi(x)$ on reading the input $\langle x,y\rangle$,
-				\[ {w^{(k+1)}}^\top u =  (w^{(k)}+y\phi(x))^\top u \ge {w^{(k)}}^\top u + \gamma. \]
+				\[ (w^{(k+1)})^\top u =  (w^{(k)}+y\phi(x))^\top u \ge (w^{(k)})^\top u + \gamma. \]
 				and
 				\[ \norm{w^{(k+1)}}^2 = \norm{w^{(k)} + y\phi(x)}^2 < \norm{w^{(k)}}^2 + 1. \]
 				As a result, after $k$ updates,
-				\[ {w^{(k)}}^\top u \ge k\gamma \text{ and } \norm{w^{(k)}}^2 \le k \]
+				\[ (w^{(k)})^\top u \ge k\gamma \text{ and } \norm{w^{(k)}}^2 \le k \]
 				so
 				\[ \sqrt{k} \ge \underbrace{\norm{w^{(k)}} \ge u^\top w^{(k)}}_{\text{Using Cauchy-Schwarz}} \ge k\gamma. \]
 				This gives $k \le 1/\gamma^2$, completing the proof.
@@ -304,9 +304,9 @@
 			Now, what $w$ should we use at the time of testing? Using the final $w$ is not always a good idea due to overfitting and the stochastic nature of the algorithm.\\
 			So, we usually use an intermediate $w$. The \emph{voted perceptron} algorithm counts votes for weight vectors tallying how many examples they have correctly classified. The \emph{averaged perceptron} algorithm uses the averaged weight vector (not necessarily the average of all weight vectors, but a suitable subset).\\
 
-			Typically, rather than doing stochastic gradient descent datapoint by datapoint, we evaluate it in batches datapoint. That is, we do
+			Typically, rather than doing stochastic gradient descent (datapoint by datapoint), we perform a similar operation using batches of datapoints. That is, we do
 			\[ w \gets w - \frac{1}{|\mathcal{B}|} \sum_{(x,y) \in \mathcal{B}} \nabla_w L_P(f_w(x),y) \]
-			for a suitable batch $B$, which is intermediate between normal gradient descent and stochastic gradient descent. Observe that if $B$ is the entire dataset, we get ordinary gradient descent.
+			for a suitable batch $\mathcal{B}$, which is intermediate between normal gradient descent and stochastic gradient descent. Observe that if $\mathcal{B}$ is the entire dataset, we get ordinary gradient descent and if $\mathcal{B}$ is a singleton, we get stochastic gradient descent.
 
 	\subsection{Logistic Regression}
 
@@ -330,20 +330,88 @@
 		\[ E(w) = - \frac{1}{m} \sum_{i=1}^m y_i w^\top \phi(x_i) - \log(1 + e^{w^\top\phi(x_i)}). \]
 		The first component here resembles the loss in perceptron classification.\\
 		We do not have a simple closed-form solution for the cross-entropy loss function, so we apply gradient descent. The update rule looks like
-		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i) \right). \]
+		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma((w^{(k)})^\top\phi(x_i))) \phi(x_i) \right). \]
 		The stochastic version of this is
-		\[ w^{(k+1)} = w^{(k)} + \eta (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i). \]
+		\[ w^{(k+1)} = w^{(k)} + \eta (y_i - \sigma((w^{(k)})^\top\phi(x_i))) \phi(x_i). \]
 		We shall return to something similar when we study generalized linear models later in the course, of which perceptron, linear regression, and logistic regression are special cases.\\
 		The \emph{regularized} (logistic) cross-entropy loss function is
 		\[ E_r(w) = -\frac{1}{m} \sum_{i=1}^m y_i \log(w^\top \phi(x_i)) + (1 - y_i) \log(1-\sigma(w^\top\phi(x_i))) + \frac{\lambda}{2m}\norm{w}_2^2, \]
 		which attempts to avoid overfitting. The probabilistic interpretation of this is that this is the MAP estimate given a Gaussian prior on $w$ with mean $0$ and variance $1/\lambda$. In this case, the gradient descent update rule is
-		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma({w^{(k)}}^\top\phi(x_i))) \phi(x_i) - \lambda w^{(k)} \right). \]
+		\[ w^{(k+1)} = w^{(k)} + \eta \left(\frac{1}{m} \sum_{i=1}^m (y_i - \sigma((w^{(k)})^\top\phi(x_i))) \phi(x_i) - \lambda w^{(k)} \right). \]
 
 		Logistic regression is easily extended to even the multi-class scenario (say $k$ classes $1,\ldots,k$), by keeping a different weight vector $w_{c}$ for each $1\le c\le k-1$, then letting
 		\[ \Pr[y=c\mid x] = \frac{e^{-w_c^\top \phi(x)}}{1 + \sum_{i=1}^{k-1} e^{-w_i^\top \phi(x)}} \]
 		for $1\le c\le k-1$ and
 		\[ \Pr[y=k\mid x] = \frac{1}{1 + \sum_{i=1}^{k-1} e^{-w_i^\top \phi(x)}}. \]
 		We can have parameters for all $k$ classes, but this is not necessary since the $k$th class occurs iff none of the other $k-1$ classes occurs.
+
+	\subsection{Kernels}
+
+		Recall the perceptron update rule. If we update $w^{(k)}$ to $w^{(k+1)}$ on reading the misclassified point $(x',y')$, we have for any datapoint $(x,y)$ that
+		\[ (w^{(k+1)})^\top\phi(x) = (w^{(k)})^\top \phi(x) + y' \phi(x')^\top \phi(x). \]
+		The quantity $\phi(x')^\top\phi(x)$ represents some sort of similarity between $\phi(x')$ and $\phi(x)$. Let $f^{(k)}(x) = (w^{(k)})^\top\phi(x)$. We then have
+		\[ f^{(k+1)}(x) = f^{(k)}(x) + y'\phi(x')^\top\phi(x). \]
+		Now, if we obtained $w^{(k)}$ from $w^{(k-1)}$ on reading the datapoint $(x'',y'')$, we can perform a similar substitution to get
+		\[ f^{(k+1)}(x) = f^{(k-1)}(x) + y'\phi(x')^\top\phi(x) + y''\phi(x'')^\top\phi(x). \]
+		More generally, if we obtained $w^{(i+1)}$ from $w^{(i)}$ on reading the datapoint $(x_i,y_i)$ for each $i$,
+		\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{i=0}^{k} y_i\phi(x_i)^\top\phi(x). \]
+		If for each datapoint $(x',y')$, $\alpha_{x'}$ represents the number of times it was misclassified in the first $k$ updates, then
+		\[ f^{(k+1)}(x) = f^{(0)}x + \sum_{(x',y')} y'\phi(x')^\top\phi(x) \alpha_{x'}. \]
+		So, the final score is the initial score plus some weighted sum of the similarities of each of the misclassified points with the test point. Let $K(x,x') = \phi(x')^\top\phi(x)$ for each pair $(x,x')$ represent a notion of similarity (as we mentioned earlier). We then just have
+		\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{(x',y')} y' K(x,x') \alpha_{x'}. \]
+		Misclassification of a point $x$ indirectly computes similarity $K(x,x')$ for each of the previously misclassified points through the classifier, since we have `folded in' the information about $x'$ into the classifier. Observe that here, the classifier is parametrized using the $\alpha_{x}$, \emph{not} the $w$ as earlier.\\
+
+		Based on this, we define the \emph{kernelized perceptron} as follows. We have a notion of similarity given by $K(x,y) = \phi(x)^\top\phi(y)$ and initialize all the $\alpha_x$ as $0$. Let $f^{(0)}$ be identically zero. Given $f^{(k)}$ and a misclassified point $(x,y)$, a point such that
+		\[ y f^{(k)}(x) = \sum_{(x',y')} yy' K(x,x') \alpha_{x'} < 0, \]
+		we update $\alpha_x \gets \alpha_x + 1$. We could also add a bias $b$ to $f$ (essentially initializing $f^{0}$ to be the constant $b$), which represents` a non-zero initialization of $w$.\\
+
+
+		Based on how we choose $\phi$, and thus $K(\cdot,\cdot)$, we can adapt to datasets that have separators far more complicated than the simple linear separator we have been dealing with thus far! For example, the choice of the \emph{radial basis function} given by $K(x,y) = \exp(-\norm{x-y}_2^2/2\sigma^2)$ can deal with spherical separators.
+
+		Kernels typically operate in high-dimensional implicit feature spaces. What this means is that if our original dataset has the $x$ from, say, $\R^d$ but our actual $\phi$ maps to $\R^n$ for some high $n$, it might often be possible (for nice choices of $\phi$) to express $K(x,y)$ in terms of some simpler function of $x$ and $y$ itself. As a result, we don't necessarily need to compute the coordinates of $\phi(x)$ and can get away with just manipulating the coordinates of the datapoint to compute the kernel function. This tends to be computationally cheaper.\\
+
+		For a dataset $\{x_1,\ldots,x_m\}$, the \emph{Gram matrix} $\mathcal{K}$ is defined as
+		\[
+		\mathcal{K} =
+		\begin{pmatrix}
+			K(x_1,x_1) & \cdots & K(x_1,x_m) \\
+			\vdots & \ddots & \vdots \\
+			K(x_m,x_1) & \cdots & K(x_m,x_m)
+		\end{pmatrix}.
+		\]
+
+		What are some properties we desire from $K$, and so $\mathcal{K}$? A few that come to mind are:
+		\begin{itemize}
+			\item $K(\cdot,\cdot)$ is symmetric in the two variables, that is, $\mathcal{K}$ is symmetric.
+			\item $\mathcal{K}$ is positive-semidefinite. Indeed, for any $v\in\R^m$,
+			\begin{align*}
+				v^\top\mathcal{K}v &= \sum_{i,j} v_i \mathcal{K}_{ij} v_j \\
+					&= \sum_{i,j} v_i v_j \phi(x_i)^\top \phi(x_j)^\top \\
+					&= \left(\sum_i v_i \phi(x_i)\right)^\top \left(\sum_j v_j \phi(x_j)\right) \\
+					&= \norm{\sum_i v_i \phi(x_i)}_2^2 \ge 0.
+			\end{align*}
+		\end{itemize}
+		A kernel $K(\cdot,\cdot)$ satisfying the above two conditions is known as a positive semi-definite kernel.\\
+
+		We clearly have that for any choice of $\phi$, a positive semi-definite kernel is obtained. Is the converse true as well?\\
+		Yes, we claim that for any positive semi-definite kernel, there exists a Hilbert space $H$ and a $\phi:\Rn \to H$ such that $K(x_i,x_j) = \phi(x_i)^\top \phi(x_j)$. Indeed, if $K$ is symmetric and positive semi-definite, we can perform the Cholsky(/singular value) decomposition on $\mathcal{K}$ to get
+		\[ \mathcal{K} = U\Sigma U^\top = (U\Sigma^{1/2})(U\Sigma^{1/2})^\top = RR^\top, \]
+		where the rows of $U$ are linearly independent and $\Sigma$ is a diagonal matrix with non-negative entries.\\
+		Mapping each datapoint $x_i$ to the $i$th row of $\mathcal{K}$ gives the required.\\
+
+		What about when our dataset is infinite? Indeed, in this case we can extend it to an eigen\emph{function} decomposition and write
+		\[ K(x_1,x_2) = \sum_{i=1}^\infty \alpha_i \phi_i(x_1) \phi_i(x_2), \]
+		where each $\alpha_i \ge 0$ and $\sum_{i=1}^\infty \alpha_i^2 < \infty$. The condition that $\alpha_i \ge 0$ corresponds to the fact that the matrix is positive semi-definite (all eigenvalues are non-negative). This is known as the \emph{Mercer kernel} decomposition.\\
+
+		Equivalently, $K(x_1,x_2)$ is a Mercer kernel (and is said to satisfy Mercer's condition) if for all square integrable functions $g$,
+		\[ \iint K(x_1,x_2) g(x_1) g(x_2) \dif x_1 \dif x_2. \]
+
+		When the input space of $x$ is compact, the Mercer kernel and positive semi-definite kernel turn out to be equivalent.\\
+		
+		Again, as before, for any choice of $\phi$, we obtain a positive semi-definite kernel. The converse is true here as well.\\
+		For any Mercer Kernel $K(x_1,x_2)$, there exists a $\phi(x) : \Rn \to H$ such that $K(x_1,x_2) = \phi(x_1)^\top \phi(x_2)$, where $H$ is a Hilbert space. 
+
+
 
 % \bibliographystyle{alpha}
 % \bibliography{references}
