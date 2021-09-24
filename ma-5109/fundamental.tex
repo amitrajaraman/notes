@@ -80,8 +80,11 @@
 			\begin{fcor}
 				\label{theo: ESS exx square tight coloring}
 				If $\chi(H) = r+1$, then for any $\varepsilon > 0$, for $n\gg 0$,
-				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} < \exx(n;H) < \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
+				\[ \left(1 - \frac{1}{r}\right)\frac{n^2}{2} \le \exx(n;H) \le \left(1 - \frac{1}{r} + \varepsilon\right)n^2 - \mathcal{O}(n). \]
 			\end{fcor}
+
+			This implies that if $\chi(H) = r+1$, then for $n\gg 0$
+			\[ \left( 1 - \frac{1}{r} \right)\frac{n^2}{2} \le \exx(n;H) \le \left( 1 - \frac{1}{r} + o(1) \right)\frac{n^2}{2} \]
 
 			% \begin{fdef}
 			% 	A graph $G$ is said to be \textbf{$c$-dense} (for $0<c<1$), if $e(G_n) \ge cn^2$.
@@ -255,7 +258,7 @@
 
 		\subsubsection{A motivating extremal problem (bounding \texorpdfstring{$\exx(n;C_{2k}$)}{ex(n;C2k)})}
 
-			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$.\\
+			To understand why random graphs are important, let us look at $\exx(n;C_{2k})$.
 			% We have already seen that $\exx(n;C_{2k+1}) \ge \lfloor n^2/4 \rfloor$. Is it true that $\exx(n;C_{2k+1}) = \lfloor n^2 / 4 \rfloor$ for $n \gg 0$?\\
 			% While \Cref{theo: ESS exx square tight coloring} does say that $\exx(n;C_{2k+1}) \le (1/4 + o(1)) n^2$, it \emph{could} still be as large as $n^2/4 + n^{1.99}$, say.\\
 			% It turns out, however, that our claim happens to be true, as we shall see later.\\
@@ -400,7 +403,7 @@
 			The regularity lemma gives a qualitative version of the above observation. Before we move to the actual result, let us provide some notation.
 
 			\begin{fdef}[Density]
-				Given a graph $G = (V,E)$ andr $U,W \subseteq V$, the \textbf{density} $d(U,W)$ is equal to $e(U,W) / |U||W|$.
+				Given a graph $G = (V,E)$ and $U,W \subseteq V$, the \textbf{density} $d(U,W)$ is equal to $e(U,W) / |U||W|$.
 			\end{fdef}
 
 			\begin{remark}
@@ -813,3 +816,212 @@
 			\end{proof}
 
 			It turns out that the bound given by the Frankl-Pach Theorem is asymptotically tight!
+
+		\subsubsection{A look at \texorpdfstring{$\exx(n;C_{2k+1})$}{ex(n;C 2k+1)}}
+
+			As we saw back in \Cref{theo: ESS exx square tight coloring},
+			\[ \frac{n^2}{4} \le \exx(n;C_{2k+1}) \le \left( \frac{1}{4} + o(1) \right) n^2. \]
+
+			Recall that if $e(G_n) \ge n^2/4 - t$ and $G_n$ is $K_3$-free, then $G_n$ can be made bipartite by deleting atmost $t$ edges.
+
+			\begin{flem}
+				\label{lemma: exx n C 2k+1 stability}
+				Given $\varepsilon > 0$, there exists $\delta > 0$ such that the following holds for $n\gg 0$. If $G_n$ is $C_{2k+1}$-free and has $\ge (1/4 - \delta)n^2$ edges, it can be made bipartite by deleting at most $\varepsilon n^2$ edges.
+			\end{flem}
+			\begin{proof}
+				First, we shall try to make $\delta(G_n)$ `large'. If $G_n$ has a vertex of degree $<(1/2 - 2\sqrt{\delta})n$, delete this vertex to get a graph $G_{n-1}$. Perform this process repeatedly to finally arrive at some $G_\ell$ such that
+				\begin{align*}
+					e(G_\ell) &> \left(\frac{1}{4} - \delta\right)n^2  - \left( \frac{1}{2} - 2\sqrt{\delta} \right) \left( n + (n-1) + \cdots + (\ell+1) \right) \\
+					&= \left(\frac{1}{4} - \delta\right)n^2  - \left( \frac{1}{2} - 2\sqrt{\delta} \right) \left( \binom{n+1}{2} - \binom{\ell+1}{2} \right) \\
+					&= \left( \frac{1}{4} - \delta \right)n^2 - \left( \frac{1}{4} - \sqrt{\delta} \right)\left( n^2 + n - \ell^2 - \ell \right) \\
+					&\ge \left( \frac{1}{4} - \delta \right) \ell^2 + (\sqrt{\delta}-\delta) n^2 - \left( \frac{1}{4} - \delta \right)n.
+				\end{align*}
+				If the quantity above is at least $\left( 1/4 + \eta \right) \ell^2$ for some constant $\eta > 0$, we have
+				\[ \ell < \sqrt{ \frac{\sqrt{\delta}-\delta}{\eta+\delta} } n. \]
+				This implies that for sufficiently large $\ell$ (by virtue of sufficiently large $n$), $G_\ell$ has $C_{2k+1}$ which yields a contradiction.\\
+				Therefore, setting $\eta$ appropriately, this process must terminate with $\ell \ge (1-4\sqrt{\delta}) n$.\\
+				Therefore, suppose $G' = (V',E')$ is a subgraph of $G_n$ such that $|V'| = n' \ge (1-4\sqrt{\delta}) n$, $\delta(G') \ge (1/2 - 2\sqrt{\delta}) n'$, and $G'$ is $C_{2k+1}$-free. We have $e(G') \ge (1/4 - \sqrt{\delta})n'^2$.\\
+				Recall that $\exx(n;C_{2k})$ is $o(n^2)$. As a result, it follows that if $n\gg 0$, $G'$ contains a copy of $C_{2k}$, say $v_1 v_2 \cdots v_{2k} v_1$. Letting $W = V' \setminus \{v_1,\ldots,v_k\}$, we must have that $A_1 = N(v_1) \cap W$ and $A_2 = N(v_2) \cap W$ are disjoint. Since $G'$ is $C_{2k+1}$-free, the subgraph induced on $A_1$ (or $A_2$) is $P_{2k}$-free. By \Cref{theo: exx n P k+1}, $e(A_1)$ (or $e(A_2)$) is at most $kn'$. To summarize,
+				\begin{itemize}
+					\item $|A_1|, |A_2| \ge (1/2 - 2\sqrt{\delta})n' - 2k \ge (1/2 - \sqrt{\delta})n'$.
+					\item $e(A_1), e(A_2) \le kn'$.
+					\item $A_1 \cap A_2 = \emptyset$.
+				\end{itemize}
+				Delete all edges that are not between $A_1$ and $A_2$ (namely those within the $A_i$s and those that touch at least one vertex not in $A_1 \cup A_2$). This deletes at most
+				\[ \underbrace{2kn'}_{e(A_i)} + \underbrace{2\sqrt{\delta} n'^2}_{|V' \setminus (A_1\cup A_2)| \ge 2\sqrt{\delta}n'}. \]
+				The resulting graph is clearly bipartite. Thus, from $G_n$, we have deleted at most, say, $5\sqrt{\delta}n^2$ edges, so setting $\delta$ less than say $\varepsilon^2/100$ works.
+			\end{proof}
+
+			\begin{ftheo}
+				For $n\gg 0$,
+				\[ \exx(n;C_{2k+1}) = \left\lfloor \frac{n^2}{4} \right\rfloor. \]
+			\end{ftheo}
+			\begin{proof}
+				Let $G_n$ be $C_{2k+1}$-free and have the maximum possible number of edges. Since the complete bipartite graph is $C_{2k+1}$-free, $e(G_n) \ge \lfloor n^2/4 \rfloor$.\\
+				Let $\varepsilon > 0$. For starters, let us assume that $\delta(G_n) \ge (1/2 - 2\sqrt{\varepsilon})n$. By \Cref{lemma: exx n C 2k+1 stability}, $G_n$ can be made bipartite by deleting at most $\varepsilon n^2$ edges (due to the assumption on $\delta(G_n)$ and the previous proof). Let $(A,B)$ be the parts of such a bipartite graph. Further assume that $e(A,B)$ is the maximum possible (we choose that bipartite subgraph with the most edges). We claim that $|A|$ and $|B|$ are at least $(1/2 - \varepsilon)n$. Indeed, otherwise, since $|A|+|B|=n$,
+				\[ e(A,B) \le |A||B| < \left( \frac{1}{2} - \sqrt{\varepsilon} \right) \left( \frac{1}{2} + \varepsilon \right) n^2 = \left( \frac{1}{4} - \varepsilon \right)n^2. \]
+				In this case, $e(G_n) \le e(A,B) + \varepsilon n^2 < \lfloor n^2/4\rfloor$, proving the claim.\\
+
+				Since $e(A,B)$ is the maximum possible, it follows that for any $a\in A$, $d(a,B) \le d(a,A)$ (otherwise we can switch $a$ from $A$ to $B$).\\
+				Next, we claim that no vertex $a$ of $A$ is such that $d(a,A) \ge 2\sqrt{\varepsilon} n$. Suppose otherwise. We then have $d(a,B) \ge 2\sqrt{\varepsilon} n$ as well. Let $A_1 = A \cap \Gamma(a)$ and $B_1 = B \cap \Gamma(a)$. Consider the bipartite subgraph on $(A_1,B_1)$. This subgraph is $P_{2k}$-free. By \Cref{theo: exx n P k+1},
+				\[ e(A_1, B_1) \le 2kn. \]
+				In particular, the number of missing edges between $A_1$ and $B_1$ is at least $4\varepsilon n^2 - 2kn > \varepsilon n^2 \ge e(A) + e(B)$ for $n\gg 0$. As a result,
+				\begin{align*}
+					e(G_n) &= e(A,B) + e(A) + e(B) \\
+						&\le e(A,B) + (\text{number of missing pairs between $A_1$ and $B_1$}) \\
+						&< |A||B| \le n^2/4,
+				\end{align*}
+				which gives a contradiction.\\
+
+				Let $a,a'\in A$ be adjacent. We have
+				\begin{align*}
+					|(\Gamma(a)\cap B) \cap (\Gamma(a')\cap B)| &\ge d(a,B) + d(a',B) - |B| \\
+						&> d(a) - 2\sqrt{\varepsilon}n + d(a') - 2\sqrt{\varepsilon}n - \left( \frac{1}{2} + \sqrt{\varepsilon} \right) n \\
+						&\ge 2\delta(G_n) - 4\sqrt{\varepsilon}n - \left( \frac{1}{2} + \sqrt{\varepsilon} \right) n \\
+						&\ge \left( \frac{1}{2} - 9\sqrt{\varepsilon} \right) n.
+				\end{align*}
+				Let $B' = \Gamma(a) \cap \Gamma(a') \cap B$ and $A' = A \setminus \{a,a'\}$ and consider the bipartite subgraph between these two parts. Since the previous subgraph was $C_{2k+1}$-free, there cannot be a $P_{2k-1}$ between two vertices in $B'$ (or $A'$). It follows that there does not exist a path of length $2k$ between \emph{any} two vertices of $A'\cup B'$. So,
+				\[ e(A',B') \le 2kn. \]
+				Estimating the number of edges again,
+				\begin{align*}
+				 	e(G_n) &\le e(A',B') + e(A\setminus A', V) + e(B\setminus B', V) \\
+				 		&= 2kn + \underbrace{2n}_{|A\setminus A'| = 2} + \underbrace{10\sqrt{\varepsilon}n}_{\substack{|B|\le (1/2+\sqrt{\varepsilon})n \\ |B'| \ge (1/2-9\sqrt{\varepsilon})n}} \\
+				 		&< \frac{n^2}{4}\text{ for $n\gg 0$},
+				\end{align*}
+				giving a contradiction again.\\
+
+				Therefore, it now suffices to show why we can make our initial assumption that $\delta(G_n) \ge (1/2 - 2\sqrt{\varepsilon})n$. As in the proof of the previous lemma, repeatedly delete any vertex that has degree less than $(1/2 - 2\sqrt{\varepsilon})n$. We must stop at some $G_\ell$ with $\ell > (1-4\sqrt{\varepsilon})n$. Further, $G_\ell$ must have greater than $\ell^2/4$ edges and is $C_{2k+1}$-free, so we arrive at a contradiction anyway due to our proof taking the assumption at the beginning.
+			\end{proof}
+
+	\subsection{Pseudorandomness}
+
+		Szemer\'{e}di's regularity lemma, in layman terms, says that any dense graph consists `mostly' of a `small' number of `random-like' bipartite graphs. The meaning of the first two words within the quotes should be clear; they just say that $|V_0|$ is small and that $k$ is bounded. The question then is: what does it mean to say that a graph is random-like? We have a single graph, not a distribution.\\
+
+		Let us first list a couple of features that feel like something a random-like graph should have. Suppose that $e(G_n) has (p + o(1)) \binom{n}{2}$ edges, where $p$ is a fixed constant.
+		\begin{enumerate}
+			\item $\mathsf{Disc}$ (\emph{Discrepancy}). For all $X,Y\subseteq V(G)$, 
+			\[ \left| e(X,Y) - p|X||Y| \right| = o(n^2). \]
+			
+			\item $\mathsf{Disc}'$. For all $X\subseteq V(G)$,
+			\[ \left| e(X) - p \binom{|X|}{2} \right| = o(n^2). \]
+			
+			\item $\mathsf{Count}$. For a fixed $H$, the number of labelled copies of $H$ in $G$ is $(1+o(1))p^{e(H)} n^{|V(H)|}$ (Why choose this number?).
+			
+			\item $\mathsf{Codegree}$. We have
+			\[ \sum_{x,y \in V} |d(x,y) - p^2 n| = o(n^3). \]
+
+			\item $\mathsf{Eigen}$. If $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of the adjacency matrix of $G_n$, then
+			\[ \lambda_1 = pn(1+o(1)) \]
+			and
+			\[ \max_{i > 1} |\lambda_i| = \max\{|\lambda_2|,|\lambda_n|\} = o(n). \]
+		\end{enumerate}
+		Observe that there are already asymptotics at play here since $o(\cdot)$ is not very meaningful when we are dealing with a single graph.\\
+
+		While the reader is likely familiar with what an adjacency matrix is, we define it here for the sake of completeness.
+		\begin{definition}[Adjacency Matrix]
+			Given a graph $G=(V,E)$, the \emph{adjacency matrix} $A$ of $G$ is a matrix whose rows and columns are indexed by $V$, and for $v,w\in V$
+			\[
+			A_{vw} =
+			\begin{cases}
+				1, & vw\in E, \\
+				0, & vw\not\in E.
+			\end{cases}
+			\]
+			The eigenvalues of $A$ are sometimes referred to as the eigenvalues of $G$.
+		\end{definition}
+
+		While the first four properties above might make sense based on our discussion thus far, the last seems to come out of nowhere.
+
+		To motivate $\mathsf{Eigen}$, we give the following result.
+
+		\begin{ftheo}
+			\label{ftheo: eigen pseudorandom}
+			Suppose $G=(V,E)$ is a $d$-regular graph on $n$ vertices and $\lambda = \max\{|\lambda_2|,|\lambda_n|\}$, where $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of $G$. Then for any $X,Y\subseteq V$,
+			\[ \left| e(X,Y) - \frac{d}{n}|X||Y| \right| \le \lambda\sqrt{|X||Y|}. \]
+		\end{ftheo}
+		\begin{proof}
+			Observe that
+			\[ e(X,Y) = \indic_X^\top A \indic_Y, \]
+			where $\indic_X$ is the `indicator vector' of $X$, a vector indiced by the vertices of $G$, with $1$ at the positions in $X$ and $0$ elsewhere.\\
+			Let $A$ be the adjacency matrix of $G$. Since $A$ is real symmetric, we can apply the spectral theorem to write $A = \sum_i \lambda_i v_i v_i^\top$, where $v_i$ is an eigenvector for $\lambda_i$.\\
+			Observe that $d$ is an eigenvalue of $A$ with corresponding eigenvector $\mathbf{1}$, the all $1$s vector. In fact, $d$ is the largest eigenvalue (Why?). Letting $J$  be the all $1$s matrix of appropriate size,
+			\begin{align*}
+				\left| e(X,Y) - \frac{d}{n}|X||Y| \right| &= \left| \indic_X^\top A \indic_Y - \frac{d}{n} \indic_X J \indic_Y \right| \\
+					&= \left| \indic_X^\top \left( A - \frac{d}{n} J \right) \indic_Y \right| \\
+					&\le \norm{\indic_X^\top} \norm{A - \frac{d}{n} J} \norm{\indic_Y}.
+			\end{align*}
+			We claim that $\norm{A - (d/n)J} \le \lambda$. Since $A$ is symmetric with all row sums as $d$, it commutes with $J$, and so they can be simultaneously diagonalized. Further, $n$ is an eigenvalue of $J$ and $d$ is an eigenvalue of $A$ with eigenvector $\mathbf{1}$.
+		\end{proof}
+
+		Next, the following result says that all five notions of randomness we came up with are equivalent!
+
+		\begin{ftheo}[Chung-Graham-Wilson Theorem]
+			$\mathsf{Disc}$, $\mathsf{Disc}'$, $\mathsf{Count}$, $\mathsf{Codegree}$, and $\mathsf{Eigen}$ are equivalent.
+		\end{ftheo}
+		\begin{proof}
+			To prove this we shall show that all of our 5 are equivalent to the following.\\
+			$C_4$-$\mathsf{Count}$. The number of labelled $C_4$s is $(p^4+o(1))n^4$ (this is just $\mathsf{Count}$ for $H = C_4$ specifically).\\
+			\begin{itemize}
+				\item $\mathsf{Disc}$ to $\mathsf{Disc}'$. Setting $X=Y$ then dividing by $2$ gives the result directly.
+				
+				\item $\mathsf{Disc}'$ to $\mathsf{Disc}$. Let $X,Y\subseteq V$. We have
+				\[ e(X,Y) = e(X \cup Y) + e(X\cap Y) - e(X\setminus Y) - e(Y\setminus X) \]
+				Applying $\mathsf{Disc}'$ to each of these $4$ sets gives the results near directly:
+				\begin{align*}
+					e(X,Y) &= p\binom{|X\cup Y|}{2} + p\binom{|X\cap Y|}{2} - p\binom{|X\setminus Y|}{2} - p\binom{|Y\setminus X|}{2} + o(n^2) \\
+					&= p|X||Y| + o(n^2).
+				\end{align*}
+				
+				\item $\mathsf{Disc}$ to $\mathsf{Count}$. This is just the \nameref{theo: graph counting lemma} (we only use the $\mathsf{Disc}$ part of regularity in the proof).
+
+				\item $\mathsf{Count}$ to $C_4$-$\mathsf{Count}$. This is clear from the definition.
+
+				\item $C_4$-$\mathsf{Count}$ to $\mathsf{Codegree}$. Now,
+				\begin{align*}
+					\sum_{x,y\in V} d(x,y) &= \sum_{x\in V} d(x)^2 \\
+						&\ge \frac{1}{n} \left(\sum_{x\in V} d(x)\right)^2 \\
+						&= \frac{4e(G)^2}{n} = (1+o(1))p^2n^3.
+				\end{align*}
+				Also note that
+				\[ \sum_{x,y\in V} d(x,y)^2 = \text{number of labelled $C_4$s} + o(n^4) = (1+o(1)) p^4 n^4. \]
+				So,
+				\begin{align*}
+					\sum_{x,y\in V} |d(x,y) - p^2 n| &\le n \left( \sum_{x,y\in V} (d(x,y) - p^2n)^2 \right)^{1/2} \\
+						&= n \left( \sum_{x,y\in V} d(x,y)^2 - 2 p^2n \sum_{x,y\in V} d(x,y) + p^4 n^4 \right)^{1/2} \\
+						&\le n\left( (1+o(1))p^4n^4 - 2p^2n (1+o(1))p^2n^3 + p^4n^2 \right)^{1/2} \\
+						&= n (o(1)n^4)^{1/2} \\
+						&= o(n^3).
+				\end{align*}
+
+				\item $\mathsf{Codegree}$ to $\mathsf{Disc}$. We have
+				\begin{align*}
+					\sum_{x\in V} |d(x) - pn| &\le \sqrt{n} \left( \sum_{x\in V} (d(x)-pn)^2 \right)^{1/2} \\
+						&= \sqrt{n} \left( \sum_{x\in V} d^2(x) - 2pn \sum_{x\in V}d(x) + p^2n^3 \right) \\
+						&= \sqrt{n} \left( \sum_{x,y\in V} d(x,y) - 2p^2n^3 + p^2n^3 o(n) \right) \\
+						&= \sqrt{n} \left( \sum_{x,y \in V} \left(d(x,y) - p^2n\right) \right) \\
+						&\le \sqrt{n} \left( \sum_{x,y \in V} \left|d(x,y) - p^2n\right| \right) = o(n^2).
+				\end{align*}
+				For $X,Y\subseteq V$,
+				\begin{align*}
+					\left| e(X,Y) - p|X||Y| \right| &\le \sum_{x\in X} \left| d(x,y) - p|Y| \right| \\
+					&\le \sqrt{|X|} \left( \sum_{x\in X} (d(x,Y) - p|Y|)^2 \right)^{1/2} \\
+					&\le \sqrt{|X|} \left( \sum_{v\in V} (d(v,Y) - p|Y|)^2 \right)^{1/2} \\
+					&= \sqrt{|X|} \left( \sum_{v\in V} d(v,Y)^2 - 2p|Y|\sum_{v\in V} d(v,Y) + p^2 |Y|^2 n \right)^{1/2} \\
+					&= \sqrt{|X|} \left( \sum_{y,y'\in Y} d(y,y')^2 - 2p|Y|\sum_{y\in Y} d(y) + p^2 |Y|^2 n \right)^{1/2} \\
+					&= \sqrt{|X|} 
+				\end{align*}
+
+				\item $\mathsf{Eigen}$ to $C_4$-$\mathsf{Count}$. Note that the number of labelled $C_4$s in $G$ equals the number of closed walks of length $4$ minus $O(n^3)$. Now, observe that given two vertices $v,w$, the number of walks from $v$ to $w$ of length $4$ is just $(A^4)_{vw}$ (Why?). In particular, the number of closed walks from $v$ to $v$ is $(A^4)_{vv}$. Recalling that the trace of a matrix is the sum of its eigenvalues,
+				\begin{align*}
+					\text{number of $C_4$s} &= \Tr(A^4) - O(n^3) \\
+						&\le \lambda_1^4 + \sum_{i>1} \lambda_i^4 \\
+						&\le (1+o(1)) (pn)^4 + \left(\max_{i>1} \lambda_i^2\right) \sum_{i=1}^n \lambda_i^2 \\
+						&= (1+o(1)) (pn)^4 + o(n^2) \cdot 2e(G) \\
+						&= (1+o(1)) (pn)^4 + o(n^4) = (1+o(1)) p^4 n^4.
+				\end{align*}
+
+				% \item $C_4$-$\mathsf{Count}$ to $\mathsf{Eigen}$. Exactly as above, we have
+				% \[ \sum_{i=1}^n \lambda_i^4 = (1+o(1)) n^4 p^4. \]
+			\end{itemize}
+
+		\end{proof}
