@@ -347,73 +347,114 @@
 
 	\subsection{Kernels}
 
-		Recall the perceptron update rule. If we update $w^{(k)}$ to $w^{(k+1)}$ on reading the misclassified point $(x',y')$, we have for any datapoint $(x,y)$ that
-		\[ (w^{(k+1)})^\top\phi(x) = (w^{(k)})^\top \phi(x) + y' \phi(x')^\top \phi(x). \]
-		The quantity $\phi(x')^\top\phi(x)$ represents some sort of similarity between $\phi(x')$ and $\phi(x)$. Let $f^{(k)}(x) = (w^{(k)})^\top\phi(x)$. We then have
-		\[ f^{(k+1)}(x) = f^{(k)}(x) + y'\phi(x')^\top\phi(x). \]
-		Now, if we obtained $w^{(k)}$ from $w^{(k-1)}$ on reading the datapoint $(x'',y'')$, we can perform a similar substitution to get
-		\[ f^{(k+1)}(x) = f^{(k-1)}(x) + y'\phi(x')^\top\phi(x) + y''\phi(x'')^\top\phi(x). \]
-		More generally, if we obtained $w^{(i+1)}$ from $w^{(i)}$ on reading the datapoint $(x_i,y_i)$ for each $i$,
-		\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{i=0}^{k} y_i\phi(x_i)^\top\phi(x). \]
-		If for each datapoint $(x',y')$, $\alpha_{x'}$ represents the number of times it was misclassified in the first $k$ updates, then
-		\[ f^{(k+1)}(x) = f^{(0)}x + \sum_{(x',y')} y'\phi(x')^\top\phi(x) \alpha_{x'}. \]
-		So, the final score is the initial score plus some weighted sum of the similarities of each of the misclassified points with the test point. Let $K(x,x') = \phi(x')^\top\phi(x)$ for each pair $(x,x')$ represent a notion of similarity (as we mentioned earlier). We then just have
-		\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{(x',y')} y' K(x,x') \alpha_{x'}. \]
-		Misclassification of a point $x$ indirectly computes similarity $K(x,x')$ for each of the previously misclassified points through the classifier, since we have `folded in' the information about $x'$ into the classifier. Observe that here, the classifier is parametrized using the $\alpha_{x}$, \emph{not} the $w$ as earlier.\\
+		\subsubsection{Introduction}
 
-		Based on this, we define the \emph{kernelized perceptron} as follows. We have a notion of similarity given by $K(x,y) = \phi(x)^\top\phi(y)$ and initialize all the $\alpha_x$ as $0$. Let $f^{(0)}$ be identically zero. Given $f^{(k)}$ and a misclassified point $(x,y)$, a point such that
-		\[ y f^{(k)}(x) = \sum_{(x',y')} yy' K(x,x') \alpha_{x'} < 0, \]
-		we update $\alpha_x \gets \alpha_x + 1$. We could also add a bias $b$ to $f$ (essentially initializing $f^{0}$ to be the constant $b$), which represents` a non-zero initialization of $w$.\\
+			Recall the perceptron update rule. If we update $w^{(k)}$ to $w^{(k+1)}$ on reading the misclassified point $(x',y')$, we have for any datapoint $(x,y)$ that
+			\[ (w^{(k+1)})^\top\phi(x) = (w^{(k)})^\top \phi(x) + y' \phi(x')^\top \phi(x). \]
+			The quantity $\phi(x')^\top\phi(x)$ represents some sort of similarity between $\phi(x')$ and $\phi(x)$. Let $f^{(k)}(x) = (w^{(k)})^\top\phi(x)$. We then have
+			\[ f^{(k+1)}(x) = f^{(k)}(x) + y'\phi(x')^\top\phi(x). \]
+			Now, if we obtained $w^{(k)}$ from $w^{(k-1)}$ on reading the datapoint $(x'',y'')$, we can perform a similar substitution to get
+			\[ f^{(k+1)}(x) = f^{(k-1)}(x) + y'\phi(x')^\top\phi(x) + y''\phi(x'')^\top\phi(x). \]
+			More generally, if we obtained $w^{(i+1)}$ from $w^{(i)}$ on reading the datapoint $(x_i,y_i)$ for each $i$,
+			\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{i=0}^{k} y_i\phi(x_i)^\top\phi(x). \]
+			If for each datapoint $(x',y')$, $\alpha_{x'}$ represents the number of times it was misclassified in the first $k$ updates, then
+			\[ f^{(k+1)}(x) = f^{(0)}x + \sum_{(x',y')} y'\phi(x')^\top\phi(x) \alpha_{x'}. \]
+			So, the final score is the initial score plus some weighted sum of the similarities of each of the misclassified points with the test point. Let $K(x,x') = \phi(x')^\top\phi(x)$ for each pair $(x,x')$ represent a notion of similarity (as we mentioned earlier). We then just have
+			\[ f^{(k+1)}(x) = f^{(0)}(x) + \sum_{(x',y')} y' K(x,x') \alpha_{x'}. \]
+			Misclassification of a point $x$ indirectly computes similarity $K(x,x')$ for each of the previously misclassified points through the classifier, since we have `folded in' the information about $x'$ into the classifier. Observe that here, the classifier is parametrized using the $\alpha_{x}$, \emph{not} the $w$ as earlier.\\
+
+			Based on this, we define the \emph{kernelized perceptron} as follows. We have a notion of similarity given by $K(x,y) = \phi(x)^\top\phi(y)$ and initialize all the $\alpha_x$ as $0$. Let $f^{(0)}$ be identically zero. Given $f^{(k)}$ and a misclassified point $(x,y)$, a point such that
+			\[ y f^{(k)}(x) = \sum_{(x',y')} yy' K(x,x') \alpha_{x'} < 0, \]
+			we update $\alpha_x \gets \alpha_x + 1$. We could also add a bias $b$ to $f$ (essentially initializing $f^{(0)}$ to be the constant $b$), which represents` a non-zero initialization of $w$.\\
 
 
-		Based on how we choose $\phi$, and thus $K(\cdot,\cdot)$, we can adapt to datasets that have separators far more complicated than the simple linear separator we have been dealing with thus far! For example, the choice of the \emph{radial basis function} given by $K(x,y) = \exp(-\norm{x-y}_2^2/2\sigma^2)$ can deal with spherical separators.
+			Based on how we choose $\phi$, and thus $K(\cdot,\cdot)$, we can adapt to datasets that have separators far more complicated than the simple linear separator we have been dealing with thus far! For example, the choice of the \emph{radial basis function} given by $K(x,y) = \exp(-\norm{x-y}_2^2/2\sigma^2)$ can deal with spherical separators.
 
-		Kernels typically operate in high-dimensional implicit feature spaces. What this means is that if our original dataset has the $x$ from, say, $\R^d$ but our actual $\phi$ maps to $\R^n$ for some high $n$, it might often be possible (for nice choices of $\phi$) to express $K(x,y)$ in terms of some simpler function of $x$ and $y$ itself. As a result, we don't necessarily need to compute the coordinates of $\phi(x)$ and can get away with just manipulating the coordinates of the datapoint to compute the kernel function. This tends to be computationally cheaper.\\
+			Kernels typically operate in high-dimensional implicit feature spaces. What this means is that if our original dataset has the $x$ from, say, $\R^d$ but our actual $\phi$ maps to $\R^n$ for some high $n$, it might often be possible (for nice choices of $\phi$) to express $K(x,y)$ in terms of some simpler function of $x$ and $y$ itself. As a result, we don't necessarily need to compute the coordinates of $\phi(x)$ and can get away with just manipulating the coordinates of the datapoint to compute the kernel function. This tends to be computationally cheaper.\\
 
-		For a dataset $\{x_1,\ldots,x_m\}$, the \emph{Gram matrix} $\mathcal{K}$ is defined as
-		\[
-		\mathcal{K} =
-		\begin{pmatrix}
-			K(x_1,x_1) & \cdots & K(x_1,x_m) \\
-			\vdots & \ddots & \vdots \\
-			K(x_m,x_1) & \cdots & K(x_m,x_m)
-		\end{pmatrix}.
-		\]
+			For a dataset $\{x_1,\ldots,x_m\}$, the \emph{Gram matrix} $\mathcal{K}$ is defined as
+			\[
+			\mathcal{K} =
+			\begin{pmatrix}
+				K(x_1,x_1) & \cdots & K(x_1,x_m) \\
+				\vdots & \ddots & \vdots \\
+				K(x_m,x_1) & \cdots & K(x_m,x_m)
+			\end{pmatrix}.
+			\]
 
-		What are some properties we desire from $K$, and so $\mathcal{K}$? A few that come to mind are:
-		\begin{itemize}
-			\item $K(\cdot,\cdot)$ is symmetric in the two variables, that is, $\mathcal{K}$ is symmetric.
-			\item $\mathcal{K}$ is positive-semidefinite. Indeed, for any $v\in\R^m$,
+		\subsubsection{Positive semi-definite kernels}
+
+			What are some properties we desire from $K$, and so $\mathcal{K}$? A few that come to mind are:
+			\begin{itemize}
+				\item $K(\cdot,\cdot)$ is symmetric in the two variables, that is, $\mathcal{K}$ is symmetric.
+				\item $\mathcal{K}$ is positive-semidefinite. Indeed, for any $v\in\R^m$,
+				\begin{align*}
+					v^\top\mathcal{K}v &= \sum_{i,j} v_i \mathcal{K}_{ij} v_j \\
+						&= \sum_{i,j} v_i v_j \phi(x_i)^\top \phi(x_j)^\top \\
+						&= \left(\sum_i v_i \phi(x_i)\right)^\top \left(\sum_j v_j \phi(x_j)\right) \\
+						&= \norm{\sum_i v_i \phi(x_i)}_2^2 \ge 0.
+				\end{align*}
+			\end{itemize}
+			A kernel $K(\cdot,\cdot)$ satisfying the above two conditions is known as a positive semi-definite kernel.\\
+
+			We clearly have that for any choice of $\phi$, a positive semi-definite kernel is obtained. Is the converse true as well?\\
+			Yes, we claim that for any positive semi-definite kernel, there exists a Hilbert space $H$ and a $\phi:\Rn \to H$ such that $K(x_i,x_j) = \phi(x_i)^\top \phi(x_j)$. Indeed, if $K$ is symmetric and positive semi-definite, we can perform the Cholsky(/singular value) decomposition on $\mathcal{K}$ to get
+			\[ \mathcal{K} = U\Sigma U^\top = (U\Sigma^{1/2})(U\Sigma^{1/2})^\top = RR^\top, \]
+			where the rows of $U$ are linearly independent and $\Sigma$ is a diagonal matrix with non-negative entries.\\
+			Mapping each datapoint $x_i$ to the $i$th row of $\mathcal{K}$ gives the required.\\
+
+		\subsubsection{Mercer kernels}
+
+			What about when our set of features is infinite-dimensional? Indeed, in this case we can extend it to an eigen\emph{function} decomposition and write
+			\[ K(x_1,x_2) = \sum_{i=1}^\infty \alpha_i \phi_i(x_1) \phi_i(x_2), \]
+			where each $\alpha_i \ge 0$ and $\sum_{i=1}^\infty \alpha_i^2 < \infty$ (the $\alpha_i$ are eigenvalues and the $\phi_i$ are eigenfunctions). This is known as the \emph{Mercer kernel} decomposition.\\
+
+			Equivalently, $K(x_1,x_2)$ is a Mercer kernel (and is said to satisfy Mercer's condition) if for all square integrable functions $g$,
+			\[ \iint K(x_1,x_2) g(x_1) g(x_2) \dif x_1 \dif x_2. \]
+
+			When the input space of $x$ is compact, the Mercer kernel and positive semi-definite kernel turn out to be equivalent.\\
+			
+			Again, as before, for any choice of $\phi$, we obtain a Mercer kernel. The converse is true here as well.\\
+			That is, for any Mercer Kernel $K(x_1,x_2)$, there exists a $\phi(x) : \Rn \to H$ such that $K(x_1,x_2) = \phi(x_1)^\top \phi(x_2)$, where $H$ is a Hilbert space.\\
+
+			Thus, we don't really need to deal with basis functions when dealing with this method, since all we need is a (positive semi-definite or Mercer) kernel.
+
+			Now, let us discuss a couple of properties of positive semi-definite/Mercer kernels.
+
+			\begin{itemize}
+				\item If $K_1$ and $K_2$ are kernels and $\alpha_1,\alpha_2 \ge 0$, then $\alpha_1 K_1 + \alpha_2 K_2$ is a kernel. (think of appending the two basis functions)
+				\item If $K_1$ and $K_2$ are kernels, then $K_1 K_2$ is a kernel. (think of converting the product of sums to a product of sums)
+			\end{itemize}
+
+		\subsubsection{Example: kernelization of regression}
+
+			Now, let us try to kernelize regularized logistic regression. We had defined the cross-entropy loss function
+
+			\[ E(w) = - \frac{1}{m} \sum_{i=1}^m \left( y_i w^\top \phi(x_i) - \log\left( 1 + \exp(w^\top\phi(x_i)) \right) \right) + \frac{\lambda}{2m} \norm{w}_2^2. \]
+
+			The equivalent dual kernelized objective, which comes from the \href{https://en.wikipedia.org/wiki/Representer_theorem}{\emph{representer theorem}} (we shall study this later) is given by
+
+			In place of the `hard' thresholding we had done in ordinary perceptron with the hinge loss, here we have a `soft' thresholding which has probabilites instead. As a result, the decision function is instead given by
+			\[ \sigma_w(x) = \frac{1}{1 + \exp(- \sum_j \alpha_j K(x,x_j))} \]
+			and the dual kernelized objective (which we must minimize with respect to $(\alpha_i) \in \R^m$) is
+			\[ E_D(\alpha) = - \sum_{i=1}^m \left(\left(\sum_{j=1}^m y_i K(x_i, x_j) \alpha_j - \frac{\lambda}{2} \alpha_i K(x_i,x_j) \alpha_j\right) - \log\left( 1 + \exp\left(-\sum_{i=1}^m \alpha_j K(x_i,x_j)\right) \right)\right). \]
+
+			Recall that in ridge regression,
 			\begin{align*}
-				v^\top\mathcal{K}v &= \sum_{i,j} v_i \mathcal{K}_{ij} v_j \\
-					&= \sum_{i,j} v_i v_j \phi(x_i)^\top \phi(x_j)^\top \\
-					&= \left(\sum_i v_i \phi(x_i)\right)^\top \left(\sum_j v_j \phi(x_j)\right) \\
-					&= \norm{\sum_i v_i \phi(x_i)}_2^2 \ge 0.
+				\hat{w} &= \argmin_w \norm{\Phi w - y}_2^2 + \lambda\norm{w}_2^2 \\
+					&= (\Phi^\top\Phi + \lambda I)^{-1} \Phi^\top y.	
 			\end{align*}
-		\end{itemize}
-		A kernel $K(\cdot,\cdot)$ satisfying the above two conditions is known as a positive semi-definite kernel.\\
-
-		We clearly have that for any choice of $\phi$, a positive semi-definite kernel is obtained. Is the converse true as well?\\
-		Yes, we claim that for any positive semi-definite kernel, there exists a Hilbert space $H$ and a $\phi:\Rn \to H$ such that $K(x_i,x_j) = \phi(x_i)^\top \phi(x_j)$. Indeed, if $K$ is symmetric and positive semi-definite, we can perform the Cholsky(/singular value) decomposition on $\mathcal{K}$ to get
-		\[ \mathcal{K} = U\Sigma U^\top = (U\Sigma^{1/2})(U\Sigma^{1/2})^\top = RR^\top, \]
-		where the rows of $U$ are linearly independent and $\Sigma$ is a diagonal matrix with non-negative entries.\\
-		Mapping each datapoint $x_i$ to the $i$th row of $\mathcal{K}$ gives the required.\\
-
-		What about when our set of features is infinite-dimensional? Indeed, in this case we can extend it to an eigen\emph{function} decomposition and write
-		\[ K(x_1,x_2) = \sum_{i=1}^\infty \alpha_i \phi_i(x_1) \phi_i(x_2), \]
-		where each $\alpha_i \ge 0$ and $\sum_{i=1}^\infty \alpha_i^2 < \infty$ (the $\alpha_i$ are eigenvalues and the $\phi_i$ are eigenfunctions). The condition that $\alpha_i \ge 0$ corresponds to the fact that the matrix is positive semi-definite (all eigenvalues are non-negative). This is known as the \emph{Mercer kernel} decomposition.\\
-
-		Equivalently, $K(x_1,x_2)$ is a Mercer kernel (and is said to satisfy Mercer's condition) if for all square integrable functions $g$,
-		\[ \iint K(x_1,x_2) g(x_1) g(x_2) \dif x_1 \dif x_2. \]
-
-		When the input space of $x$ is compact, the Mercer kernel and positive semi-definite kernel turn out to be equivalent.\\
-		
-		Again, as before, for any choice of $\phi$, we obtain a Mercer kernel. The converse is true here as well.\\
-		That is, for any Mercer Kernel $K(x_1,x_2)$, there exists a $\phi(x) : \Rn \to H$ such that $K(x_1,x_2) = \phi(x_1)^\top \phi(x_2)$, where $H$ is a Hilbert space.\\
-
-		 
-
-
+			Consider the ridge regression function
+			\[ f(x) = \phi^\top(x) w = \phi^\top(x) (\Phi^\top\Phi + \lambda I)^{-1}\phi^\top y. \]
+			Consider the following matrix identity.
+			\[ (P^{-1} + B^\top R^{-1} B)^{-1} B^\top R^{-1} = PB^\top (BPB^\top + R)^{-1}. \]
+			Setting $R = I$, $P = (1/\lambda I)$, and $B = \Phi$,
+			\[ (\lambda I + \Phi^\top\Phi)^{-1} \Phi^\top = (1/\lambda) \Phi^\top ( (1/\lambda) \Phi\Phi^\top + I )^{-1}. \]
+			So,
+			\[ f(x) = \phi(x)^\top \Phi^\top ( \Phi\Phi^\top + \lambda I )^{-1} y. \]
+			$\Phi^\top\Phi$ is exactly what we want, since $(\Phi^\top\Phi)_{ij} = K(x_i,x_j)$. Further, the $\phi(x)^\top \Phi^\top$ combines in terms of the kernel function as well! Overall, we have
+			\[ f(x) = \sum_i \alpha_i K(x,x_i), \]
+			where $\alpha_i = ( (\Phi\Phi^\top + \lambda I)^{-1} y )_i$.
 % \bibliographystyle{alpha}
 % \bibliography{references}
 

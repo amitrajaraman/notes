@@ -895,133 +895,239 @@
 
 	\subsection{Pseudorandomness}
 
-		Szemer\'{e}di's regularity lemma, in layman terms, says that any dense graph consists `mostly' of a `small' number of `random-like' bipartite graphs. The meaning of the first two words within the quotes should be clear; they just say that $|V_0|$ is small and that $k$ is bounded. The question then is: what does it mean to say that a graph is random-like? We have a single graph, not a distribution.\\
+		Szemer\'{e}di's regularity lemma, in layman terms, says that any dense graph consists `mostly' of a `small' number of `random-like' bipartite graphs. The meaning of the first two words within the quotes should be clear; they just say that $|V_0|$ is small and that $k$ is bounded. The question then is: what does it mean to say that a graph is random-like? We have a single graph, not a distribution.
 
-		Let us first list a couple of features that feel like something a random-like graph should have. Suppose that $e(G_n) has (p + o(1)) \binom{n}{2}$ edges, where $p$ is a fixed constant.
-		\begin{enumerate}
-			\item $\mathsf{Disc}$ (\emph{Discrepancy}). For all $X,Y\subseteq V(G)$, 
-			\[ \left| e(X,Y) - p|X||Y| \right| = o(n^2). \]
-			
-			\item $\mathsf{Disc}'$. For all $X\subseteq V(G)$,
-			\[ \left| e(X) - p \binom{|X|}{2} \right| = o(n^2). \]
-			
-			\item $\mathsf{Count}$. For a fixed $H$, the number of labelled copies of $H$ in $G$ is $(1+o(1))p^{e(H)} n^{|V(H)|}$ (Why choose this number?).
-			
-			\item $\mathsf{Codegree}$. We have
-			\[ \sum_{x,y \in V} |d(x,y) - p^2 n| = o(n^3). \]
+		\subsubsection{Notions of randomness}
 
-			\item $\mathsf{Eigen}$. If $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of the adjacency matrix of $G_n$, then
-			\[ \lambda_1 = pn(1+o(1)) \]
-			and
-			\[ \max_{i > 1} |\lambda_i| = \max\{|\lambda_2|,|\lambda_n|\} = o(n). \]
-		\end{enumerate}
-		Observe that there are already asymptotics at play here since $o(\cdot)$ is not very meaningful when we are dealing with a single graph.\\
+			Let us first list a couple of features that feel like something a random-like graph should have. Suppose that $e(G_n) has (p + o(1)) \binom{n}{2}$ edges, where $p$ is a fixed constant.
+			\begin{enumerate}
+				\item $\mathsf{Disc}$ (\emph{Discrepancy}). For all $X,Y\subseteq V(G)$, 
+				\[ \left| e(X,Y) - p|X||Y| \right| = o(n^2). \]
+				
+				\item $\mathsf{Disc}'$. For all $X\subseteq V(G)$,
+				\[ \left| e(X) - p \binom{|X|}{2} \right| = o(n^2). \]
+				
+				\item $\mathsf{Count}$. For a fixed $H$, the number of labelled copies of $H$ in $G$ is $(1+o(1))p^{e(H)} n^{|V(H)|}$ (Why choose this number?).
+				
+				\item $\mathsf{Codegree}$. We have
+				\[ \sum_{x,y \in V} |d(x,y) - p^2 n| = o(n^3). \]
 
-		While the reader is likely familiar with what an adjacency matrix is, we define it here for the sake of completeness.
-		\begin{definition}[Adjacency Matrix]
-			Given a graph $G=(V,E)$, the \emph{adjacency matrix} $A$ of $G$ is a matrix whose rows and columns are indexed by $V$, and for $v,w\in V$
+				\item $\mathsf{Eigen}$. If $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of the adjacency matrix of $G_n$, then
+				\[ \lambda_1 = pn(1+o(1)) \]
+				and
+				\[ \max_{i > 1} |\lambda_i| = \max\{|\lambda_2|,|\lambda_n|\} = o(n). \]
+			\end{enumerate}
+			Observe that there are already asymptotics at play here since $o(\cdot)$ is not very meaningful when we are dealing with a single graph.\\
+
+			While the reader is likely familiar with what an adjacency matrix is, we define it here for the sake of completeness.
+			\begin{definition}[Adjacency Matrix]
+				Given a graph $G=(V,E)$, the \emph{adjacency matrix} $A$ of $G$ is a matrix whose rows and columns are indexed by $V$, and for $v,w\in V$
+				\[
+				A_{vw} =
+				\begin{cases}
+					1, & vw\in E, \\
+					0, & vw\not\in E.
+				\end{cases}
+				\]
+				The eigenvalues of $A$ are sometimes referred to as the eigenvalues of $G$.
+			\end{definition}
+
+			While the first four properties above might make sense based on our discussion thus far, the last seems to come out of nowhere.
+
+			To motivate $\mathsf{Eigen}$, we give the following result.
+
+			\begin{ftheo}[Expander Mixing Lemma]
+				\label{theo: expander mixing lemma}
+				Suppose $G=(V,E)$ is a $d$-regular graph on $n$ vertices and $\lambda = \max\{|\lambda_2|,|\lambda_n|\}$, where $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of $G$. Then for any $X,Y\subseteq V$,
+				\[ \left| e(X,Y) - \frac{d}{n}|X||Y| \right| \le \lambda\sqrt{|X||Y|}. \]
+			\end{ftheo}
+			\begin{proof}
+				Observe that
+				\[ e(X,Y) = \indic_X^\top A \indic_Y, \]
+				where $\indic_X$ is the `indicator vector' of $X$, a vector indiced by the vertices of $G$, with $1$ at the positions in $X$ and $0$ elsewhere.\\
+				Let $A$ be the adjacency matrix of $G$. Since $A$ is real symmetric, we can apply the spectral theorem to write $A = \sum_i \lambda_i v_i v_i^\top$, where $v_i$ is an eigenvector for $\lambda_i$.\\
+				Observe that $d$ is an eigenvalue of $A$ with corresponding eigenvector $\mathbf{1}$, the all $1$s vector. In fact, $d$ is the largest eigenvalue -- if $\lambda_1$ is the largest eigenvalue and $x$ is an eigenvector with $x_v = \max_u |x_u|$,
+				\[ |\lambda_1 x_v| = |(Ax)_v| = \left|\sum_{u \in \Gamma(v)} x_u \right| \le d(v) |x_v| \le \Delta(G) |x_v|. \]
+				Letting $J$  be the all $1$s matrix of appropriate size,
+				\begin{align*}
+					\left| e(X,Y) - \frac{d}{n}|X||Y| \right| &= \left| \indic_X^\top A \indic_Y - \frac{d}{n} \indic_X J \indic_Y \right| \\
+						&= \left| \indic_X^\top \left( A - \frac{d}{n} J \right) \indic_Y \right| \\
+						&\le \norm{\indic_X^\top} \norm{A - \frac{d}{n} J} \norm{\indic_Y}.
+				\end{align*}
+				We claim that $\norm{A - (d/n)J} \le \lambda$. Since $A$ is symmetric with all row sums as $d$, it commutes with $J$, and so they can be simultaneously diagonalized. Further, $n$ is an eigenvalue of $J$ and $d$ is an eigenvalue of $A$ with eigenvector $\mathbf{1}$.
+			\end{proof}
+
+			Next, the following result says that all five notions of randomness we came up with are equivalent!
+
+			\begin{ftheo}[Chung-Graham-Wilson Theorem]
+				$\mathsf{Disc}$, $\mathsf{Disc}'$, $\mathsf{Count}$, $\mathsf{Codegree}$, and $\mathsf{Eigen}$ are equivalent.
+			\end{ftheo}
+			\begin{proof}
+				To prove this we shall show that all of our 5 are equivalent to the following.\\
+				$C_4$-$\mathsf{Count}$. The number of labelled $C_4$s is $(p^4+o(1))n^4$ (this is just $\mathsf{Count}$ for $H = C_4$ specifically).\\
+				\begin{itemize}
+					\item $\mathsf{Disc}$ to $\mathsf{Disc}'$. Setting $X=Y$ then dividing by $2$ gives the result directly.
+					
+					\item $\mathsf{Disc}'$ to $\mathsf{Disc}$. Let $X,Y\subseteq V$. We have
+					\[ e(X,Y) = e(X \cup Y) + e(X\cap Y) - e(X\setminus Y) - e(Y\setminus X) \]
+					Applying $\mathsf{Disc}'$ to each of these $4$ sets gives the results near directly:
+					\begin{align*}
+						e(X,Y) &= p\binom{|X\cup Y|}{2} + p\binom{|X\cap Y|}{2} - p\binom{|X\setminus Y|}{2} - p\binom{|Y\setminus X|}{2} + o(n^2) \\
+						&= p|X||Y| + o(n^2).
+					\end{align*}
+					
+					\item $\mathsf{Disc}$ to $\mathsf{Count}$. This is just the \nameref{theo: graph counting lemma} (we only use the $\mathsf{Disc}$ part of regularity in the proof).
+
+					\item $\mathsf{Count}$ to $C_4$-$\mathsf{Count}$. This is clear from the definition.
+
+					\item $C_4$-$\mathsf{Count}$ to $\mathsf{Codegree}$. Now,
+					\begin{align*}
+						\sum_{x,y\in V} d(x,y) &= \sum_{x\in V} d(x)^2 \\
+							&\ge \frac{1}{n} \left(\sum_{x\in V} d(x)\right)^2 \\
+							&= \frac{4e(G)^2}{n} = (1+o(1))p^2n^3.
+					\end{align*}
+					Also note that
+					\[ \sum_{x,y\in V} d(x,y)^2 = \text{number of labelled $C_4$s} + o(n^4) = (1+o(1)) p^4 n^4. \]
+					So,
+					\begin{align*}
+						\sum_{x,y\in V} |d(x,y) - p^2 n| &\le n \left( \sum_{x,y\in V} (d(x,y) - p^2n)^2 \right)^{1/2} \\
+							&= n \left( \sum_{x,y\in V} d(x,y)^2 - 2 p^2n \sum_{x,y\in V} d(x,y) + p^4 n^4 \right)^{1/2} \\
+							&\le n\left( (1+o(1))p^4n^4 - 2p^2n (1+o(1))p^2n^3 + p^4n^2 \right)^{1/2} \\
+							&= n (o(1)n^4)^{1/2} \\
+							&= o(n^3).
+					\end{align*}
+
+					\item $\mathsf{Codegree}$ to $\mathsf{Disc}$. We have
+					\begin{align*}
+						\sum_{x\in V} |d(x) - pn| &\le \sqrt{n} \left( \sum_{x\in V} (d(x)-pn)^2 \right)^{1/2} \\
+							&= \sqrt{n} \left( \sum_{x\in V} d^2(x) - 2pn \sum_{x\in V}d(x) + p^2n^3 \right) \\
+							&= \sqrt{n} \left( \sum_{x,y\in V} d(x,y) - 2p^2n^3 + p^2n^3 o(n) \right) \\
+							&= \sqrt{n} \left( \sum_{x,y \in V} \left(d(x,y) - p^2n\right) \right) \\
+							&\le \sqrt{n} \left( \sum_{x,y \in V} \left|d(x,y) - p^2n\right| \right) = o(n^2).
+					\end{align*}
+					For $X,Y\subseteq V$,
+					\begin{align*}
+						\left| e(X,Y) - p|X||Y| \right| &\le \sum_{x\in X} \left| d(x,y) - p|Y| \right| \\
+						&\le \sqrt{|X|} \left( \sum_{x\in X} (d(x,Y) - p|Y|)^2 \right)^{1/2} \\
+						&\le \sqrt{|X|} \left( \sum_{v\in V} (d(v,Y) - p|Y|)^2 \right)^{1/2} \\
+						&= \sqrt{|X|} \left( \sum_{v\in V} d(v,Y)^2 - 2p|Y|\sum_{v\in V} d(v,Y) + p^2 |Y|^2 n \right)^{1/2} \\
+						&= \sqrt{|X|} \left( \sum_{y,y'\in Y} d(y,y')^2 - 2p|Y|\sum_{y\in Y} d(y) + p^2 |Y|^2 n \right)^{1/2} \\
+						&= \sqrt{|X|} 
+					\end{align*}
+
+					\item $\mathsf{Eigen}$ to $C_4$-$\mathsf{Count}$. Note that the number of labelled $C_4$s in $G$ equals the number of closed walks of length $4$ minus $O(n^3)$. Now, observe that given two vertices $v,w$, the number of walks from $v$ to $w$ of length $4$ is just $(A^4)_{vw}$ (Why?). In particular, the number of closed walks from $v$ to $v$ is $(A^4)_{vv}$. Recalling that the trace of a matrix is the sum of its eigenvalues,
+					\begin{align*}
+						\text{number of $C_4$s} &= \Tr(A^4) - O(n^3) \\
+							&\le \lambda_1^4 + \sum_{i>1} \lambda_i^4 \\
+							&\le (1+o(1)) (pn)^4 + \left(\max_{i>1} \lambda_i^2\right) \sum_{i=1}^n \lambda_i^2 \\
+							&= (1+o(1)) (pn)^4 + o(n^2) \cdot 2e(G) \\
+							&= (1+o(1)) (pn)^4 + o(n^4) = (1+o(1)) p^4 n^4.
+					\end{align*}
+
+					\item $C_4$-$\mathsf{Count}$ to $\mathsf{Eigen}$. The maximum eigenvalue of $A$ is just
+					\[ \lambda_1 = \sup_{\norm{x}_2 = 1} x^\top A x. \]
+					Taking $x = (1/\sqrt{n})\mathbf{1}$, we have
+					\[ \lambda_1 \ge \frac{2e(G)}{n} = (p - o(1))n. \]
+					For the remaining eigenvalues,
+					\begin{align*}
+						\max_{i\ne 1} |\lambda_i|^4 &\le \Tr(A^4) - \lambda_1^4 \\
+							&\le \underbrace{(p^4 + o(1))n^4}_{\text{from }C_4-\mathsf{Count}} - (p - o(1))^4 n^4 \\
+							&= o(n^4),
+					\end{align*}
+					completing the proof.
+				\end{itemize}
+			\end{proof}
+
+			\begin{remark}
+				\begin{itemize}
+					\item The proof requires $p = \Omega(1)$, in particular to show that $\mathsf{Disc}$ implies $\mathsf{Count}$.
+					\item $\mathsf{Count}$ does not hold in sparse regimes. In fact, Noga Alon in the 90s gave a graph with $p = \Omega(n^{-1/3})$ which is $\mathsf{Eigen}$-pseudorandom, but triangle-free.
+					% It is known that a graph with $p = o(n^{-1/2})$ is almost surely triangle-free and a graph with $p = \Omega(n^{1/2})$ almost surely has triangles.
+				\end{itemize}
+			\end{remark}
+
+		\subsubsection{Strongly regular graphs}
+
+			Do we have any `known' families of pseudorandom graphs?
+
+			\begin{fdef}
+				Suppose $q$ is a prime power such that $q \equiv 1 \pmod{4}$. Consider the \textbf{Paley graph} $P_q$ with vertex set $V(P_q) = \F_q$ and $xy$ is an edge iff $x-y$ is a quadratic residue\footnotemark.
+			\end{fdef}
+			\footnotetext{$x-y = a^2$ for some $a\in\F_q^\times$.}
+
+			Let us see a couple of properties of the Paley graph.
+
+			\begin{fdef}
+				A graph $G$ is said to be an \textbf{$(n,d,\lambda)$-graph} if it is a regular graph of degree $d$ over $n$ vertices with $\max_{i\ne 1} |\lambda_i| \le \lambda$, where $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of the graph.
+			\end{fdef}
+
+			\begin{fdef}
+				A graph $G=(V,E)$ is a \textbf{$(n,d,\lambda,\mu)$-strongly regular graph} if
+				\begin{itemize}
+					\item $|V|=n$,
+					\item $G$ is regular with degree $d$,
+					\item Any two adjacent vertices have exactly $\lambda$ common neighbbours, and
+					\item Any two non-adjacent vertices have exactly $\mu$ common neighbours.
+				\end{itemize}
+				If a graph is $(n,d,\lambda,\mu)$-strongly regular for some $n,d,\lambda,\mu$, it is just said to be strongly regular.
+			\end{fdef}
+
+			For example, a complete graph on $n$ vertices is $(n,n-1,n-1,0)$-strongly regular and $C_5$ is $(5,2,0,1)$-strongly regular.\\
+			Slightly more complicatedly, the Petersen graph is $(10,3,0,1)$-strongly regular.\\
+
+			Observe that a graph is $(n,d,\lambda,\mu)$-strongly regular iff its adjacency matrix $A$ is such that
 			\[
-			A_{vw} =
+			(A^2)_{vw} =
 			\begin{cases}
-				1, & vw\in E, \\
-				0, & vw\not\in E.
+				d, & i=j, \\
+				\lambda, & v,w\text{ are adjacent}, \\
+				\mu, & v,w\text{ are not adjacent}.
 			\end{cases}
 			\]
-			The eigenvalues of $A$ are sometimes referred to as the eigenvalues of $G$.
-		\end{definition}
-
-		While the first four properties above might make sense based on our discussion thus far, the last seems to come out of nowhere.
-
-		To motivate $\mathsf{Eigen}$, we give the following result.
-
-		\begin{ftheo}
-			\label{ftheo: eigen pseudorandom}
-			Suppose $G=(V,E)$ is a $d$-regular graph on $n$ vertices and $\lambda = \max\{|\lambda_2|,|\lambda_n|\}$, where $\lambda_1 \ge \cdots \ge \lambda_n$ are the eigenvalues of $G$. Then for any $X,Y\subseteq V$,
-			\[ \left| e(X,Y) - \frac{d}{n}|X||Y| \right| \le \lambda\sqrt{|X||Y|}. \]
-		\end{ftheo}
-		\begin{proof}
-			Observe that
-			\[ e(X,Y) = \indic_X^\top A \indic_Y, \]
-			where $\indic_X$ is the `indicator vector' of $X$, a vector indiced by the vertices of $G$, with $1$ at the positions in $X$ and $0$ elsewhere.\\
-			Let $A$ be the adjacency matrix of $G$. Since $A$ is real symmetric, we can apply the spectral theorem to write $A = \sum_i \lambda_i v_i v_i^\top$, where $v_i$ is an eigenvector for $\lambda_i$.\\
-			Observe that $d$ is an eigenvalue of $A$ with corresponding eigenvector $\mathbf{1}$, the all $1$s vector. In fact, $d$ is the largest eigenvalue (Why?). Letting $J$  be the all $1$s matrix of appropriate size,
+			More succinctly,
+			\[ A^2 = d I + \lambda A + \mu(J - I - A). \]
+			We see that
 			\begin{align*}
-				\left| e(X,Y) - \frac{d}{n}|X||Y| \right| &= \left| \indic_X^\top A \indic_Y - \frac{d}{n} \indic_X J \indic_Y \right| \\
-					&= \left| \indic_X^\top \left( A - \frac{d}{n} J \right) \indic_Y \right| \\
-					&\le \norm{\indic_X^\top} \norm{A - \frac{d}{n} J} \norm{\indic_Y}.
+				A^3 &= d A + \lambda A^2 + \mu d J - \mu(A+A^2) \\
+				0 &= A^3 + (\mu-\lambda)A^2 - d A - \mu d J.
 			\end{align*}
-			We claim that $\norm{A - (d/n)J} \le \lambda$. Since $A$ is symmetric with all row sums as $d$, it commutes with $J$, and so they can be simultaneously diagonalized. Further, $n$ is an eigenvalue of $J$ and $d$ is an eigenvalue of $A$ with eigenvector $\mathbf{1}$.
-		\end{proof}
+			The graph is strongly regular iff its adjacency matrix satisfies a cubic with integer coefficients and leading coefficient $1$!\\
+			This further implies that a strongly regular graph has only $3$ eigenvalues, with one of them being $d$.\\
 
-		Next, the following result says that all five notions of randomness we came up with are equivalent!
+			Returning to the Paley graph, it is not too difficult to check that it is $( q , (q-1)/2 , (q-5)/4 , (q-1)/4 )$-strongly regular. Consequently, it is a $\left( q , (q-1)/2, (\sqrt{q}+1)/2 \right)$-graph.\\
+			Observe that any strongly regular graph has eigenvalues (other than $\lambda_1$) bounded in a similar fashion.\\
 
-		\begin{ftheo}[Chung-Graham-Wilson Theorem]
-			$\mathsf{Disc}$, $\mathsf{Disc}'$, $\mathsf{Count}$, $\mathsf{Codegree}$, and $\mathsf{Eigen}$ are equivalent.
-		\end{ftheo}
-		\begin{proof}
-			To prove this we shall show that all of our 5 are equivalent to the following.\\
-			$C_4$-$\mathsf{Count}$. The number of labelled $C_4$s is $(p^4+o(1))n^4$ (this is just $\mathsf{Count}$ for $H = C_4$ specifically).\\
-			\begin{itemize}
-				\item $\mathsf{Disc}$ to $\mathsf{Disc}'$. Setting $X=Y$ then dividing by $2$ gives the result directly.
-				
-				\item $\mathsf{Disc}'$ to $\mathsf{Disc}$. Let $X,Y\subseteq V$. We have
-				\[ e(X,Y) = e(X \cup Y) + e(X\cap Y) - e(X\setminus Y) - e(Y\setminus X) \]
-				Applying $\mathsf{Disc}'$ to each of these $4$ sets gives the results near directly:
-				\begin{align*}
-					e(X,Y) &= p\binom{|X\cup Y|}{2} + p\binom{|X\cap Y|}{2} - p\binom{|X\setminus Y|}{2} - p\binom{|Y\setminus X|}{2} + o(n^2) \\
-					&= p|X||Y| + o(n^2).
-				\end{align*}
-				
-				\item $\mathsf{Disc}$ to $\mathsf{Count}$. This is just the \nameref{theo: graph counting lemma} (we only use the $\mathsf{Disc}$ part of regularity in the proof).
+		\subsubsection{The sparse regime}
 
-				\item $\mathsf{Count}$ to $C_4$-$\mathsf{Count}$. This is clear from the definition.
+			Let us restrict ourselves to $(n,d,\lambda)$-graphs. A popular family of $(n,d,\lambda)$-graphs comes from the following.
 
-				\item $C_4$-$\mathsf{Count}$ to $\mathsf{Codegree}$. Now,
-				\begin{align*}
-					\sum_{x,y\in V} d(x,y) &= \sum_{x\in V} d(x)^2 \\
-						&\ge \frac{1}{n} \left(\sum_{x\in V} d(x)\right)^2 \\
-						&= \frac{4e(G)^2}{n} = (1+o(1))p^2n^3.
-				\end{align*}
-				Also note that
-				\[ \sum_{x,y\in V} d(x,y)^2 = \text{number of labelled $C_4$s} + o(n^4) = (1+o(1)) p^4 n^4. \]
-				So,
-				\begin{align*}
-					\sum_{x,y\in V} |d(x,y) - p^2 n| &\le n \left( \sum_{x,y\in V} (d(x,y) - p^2n)^2 \right)^{1/2} \\
-						&= n \left( \sum_{x,y\in V} d(x,y)^2 - 2 p^2n \sum_{x,y\in V} d(x,y) + p^4 n^4 \right)^{1/2} \\
-						&\le n\left( (1+o(1))p^4n^4 - 2p^2n (1+o(1))p^2n^3 + p^4n^2 \right)^{1/2} \\
-						&= n (o(1)n^4)^{1/2} \\
-						&= o(n^3).
-				\end{align*}
+			\begin{fdef}
+				Suppose $\Gamma$ is a finite group and $S\subseteq\Gamma\setminus\{1\}$ is such that $S = S^{-1}$. We define the \textbf{Cayley graph} $\Cay(\Gamma,S)$ as that on vertex set $\Gamma$ with $gh \in E(G)$ iff $g^{-1} h \in S$.
+			\end{fdef}
 
-				\item $\mathsf{Codegree}$ to $\mathsf{Disc}$. We have
-				\begin{align*}
-					\sum_{x\in V} |d(x) - pn| &\le \sqrt{n} \left( \sum_{x\in V} (d(x)-pn)^2 \right)^{1/2} \\
-						&= \sqrt{n} \left( \sum_{x\in V} d^2(x) - 2pn \sum_{x\in V}d(x) + p^2n^3 \right) \\
-						&= \sqrt{n} \left( \sum_{x,y\in V} d(x,y) - 2p^2n^3 + p^2n^3 o(n) \right) \\
-						&= \sqrt{n} \left( \sum_{x,y \in V} \left(d(x,y) - p^2n\right) \right) \\
-						&\le \sqrt{n} \left( \sum_{x,y \in V} \left|d(x,y) - p^2n\right| \right) = o(n^2).
-				\end{align*}
-				For $X,Y\subseteq V$,
-				\begin{align*}
-					\left| e(X,Y) - p|X||Y| \right| &\le \sum_{x\in X} \left| d(x,y) - p|Y| \right| \\
-					&\le \sqrt{|X|} \left( \sum_{x\in X} (d(x,Y) - p|Y|)^2 \right)^{1/2} \\
-					&\le \sqrt{|X|} \left( \sum_{v\in V} (d(v,Y) - p|Y|)^2 \right)^{1/2} \\
-					&= \sqrt{|X|} \left( \sum_{v\in V} d(v,Y)^2 - 2p|Y|\sum_{v\in V} d(v,Y) + p^2 |Y|^2 n \right)^{1/2} \\
-					&= \sqrt{|X|} \left( \sum_{y,y'\in Y} d(y,y')^2 - 2p|Y|\sum_{y\in Y} d(y) + p^2 |Y|^2 n \right)^{1/2} \\
-					&= \sqrt{|X|} 
-				\end{align*}
+			It is easy to see that $\Cay(\Gamma,S)$ is $|S|$-regular. In fact, $P_q$ is just a Cayley graph with $\Gamma = \F_q$ (under addition) and $S$ is the set of quadratic residues in $\F_q$ other than $1$.
 
-				\item $\mathsf{Eigen}$ to $C_4$-$\mathsf{Count}$. Note that the number of labelled $C_4$s in $G$ equals the number of closed walks of length $4$ minus $O(n^3)$. Now, observe that given two vertices $v,w$, the number of walks from $v$ to $w$ of length $4$ is just $(A^4)_{vw}$ (Why?). In particular, the number of closed walks from $v$ to $v$ is $(A^4)_{vv}$. Recalling that the trace of a matrix is the sum of its eigenvalues,
-				\begin{align*}
-					\text{number of $C_4$s} &= \Tr(A^4) - O(n^3) \\
-						&\le \lambda_1^4 + \sum_{i>1} \lambda_i^4 \\
-						&\le (1+o(1)) (pn)^4 + \left(\max_{i>1} \lambda_i^2\right) \sum_{i=1}^n \lambda_i^2 \\
-						&= (1+o(1)) (pn)^4 + o(n^2) \cdot 2e(G) \\
-						&= (1+o(1)) (pn)^4 + o(n^4) = (1+o(1)) p^4 n^4.
-				\end{align*}
+			\begin{ftheo}[Conlon-Zhao, 2017]
+				For Cayley graphs, $\mathsf{Disc}$ and $\mathsf{Eigen}$ are equivalent.
+			\end{ftheo}
+			\begin{proof}
+				To show this, we require a result of Grothendieck's:
+				\begin{quote}
+					There exists an absolute constant $K > 0$ such that for all real matrices $A = (a_{ij})$ and a Hilbert space $\mathcal{H}$,
+					\[ \sup_{\substack{x_i,y_j \in \mathcal{H} \\ \norm{x},\norm{y} = 1}} \sum_{ij} a_{ij} \langle x_i , y_j \rangle \le K \sup_{\{u,v\}\in\{-1,1\}^n} \sum_{i,j} a_{ij} u_i v_j. \]
+				\end{quote}
+				The best possible $K$ is unknown, but we do know that $K < 1.79$ is possible. We skip the proof of this.\\
 
-				% \item $C_4$-$\mathsf{Count}$ to $\mathsf{Eigen}$. Exactly as above, we have
-				% \[ \sum_{i=1}^n \lambda_i^4 = (1+o(1)) n^4 p^4. \]
-			\end{itemize}
-
-		\end{proof}
+				First, note that $\mathsf{Eigen}$ implies $\mathsf{Disc}$ with the same constant for both. That is, if
+				\[  \max_{i\ne 1} |\lambda_i| \le \varepsilon n.  \]
+				then
+				\[ \left| e(X,Y) - p|X||Y| \right| \le \varepsilon n^2 \],
+				by the \nameref{theo: expander mixing lemma}.
+				Suppose that $\mathsf{Disc}$ holds with a constant of $\varepsilon$ and let $A$ be the adjacency matrix of $G = \Cay(\Gamma,S)$. Let $x,y\in\{-1,1\}^n$. Denote $x^+$ and $x^-$ the positive and negative parts of $x$ respectively. That is, $x = x^+ - x^-$. Letting $X^+ \subseteq V$ be the support of $x^+$ (the subset of vertices with non-zero components),
+				\[ (x^\pm)^\top \left( A - \frac{d}{n} J \right) y^\pm = e(X^\pm,Y^\pm) - \frac{d}{n} |X^\pm| |Y^\pm|, \]
+				where the sign over the $X$s ($Y$s) are the same as that over $x$ ($y$). Therefore, using $\mathsf{Disc}$,
+				\[ x^\top \left( A - \frac{d}{n}J \right)y \le 4(\varepsilon d)n. \]
+				Since
+				\[ \max_{i \ne 1} |\lambda_i| = \sup_{\norm{x} = \norm{y} = 1} x^\top \left(A - \frac{d}{n}J\right) y, \]
+				it suffices to show that the quantity on the right is `small'.
+			\end{proof}
