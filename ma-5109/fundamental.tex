@@ -1111,21 +1111,21 @@
 				For Cayley graphs, $\mathsf{Disc}$ and $\mathsf{Eigen}$ are equivalent.
 			\end{ftheo}
 			\begin{proof}
-				To show this, we require a result of Grothendieck's:
+
+				First, note that $\mathsf{Eigen}$ implies $\mathsf{Disc}$ with the same constant for both. That is, if
+				\[  \max_{i\ne 1} |\lambda_i| \le \varepsilon n.  \]
+				then
+				\[ \left| e(X,Y) - p|X||Y| \right| \le \varepsilon n^2 \]
+				by the \nameref{theo: expander mixing lemma}.\\
+				To show the other side, we require a result of Grothendieck's:
 				\begin{quote}
 					There exists an absolute constant $K > 0$ such that for all real matrices $A = (a_{ij})$ and a Hilbert space $\mathcal{H}$,
 					\[ \sup_{\substack{x_i,y_j \in \mathcal{H} \\ \norm{x},\norm{y} = 1}} \sum_{ij} a_{ij} \langle x_i , y_j \rangle \le K \sup_{\{u,v\}\in\{-1,1\}^n} \sum_{i,j} a_{ij} u_i v_j. \]
 				\end{quote}
 				The best possible $K$ is unknown, but we do know that $K < 1.79$ is possible. We skip the proof of this.\\
-
-				First, note that $\mathsf{Eigen}$ implies $\mathsf{Disc}$ with the same constant for both. That is, if
-				\[  \max_{i\ne 1} |\lambda_i| \le \varepsilon n.  \]
-				then
-				\[ \left| e(X,Y) - p|X||Y| \right| \le \varepsilon n^2 \],
-				by the \nameref{theo: expander mixing lemma}.
-				Suppose that $\mathsf{Disc}$ holds with a constant of $\varepsilon$ and let $A$ be the adjacency matrix of $G = \Cay(\Gamma,S)$. Let $x,y\in\{-1,1\}^n$. Denote $x^+$ and $x^-$ the positive and negative parts of $x$ respectively. That is, $x = x^+ - x^-$. Letting $X^+ \subseteq V$ be the support of $x^+$ (the subset of vertices with non-zero components),
+				Suppose that $\mathsf{Disc}$ holds with a constant of $\varepsilon$ and let $A$ be the adjacency matrix of $G = \Cay(\Gamma,S)$. Let $x,y\in\{-1,1\}^n$. Denote $x^+$ and $x^-$ the positive and negative parts of $x$ respectively. Letting $X^+ \subseteq V$ be the support of $x^+$ (the subset of vertices with non-zero components) then using Grothendieck's lemma,
 				\[ (x^\pm)^\top \left( A - \frac{d}{n} J \right) y^\pm = e(X^\pm,Y^\pm) - \frac{d}{n} |X^\pm| |Y^\pm|, \]
-				where the sign over the $X$s ($Y$s) are the same as that over $x$ ($y$). Therefore, using $\mathsf{Disc}$,
+				where the sign over the $X$s (resp. $Y$s) are the same as that over $x$ (resp. $y$). Using $\mathsf{Disc}$,
 				\[ x^\top \left( A - \frac{d}{n}J \right)y \le 4(\varepsilon d)n. \]
 				Since
 				\[ \max_{i \ne 1} |\lambda_i| = \sup_{\norm{x} = \norm{y} = 1} x^\top \left(A - \frac{d}{n}J\right) y, \]
