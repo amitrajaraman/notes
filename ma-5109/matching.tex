@@ -5,3 +5,90 @@
 \end{fdef}
 
 For example, $\{\{1,6\},\{2,5\},\{3,4\}\}$ is a matching in $K_6$.
+
+\begin{fdef}
+	Given a graph $G$, the \textbf{matching number} $\nu(G)$ of $G$ is the size of a maximum matching in $G$.
+\end{fdef}
+
+Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
+
+	\subsection{The Bipartite Setting}
+
+		For this section, suppose that $G = (X,Y,E)$ is bipartite, where all edges $E$ are from $X$ to $Y$. Assume $|X| \le |Y|$.\\
+		It is clear that $\nu(G) \le |X|$.\\
+
+		The question is: under what conditions on $G$ is $\nu(G) = |X|$?\\
+		This (the bipartite scenario) is sometimes referred to as a \emph{system of distinct representatives} (SDR). That is, $G$ has an SDR if $\nu(G) = |X|$.\\
+
+		\subsubsection{Hall's Marriage Theorem}
+
+			An obvious necessary condition is that given any $S\subseteq X$,
+			\[ |\Gamma(S)| \ge |S|. \]
+			Otherwise, there cannot exist a matching since two vertices in $S$ would be forced to map to the same element in $Y$.\\
+			This is known as \emph{Hall's condition}.\\
+			It in fact turns out that Hall's condition is sufficient for the existence of a matching too!
+
+			\begin{ftheo}[Hall's Marriage Theorem]
+				Suppose $G=(X,Y,E)$ is bipartite with $|X|\le |Y|$. Then $\nu(G) = |X|$ if and only if it satisfies Hall's condition.
+			\end{ftheo}
+			Much like Tur\'{a}n's theorem, this has a large number of proofs.
+			\begin{proof}[Proof 1 of Hall's Marriage Theorem]
+				We begin with a proof by induction over $|X|$. If $|X|=1$, the theorem obviously holds.\\
+				Make the stronger assumption that for all $S\subseteq X$ of size $|X|-1$, $|\Gamma(S)| > |S|$, and $|\Gamma(X)| \ge |X|$. Pick $x\in X$ and pair it with an arbitrary neighbour $y\in Y$. Using the inductive hypothesis on the subgraph induced on $(X\setminus\{x\}) \cup (Y\setminus\{y\})$, we get a matching on $G$.\\
+				Now, let $S\subseteq X$ with $|\Gamma(S)|=|S|=|X|-1$. Using the inductive hypothesis on the subgraph induced on $S\cup\Gamma(S)$, together with the edge from the (single) element in $X\setminus S$ to any element in $\Gamma(X)\setminus\Gamma(S)$, we get a matching on $G$.
+			\end{proof}
+			An alternate way to prove this is by first showing the proof in the case where for all non-empty $S\subseteq X$. In the case where we have some non-empty $S\subseteq X$ with $|\Gamma(S)|=|S|$, we can use the inductive hypothesis twice to get two matchings $\mathcal{M}_1$ and $\mathcal{M}_2$ on the subgraphs induced by $S \cup \Gamma(S)$ and $(X\setminus S) \cup (Y\setminus\Gamma(S))$, then take the union of the two matchings to get a matching $\mathcal{M}$ on the original graph $G$.\\
+
+			A nice consequence of the above proof is that it allows us to extend Hall's Theorem to an infinite setting as well.
+
+			\begin{definition}
+				Given a matching $\mathcal{M}$ on a graph $G=(V,E)$, call a $v\in V$ \textbf{unsaturated} if no edge of $\mathcal{M}$ is incident on $v$.
+			\end{definition}
+
+			\begin{proof}[Proof 2 of Hall's Marriage Theorem]
+				For a matching $\mathcal{M}$, $x\in X$, $y\in Y$ such that $x,y$ are unsaturated (with respect to $\mathcal{M}$), a path $P$ from $x$to $y$ is called $\mathcal{M}$-\textbf{augmenting} if every alternate edge in it is a $\mathcal{M}$-edge.\\
+				Observe that if $\mathcal{M}$ admits an augmenting path, then $\mathcal{M}$ is not maximal. Indeed, we can `flip' the edges in the path to show this. That is, given an augmenting path $\mathcal{P}$, where every $y_ix_i$ is in $\mathcal{M}$, it is not too difficult to show that $\mathcal\{M\} \triangle \mathcal{P}$ is a matching that has strictly more edges.\\
+
+				Let $\mathcal{M}$ be a maximum matching of a bipartite graph $G=(X,Y,E)$ that satisfies Hall's condition. Suppose there exists $x_0 \in X$ such that $x_0$ is unsaturated by $\mathcal{M}$. Let $y_1$ be a neighbour of $x_0$ (such a $y_1$ exists by Hall's condition).\\
+				If $y_1$ is unsaturated by $\mathcal{M}$, then $x_0y_1$ is a $\mathcal{M}$-augmenting path, contradicting its maximality. So, uppose $x_1y_1 \in \mathcal{M}$.\\
+				In general, if we have $y_1,\ldots,y_r,x_1,\ldots,y_r$, we can pick $y_{r+1}\in \Gamma(\{x_0,\ldots,x_r\})$ (distinct from all the $y_i$ for $1\le i\le r$).\\
+				If $y_{r+1}$ is unsaturated, we have a $\mathcal{M}$-augmenting path from $x_0$ to $y_{r+1}$, contradicting the maximality of $\mathcal{M}$.\\
+				If it is not, we can jump back to the $x_{r+1}\in X$ (distinct from the $x_i$ for $1\le i\le r$) such that $y_{r+1}x_{r+1} \in E$, then continue the process. This must terminate at some point since the number of vertices in $Y$ incident on some element of $\mathcal{M}$ is at most $|X\setminus\{x_0\}|< |Y|$, completing the proof.
+			\end{proof}
+
+		\subsubsection{Some applications}
+
+		Next, let us look at a few applications of Hall's Theorem.
+
+		\begin{fdef}[Perfect Matching]
+			A matching $\mathcal{M}$ in a graph $G=(V,E)$ is said to be a \textbf{perfect matching} if $|\mathcal{M}| = |V|/2$, that is, every vertex in $V$ is saturated by $\mathcal{M}$.
+		\end{fdef}
+
+		\begin{ftheo}
+			If a bipartite graph $G=(X,Y,E)$ is $d$($>0$)-regular, it has a perfect matching.
+		\end{ftheo}
+		\begin{proof}
+			It suffices to check that Hall's condition holds. Let $S\subseteq X$. We clearly have $e(S,\Gamma(S))=d|S|$. However, the total number of edges coming into $\Gamma(S)$ must include all the edges coming from $S$, that is, $S\subseteq\Gamma(\Gamma(S))$. So,
+			\begin{align*}
+				d|\Gamma(S)| &= e(\Gamma(S),\Gamma(\Gamma(S))) \\
+					&\ge e(\Gamma(S),S) \\
+					&= d|S|,
+			\end{align*}
+			completing the proof.
+		\end{proof}
+
+		For the next result, consider the following definition.
+
+		\begin{fdef}
+			A matrix $A\in\R^{n\times n}$ is said to be \textbf{doubly stochastic}\footnotemark\ if for all $i,j$,
+			\[ 0\le a_{ij} \le 1 \text{ and } \sum_{k} a_{ik} = \sum_{k} a_{kj} = 1. \]
+		\end{fdef}
+		\footnotetext{These are interesting to study since they arise as the transition matrices of a certain class of discrete Markov chains. The stationary distribution of a discrete Markov chain with a doubly stochastic transition matrix is the uniform distribution.}
+
+		It is not too difficult to see that any permutation matrix is doubly stochastic.\\
+		Suppose $A_1,A_2$ are doubly stochastic and $0\le\lambda\le 1$. Then observe that $\lambda A_1 + (1-\lambda)A_2$ is doubly stochastic too (Why?).\\
+		As a result, a convex combination of doubly stochastic matrices is doubly stochastic.
+
+		\begin{ftheo}[Birkhoff-von Neumann Theorem]
+			A matrix is doubly stochastic iff it is a convex combination of permutation matrices.
+		\end{ftheo}
