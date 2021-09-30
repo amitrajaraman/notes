@@ -397,6 +397,8 @@
 			\end{itemize}
 			A kernel $K(\cdot,\cdot)$ satisfying the above two conditions is known as a positive semi-definite kernel.\\
 
+
+
 			We clearly have that for any choice of $\phi$, a positive semi-definite kernel is obtained. Is the converse true as well?\\
 			Yes, we claim that for any positive semi-definite kernel, there exists a Hilbert space $H$ and a $\phi:\Rn \to H$ such that $K(x_i,x_j) = \phi(x_i)^\top \phi(x_j)$. Indeed, if $K$ is symmetric and positive semi-definite, we can perform the Cholsky(/singular value) decomposition on $\mathcal{K}$ to get
 			\[ \mathcal{K} = U\Sigma U^\top = (U\Sigma^{1/2})(U\Sigma^{1/2})^\top = RR^\top, \]
@@ -455,8 +457,101 @@
 			$\Phi^\top\Phi$ is exactly what we want, since $(\Phi^\top\Phi)_{ij} = K(x_i,x_j)$. Further, the $\phi(x)^\top \Phi^\top$ combines in terms of the kernel function as well! Overall, we have
 			\[ f(x) = \sum_i \alpha_i K(x,x_i), \]
 			where $\alpha_i = ( (\Phi\Phi^\top + \lambda I)^{-1} y )_i$.
-% \bibliographystyle{alpha}
-% \bibliography{references}
+
+\clearpage
+
+\section{Unsupervised Learning}
+
+	Up until now, we had a $y_i$ for each $x_i$. Now, we move onto unsupervised learning, where we only have a bunch of $x_i$ that we must classify or interpret in some meaningful way.
+
+	\subsection{Dimensionality reduction}
+
+		Essentially, dimensionality reduction captures some hidden relationship between the coordinates of the datapoints.\\
+
+		Occam's Razor says that all other things equal, the simplest solution should be picked. We have already been using this extensively, for example when picking a linear model unless it is clear that a linear model will not do. Simple solutions save on training and inference time, and slightly prevent overfitting.\\
+		Our data might lie on a simpler lower-dimensional affine space, or at least close to one. In two dimensions for instance, we might have $x_1 \approx \alpha x_2$. Dimensionality reduction tries to find the true intrinsic dimensionality of thed ata. Fewer dimensions makes the data easier to learn and we are less prone to overfitting.\\
+		This is also related to something called ``VC-dimension'', which we shall not study.\\
+
+		Given a set of $m$ datapoints $x\in\R^d$, suppose we want to reduce dimensionality by projecting them to some $k$-dimensional space. We then have that the result projected vector is $z = U^\top x$, where $U$ is a $d\times k$ projection matrix. How do we find the optimal $U$?\\
+		Let us further suppose that $U^\top U = I_k$. Given $z = U^\top x$, we may approximate $x$ as $\tilde{x} = U z$. There are two sources of error here: the vectors might not lie perfectly on the subspace and $UU^\top$ might not be the identity.\\
+		To make $\tilde{x}$ and $x$ as close as possible, we could try to minimize some form of error.
+
+		\subsubsection{Principal component analysis}
+
+			\emph{Principal component analysis} (PCA) chooses the error as $\sum \norm{x - \tilde{x}}_2^2$. That is, we choose
+			\[ U = \argmin_{\substack{\hat{U} \in \R^{d\times k} : \\ \hat{U}^\top\hat{U} = I}} \sum_x \norm{ x - \hat{U}\hat{U}^\top x }_2^2. \]
+			This feels quite difficult to optimize, is there an alternate perspective?\\
+			Assume that the datapoints are centered, that is, $\expec[x] = 0$. We can view the (optimal) projection as that which has maximum variance in the projected space. The variance of the projected data $\Var(U^\top x)$ is
+			\[ \expec\left[\norm{U^\top x - \expec[U^\top x] }_2^2\right] = \expec\left[\norm{U^\top x}_2^2\right] \]
+			That is, we want to find
+			\[ U = \argmax_{\substack{\hat{U} \in \R^{d\times k} : \\ U^\top U = I}} \expec\left[\norm{U^\top x}^2\right]. \]
+			It turns out that this $U$ and the $U$ we looked at above are the same!\\
+
+			Now, the knowledgeable reader might know that the above form of $U$ can be dealt with quite easily if we use eigenvalue decomposition! We can just take the $k$-dimensional subspace  as the span of the first $k$ eigenvectors of the covariance matrix of the original data (where the eigenvectors are arranged in decreasing eigenvalues).\\
+			To demonstrate this, the first \emph{principal component} is given by
+			\begin{align*}
+				\max_{\norm{u} = 1} \expec[(u^\top x)^2] &= \max_{\norm{u} = 1} \frac{1}{m} \norm{u^\top X}^2 \\
+					&= \max_{\norm{u} = 1} u^\top \underbrace{\left( \frac{1}{m} X X^\top \right)}_{\text{covariance matrix}} u,
+			\end{align*}
+			which is just the operator norm of the covariance matrix, that is, its largest eigenvector! Further, this maximum is attained when $u$ is the corresponding eigenvector.\\
+
+			To summarize, if we let $S$ be the covariance matrix of the (centered) data and perform eigenvalue decomposition on it to get $S = U \Sigma U^\top$ (where $U$ is orthonormal and $\Sigma$ is diagonal), we take $U$ to be the matrix consisting of the first $k$ eigenvectors (columns) of $U$. 
+
+		\subsubsection{Kernelization of PCA}
+
+			A natural next question is: is there a way to `kernelize' PCA and generalize it? Suppose we perform singular-value decomposition on $X$ to get
+			\[ X = ADB^\top. \]
+			The covariance matrix is then given by
+			\[ mS = XX^\top = (ADB^\top) (BD^\top A^\top) = AD^2A^\top. \]
+			The kernel matrix we looked at earlier was just
+			\[ \mathcal{K} = X^\top X = (BDA^\top) (ADB^\top) = BD^2B^\top. \]
+			The matrix of principal component variables we desire is $U = AD$. From the eigendecomposition of $\mathcal{K}$, we can get the projections $XU$ of our data $X$ onto these components.\\
+			That is, the top $k$ eigenvectors of $\mathcal{K}$ gives us not the principal components, but the projections of our data itself onto these components.
+
+
+	\subsection{Clustering}
+
+		In clustering on the other hand, we aim to group together chunks of the data in some way.\\
+		Clustering is heavily used in search engines, since it attempts to give suggestions similar to our search. It should be understood that clustering is quite different from classification since we do not have pre-defined classes for the former (it is unsupervised)!\\
+
+		One way to cluster is to consider pairs of points, and then `cluster upwards' in a bottom-up manner.\\
+		Top-down clustering on the other hand, chooses a couple of means initially. If the data is very different from the means, then we adjust the means slightly.\\
+		A few more questions are: how many clusters do we want? How do we consider similarity? There might also be a lot of noisy dimensions in the data.\\
+
+		\subsubsection{Notions of measure}
+
+			Let us denote by $\rho(\cdot,\cdot)$ a similarity measure (such as cosine-similarity) and by $\delta(\cdot,\cdot)$ a distance measure (such as Euclidean distance).
+
+			There are two notions of measure we care about: \emph{intra}cluster (within the cluster) and \emph{inter}cluster (between different clusters). We desire that the former has low $\delta$ and high $\rho$, and the latter has high $\delta$ and low $\rho$.\\
+
+			% How do we filter out noisy dimensions that are unimportant?
+
+		\subsubsection{Partitioning Approaches}
+
+			Suppose we want to partition our data into $k$ clusters $\{D_1,\ldots,D_k\}$. A couple of choices are:
+			\begin{itemize}
+				\item Minimizing intracluster distance $\sum_i \sum_{d_1,d_2 \in D_i} \delta(d_1,d_2)$.
+				\item Maximizing intracluster resemblance $\sum_i \sum_{d_1,d_2 \in D_i} \rho(d_1,d_2)$.
+				\item If a `cluster representation' $\hat{D}_i$ of $D_i$ is available (such as the mean, for instance),
+				\begin{itemize}
+					\item Minimize $\sum_i \sum_{d \in D_i} \delta(d,\hat{D}_i)$.
+					\item Maximize $\sum_i \sum_{d\in D_i} \rho(d,\hat{D}_i)$.
+				\end{itemize}
+				\item Soft clustering, where we assign $d$ to $D_i$ with `confidence' $z_{d,i}$, then finding the $z_{d,i}$ so as to minimize $\sum_{i} \sum_{d\in D_i} z_{d,i} \delta(d,\hat{D}_i)$ or maximize $\sum_i \sum_{d\in D_i} z_{d,i} \rho(d,\hat{D}_i)$.
+			\end{itemize}
+
+			Broadly, there are two ways to get partitions -- \emph{bottom-up} or \emph{top-down} clustering.\\
+
+			In top-down clustering, we again have two variants: `hard' (we assign point to clusters) or `soft' (we assign fractional scores for each point-cluster pair).\\
+			In \emph{hard $k$-means} clustering, we start off by choosing $k$ arbitrary centroids. We assign each point to the cluster corresponding to the nearest centroid, then recompute centroids.\\
+			In soft $k$-means on the other hand, we don't need to break close ties between point-cluster assignments anymore.\\
+
+			In bottom-up clustering, we could just choose the two points among those to be clustered that are ``closest'', dump them in the same cluster, and replace the two points with their mean. We then perform the algorithm again, breaking off at a suitable point.\\
+
+			We can in fact use bottom-up clustering in $k$-means, by initializing the centroids to the clusters at the point in bottom-up when there are $k$ clusters.\\
+
+			Our choice of $k$ is typically problem-driven. Data-driven approaches usually only work when we have massive amounts of data.\\
+			We could also use hypothesis testing or Bayesian estimation.
 
 
 \end{document}
