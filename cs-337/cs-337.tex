@@ -458,6 +458,32 @@
 			\[ f(x) = \sum_i \alpha_i K(x,x_i), \]
 			where $\alpha_i = ( (\Phi\Phi^\top + \lambda I)^{-1} y )_i$.
 
+	\subsection{Support Vector Machines}
+
+		A drawback of perceptron classification we looked at earlier was that it does not find the \emph{best} separating hyperplane. This can be solved using `large margins' in support vector classification.\\
+		Also, perceptrons only deal with linearly separable data. Of course, we fixed this using kernel methods, but we still need to design the kernel properly. To deal with this, we design \emph{neural networks}, which are a cascade of (sigmoidal) perceptrons.\\
+
+		\emph{Support Vector Machines} (SVMs) address the first issue of breathing room. Suppose that we have `strong separation' for a separating vector $w$ with
+		\[ yw^\top\phi(x) \ge 1 \]
+		instead of just $0$. Let $x^+,x^-$ with $w^\top\phi(x^+) = 1$ and $w^\top\phi(x^-) = -1$. Then,
+		\[ \phi(x^+) - \phi(x^-) = m \frac{w}{\norm{w}} \]
+		where $m$ is the margin, and
+		\[ w^\top(\phi(x^+) - \phi(x^-)) = 2. \]
+		Combining the two,
+		\[ m\norm{w} = 2. \]
+		So, the margin is proportional to $1/\norm{w}$.\\
+
+		But of course, we need not have this strong separation? Suppose we instead have that 
+		\[ y_i w^\top \phi(x_i) \ge 1 - \xi_i, \]
+		where $\xi_i$ is some `slackness'. SVM tries to maximize the margin (proportional to $1/\norm{w}$), and minimize the overall slackness $\sum_i \xi_i$.\\
+		So, we typically use the cost function
+		\[ w^*,(\xi_i^*) = \argmin_{w,\xi_i} \frac{1}{2}\norm{w}^2 + C \sum_i \xi_i \]
+		under the constraint that
+		\[ y_i w^\top\phi(x_i) \ge 1 - \xi_i \]
+		and $\xi_i \ge 0$ for each $i$.\\
+		The constant $C$ determines the tradeoff between slackness minimization and margin maximization.
+
+
 \clearpage
 
 \section{Unsupervised Learning}
@@ -543,7 +569,7 @@
 			Broadly, there are two ways to get partitions -- \emph{bottom-up} or \emph{top-down} clustering.\\
 
 			In top-down clustering, we again have two variants: `hard' (we assign point to clusters) or `soft' (we assign fractional scores for each point-cluster pair).\\
-			In \emph{hard $k$-means} clustering, we start off by choosing $k$ arbitrary centroids. We assign each point to the cluster corresponding to the nearest centroid, then recompute centroids.\\
+			In \emph{hard $k$-means} clustering, we start off by choosing $k$ arbitrary centroids. We assign each point to the cluster corresponding to the nearest centroid, then recompute centroids, repeating until the change becomes negligible.\\
 			In soft $k$-means on the other hand, we don't need to break close ties between point-cluster assignments anymore.\\
 
 			In bottom-up clustering, we could just choose the two points among those to be clustered that are ``closest'', dump them in the same cluster, and replace the two points with their mean. We then perform the algorithm again, breaking off at a suitable point.\\
@@ -552,6 +578,27 @@
 
 			Our choice of $k$ is typically problem-driven. Data-driven approaches usually only work when we have massive amounts of data.\\
 			We could also use hypothesis testing or Bayesian estimation.
+
+		\subsubsection{Kernelization of \texorpdfstring{$k$}{k}-means}
+
+			Denote by $\mu_i$ the centroid of the $i$th cluster and by $P_{j,i}\in\{0,1\}$ the membership of the $j$th point in the $i$th cluster.\\
+			In $k$-means, we initialize all the $\mu_i$ arbitrarily to $\mu_i^{(0)}$. Our goal is to minimize
+			\[ \sum_i \sum_j P_{j,i} \norm{\phi(x_j) - \mu_i}_2^2. \]
+			We do so by alternately changing the $\mu_i$ (by setting $\mu_i^{(t+1)}$ as the mean of all points $\phi(x_j)$ with $P_{j,i}^{(t)} = 1$) and $P_{j,i}$ (by setting $P_{j,i}^{(t+1)}$ as $1$ iff $\mu_i^{(t+1)}$ is the centroid closest to $\phi(x_j)$). That is,
+			\[ \mu_i^{(t+1)} = \frac{\sum_{j} P_{j,i}^{(t)} \phi(x_j)}{\sum_j P_{j,i}^{(t)}} \]
+			and
+			\[ P_{j,i}^{(t+1)} = 1 \text{ iff } \mu_i^{(t+1)} = \argmin_k \norm{\phi(x_j) - \mu_{k}^{(t+1)}}. \]
+			We repeat if any $P_{j,i}$ changes.\\
+
+			We claim that $k$-means converges in a finite number of iterations. Indeed, there are only finitely many configurations for the $(P_{j,i})$, and given a set of $P_{j,i}^{(t)}$, the choice of $\mu_i^{(t+1)}$ is the exact set of corresponding minimizers. That is, if there are $\ell$ clusters and $m$ points, we will converge in at most $\ell^m$ steps.\\
+
+			So now, how do we kernelize $k$-means? Instead of $\mu_i$, suppose we have $\phi(\mu_i)$, so we can talk about inner products. We then have
+			\[ \norm{\phi(x_j) - \phi(\mu_i)}_2^2 = K(x_j,x_j) + K(\mu_i,\mu_i)  - 2K(x_j,\mu_i). \]
+			So, we want to minimize
+			\[ \sum_i \sum_j P_{j,i} K(\mu_i,\mu_i) + K(x_j,x_j) - 2K(\mu_i,x_j). \]
+			$\phi(\mu_i)$ is the average of $\phi$s of datapoints assigned to the $i$th cluster.
+
+			% 
 
 
 \end{document}
