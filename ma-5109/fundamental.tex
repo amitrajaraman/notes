@@ -1111,7 +1111,6 @@
 				For Cayley graphs, $\mathsf{Disc}$ and $\mathsf{Eigen}$ are equivalent.
 			\end{ftheo}
 			\begin{proof}
-
 				First, note that $\mathsf{Eigen}$ implies $\mathsf{Disc}$ with the same constant for both. That is, if
 				\[  \max_{i\ne 1} |\lambda_i| \le \varepsilon n.  \]
 				then
@@ -1123,14 +1122,92 @@
 					\[ \sup_{\substack{x_i,y_j \in \mathcal{H} \\ \norm{x},\norm{y} = 1}} \sum_{ij} a_{ij} \langle x_i , y_j \rangle \le K \sup_{\{u,v\}\in\{-1,1\}^n} \sum_{i,j} a_{ij} u_i v_j. \]
 				\end{quote}
 				The best possible $K$ is unknown, but we do know that $K < 1.79$ is possible. We skip the proof of this.\\
-				Suppose that $\mathsf{Disc}$ holds with a constant of $\varepsilon$ and let $A$ be the adjacency matrix of $G = \Cay(\Gamma,S)$. Let $x,y\in\{-1,1\}^n$. Denote $x^+$ and $x^-$ the positive and negative parts of $x$ respectively. Letting $X^+ \subseteq V$ be the support of $x^+$ (the subset of vertices with non-zero components) then using Grothendieck's lemma,
-				\[ (x^\pm)^\top \left( A - \frac{d}{n} J \right) y^\pm = e(X^\pm,Y^\pm) - \frac{d}{n} |X^\pm| |Y^\pm|, \]
-				where the sign over the $X$s (resp. $Y$s) are the same as that over $x$ (resp. $y$). Using $\mathsf{Disc}$,
-				\[ x^\top \left( A - \frac{d}{n}J \right)y \le 4(\varepsilon d)n. \]
-				Since
+				Suppose that $\mathsf{Disc}$ holds with a constant of $\varepsilon$ and let $A$ be the adjacency matrix of $G = \Cay(\Gamma,S)$. Let $u,v\in\{-1,1\}^n$. Denote by $u^+$ and $u^-$ the positive and negative parts of $u$ respectively. Letting $U^+ \subseteq V$ be the support of $u^+$ (the subset of vertices with non-zero components) then using Grothendieck's lemma,
+				\[ (u^\pm)^\top \left( A - \frac{d}{n} J \right) v^\pm = e(U^\pm,V^\pm) - \frac{d}{n} |U^\pm| |V^\pm|, \]
+				where the sign over the $U$s (resp. $V$s) are the same as that over $u$ (resp. $v$). Using $\mathsf{Disc}$,
+				\[ u^\top \left( A - \frac{d}{n}J \right) v \le 4(\varepsilon d)n. \]
+				Now, since
 				\[ \max_{i \ne 1} |\lambda_i| = \sup_{\norm{x} = \norm{y} = 1} x^\top \left(A - \frac{d}{n}J\right) y, \]
-				it suffices to show that the quantity on the right is `small'.
+				it suffices to show that the quantity on the right is `small'.\\
+				Let $B = A - (d/n)J$. We have
+				\begin{align*}
+					x^\top B y &= \sum_{g,h\in\Gamma} x_g B_{g,h} y_h \\
+						&= \frac{1}{n} \sum_{s,g,h\in\Gamma} x_{sg} B_{sg,sh} y_{sh} \\
+						&= \frac{1}{n} \sum_{s,g,h\in\Gamma} x_{sg} B_{g,h} y_{sh} & (\text{$\Gamma$ is an automorphism group of $G$}) \\
+						&= \frac{1}{n} \sum_{g,h\in\Gamma} \left(B_{g,h} \sum_{s\in\Gamma} x_{sg} y_{sh}\right) \\
+						&= \frac{1}{n} \sum_{g,h\in\Gamma} B_{g,h} \langle x^{(g)} , y^{(h)} \rangle & \text{where $x^{(g)}_{k} = x_{kg}$} \\
+						&\le \frac{1}{n} \sup_{\norm{x} = \norm{y} = 1} \sum_{g,h\in\Gamma} B_{g,h} \langle x^{(g)} , y^{(h)} \rangle & (\norm{x^{(g)}} = \norm{x} = 1 \text{ and } \norm{y^{(h)}} = \norm{y} = 1) \\
+						&\le \frac{1}{n} \cdot K \cdot (4\varepsilon dn) & \text{(using Grothendieck's result and the above result)} \\
+						&< 8\varepsilon d,
+				\end{align*}
+				using the fact that $\norm{x^{(g)}}^2 = \norm{x}^2$, completing the proof.
 			\end{proof}
 
+			\begin{ftheo}
+				If $G$ is $d$-regular, then $\lambda = \max\{|\lambda_2(G)|,|\lambda_n(G)|\}$ is at least $\sqrt{d} (1 - o_n(1))$.
+			\end{ftheo}
+			\begin{proof}
+				Let $A$ be the adjacency matrix of $G$. Observe that
+				\begin{align*}
+					nd &= \Tr(A^2) \\
+						&= \sum_i \lambda_i^2 \\
+						&\le d^2 + (n-1)\lambda^2,
+				\end{align*}
+				so
+				\[ \lambda \ge \sqrt{d} (1-o_n(1)). \qedhere \]
+			\end{proof}
 
+			However, we can get a better bound.
+
+			\begin{ftheo}[Alon-Boppana bound]
+				If $G$ is a connected $d$-regular graph, then $\lambda(G) = \max\{|\lambda_2(G)|,|\lambda_n(G)|\}$ is at least $2\sqrt{d-1}(1-o_n(1))$.
+			\end{ftheo}
+			\begin{proof}
+				To prove the result, we shall get a vector $x\perp\mathbf{1}$ such that
+				\[ \frac{x^\top A x}{x^\top x} \ge 2\sqrt{d-1}(1-o_n(1)). \]
+				Fix a vertex $v$ and let $r\in\N$ (which we shall fix later). For $u\in V(G)$, consider the vector $x$ defined by
+				\[ x_u =
+				\begin{cases}
+					(d-1)^{-i/2}, & d(u,v) = i \le r-1, \\
+					0, & \text{otherwise,}
+				\end{cases}
+				\]
+				where $d(u,v)$ is the distance between the vertices $u$ and $v$. Let $V_i = \{u : d(u,v) = i\}$. We have
+				\[ x^\top x = \sum_{i=0}^{r-1} \frac{|V_i|}{(d-1)^i} \]
+				and
+				\begin{align*}
+					x^\top A x &= \sum_{u\in V} x_u \sum_{w \in \Gamma(u)} x_w \\
+						&\ge \sum_{i=0}^{r-2} |V_i| \cdot \frac{1}{(d-1)^{i/2}} \left( \frac{1}{(d-1)^{(i-1)/2}} + \frac{(d-1)}{(d-1)^{(i+1)/2}} \right) + \frac{|V_{r-1}|}{(d-1)^{(r-1)/2}} \cdot \frac{1}{(d-1)^{r/2}} \\
+						&\quad\hspace{20mm} (\text{if $u \in V_i$, then $\Gamma(u) \subseteq V_{i-1} \cup V_{i+1}$, and $u$ must have a neighbour in $V_{i-1}$}) \\
+						&\ge \sum_{i=0}^{r-2} |V_i|\cdot\frac{2\sqrt{d-1}}{(d-1)^{i}} + \frac{|V_{r-1}| (d-1)}{(d-1)^{(2r-1)/2}} \\
+						&\ge 2\sqrt{d-1} \left( \sum_{i=0}^{r-2} \frac{|V_i|}{(d-1)^i} + \frac{1}{2} \frac{|V_{r-1}|}{(d-1)^r} \right) \\
+						&\ge 2\sqrt{d-1} \left( 1 - \frac{1}{2r} \right) \sum_{i=0}^{r-2} \frac{|V_i|}{(d-1)^i}. & \hspace{-30mm} (|V_i|/(d-1)^i \le |V_{i-1}|/(d-1)^{i-1})
+				\end{align*}
+				So,
+				\[ \frac{x^\top A x}{x^\top x} \ge 2\sqrt{d-1} \left( 1 - \frac{1}{2r} \right). \]
+				However, $x$ is not orthogonal to $\mathbf{1}$, so this does not directly yield a bound on $\lambda(G)$.\\
+				Now note that if $n > 1 + (d-1) + (d-1)^2 + \cdots + (d-1)^{k-1}$, hen there must be two vertices that are at a distance of at least $k$. Equivalently,
+				\[ n > \frac{(d-1)^k - 1}{d-2}, \]
+				which gives a lower bound on $k$ that is $\Omega(\log n)$.\\
+				Let $v_1,v_2$ be two farthest vertices in $G$, and let $r$ such that $d(v_1,v_2) \ge 2r$. Let the vector $x_1$ be that as defined above with $v=v_1$ with
+				\[ \frac{x_1^\top A x_1}{x_1^\top x_1} \ge 2\sqrt{d-1} \left( 1 - \frac{1}{2r} \right). \]
+				Similarly get $x_2$ using $v_2$. Note that $x_1$ and $x_2$ must be orthogonal. Let $c$ be a constant such that $y = (x_1 + c x_2)$ is orthogonal to $\mathbf{1}$ (Why does such a $c$ exist?). We then have
+				\[ y^\top y = \norm{x_1}^2 + c^2\norm{x_2}^2 \]
+				and
+				\[ y^\top A y = x_1^\top A x_1 + c^2 x_2^\top A x_2 \ge 2\sqrt{d-1} \left( 1 - \frac{1}{2r} \right) (\norm{x_1}^2 + c^2\norm{x_2}^2), \]
+				completing the proof.
+			\end{proof}
+
+			This leads to the following definition, which we shall not get into.
+
+			\begin{fdef}
+				An $(n,d,\lambda)$-graph is called a \textbf{Ramanujan graph} if $\lambda\le 2\sqrt{d-1}$.
+			\end{fdef}
+
+			This notion is due to Lubotzky, Phillips, and Sarnak, who constructed what are called ``LPS graphs'', that are Cayley graphs on the group $\operatorname{PSL}(2,\F_q)$, that are $(q+1)$-regular and Ramanujan.\\
+
+			Alon conjectured (mayhaps surprisingly) that random regular graphs are Ramanujan with high probability. This was resolved by Joel Friedman in the early 2000s.\\
+			Questions on the existence of Ramanujan graphs (and explicit constructions) are largely open, and an active area of research in combinatorics and theoretical computer science.\\
+ 			For $\alpha > 0$, one can also define $(n,d,\alpha)$-expanders, which are $(n,d,\lambda)$-graphs with $\lambda\le\alpha d$.\\
+			
 \clearpage
