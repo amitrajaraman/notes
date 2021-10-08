@@ -45,13 +45,13 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				Given a matching $\mathcal{M}$ on a graph $G=(V,E)$, call a $v\in V$ \textbf{unsaturated} if no edge of $\mathcal{M}$ is incident on $v$.
 			\end{definition}
 
-			\begin{proof}[Proof 2 of Hall's Marriage Theorem]
-				For a matching $\mathcal{M}$, $x\in X$, $y\in Y$ such that $x,y$ are unsaturated (with respect to $\mathcal{M}$), a path $P$ from $x$ to $y$ is called $\mathcal{M}$-\textbf{augmenting} if every alternate edge in it is a $\mathcal{M}$-edge.\\
-				Observe that if $\mathcal{M}$ admits an augmenting path, then $\mathcal{M}$ is not maximal. Indeed, we can `flip' the edges in the path to show this. That is, given an augmenting path $\mathcal{P}$, where every $y_ix_i$ is in $\mathcal{M}$, it is not too difficult to show that $\mathcal{M} \triangle \mathcal{P}$ is a matching that has strictly more edges.\\
+			For a matching $\mathcal{M}$, $x\in X$, $y\in Y$ such that $x,y$ are unsaturated (with respect to $\mathcal{M}$), a path $P$ from $x$ to $y$ is called $\mathcal{M}$-\textbf{augmenting} if every alternate edge in it is a $\mathcal{M}$-edge.\\
+			Observe that if $\mathcal{M}$ admits an augmenting path, then $\mathcal{M}$ is not maximal. Indeed, we can `flip' the edges in the path to show this. That is, given an augmenting path $\mathcal{P}$, where every $y_ix_i$ is in $\mathcal{M}$, it is not too difficult to show that $\mathcal{M} \triangle \mathcal{P}$ is a matching that has strictly more edges.
 
+			\begin{proof}[Proof 2 of Hall's Marriage Theorem]
 				Let $\mathcal{M}$ be a maximum matching of a bipartite graph $G=(X,Y,E)$ that satisfies Hall's condition. Suppose there exists $x_0 \in X$ such that $x_0$ is unsaturated by $\mathcal{M}$. Let $y_1$ be a neighbour of $x_0$ (such a $y_1$ exists by Hall's condition).\\
 				If $y_1$ is unsaturated by $\mathcal{M}$, then $x_0y_1$ is a $\mathcal{M}$-augmenting path, contradicting its maximality. So, suppose $x_1y_1 \in \mathcal{M}$.\\
-				In general, if we have $y_1,\ldots,y_r,x_1,\ldots,y_r$, we can pick $y_{r+1}\in \Gamma(\{x_0,\ldots,x_r\})$ (distinct from all the $y_i$ for $1\le i\le r$).\\
+				In general, if we have $y_1,\ldots,y_r,x_1,\ldots,x_r$, we can pick $y_{r+1}\in \Gamma(\{x_0,\ldots,x_r\})$ (distinct from all the $y_i$ for $1\le i\le r$).\\
 				If $y_{r+1}$ is unsaturated, we have a $\mathcal{M}$-augmenting path from $x_0$ to $y_{r+1}$, contradicting the maximality of $\mathcal{M}$.\\
 				If it is not, we can jump back to the $x_{r+1}\in X$ (distinct from the $x_i$ for $1\le i\le r$) such that $y_{r+1}x_{r+1} \in E$, then continue the process. This must terminate at some point since the number of vertices in $Y$ incident on some element of $\mathcal{M}$ is at most $|X\setminus\{x_0\}|< |Y|$, completing the proof.
 			\end{proof}

@@ -549,10 +549,10 @@
 		\begin{itemize}
 			\item Given $\varepsilon > 0$, get a partition as described in the lemma.
 			\item First, delete all edges between irregular pairs. This loses at most $(\varepsilon k^2) t^2 < \varepsilon n^2$ edges.
-			\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $\binom{k}{2} (\varepsilon t^2) < (\varepsilon/2)n^2$ edges.
+			\item Delete all edges between ``sparse'' pairs, where we say that a pair $(V_i,V_j)$ is sparse if $d(V_i,V_j) < \varepsilon$ (say). This loses at most $k^2 (\varepsilon t^2) < (\varepsilon/2)n^2$ edges.
 			\item Delete all edges inside the exceptional part $V_0$. This loses at most $(\varepsilon^2/2)n^2$ edges. 
 		\end{itemize}
-		All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$ (for $i\ne j$), then $d(V_i,V_j) \ge \varepsilon$.\\
+		All of these deletions cost at most $2\varepsilon n^2$ edges. In the remaining graph, \emph{all} pairs $(V_i,V_j)$ for $1 \le i,j\le k$ are $\varepsilon$-regular. Further, if $e(V_i,V_j) > 0$, then $d(V_i,V_j) \ge \varepsilon$.\\
 
 		\subsubsection{The graph counting and removal lemmas}
 
