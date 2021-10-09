@@ -473,7 +473,7 @@
 		\[ m\norm{w} = 2. \]
 		So, the margin is proportional to $1/\norm{w}$.\\
 
-		But of course, we need not have this strong separation? Suppose we instead have that 
+		But of course, we need not have this strong separation. Suppose we instead have that 
 		\[ y_i w^\top \phi(x_i) \ge 1 - \xi_i, \]
 		where $\xi_i$ is some `slackness'. SVM tries to maximize the margin (proportional to $1/\norm{w}$), and minimize the overall slackness $\sum_i \xi_i$.\\
 		So, we typically use the cost function
@@ -482,6 +482,24 @@
 		\[ y_i w^\top\phi(x_i) \ge 1 - \xi_i \]
 		and $\xi_i \ge 0$ for each $i$.\\
 		The constant $C$ determines the tradeoff between slackness minimization and margin maximization.
+
+	\subsection{Neural Networks}
+
+		As we saw earlier, one issue with perceptrons was that it does not ensure a large margin. We dealt with this by introducing support vector machines.\\
+		We also saw how non-linear classification could be attained using kernels. Neural networks are another way of achieving this.\\
+
+		Neural networks are interesting because they have \emph{universal} approximation properties, with regards to both regression and classification. The greater the required accuracy, the more hidden units we require. This is codified by the no free lunch theorems.\\
+
+		We first focus on classification. Suppose we have $m$ data points $(x_i)_{i=1}^m$, and $k$ classes $(c_i)_{i=1}^k$. In general, we come up with a sequence of mappings between intermediate `layers' of spaces, the first being that of $x$ and the last being the set of classes.\\
+		Consider classification, where we have some activation function $g(w^\top\phi(x))$. We are familiar with the sigmoid or linear functions. We also often use the $\tanh$ activation function and the ReLU function which is just defined by $g(s) = \max\{s,0\}$. We also sometimes use the Softplus function $g(s) = \ln(1+e^s)$. We have also seen the multiclass logistic regression with
+		\[ \Pr[y = c \mid \phi(x)] = \frac{e^{-(w_c)^\top\phi(x)}}{1 + \sum_{k=1}^{K-1} e^{-(w_k)^\top\phi(x)}} \]
+		and softmax which has $k$ parameters instead (one of the parameters is redundant).\\
+
+		Now, a question one can ask is: how does one measure the separability that can be attained by a classifier?\\
+		In pursuit of this, we define the \textbf{VC-dimension} (\textbf{V}apnik-\textbf{C}hervonenkis), which represents the richness of the space of functions expressible by a classifier. A classification function $f_w$ is said to \emph{shatter} a set of datapoints $(x_1,\ldots,x_n)$ if for all assignments of labels to these points, there exists some $w$ such that $f_w$ makes no errors when evaluating that set of datapoints. The cardinality of the largest set of points that $f(w)$ can shatter is its VC-dimension.\\
+		For example, one can show that the VC-dimension of the linear classifier in $\R^2$ is $3$ (Why?). More generally, the VC-dimension of the linear classifier in $\R^n$ is $n+1$.\\
+
+		Neural networks are interesting because their VC-dimension increases rapidly with more layers in between. We cascade \emph{non-linear}\footnote{if we use linear everywhere, we do not gain any expressive power by adding more layers.} activation functions, which allows more expressive power.
 
 
 \clearpage
@@ -600,5 +618,4 @@
 
 			% 
 
-
-\end{document}
+\end{document} 
