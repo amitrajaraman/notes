@@ -96,14 +96,14 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				We want to show that if $A$ is doubly stochastic, then $A = \sum_{i=1}^k \lambda_i P_i$, where the $P_i$ are permutation matrices, $\sum_i \lambda_i = 1$, and $\lambda_i \ge 0$.\\
 				The idea is something like performing induction on $k$. If $A$ is doubly stochastic, $P$ is a permutation matrix, and $0 < \lambda < 1$ such that every entry of $B = A - \lambda P$ is non-negative, then every row sum and column sum of $B$ is equal to $1-\lambda$.
 				So, if we can find such $\lambda$ and $P$ with $\lambda$ chosen `maximally' (in the sense that if we increase it any more, some entry will become negative), we can ensure that $B$ has more zero elements than $A$. This then allows us to induct on the number of non-zero entries in $A$.\\
-				The base case is when $A$ has $n$ non-zero entries and in this case, $A$ is equal to a permutation matrix (Why?). \\
+				The base case is when $A$ has exactly $n$ non-zero entries and in this case, $A$ is equal to a permutation matrix (Why?). \\
 				Given the earlier claim about the existence of $\lambda$ and $P$, the result follows-near directly on applying the inductive hypothesis to $(1/(1-\lambda)) B$.\\
 				To prove the claim, consider the bipartite graph $G= (X,Y,E)$ with $X$ and $Y$ being the rows and columns of $B$ respectively, and $xy\in E(G)$ iff $B_{xy} > 0$. If the graph has a perfect matching, then there exist $\lambda,P$ of the required form -- set $P$ as the permutation matrix that has $1$s at the edges corresponding to the matching, and let $\lambda$ be equal to
 				\[ \min\{ b_{xy} : xy \text{ is an edge in the matching} \}. \]
 				To show that the graph admits a perfect matching, we check Hall's condition. For all $S\subseteq X$, we want to show that $|N(S)| \ge |S|$. Now, by definition, the submatrix corresponding to the rows indexed by $S$ and columns indexed by $Y\setminus S$ is then the zero submatrix. Using the row sum condition,
 				\[ \sum_{\substack{x\in S \\ y \in N(s )}} b_{xy} = \alpha |S|. \]
 				Since $B$ is non-negative, this sum is at most
-				\[ \sum_{\substack{x\in X \\ y\in N(S)} b_{xy}} = \alpha |N(S)| \]
+				\[ \sum_{\substack{x\in X \\ y\in N(S)}} b_{xy} = \alpha |N(S)| \]
 				by the column sum condition. The claim follows.
 			\end{proof}
 
@@ -134,7 +134,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\begin{proof}
 				The idea of the proof is to construct augmenting paths. Given an augmenting path $P$ for a matching $\mathcal{M}$, $\mathcal{M}\triangle P$ is a matching with strictly more edges. If we begin with an arbitrary matching and perform this operation repeatedly, we must terminate within $|X|/2$ iterations.\\
 				Let $\mathcal{M}$ be a matching. Our objective is to either produce an augmenting path, or show that there exists no $\mathcal{M}$-augmenting path. Let $X_\mathcal{M}$ and $Y_\mathcal{M}$ be the vertices in $X$ and $Y$ respectively saturated by $\mathcal{M}$, and let $X_U = X \setminus X_\mathcal{M}$ and $Y_U = Y \setminus Y_\mathcal{M}$. Notice that an augmenting path (if it exists) is uniquely determined by its sequence in $X_\mathcal{M}$ (since the edges from $X_\mathcal{M}$ to $Y_\mathcal{M}$ are fixed).\\
-				NOw, define the directed graph $D_\mathcal{M} = (X,\mathcal{E})$ with $(x_1, x_2) \in \mathcal{E}$ iff there exists $y \in Y_\mathcal{M}$ such that $x_2y_2\in\mathcal{M}$ and $x_1y_2\in E(G)$.\\
+				Now, define the directed graph $D_\mathcal{M} = (X,\mathcal{E})$ with $(x_1, x_2) \in \mathcal{E}$ iff there exists $y \in Y_\mathcal{M}$ such that $x_2y_2\in\mathcal{M}$ and $x_1y_2\in E(G)$.\\
 				Let $X^* = N(Y_U)$. Observe that $G$ has a $\mathcal{M}$-augmenting path iff $D_\mathcal{M}$ has a path from $X_U$ to $X^*$. This is easily resolved by just finding the set of vertices `reachable' from $X_U$ in $D_\mathcal{M}$. This is possible to do efficiently using the \emph{breadth-first-search} (BFS) algorithm, which we shall detail next.
 			\end{proof}
 
