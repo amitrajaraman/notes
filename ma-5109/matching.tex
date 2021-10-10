@@ -46,7 +46,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\end{definition}
 
 			For a matching $\mathcal{M}$, $x\in X$, $y\in Y$ such that $x,y$ are unsaturated (with respect to $\mathcal{M}$), a path $P$ from $x$ to $y$ is called $\mathcal{M}$-\textbf{augmenting} if every alternate edge in it is a $\mathcal{M}$-edge.\\
-			Observe that if $\mathcal{M}$ admits an augmenting path, then $\mathcal{M}$ is not maximal. Indeed, we can `flip' the edges in the path to show this. That is, given an augmenting path $\mathcal{P}$, where every $y_ix_i$ is in $\mathcal{M}$, it is not too difficult to show that $\mathcal{M} \triangle \mathcal{P}$ is a matching that has strictly more edges.
+			Observe that if $\mathcal{M}$ admits an augmenting path, then $\mathcal{M}$ is not maximal. Indeed, we can `flip' the edges in the path to show this. That is, given an augmenting path $\mathcal{P}$, where every $y_ix_i$ is in $\mathcal{M}$, it is not too difficult to show that $\mathcal{M} \triangle \mathcal{P}$ is a matching that has strictly more edges.\\
 
 			\begin{proof}[Proof 2 of Hall's Marriage Theorem]
 				Let $\mathcal{M}$ be a maximum matching of a bipartite graph $G=(X,Y,E)$ that satisfies Hall's condition. Suppose there exists $x_0 \in X$ such that $x_0$ is unsaturated by $\mathcal{M}$. Let $y_1$ be a neighbour of $x_0$ (such a $y_1$ exists by Hall's condition).\\
@@ -58,37 +58,70 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 
 		\subsubsection{Some applications}
 
-		Next, let us look at a few applications of Hall's Theorem.
+			Next, let us look at a few applications of Hall's Theorem.
 
-		\begin{fdef}[Perfect Matching]
-			A matching $\mathcal{M}$ in a graph $G=(V,E)$ is said to be a \textbf{perfect matching} if $|\mathcal{M}| = |V|/2$, that is, every vertex in $V$ is saturated by $\mathcal{M}$.
-		\end{fdef}
+			\begin{fdef}[Perfect Matching]
+				A matching $\mathcal{M}$ in a graph $G=(V,E)$ is said to be a \textbf{perfect matching} if $|\mathcal{M}| = |V|/2$, that is, every vertex in $V$ is saturated by $\mathcal{M}$.
+			\end{fdef}
 
-		\begin{ftheo}
-			If a bipartite graph $G=(X,Y,E)$ is $d$($>0$)-regular, it has a perfect matching.
-		\end{ftheo}
-		\begin{proof}
-			It suffices to check that Hall's condition holds. Let $S\subseteq X$. We clearly have $e(S,\Gamma(S))=d|S|$. However, the total number of edges coming into $\Gamma(S)$ must include all the edges coming from $S$, that is, $S\subseteq\Gamma(\Gamma(S))$. So,
-			\begin{align*}
-				d|\Gamma(S)| &= e(\Gamma(S),\Gamma(\Gamma(S))) \\
-					&\ge e(\Gamma(S),S) \\
-					&= d|S|,
-			\end{align*}
-			completing the proof.
-		\end{proof}
+			\begin{ftheo}
+				If a bipartite graph $G=(X,Y,E)$ is $d$($>0$)-regular, it has a perfect matching.
+			\end{ftheo}
+			\begin{proof}
+				It suffices to check that Hall's condition holds. Let $S\subseteq X$. We clearly have $e(S,\Gamma(S))=d|S|$. However, the total number of edges coming into $\Gamma(S)$ must include all the edges coming from $S$, that is, $S\subseteq\Gamma(\Gamma(S))$. So,
+				\begin{align*}
+					d|\Gamma(S)| &= e(\Gamma(S),\Gamma(\Gamma(S))) \\
+						&\ge e(\Gamma(S),S) \\
+						&= d|S|,
+				\end{align*}
+				completing the proof.
+			\end{proof}
 
-		For the next result, consider the following definition.
+			For the next result, consider the following definition.
 
-		\begin{fdef}
-			A matrix $A\in\R^{n\times n}$ is said to be \textbf{doubly stochastic}\footnotemark\ if for all $i,j$,
-			\[ 0\le a_{ij} \le 1 \text{ and } \sum_{k} a_{ik} = \sum_{k} a_{kj} = 1. \]
-		\end{fdef}
-		\footnotetext{These are interesting to study since they arise as the transition matrices of a certain class of discrete Markov chains. The stationary distribution of a discrete Markov chain with a doubly stochastic transition matrix is the uniform distribution.}
+			\begin{fdef}
+				A matrix $A\in\R^{n\times n}$ is said to be \textbf{doubly stochastic}\footnotemark\ if for all $i,j$,
+				\[ 0\le a_{ij} \le 1 \text{ and } \sum_{k} a_{ik} = \sum_{k} a_{kj} = 1. \]
+			\end{fdef}
+			\footnotetext{These are interesting to study since they arise as the transition matrices of a certain class of discrete Markov chains. The stationary distribution of a discrete Markov chain with a doubly stochastic transition matrix is the uniform distribution.}
 
-		It is not too difficult to see that any permutation matrix is doubly stochastic.\\
-		Suppose $A_1,A_2$ are doubly stochastic and $0\le\lambda\le 1$. Then observe that $\lambda A_1 + (1-\lambda)A_2$ is doubly stochastic too (Why?).\\
-		As a result, a convex combination of doubly stochastic matrices is doubly stochastic.
+			It is not too difficult to see that any permutation matrix is doubly stochastic.\\
+			Suppose $A_1,A_2$ are doubly stochastic and $0\le\lambda\le 1$. Then observe that $\lambda A_1 + (1-\lambda)A_2$ is doubly stochastic too (Why?).\\
+			As a result, a convex combination of doubly stochastic matrices is doubly stochastic.
 
-		\begin{ftheo}[Birkhoff-von Neumann Theorem]
-			A matrix is doubly stochastic iff it is a convex combination of permutation matrices.
-		\end{ftheo}
+			\begin{ftheo}[Birkhoff-von Neumann Theorem]
+				A matrix is doubly stochastic iff it is a convex combination of permutation matrices.
+			\end{ftheo}
+			\begin{proof}
+				We want to show that if $A$ is doubly stochastic, then $A = \sum_{i=1}^k \lambda_i P_i$, where the $P_i$ are permutation matrices, $\sum_i \lambda_i = 1$, and $\lambda_i \ge 0$.\\
+				The idea is something like performing induction on $k$. If $A$ is doubly stochastic, $P$ is a permutation matrix, and $0 < \lambda < 1$ such that every entry of $B = A - \lambda P$ is non-negative, then every row sum and column sum of $B$ is equal to $1-\lambda$.
+				So, if we can find such $\lambda$ and $P$ with $\lambda$ chosen `maximally' (in the sense that if we increase it any more, some entry will become negative), we can ensure that $B$ has more zero elements than $A$. This then allows us to induct on the number of non-zero entries in $A$.\\
+				The base case is when $A$ has $n$ non-zero entries and in this case, $A$ is equal to a permutation matrix (Why?). \\
+				Given the earlier claim about the existence of $\lambda$ and $P$, the result follows-near directly on applying the inductive hypothesis to $(1/(1-\lambda)) B$.\\
+				To prove the claim, consider the bipartite graph $G= (X,Y,E)$ with $X$ and $Y$ being the rows and columns of $B$ respectively, and $xy\in E(G)$ iff $B_{xy} > 0$. If the graph has a perfect matching, then there exist $\lambda,P$ of the required form -- set $P$ as the permutation matrix that has $1$s at the edges corresponding to the matching, and let $\lambda$ be equal to
+				\[ \min\{ b_{xy} : xy \text{ is an edge in the matching} \}. \]
+				To show that the graph admits a perfect matching, we check Hall's condition. For all $S\subseteq X$, we want to show that $|N(S)| \ge |S|$. Now, by definition, the submatrix corresponding to the rows indexed by $S$ and columns indexed by $Y\setminus S$ is then the zero submatrix. Using the row sum condition,
+				\[ \sum_{\substack{x\in S \\ y \in N(s )}} b_{xy} = \alpha |S|. \]
+				Since $B$ is non-negative, this sum is at most
+				\[ \sum_{\substack{x\in X \\ y\in N(S)} b_{xy}} = \alpha |N(S)| \]
+				by the column sum condition. The claim follows.
+			\end{proof}
+
+			Now, let us look for a moment at matchings in graphs in general (that need not be bipartite).
+
+			\begin{ftheo}
+				A matching $\mathcal{M}$ in a graph $G$ is maximum iff it admits no $\mathcal{M}$-augmenting path.
+			\end{ftheo}
+			\begin{proof}
+				The proof we gave earlier to show that admitting a $\mathcal{M}$-augmenting implies non-maximality works out even in the non-bipartite scenario.\\
+				For the converse, suppose that $\mathcal{M}$ is a matching that admits no $\mathcal{M}$-augmenting path, and that $\mathcal{N}$ is a matching with $|\mathcal{N}| > |\mathcal{M}|$. Consider the subgraph $H$ of $G$ that retains only those edges in $\mathcal{M}$ or $\mathcal{N}$, but not both. Note that for any vertex of $G$, $d_H(v) \le 2$.\\
+				It is not too difficult to show that $H$ is a disjoint union of cycles and paths. Since the $\mathcal{M}$ edges and $\mathcal{N}$ edges are individually pairwise disjoint, there cannot be an odd cycle in $H$. Since $\mathcal{N} > \mathcal{M}$, there must be a path that contains more $\mathcal{N}$ edges than $\mathcal{M}$ edges, and this is just an augmenting path(!), thus completing the proof.
+			\end{proof}
+
+			The above proposition allows us to find maximum matchings using a polynomial time algorithm.\\
+			We give such an algorithm in the bipartite scenario.
+
+			\begin{ftheo}
+				Suppose $G = (X,Y,E)$ is bipartite with $|X| \le |Y|$. There exists a polynomial time algorithm to find a maximum matching in $G$.
+			\end{ftheo}
+			
