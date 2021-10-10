@@ -121,7 +121,45 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			The above proposition allows us to find maximum matchings using a polynomial time algorithm.\\
 			We give such an algorithm in the bipartite scenario.
 
+			\begin{fdef}
+				A \textbf{directed graph} is a pair $D=(V,E)$, where $V$ is the vertex set of $D$, and $E\subseteq V\times V$ is the set of \emph{directed edges} or \emph{arcs}. An edge $e = (u,v)$ is said to be directed from $u$ to $v$.
+			\end{fdef}
+
+			We often abuse notation and denote an edge $(u,v)$ by $\vv{uv}$ or $uv$.\\
+			We can define several things here similar to in ordinary simple graphs. For example, a \emph{directed path} is a sequence $v_1,\ldots,v_n$ of vertices such that $(v_i, v_{i+1})$ is an edge for all valid $i$.
+
 			\begin{ftheo}
 				Suppose $G = (X,Y,E)$ is bipartite with $|X| \le |Y|$. There exists a polynomial time algorithm to find a maximum matching in $G$.
 			\end{ftheo}
-			
+			\begin{proof}
+				The idea of the proof is to construct augmenting paths. Given an augmenting path $P$ for a matching $\mathcal{M}$, $\mathcal{M}\triangle P$ is a matching with strictly more edges. If we begin with an arbitrary matching and perform this operation repeatedly, we must terminate within $|X|/2$ iterations.\\
+				Let $\mathcal{M}$ be a matching. Our objective is to either produce an augmenting path, or show that there exists no $\mathcal{M}$-augmenting path. Let $X_\mathcal{M}$ and $Y_\mathcal{M}$ be the vertices in $X$ and $Y$ respectively saturated by $\mathcal{M}$, and let $X_U = X \setminus X_\mathcal{M}$ and $Y_U = Y \setminus Y_\mathcal{M}$. Notice that an augmenting path (if it exists) is uniquely determined by its sequence in $X_\mathcal{M}$ (since the edges from $X_\mathcal{M}$ to $Y_\mathcal{M}$ are fixed).\\
+				NOw, define the directed graph $D_\mathcal{M} = (X,\mathcal{E})$ with $(x_1, x_2) \in \mathcal{E}$ iff there exists $y \in Y_\mathcal{M}$ such that $x_2y_2\in\mathcal{M}$ and $x_1y_2\in E(G)$.\\
+				Let $X^* = N(Y_U)$. Observe that $G$ has a $\mathcal{M}$-augmenting path iff $D_\mathcal{M}$ has a path from $X_U$ to $X^*$. This is easily resolved by just finding the set of vertices `reachable' from $X_U$ in $D_\mathcal{M}$. This is possible to do efficiently using the \emph{breadth-first-search} (BFS) algorithm, which we shall detail next.
+			\end{proof}
+
+
+			% Let $D = (V,\mathcal{E})$ be a directed graph. For a vertex $u$, let us call $v$ an \emph{out-neighbour} of $u$ if $(u,v)\in\mathcal{E}$, and an \emph{in-neighbour} of $u$ if $(v,u)\in\mathcal{E}$.\\
+			The BFS algorithm is as follows.
+
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\SetNoFillComment		
+				\KwIn{A directed graph $D = (V,E)$ and a set $X \subseteq V$.}
+				\KwOut{The set of vertices in $D$ reachable from $X$}
+				$S\gets X$\;
+				$\mathsf{Queue}\; q \gets X$ \tcp*{in any arbitrary order}
+				\While{$q\ne\emptyset$} {
+					$v \gets \texttt{pop}(q)$\;
+					\For{$u\in N(v)$}{
+						\If{$u\not\in S$} {
+							$S \gets S \cup \{u\}$\;
+							$\texttt{push}(q,u)$
+						}
+					}
+				}
+				\Return{$S$}
+				\caption{BFS algorithm}\label{algo: bfs}
+			\end{algorithm}
+
+			If $X = \{v\}$, then this algorithm in fact finds a shortest path from $v$ to every reachable vertex from it. The correctness of the algorithm follows by a simple induction from $v$ to $u$.
