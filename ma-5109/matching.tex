@@ -126,6 +126,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\end{fdef}
 
 			We often abuse notation and denote an edge $(u,v)$ by $\vv{uv}$ or $uv$.\\
+			A \textbf{loop} is an edge of the form $(v,v)$.\\
 			We can define several things here similar to in ordinary simple graphs. For example, a \emph{directed path} is a sequence $v_1,\ldots,v_n$ of vertices such that $(v_i, v_{i+1})$ is an edge for all valid $i$.
 
 			\begin{ftheo}
@@ -162,4 +163,210 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\caption{BFS algorithm}\label{algo: bfs}
 			\end{algorithm}
 
-			If $X = \{v\}$, then this algorithm in fact finds a shortest path from $v$ to every reachable vertex from it. The correctness of the algorithm follows by a simple induction from $v$ to $u$.
+			If $X = \{v\}$, then this algorithm in fact finds a shortest path from $v$ to every reachable vertex from it. The correctness of the algorithm follows by a simple induction on the distance from $v$ to $u$.\\
+
+			It is not too difficult to see that the BFS algorithm runs in $O(|V|+|E|)$, where $m$ is the number of edges in the graph, since each edge is checked at most twice. So, BFS runs linearly in the input size.
+
+	\subsection{Flow}
+
+		\subsubsection{Flows and Cuts}
+
+			\begin{fdef}[Network]
+				A \textbf{network} is a tuple $(D,s,t,C)$, such that
+				\begin{itemize}
+					\item $D$ is a directed graph,
+					\item $s$ and $t$ are (distinct) specified vertices known as the \textbf{source} and \textbf{sink} respectively, and
+					\item $C : E(D) \to \R_{\ge 0}$ is known as the \textbf{capacity function}.
+				\end{itemize}
+			\end{fdef}
+
+			Given an edge $e$, $C(e)$ is referred to as the capacity of the edge $e$.\\
+
+			This has a very simple-to-understand physical meaning. We can think of $s$ as a source of water and $t$ as a reservoir, with the intermediate edges being pipes that have a limit on how much they can carry and the intermediate nodes being junctions that transmit water. The main question we wish to answer then is: what is the maximum rate of water flow that can be sent from the source to the sink without violating any capacity constraints?\\
+			More concretely,
+
+			\begin{fdef}[Flow]
+				Given a network $\mathcal{N} = (D,s,t,C)$, a \textbf{flow} is a function $f: E(D) \to \R_{\ge 0}$ such that
+				\begin{itemize}
+					\item For all $e\in E(D)$, $f(e) \le C(e)$,
+					\item For every $v \ne s,t$,
+					\[ \sum_{v \in V : uv \in E} f(uv) = \sum_{u \in V : vu \in E} f(vu). \]
+					This is known as \textbf{Kirchhoff's Law}.
+				\end{itemize}
+
+				Given a flow $f$, we define the value $\Val(f)$ of the flow by
+				\[ \Val(f) = \sum_{u \in V : su \in E} f(su) - \sum_{u \in V : us \in E} f(us). \]
+			\end{fdef}
+
+			Given $A,B\subseteq V$, denote
+			\[ f(A,B) = \sum_{\substack{e = uv \in E \\ u \in A, v \in B }} f(e) - \sum_{\substack{e = vu \in E \\ u \in A, v \in B }} f(e). \]
+
+			\begin{fdef}[Cut]
+				Given a network $(D,s,t,C)$, a \textbf{cut} is the ordered pair $(S,\overline{S})$ for some $S \subseteq V$ with $s\in S$ and $t\not\in S$. We further define the \textbf{capacity} of this cut by
+				\[ C(S,\overline{S}) = \sum_{\substack{e = uv \in E \\ u \in S, v \in \overline{S}}} f(e). \]
+			\end{fdef}
+
+			Since Kirchhoff's law is satisfied, we get the following.
+
+			\begin{ftheo}
+				For all $S \subseteq V$ such that $s \in S$ and $t\not\in S$,
+				\[ \Val(f) = f(S,\overline{S}). \]
+			\end{ftheo}
+			Note that the claim follows by definition for $S = \{s\}$.
+			\begin{proof}
+				For $v\in V$ and $e\in E$, let
+				\[
+					\phi(v,e) =
+					\begin{cases}
+						1, & e = vu \text{ for some $u\in V$}, \\
+						-1, & e = uv \text{ for some $u\in V$}, \\
+						0, & e\text{ is not incident on }v. \\
+					\end{cases}
+				\]
+				Note that Kirchhoff's law then just says that for any $v\in V\setminus\{s,t\}$,
+				\[ \sum_{e\in E} \phi(v,e) f(e) = 0. \]
+				Denote by $E(S,\overline{S})$ the set of all edges between $S$ and $\overline{S}$ (in either direction).\\
+				We have
+				\begin{align*}
+					f(S,\overline{S}) &= \sum_{\substack{e = uv \in E \\ u \in S, v \in \overline{S}}} f(e) - \sum_{\substack{e = vu \in E \\ u \in S, v \in \overline{S}}} f(e) \\
+						&= \sum_{e \in E(S,\overline{S})} \sum_{v \in S} f(e) \phi(v,e) \\
+						&= \sum_{v\in S} \sum_{e \in E(S,\overline{S})} f(e) \phi(v,e) \\
+						&= \sum_{v\in S} \sum_{e \in E} f(e) \phi(v,e) - sum_{v \in S} \sum_{\substack{e \in E(S,S): \\ \phi(v,e) = 1}} f(e) + sum_{v \in S} \sum_{\substack{e \in E(S,S): \\ \phi(v,e) = -1}} f(e) \\
+						&= \sum_{v\in S} \sum_{e\in E} f(e) \phi(v,e),
+				\end{align*}
+				where the last step follows since for any edge $uv$ in $E(S,S)$, $\phi(u,e) = 1$, $\phi(v,e) = -1$, and $\phi(w,e) = 0$ for all other vertices $w$.\\
+				By Kirchhoff's law,
+				\[ \sum_{v\in S} \sum_{e \in E} f(e) \phi(v,e) = \sum_{e \in E} f(e) \phi(s,e) = \Val(f), \]
+				completing the proof.
+			\end{proof}
+
+			\begin{corollary}
+				For a flow $f$,
+				\[ \Val(f) = \sum_{u \in V : ut \in E} f(ut) - \sum_{u \in V : tu \in E} f(tu). \]
+			\end{corollary}
+
+			The above is sometimes taken as an alternate definition for the value of a flow.
+
+		\subsubsection{The Max-Flow Min-Cut Theorem}
+
+			\begin{fcor}
+				For a network $\mathcal{N}$, a flow $f$, and any cut $(S,\overline{S})$,
+				\[ \Val(f) \le C(S,\overline{S}). \]
+			\end{fcor}
+
+			Observe that for any network $\mathcal{N}$, there exists at least one flow (namely the zero flow), and the flow value is bounded above.
+
+			\begin{definition}
+				Given a network $\mathcal{N}$, a \textbf{maximum flow} is a flow such that $\Val(f)$ is the maximum among all possible flows.
+			\end{definition}
+
+			\begin{theorem}
+				Any network $\mathcal{N}$ on a finite directed graph has a maximum flow.
+			\end{theorem}
+			\begin{proof}
+				It is clear that
+				\[ \sup\{\Val(f) : f \text{ is a flow on }\mathcal{N}\} \]
+				is well-defined and finite since for any flow $f$
+				\begin{equation}
+					\label{min-cut ge max-flow}
+					\Val(f) \le \min_{(S,\overline{S}) \text{ is a cut}} C(S,\overline{S}).
+				\end{equation}
+				It is easy to show that the supremum is attained by a flow by considering a sequence of flows that converge (in value) to the supremum flow value, considering an appropriate subsequence such that the flow in each edge converges (this is possible since the set $[0,C(e)]$ is compact for each edge $e$, so we can apply the Bolzano-Weierstrass Theorem), and considering the flow whose value in each edge is equal to the limit of the sequence of flow values in this edge. Since the capacity constraint is a weak one and not strong, this is indeed a flow that satisfies the capacity constraints.
+			\end{proof}
+
+			It in fact turns out that the bound in \eqref{min-cut ge max-flow} is attained!
+
+			\begin{ftheo}[Ford-Fulkerson Theorem]
+				For a network $\mathcal{N} = (D,s,t,C)$ (where $D$ is finite),
+				\[ \max_{\substack{f\text{ is a flow} \\ \text{on }\mathcal{N}}} \Val(f) = \min_{(S,\overline{S}) \text{ is a cut}} C(S,\overline{S}). \]
+			\end{ftheo}
+			The above is also referred to as the \emph{max-flow min-cut} theorem.
+			\begin{proof}
+				\eqref{min-cut ge max-flow} shows that the term on the right is at least the quantity on the right. Therefore, it suffices to show that if $f$ is a max-flow, there exists a cut $(S,\overline{S})$ such that $\Val(f) = C(S,\overline{S})$.\\
+				Now, suppose there is a sequence $s = v_0 v_1 v_2 \cdots v_k v_{k+1} = t$ of vertices such that
+				\begin{itemize}
+					\item for each $i$, $v_i v_{i+1} \in E$ or $v_{i+1} v_i \in E$. In the former case, we call it a \emph{forward edge} and in the latter, a \emph{backward edge}.
+					\item if $v_i v_{i+1}$ is a forward edge, then $f(v_iv_{i+1}) < C(v_i, v_{i+1})$.
+					\item if $v_{i+1} v_i$ is a backward edge, then $f(v_{i+1},v_i) > 0$.
+				\end{itemize}
+				We call such a sequence an \textbf{$f$-augmenting path}.\\
+				Suppose for a moment that such a path exists. Then, let
+				\[ \delta = \min \left(\{ c(e) - f(e) : e \text{ is a forward edge in $P$} \} \cup \{ f(e) : e \text{ is a backward edge in $P$} \}\right) \]
+				By definition, $\delta > 0$. Define a new function $f' : E \to \R$ by
+				\[
+					f'(e) =
+					\begin{cases}
+						f(e), & e \not\in P, \\
+						f(e) + \delta, & e \in P\text{ is a forward edge}, \\
+						f(e) - \delta, & e \in P\text{ is a forward edge}. \\
+					\end{cases}
+				\]
+				It is not too difficult to check that $f'$ is a flow as well. Further,
+				\[ \Val(f') = \Val(f) + \delta > \Val(f). \]
+				Therefore, if $f$ is a maximum flow, there is no $f$-augmenting path.\\
+				Now, let $f$ be a maximum flow. For each vertex $v$, we say that a path from $s$ to $v$ is $f$-augmenting if the earlier definition holds, except that the final vertex is $v$ instead of $t$.\\
+				Let
+				\[ S = \{ v: \text{ there is an $f$-augmenting path from $s$ to $v$} \}. \]
+				Clearly, $s\in S$. Since $f$ is a maximal flow, $t\not\in S$. Therefore, $(S,\overline{S})$ is a cut.\\
+				Suppose $e = uv$ is an edge with $u \in S$ and $v \not\in S$. If $f(e) < c(e)$, then $v\in S$ as well due to the existence of a path $s u_1 \cdots u_k u v$ (since $u$ is $f$-augmenting), leading to a contradiction. So, $f(e) = c(e)$.\\
+				On the other hand, if $e = vu$ is an edge with $u \in S$ and $v \not\in S$ and $f(e) > 0$, $v \in S$, again leading to a contradiction. So, $f(e) = 0$.\\
+				However, we then have
+				\[ \Val(f) = f(S,\overline{S}) = C(S,\overline{S}), \]
+				completing the proof.
+			\end{proof}
+
+			The above proof is easily modified to an algorithm in the case where $C$ is integral.
+
+			\begin{fcor}
+				Suppose $\mathcal{N}$ is an integral network. That is, $C(e) \in \N_0$ for all $e \in E(D)$. Then, there is a polynomial time algorithm that determines an integral maximum flow $f$ on $\mathcal{N}$ (a flow which has maximum value and only takes integral values).
+			\end{fcor}
+			\begin{proof}
+				Begin with the zero flow $f_0$. Given $f_k$, choose an $f_k$-augmenting path, and increase the value of the flow by $\delta$ to get $f_{k+1}$. If there exists no $f_k$-augmenting path, then we must have attained the maximum flow possible since we must have saturated some cut. Further, due to the integral nature of the network and the flow at each step, $\delta$ is a positive integer, so this process terminates after a finite number of time steps.
+			\end{proof}
+
+		\subsubsection{Applications}
+
+			Here, we give two applications of flow.\\
+
+			Consider a bipartite graph $G = (X,Y,E)$. Define the network $\mathcal{N} = (D,s,t,C)$ as follows:
+			\begin{itemize}
+				\item $s$ and $t$ are `new' vertices (not in $X\cup Y$),
+				\item $D = (X\cup Y, E_D)$, where
+				\[ E_D = \underbrace{\{\vv{uv} : uv \in E\}}_{E_1} \cup \underbrace{\{ \vv{su} : u \in X \}}_{E_2} \cup \underbrace{\{ \vv{vt} : v \in Y \}}_{E_3}, \]
+				\item the capacity function is defined by
+				\begin{align*}
+					C(e) &=
+					\begin{cases}
+						1, & e \in E_1 \\
+						\infty, & \text{otherwise}.
+					\end{cases}
+				\end{align*}
+				If $\infty$ is problematic to think about, we can just choose a quantity that is greater than $C(X,Y)$ (no flow can have value greater than this anyway).
+			\end{itemize}
+			If there is a matching $\mathcal{M}$ of size $m$ on $G$, then there is a flow $f_\mathcal{M}$ of value $m$ that is $1$ on all edges in $\mathcal{M}$, and the flow in each edge of $E_2 \cup E_3$ is chosen such that Kirchhoff's law is satisfied.\\
+			Conversely, if $f$ is a maximum integral flow of value $m$, we can get a matching $\mathcal{M}$ with $m$ edges by considering exactly those edges in $E_1$ that have flow $1$ in them.\\
+			Therefore, to find a maximum matching on a bipartite graph, we may merely find a maximum flow in the corresponding network $\mathcal{N}$.\\
+
+			For the second application, we give a result of Schrijver's.\\
+			Suppose $A$ is a $m\times n$ $\{0,1\}$-matrix that has $k$ $1$s in each row and $r$ $1$s in each column (this implies that $mk=nr$). Suppose $\alpha \in (0,1) \cap \Q$ such that $\alpha k = k'$ and $\alpha r = r'$ are integers.\\
+			Then, one can change some of the $1$s in $A$ to $0$s such that in the resulting array $A'$, there are $k'$ $1$s in each row and $r'$ $1$s in each column.\\
+			To prove this, assign a bipartite graph $G = (X,Y,E)$ to $A$ as follows. $X$ is the rows of $A$, $Y$ is the columns of $A$, and $xy\in E(G)$ (with $x\in X$, $y\in Y$) iff $A_{xy} = 1$. We have that $d(x) = k$ and $d(y) = r$ for all $x\in X$, $y\in Y$.\\
+			Craft a network $\mathcal{N}$ using $G$ exactly as we did above in the first application, with
+			\[
+				C(e) = 
+				\begin{cases}
+					1, & e = xy\text{ for }x\in X, y\in Y, \\
+					k, & e = sx\text{ for }x\in X, \\
+					r, & e = yt\text{ for }y\in Y.
+				\end{cases}
+			\]
+			Clearly, the flow $f$ that saturates the capacity of every single edge is a maximum flow. Consider another capacity function $C'$ by
+			\[
+				C'(e) = 
+				\begin{cases}
+					1, & e = xy\text{ for }x\in X, y\in Y, \\
+					k', & e = sx\text{ for }x\in X, \\
+					r', & e = yt\text{ for }y\in Y.
+				\end{cases}	
+			\]
+			Note that $f' = \alpha f$ is a maximum flow in $\mathcal{N}' = (D,s,t,C')$. Since $\mathcal{N}'$ is integral, there is an integral max flow $f''$ in it. Note that for each $e$ of the form $sx$, $f'(e) = k' = C'(e)$, so we must have $f''(e) = k'$ as well. Similarly, $f''(e) = r'$ for every edge of the form $yt$. Changing a $1$ in $A$ to a $0$ iff $f''(e) = 0$ gives the required.
