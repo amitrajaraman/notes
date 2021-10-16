@@ -499,7 +499,45 @@
 		In pursuit of this, we define the \textbf{VC-dimension} (\textbf{V}apnik-\textbf{C}hervonenkis), which represents the richness of the space of functions expressible by a classifier. A classification function $f_w$ is said to \emph{shatter} a set of datapoints $(x_1,\ldots,x_n)$ if for all assignments of labels to these points, there exists some $w$ such that $f_w$ makes no errors when evaluating that set of datapoints. The cardinality of the largest set of points that $f(w)$ can shatter is its VC-dimension.\\
 		For example, one can show that the VC-dimension of the linear classifier in $\R^2$ is $3$ (Why?). More generally, the VC-dimension of the linear classifier in $\R^n$ is $n+1$.\\
 
-		Neural networks are interesting because their VC-dimension increases rapidly with more layers in between. We cascade \emph{non-linear}\footnote{if we use linear everywhere, we do not gain any expressive power by adding more layers.} activation functions, which allows more expressive power.
+		The VC-dimension of neural networks increases rapidly with more layers in between and more perceptrons in each layer. We cascade \emph{non-linear}\footnote{if we use linear everywhere, we do not gain any expressive power by adding more layers.} activation functions, which allows more expressive power.\\
+
+		Neural networks are easier to understand with the context of pursuit projection regression, where we have some $M$, and we predict the output of input $X$ as
+		\[ f(X) = \sum_{m=1}^M g_m(w_m^\top X) \]
+		for some functions $g_m$ and suitable unit vectors $(w_m)_{m=1}^M$.\\
+		To put it in more familiar terms, one may try to minimize the least squares error
+		\[ \sum_{i=1}^N \left( y_i - \sum_{m=1}^M g_m(w_m^\top x_i) \right)^2. \]
+		Consider the scenario where $M=1$ and we have $w = w_m$, $g = g_m$. Given a choice of $w$, one can estimate the optimal $g$ through various means, and given a choice of $g$, one can estimate the optimal $w$ through a combination of gradient descent and least squares regression.\\
+
+		Now, consider the two-level neural network model. As mentioned earlier, the basic idea is to choose an intermediate space and allow \emph{two} functions, one from the input space to the intermediate space and another from the intermediate space to the final output space, thus allowing more expressiveness.\\
+		For starters, suppose we are in the classification setting with $K$ classes. Given input $X$, one may define the $M$-dimensional vector $Z$ by
+		\[ Z_m = \sigma(\alpha_m^\top X) \]
+		and the $K$-dimensional vector $T$ by
+		\[ T_k = \beta_k^\top Z \]
+		for some vectors $(\alpha_m)_{m=1}^M$ and $(\beta_k)_{k=1}^K$. $\sigma$ is an activation function, that may be chosen to be the \emph{sigmoid} function we looked at earlier.\\
+		So, overall, we get a number $f_k(X) = g_k(T)$ corresponding to each class $k$. In the final step, one may take $g_k$ to be something like the softmax function that we used in logistic regression, for instance.\\
+		The idea of neural networks is largely similar to that of the usual basis functions we have used in the past, except that the manner in which we `expand' the basis is learned from the data as well.\\
+		Observe that the power of the above two-level network collapses if we choose $\sigma$ to be linear.	Also note that the two-level neural network model is a form of pursuit projection regression, where all the $g_m$ are $\sigma$. \\
+
+		While designing a neural network, we typically use one hidden layer, and if otherwise, we maintain the same number of hidden units in each layer (this refers to the dimension of that layer). The number of hidden units in each layer is also usually kept a constant factor times the dimension of the input.\\
+		Logistic regression is essentially just a single-node sigmoidal neural network (with no hidden layers).\\
+		For neural networks, the level curves of our functions can be highly non-convex as well. How do we ensure that we go to the true global minimum and not a local minimum in gradient descent? \\
+		We also have the algorithmic challenge of handling `unknown' activations in the hidden layer.\\
+
+		What we do is back-propagation. Recall how in pursuit projection regression, if one of $w$ or $g$ is fixed, we can improve the other. This allows us to repeatedly improve each of $w$ and $g$ using the other. As an example, suppose we have
+		\[ f(x,y,z) = g_f(w_q g_q(w_x x + w_y y) + w_z z). \]
+		We then have
+		\[ \frac{\partial f}{\partial w_x} = \frac{\partial g_f}{\partial g_q} \cdot \frac{\partial g_q}{\partial w_x}. \]
+		This application of the chain rule is the first part of backpropagation.\\
+		So, in all, we randomly initialize the weights $w_{i,j}^\ell$. We then do forward propagation to get the intermediate activation functions $f_w$. We then execute backpropagation by computing the partial derivatives of the \emph{overall} cost function that depends on all the $w_{i,j}^\ell$ with respect to each parameter, and use gradient descent in an attempt to minimize the (possibly non-convex) cost. We must then verify that the cost has actually reduced, and if not we apply some random perturbation of the weights (or we could start from the beginning again with different initializations).\\
+		When calculating the gradients, certain partial derivatives in earlier stages of the network (for different function) may be used in partial derivatives with respect to many variables, so memoization can significantly speed up the back-propagation step. Our notation is that the node corresponding to function $\sigma_i^{\ell-1}$ is connected to the node (in the next layer) corresponding to $\sigma_j^{\ell-1}$ by the weight $w_{i,j}^\ell$.\\
+		Let us denote by $\text{sum}_{j}^{\ell}$ the weighted sum of all the functions coming into $\sigma_j^\ell$. That is, $\text{sum}_j^\ell = \sum_{i=1}^{s_{\ell-1}} \sigma_i^{\ell-1} w_{i,j}^\ell$, where $s_{\ell-1}$ is the number of nodes in the $(\ell-1)$th layer. The neural network objective to be minimized is
+		\[ E(w) = -\frac{1}{M} \left(\sum_{i=1}^M \sum_{k=1}^K (y_i)_k \log( \sigma_k^L (x_i) ) + (1 - (y_i)_k) \log( 1 - \sigma_k^L(x_i) )\right) + \frac{\lambda}{2M} \sum_{\ell=1}^L \sum_{i=1}^{s_{\ell-1}} \sum_{j=1}^{s_\ell} \left(w_{i,j}^\ell\right)^2. \]
+		The $0$th layer is considered as the input layer. We have
+		\[ \frac{\partial E}{\partial w_{i,j}^\ell} = \frac{\partial E}{\partial \sigma_j^\ell} \frac{\partial \sigma_j^\ell}{\partial \text{sum}_j^\ell} \frac{\partial \text{sum}_j^\ell}{w_{i,j}^\ell}. \]
+		Calculating the first of the three derivatives above is only problematic part.
+		\[ \frac{\partial E}{\partial \sigma_j^\ell} = \sum_{p=1}^{s_{\ell+1}} \frac{\partial E}{\partial \sigma_p^{\ell+1}} \frac{\partial \sigma_p^{\ell+1}}{\partial \text{sum}_j^{\ell+1}} w_{j,p}^{\ell+1} \]
+		The above is simple for $\ell = L$, but when $\ell < L$, we must recursively calculate it using higher layers, which is where memoization comes into play.\\
+		The second derivative is just $\sigma_j^\ell (1 - \sigma_j^\ell)$, and the third component is $\sigma_i^{\ell-1}$.\\
 
 
 \clearpage
