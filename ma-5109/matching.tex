@@ -318,7 +318,8 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			The above proof is easily modified to an algorithm in the case where $C$ is integral.
 
 			\begin{fcor}
-				Suppose $\mathcal{N}$ is an integral network. That is, $C(e) \in \N_0$ for all $e \in E(D)$. Then, there is a polynomial time algorithm that determines an integral maximum flow $f$ on $\mathcal{N}$ (a flow which has maximum value and only takes integral values).
+				\label{integral network integral maxflow}
+				Suppose $\mathcal{N}$ is an integral network. That is, $C(e) \in \N_0$ for all $e \in E(D)$. Then, there is an integral maximum flow $f$ on $\mathcal{N}$ (a flow which has maximum value and only takes integral values).
 			\end{fcor}
 			\begin{proof}
 				Begin with the zero flow $f_0$. Given $f_k$, choose an $f_k$-augmenting path, and increase the value of the flow by $\delta$ to get $f_{k+1}$. If there exists no $f_k$-augmenting path, then we must have attained the maximum flow possible since we must have saturated some cut. Further, due to the integral nature of the network and the flow at each step, $\delta$ is a positive integer, so this process terminates after a finite number of time steps.
@@ -370,3 +371,74 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\end{cases}	
 			\]
 			Note that $f' = \alpha f$ is a maximum flow in $\mathcal{N}' = (D,s,t,C')$. Since $\mathcal{N}'$ is integral, there is an integral max flow $f''$ in it. Note that for each $e$ of the form $sx$, $f'(e) = k' = C'(e)$, so we must have $f''(e) = k'$ as well. Similarly, $f''(e) = r'$ for every edge of the form $yt$. Changing a $1$ in $A$ to a $0$ iff $f''(e) = 0$ gives the required.
+
+		\subsubsection{Algorithms for finding max-flow}
+
+			Now, how do we actually determine a max-flow?\\
+			A basic idea comes from the proof of \Cref{integral network integral maxflow}.
+
+			% We saw earlier that in an integral network, a max-flow can be determined in $O(C_{\text{max}}|E|)$, where $C_\text{max}$ is the value of the max-flow. However, this algorithm is quite inefficient. Is it possible to come up with a better algorithm?\\
+			To do so, let us rephrase the definition of an augmenting path into terms closer to that of Dijkstra's algorithm.
+			Given a network $\mathcal{N}=(D,s,t,C)$ and a flow $f$ on it, define the auxiliary \emph{residual} graph $D_f$ on the vertex set of $D$ such that $e = (u,v)\in E(D_f)$ iff
+			\begin{itemize}
+				\item $uv$ is an edge in $D$ and $c_f(e) = C(e) - f(e) > 0$ or
+				\item $vu$ is an edge in $D$ and $c_f(e) = f(e) > 0$.
+			\end{itemize}
+			If we find a path in this residual graph, then we get an augmenting path to the flow $f$ (if one exists), and the corresponding value of $\delta$ by which we augment the flow is just equal to the maximum value of $c_f(e)$ along edges $e$ in this path.
+
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\SetNoFillComment
+				\SetKwProg{Fn}{}{}{}
+				% \SetKwFunction{aug}{Aug}
+				% \Fn{\aug{$P,f$}} {
+				% 	$b\gets\min_{e \in P} c_f(e)$\;
+				% 	\ForEach{$e=\vv{uv}\in\pi$} {
+				% 		\eIf{$e$ is a forward edge} {
+				% 			increase $f(\vv{uv})$ in $G$ by $b$
+				% 		} {
+				% 			decrease $f(\vv{vu})$ in $G$ by $b$
+				% 		}
+				% 	}
+				% }
+
+				\For{$e\in E(G)$} {
+					$f(e)\gets 0$
+				}
+				\While{there exists an $s$-$t$ path $P$ in $G_f$} {
+					% $f'\gets\aug{$P,f$}$\;
+					$c_f(P)\gets\min_{e \in P} c_f(e)$\;
+					\ForEach{$e=uv\in P$} {
+						\eIf{$e$ is a forward edge} {
+							$f(uv)\gets f(uv) + c_f(P)$
+						} {
+							$f(vu) \gets f(vu) - c_f(P)$
+						}
+					}
+				}
+				\Return{$f$}\;
+				\caption{Ford and Fulkerson's Algorithm}\label{algo: max flow}
+			\end{algorithm}
+
+			There are two important things to note:
+			\begin{itemize}
+				\item The choice of the path at each step affects how many augmentations we perform.\\
+				To illustrate this, consider the graph on $\{s,u,v,t\}$ with edges $su,sv,uv,ut,vt$ and capacities $2^{10},2^{10},1,2^{10},2^{10}$ respectively. If we pick the augmenting paths $sut$ and $svt$ in the beginning, we immediately arrive at the max-flow value. However, if we pick the path from $s$ to $t$ containing $uv$ at each step, we take a very large amount of time ($2^{11}$ time steps) to converge since the flow only increases by $1$ each augmentation.
+
+				\item In fact, in the case where capacities are irrational and we choose an arbitrary path at each step, we need not even converge to the max-flow value.\footnote{If the capacities are integral (or rational), this process terminates as seen in the proof of \Cref{integral network integral maxflow}.}
+			\end{itemize}
+
+			This algorithm (for an integral network) takes $O(F_\text{max}E)$, where $F_\text{max}$ is the value of a max-flow in the graph.\\
+
+			Henceforth, we abuse notation and denote by $E$ (resp. $V$) the size of the set $E$ (resp. $V$).\\
+
+			The first of the two points above leads to the \textbf{Edmonds-Karp algorithm}. It is nearly the same as the Ford and Fulkerson algorithm, except that at each step we choose the shortest path from $s$ to $t$ in $G_f$. \\
+			Further, it resolves the second issue as well, with the algorithm working even in the irrational scenario.
+
+			\begin{ftheo}
+				The Edmonds-Karp algorithm runs in $O(VE^2)$.
+			\end{ftheo}
+			Note in particular that the runtime is independent of the value of the max-flow.
+			\begin{proof}
+				Since each augmentation takes $O(E)$ time, it suffices to show that there are $O(VE)$ iterations in this algorithm.
+			\end{proof}
