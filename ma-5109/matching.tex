@@ -65,6 +65,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\end{fdef}
 
 			\begin{ftheo}
+				\label{ftheo: regular bipartite graph has a perfect matching}
 				If a bipartite graph $G=(X,Y,E)$ is $d$($>0$)-regular, it has a perfect matching.
 			\end{ftheo}
 			\begin{proof}
@@ -326,6 +327,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\end{proof}
 
 		\subsubsection{Applications}
+		\label{subsubsec: applications of max-flow}
 
 			Here, we give two applications of flow.\\
 
@@ -390,18 +392,6 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\DontPrintSemicolon
 				\SetNoFillComment
 				\SetKwProg{Fn}{}{}{}
-				% \SetKwFunction{aug}{Aug}
-				% \Fn{\aug{$P,f$}} {
-				% 	$b\gets\min_{e \in P} c_f(e)$\;
-				% 	\ForEach{$e=\vv{uv}\in\pi$} {
-				% 		\eIf{$e$ is a forward edge} {
-				% 			increase $f(\vv{uv})$ in $G$ by $b$
-				% 		} {
-				% 			decrease $f(\vv{vu})$ in $G$ by $b$
-				% 		}
-				% 	}
-				% }
-
 				\For{$e\in E(G)$} {
 					$f(e)\gets 0$
 				}
@@ -417,7 +407,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 					}
 				}
 				\Return{$f$}\;
-				\caption{Ford and Fulkerson's Algorithm}\label{algo: max flow}
+				\caption{Ford and Fulkerson's Algorithm}\label{algo: FF max flow}
 			\end{algorithm}
 
 			There are two important things to note:
@@ -425,7 +415,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\item The choice of the path at each step affects how many augmentations we perform.\\
 				To illustrate this, consider the graph on $\{s,u,v,t\}$ with edges $su,sv,uv,ut,vt$ and capacities $2^{10},2^{10},1,2^{10},2^{10}$ respectively. If we pick the augmenting paths $sut$ and $svt$ in the beginning, we immediately arrive at the max-flow value. However, if we pick the path from $s$ to $t$ containing $uv$ at each step, we take a very large amount of time ($2^{11}$ time steps) to converge since the flow only increases by $1$ each augmentation.
 
-				\item In fact, in the case where capacities are irrational and we choose an arbitrary path at each step, we need not even converge to the max-flow value.\footnote{If the capacities are integral (or rational), this process terminates as seen in the proof of \Cref{integral network integral maxflow}.}
+				\item In the case where capacities are irrational and we choose an arbitrary path at each step, we need not even converge to the max-flow value. If the capacities are integral (or rational), this process terminates as seen in the proof of \Cref{integral network integral maxflow}.
 			\end{itemize}
 
 			This algorithm (for an integral network) takes $O(F_\text{max}E)$, where $F_\text{max}$ is the value of a max-flow in the graph.\\
@@ -436,9 +426,33 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			Further, it resolves the second issue as well, with the algorithm working even in the irrational scenario.
 
 			\begin{ftheo}
-				The Edmonds-Karp algorithm runs in $O(VE^2)$.
+				The Edmonds-Karp algorithm for finding a max-flow runs in $O(VE^2)$.
 			\end{ftheo}
 			Note in particular that the runtime is independent of the value of the max-flow.
 			\begin{proof}
-				Since each augmentation takes $O(E)$ time, it suffices to show that there are $O(VE)$ iterations in this algorithm.
+				Since each augmentation takes $O(E)$ time, it suffices to show that the number of augmentations is $O(VE)$.\\
+				First, we claim that the distance $\delta_f(s,v)$ between $s,v$ in the residual graph $G_f$ monotonically increases for all $v\in V$. That is, if $f'$ is obtained by augmenting $f$ using a shortest path in the residual graph, $\delta_f(s,v) \le \delta_{f'}(s,v)$.\\
+				For now, suppose the claim is true. Suppose we have a flow $f$ and corresponding residual graph $G_f$. If $P$ is a shortest $s$-$t$ augmenting path, define the \emph{critical capacity} $c_f(P)$ of $P$ as in \Cref{algo: FF max flow}. Also call an edge $e$ \emph{critical} if $c_f(P) = c_f(e)$. We shall show that every edge $e = uv$ in $D$ becomes critical in an implementation of Edmonds-Karp at most $|V|/2$ times. This implies that there are at most $|E||V|/2$ augmentations, thus completing the proof.\\
+				Suppose that in some augmentation, $e = uv$ is critical for the first time. Then, $\delta_f(s,v) = \delta_f(s,u) + 1$ since we are using a shortest path. Further, after the augmentation, the edge $uv$ disappears. To become critical again, it has to reappear, and this only happens after $vu$ appears in a subsequent augmenting path for a flow $f'$. But by our earlier claim,
+				\[ \delta_{f'}(s,u) = \delta_{f'}(s,v) + 1 \ge \delta_f(s,v) + 1 = \delta_f(s,u) + 2, \]
+				thus proving our second claim since $\delta_{f'}(s,u) \le |V|-1$, so any edge becomes critical at most $(|V|-1)/2$ times.\\
+
+				It remains to prove our first claim. Suppose it is not true. Then, there is a first instance and a vertex $v$ such that $f$ is augmented to $f'$ but $\delta_{f'}(s,v) < \delta_{f}(s,v)$. Pick such a $v$ with minimal $\delta_{f'}(s,v)$.\\
+				Let $P$ be a shortest path in $G_{f'}$ from $s$ to $v$, and let the penultimate vertex in it (before $v$) be $u$. Then, $\delta_{f'}(s,v) = \delta_{f'}(s,u) + 1$. By the choice of $v$, $\delta_{f'}(s,u) \ge \delta_{f}(s,u)$.\\
+				Now, suppose that $uv \in E(G_f)$. Then,
+				\[ \delta_f(s,v) \le \delta_f(s,u) + 1 \le \delta_{f'}(s,u) + 1 = \delta_{f'}(s,v), \]
+				contradicting our assumption. Therefore, $uv \not\in E(G_f)$. However, $uv \in E(G_{f'})$. This implies that an $s$-$t$ augmenting path $P$ in $G_f$ includes the edge $vu$. Since Edmonds-Karp uses shortest paths, this implies that $\delta_f(s,u) = \delta_f(s,v) + 1$, so
+				\[ \delta_f(s,v) = \delta_f(s,u) - 1 \le \delta_{f'}(s,u) - 1 = \delta_{f'}(s,v) - 2, \]
+				contradicting our assumption once more and concluding the proof. 
 			\end{proof}
+
+			Next, we give a more recent result on finding perfect matchings in regular bipartite graphs. Let $G = (X,Y,E)$ be $d$-regular with $|V| = n = 2|X|$. \Cref{ftheo: regular bipartite graph has a perfect matching} says that $G$ has a perfect matching. The Edmonds-Karp algorithm together with the first application in \Cref{subsubsec: applications of max-flow} gives a $O(n^3 d)$ algorithm.\\
+			We give a far more efficient \emph{randomized} algorithm due to \cite{Goel11perfectmatchings} with expected runtime $O(n\log n)$.\\
+			First, what are randomized algorithms? They utilize sources of randomness, and either
+			\begin{itemize}
+				\item the output is a random variable (that need not always be correct),
+				\item the output is definitely correct, but the runtime is a random variable,
+			\end{itemize}
+			or some combination of the two.\\
+			The algorithm we describe is of the second variety.\\
+			Starting from $s$, pick a random neighbour $v$. From a vertex $u$ (in general), uniformly pick a random outneighbour which is not $s$. Terminate upon reaching $t$.
