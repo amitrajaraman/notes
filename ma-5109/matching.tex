@@ -455,4 +455,50 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\end{itemize}
 			or some combination of the two.\\
 			The algorithm we describe is of the second variety.\\
-			Starting from $s$, pick a random neighbour $v$. From a vertex $u$ (in general), uniformly pick a random outneighbour which is not $s$. Terminate upon reaching $t$.
+			Create the corresponding network for $G$, adding source and sink vertices $s$ and $t$. Beginning with the $0$ flow, we find an augmenting path by performing the following on the residual graph. Beginning from vertex $s$, if we are at vertex $u$, then choose an arbitrary outneighbour $v$ of $u$ and move to it. This algorithm gives a flow of value $n$,\footnote{If any loops are formed during the creation of this augmenting path, delete them afterwards.} and thus a perfect matching in the graph, with expected runtime $O(n\log n)$.
+			\begin{remark}
+				The expected runtime for the algorithm is independent of the degree $d$ of the graph. While the \emph{expected} time is of the order of $O(n\log n)$, it is possible for the algorithm to take much longer to terminate. One way to deal with this is that if the algorithm does not terminate in, say, $\lceil10 n\log n\rceil$ steps, restart the algorithm.
+			\end{remark}
+
+			Now, let us give a proof of the runtime.
+
+			\begin{proof}
+				Suppose we have found a flow of value $k<n$. We shall determine the expected number of steps to reach a flow of size $k+1$.\\
+				Suppose without loss of generality that our size $k$ matching $\mathcal{M}$ has edges from $X_\mathcal{M}$ to $Y_\mathcal{M}$, each of size $k$. Let $X_U = X \setminus X_\mathcal{M}$ and $Y_U = Y \setminus Y_\mathcal{M}$. \\
+				Observe that the only edges from $Y$ to $X$ in the residual graph come from the $\mathcal{M}$-edges.\\
+				Also note that the time to reach the size $k+1$ matching is just the length of the augmenting path (up to some multiplicative constant). Further, the length of an augmenting path is
+				\[ \le 2 + 1 + 2 \times (\text{the number of backward edges in the walk}). \]
+				Therefore, it suffices to bound the expected number of backward edges in a random walk from $s$ to $t$ in this residual graph.\\
+				For each $v\in X_\mathcal{M} \cup Y_\mathcal{M}$, denote by $\mathcal{M}(v)$ the vertex in $X_\mathcal{M} \cup Y_\mathcal{M}$ that it has a $\mathcal{M}$-edge to.\\
+				Denote by $b(v)$ the expected number of backward edges in a random walk starting at some $v$ and terminating at $t$. We wish to determine $b(s)$. \\
+				We have
+				\[ b(s) = \frac{1}{n-k} \sum_{x\in X_U} b(x). \]
+				For each $x\in X_U$,
+				\[ b(x) = \frac{1}{d} \sum_{y \in N(x)} b(y). \]
+				For each $y\in Y_U$, $b(y) = 0$ and for each $y\in Y_\mathcal{M}$,
+				\[ b(y) = 1 + b(\mathcal{M}(y)). \]
+				Finally, for $x\in X_\mathcal{M}$,
+				\[ b(x) = \frac{1}{d-1} \sum_{y: xy \in E \setminus \mathcal{M}} b(y). \]
+				So, if $x \in X_\mathcal{M}$,
+				\begin{align*}
+					d \cdot b(x) &= \sum_{y: xy \in E \setminus \mathcal{M}} b(y) + b(x) \\
+						&= \left(\sum_{y: xy \in E \setminus \mathcal{M}} b(y)\right) + b(\mathcal{M}(x)) - 1 \\
+						&= \left(\sum_{y: xy \in E} b(y)\right) - 1
+				\end{align*}
+				and if $x \in X_U$,
+				\[ d \cdot b(x) = \sum_{xy \in E} b(y) \]
+				Summing over all $x \in X$,
+				\begin{align*}
+					d \sum_{x \in X} b(x) &= \sum_{xy \in E} b(y) - |X_\mathcal{M}| \\
+						&= \sum_{xy \in E} b(y) - k \\
+						&= d \sum_{y \in Y} b(y) - k \\
+						&= d \sum_{y \in Y_\mathcal{M}} b(y) - k \\
+						&= \left(d \sum_{y \in Y_\mathcal{M}} (1 + b(\mathcal{M}(y)))\right) - k \\
+						&= (d-1)k + d \sum_{x \in X_\mathcal{M}} b(x) \\
+					d \sum_{x \in X_U} b(x) &= (d-1)k.
+				\end{align*}
+				Therefore,
+				\[ b(s) = \frac{1}{n-k} \sum_{x \in X_U} b(x) = \frac{k(d-1)}{d(n-k)} < \frac{n}{n-k} - 1 \]
+				and expected runtime of the algorithm is
+				\[ O\left(\sum_{k=0}^{n-1} \left( \frac{n}{n-k} - 1 \right)\right) = O(n\log n). \qedhere \]
+			\end{proof}
