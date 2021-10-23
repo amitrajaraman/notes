@@ -562,10 +562,11 @@
 		\end{itemize}
 		We want to `tame' neural networks intelligently. One way to do this is using \emph{convolutional neural networks}.\\
 		The basic idea of this is that we attempt to recognize locally connected common features. For example, if we wish to recognize a car, we might begin by checking if a door exists, then a windshield. We can then do weight sharing to detect these recurring components, say multiple wheels.  Finally, we try to shift the image to bring it into some form.\\
+		First off, the \emph{depth} or number of \emph{feature-maps} is the number of quantities at each pixel. For example, if we have an RGB image, the depth is $3$.\\
 		To bring about the local components, instead of having a weight for every single pair in adjacent layers, we only have weights between `nearby' neurons. This ensures sparse interactions (and thus fewer parameters to learn) using a filter of sorts. For example, if we have 2-dimensional inputs, neighbouring pixels are more relevant than those further away. This can be viewed as multiplication with a Toeplitz matrix. Further, we could have weights only depending on the distance between the pixels. So, we have something like
 		\[ h_{i} = \sum_m x_m w_{i-m} K(i-m). \]
 		This indicates that neighbouring signals interact in similar ways \emph{irrespective of dimension}. This can be thought of as moving a `patch' around.\\
-		Now, we don't need to move this patch aroudn one step at a time, we can do so by $s$ steps at a time instead. The \emph{stride} $s$ corresponds to downsampling it by $s$. We also pad the edges to allow this to work at edges.\\
+		Now, we don't need to move this patch aroudn one step at a time, we can do so by $s$ steps at a time instead. The \emph{stride} $s$ corresponds to downsampling it by $s$. We also perform some \emph{padding} at the edges.\\
 		Some notable examples of convolutions in image processing (the weights that contribute to a given pixel) are the Sobel vertical edge detector
 		\[
 			\begin{pmatrix}
@@ -599,6 +600,19 @@
 				0 & -1 & 0
 			\end{pmatrix}.
 		\]
+
+		The three main ideas leveraged are sparse interactions, parameter sharing, and equivariant representations ($f(g(x)) = g(f(x))$ where $f$ is a convolution and $g$ is a shift function)
+
+		It is possible to increase the depth after performing something called \emph{pooling}. The increase in depth is primarily due to the application of multiple fitters. We learn all the fitters by training. In striding, we just perform downsampling. In pooling on the other hand, we perform non-linear downsampling.\\
+		What if we want to decrease the number of weights/neurons even more? A common example of this is to use the max-pooling filter where we just choose the maximum weight from each patch of a certain size.
+
+		To summarize, the convolutional layer can be thought of as consisting of the initial convolution stage with an affine transform, a detector stage which introduces non-linearity, and the pooling layer.\footnote{Some authors take the convolutional layer to only consist of the affine transform part.} 
+
+		Is it possible to do deconvolution? That is, we want to enhance the image from blurry features. Using convolution and deconvolution together gives a PCA-like effect (this is done in unsupervised learning).\\
+
+		Next, what if we want to predict a sequential output? That is, later parts of the output depend on other parts somehow. These are known as recurrent neural networks (RNNs). We define this using Markov/conditional independence. We also have something known as the factorization property. It turns out that under suitable conditions, these two are equivalent, as given by the Hammersley-Clifford Theorem. \\
+		We combine probability theory and graph theory to get probabilistic graphical models. These provide new insights into existing models and motivation for new models. Each node in a graphical model represents a random variable (or a vector of random variables). There are edges between nodes, and certain edges are required to be \emph{absent} to encode independence. An example of this is acyclicity of the underlying graph, which gives rise to Bayesian networks. In undirected graphs on the other hand, we look at cliques to encode the conditional independence and factorization.
+
 
 
 
