@@ -502,3 +502,65 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				and expected runtime of the algorithm is
 				\[ O\left(\sum_{k=0}^{n-1} \left( \frac{n}{n-k} - 1 \right)\right) = O(n\log n). \qedhere \]
 			\end{proof}
+
+		\subsubsection{Baranyai's Theorem and Menger's Theorem}
+
+			In this section, we give another application of flow due to Zsolt Baranyai. The problem is as follows.
+
+			\begin{quote}
+				Suppose $n > k \ge 2$ are integers. Can we partition $\binom{[n]}{k}$ into subcollections $\mathcal{A}_1,\ldots,\mathcal{A}_M$ such that each of the sets within each $A_i$ is itself a partition of $[n]$. 
+			\end{quote}
+
+			For example, consider the scenario where $k=2$. If $n$ is odd, the above is clearly impossible. So, let $n = 2m$. The problem is then essentially equivalent to partitioning $E(K_{2m})$ into perfect matchings. This isn't too hard to do, and answers the problem affirmatively in this case.\\
+			Note that in genereal, we must have $k\mid n$.
+
+			\begin{ftheo}[Baranyai's Theorem]
+				If $k\mid n$, there exists a partition of $\binom{[n]}{k}$ into subfamilies $\mathcal{A}_1, \ldots, \mathcal{A}_M$ with $|\mathcal{A}_i| = m$, and the sets of each $\mathcal{A}_i$ partition $[n]$.
+			\end{ftheo}
+			Above, we have
+			\[ M = \frac{binom{n}{k}}{n/k} = \binom{n-1}{k-1} \text{ and } m = \frac{n}{k}. \]
+			\begin{proof}
+				We prove this by induction. Suppose we have families $\mathcal{A}_1,\mathcal{A}_M$, each of size $m$ satisfying the required.\\
+				Suppose that $n$ is deleted from every set that it appears in. It is easy to retrieve the original $\{\mathcal{A}_i\}$ since exactly one set from each $\mathcal{A}_i$ has size $k-1$ now, namely that from which $n$ was deleted.\\
+				Now, suppose that both $n$ and $n-1$ are deleted from every set they appear in. Now, it is slightly more non-trivial. How would we retrieve $\mathcal{A}_i$ (or another valid solution)? 
+				\begin{itemize}
+					\item Any set from the $\mathcal{A}_i$ of size $k-2$ gets both $n-1$ and $n$.
+					\item Each set of size $k-1$ gets either $n$ or $n-1$. The question is: which of the size $k-1$ sets do we assign $n$, $n-1$ to? Note that each set of size $k-1$ appears exactly twice on scanning across all the $\mathcal{A}_i$. So, we just assign $n$ to one of these two subsets and $n-1$ to the other. Why is this a valid solution?
+				\end{itemize}
+				Suppose now that we delete all occurrences of $\ell+1,\ell+2,\ldots,n$ for some $\ell$. The resulting tampered collection is such that
+				\begin{enumerate}
+					\item $|\mathcal{A}_i| = M$.
+					\item Each $\mathcal{A}_i$ consists of sets that constitute a partition of $[\ell]$.
+					\item Each set in a $\mathcal{A}_i$ has size at most $k$, and there may be multiple instances of $\emptyset$.
+				\end{enumerate}
+				These tampered collections $\{\mathcal{A}_i\}$ are also such that for any $S \subseteq [\ell]$, $S$ appears $\binom{n-|S|}{k-\ell}$ times. We wish to choose a $B_i \in \mathcal{A}_i$ for each $i \in [M]$ as the set into which $\ell+1$ should be added, and the above conditions are satisfied for the new collection $\{\mathcal{A}_i^*\}$ of sets, where $\mathcal{A}_i^* = \mathcal{A}_i \setminus \{B_i\} \cup \{B_i \cup \{\ell+1\}\}$. That is, each susbet $T \subseteq [\ell+1]$ appears exactly $\binom{n-\ell-1}{k-|T|}$ times across the sets of $\{\mathcal{A}_i^*\}$. \\
+				We can then apply the inductive hypothesis to build up to the original collection of partitions of $[n]$. If we are able to do this, then since the hypothesis is satisfied for the case where $\ell=0$ (so $\mathcal{A}_i$ just has $m$ copies of $\emptyset$), the proof is complete.\\
+				This is where graph theory enters the picture. Consider the bipartite graph $(X,Y,E)$, where
+				\[ X = \{\mathcal{A}_i\}_{i=1}^M, Y = \{ S \in 2^{[\ell]} : |S| \le k \}, \]
+				and $\mathcal{A}_i$ is adjacent to $S\subseteq[\ell]$ if $S \in \mathcal{A}_i$.\\
+				Note that the degree of any set $S$ is equal to $\binom{n-\ell}{k-|S|}$.
+				The idea of choosing one set for each $\mathcal{A}_i$ lends itself to a flow analogue. Put in a source $s$ and sink $t$, similar to what we've done in the past, and get a directed graph $G$. To get a network $\mathcal{N}$, for any $\mathcal{A}_i\in X$ and $S \in Y$, we set the capacity as
+				\[ C(s,\mathcal{A}_i) = 1 \text{ and } C(\mathcal{A}_i, S) = 1. \]
+				If we have $T = S \cup \{\ell+1\}$, we want $T$ to appear $\binom{n-\ell-1}{k-|S|-1}$ times. So, we set
+				\[ C(S,t) = \binom{n-\ell-1}{k-|S|-1} = \frac{k-|S|}{n-\ell} \binom{n-\ell}{k-|S|}. \]
+				Consider the following flow $f$. Set $f(S,\mathcal{A}_i) = 1$ for each $i$, $f(S,t) = C(S,t)$ for each $S$, and to make it a flow,
+				\[ f(\mathcal{A}_i, S) = \frac{k-|S|}{n-\ell}. \]
+				It is clear Kirchhoff's law is satisfied at the subsets $S$, and at the $\mathcal{A}_i$, we have
+				\begin{align*}
+					 \sum_S f(\mathcal{A}_i, S) &= \frac{k}{n-\ell} \cdot \frac{n}{k} - \frac{1}{n-\ell} \sum_{S \in \mathcal{A}_i} |S| \\
+					 	&= \frac{n}{n-\ell} - \frac{\ell}{n-\ell} = 1. (\text{since $\mathcal{A}_i$ forms a partition})
+				\end{align*}
+				Further, this is a max-flow! By \Cref{integral network integral maxflow}, there must exist an integral max-flow $g$ on this graph, such that $g(s,\mathcal{A}_i) = 1$, $g(S,t) = \binom{n-\ell-1}{k-|S|-1}$, and $g(\mathcal{A}_i, S) \in \{0,1\}$.\\
+				If for each $\mathcal{A}_i,S$ such that $g(\mathcal{A}_i, S) = 1$, we add in $\ell+1$.\\
+				To conclude, we need to verify that for each $T \subseteq [\ell+1]$, $T$ appears exactly $\binom{n-\ell-1}{k-|T|}$. If $\ell+1 \in T$, then this follows by design. Otherwise, $T$ appeared $\binom{n-\ell}{k-|T|}$ times originally. Since $\binom{n-\ell-1}{k-|T|-1}$ of these copies were altered to include $\ell+1$, the number of copies of $T$ is now exactly
+				\[ \binom{n-\ell}{k-|T|} - \binom{n-\ell-1}{k-|T|-1} = \binom{n-\ell-1}{k-|T|}, \]
+				completing the proof.
+			\end{proof}
+
+			To conclude the topic of flows, we discuss a result regarding connectivity.
+
+			\begin{ftheo}
+				A graph $G$ is said to be \textbf{$k$-connected} if on the deletion of any $<k$ vertices from $G$, and any vertices $u$, $v$, there exists a path from $u$ to $v$ in the remaining graph.
+				A $1$-connected graph is said to be \textbf{connected}. \\
+				The \textbf{connectivity} $\kappa(G)$ of $G$ is the largest integer $r$ such that $G$ is $r$-connected.
+			\end{ftheo}
