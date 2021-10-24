@@ -292,7 +292,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\end{itemize}
 				We call such a sequence an \textbf{$f$-augmenting path}.\\
 				Suppose for a moment that such a path exists. Then, let
-				\[ \delta = \min \left(\{ c(e) - f(e) : e \text{ is a forward edge in $P$} \} \cup \{ f(e) : e \text{ is a backward edge in $P$} \}\right) \]
+				\[ \delta = \min \left(\{ C(e) - f(e) : e \text{ is a forward edge in $P$} \} \cup \{ f(e) : e \text{ is a backward edge in $P$} \}\right) \]
 				By definition, $\delta > 0$. Define a new function $f' : E \to \R$ by
 				\[
 					f'(e) =
@@ -309,7 +309,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				Let
 				\[ S = \{ v: \text{ there is an $f$-augmenting path from $s$ to $v$} \}. \]
 				Clearly, $s\in S$. Since $f$ is a maximal flow, $t\not\in S$. Therefore, $(S,\overline{S})$ is a cut.\\
-				Suppose $e = uv$ is an edge with $u \in S$ and $v \not\in S$. If $f(e) < c(e)$, then $v\in S$ as well due to the existence of a path $s u_1 \cdots u_k u v$ (since $u$ is $f$-augmenting), leading to a contradiction. So, $f(e) = c(e)$.\\
+				Suppose $e = uv$ is an edge with $u \in S$ and $v \not\in S$. If $f(e) < C(e)$, then $v\in S$ as well due to the existence of a path $s u_1 \cdots u_k u v$ (since $u$ is $f$-augmenting), leading to a contradiction. So, $f(e) = C(e)$.\\
 				On the other hand, if $e = vu$ is an edge with $u \in S$ and $v \not\in S$ and $f(e) > 0$, $v \in S$, again leading to a contradiction. So, $f(e) = 0$.\\
 				However, we then have
 				\[ \Val(f) = f(S,\overline{S}) = C(S,\overline{S}), \]
@@ -518,7 +518,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				If $k\mid n$, there exists a partition of $\binom{[n]}{k}$ into subfamilies $\mathcal{A}_1, \ldots, \mathcal{A}_M$ with $|\mathcal{A}_i| = m$, and the sets of each $\mathcal{A}_i$ partition $[n]$.
 			\end{ftheo}
 			Above, we have
-			\[ M = \frac{binom{n}{k}}{n/k} = \binom{n-1}{k-1} \text{ and } m = \frac{n}{k}. \]
+			\[ M = \frac{\binom{n}{k}}{n/k} = \binom{n-1}{k-1} \text{ and } m = \frac{n}{k}. \]
 			\begin{proof}
 				We prove this by induction. Suppose we have families $\mathcal{A}_1,\mathcal{A}_M$, each of size $m$ satisfying the required.\\
 				Suppose that $n$ is deleted from every set that it appears in. It is easy to retrieve the original $\{\mathcal{A}_i\}$ since exactly one set from each $\mathcal{A}_i$ has size $k-1$ now, namely that from which $n$ was deleted.\\
