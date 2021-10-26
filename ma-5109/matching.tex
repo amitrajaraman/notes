@@ -503,7 +503,7 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				\[ O\left(\sum_{k=0}^{n-1} \left( \frac{n}{n-k} - 1 \right)\right) = O(n\log n). \qedhere \]
 			\end{proof}
 
-		\subsubsection{Baranyai's Theorem and Menger's Theorem}
+		\subsubsection{Baranyai's Theorem}
 
 			In this section, we give another application of flow due to Zsolt Baranyai. The problem is as follows.
 
@@ -557,13 +557,16 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				completing the proof.
 			\end{proof}
 
-			To conclude the topic of flows, we discuss a result regarding connectivity.
+		\subsubsection{Menger's Theorem}
+
+			Next, we discuss a result regarding connectivity.
 
 			\begin{fdef}
 				A graph $G$ is said to be \textbf{$k$-connected} if on the deletion of any $<k$ vertices from $G$, and any vertices $u$, $v$, there exists a path from $u$ to $v$ in the remaining graph.
 				A $1$-connected graph is said to be \textbf{connected}. \\
 				The \textbf{connectivity} $\kappa(G)$ of $G$ is the largest integer $r$ such that $G$ is $r$-connected.\\
-				Given vertices $u$ and $v$, a set of \textbf{independent $u$-$v$ paths} is a collection of paths from $u$ to $v$ such that any vertex other than $u$ and $v$ is in at most one of these paths.
+				Given vertices $u$ and $v$, a set of \textbf{independent $u$-$v$ paths} is a collection of paths from $u$ to $v$ such that any vertex other than $u$ and $v$ is in at most one of these paths.\\
+				Given vertices $u$ and $v$, a set of \textbf{edge-independent $u$-$v$ paths} is a collection of paths from $u$ to $v$ such that any edge is in at most one of these paths.
 			\end{fdef}
 
 			Menger's Theorem deals with the last of the above definitions.
@@ -589,8 +592,67 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 				Since $t$ is not adjacent to $x_1$, $s$ is adjacent to all vertices in $W_1$. Similarly, since $s$ is not adjacent to $x_2$, $t$ is adjacent to all vertices in $W_2$. However, if $k>1$, this implies that $|U|>0$ and every vertex of $U$ is adjacent to both $s$ and $t$, leading to a contradiction. For $k \le 1$, the result is obvious, completing the proof.
 			\end{proof}
 
-			The above is quite tedious, and the following flow argument is \emph{far} simpler.
+			The above is quite tedious, and the following flow argument is \emph{far} simpler.\\
 
-			% \begin{proof}[Proof 2 of Menger's Theorem]
-				
-			% \end{proof}
+			Before moving to it, we need a vertex variant of the Ford and Fulkerson theorem, wherein we have capacities on vertices instead of edges. Everything remains the same, except that the capacity constraint now is that the total incoming (or equivalently, outgoing) flow at any vertex is at most the capacity of that vertex.\\
+			A cut now is a subset $S$ of $V \setminus \{s,t\}$ such that there is no positive valued flow from $s$ to $t$ on $D\setminus S$. The capacity of a cut is just the sum of capacities of vertices in the cut.\\
+
+			These networks are equivalent to our usual networks, which is easily seen by constructing a graph as follows. Given a network (with vertex capacities), we first split each vertex $v$ into two vertices $v^+$ and $v^-$, replacing each edge $uv$ with $u^+ v^-$ and also adding the edge $v^- v^+$ for each edge. We have arbitrarily large capacity for any edges of the former type, and the capacity on the edge $C(x^-, x^+)$ is $C(x)$. The new source and sink vertices are $s^-$ and $t^+$ respectively. It is not too difficult to show that any flow in the original (vertex capacity) network is equivalent to a flow in the new (edge capacity) network. Further, the value of the max-flows and min-cuts are the same in both networks.\\
+
+			\begin{proof}[Proof 2 of Menger's Theorem]
+				Given the graph $G$ with specified vertices $s$ and $t$, replace each edge $uv$ with two directed edges $uv$ and $vu$ to get a directed graph. Set the capacity of each vertex other than $s$ and $t$ as $1$ (and that of $s$ and $t$ arbitrarily large). In this case, the max-flow value is equal to the number of independent paths, and the min-cut capacity is equal to the size of a minimum $s$-$t$ separator, completing the proof. 
+			\end{proof}
+
+			A similar proof also leads to the following edge-version of Menger's Theorem.
+
+			\begin{ftheo}[Menger's Theorem]
+				Suppose $s$ and $t$ are distinct vertices in a graph $G$. The minimum number of edges whose deletion removes all paths from $s$ and $t$ is equal to the maximum number of edge-independent $s$-$t$ paths.
+			\end{ftheo}
+
+			We also get the following corollary quite simply from Menger's.
+
+			\begin{fcor}
+				If $G$ is $k$-connected, then there exist $k$ independent paths between any distinct vertices $s$ and $t$.
+			\end{fcor}
+
+		\subsubsection{Dilworth's Theorem}
+
+			To conclude our discussion about flows, we discuss a result related to posets.
+
+			\begin{fdef}[Poset]
+				A (finite) \textbf{poset} is a pair $(\mathcal{P},<)$, where $\mathcal{P}$ is a (finite) set and $<$ is a partial order on $P$.\\
+				A \textbf{chain} in a poset is a sequence $(x_1,\ldots,x_r)$ of elements in $P$ such that $x_i < x_{i+1}$ for all $i \in [r-1]$.\\
+				An \textbf{anti-chain} $A$ in a poset is a set $\{y_1,\ldots,y_r\}$ of elements in $P$ such that for $i\ne j$, $y_i \not< y_j$ and $y_j \not< y_j$. That is, no two elements of $A$ are comparable.
+			\end{fdef}
+
+			Observe that if $A$ is an antichain and $C$ is a chain in $\mathcal{P}$, then $|A \cap C| \le 1$ (Why?).\\
+			Consequently, if $C_1,\ldots,C_m$ is a partition of $\mathcal{P}$ into chains, then for any antichain $A$ in $\mathcal{P}$, $|A| \le m$. In particular,
+			\[ \text{size of largest anti-chain} \le \text{size of smallest chain decomposition}. \]
+
+			\begin{ftheo}[Dilworth's Theorem]
+				In a poset $\mathcal{P}$, the size of a largest antichain is equal to the size of a smallest chain decomposition. 
+			\end{ftheo}
+			\begin{proof}
+				We prove this by induction on $|\mathcal{P}|$.\\
+				If $|\mathcal{P}| = 0$, the claim is trivial.\\
+				Suppose the size of a largest antichain in $\mathcal{P}$ is $m$. Let $C$ be a maximal chain in $\mathcal{P}$. That is, for any $x\not\in C$, $\{x\} \cup C$ is not a chain. \\
+				Consider the poset $\mathcal{P}' = \mathcal{P} \setminus C$. If the size of a largest antichain in $\mathcal{P}'$ is $m-1$, then by induction, $\mathcal{P}' = C_1 \sqcup \cdots \sqcup C_{m-1}$ for chains $(C_i)$, so $\mathcal{P} = C \sqcup C_1 \sqcup \cdots \sqcup C_{m-1}$ and we are done. \\
+				Therefore, we may assume that the size of a largest antichain $A$ in $\mathcal{P}'$ is also $m$. Let $A = \{a_1,\ldots,a_m\}$. \\
+				Consider the \emph{lower shadow}
+				\[ \mathcal{S}^- = \{ x \in \mathcal{P} : x \le a_i \text{ for some $i$}\} \]
+				and the \emph{upper shadow}
+				\[ \mathcal{S}^+ = \{ x \in \mathcal{P} : x \ge a_i \text{ for some $i$}\} \]
+				Since $A$ is a largest antichain, $\mathcal{P} = \mathcal{S}^- \cup \mathcal{S}^+$ and $A = \mathcal{S}^- \cap \mathcal{S}^+$.\\
+				Note that both of these shadows are strict subsets of $\mathcal{P}$. Using the inductive hypothesis, let
+				\[ \mathcal{S}^- = \bigcup_{i=1}^m C_i \text{ and } \mathcal{S}^- = \bigcup_{i=1}^m C_i' \]
+				for chains $(C_i)$ and $(C_i')$, where $a_i \in C_i, C_i'$. If we show that $a_i$ is the maximum element of $C_i$ and minimum element of $C_i'$, we are done. \\
+				Suppose instead that $a_i$ is not maximal $C_i$. Then, there is some $x \in C_i$ such that $a_i < x$. Since $x \in \mathcal{S}^-$, $x < a_j$ (why can't it be equal?), which would imply that $a_i < a_j$, giving a contradiction. The other direction holds similarly simply too, completing the proof.
+			\end{proof}
+
+			Dilworth's Theorem turns out to be a surprisingly useful result. For example, one may prove Hall's Marriage Theorem using Dilworth's as follows.
+
+			\begin{proof}
+				Let $G=(X,Y,E)$ be a bipartite graph satisfying Hall's condition with $|X| \le |Y|$. Define the poset with $\mathcal{P} = X \sqcup Y$, and $y < x$ iff $xy \in E(G)$ (where $y \in Y$ and $x \in X$).\\
+				Note that $X$ and $Y$ are antichains, so the size of a largest antichain is at least $|Y|$. Suppose $S \subseteq X$ and $T \subseteq Y$ are such that $S \sqcup T$ is an antichain. In particular, $S \cup T$ is independent in $G$. However, since $|N(S)| \ge |S|$, we must have $N(S) \subseteq (Y \setminus T)$. Consequently, $|S|+|T| \le |N(S)| + |T| \le |Y|$. Therefore, $Y$ is a maximum antichain.\\
+				Using Dilworth's, there exists a chain decomposition of the poset into $|Y|$ chains. Note that each chain either corresponds to an edge in $G$ or is a singleton in $Y$. In particular, every element of $X$ is in an edge (and the edges are disjoint), completing the proof.
+			\end{proof}
