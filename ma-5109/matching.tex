@@ -562,5 +562,35 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			\begin{fdef}
 				A graph $G$ is said to be \textbf{$k$-connected} if on the deletion of any $<k$ vertices from $G$, and any vertices $u$, $v$, there exists a path from $u$ to $v$ in the remaining graph.
 				A $1$-connected graph is said to be \textbf{connected}. \\
-				The \textbf{connectivity} $\kappa(G)$ of $G$ is the largest integer $r$ such that $G$ is $r$-connected.
+				The \textbf{connectivity} $\kappa(G)$ of $G$ is the largest integer $r$ such that $G$ is $r$-connected.\\
+				Given vertices $u$ and $v$, a set of \textbf{independent $u$-$v$ paths} is a collection of paths from $u$ to $v$ such that any vertex other than $u$ and $v$ is in at most one of these paths.
 			\end{fdef}
+
+			Menger's Theorem deals with the last of the above definitions.
+
+			\begin{ftheo}[Menger's Theorem]
+				Suppose $s$ and $t$ are distinct vertices in a graph $G$. The minimum number of vertices whose deletion removes all paths from $s$ and $t$ is equal to the maximum number of independent $s$-$t$ paths.
+			\end{ftheo}
+
+			It is clear that the minimum number of vertices that needs to be deleted to remove all paths is at least the maximum number of independent $s$-$t$ paths (otherwise, one of these paths would necessarily survive).\\
+			It remains to show the other direction.
+			The min-max nature of the above result is somewhat reminiscent of flow, and this indeed gives a quite simple proof. Before moving to this however, let us give a more elementary proof that does not invoke flow.
+
+			\begin{proof}[Proof 1 of Menger's Theorem]
+				Suppose that the other direction does not hold. Consider a graph with $k$ as the minimum number of vertices needed to be deleted to destroy all $s$-$t$ paths, but the maximum number of independent $s$-$t$ paths is $<k$. Choose $k$ to be the minimal possible number such that the previous statement is true (for some graph and some vertices $s$, $t$). Further, let $G$ be a graph having the minimum number of edges satisfying the statement for this particular $k$.\\
+
+				Suppose that there exists $x$ such that $sx$ and $xt$ are in $E(G)$. Then, observe that in $G \setminus \{x\}$, there must exist at most $k-2$ independent $s$-$t$ independent paths. Also, in $G\setminus \{x\}$, we must delete at least $k-1$ vertices to kill all $s$-$t$ paths. In particular, $G\setminus\{x\}$ is a counterexample with $k-1$, contradicting the minimality of $k$. As a result, no vertex is adjacent to both $s$ and $t$.\\
+
+				Let $W \subseteq V(G)$ be a minimal $s$-$t$ separator. That is, $W$ is the minimal set such that $G\setminus W$ has no $s$-$t$ paths. By definition, $|W| = k$. Suppose that $C_s$ and $C_t$ are the connected components in $G\setminus W$ containing $s$ and $t$ respectively. Consider the graph $G'$ with vertex set $(V(G) \setminus C_s) \cup \{s'\}$ (for some new vertex $s'$), with edges $s'w$ for all $w \in W$. Observe that since $W$ is a minimal separator, there are at least $|W|$ edges in $G$ between $C_s$ and $W$. Therefore, if $|C_s| > 1$, $G'$ has (strictly) fewer edges than $G$. In particular, there are $k$ independent $s'$-$t$ paths in $G'$. Let these paths $P_i$ be of the form $s' w_i \cdots t$ for $i\in[k]$, where $w_i \in W$.\\
+				These describe independent paths from $w_i$ to $t$ for each $1 \le i \le k$. Similarly, if $|C_t| > 1$, one can conclude that there are disjoint paths $P_i''$ from $s$ to $w_i$ in $G$, for $i\in[k]$.\\
+				Concatenating the paths from $s$ to $w_i$ and $w_i$ to $t$, we get $k$ independent paths from $s$ to $t$, contradicting our assumption.\\
+
+				Therefore, we may assume that if $W$ is any $s$-$t$ separator of minimum size, either $s$ or $t$ is adjacent to every $w \in W$. Let $s x_1 \cdots x_\ell t$ be a shortest $s$-$t$ path. Note that $\ell \ge 2$ by our first observation. Consider the graph $H = G \setminus \{x_1,x_2\}$. Since $H$ has fewer edges than $G$, there is a set $U$ of size $k-1$ such that $U$ separates $s$ and $t$ (in $H$). Let $W_1 = U \cup \{x_1\}$ and $W_2 = U \cup \{x_2\}$. It is easy to see that $|W_1| = |W_2| = k$, and both these sets separate $s$ and $t$.\\
+				Since $t$ is not adjacent to $x_1$, $s$ is adjacent to all vertices in $W_1$. Similarly, since $s$ is not adjacent to $x_2$, $t$ is adjacent to all vertices in $W_2$. However, if $k>1$, this implies that $|U|>0$ and every vertex of $U$ is adjacent to both $s$ and $t$, leading to a contradiction. For $k \le 1$, the result is obvious, completing the proof.
+			\end{proof}
+
+			The above is quite tedious, and the following flow argument is \emph{far} simpler.
+
+			% \begin{proof}[Proof 2 of Menger's Theorem]
+				
+			% \end{proof}
