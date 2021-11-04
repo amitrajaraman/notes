@@ -29,7 +29,7 @@ Now, we look at the more modern philosophers. The notable modern philosophers we
 During the Renaissance, the power of the church gradually shifted to the state. There were also large changes in socio-economic structure, with the rise of economic individualism (_laissez faire_).     
 Reason was viewed as a higher authority now, with truth being something acquired by free and unbiased inquiry. People began to reflect on more natural things. There was large practical application of science in technology and medicine. Due to this, there were large changes in religion and morality, with many rules being articulated, leaving behind religion.     
 Reason is rationalistic in the sense that it makes reason the highest authority, seeking to explain things in a scientific manner. Rationalists thus seek to be absolutely certain of knowledge (in a non-empirical way).    
-Rationalistis such as Descartes, Leibniz, and Spinoza believed in a priori truth, while empiricists such as Bacon, Hobbes, Locke, Berkeley, and Hume believed in a posteriori truth.
+Rationalists such as Descartes, Leibniz, and Spinoza believed in a priori truth, while empiricists such as Bacon, Hobbes, Locke, Berkeley, and Hume believed in a posteriori truth.
 
 Bacon said that human knowledge must have a firm, sold foundation. He had supreme self-confidence and optimism. The primary method of science is induction, and social order must be discovered in science. To summarize, the model of knowledge is natural science, the method is induction, and the goal is invention.    
 This new scientific spirit was known as _novum organum_. Methodical observation and experimentation was done in natural science. The role of mathematics was not ruled out, however. The mind was tried to be freed from prejudices (_idolas_). For example, the _idola of the tribes_ is that of human desire (_teleology_). The _idola of the den_ (_specus_) deals with one's individual dispositions, education, and authority admired. The _idola fori_ (idolas of the market) deals with the association of words and names of actual objects with abstract things. The _idola of theatre_ is the result of false theories/philosophies.    
@@ -113,7 +113,7 @@ Vedas are known as _shrutis_ and knowledge. The poetic hymns of the Vedas unfold
 The personified forces of nature were changed into real gods (like _agni_ in the Yajurveda).    
 The orthodox interpretation is that Vedas are authorless and eternal. Westerners interpret the Vedic seers as primitive and wondered at the charming beauty of nature and feared natural forces, but they were intellectual and intensely spiritual.
 
-_Ekam satya vipra bahudha badanti_ (only one is real), but wise people declare that many things are real. _Purusa_ is all that was, is, and will be, and the real essence of God is one. The interpretation of Purusa varies across Vedas -- it is _uktha_ in the Rigveda, _agni_ in the Yajurveda, and _mahavrta_ in the Samveda. Purusa is the custodian of _Rta_, which is truth and the moral cosmic order. Rta is the binding soul of the universe, which units different things.    
+_Ekam satya vipra bahudha badanti_ (only one is real), but wise people declare that many things are real. _Purusa_ is all that was, is, and will be, and the real essence of God is one. The interpretation of Purusa varies across Vedas -- it is _uktha_ in the Rigveda, _agni_ in the Yajurveda, and _mahavrta_ in the Samveda. Purusa is the custodian of _Rta_, which is truth and the moral cosmic order. Rta is the binding soul of the universe, which unites different things.    
 A belief of monistic idealism is that of the immortality of the soul. It is self-possessed, self-proved, and full of bliss. Monistic idealism refers to the realization of the notion of ultimate truth/reality.
 
 An important concept in the Upanishads is _atman_ and _brahman_. The notion of spirit has two dimensions, with the "universal" one (transcendence) being brahman and the particular one (immanence) being atman.
@@ -178,9 +178,9 @@ There are five arguments for the existence of prakrti:
 The _trigunas_ of prakrti are _sattva_ (pleasure), _rajas_ (pain), and _tamas_ (indifference).    
 Sattva is the manifestation of objects in consciousness. For example, luminosity of light, happiness, and bliss. Rajas is the principle of motion. For example, pain, restlessness, and activity. Tamas is the principle of inertia.    
 The gunas are substantive constituents of prakrti (unconscious), which are subservient to purusa (conscious). Prakrti and purusa are intertwined.     
-The trigunas are inseparable from prakrti. They conflict and cooperate with each other. For example, oil, wick, and flame cooperate to produce light. These gunas are everchanging and do not remain static. Change is homogenous (_swarupa parinama_) and heterogenous (_virupa parinama_).
+The trigunas are inseparable from prakrti. They conflict and cooperate with each other. For example, oil, wick, and flame cooperate to produce light. These gunas are everchanging and do not remain static. Change is homogenous (_swarupa parinama_) and heterogenous (_virupa parinama_). Evolution is cyclic creation (not linear like Darwinian evolution). It is teleological and not mechanical.
 
-Purusa is pure consciousness. It is not the body, the senses, the brain, the mind (_manas_), the ego (_ahamkara_), or the intellect (_buddhi_). The antakarna looks consciousness due to the reflection of the purusa. Purusa is not a substance that possesses consciousness, it is pure consciousness. It is pure transcendental consciousness and the knower/foundation of knowledge. It is not an object of knowledge, but a silent neutral seer.    
+Purusa is pure consciousness. It is not the body, the senses, the brain, the mind (_manas_), the ego (_ahamkara_), or the intellect (_buddhi_). The antakarna looks like consciousness due to the reflection of the purusa. Purusa is not a substance that possesses consciousness, it is pure consciousness. It is pure transcendental consciousness and the knower/foundation of knowledge. It is not an object of knowledge, but a silent neutral seer.    
 The arguments for the existence of purusa are:
 * _Sanghataparthavat_: The prakrti evolves to serve the purusa's end (the proof is teleological).
 * _Trgunadiviparyat_: The trigunas imply the existence of a higher _nitaigunya_ which is beyond the gunas.
@@ -188,4 +188,7 @@ The arguments for the existence of purusa are:
 * _Bhaktarbhavat_: Non-intelligent prakrti cannot experience its products. Therefore, the purusa must exist in the form of ethical self-consciousness.
 * _Kaivalyapartham pravrtteh_: The desire for liberation from the sufferings of the world. An aspiration implies the existence of an aspirant (the proof is mystical and religious).
 
-Sankhya believes in plurality of the purusas.
+Sankhya believes in plurality of the purusas.    
+Thus, purusa and prakrti are independent absolute realities. Prakrti needs purusa to be known (_darshanartham_) and purusa needs prakrti in order to enjoy (_bhaga_) and also for _kaivalya_ (_kaivalyartham_ -- transcending beyond the real).    
+This cooperation is a mutual harmony. Sankhya believes in the semblance of contact (_samyogabhasa_).
+
