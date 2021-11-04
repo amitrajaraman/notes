@@ -16,6 +16,9 @@ title: Notes for lectures (post-midsem)
 - [Lecture 7](#lecture-7)
 - [Lecture 8](#lecture-8)
 - [Lecture 9](#lecture-9)
+- [Lecture 10](#lecture-10)
+- [Lecture 11](#lecture-11)
+- [Lecture 12](#lecture-12)
 
 <!-- /MarkdownTOC -->
 
@@ -120,3 +123,69 @@ He who is dreaming is free. In deep sleep, there is no subject to feel. Does thi
 
 ## Lecture 9
 
+Now, we look at the _Mandukya Upanisad_.    
+When in the waking state, the self experiences the world (_vishayanubhuti_). In the dreaming state, the internal world is created in its own imagery (this is known as _taijhasa_).    
+_Prajna_ is transcendental consciousness that transcends the dichotomy of desires and dreams. _Turya_ is the foundation of all existence. It can be realized directly.    
+
+According to the _Katha Upanisad_, atman is the ultimate reality. There is an analogy of this philosophy with a chariot: the objects are the road, the body is the chariot, the senses are the horses, the mind is the reins, the intellect is the charioteer, the ego is the enjoyer, and the atman is the lord sitting on the chariot.    
+The brahman is the object-side of reality. _Brh_ refers to that which evolves. The evolution of the atman is the brahman. _Tatjalan_ (from the _chhandogya upanisad_) is that from which the world arises. _Pancha mahabhuta_ are the five elements ether, air, fire, water, and earth.    
+
+The _Taitreya Upanisad_ introduces _koshas_. Every object is a type of kosha. For example, _annamaya_ is matter, _pranamaya_ is life, _manomaya_ is consciousness, _vijnanamaya_ is self-consciousness, and _antaryamin_ is the self. Brahman is non-dual and transcendent. When evolving, the lower state of brahman is not lost, but is instead transformed.
+
+The orthodox philosophical system accepts the authority of the Vedas and Upanishads.
+
+Materialism has grown in Indian philosophy through the _charvaka_ philosophy. It is against excessive monkdom. The idealism of Upanishads is unsuitable for society, the commons in particular. _Karmakanda_ and rituals is given a lot of importance in Indian philosophy, but Upanisadic ideas are part of _Jnanakanda_, which give importance to knowledge. The charvaka philosophy is against ritualistic exploitation.    
+_Brhaspati_ was a heretical teacher who founded this materialism. _Charu vak_ means "eat", "drink", and "be merry". A common man is referred to as a _lokayata_. Charvaka was the disciple of Brhasapati.    
+They accepted perception is real, and did not accept anumana or upamana. They believed that nothing beyond this world is real, and nothing is transcendental. Earth, water, fire, and air are the only elements. Enjoyment is the only goal of human life, and mind is only a product of matter. Krishnapati Mishra describes Brhaspati's materialism in _Prabhodhachandradoya_.    
+The primary concepts for Indian philosophy are dharma (the normative principles that regulate us), artha (livelihood), kaama (procreation), and moksa (liberation). The charvaka philosophy says that death is liberation and one must discard _moksa_.
+
+## Lecture 10
+
+Perception is accepted into the charvakas in so far as their epistemology is concerned. Other forms of pramana were not acceptable to them, with induction being unknown and testimony being unacceptable.    
+Some criticisms of the charvaka philosophy. The vedantians and sunyavadins do not accept inference, but do accept it in the case of empirical knowledge. Perceptual knowledge is sometimes contradictory, and poor perception should not be considered valid. Proof and disproof of ther knowledge's claim would require inference.
+
+Consciousness is a mere product of the matter, and soul is the living body. Matter creates mind as the live secrets bile.    
+Some criticisms of this are questioning whether consciousness is intrinsic to the body. The self cannot be reduced to the object. Merely co-existence is not causation. Rather, consciousness is a property of the body.
+
+Pleasure is the highest good of life. They desire sensual pleasure, and that no afterlife exists. They do not accept any of the purusharthas other than _kama_ and _artha_.    
+THe _kamasutra_ of _vatsyagyana_ recommends the desirability of pleasure including sensual pleasure, yet regards dharma as the supreme end of life. Pleasure should be in conformity with dharma. Vatsagyana recommends a harmonious cultivation of dharma, artha, and kama.
+
+Now, let us move on to _sankhya_, an ally of yoga.     
+The three cornerstones of sankhya are pluralistic spiritualism, atheistic realism, and uncompromising dualism. Some of the important related works are Gaudhapada's _sankhya karika bhashya_, Bachaspati Mishra's _tattval kaumudi_, and Iswara Krishna's _sankhya karika_. The primordial _prakrti_ is dynamic, while the inactive _purusa_ is static.
+
+## Lecture 11
+
+According to _prakrtparinamavada_, all effects are modifications or _parinama_ of prakrti. Thus, any effect is not a new creation, and it exists beforehand in the cause. The effect is an explicit manifestation of this, and this is known as _satkaryavada_ (the opposite belief is called _asatkaryavada_, which is believed by the materialistic school). _Utpatti_ (production) and _pralaya_ (dissolution).    
+Prakrti is composed of three main attributes - _sattva_, _rajas_, and _tamas_. Similar to Aristotle's philosophy, there are many causes here as well. 
+
+The arguments of satkaryavad include
+* _Asadkaranat_: If the effect does not pre-exist in the cause, it does not exist.
+* _Upadanagrahanat_: The material cause is invariably connected with the effect.
+* _Sarvasambhavabhavat_: Everything cannot produce everything.
+* _Saktasya sakhyakaranat_: Actualization of the potentiality is connected with the material cause. The actualization is witnessed by something.
+* _Karanaabhavat_: Effect is the essence of its material cause. (If there is no cause, there is no effect)
+
+The first principle of the universe is referred to as _pradhana_. This is imperceptible and very subtle (_avyakta_), unconscious and unintelligent (_jada_), always active with unlimited power (_shakti_). Motion is inherent in the form of _rajas_. While it is uncaused, independent, eternal, and absolute, its products are caused, relative, and dependent.    
+There are five arguments for the existence of prakrti:
+* Prakrti is all-pervading and is the source of the universe. All the individual things in this world are finite, so cannot be the cause of the universe. This is called _bedanam parinamat_.
+* All worldy things possess certain common characteristics due to which they can produce pain, pleasure, and indifference. Thus, they must have a common source (composed of three _gunas_). This is called _samanyavat_.
+* All effects arise from the activity of the potent cause. Evolution is the manifestation of the implicit as explicit. So, the activities which cause evolution must be inherent in the world. This is called _karyatah pravrttescha_.
+* The effect differs form the cause and so a limited effect cannot be its own cause. The effect is explicit and the cause is an implicit property of some process. This implies that there is some world cause where they are potentially contained. This is called _karanakaaryavibhagat_.
+* The unity of the universe points to a single cause, which is prakrti. This is called _avibhagat vaishvarupasya_.
+
+## Lecture 12
+
+The _trigunas_ of prakrti are _sattva_ (pleasure), _rajas_ (pain), and _tamas_ (indifference).    
+Sattva is the manifestation of objects in consciousness. For example, luminosity of light, happiness, and bliss. Rajas is the principle of motion. For example, pain, restlessness, and activity. Tamas is the principle of inertia.    
+The gunas are substantive constituents of prakrti (unconscious), which are subservient to purusa (conscious). Prakrti and purusa are intertwined.     
+The trigunas are inseparable from prakrti. They conflict and cooperate with each other. For example, oil, wick, and flame cooperate to produce light. These gunas are everchanging and do not remain static. Change is homogenous (_swarupa parinama_) and heterogenous (_virupa parinama_).
+
+Purusa is pure consciousness. It is not the body, the senses, the brain, the mind (_manas_), the ego (_ahamkara_), or the intellect (_buddhi_). The antakarna looks consciousness due to the reflection of the purusa. Purusa is not a substance that possesses consciousness, it is pure consciousness. It is pure transcendental consciousness and the knower/foundation of knowledge. It is not an object of knowledge, but a silent neutral seer.    
+The arguments for the existence of purusa are:
+* _Sanghataparthavat_: The prakrti evolves to serve the purusa's end (the proof is teleological).
+* _Trgunadiviparyat_: The trigunas imply the existence of a higher _nitaigunya_ which is beyond the gunas.
+* _Adhisthanant_: All knowledge necessarily implies the existence of the self. It is the foundation of empirical knowledge (the proof that Purusa is ontological).
+* _Bhaktarbhavat_: Non-intelligent prakrti cannot experience its products. Therefore, the purusa must exist in the form of ethical self-consciousness.
+* _Kaivalyapartham pravrtteh_: The desire for liberation from the sufferings of the world. An aspiration implies the existence of an aspirant (the proof is mystical and religious).
+
+Sankhya believes in plurality of the purusas.
