@@ -7,22 +7,21 @@ title: Notes for lectures (post-midsem)
 
 <!-- MarkdownTOC autolink="true" -->
 
-- [Lecture 1](#lecture-1)
-- [Lecture 2](#lecture-2)
-- [Lecture 3](#lecture-3)
-- [Lecture 4](#lecture-4)
-- [Lecture 5](#lecture-5)
-- [Lecture 6](#lecture-6)
-- [Lecture 7](#lecture-7)
-- [Lecture 8](#lecture-8)
-- [Lecture 9](#lecture-9)
-- [Lecture 10](#lecture-10)
-- [Lecture 11](#lecture-11)
-- [Lecture 12](#lecture-12)
+- [Introduction to modern philosophy](#introduction-to-modern-philosophy)
+- [Descartes](#descartes)
+- [Locke](#locke)
+- [Hume](#hume)
+- [Introduction to Indian philosophy](#introduction-to-indian-philosophy)
+- [Charvaka](#charvaka)
+- [Sankhya](#sankhya)
+- [Yoga](#yoga)
+- [Buddhism](#buddhism)
 
 <!-- /MarkdownTOC -->
 
-## Lecture 1
+<!-- ## Lecture 1 -->
+
+## Introduction to modern philosophy
 
 Now, we look at the more modern philosophers. The notable modern philosophers we shall look at are Hobbes, Descartes, Locke, and Hume. The primary schools of thought are rationalism and empiricism.
 
@@ -35,7 +34,7 @@ Bacon said that human knowledge must have a firm, sold foundation. He had suprem
 This new scientific spirit was known as _novum organum_. Methodical observation and experimentation was done in natural science. The role of mathematics was not ruled out, however. The mind was tried to be freed from prejudices (_idolas_). For example, the _idola of the tribes_ is that of human desire (_teleology_). The _idola of the den_ (_specus_) deals with one's individual dispositions, education, and authority admired. The _idola fori_ (idolas of the market) deals with the association of words and names of actual objects with abstract things. The _idola of theatre_ is the result of false theories/philosophies.    
 Induction is not merely enumeration. Instead, knowledge should discover the form of a given quality. The explanation of fact by a law is the foundation of knowledge. This is closely related to the cause-effect relationship.
 
-## Lecture 2
+<!-- ## Lecture 2 -->
 
 The main methods of induction were:
 * Mill's method of agreement: finding out qualities from positive instances (essence of presence)
@@ -51,7 +50,9 @@ Hobbes tried to impart more practical utility to science and philosophy. He argu
 Rationalism purports that reason is the foundation of knowledge, whereas empiricism says that experience is the foundation of knowledge.     
 The empiricists also do not believe in a world beyond our own, such as heaven.
 
-## Lecture 3
+<!-- ## Lecture 3 -->
+
+## Descartes
 
 Descartes took mathematics as the model of his philosophical method, using induction and deduction. He tried to reconcile nature with the freedom of the human soul.    
 Recall that metaphysics consists of the principle of knowledge concerning the principal attributes of God, immateriality of soul, and ideas.    
@@ -59,7 +60,7 @@ He spoke of self-evident truth, and placed importance on clear and certain knowl
 Truth in traditional scholastic systems are based on mass divergent opinions so he rejected them. Many of them are based on experiences, and senses may be deceiving. Even memory and its presentations can be deceptive. Sometimes, even the demonstrations of mathematics may be doubted.    
 Now, if there is doubt, there must be a doubter. This activity of doubting is considered thinking, and this is stated as _res cogitans_ ("the mind is a thinking thing"). The most self-evident proposition is _cogito_ ("I think"), and this leads to the famous saying _dubito ergo cogito ergo sum_ ("I doubt, therefore I think, therefore I am").
 
-## Lecture 4
+<!-- ## Lecture 4 -->
 
 What is Descartes' arguments regarding God? Similar to how the self is innate, so is the idea of God. It is not derived from the external world. He says that he cannot himself cause the idea of God, a perfect and infinite being, so it must be something higher.
 God as a perfect being must exist, and therefore must be self-caused. The causal inference from the idea of God to God himself is an _ontological_ argument. Genuine knowledge (such as God) is the result of reasoning from certain basal concepts/principles that are inherent in the mind itself. These are innate (or a priori).
@@ -69,7 +70,9 @@ God is said to be an absolute substance. The mind and body are _relative_ substa
 The mind is diametrically opposite to the body. The two substances are completely independent -- the mind has no extension and no body can think. The mind is conceived independent of the body. The mind is also autonomous, and is not interacted with by the body. The knowledge one has of their own mind precedes any corporeal thing.    
 This is referred to as Descartes' dualism. The occasional causal relationship between mind and body is mediated through the pineal gland.
 
-## Lecture 5
+<!-- ## Lecture 5 -->
+
+## Locke
 
 John Locke is well-known for his radical views on self and _social contract theory_. He refuted innate ideas, and claimed that it is necessary to examine out abilities and see what our understanding is. The mind must be conscious of innate principles, but the mind itself is a blank slate (_tabula rasa_). Knowledge is acquired through experience. Moral laws are not innate, and are not self-evident and universally recognized. For example, some tribes do not have the idea of God, showing that it is not innate.    
 There are two sources of ideas: _sensation_ (sensuous experiences) and _reflection_ (mind's operations), both of which are ultimately derived from experience.    
@@ -78,13 +81,15 @@ By "idea", Locke means something that the mind directly apprehends, or something
 Qualities are the power that objects have in producing ideas. Primary qualities are things such as solidity, extension, figure, that are inherent in the obejct, whereas secondary qualities are things like sound, taste, and colour. Ideas of relations are combinations of multiple ideas and are complex.    
 Locke also proposes "modes". The simple mode consists of variations of the same simpler idea (for example, days and years are simple modes of duration). Mixed modes are compounded of simple ideas of various kinds, put together to make a single one (for example, beauty is a composition of colour and figure, causing delight and pleasure in the beholder).
 
-## Lecture 6
+<!-- ## Lecture 6 -->
+
+## Hume
 
 David Hume is well-known for his works _Treatise on Human Nature_ and _Inquiry Concerning Human Understanding_. He agrees with Descartes, Hobbes, and Locke in that genuine knowledge must be self-evident, but he finds no such knowledge anywhere other than mathematics, which merely analyses its own concepts.    
 Hume's view is empirical, positivistic (knowledge is limited to the world of phenomena), agnostic (we know nothing of ultimates, substances, causes, soul, ego, external world, universe, etc.) and humanistic (the human mental world is the only legitimate sphere of science and inquiry).
 
 The sciences of human nature are:
-* _logic _deals with reasoning.
+* _logic_ deals with reasoning.
 * _morals_ and criticism deals with our tastes and sentiments.
 * _politics_ deals with how humans are united and dependent on each other.
 
@@ -96,7 +101,7 @@ Knowledge results from compounding the materials due to senses and experiences. 
 
 The idea of causation is not reached by any a priori reasoning. The mind cannot deduce the effect from a certain cause, and the study of cause and effect is a study of speculation and practice. We cannot demonstrate that a certain cause has a certain effect. The knowledge of causation is attained through observation and experience. This experience eventually produces a belief, which is an operation of the mind.
 
-## Lecture 7
+<!-- ## Lecture 7 -->
 
 All reasoning concerning matters of fact are dependent on cause-and-effect relationships. The evidence is compared with mathematics. The uniformity of nature is a self-evident knowledge (the sun will rise tomorrow). However, even this does not constitute absolute certainty. Hume says that nothing is necessary, and we move from this to probabilities of occurrences instead.    
 Practice is the best cure for skepticism, since being skeptical of everything would lead to no practical good.
@@ -104,7 +109,9 @@ Practice is the best cure for skepticism, since being skeptical of everything wo
 Impressions and sensations appear and reappear in our experience. All we can do is to limit ourselves to these, compare our ideas and note their relations, then reasoning about these relations and attaining some kind of demonstrative knowledge. It finally boils down to noticing regularities in observations, leading to a custom, and drawing inferences from them.    
 Passion is the source of understanding the world. 
 
-## Lecture 8
+<!-- ## Lecture 8 -->
+
+## Introduction to Indian philosophy
 
 A striking characteristic of Indian thought is its variety -- nearly every shade of speculation is included in it.    
 Western philosophy is materialistic and seeks to understand the materials (even humans are counted as materials). In contrast, philosophy in India is spiritual, and this spirituality is what has enabled it to resist the ravages of time. The word _darshana_ means vision and also the instrument of vision. It stands for the direct, immediate, and intuitive vision of reality, the perception of truth, and also the means to realize these. _Atma va are drustavyah_ (see the self) is the keynote of all schools of Indian philosophy.
@@ -121,7 +128,7 @@ An important concept in the Upanishads is _atman_ and _brahman_. The notion of s
 The self is in three types of sleep -- walking, dreaming, and dreamless. Our bodily self is that which in a walking sleep, our empirical self is that which is in a dreaming sleep, and the absolute/metaphysical self is that which is in a dreamless sleep. The body is perishable. The _chhandogya upanishad_ (a dialogue) is between Indra, Virochana, and Prajapati.    
 He who is dreaming is free. In deep sleep, there is no subject to feel. Does this mean that the self is only an abstraction? The self appears to be unconscious. The self persists through all changes of their knower, and it cannot be known to any object (_Yajnavalka_ in _Brhadarnyaka Upanisad_).
 
-## Lecture 9
+<!-- ## Lecture 9 -->
 
 Now, we look at the _Mandukya Upanisad_.    
 When in the waking state, the self experiences the world (_vishayanubhuti_). In the dreaming state, the internal world is created in its own imagery (this is known as _taijhasa_).    
@@ -134,12 +141,14 @@ The _Taitreya Upanisad_ introduces _koshas_. Every object is a type of kosha. Fo
 
 The orthodox philosophical system accepts the authority of the Vedas and Upanishads.
 
+## Charvaka
+
 Materialism has grown in Indian philosophy through the _charvaka_ philosophy. It is against excessive monkdom. The idealism of Upanishads is unsuitable for society, the commons in particular. _Karmakanda_ and rituals is given a lot of importance in Indian philosophy, but Upanisadic ideas are part of _Jnanakanda_, which give importance to knowledge. The charvaka philosophy is against ritualistic exploitation.    
 _Brhaspati_ was a heretical teacher who founded this materialism. _Charu vak_ means "eat", "drink", and "be merry". A common man is referred to as a _lokayata_. Charvaka was the disciple of Brhasapati.    
 They accepted perception is real, and did not accept anumana or upamana. They believed that nothing beyond this world is real, and nothing is transcendental. Earth, water, fire, and air are the only elements. Enjoyment is the only goal of human life, and mind is only a product of matter. Krishnapati Mishra describes Brhaspati's materialism in _Prabhodhachandradoya_.    
 The primary concepts for Indian philosophy are dharma (the normative principles that regulate us), artha (livelihood), kaama (procreation), and moksa (liberation). The charvaka philosophy says that death is liberation and one must discard _moksa_.
 
-## Lecture 10
+<!-- ## Lecture 10 -->
 
 Perception is accepted into the charvakas in so far as their epistemology is concerned. Other forms of pramana were not acceptable to them, with induction being unknown and testimony being unacceptable.    
 Some criticisms of the charvaka philosophy. The vedantians and sunyavadins do not accept inference, but do accept it in the case of empirical knowledge. Perceptual knowledge is sometimes contradictory, and poor perception should not be considered valid. Proof and disproof of ther knowledge's claim would require inference.
@@ -150,10 +159,12 @@ Some criticisms of this are questioning whether consciousness is intrinsic to th
 Pleasure is the highest good of life. They desire sensual pleasure, and that no afterlife exists. They do not accept any of the purusharthas other than _kama_ and _artha_.    
 THe _kamasutra_ of _vatsyagyana_ recommends the desirability of pleasure including sensual pleasure, yet regards dharma as the supreme end of life. Pleasure should be in conformity with dharma. Vatsagyana recommends a harmonious cultivation of dharma, artha, and kama.
 
-Now, let us move on to _sankhya_, an ally of yoga.     
+## Sankhya
+
+Now, let us move on to _sankhya_<!-- , an ally of yoga -->.     
 The three cornerstones of sankhya are pluralistic spiritualism, atheistic realism, and uncompromising dualism. Some of the important related works are Gaudhapada's _sankhya karika bhashya_, Bachaspati Mishra's _tattval kaumudi_, and Iswara Krishna's _sankhya karika_. The primordial _prakrti_ is dynamic, while the inactive _purusa_ is static.
 
-## Lecture 11
+<!-- ## Lecture 11 -->
 
 According to _prakrtparinamavada_, all effects are modifications or _parinama_ of prakrti. Thus, any effect is not a new creation, and it exists beforehand in the cause. The effect is an explicit manifestation of this, and this is known as _satkaryavada_ (the opposite belief is called _asatkaryavada_, which is believed by the materialistic school). _Utpatti_ (production) and _pralaya_ (dissolution).    
 Prakrti is composed of three main attributes - _sattva_, _rajas_, and _tamas_. Similar to Aristotle's philosophy, there are many causes here as well. 
@@ -173,7 +184,7 @@ There are five arguments for the existence of prakrti:
 * The effect differs form the cause and so a limited effect cannot be its own cause. The effect is explicit and the cause is an implicit property of some process. This implies that there is some world cause where they are potentially contained. This is called _karanakaaryavibhagat_.
 * The unity of the universe points to a single cause, which is prakrti. This is called _avibhagat vaishvarupasya_.
 
-## Lecture 12
+<!-- ## Lecture 12 -->
 
 The _trigunas_ of prakrti are _sattva_ (pleasure), _rajas_ (pain), and _tamas_ (indifference).    
 Sattva is the manifestation of objects in consciousness. For example, luminosity of light, happiness, and bliss. Rajas is the principle of motion. For example, pain, restlessness, and activity. Tamas is the principle of inertia.    
@@ -192,3 +203,105 @@ Sankhya believes in plurality of the purusas.
 Thus, purusa and prakrti are independent absolute realities. Prakrti needs purusa to be known (_darshanartham_) and purusa needs prakrti in order to enjoy (_bhaga_) and also for _kaivalya_ (_kaivalyartham_ -- transcending beyond the real).    
 This cooperation is a mutual harmony. Sankhya believes in the semblance of contact (_samyogabhasa_).
 
+<!-- ## Lecture 12 -->
+
+## Yoga
+
+_Yoga_ represents the spiritual union between the individual soul and the universal soul. As a philosophical system, it accepts the metaphysics and epistemology of sankhya. It represents the spiritual effort to attain perfection through control of the body, sense, mind, and through discrimation between purusa and prakrti.
+
+There are four parts of yoga:
+* _Samadhi pada_: the nature and aim of concentration
+* _Sadhana pada_: the means to realize the end
+* _Bibhutipada_: supernatural powers that can be acquired through yoga
+* _Kaivalya pada_: nature of liberation and reality of the transcendental self (the highest stage).
+
+There are modifications (_vrttis_) of _chitta_, which is also known as _antakrana_. A chitta can only exist if it performs its vrtti.    
+Chitta appears to be conscious due to the reflection of purusa on it. Yoga is the ceasing of modification through concentration. This ceasing is the return of the purusa to its original perfection. Patanjali talks about these modifications:
+* right cognition (_pramana_)
+* wrong cognition (_viparyaya_)
+* verbal cognition/imagination (_vikalpa_)
+* absence of cognition (_nidra_)
+* memory (_smrti_)
+
+Chitta is merely a reflection of purusa. This reflection is the ego (_jiva_) which is subject to birth, death, and suffering. There are five kinds of suffering:
+* ignorance (_avidya_)
+* egoism (_asmita_)
+* attachment (_raga_)
+* aversion (_dvesa_)
+* fear of death (_abhinivesh_)
+
+_Astanga yoga_ has an eight-fold path of discipline:
+* _Yama_: abstention includes five vows: _ahimsa_ (be peaceful), _satya_ (be truthful), _asteya_ (don't steal), _brahmacharya_ (be celibate), and _aparigraha_ (don't be possessive).
+* _Niyama_: external and internal purification: _shaucha_ (), _santosh_ (contentment), _tapas_ (austerity), _svadhyaya_, and _iswarparinidhana_ (devotion to god).
+* _Asana_: sitting in a comfortable posture for meditation
+* _Pranayama_: breathing (inhalation and exhalation)
+* _Pratyahara_: controlling senses from the object
+* _Dharana_: fixing the mind on the object of meditation
+* _Dhyana_: meditation with undisturbed thought about the object of meditation
+* _Samadhi_: concentration when you are unaffected by things around you. It is of two types, _samprajnata samadhi_ and _asamprajnata samadhi_. The former is of four typs, _savtikara_, _savichara_ (the object is subtle), _sananda_ (the experience of internal feelings), and _sasmita_ (getting to the realm of consciousness and ego).
+
+The five stages of mental life is referred to as _chittabhumi_. The difference arises due to the various gunas.
+* _Ksipta_: restlessness due to the dominance of rajas.
+* _Mudha_: lethargy due to the dominance of tapas.
+* _Viksipta_: distracted due to the dominance of sattva (sometimes rajas).
+* _Ekagra_: concentrated mindfulness.
+* _Niruddha_: being restricted, mental modifications are arrested.
+
+<!-- ## Lecture 13 -->
+
+## Buddhism
+
+Now, we move on to Buddhism. Buddha was an ethical teacher and social reformer rather than a theoretical philosopher. He claimed that the goal of life is to fight against misery and suffering. Buddha was a perfect embodiment of knowledge, courage, love, and sacrifice. His approach to life was very ethical, and claimed that life is rooted in pessimism. He refers to ethics as the first philosophy, not metaphysics.    
+The four noble truths are:
+* _Dukha_: Suffering. Life is full of misery, and even pleasures are fraught with pain. There is always a fear of loss. Indulgence results in pain and suffering is common to everyone. There are many types of pain like poverty, sickness, old age, death, greed, cruelty, anger, hatred, etc.
+* _Dukha samudahaya/Dukhasya karana_: Cause of suffering. Everything has a cause. The existence of an event depends on its cause and conditions. Everything in the world is limited. The _causal law of dependent origination_ tries to make us understand what arises from this life of pain.
+* _Dukha nirodha_: End of suffering. Everything is temporary. The removal of both the cause and conditions would remove the effect. Everything being conditional is momentary, and what is momentarily necessarily perishes. 
+* _Dukha nirodhagamini pratipat/dukha nirodhasya marga_: Paths leading to the end of suffering. Buddha gives an eight-fold path called the _arya astanga marg_ to remove misery and attain liberation.
+	- _samyag drsti_ (faith)
+	- _sankalpa_ (resolve)
+	- _vak_ (speech)
+	- _karmanta_ (action)
+	- _ajiva_ (living)
+	- _vyayama_ (effort)
+	- _smrti_ (thought)
+	- _samadhi_ (concentration)
+
+
+<!-- ## Lecture 14 -->
+
+_Pratityasamutpada_ is the theory of dependent origination in Buddhism. It says that everything has a cause, and is thus momentary. There are two points of view on the world -- _samsara_ (from the point of view of relativity) and _nirvana_ (from the point of view of reality). The essence of a thing is called its _dharma_ and is the immanent law of relation.
+
+The second theory is that everything is momentary. Buddha identifies this as _dharma_. Dharma poses the middle path, _madhyama pratipat_, of locating the middle between the two extremes of reality and nothingness. Nagarjuna says that pratityasamutpada leads to the end of plurality and bliss.
+
+The twelve links of _dharma chakra_ are
+* old age and death
+* birth or rebith (_jati_)
+* will to be born (_bhava_)
+* clinging to enjoyment (_upadana_)
+* thirst for sense enjoyment (_trsna_)
+* sensuous experiences (_vedana_)
+* sense-object contact (_sparsha_)
+* six sense organs including the mind (_sadayatana_)
+* psycho-physical organism (_nama rupa_)
+* initial consciousness of the embryo (_vijnana_)
+* impressions of karmic forces (_samskara_)
+* ignorance (_avidya_)
+
+This can be read in both directions, from front to back or back to front.
+
+Buddhism believes that knowledge is liberation. Ignorance can be destroyed by knowledge. The causal power of each link can be understood with the right knowledge (_arthakriya karitva_). Liberation is the goal of an individual. Since all beings are transitory, liberation is challenging and is to be systemically worked out. _Bhava nirodha_ is the end of all activities and thus attaining nirvana.
+
+Buddhism has no god, and karma takes the place of god. Liberation is a state of _arhathood_. AN ideal saint who attains salvation is known as a _nibbana_. _Hinayana_ says that liberation is negative, and _mahayana_ says that liberation is not a negative end of misery, but a positive state of bliss (these form two sects of buddhism).
+
+Buddha is transformed into a god from a religious point of view, and he is worshipped. He has transcended reality and possesses the power of renunciating everything. _Bodhisattva_ is an ideal saint who defers his own salvation in order to work for the salvation of others. He is inspired by the love of all beings, and is gladly ready to suffer for them.    
+Attachment leads to death and rebirth, while renunciation leads to transcendence. There exists an absolute self who runs through all the individual selves.
+
+_Ksanabhangavada_ is the theory of momentariness. Everything is momentary, and _sanghatavada_ says that becoming is real. How is this stream of becoming conceptualized? The theory of aggregates gives five _skandhas_. Change is universal, and liberation is the extinction of desires. Everything is sorrow (_sarvam dukham_), everything is devoid of self (_sarvam anatma_), and everything is momentary (_sarvam ksanikam_).
+
+The western corroborative ideas on the concept of self are Heraclitus who says that change is real ("you cannot bathe twice in the same river"), Hume who gives the bundle theory of self ("I can never catch myself"), William James ("Each passing thought is a thinker"), and Bergson ("Everything is the manifestation of the flow of e'lam vital"). Rapid succession gives an illusion of unity or permanence. Consciousness is not permanent, but it gives that impression.    
+The soul is a bundle of five skandhas:
+* _rupa_ (matter)
+* _vedana_ (feeling)
+* _samjna_ (perception)
+* _samskara_ (disposition)
+* _vijnana_ (consciousness)
