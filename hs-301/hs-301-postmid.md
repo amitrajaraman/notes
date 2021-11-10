@@ -153,11 +153,11 @@ The primary concepts for Indian philosophy are dharma (the normative principles 
 Perception is accepted into the charvakas in so far as their epistemology is concerned. Other forms of pramana were not acceptable to them, with induction being unknown and testimony being unacceptable.    
 Some criticisms of the charvaka philosophy. The vedantians and sunyavadins do not accept inference, but do accept it in the case of empirical knowledge. Perceptual knowledge is sometimes contradictory, and poor perception should not be considered valid. Proof and disproof of ther knowledge's claim would require inference.
 
-Consciousness is a mere product of the matter, and soul is the living body. Matter creates mind as the live secrets bile.    
+Consciousness is a mere product of the matter, and soul is the living body. Matter creates mind as the liver secretes bile.    
 Some criticisms of this are questioning whether consciousness is intrinsic to the body. The self cannot be reduced to the object. Merely co-existence is not causation. Rather, consciousness is a property of the body.
 
 Pleasure is the highest good of life. They desire sensual pleasure, and that no afterlife exists. They do not accept any of the purusharthas other than _kama_ and _artha_.    
-THe _kamasutra_ of _vatsyagyana_ recommends the desirability of pleasure including sensual pleasure, yet regards dharma as the supreme end of life. Pleasure should be in conformity with dharma. Vatsagyana recommends a harmonious cultivation of dharma, artha, and kama.
+The _kamasutra_ of _vatsyagyana_ recommends the desirability of pleasure including sensual pleasure, yet regards dharma as the supreme end of life. Pleasure should be in conformity with dharma. Vatsagyana recommends a harmonious cultivation of dharma, artha, and kama.
 
 ## Sankhya
 
@@ -275,7 +275,7 @@ The second theory is that everything is momentary. Buddha identifies this as _dh
 
 The twelve links of _dharma chakra_ are
 * old age and death
-* birth or rebith (_jati_)
+* birth or rebirth (_jati_)
 * will to be born (_bhava_)
 * clinging to enjoyment (_upadana_)
 * thirst for sense enjoyment (_trsna_)
