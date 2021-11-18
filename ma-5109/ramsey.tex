@@ -2,7 +2,7 @@
 
 The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An infinite form of one of the results was published in a paper on mathematical logic, and was later rediscovered by Erd\H{o}s and Szekeres.
 
-\subsection{Introduction}
+\subsection{Introduction and the Erd\H{o}s-Szkeres Theorem}
 
 	To begin, we give the following folklore proposition.
 	\begin{quote}
@@ -12,19 +12,20 @@ The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An 
 	This was in fact also discovered by a Hungarian sociologist later. The proof is very simple and just boils down to showing that a graph on $6$ vertices has either a size $3$ clique or a size $3$ independent set.\\
 	Equivalently, if we colour each edge of $K_6$ blue or red, there is a monochromatic triangle.\\
 	This can be proved as follows. Pick any vertex $v$. By the pigeonhole principle, three of its neighbours $u_1,u_2,u_3$ are such that $vu_1,vu_2,vu_3$ are of the same colour, say red. We are done if we show that one of the edges $u_iu_j$ is red as well. If not, $u_1u_2u_3$ is a monochromatic blue triangle, so we are done.\\
-	It is also not difficult to see that $6$ is tight (there exists a graph on $4$ vertices without a monochromatic triangle).\\
+	It is also not difficult to see that $6$ is tight (there exists a graph on $5$ vertices without a monochromatic triangle).\\
 
 	This leads to the following more general question.
 	\begin{quote}
 		Suppose $s,t\in\N$ at least $2$. What is the minimum $N$ (if one exists) such that if each edge of $K_N$ are coloured red or blue, there is either a red $K_s$ or a blue $K_t$.
 	\end{quote}
 
+
 	\begin{ftheo}
 		\label{theo: ramsey number finite}
 		Given $s,t\in\N$ at least $2$, there exists a quantity $R(s,t) \in \N$ such that for all $n \ge R(s,t)$, any red-blue colouring of $E(K_n)$ admits a red $K_s$ or a blue $K_t$.
 	\end{ftheo}
 
-	It is obvious that $R(s,t) = R(t,s)$. $R(s,t)$ is known as a \textbf{Ramsey number}. 
+	It is obvious that $R(s,t) = R(t,s)$.
 
 	\begin{proof}
 		We prove this by induction on $(s,t)$.\\
@@ -40,6 +41,37 @@ The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An 
 	\begin{proof}
 		Letting $N(s,t) = \binom{s+t-2}{s-1}$, note that $R(2,t) = N(2,t)$. It may be checked that $N(s,t) = N(s-1,t) + N(s,t-1)$, and we are done by the preceding theorem.
 	\end{proof}
+	
+	More generally, we have the following definition.
+
+	\begin{fdef}
+		For integers $s_1,\ldots,s_r$, the \textbf{Ramsey number} $R(s_1,s_2,\ldots,s_r)$ is the minimum $n$ such that for every $r$-colouring of $E(K_n)$ using $[r]$, there is an $i$-monochromatic clique of size $s_i$ for some $i$.
+	\end{fdef}
+
+	We have the following.
+
+	\begin{ftheo}
+		For $r\in\N$ $s_1,\ldots,s_r \in \N$, $R(s_1,\ldots,s_r)$ is well-defined and moreover,
+		\[ R(s_1,\ldots,s_r) \le R(s_1-1,s_2,\ldots,s_r) + R(s_1,s_2-1,s_3,\ldots,s_r) + \cdots + R(s_1,\ldots,s_{r-1},s_r-1). \]
+	\end{ftheo}
+	The proof of the above is a straightforward generalization of the induction in \Cref{theo: ramsey number finite}.
+
+	Another generalization is that to a \emph{hyper}graph, in which edges are formed not by pairs of vertices, but instead sets of vertices. The complete $r$-hypergraph on $n$ vertices $K_n^r$ is that where the edge set is $\binom{[n]}{r}$. Then, if we colour each edge of this graph red or blue
+	\[ R^{(r)}(s,t) = \min\{n : \text{there is a red $K_s^r$ or a blue $K_t^r$} \}. \]
+	Of course, we can get a generalization combining both the hypergraph aspect and the multicolour aspect.
+
+	\begin{ftheo}
+		$R^{(r)}(s,t)$ is well-defined and further,
+		\[ R^{(r)}(s,t) \le R^{(r-1)}(R^{(r)}(s-1,t), R^{(r)}(s,t-1)) + 1. \]
+	\end{ftheo}
+	The proof of the above is not too difficult.
+	% \emph{Sketch of proof when $r=3$}. Given a vertex $v$, any colouring of $K_n^3$ induces a colouring on $\binom{[n]\setminus\{x\}}{2}$ -- an edge $e$ is coloured the same as the colour of $e \cup \{x\}$.\\
+	% So, if $|[n]\setminus\{x\}| \ge R(m,k)$ for some $m,k$, then there is either a red $K_m$ or blue $K_k$. if $m \ge R^3(s-1,t)$, say, then if there is a red $K_m$ in the graph, there is either
+	% \begin{itemize}
+	% 	\item $S$ of size $s-1$ such that all the $3$-tuples of $S$ are red, or
+	% 	\item $T\subseteq X$ of size $t$ with all the $3$-tuples blue.
+	% \end{itemize}
+	% So, either $T$ or $S \cup \{x\}$ does the job.
 
 	Consider the diagonal case where $s=t$. We showed above that $R(3,3) = 6$. It may also be shown that $R(4,4) = 18$. Beeyond, this we do not know any diagonal Ramsey numbers. By \Cref{cor: trivial ramsey bound},
 	\[ R(s,s) \le \binom{2s-2}{s-1}. \]
@@ -107,9 +139,32 @@ The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An 
 	 	Given $n\in\N$, is there a (finite) $N(n)$ such that any $N(n)$ points in general position have the vertices of a convex $n$-gon?
 	 \end{quote}
 
-	 \begin{ftheo}[Erd\H{o}s-Szekeres, 1984]
+	 \begin{ftheo}[Erd\H{o}s-Szekeres Theorem]
 	 	Given any $n$, there exists a finite $\ES(n)$ such that any $\ES(n)$ vertices in general position admit the vertices of a convex $n$-gon. Furthermore,
 	 	\[ \ES(n) \le \binom{2n-4}{n-2} + 1. \]
 	 \end{ftheo}
 
-	 The somewhat attentive reader might note that the above is quite similar to the earlier Ramsey number bound!
+	 The reader might notice that the above is quite similar to the earlier Ramsey number bound!\\
+
+	 \begin{proof}[Proof 1 showing finiteness in the Erd\H{o}s-Szekeres Theorem, due to M. Tarsi]
+	 	This proof hinges on the observation that if a (finite) set $X$ of points is such that every $4$ points of $X$ form a convex quadrilateral, then all the points of $X$ form a convex polygon. We do not prove this.\\
+	 	Now, we claim that $N(n) = R^{(4)}(n,5)$ works as an upper bound to $\ES(n)$. Let $X$ be our set of $N$ points (for $N > N(n)$) in general position. Colour each $4$-tuple of the points of the set $X$ red or blue depending on whether or not the points form a convex quadrilateral. Since $R^{(4)}(n,5)$ is finite, either there is a set $Y\subseteq X$ of $n$ points such that all the $4$-tuples of $Y$ are red, or there is a size $5$ set $Z\subseteq X$ such that all $4$-tuples of $Z$ are blue.\\
+	 	In the former case, the vertices of $Y$ form a convex $n$-gon by the observation in the first paragraph. Further, the latter case \emph{cannot} occur, due to the observation of Klein's we had given earlier.
+	 \end{proof}
+
+	 This bound is \emph{terrible}.
+
+	 \begin{proof}[Proof 2 due to Erd\H{o}s-Szekeres]
+	 	Suppose that the points in general position are $p_i = (x_i,y_i)$ for $1\le i\le N$ and also that $x_1 < x_2 < \ldots < x_N$ (the second may be assumed by rotating the plane appropriately).\\
+	 	Call a set $C = \{p_{i_1},\ldots,p_{i_k}\}$ a \textbf{$k$-cup} if $i_1 < \cdots < i_k$ and the slope of the segments $p_{i_j} p_{i_{j+1}}$ is non-decreasing. Similarly, call a set $C = \{p_{i_1},\ldots,p_{i_k}\}$ a \textbf{$k$-cap} if $i_1 < \cdots < i_k$ and the slope of the segments $p_{i_j} p_{i_{j+1}}$ is non-increasing.\\
+	 	Clearly, a $k$-cup or $k$-cap form a convex $k$-gon.\\
+
+	 	The main result proved by Erd\H{o}s-Szekeres is that for $N > \phi(k,\ell)$, any set of the assumed form above admits either a $k$-cup or an $\ell$-cap, where
+	 	\[ \phi(k,\ell) = \binom{k+\ell-4}{k-2}. \]
+	 	For $k$-cups or $\ell$-caps, the above is tight. That is, there are point configurations of $\binom{k+\ell-4}{k-2}$ points that have neither $k$-cups nor $\ell$-caps.\\
+	 	We prove this by induction on $k+\ell$. If $k=2$ or $\ell=2$, the result is trivial. Let $X$ be a set of size $\phi(k,\ell)+1$, and suppose that $X$ contains neither a $k$-cup nor an $\ell$-cap. Let $L$ be the set of last points of $(k-1)$-cups. In particular, $X \setminus L$ has neither $(k-1)$-cups nor $\ell$-caps. Consequently, $|X\setminus L| \le \phi(k-1,\ell)$, so
+	 	\[ L \ge 1 + \phi(k,\ell) - \phi(k-1,\ell) = \phi(k,\ell-1) + 1. \]
+	 	Therefore, $L$ contains either a $k$-cup or an $(\ell-1)$-cap. In the former case, we are done. So, suppose that $L$ contains an $(\ell-1)$-cap $\{p_{i_1},\ldots,p_{i_{\ell-1}}\}$. $p_{i_1}$ is the last point of a $(k-1)$-cup, so let the previous point in this cup be $q$.\\
+	 	If the slope of $qp_{i_1}$ is greater than the slope of $p_{i_1}p_{i_2}$, then $qp_{i_1}p_{i_2}\cdots p_{i_{\ell-1}}$ forms an $\ell$-cap. Otherwise, the earlier $(k-1)$-cup together with $p_{i_1}$ forms a $k$-cup, completing the proof.  
+	 \end{proof}
+	 
