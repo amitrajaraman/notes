@@ -1,0 +1,115 @@
+\section{Ramsey Theory}
+
+The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An infinite form of one of the results was published in a paper on mathematical logic, and was later rediscovered by Erd\H{o}s and Szekeres.
+
+\subsection{Introduction}
+
+	To begin, we give the following folklore proposition.
+	\begin{quote}
+		Among any 6 people, eithere there are $3$ who are mutual acquaintances of each other or $3$ who are mutual non-acquaintances of each other (being an acquaintance is a symmetric relation).
+	\end{quote}
+
+	This was in fact also discovered by a Hungarian sociologist later. The proof is very simple and just boils down to showing that a graph on $6$ vertices has either a size $3$ clique or a size $3$ independent set.\\
+	Equivalently, if we colour each edge of $K_6$ blue or red, there is a monochromatic triangle.\\
+	This can be proved as follows. Pick any vertex $v$. By the pigeonhole principle, three of its neighbours $u_1,u_2,u_3$ are such that $vu_1,vu_2,vu_3$ are of the same colour, say red. We are done if we show that one of the edges $u_iu_j$ is red as well. If not, $u_1u_2u_3$ is a monochromatic blue triangle, so we are done.\\
+	It is also not difficult to see that $6$ is tight (there exists a graph on $4$ vertices without a monochromatic triangle).\\
+
+	This leads to the following more general question.
+	\begin{quote}
+		Suppose $s,t\in\N$ at least $2$. What is the minimum $N$ (if one exists) such that if each edge of $K_N$ are coloured red or blue, there is either a red $K_s$ or a blue $K_t$.
+	\end{quote}
+
+	\begin{ftheo}
+		\label{theo: ramsey number finite}
+		Given $s,t\in\N$ at least $2$, there exists a quantity $R(s,t) \in \N$ such that for all $n \ge R(s,t)$, any red-blue colouring of $E(K_n)$ admits a red $K_s$ or a blue $K_t$.
+	\end{ftheo}
+
+	It is obvious that $R(s,t) = R(t,s)$. $R(s,t)$ is known as a \textbf{Ramsey number}. 
+
+	\begin{proof}
+		We prove this by induction on $(s,t)$.\\
+		If $s=2$, it is easy to see that $R(2,t) = t$ (similarly, $R(s,2) = s$).\\
+		Let $v$ be an arbitrary vertex. Since $v$ has degree $n-1$, either it has $R_1$ red neighbours or $R_2$ blue neighbours for any $R_1,R_2$ such that $R_1 + R_2 = n$ (we shall fix $R_1$ and $R_2$ later). Suppose $x$ has $R_1$ red neighbours. If $R_1 \ge R(s-1,t)$, then we are done by induction. Similarly, if $R_2 \ge R(s,t-1)$, we are done. So, set $R = R(s,t-1) + R(s-1,t)$.
+	\end{proof}
+
+	\begin{fcor}
+		\label{cor: trivial ramsey bound}
+		We have
+		\[ R(s,t) \le \binom{s+t-2}{s-1}. \]
+	\end{fcor}
+	\begin{proof}
+		Letting $N(s,t) = \binom{s+t-2}{s-1}$, note that $R(2,t) = N(2,t)$. It may be checked that $N(s,t) = N(s-1,t) + N(s,t-1)$, and we are done by the preceding theorem.
+	\end{proof}
+
+	Consider the diagonal case where $s=t$. We showed above that $R(3,3) = 6$. It may also be shown that $R(4,4) = 18$. Beeyond, this we do not know any diagonal Ramsey numbers. By \Cref{cor: trivial ramsey bound},
+	\[ R(s,s) \le \binom{2s-2}{s-1}. \]
+	Recall Stirling's formula
+	\[ n! \sim \sqrt{2\pi n} \left( \frac{n}{e} \right)^n. \]
+	It may be checked that
+	\[ \binom{2s-2}{s-1} \sim c \cdot \frac{4^n}{\sqrt{n}} \]
+	for some constant $c>0$.\\
+	Finding the exact Ramsey number is incredibly difficult. In the words of Erd\H{o}s,
+	\begin{quote}
+		Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find the Ramsey number for red five and blue five. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If the aliens demanded the Ramsey number for red six and blue six, however, we would have no choice but to launch a preemptive attack.
+	\end{quote}
+
+	This begs two questions:
+	\begin{itemize}
+	 	\item Is there a better upper bound for $R(s,s)$ than this exponential one? 
+	 	\item What about a lower bound on $R(s,s)$?
+	 \end{itemize}
+
+	 The second of the above questions asks us to give a red-blue colouring of $E(K_n)$ such that there is no monochromatic $K_s$.\\
+	 The best known bound for a long time was quadratic, and Tur\'{a}n believed that the Ramsey number itself might be quadratic.\\
+
+	 Blowing this bound out of the water however, Erd\H{o}s gave the first (documented) example of the probabilistic method.
+
+	 \begin{ftheo}
+	 	We have
+	 	\[ R(s,s) > 2^{s/2}. \]
+	 \end{ftheo}
+	 \begin{proof}
+	 	Fix some $n$ and colour each edge of $K_n$ blue or red with probability $1/2$ each. For a fixed $S \subseteq V(K_n)$ of size $s$,
+	 	\[ \Pr[S\text{ is monochromatic}] = \frac{2}{2^{\binom{s}{2}}}. \]
+	 	So,
+	 	\begin{align*}
+	 		\Pr[\text{there is some monochromatic $K_s$}] &= \Pr\left[ \bigcup_{|S|=s} \{S\text{ is monochromatic}\} \right] \\
+	 			&\le \binom{n}{s} \cdot \frac{2}{2^{\binom{s}{2}}}.
+	 	\end{align*}
+	 	So, if
+	 	\[ \frac{\binom{n}{s}}{2^{\binom{s}{2}}} < \frac{1}{2}, \]
+	 	$n$ is a lower bound for $R(s,s)$. Simplifying the above, we have
+	 	\begin{align*}
+	 		\frac{\binom{n}{s}}{2^{\binom{s}{2}}} &\le \frac{n^s}{s! 2^{s(s-1)/2}} \\
+	 			&\le \left(\frac{n}{2^{(s-1)/2}}\right)^s \cdot \frac{1}{s!}.
+	 	\end{align*}
+	 	If $n = 2^{s/2}$, the above is $(\sqrt{2})^s / s! < 1/2$ if $s \ge 3$, completing the proof. 
+	 \end{proof}
+
+	 Further note that as $s$ grows, since $(\sqrt{2})^s = o(s!)$, if $n = 2^{s/2}$, the probability of there not existing a monochromatic $K_s$ in a random colouring of $E(K_n)$ goes to $0$.\\
+	 So, we now have
+	 \[ 2^{s/2} < R(s,s) < 4^s. \]
+
+	 For a very long time, $4^s$ was the best known upper bound. In 2008, David Conlon showed in \cite{conlonRamsey} that
+	 \[ R(s+1,s+1) \le \binom{2s}{s} \cdot \frac{1}{s^{O(\log s / \log \log s)}}. \]
+	 In 2020, Ashwin Sah improved this in \cite{sahRamsey} to
+	 \[ R(s+1,s+1) \le \binom{2s}{s} \cdot \frac{1}{s^{O(\log s)}}. \]
+
+
+	 There is also a geometric motivation for Ramsey Theory.\\
+	 A configuration of points on the plane is said to be in general position if no three of them are collinear. Esther Klein (later Esther Szekeres) noticed the following.
+	 \begin{enumerate}
+	 	\item Given any $5$ points in general position, $4$ of them are the vertices of a convex quadrilateral.
+	 	\item Given any $9$ points in general position, $5$ of them are the vertices of a convex pentagon.
+	 \end{enumerate}
+	 This leads to the following question.\\
+	 \begin{quote}
+	 	Given $n\in\N$, is there a (finite) $N(n)$ such that any $N(n)$ points in general position have the vertices of a convex $n$-gon?
+	 \end{quote}
+
+	 \begin{ftheo}[Erd\H{o}s-Szekeres, 1984]
+	 	Given any $n$, there exists a finite $\ES(n)$ such that any $\ES(n)$ vertices in general position admit the vertices of a convex $n$-gon. Furthermore,
+	 	\[ \ES(n) \le \binom{2n-4}{n-2} + 1. \]
+	 \end{ftheo}
+
+	 The somewhat attentive reader might note that the above is quite similar to the earlier Ramsey number bound!

@@ -47,7 +47,7 @@
 		We first discuss perhaps the simplest example of machine learning. In this, the class $\mathcal{F}$ of functions we consider is merely the class of all linear functions over the basis functions. That is,
 		\[ \mathcal{F} = \{ (x \mapsto w^\top \phi(x) ) : w \in \R^n \}. \]
 
-		Observe that if one of our basis functions is $1$ (or some constant), this is equivalent to the set of all \emph{affine} functions (linear functions plus a constant) on the remaining basis functions.
+		Observe that if one of our basis functions is $1$ (or some non-zero constant), this is equivalent to the set of all \emph{affine} functions (linear functions plus a constant) on the remaining basis functions.
 
 
 		\subsubsection{The method of least squares}
@@ -103,7 +103,7 @@
 
 	\subsection{Probabilistic Interpretations}
 
-		Let us move away from regression for a moment and look at what happens if instead of trying to learn a function with inputs and outputs, we instead try to determine the parameters of some random variable given some datapoints drawn from it.
+		Let us move away from regression for a moment and look at what happens if instead of trying to learn a function with inputs and outputs, we look at the problem of determining the parameters of some random variable given some datapoints drawn from it.
 
 		To do this, suppose that any observation $z$ is drawn from the random variable $Z$ with probability density/mass function $g_\theta$ (depending on the parameter $\theta$, which we are trying to learn). For example, if $Z$ is a gaussian with mean $\mu$ and variance $\sigma^2$, we might have $\theta = (\mu,\sigma^2)$ and
 		\[ g_\theta(z) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left( -\frac{1}{2} \frac{(x-\mu)^2}{\sigma^2} \right). \]
