@@ -149,7 +149,7 @@ The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An 
 	 \begin{proof}[Proof 1 showing finiteness in the Erd\H{o}s-Szekeres Theorem, due to M. Tarsi]
 	 	This proof hinges on the observation that if a (finite) set $X$ of points is such that every $4$ points of $X$ form a convex quadrilateral, then all the points of $X$ form a convex polygon. We do not prove this.\\
 	 	Now, we claim that $N(n) = R^{(4)}(n,5)$ works as an upper bound to $\ES(n)$. Let $X$ be our set of $N$ points (for $N > N(n)$) in general position. Colour each $4$-tuple of the points of the set $X$ red or blue depending on whether or not the points form a convex quadrilateral. Since $R^{(4)}(n,5)$ is finite, either there is a set $Y\subseteq X$ of $n$ points such that all the $4$-tuples of $Y$ are red, or there is a size $5$ set $Z\subseteq X$ such that all $4$-tuples of $Z$ are blue.\\
-	 	In the former case, the vertices of $Y$ form a convex $n$-gon by the observation in the first paragraph. Further, the latter case \emph{cannot} occur, due to the observation of Klein's we had given earlier.
+	 	In the former case, the vertices of $Y$ form a convex $n$-gon by the observation in the first paragraph. Further, the latter case cannot occur, due to the observation of Klein's we had given earlier.
 	 \end{proof}
 
 	 This bound is \emph{terrible}.
@@ -161,10 +161,61 @@ The namesake of Ramsey theory is the British logician Frank Plumpton Ramsey. An 
 
 	 	The main result proved by Erd\H{o}s-Szekeres is that for $N > \phi(k,\ell)$, any set of the assumed form above admits either a $k$-cup or an $\ell$-cap, where
 	 	\[ \phi(k,\ell) = \binom{k+\ell-4}{k-2}. \]
-	 	For $k$-cups or $\ell$-caps, the above is tight. That is, there are point configurations of $\binom{k+\ell-4}{k-2}$ points that have neither $k$-cups nor $\ell$-caps.\\
 	 	We prove this by induction on $k+\ell$. If $k=2$ or $\ell=2$, the result is trivial. Let $X$ be a set of size $\phi(k,\ell)+1$, and suppose that $X$ contains neither a $k$-cup nor an $\ell$-cap. Let $L$ be the set of last points of $(k-1)$-cups. In particular, $X \setminus L$ has neither $(k-1)$-cups nor $\ell$-caps. Consequently, $|X\setminus L| \le \phi(k-1,\ell)$, so
 	 	\[ L \ge 1 + \phi(k,\ell) - \phi(k-1,\ell) = \phi(k,\ell-1) + 1. \]
 	 	Therefore, $L$ contains either a $k$-cup or an $(\ell-1)$-cap. In the former case, we are done. So, suppose that $L$ contains an $(\ell-1)$-cap $\{p_{i_1},\ldots,p_{i_{\ell-1}}\}$. $p_{i_1}$ is the last point of a $(k-1)$-cup, so let the previous point in this cup be $q$.\\
-	 	If the slope of $qp_{i_1}$ is greater than the slope of $p_{i_1}p_{i_2}$, then $qp_{i_1}p_{i_2}\cdots p_{i_{\ell-1}}$ forms an $\ell$-cap. Otherwise, the earlier $(k-1)$-cup together with $p_{i_1}$ forms a $k$-cup, completing the proof.  
+	 	If the slope of $qp_{i_1}$ is greater than the slope of $p_{i_1}p_{i_2}$, then $qp_{i_1}p_{i_2}\cdots p_{i_{\ell-1}}$ forms an $\ell$-cap. Otherwise, the earlier $(k-1)$-cup together with $p_{i_1}$ forms a $k$-cup, completing the proof.
 	 \end{proof}
-	 
+
+ 	The bound of $\phi(k,\ell) + 1$ is tight for the $k$-cup $\ell$-cap problem. That is, there are point configurations of size $\phi(k,\ell)$ points that have neither $k$-cups nor $\ell$-caps.\\
+ 	This is proved by induction on $k+\ell$. If $k=2$ or $\ell=2$, then $\phi(k,\ell) = 1$. Our counterexample set $S$ will be of the form
+ 	\[ S = \{ (i,y_i) : 1 \le  i \le \phi(k,\ell) \}. \]
+ 	If $k=2$ or $\ell=2$, this is $S = \{ (1,0) \}$.\\
+ 	Let $Y$ and $Z$ be the counterexample sets for $\phi(k-1,\ell)$ and $\phi(k,\ell-1)$ respectively. Let $Y^{(\varepsilon)} = \{ (i,\varepsilon y_i) : 1 \le i \le \phi(k-1,\ell) \}$ and $Z^{(\varepsilon)} = \{ (\phi(k-1,\ell) + i,y + \varepsilon y_i) : 1 \le i \le \phi(k,\ell-1) \}$. Pick $\varepsilon > 0$ small enough and $y$ large enough that any line through two points of $Y{(\varepsilon)}$ lies below the set $Z^{(\varepsilon)}$ and any line through two points of $Z^{(\varepsilon)}$ lies above the set $Y^{(\varepsilon)}$.\\
+ 	$S = Y^{(\varepsilon)} \cup Z^{(\varepsilon)}$ provides a counterexample. For example, if $S$ has a $k$-cup, there must be at least two points from $Z^{(\varepsilon)}$ (since there is no $(k-1)$ cup in $Y^{(\varepsilon)}$). However, the line joining these two points is above $Y^\{(\varepsilon)\}$ so cannot be part of a $k$-cup.
+		 
+\subsection{Infinite Ramsey Theory}
+
+	In this section, we present an infinite version of Ramsey's Theorem. This was the original result given by Ramsey.\\
+
+	\begin{fdef}
+		Suppose $V$ is an infinite set. Let $c : V^{r} \to [k]$. Then, there exists an infinite set $A \subseteq V$ such that for all $(v_1,\ldots,v_r) \in A^{(r)}$, $c(v_1,\ldots,v_r)$ is the same. That is, $A$ is monochromatic.
+	\end{fdef}
+
+	If $V$ is finite, $r=2$, $c=2$, and $c(v_1,v_2) = c(v_2,v_1)$, we are back to the usual Ramsey's Theorem.
+
+	\begin{proof}
+		We perform induction on $r$. The result is trivial for $r=1$ by the pigeonhole principle. Let $A_0 = V$ and $x_1 \in A_0$. Consider the induced $k$-colouring $c^*$ on $(A_0 \setminus \{x_1\})^{r-1}$, where
+		\[ c^*(v_1,\ldots,v_{r-1}) = c(x_1,v_1,\ldots,v_{r-1}). \]
+		By induction, there exists an infinite $A_1 \subseteq A_0$ such that every $(r-1)$-tuple of $A_1$ gets the same colour $\alpha_1$.\\
+		Pick $x_2 \in A_1$, and consider the induced colouring of $(r-1)$ tuples of $A_1 \setminus \{x_2\}$ to get $A_2$ such that all $(r-1)$-tuples of $A_2$ get the colour $\alpha_2$.\\
+		This leads to a sequence $A_0 \supseteq A_1 \supseteq A_2 \supseteq \cdots$, where for any $(r-1)$-tuple $(v_1,\ldots,v_{r-1})$ from $A_j$, $(x_j,v_1,\ldots,v_{r-1})$ is coloured $\alpha_j$. However, $\alpha_i \in [k]$, so some colour $\alpha$ occurs infinitely many times in the $(\alpha_i)$ Let $i_1 < i_2 < \cdots$ with $\alpha_{i_j} = \alpha$ for all $j$. \\
+		Then, the set $\{x_{i_1}, x_{i_2}, \ldots\}$ does the job.
+	\end{proof}
+
+	The infinite version of Ramsey's theorem implies the finite one. For this reduction, we prove the following.
+
+	\begin{ftheo}
+		Suppose $\mathcal{H} = (V,E)$ is a hypergraph and $V$ is an arbitrary set with all edge sizes finite. Let $k \ge 2$ be an integer and suppose that for all finite $W \subseteq V$, there is a colouring $\chi_W : W \to [k]$ such that no edge $e \subseteq W$ is monochromatic (under $\chi_W$). Then, there exists $\chi : V \to [k]$ such that no edge of $\mathcal{H}$ is monochromatic under $\chi$.
+	\end{ftheo}
+	\begin{proof}[Proof 1]
+		$k$-colorings are precisely the elements of $[k]^V$. Give $[k]$ the discrete topology (all sets are open/closed), and give $[k]^V$ the product topology. By Tychonoff's Theorem, $[k]^V$ is compact (since $[k]$ is compact). For finite $W \subseteq V$, let
+		\[ \mathcal{H}_W = \{ f \in [k]^V : \text{no $e\subseteq W$ is monochromatic under $f$} \}. \]
+		Observe that $\mathcal{H}_W \ne \emptyset$ (since $\chi_W \in \mathcal{H}_W$) and further, $\mathcal{H}_W$ is closed in $[k]^V$ (since $W$ is finite). If $W_1, W_2, \ldots, W_\ell$ are finite, then
+		\[ \mathcal{H}_{W_1} \cap \mathcal{H}_{W_2} \cap \cdots \cap \mathcal{H}_{W_\ell} \supseteq \mathcal{H}_{W_1 \cup \cdots \cup W_\ell}. \]
+		Since the $W_i$ are finite, so is $W_1 \cup \cdots \cup W_\ell$. It follows that $\mathcal{H}_{W_1} \cap \cdots \cap \mathcal{H}_{W_\ell}$ is non-empty.\\
+		In particular, the collection $\{\mathcal{H}_W\}_{W\text{ finite}}$ has the closed intersection property. This implies that $\bigcap_{|W| < \infty} \mathcal{H}_W$ is non-empty. Any $\chi$ belonging to this set does the job, completing the proof.
+	\end{proof}
+
+	Let us give another proof in a specific case.
+
+	\begin{proof}[Proof 2 when $V = \N$]
+		Suppose that for each $n\in\N$, we have $\chi_n : [n] \to [k]$ such that no edge $e \subseteq [n]$ is monochromatic with respect to $\chi_n$. We shall define $\chi^* : \N \to [k]$ such that no edge is monochromatic with respect to $\chi^*$.\\
+		Let $A_0 = \N$. There exists some infinite set $A_1 \subseteq A_0$ such that $\chi_n(1) = \alpha_1$ for all $n \in A_1$. Set $\chi^*(1) = \alpha_1$. In general, there exists some infinite $A_{j} \subseteq A_{j-1}$ such that $\chi_n(j) = \alpha_j$ for all $n \in A_j$. Set $\chi^*(j) = \alpha_j$. Consider an edge $e = \{i_1,\ldots,i_r\}$ and suppose $i_1 < i_2 < \cdots < i_r$. Since $\chi^*$ agrees with $\chi_n$ on $[i_r]$ for some $n \ge i_r$ and $\chi_j$ has no monochromatic edges, $e$ is not monochromatic under $\chi^*$ either. 
+	\end{proof}
+
+	The contrapositive of this result implies the finite Ramsey result.\\
+
+	Ramsey's proof shows that given an infinite set $A$ and $\binom{A}{r}$ is $[k]$-colored, there is an infinite (countable!) subset $B \subseteq A$ such that $\binom{B}{r}$ is monochromatic. Can we guarantee that $|B| = |A|$? It turns out that we cannot, due to a proof by Sierpinski in 1932.\\
+	Let $A = \R$ and $k=r=2$. It is known (assuming the axiom of choice) that any non-empty set has a well-order $<^*$ (every non-empty subset has a least element).\\
+	Colour $xy$ red if $(x<y \iff x<^* y)$ and blue otherwise. We claim that under this colouring, any monochromatic infinite set is countable. The colouring is such that for a red set $A$, the two orders $<$ and $<^*$ agree on $A$. That is, $<$ is a well-order on $A$. So, let $a_0$ be the least element of $A$, and in general, $a_{i+1}$ be the least element of $A \setminus \{a_0,a_1,\ldots,a_i\}$. Pick a rational $q_i \in (a_i,a_{i+1})$. Since the rationals are countable, a red monochromatic set is countable. If $A$ is blue, then $<^*$ and $>$ agree on $A$ so the same reasoning applies, thus proving that any monochromatic set is countable. 
