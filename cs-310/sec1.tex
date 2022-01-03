@@ -1,0 +1,46 @@
+\section{Introduction}
+
+Consider the problem of determining whether a given multivariate polynomial $P$ with integer coefficients has integer roots. While this may seem simple, this problem is in fact \emph{undecidable}. That is, one cannot write a program on a computer that correctly outputs the answer `yes' or `no' to the problem (for any polynomial $P$). The focus of this course is to study such fundamental limits to computers and computation.
+
+Let us look at the problem of determining whether a certain word is present in a `language'. For example, consider
+\[ L_1 = \{ a^n b^m : n,m\ge 0 \}. \]
+Now, we must write a program that given a string $s$ over the alphabet $\{a,b\}$, determines if $s \in L$. This program is in the form of a \emph{discrete finite automaton}.
+
+\begin{center}
+    \begin{tikzpicture}[node distance=3cm]
+    \node[initial, accepting, state] (1) {S};
+    \node[state] (2) [below right of=1] {R};
+    \node[state, accepting] (3) [above right of=2] {A};
+
+    \draw (1) edge[loop above] node[align=center]{$a$} (1)
+    	  (1) edge[above] node[align=center]{$b$} (3)
+    	  (3) edge[loop above] node[align=center]{$b$} (3)
+    	  (3) edge[right] node[align=center]{$a$} (2)
+    	  (3) edge[loop below] node[align=center]{$a,b$} (3);
+    \end{tikzpicture}
+\end{center}
+
+How would we do this if we instead of have the language
+\[ L_2 = \{ a^n b^n : n \ge 0 \}? \]
+It may be shown that such a language cannot be recognized by a deterministic finite automaton. To create an automaton that does recognize it, we require an additional \emph{stack}, which gives rise to the \emph{pushdown automaton}. The automaton itself is almost identical to the above automaton, except that we `push' an $a$ onto the stack when we read an $a$, and `pop' an $a$ when we read a $b$. Finally, we further require that the stack is empty when the string has been read.\\
+
+We also have what is known as a \emph{context-free grammar}. We have a bunch of rules, and generate strings in the language by repetitively performing a replacement using one of the rules. It turns out that these are equivalent to pushdown automata.\\
+
+Finally, consider the language
+\[ L_3 = \{a^nb^nc^n : n \ge 0\}. \]
+This cannot be recognized by even a pushdown automaton. This leads to the \emph{Turing machine}, where instead of a stack we have a `tape'. This represents the `ultimate' computer that can do anything a computer can do. We shall look at each of these in detail over the next few sections.\\
+
+The focus of our study shall be each of the following.
+
+\begin{center}
+\begin{tabular}{|c|c|}
+	\hline Machine & Language \\
+	\hline
+	Discrete finite automaton (DFA/FSA) & Regular expressions \\
+	Pushdown automaton (PDA) & Context-free grammars \\
+	Turing machine (TM) & Unrestricted grammars \\
+	\hline
+\end{tabular}
+\end{center}
+
+We can further introduce non-determinism in each of the three automata. We shall see that the expressive power of DFAs and TMs do not change on allowing non-determinism, while that of PDAs does.
