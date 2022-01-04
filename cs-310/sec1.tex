@@ -1,5 +1,7 @@
 \section{Introduction}
 
+\subsection{Overview}
+
 Consider the problem of determining whether a given multivariate polynomial $P$ with integer coefficients has integer roots. While this may seem simple, this problem is in fact \emph{undecidable}. That is, one cannot write a program on a computer that correctly outputs the answer `yes' or `no' to the problem (for any polynomial $P$). The focus of this course is to study such fundamental limits to computers and computation.
 
 Let us look at the problem of determining whether a certain word is present in a `language'. For example, consider
@@ -43,4 +45,43 @@ The focus of our study shall be each of the following.
 \end{tabular}
 \end{center}
 
-We can further introduce non-determinism in each of the three automata. We shall see that the expressive power of DFAs and TMs do not change on allowing non-determinism, while that of PDAs does.
+We can further introduce non-determinism in each of the three automata. We shall see that the expressive power of DFAs and TMs do not change on allowing non-determinism, while that of PDAs does.\\
+
+First, before explaining anything, let us set up some notation and definitions for the rest of this course.
+
+\begin{fdef}
+	An \emph{alphabet} $\Sigma$ is a non-empty set. Its elements are referred to as \emph{letters} or \emph{terminals}.\\
+	The set $\Sigma^*$ is the set of all finite strings over $\Sigma$. In particular, $\Sigma^*$ contains the empty string denoted $\epsilon$. The set $\Sigma^+$ is equal to $\Sigma^* \setminus \{\epsilon\}$.\\
+	A \emph{language} is a subset of $\Sigma^*$.
+\end{fdef}
+
+The \emph{Chomsky hierarchy} represents the increasing complexity of languages. At the lowest level, we have \emph{regular languages} that are recognized by \emph{finite state automata}. This is a subset of \emph{context-free grammars}, which are recognized by \emph{pushdown automata}. This in turn is a subset of \emph{unrestricted grammars}, which are recognized by \emph{Turing machines}.\\
+
+A finite state automaton is a tuple $(Q,\Sigma,\delta,q_0,F)$, where $Q$ is a finite non-empty set of states, $\Sigma$ is an alphabet, $\delta : Q \times \delta \to Q$ is the transition function, $q_0 \in Q$ is the initial state, and $F \subseteq Q$ is the set of accepting states.\\
+
+Next, let us consider the language $\{a^nb^n : n \ge 0\}$ we mentioned earlier. This can be recognized by the context-free grammar
+\begin{align*}
+	S &\to \epsilon \\
+	S &\to aSb
+\end{align*}
+What this means is that beginning with the string $S$, we keep performing replacements using one of the two rules above until our current string is composed of only terminals.\\
+Another example is that of the set of non-empty strings with matched parentheses:
+\begin{align*}
+	S &\to () \\
+	S &\to (S) \\
+	S &\to SS
+\end{align*}
+
+A context-free grammar is a tuple $(V,\Sigma,R,S)$, where $V$ is a set of \emph{non-terminals} or \emph{variables}, $\Sigma$ is the alphabet, $R : V \to (V \cup \Sigma)^*$ is the finite set of \emph{rules}, and $S \in V$ is the \emph{start symbol}. The language of this grammar is the set of all strings (over terminals) derivable using the rules.\\
+
+Finally, let us look at unrestricted grammars. Consider the language $\{a^nb^nc^n : n \ge 1\}$. This can be represented by the unrestricted grammar
+\begin{align*}
+	S &\to abc \\
+	S &\to aAbc \\
+	Ab &\to bA \\
+	Ac &\to Bbcc \\
+	bB &\to Bb \\
+	aB &\to aa \\
+	aB &\to aaA
+\end{align*}
+The only difference between unrestricted and context-free grammars is that the former allow the left-hand side of the rules to be strings as well. That is, an unrestricted grammar is a tuple $(V,\Sigma,R,S)$, where $V$ is a set of non-terminals, $\Sigma$ is the alphabet, $R : (V \cup \Sigma)^* \to (V \cup \Sigma)^*$ is the finite set of rules, and $S \in V$ is the start symbol. As before, the language of this grammar is the set of all strings (over terminals) derivable using the rules.\\
