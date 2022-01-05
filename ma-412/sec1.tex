@@ -1,0 +1,108 @@
+\section{Introduction}
+
+%%% LECTURE 1
+
+\subsection{Some basic definitions}
+
+	Consider the equation $X^2 + 1 = 0$. Clearly, this equation has no roots over $\R$. Consider the set
+	\[ \C = \{ (a,b) : a,b\in\R \} = \R^2, \]
+	and define addition and subtraction over $\C$ as
+	\begin{align*}
+		(a,b) + (c,d) &= (a+c,b+d) \\
+		(a,b) \cdot (c,d) &= (ac-bd,ad+bc).
+	\end{align*}
+	It is easy to show that $(\C,+,\cdot)$ is a field with additive identity $(0,0)$ and multiplicative identity $(1,0)$. Further observe that $\R$ is a subfield of $\C$ -- consider the field homomorphism $\R \to \C$ defined by $a \mapsto (a,0)$.\\
+	Now, we denote $\iota = (0,1)$, and write $(a,b)$ as $a+b\iota$.\\
+
+	Observe that the equation $X^2 + 1 = 0$ \emph{does} have roots over $\C$ since it can be written as $(X+\iota)(X-\iota)$. For the sake of completeness, we also note that the multiplicative identity of $a+\iota b$ is
+	\[ \frac{1}{a+\iota b} = \frac{a - \iota b}{a^2 + b^2} = \frac{a}{a^2+b^2} - \frac{b}{a^2+b^2}\iota. \]
+
+	When writing $z = a + b\iota$ where $a,b\in\R$, we write $a = \Re z$ (the real part of $z$) and $b = \Im z$ (the imaginary part of $z$). We also define the absolute value $|z| = (a^2 + b^2)^{1/2}$ of $z$, and the \emph{conjugate} $\overline{z} = a - \iota b$ of $z$. We clearly have
+	\begin{align*}
+		z\overline{z} &= |z|^2 \\
+		\Re z &= \frac{z+\overline{z}}{2} \\
+		\Im z &= \frac{z-\overline{z}}{2\iota}.
+	\end{align*}
+	It is easy to check that
+	\[ \overline{z+w} = \overline{z} + \overline{w} \text{ and } \overline{z\cdot w} = \overline{z}\cdot \overline{w}. \]
+	We also have
+	\begin{align*}
+		\left| \frac{z}{w} \right| &= \frac{|z|}{|w|} \\
+		|\overline{z}| = |z|.
+	\end{align*}
+
+	\begin{exercise}
+		Check that the set
+		\[ M = \begin{pmatrix} \alpha & \beta \\ -\beta & \alpha \end{pmatrix} : \alpha,\beta\in\R \]
+		with matrix addition and multiplication is a field isomorphic to $\C$.
+	\end{exercise}
+
+	To close out the tedious part of things, we have
+	\begin{align}
+		|z+w|^2 &= |z|^2 + |w|^2 + 2 \Re(z\overline{w}) \nonumber \\
+		|z+w| &\le |z| + |w| \label{eqn: triangle inequality}
+	\end{align}
+
+	\Cref{eqn: triangle inequality} is referred to as the \emph{triangle inequality}.
+
+\subsection{Polar representations and roots}
+
+	Consider $z = x + \iota y \in \C$. We may then define
+	\[ x = r\cos\theta \;\;\;\;\; y = r\sin\theta, \]
+	where $|z| = r$ and the angle $\theta$ is called the \emph{argument} of $z$ as is denoted $\theta = \arg z$. We typically restrict $\theta$ to $(-\pi,\pi]$.\\
+	We denote $\cis\theta = \cos\theta + \iota\sin\theta$. Therefore, we have
+	\[ z = |z| \cis(\arg z). \]
+	Observe that rather conveniently,
+	\[ \cis\theta_1 \cdot \cis\theta_2 = \cis(\theta_1 + \theta_2). \]
+	Therefore, inductively,
+	\[ z_1 z_2 \cdots z_n = \left(\prod_{i} |z_i|\right) \cdots r_n \cis\left(\sum_i \arg z_i \right). \]
+	In particular,
+	\[ z^n = r^n \cis(n\theta) \]
+	for any $n > 0$. If $z \ne 0$ (equivalently, $r\ne0$), the above holds for all $n \in \Z$.\\
+	In the case where $r=1$, we have
+	\begin{equation}
+		\label{eqn: de moivre's}
+		(\cos\theta + \iota\sin\theta)^n = \cos(n\theta) + \iota\sin(n\theta)
+	\end{equation}
+	\Cref{eqn: de moivre's} is referred to as \emph{de Moivre's formula}.\\
+
+	Let us consider the equation $z^n = a$. This equation has $n$ roots of the form
+	\[ z = |a|^{1/n} \cis\left( \frac{2k\pi + \arg z}{n} \right) \]
+	for $k = 0,1,\ldots,n-1$.
+
+	A \emph{line} in the complex plane is a set of the form
+	\[ L = \{ z = a+tb : t \in \R \}, \]
+	for some fixed $a,b\in\C$, where $b$ is a \emph{directional} vector whose absolute value may be assumed to be $1$. Since $b \ne 0$, we equivalently have
+	\[ L = \{ z : \Im\left( \frac{z-a}{b} \right) = 0 \}. \]
+	We can also define the half-planes
+	\begin{align*}
+		H_a &= \{ z : \Im\left( \frac{z-a}{b} \right) > 0 \} \\
+		K_a &= \{ z : \Im\left( \frac{z-a}{b} \right) < 0 \}.
+	\end{align*}
+	Note that $H_a = a + H_0$, where the addition is Minkowski addition:
+	\[ H_a = \{ a + z : z \in H_0 \}. \]
+
+\subsection{The extended plane}
+	
+	Define $\C_\infty = \C \cup \{\infty\}$ and let $S = \{(x_1,x_2,x_3) : x_1^2 + x_2^2 + x_3^2 = 1\}$ be the unit sphere in $\R^3$. We shall show a bijection from $\C_\infty$ to $S$.\\
+	Let $N = (0,0,1)$ be the `north pole' of $S$, and orient $\C$ (as $\R^2$) in the horizontal plane in a manner such that $\C$ cuts $S$ along the equator. For $z = x + \iota y \in \C$, let us define the corresponding point $Z = (x_1,x_2,x_3) \in S$. We shall draw a line connecting $z$ to $N$, and let $Z$ be the point of intersection (other than $N$) of this line with $S$. Finally, we shall map $\infty$ to $N$.\\
+	Let us define this more explicitly. The line through $N$ and $z$ is
+	\[ L = \{ tN + (1-t)z : t \in \R \}. \]
+	Then, letting $z = (x,y,0)$, we have
+	\[ t^2 + (1-t)^2 |z|^2 = 1. \]
+	So,
+	\[ |z|^2 = \frac{1-t^2}{(1-t)^2} = \frac{1+t}{1-t} \]
+	and
+	\[ t = 1 - \frac{|z|^2-1}{|z|^2+1}. \]
+	Therefore, we map $z$ to
+	\[ Z = \left( \frac{2 \Re z}{|z|^2+1} , \frac{2 \Im z}{|z|^2+1} , \frac{|z|^2-1}{|z|^2+1}. \right) \in S. \]
+	Based on this, we can define a distance metric between points in $\C_\infty$. For $z,z' \in \C_\infty$ mapping to $Z,Z' \in S$, we let $d(z,z')$ be the Euclidean distance between $Z,Z'$ in $\R^3$. More explicitly,
+	\begin{align*}
+		d(z,z')^2 &= (x_1 - x_1')^2 + (x_2 - x_2')^2 + (x_3 - x_3')^2 \\
+			&= 2 - 2(x_1x_1' + x_2x_2' + x_3x_3') \\
+			&= \frac{2|z-z'|}{\left((|z|^2+1) (|z'|^2+1)\right)^{1/2}}
+	\end{align*}
+	when $z,z'\in\C$ and if $z' = \infty$ (so $Z' = (0,0,1)$), we have
+	\begin{align*}
+		d(z,z') &= 
+	\end{align*}
