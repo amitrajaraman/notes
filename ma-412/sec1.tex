@@ -106,3 +106,106 @@
 	\begin{align*}
 		d(z,z') &= 
 	\end{align*}
+
+	This correspondence between points of $S$ and $\C_\infty$ is called the \emph{stereographic projection}. 
+
+	\begin{exercise}
+		If $P$ is a plane in $\R^3$ and $\Lambda = P \cap S$ is a circle on $S$, show that the projection of $\Lambda$ on $\C$ under the stereographic projection is a circle as well (possibly a circle of infinite radius, namely a line).
+	\end{exercise}
+
+\subsection{Power series}
+
+	In this section, we begin discussing convergence of series in $\C$ and related properties.
+
+	\begin{fdef}
+		If $a_n \in \C$ for every $n \ge 0$, the series $\sum_{n=0}^\infty a_n$ is said to \emph{converge} to $z$ iff for all $\epsilon>0$, there exists $N \in \N$ such that
+		\[ \left| \sum_{n=0}^m a_n - z  \right| < \epsilon \]
+		for all $m \ge N$.\\
+		The series $\sum_{n=0}^\infty a_n$ is said to converge \emph{absolutely} if $\sum_{n=0}^\infty |a_n|$ converges.
+	\end{fdef}
+
+	\begin{theorem}
+		$\C$ is complete. That is, every Cauchy sequence in $\C$ is convergent.
+	\end{theorem}
+	\begin{proof}
+		Suppose $\{x_n + \iota y_n\}$ is a Cauchy sequence in $\C$, where $x_n, y_n \in \R$ for each $n$. We then have the existence of $N \in \N$ such that for all $m,k > N$, $|(x_m - x_k) + \iota(y_m - y_k)| < \epsilon$. Consequently, $|x_m - x_k| < \epsilon$ and $|y_m - y_k| < \epsilon$. However, since $\R$ is complete, this implies that $(x_n)$ and $(y_n)$ are convergent, completing the proof. 
+	\end{proof}	
+
+	\begin{theorem}
+		If $\sum a_n$ converges absolutely, $\sum a_n$ converges.
+	\end{theorem}
+	\begin{proof}
+		Let $\epsilon > 0$, $z_n = \sum_{i=0}^n a_i$, and $S_n = \sum_{i=0}^n |a_i|$. Because $\C$ is complete, it suffices to show that $(z_n)$ is Cauchy. \\
+		Since $\sum |a_n|$ is convergent, there exists $N \in \N$ such that $|S_m - S_k| < \epsilon$ for all $m,k > N$. Supposing $m > k$, we have
+		\[ S_m - S_k = \sum_{i=k+1}^m |a_i|. \]
+		So,
+		\begin{align*}
+			|z_m - z_k| &= \left| \sum_{i=k+1}^m a_i \right| \\
+				&\ge \sum_{i=k+1}^m |a_i| < \epsilon,
+		\end{align*}
+		completing the proof.
+	\end{proof}
+
+	\begin{exercise}
+		\label{ex: conv of summ zn}
+		Show that $\sum_{n=0}^\infty z_n$ converges iff $|z| < 1$.
+	\end{exercise}
+
+	\begin{ftheo}
+		For a given power series $\sum_{n=0}^\infty a_n (z-a)^n$, define the number of $R$ ($0\le R\le \infty$) by
+		\[ \frac{1}{R} = \limsup |a_n|^{1/n}. \]
+		Then,
+		\begin{itemize}
+			\item[(a)] If $|z-a| < R$, the series converges absolutely.
+			\item[(b)] If $|z-a| > R$, the terms of the series become unbounded and the series diverges.
+			\item[(b)] If $0 < r < R$, the series converges uniformly on the set $\{ z : |z-a| \le r \}$.
+		\end{itemize}
+	\end{ftheo}
+
+	This $R$ is referred to as the \emph{radius of convergence} of the power series.
+
+	\begin{proof}
+		\phantom{easter}
+		\begin{itemize}
+			\item[(a)]
+			We assume without loss of generality that $a = 0$. If $|z| < R$, there exists $r$ with $|z| < r < R$. By the definition of $R$, for all $\epsilon>0$, there exists $N \in \N$ such that
+			\[ \frac{1}{R} - \epsilon < \sup_{k \ge n} |a_k|^{1/k} < \frac{1}{R} + \epsilon \]
+			for all $n > N$. If we take $\epsilon = 1/r - 1/R$, it follows that $|a_n|^{1/n} < 1/r$ for all $n > N$. That is, for all $n > N$, $|a_n| < 1/r^n$ and so 
+			\[ |a_n z^n| < \left(\frac{|z|}{r}\right)^n. \]
+			Therefore, $\sum_{n=N}^\infty a_n z^n$ is dominated by $\sum_{n=N}^\infty (|z|/r)^n$. Now however, we can just use the result of \Cref{ex: conv of summ zn} to conclude absolute convergence since $|z|/r < 1$.
+			
+			\item[(b)]
+			Let $|z| > R$ and choose $r$ with $|z| > r > R$. For $\epsilon > 0$, there exists $N \in \N$ such that
+			\[ \frac{1}{R} - \epsilon < \sup_{k \ge n} |a_k|^{1/k} \text{ for all $n > N$}. \]
+			Choosing $\epsilon = 1/R - 1/r$,
+			\[ |a_n|^{1/n} > 1/r \]
+			for infinitely many $n \in \N$. It follows that $|a_n z^n| > (|z|/r)^n$ for infinitely many $n \in \N$. Since $|z|/r > 1$, these terms become unbounded and therefore the series diverges.
+
+			\item[(c)]
+			Now, suppose $r<R$ and choose $\rho$ such that $r<\rho<R$. Similar to the argument in (a), we get that
+			\[ |a_n| < \frac{1}{\rho^n} \text{ for all $n\ge N$.} \]
+			If $|z| \le r$, $|a_n z^n| \le (r/\rho)^n$ and $r/\rho < 1$. The Weierstrass $M$-test then gives that the power series converges uniformly on $\{z : |z| \le r\}$. \qedhere
+		\end{itemize}
+	\end{proof}
+
+	It should be noted that we cannot conclude anything when $|z-a|=R$.
+
+	\begin{theorem}
+		If $\sum a_n (z-a)^n$ is a given power series 
+	\end{theorem}
+	\begin{proof}
+		Again, assume that $a = 0$ and let $\alpha = \lim |a_n / a_{n+1}|$, which we assume exists. Suppose that $|z| < \alpha$ and take $r \in \R$ such that $|z| < r < \alpha$. For all $\epsilon > 0$, there exists $N \in \N$ such that for $n \ge N$,
+		\[ \alpha - \epsilon < \left|\frac{a_n}{a_{n+1}}\right| < \alpha + \epsilon. \]
+		Taking $\epsilon = \alpha - r$, $|a_n / a_{n+1}| > r$ for all $n \ge N$. Let $B = |a_N| r^N$. Then,
+		\[ a_{N+1} r^{N+1} = |a_{N+1}| r \cdot r^N < |a_N| r^N = B. \]
+		Similarly, we get that $|a_n| r^n < B$ for all $n \ge N$. Therefore,
+		\[ |a_n z^n| < B \left( \frac{|z|}{r} \right)^n \]
+		for all $n \ge N$. Thus, the sequence converges absolutely since $|z| < r$.\\
+		Since $r < \alpha$ was arbitrary, this implies that $\alpha \le R$.\\
+
+		On the other hand, if $|z| > \alpha$, take $r \in \R$ such that $|z| > r > \alpha$. Taking $\epsilon = r - \alpha$, we get $N \in \N$ such that
+		\[ \left|\frac{a_n}{a_{n+1}}\right| < r \]
+		for all $n \ge N$. Letting $B = |a_N| r^N$ again, we once more obtain that $|a_n| r^n > B$ for all $n \ge N$. This gives that
+		\[ |a_n z^n| > B \left( \frac{|z|}{r} \right)^n  \]
+		for all $n \ge N$, and since $|z| > r$, the sequence diverges (we can deal with the case where $B = 0$ separately). Since the choice of $r$ was arbitrary, this implies that $R \le \alpha$, completing the proof.
+	\end{proof}

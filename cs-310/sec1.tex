@@ -85,3 +85,24 @@ Finally, let us look at unrestricted grammars. Consider the language $\{a^nb^nc^
 	aB &\to aaA
 \end{align*}
 The only difference between unrestricted and context-free grammars is that the former allow the left-hand side of the rules to be strings as well. That is, an unrestricted grammar is a tuple $(V,\Sigma,R,S)$, where $V$ is a set of non-terminals, $\Sigma$ is the alphabet, $R : (V \cup \Sigma)^* \to (V \cup \Sigma)^*$ is the finite set of rules, and $S \in V$ is the start symbol. As before, the language of this grammar is the set of all strings (over terminals) derivable using the rules.\\
+
+%% LEC 3
+
+Similar to how context-free grammars are equivalent to pushdown automata, \emph{regular expressions} are equivalent to ordinary finite state automata. These are defined as follows:
+\begin{enumerate}
+	\item $\emptyset$, $\{\epsilon\}$, and $\{a\}$ (for any $a\in\Sigma$) are regular expressions. The second and third sets are often represented as just $\epsilon$ or $a$.
+	\item if $E_1, E_2$ are regular expressions,
+	\begin{enumerate}
+		\item $E_1 + E_2$, where the $+$ represents union, is a regular expression.
+		\item $E_1 E_2$, the concatenation of the two expressions, is a regular expression.
+		\[ E_1 E_2 = \{ uv : u \in E_1, v \in E_2 \}. \]
+		\item $E_1^*$ is a regular expression, where $^*$ is the \emph{Kleene star} operation defined by
+		\[ E_1^* = \{u_1u_2\cdots u_n : n \ge 0, u_i \in E_1\text{ for each }i \}. \]
+		\item $(E_1)$ is a regular expression.
+	\end{enumerate}
+\end{enumerate}
+
+So, for example, the language $L$ comprised of the set of all strings with an even number of $a$s over the alphabet $\Sigma = \{a,b\}$ can be defined using the regular expression $b^*(ab^*ab^*)^*$.
+As a slightly harder example, the language $L$ comprised of the set of all strings with an even number of $a$s and odd number of $b$s over the alphabet $\Sigma = \{a,b\}$ can be defined as.\\
+
+In pushdown automata, we have a normal FSM along with a stack. The stack has a stack alphabet (that need not be the same as the actual alphabet of the automaton). On each letter of input, we can move to another state and either push a particular symbol onto the stack or pop the topmost symbol. This is usually drawn in the usual FSM way by changing the label of each arrow from just something like $a$ (the read letter) to $a, X | aX$ or $b, aX | X$, which represents that we transition to another state and also push $a$ onto the stack/pop $a$ from the stack. The stack begins with a single symbol $Z_0$, which represents the bottom of the stack. Note that this means that $Z_0$ is always a part of the stack alphabet. Finally, we accept the input iff the stack is empty.
