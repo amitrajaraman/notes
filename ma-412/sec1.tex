@@ -153,7 +153,7 @@
 
 	\begin{ftheo}
 		For a given power series $\sum_{n=0}^\infty a_n (z-a)^n$, define the number of $R$ ($0\le R\le \infty$) by
-		\[ \frac{1}{R} = \limsup |a_n|^{1/n}. \]
+		\[ \frac{1}{R} = \limsup_{n\to\infty} |a_n|^{1/n}. \]
 		Then,
 		\begin{itemize}
 			\item[(a)] If $|z-a| < R$, the series converges absolutely.
@@ -207,5 +207,95 @@
 		\[ \left|\frac{a_n}{a_{n+1}}\right| < r \]
 		for all $n \ge N$. Letting $B = |a_N| r^N$ again, we once more obtain that $|a_n| r^n > B$ for all $n \ge N$. This gives that
 		\[ |a_n z^n| > B \left( \frac{|z|}{r} \right)^n  \]
-		for all $n \ge N$, and since $|z| > r$, the sequence diverges (we can deal with the case where $B = 0$ separately). Since the choice of $r$ was arbitrary, this implies that $R \le \alpha$, completing the proof.
+		for all $n \ge N$, and since $|z| > r$, the sequence diverges (we may assume that $B \ne 0$ by making $N$ larger if required to ensure that $a_N \ne 0$ -- if this is not possible, the problem is trivial since it means that $(a_n)$ is eventually $0$). Since the choice of $r$ was arbitrary, this implies that $R \le \alpha$, completing the proof.
 	\end{proof}
+
+	Now, consider the series
+	\[ \sum_{n=0}^\infty \frac{z^n}{n!}. \]
+	The radius of convergence of this series is $\infty$. So, it converges for any complex number $z$, and convergence is uniform on eveyr compact subset of $\C$.\\
+	The above defines a function $\exp:\C\to\C$.\\
+	We also denote $e^z = \exp(z)$.
+
+	\begin{fdef}[Differentiability]
+		If $G$ is an open set in $\C$ and $f : G \to \C$, then $f$ is said to be \emph{differentiable} at a point $a \in G$ if the limit
+		\[ \lim_{h\to 0} \frac{f(a+h) - f(a)}{h} \]
+		exists. If it exists, the value of this limit is denoted $f'(a)$ and is called the \emph{derivative} of $f$ at $a$.
+	\end{fdef}
+
+	If $f$ is differentiable at each point of $G$, we say that $f$ is differentiable on $G$. Note that if $f$ is differentiable on $G$, then $f' : G \to \C$ is a function. If $f'$ is continuous, $f$ is said to be \emph{continuously differentiable}.
+
+	\begin{theorem}
+		If $f : G \to \C$ is differentiable at a point $a \in G$, $f$ is continuous at $a$.
+	\end{theorem}
+	\begin{proof}
+		The proof of this is direct:
+		\begin{align*}
+			\lim_{z \to a} |f(z) - f(a)| &= \left( \lim_{z \to a} \frac{|f(z)-f(a)|}{|z-a|} \right) \cdot \lim_{z\to a} |z-a| \\
+				&= f'(a) \cdot 0 = 0. \qedhere
+		\end{align*}
+	\end{proof}
+
+	\begin{fdef}
+		A function $f : G \to \C$ is said to be \emph{analytic} if $f$ is continuously differentiable on $G$.
+	\end{fdef}
+
+	Let $f,g$ be analytic on $G$ and $\Omega$ respectively, and suppose that $f(G) \subseteq \Omega$. Then, $g \circ f$ is analytic on $G$ and
+	\[ (g \circ f)'(z) = g'(f(z)) \cdot f'(z) \]
+	for all $z \in G$. This is called the \emph{chain rule}.\\
+
+	We shall show later that if $f$ is differentiable then its derivative is continuous, and so $f$ is analytic.
+
+	\begin{ftheo}
+		Let $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ have radius of convergence $R > 0$. Then
+		\begin{itemize}
+			\item[(a)] For each $k \ge 1$, the series
+			\[ \sum_{n=k}^\infty n(n-1)\cdots(n-k+1) a_n (z-a)^{n-k} \]
+			has radius of convergence $R$.
+
+			\item[(b)] The function $f$ is infinitely differentiable on $B(a,R)$ (the open ball of radius $R$ centered at $a$), and further, $f^{(k)}(z)$ is given by the series in (a) for all $k \ge 1$ and $|z-a| < R$.
+
+			\item[(c)] For $n \ge 0$, $a_n = \frac{1}{n!} f^{(n)}(a)$. 
+		\end{itemize}
+	\end{ftheo}
+
+	\begin{proof}
+		Assume that $a = 0$.
+		\begin{itemize}
+			\item[(a)] Note that it suffices to prove the result for $k = 1$ (Why?). To show this, it is enough to show that
+			\[ \limsup_{n\to\infty} |a_n|^{1/n} = \limsup_{n\to\infty} |na_n|^{1/(n-1)} \]
+			First, it is not difficult to show that $\lim_{n\to\infty} n^{1/(n-1)} = 1$. Therefore, we are done if we show that $\limsup_{n\to\infty} |a_n|^{1/n} = \limsup_{n\to\infty} |a_n|^{1/(n-1)}$.
+			\[ \sum_{n=0}^\infty a_n z^n = a_0 + z\sum_{n=0}^\infty a_{n+1} z^n. \]
+			Let $R'$  be the radius of convergence of $\sum_{n=0}^\infty a_{n+1} z^n$. We want to show that $R' = R$. \\
+			If $|z| < R'$, then 
+			\[ \sum |a_n z^n| \le |a_0| + |z| \sum_{n=0}^\infty |a_{n+1} z^n| < \infty, \]
+			so $R' \le R$. On the other hand, if $|z| < R$ and $z \ne 0$,
+			\[ \sum |a_{n+1} z^n| < \frac{1}{|z|} \left(\sum |a_n z^n| + |a_0|\right) < \infty, \]
+			so $R \le R'$ and we are done.
+
+			\item[(b)] Once again, it suffices to prove the result for $k = 0$. For $|z| < R$ and $g(z) = \sum_{n=1}^\infty n a_n z^{n-1}$,
+			\[ s_n(z) = \sum_{k=0}^n a_k z^k \text{ and } R_n(z) = \sum_{k=n+1}^\infty a_k z^k, \]
+			fix a point $w \in B(0,R)$ and $r$ such that $|w| < r < R$. We wish to show that $f'(w)$ exists and is equal to $g(w)$. Let $\delta > 0$ be arbitrary with $\overline{B(w,\delta)} \subseteq B(0,r)$. Letting $z \in B(w,\delta)$, we have
+			\begin{align*}
+				\frac{f(z)-f(w)}{z-w} - g(w) &= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \frac{R_n(z) - R_n(w)}{z-w} \\
+					&= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \frac{1}{z-w} \sum_{k=n+1}^\infty a_k (z^k - w^k) \\
+					&= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \sum_{k=n+1}^\infty a_k \frac{z^k - w^k}{z-w}.
+			\end{align*}
+			We have
+			\[ |z^k - w^k| = |z-w||z^{k-1} + z^{k-2}w + \cdots + w^{k-1}| \le |z-w| kr^{k-1}. \]
+			Therefore,
+			\[ \left| \frac{R_n(z) - R_n(w)}{z-w} \right| \le \sum_{k=n+1}^\infty |a_k| k r^{k-1}. \]
+			Since $r < R$, $\sum_{k=1}^\infty |a_k| k r^{k-1}$ converges and so for any $\epsilon > 0$, there exists $N_1 \in N$ such that
+			\[ \left| \frac{R_n(z) - R_n(w)}{z-w} \right| < \epsilon/3. \]
+			Since $\lim s_n'(w) = g(w)$, there exists $N_2 \in \N$ such that
+			\[ |s_n'(w) - g(w)| < \epsilon/3 \]
+			for $n \ge N_2$. Choose $n \ge \max(N_1, N_2)$. Then, there exists $\delta < 0$ such that whenever $0 < |z-w| < \delta$,
+			\[ \left| \frac{s_n(z) - s_n(w)}{z-w} - s_n'(w) \right| < \epsilon/3. \]
+			Putting all these together, we get the desideratum.
+
+			\item[(c)] This is straightforward using the explicit expression for $f^{(k)}(a)$.
+		\end{itemize}
+	\end{proof}
+
+	If the series $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ has radius of convergence $R > 0$, then $f$ is analytic on $B(a,R)$. Therefore, $\exp$ is analytic on $\C$.
+
+	
