@@ -191,7 +191,8 @@
 	It should be noted that we cannot conclude anything when $|z-a|=R$.
 
 	\begin{theorem}
-		If $\sum a_n (z-a)^n$ is a given power series 
+		If $\sum a_n (z-a)^n$ is a power series with radius of convergence $R$, then if it exists,
+		\[ \lim_{n\to\infty} \left| \frac{a_n}{a_{n+1}} \right| = R. \] 
 	\end{theorem}
 	\begin{proof}
 		Again, assume that $a = 0$ and let $\alpha = \lim |a_n / a_{n+1}|$, which we assume exists. Suppose that $|z| < \alpha$ and take $r \in \R$ such that $|z| < r < \alpha$. For all $\epsilon > 0$, there exists $N \in \N$ such that for $n \ge N$,
@@ -263,7 +264,7 @@
 		\begin{itemize}
 			\item[(a)] Note that it suffices to prove the result for $k = 1$ (Why?). To show this, it is enough to show that
 			\[ \limsup_{n\to\infty} |a_n|^{1/n} = \limsup_{n\to\infty} |na_n|^{1/(n-1)} \]
-			First, it is not difficult to show that $\lim_{n\to\infty} n^{1/(n-1)} = 1$. Therefore, we are done if we show that $\limsup_{n\to\infty} |a_n|^{1/n} = \limsup_{n\to\infty} |a_n|^{1/(n-1)}$.
+			First, it is not difficult to show that $\lim_{n\to\infty} n^{1/(n-1)} = 1$. It may be shown that for any sequences $(c_n),(d_n)$ in $\R$ where $c_n \ge 0$, if $\lim c_n = c$ and $\limsup d_n = d$, then $\limsup c_n d_n = cd$. Therefore, we are done if we show that $\limsup_{n\to\infty} |a_n|^{1/n} = \limsup_{n\to\infty} |a_n|^{1/(n-1)}$.
 			\[ \sum_{n=0}^\infty a_n z^n = a_0 + z\sum_{n=0}^\infty a_{n+1} z^n. \]
 			Let $R'$  be the radius of convergence of $\sum_{n=0}^\infty a_{n+1} z^n$. We want to show that $R' = R$. \\
 			If $|z| < R'$, then 
@@ -292,10 +293,8 @@
 			\[ \left| \frac{s_n(z) - s_n(w)}{z-w} - s_n'(w) \right| < \epsilon/3. \]
 			Putting all these together, we get the desideratum.
 
-			\item[(c)] This is straightforward using the explicit expression for $f^{(k)}(a)$.
+			\item[(c)] This is straightforward using the explicit expression for $f^{(k)}(a)$. \qedhere
 		\end{itemize}
 	\end{proof}
 
 	If the series $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ has radius of convergence $R > 0$, then $f$ is analytic on $B(a,R)$. Therefore, $\exp$ is analytic on $\C$.
-
-	
