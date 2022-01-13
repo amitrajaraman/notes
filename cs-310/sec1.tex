@@ -10,15 +10,15 @@ Now, we must write a program that given a string $s$ over the alphabet $\{a,b\}$
 
 \begin{center}
     \begin{tikzpicture}[node distance=3cm]
-    \node[initial, accepting, state] (1) {S};
-    \node[state] (2) [below right of=1] {R};
-    \node[state, accepting] (3) [above right of=2] {A};
+    \node[initial, accepting, state] (1) {$S$};
+    \node[state] (2) [below right of=1] {$R$};
+    \node[state, accepting] (3) [above right of=2] {$A$};
 
     \draw (1) edge[loop above] node[align=center]{$a$} (1)
     	  (1) edge[above] node[align=center]{$b$} (3)
     	  (3) edge[loop above] node[align=center]{$b$} (3)
     	  (3) edge[right] node[align=center]{$a$} (2)
-    	  (3) edge[loop below] node[align=center]{$a,b$} (3);
+    	  (2) edge[loop below] node[align=center]{$a,b$} (2);
     \end{tikzpicture}
 \end{center}
 
