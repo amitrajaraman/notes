@@ -9,21 +9,21 @@ Finite automata are a good place to begin that are good models for computers wit
 \begin{example}
 For starters, consider an automatic door controller. It has a front pad, a back pad and a door. The door can be either open or closed and each of the pads can be either pressed or not pressed. Using this, we can construct a ``state diagram'' to show how the state of the system proceeds:
 \begin{center}
-    \begin{tikzpicture}[node distance=3cm]
-    \node[state] (1) {Closed};
-    \node[state] (2) [right of=1] {Open};
+	\begin{tikzpicture}[node distance=3cm]
+	\node[state] (1) {Closed};
+	\node[state] (2) [right of=1] {Open};
 
-    \draw (1) edge[loop above] node[align=center]{Rear\\ Both\\ Neither} (1)
-          (2) edge[loop above] node[align=center]{Front\\ Both\\ Neither} (2)
-          (1) edge[bend left, above] node{Front} (2)
-          (2) edge[bend left, below] node{Neither} (1);
-    \end{tikzpicture}
+	\draw (1) edge[loop above] node[align=center]{Rear\\ Both\\ Neither} (1)
+		  (2) edge[loop above] node[align=center]{Front\\ Both\\ Neither} (2)
+		  (1) edge[bend left, above] node{Front} (2)
+		  (2) edge[bend left, below] node{Neither} (1);
+	\end{tikzpicture}
 \end{center}
 
 It can also be represented by the following table:
 \begin{center}
 \begin{tabular}{l|llll}
-       & Front  & Back   & Neither & Both   \\ \hline
+	   & Front  & Back   & Neither & Both   \\ \hline
 Closed & Open   & Closed & Closed  & Closed \\
 Open   & Closed & Closed & Open    & Closed  
 \end{tabular}
@@ -40,15 +40,15 @@ Let us look at another finite automaton to cement the idea before exactly defini
 Consider the following state diagram of an automaton $M$.
 \begin{center}
   \begin{tikzpicture}
-    \node[state, initial] (q1) {$q_1$};
-    \node[state, accepting, right of=q1] (q2) {$q_2$};
-    \node[state, right of=q2] (q3) {$q_3$};
-    \draw (q1) edge[loop above] node{$0$} (q1)
-          (q2) edge[loop above] node{$1$} (q2)
-          (q1) edge[above] node{$1$} (q2)
-          (q2) edge[bend left, above] node{$0$} (q3)
-          (q3) edge[bend left, below] node{$0,1$} (q2);
-    \end{tikzpicture}
+	\node[state, initial] (q1) {$q_1$};
+	\node[state, accepting, right of=q1] (q2) {$q_2$};
+	\node[state, right of=q2] (q3) {$q_3$};
+	\draw (q1) edge[loop above] node{$0$} (q1)
+		  (q2) edge[loop above] node{$1$} (q2)
+		  (q1) edge[above] node{$1$} (q2)
+		  (q2) edge[bend left, above] node{$0$} (q3)
+		  (q3) edge[bend left, below] node{$0,1$} (q2);
+	\end{tikzpicture}
 \end{center}
 It has three \textit{states}, $q_1, q_2$ and $q_3$. The \textit{start state}, $q_1$ is indicated as shown. The \textit{accept state}, $q_2$ is indicated by the double circle. The arrows are called \textit{transitions}. When the automaton receives some input string like \texttt{11001}, it processes the string and produces some output, ``accept" or ``reject". For now, we will consider only yes/no questions like this one.
 
@@ -58,11 +58,11 @@ An obvious question to ask is: What language of input strings give an accept out
 \begin{definition}
 A \textit{deterministic finite automaton} is a $5$-tuple $(Q,\Sigma, \delta, q_0, F)$ where
 \begin{itemize}
-    \item $Q$ is a finite set called the set of \textit{states}.
-    \item $\Sigma$ is a finite set of input symbols called the \textit{alphabet}.
-    \item $\delta:Q\times\Sigma\to Q$ is the \textit{transition function}.
-    \item $q_0\in Q$ is the \textit{start state}.
-    \item $F\subseteq Q$ is the \textit{set of accept states}.
+	\item $Q$ is a finite set called the set of \textit{states}.
+	\item $\Sigma$ is a finite set of input symbols called the \textit{alphabet}.
+	\item $\delta:Q\times\Sigma\to Q$ is the \textit{transition function}.
+	\item $q_0\in Q$ is the \textit{start state}.
+	\item $F\subseteq Q$ is the \textit{set of accept states}.
 \end{itemize}
 \end{definition}
 
@@ -71,19 +71,19 @@ Accept states are also sometimes called \textit{final states}.
 \begin{example}
 The finite automaton $M$ we described earlier can be put in this format in the following way: 
 \begin{itemize}
-    \item $Q=\{q_1,q_2,q_3\}$
-    \item $\Sigma=\{0,1\}$
-    \item $\delta$ is described as follows:
-    \begin{center}
-        \begin{tabular}{l|ll}
-            & $0$  & $1$   \\ \hline
-            $q_1$ & $q_1$   & $q_2$\\
-            $q_2$ & $q_3$ & $q_2$\\
-            $q_3$ & $q_2$ & $q_2$
-        \end{tabular}
-    \end{center}
-    \item $q_1$ is the start state, and
-    \item $F=\{q_2\}$
+	\item $Q=\{q_1,q_2,q_3\}$
+	\item $\Sigma=\{0,1\}$
+	\item $\delta$ is described as follows:
+	\begin{center}
+		\begin{tabular}{l|ll}
+			& $0$  & $1$   \\ \hline
+			$q_1$ & $q_1$   & $q_2$\\
+			$q_2$ & $q_3$ & $q_2$\\
+			$q_3$ & $q_2$ & $q_2$
+		\end{tabular}
+	\end{center}
+	\item $q_1$ is the start state, and
+	\item $F=\{q_2\}$
 \end{itemize}
 \end{example}
 
@@ -94,9 +94,9 @@ In our example, $$L(M)=\{w\mid w\text{ contains at least one $1$ and an even num
 \begin{definition}
 Let $M=(Q,\Sigma, \delta, q_0, F)$ be a deterministic finite automaton and let $w=w_1w_2\cdots w_n$ be a string where each $w_i\in\Sigma$. Then $M$ \textit{accepts} $w$ if a sequence of states $r_0, r_1, \ldots, r_n$ in $Q$ exist with three conditions:
 \begin{enumerate}
-    \item $r_0=q_0$,
-    \item $\delta(r_i, w_{i+1})=r_{i+1}$ for $i=0,1,\ldots, n-1$ and
-    \item $r_n\in F$.
+	\item $r_0=q_0$,
+	\item $\delta(r_i, w_{i+1})=r_{i+1}$ for $i=0,1,\ldots, n-1$ and
+	\item $r_n\in F$.
 \end{enumerate}
 
 We say that $M$ \textit{recognizes} language $A$ if $A=\{w\mid M\text{ accepts }w\}$.
@@ -110,9 +110,9 @@ We define three operations on languages, called \textit{regular operations}, and
 \begin{definition}
 Let $A$ and $B$ be languages. We define the following \textit{regular operations}:
 \begin{itemize}
-    \item \textit{Union}: $A\cup B=\{x\mid x\in A \text{ or }x\in B\}$.
-    \item \textit{Concatenation}: $A\circ B=\{xy\mid x\in A\text{ and }y\in B\}$.
-    \item \textit{Kleene Star}: $A^*=\{x_1x_2\cdots x_k\mid k\geq 0\text{ and each }x_i\in A\}$
+	\item \textit{Union}: $A\cup B=\{x\mid x\in A \text{ or }x\in B\}$.
+	\item \textit{Concatenation}: $A\circ B=\{xy\mid x\in A\text{ and }y\in B\}$.
+	\item \textit{Kleene Star}: $A^*=\{x_1x_2\cdots x_k\mid k\geq 0\text{ and each }x_i\in A\}$
 \end{itemize}
 \end{definition}
 
@@ -142,15 +142,15 @@ We shall abbreviate ``nondeterministic finite automaton'' as NFA and ``determini
 The following is an NFA (and not a DFA):
 \begin{center}
 \begin{tikzpicture}
-    \node[state, initial] (q1) {$q_1$};
-    \node[state, right of=q1] (q2) {$q_2$};
-    \node[state, right of=q2] (q3) {$q_3$};
-    \node[state, accepting, right of=q3] (q4) {$q_4$};
-    \draw (q1) edge[loop above] node{0,1} (q1)
-          (q4) edge[loop above] node{0,1} (q4)
-          (q1) edge[above] node{$1$} (q2)
-          (q2) edge[above] node{$0,\varepsilon$} (q3)
-          (q3) edge[above] node{$1$} (q4);
+	\node[state, initial] (q1) {$q_1$};
+	\node[state, right of=q1] (q2) {$q_2$};
+	\node[state, right of=q2] (q3) {$q_3$};
+	\node[state, accepting, right of=q3] (q4) {$q_4$};
+	\draw (q1) edge[loop above] node{0,1} (q1)
+		  (q4) edge[loop above] node{0,1} (q4)
+		  (q1) edge[above] node{$1$} (q2)
+		  (q2) edge[above] node{$0,\varepsilon$} (q3)
+		  (q3) edge[above] node{$1$} (q4);
 \end{tikzpicture}
 \end{center}
 \end{example}
@@ -174,44 +174,44 @@ But why are NFAs important? As we shall see shortly, every NFA can be converted 
 Let $A$ be the language consisting of all strings over $\{0,1\}$ containing a $1$ in the third position from the end. The following NFA recognizes $A$.
 \begin{center}
 \begin{tikzpicture}
-    \node[state, initial] (q1) {$q_1$};
-    \node[state, right of=q1] (q2) {$q_2$};
-    \node[state, right of=q2] (q3) {$q_3$};
-    \node[state, accepting, right of=q3] (q4) {$q_4$};
-    \draw (q1) edge[loop above] node{$0,1$} (q1)
-          (q1) edge[above] node{$1$} (q2)
-          (q2) edge[above] node{$0,1$} (q3)
-          (q3) edge[above] node{$0,1$} (q4);
+	\node[state, initial] (q1) {$q_1$};
+	\node[state, right of=q1] (q2) {$q_2$};
+	\node[state, right of=q2] (q3) {$q_3$};
+	\node[state, accepting, right of=q3] (q4) {$q_4$};
+	\draw (q1) edge[loop above] node{$0,1$} (q1)
+		  (q1) edge[above] node{$1$} (q2)
+		  (q2) edge[above] node{$0,1$} (q3)
+		  (q3) edge[above] node{$0,1$} (q4);
 \end{tikzpicture}
 \end{center}
 
 The following DFA also recognizes $A$.
 \begin{center}
 \begin{tikzpicture}[node distance=3cm]
-    \node[state, initial] (q000) {$q_{000}$};
-    \node[state, accepting, right of=q000] (q100) {$q_{100}$};
-    \node[state, below of=q000] (q001) {$q_{001}$};
-    \node[state, accepting, right of=q001] (q101) {$q_{101}$};
-    \node[state, right of=q100] (q010) {$q_{010}$};
-    \node[state, right of=q101] (q011) {$q_{011}$};
-    \node[state, right of=q010, accepting] (q110) {$q_{110}$};
-    \node[state, right of=q011, accepting] (q111) {$q_{111}$};
-    \draw (q000) edge[loop above] node{0} (q000)
-          (q111) edge[loop right] node{1} (q111)
-          (q100) edge[above] node{0} (q000)
-          (q000) edge[left] node{1} (q001)
-          (q101) edge[above] node{1} (q011)
-          (q011) edge[above] node{1} (q111)
-          (q111) edge[right] node{0} (q110)
-          (q010) edge[above] node{0} (q100)
-          (q011) edge[right] node{0} (q110)
-          (q101) edge[bend left=10, above, pos=0.25] node{0} (q010)
-          (q010) edge[bend left=10, below, pos=0.25] node{1} (q101)
-          (q001) edge[above] node{0} (q010)
-          (q100) edge[above] node{1} (q001)
-          (q110) edge[bend right, above] node{0} (q100)
-          (q001) edge[bend right, below] node{1} (q011)
-          (q110) edge[below] node{1} (q101);
+	\node[state, initial] (q000) {$q_{000}$};
+	\node[state, accepting, right of=q000] (q100) {$q_{100}$};
+	\node[state, below of=q000] (q001) {$q_{001}$};
+	\node[state, accepting, right of=q001] (q101) {$q_{101}$};
+	\node[state, right of=q100] (q010) {$q_{010}$};
+	\node[state, right of=q101] (q011) {$q_{011}$};
+	\node[state, right of=q010, accepting] (q110) {$q_{110}$};
+	\node[state, right of=q011, accepting] (q111) {$q_{111}$};
+	\draw (q000) edge[loop above] node{0} (q000)
+		  (q111) edge[loop right] node{1} (q111)
+		  (q100) edge[above] node{0} (q000)
+		  (q000) edge[left] node{1} (q001)
+		  (q101) edge[above] node{1} (q011)
+		  (q011) edge[above] node{1} (q111)
+		  (q111) edge[right] node{0} (q110)
+		  (q010) edge[above] node{0} (q100)
+		  (q011) edge[right] node{0} (q110)
+		  (q101) edge[bend left=10, above, pos=0.25] node{0} (q010)
+		  (q010) edge[bend left=10, below, pos=0.25] node{1} (q101)
+		  (q001) edge[above] node{0} (q010)
+		  (q100) edge[above] node{1} (q001)
+		  (q110) edge[bend right, above] node{0} (q100)
+		  (q001) edge[bend right, below] node{1} (q011)
+		  (q110) edge[below] node{1} (q101);
 \end{tikzpicture}
 \end{center}
 \end{example}
@@ -222,11 +222,11 @@ Let us now formally define an NFA.
 \begin{definition}
 A nondeterministic finite automaton is a $5$-tuple $(Q,\Sigma,\delta,q_0,F)$, where
 \begin{itemize}
-    \item $Q$ is a finite set of states.
-    \item $\Sigma$ is a finite alphabet.
-    \item $\delta:Q\times\Sigma_\varepsilon\to\mathcal{P}(Q)$ is the transition function.
-    \item $q_0\in Q$ is the start state, and
-    \item $F\subseteq Q$ is the set of accept states.
+	\item $Q$ is a finite set of states.
+	\item $\Sigma$ is a finite alphabet.
+	\item $\delta:Q\times\Sigma_\varepsilon\to\mathcal{P}(Q)$ is the transition function.
+	\item $q_0\in Q$ is the start state, and
+	\item $F\subseteq Q$ is the set of accept states.
 \end{itemize}
 \end{definition}
 
@@ -235,9 +235,9 @@ Here $\Sigma_\varepsilon$ is $\Sigma\cup\{\varepsilon\}$ and $\mathcal{P}(Q)$ is
 \vspace{3mm}
 Let $w=y_1y_2\cdots y_m$ be a string over the alphabet $\Sigma$. We say that a nondeterministic finite automaton N \textit{accepts} $w$ if we can write $w$ as $w=y_1y_2\cdots y_m$ where each $y_i\in\Sigma_\varepsilon$ and a sequence of states $r=r_0,r_1,\ldots,r_m$ exists in $Q$ such that:
 \begin{itemize}
-    \item $r_0=q_0$,
-    \item $r_{i+1}\in\delta(r_i, y_{i+1})$ for $i=0,1,\ldots,m-1$ and
-    \item $r_m\in F$.
+	\item $r_0=q_0$,
+	\item $r_{i+1}\in\delta(r_i, y_{i+1})$ for $i=0,1,\ldots,m-1$ and
+	\item $r_m\in F$.
 \end{itemize}
 
 \begin{definition}
@@ -250,10 +250,10 @@ Every nondeterministic finite automaton has an equivalent deterministic finite a
 \begin{proof}
 Let us first do this for the case where there are no $\varepsilon$ arrows. Then given an NFA $N=(Q,\Sigma,\delta,q_0,F)$ that recognizes language $A$, we can construct the DFA $M=(Q',\Sigma,\delta',q_0',F')$ such that
 \begin{itemize}
-    \item $Q'=\mathcal{P}(Q)$. $\mathcal{P}(Q)$ is the power set of $Q$.
-    \item For any $R\in Q'$ and symbol $a$, $$\delta'(R,a)=\bigcup_{r\in R}\delta(r,a).$$
-    \item $q_0'=\{q_0\}$.
-    \item $F'=\{q\in Q\mid q\text{ contains at least one accept state}\}$.
+	\item $Q'=\mathcal{P}(Q)$. $\mathcal{P}(Q)$ is the power set of $Q$.
+	\item For any $R\in Q'$ and symbol $a$, $$\delta'(R,a)=\bigcup_{r\in R}\delta(r,a).$$
+	\item $q_0'=\{q_0\}$.
+	\item $F'=\{q\in Q\mid q\text{ contains at least one accept state}\}$.
 \end{itemize}
 Now we need to consider the $\varepsilon$ arrows as well. For any $R\in Q'$, define $$E(R)=\{q\mid q \text{ can be reached from $R$ by traveling along $0$ or more $\varepsilon$ arrows}\}.$$
 
@@ -282,19 +282,19 @@ Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A_1$ and $N_2=(Q_2,\Sigma,\de
 
 Construct $N=(Q,\Sigma,\delta,q_0,F)$ to recognize $A_1\cup A_2$ as follows.
 \begin{itemize}
-    \item $Q=\{q_0\}\cup Q_1\cup Q_2$. (Assume without loss of generality that $Q_1$ and $Q_2$ are disjoint)
-    \item The state $q_0$ is the start state of $N$. ($q_0$ is not in $Q_1$ or $Q_2$)
-    \item $F=F_1\cup F_2$
-    \item $\delta$ is defined as follows. For any $q\in Q$ and $a\in\Sigma_\varepsilon$,
-    $$
-    \delta(q,a)=
-    \begin{cases}
-    \delta_1(q,a) & q\in Q_1 \\
-    \delta_2(q,a) & q\in Q_2 \\
-    \{q_1,q_2\} & q=q_0\text{ and }a=\varepsilon \\
-    \emptyset & q=q_0\text{ and }a\neq\varepsilon
-    \end{cases}
-    $$
+	\item $Q=\{q_0\}\cup Q_1\cup Q_2$. (Assume without loss of generality that $Q_1$ and $Q_2$ are disjoint)
+	\item The state $q_0$ is the start state of $N$. ($q_0$ is not in $Q_1$ or $Q_2$)
+	\item $F=F_1\cup F_2$
+	\item $\delta$ is defined as follows. For any $q\in Q$ and $a\in\Sigma_\varepsilon$,
+	$$
+	\delta(q,a)=
+	\begin{cases}
+	\delta_1(q,a) & q\in Q_1 \\
+	\delta_2(q,a) & q\in Q_2 \\
+	\{q_1,q_2\} & q=q_0\text{ and }a=\varepsilon \\
+	\emptyset & q=q_0\text{ and }a\neq\varepsilon
+	\end{cases}
+	$$
 \end{itemize}
 Here we basically check separately whether a given string is accepted by $M_1$ or $M_2$, and accept if it is accepted by either.
 \end{proof}
@@ -307,18 +307,18 @@ Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A_1$ and $N_2=(Q_2,\Sigma,\de
 
 Construct $N=(Q,\Sigma,\delta,q_1,F_2)$ to recognize $A_1\circ A_2$.
 \begin{itemize}
-    \item $Q=Q_1\cup Q_2$.
-    \item Define $\delta$ such that for any $q\in Q$ and $a\in\Sigma_\varepsilon$,
-    $$
-    \delta(q,a)=
-    \begin{cases}
-    \delta_1(q,a) & q\in Q_2\text{ and }q\not\in F_1 \\
-    \delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
-    \delta_1(q,a)\cup \{q_2\} & q\in F_1\text{ and }a=\varepsilon \\
-    \delta_2(q,a) & q\in Q_2.
-    \end{cases}
-    $$
-    We basically split if the part of the string read so far is accepted by $N_1$, check whether the remainder is accepted by $N_2$ and recurse.
+	\item $Q=Q_1\cup Q_2$.
+	\item Define $\delta$ such that for any $q\in Q$ and $a\in\Sigma_\varepsilon$,
+	$$
+	\delta(q,a)=
+	\begin{cases}
+	\delta_1(q,a) & q\in Q_2\text{ and }q\not\in F_1 \\
+	\delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
+	\delta_1(q,a)\cup \{q_2\} & q\in F_1\text{ and }a=\varepsilon \\
+	\delta_2(q,a) & q\in Q_2.
+	\end{cases}
+	$$
+	We basically split if the part of the string read so far is accepted by $N_1$, check whether the remainder is accepted by $N_2$ and recurse.
 \end{itemize}
 \end{proof}
 
@@ -328,19 +328,19 @@ The class of regular languages is closed under the star operation.
 \begin{proof}
 Let $N_1=(Q_1,\Sigma,\delta_1,q_1,F_1)$ recognize $A$. Construct $N=(Q,\Sigma,\delta,q_0,F)$ as follows to recognize $A^*$.
 \begin{itemize}
-    \item $Q=\{q_0\}\cup Q_1$. ($q_0$ is not in $Q_1$)
-    \item $F=\{q_0\}\cup F_1$. This is done so that $\varepsilon$ is in the resulting language.
-    \item Define $\delta$ such that for any $q\in Q$ and any $a\in\Sigma_\varepsilon$,
-    $$
-    \delta(q,a)=
-    \begin{cases}
-    \delta_1(q,a) & q\in Q_1\text{ and }q\not\in F_1 \\
-    \delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
-    \delta_1(q,a)\cup\{q_1\} & q\in F_1\text{ and }a=\varepsilon \\
-    \{q_1\} & q=q_0\text{ and }a=\varepsilon \\
-    \emptyset & q=q_0\text{ and }a\neq\varepsilon
-    \end{cases}
-    $$
+	\item $Q=\{q_0\}\cup Q_1$. ($q_0$ is not in $Q_1$)
+	\item $F=\{q_0\}\cup F_1$. This is done so that $\varepsilon$ is in the resulting language.
+	\item Define $\delta$ such that for any $q\in Q$ and any $a\in\Sigma_\varepsilon$,
+	$$
+	\delta(q,a)=
+	\begin{cases}
+	\delta_1(q,a) & q\in Q_1\text{ and }q\not\in F_1 \\
+	\delta_1(q,a) & q\in F_1\text{ and }a\neq\varepsilon \\
+	\delta_1(q,a)\cup\{q_1\} & q\in F_1\text{ and }a=\varepsilon \\
+	\{q_1\} & q=q_0\text{ and }a=\varepsilon \\
+	\emptyset & q=q_0\text{ and }a\neq\varepsilon
+	\end{cases}
+	$$
 \end{itemize}
 
 It can be checked that this machine recognizes $A^*$. The idea is similar to that in the concatenation proof, but we keep looping on the same machine.
@@ -362,12 +362,12 @@ In arithmetic, there is a precedence order in the operations wherein we give $\t
 \begin{definition}
 We say that $R$ is a \textit{regular expression} if $R$ is equal to
 \begin{enumerate}
-    \item $a$ for some $a$ in the alphabet $\Sigma$,
-    \item $\varepsilon$,
-    \item $\emptyset$,
-    \item $(R_1\cup R_2)$ for regular expressions $R_1$ and $R_2$,
-    \item $(R_1\circ R_2)$ for regular expressions $R_1$ and $R_2$, or
-    \item $(R_1^*)$ for regular expression $R_1$.
+	\item $a$ for some $a$ in the alphabet $\Sigma$,
+	\item $\varepsilon$,
+	\item $\emptyset$,
+	\item $(R_1\cup R_2)$ for regular expressions $R_1$ and $R_2$,
+	\item $(R_1\circ R_2)$ for regular expressions $R_1$ and $R_2$, or
+	\item $(R_1^*)$ for regular expression $R_1$.
 \end{enumerate}
 \end{definition}
 
@@ -382,29 +382,29 @@ For convenience, we use $R^+$ to denote $RR^*$, that is, the language has all st
 \begin{exercise}
 Describe the languages corresponding to the following regular expressions.
 \begin{enumerate}[(a)]
-    \item $1^*\emptyset$
-    \item $\emptyset^*$
-    \item $(0\cup\varepsilon)(1\cup\varepsilon)$
-    \item $(\Sigma\Sigma)^*$
-    \item $(01^+)^*$
+	\item $1^*\emptyset$
+	\item $\emptyset^*$
+	\item $(0\cup\varepsilon)(1\cup\varepsilon)$
+	\item $(\Sigma\Sigma)^*$
+	\item $(01^+)^*$
 \end{enumerate}
 \end{exercise}
 \begin{solution}
 ~
 \begin{enumerate}[(a)]
-    \item $\emptyset$
-    \item $\{\varepsilon\}$
-    \item $\{\varepsilon,0,1,01\}$
-    \item $\{w\mid w\text{ is a string of even length }\}$
-    \item $\{w\mid \text{every $0$ in $w$ is followed by at least one $1$}\}$
+	\item $\emptyset$
+	\item $\{\varepsilon\}$
+	\item $\{\varepsilon,0,1,01\}$
+	\item $\{w\mid w\text{ is a string of even length }\}$
+	\item $\{w\mid \text{every $0$ in $w$ is followed by at least one $1$}\}$
 \end{enumerate}
 \end{solution}
 
 \begin{exercise}
 Prove the following identities for any regular language $R$.
 \begin{enumerate}[(a)]
-    \item $R\cup\emptyset=R$
-    \item $R\circ\{\varepsilon\}=R$
+	\item $R\cup\emptyset=R$
+	\item $R\circ\{\varepsilon\}=R$
 \end{enumerate}
 \end{exercise}
 
@@ -418,28 +418,28 @@ If a language is described by a regular expression, it is regular.
 \begin{proof}
 We shall prove each of the $5$ cases of the definition separately.
 \begin{enumerate}
-    \item $R=a$ for some $a$ in $\Sigma$. Then $L(R)=\{a\}$. The following NFA recognizes $L(R)$.
-    \begin{center}
-    \begin{tikzpicture}
-        \node[state, initial] (q1) {$q_1$};
-        \node[state, accepting, right of=q1] (q2) {$q_2$};
-        \draw (q1) edge[above] node{$a$} (q2);
-    \end{tikzpicture}
-    \end{center}
-    
-    \item $R=\varepsilon$. Then $L(R)=\{\varepsilon\}$. The following NFA recognizes $L(R)$.
-    \begin{center}
-    \begin{tikzpicture}
-        \node[state, initial, accepting] (q1) {$q_1$};
-    \end{tikzpicture}
-    \end{center}
-    
-    \item $R=\emptyset$. Then $L(R)=\emptyset$. The following NFA recognizes $L(R)$.
-    \begin{center}
-    \begin{tikzpicture}
-        \node[state, initial] (q1) {$q_1$};
-    \end{tikzpicture}
-    \end{center}
+	\item $R=a$ for some $a$ in $\Sigma$. Then $L(R)=\{a\}$. The following NFA recognizes $L(R)$.
+	\begin{center}
+	\begin{tikzpicture}
+		\node[state, initial] (q1) {$q_1$};
+		\node[state, accepting, right of=q1] (q2) {$q_2$};
+		\draw (q1) edge[above] node{$a$} (q2);
+	\end{tikzpicture}
+	\end{center}
+	
+	\item $R=\varepsilon$. Then $L(R)=\{\varepsilon\}$. The following NFA recognizes $L(R)$.
+	\begin{center}
+	\begin{tikzpicture}
+		\node[state, initial, accepting] (q1) {$q_1$};
+	\end{tikzpicture}
+	\end{center}
+	
+	\item $R=\emptyset$. Then $L(R)=\emptyset$. The following NFA recognizes $L(R)$.
+	\begin{center}
+	\begin{tikzpicture}
+		\node[state, initial] (q1) {$q_1$};
+	\end{tikzpicture}
+	\end{center}
 \end{enumerate}
 
 For the remaining cases, that is, $R=R_1\cup R_2, R=R_1\circ R_2$ and $R=R_1^*$, we use the constructions given in the proofs that the regular languages are closed under each of the regular operations.
@@ -449,9 +449,9 @@ We define a new type of automaton to help prove the next theorem, which states t
 
 For convenience, we also require that each GNFA always has a special form that meets the following criteria:
 \begin{itemize}
-    \item The start state has transition arrows going to every other state but no arrows coming in from any other state.
-    \item There is only one accept state, and there are arrows coming in to the accept state from every other state but no arrows going out to any other state. Further, the accept state is not the same as the start state.
-    \item Except for the start and accept states, there are arrows going from every state to every other state and also from each state to itself.
+	\item The start state has transition arrows going to every other state but no arrows coming in from any other state.
+	\item There is only one accept state, and there are arrows coming in to the accept state from every other state but no arrows going out to any other state. Further, the accept state is not the same as the start state.
+	\item Except for the start and accept states, there are arrows going from every state to every other state and also from each state to itself.
 \end{itemize}
 
 \label{regRegExpEquivSketch}
@@ -463,19 +463,19 @@ Define $\mathcal{R}$ to be the set of all regular expressions over the alphabet 
 \begin{definition}
 A \textit{generalized nondeterministic finite automaton} is a $5$-tuple $(Q,\Sigma,\delta,q_{\text{start}},q_{\text{accept}})$, where
 \begin{itemize}
-    \item $Q$ is the finite set of states,
-    \item $\Sigma$ is the input alphabet,
-    \item $\delta:(Q-\{q_{\text{accept}}\})\times(Q-\{q_{\text{start}}\})\to\mathcal{R}$ is the transition function,
-    \item $q_{\text{start}}$ is the start state, and
-    \item $q_{\text{accept}}$ is the accept state.
+	\item $Q$ is the finite set of states,
+	\item $\Sigma$ is the input alphabet,
+	\item $\delta:(Q-\{q_{\text{accept}}\})\times(Q-\{q_{\text{start}}\})\to\mathcal{R}$ is the transition function,
+	\item $q_{\text{start}}$ is the start state, and
+	\item $q_{\text{accept}}$ is the accept state.
 \end{itemize}
 \end{definition}
 
 A GNFA accepts a string $w$ in  $\Sigma^*$ if $w=w_1w_2\cdots w_k$, where each $w_i$ is in $\Sigma^*$  and a sequence of states $q_0,q_1,\ldots,q_k$ exist such that
 \begin{itemize}
-    \item $q_0=q_{\text{start}}$,
-    \item $q_k=q_{\text{accept}}$, and
-    \item for each $i$, we have $w_i\in L(R_i)$, where $R_i=\delta(q_{i-1},q_i)$. In other words, $R_i$ is the expression on the arrow from $q_{i-1}$ to $q_i$.
+	\item $q_0=q_{\text{start}}$,
+	\item $q_k=q_{\text{accept}}$, and
+	\item for each $i$, we have $w_i\in L(R_i)$, where $R_i=\delta(q_{i-1},q_i)$. In other words, $R_i$ is the expression on the arrow from $q_{i-1}$ to $q_i$.
 \end{itemize}
 
 \begin{lemma}
@@ -485,38 +485,38 @@ Given any DFA, there exists an equivalent GNFA in the special form.
 \begin{proof}
 Consider a DFA $N=(Q,\Sigma,\delta,q_0,F)$, define a GNFA $N'=(Q',\Sigma,\delta',q_{\text{start}},q_{\text{accept}})$ as follows.
 \begin{itemize}
-    \item $Q'=Q\cup \{q_\text{start}, q_\text{accept}\}$, ($q_\text{start}$ and $q_\text{accept}$ are not in $Q$)
-    \item $\delta'$ is defined as follows. For any $q_i,q_j\in Q'$,
-    $$
-    \delta'(q_i,q_j)=
-    \begin{cases}
-    \varepsilon & q_i=q_\text{start}\text{ and }q_j=q_0 \\
-    \varepsilon & q_i\in F\text{ and } q_j=q_\text{accept} \\
-    \{a: \delta(q_i,a)=q_j\} & \text{otherwise.}
-    \end{cases}
-    $$
+	\item $Q'=Q\cup \{q_\text{start}, q_\text{accept}\}$, ($q_\text{start}$ and $q_\text{accept}$ are not in $Q$)
+	\item $\delta'$ is defined as follows. For any $q_i,q_j\in Q'$,
+	$$
+	\delta'(q_i,q_j)=
+	\begin{cases}
+	\varepsilon & q_i=q_\text{start}\text{ and }q_j=q_0 \\
+	\varepsilon & q_i\in F\text{ and } q_j=q_\text{accept} \\
+	\{a: \delta(q_i,a)=q_j\} & \text{otherwise.}
+	\end{cases}
+	$$
 \end{itemize}
-    We simply add a new start state with an $\varepsilon$ arrow to the old start state, and a new accept state with $\varepsilon$ arrows from each of the old accept states. If any arrows have multiple labels, we replace these with a single arrow whose label is the union of the previous labels. We add arrows labelled $\emptyset$ between states that had no arrows between them.
-    
-    It can be checked that this is in fact a GNFA in special form.
+	We simply add a new start state with an $\varepsilon$ arrow to the old start state, and a new accept state with $\varepsilon$ arrows from each of the old accept states. If any arrows have multiple labels, we replace these with a single arrow whose label is the union of the previous labels. We add arrows labelled $\emptyset$ between states that had no arrows between them.
+	
+	It can be checked that this is in fact a GNFA in special form.
 \end{proof}
 
 We shall now exactly describe the process that we use to obtain a regular expression from a given GNFA. Given a GNFA $G$, we define $\texttt{CONVERT}(G)$ by the following algorithm.
 
 \begin{enumerate}
-    \item Let $k$ be the number of states of $G$.
-    
-    \item If $k=2$, then $G$ must consist of a start state, an accept state, and exactly one arrow between them labelled with a regular expression $R$.
-    
-    Return $R.$
-    
-    \item If $k>2$, we select any state $q_{\text{rip}}\in Q$ different from $q_{\text{start}}$ and $q_{\text{accept}}$ and let $G'$ be the GNFA $(Q',\Sigma,\delta',q_{\text{start}},q_{\text{accept}})$ where
-    $$Q'=Q-\{q_{\text{rip}}\},$$
-    and for any $q_i\in Q'-\{q_{\text{accept}}\}$ and $q_j\in Q'-\{q_{\text{start}}\}$, let
-    $$\delta'(q_i,q_j)=(R_1)(R_2)^*(R_3)\cup R_4$$
-    for $R_1=\delta(q_i,q_\text{rip}), R_2=\delta(q_\text{rip}, q_\text{rip}), R_3=\delta(q_\text{rip},q_j)$ and $R_4=\delta(q_i,q_j)$.
-    
-    Return $\texttt{CONVERT}(G')$.  
+	\item Let $k$ be the number of states of $G$.
+	
+	\item If $k=2$, then $G$ must consist of a start state, an accept state, and exactly one arrow between them labelled with a regular expression $R$.
+	
+	Return $R.$
+	
+	\item If $k>2$, we select any state $q_{\text{rip}}\in Q$ different from $q_{\text{start}}$ and $q_{\text{accept}}$ and let $G'$ be the GNFA $(Q',\Sigma,\delta',q_{\text{start}},q_{\text{accept}})$ where
+	$$Q'=Q-\{q_{\text{rip}}\},$$
+	and for any $q_i\in Q'-\{q_{\text{accept}}\}$ and $q_j\in Q'-\{q_{\text{start}}\}$, let
+	$$\delta'(q_i,q_j)=(R_1)(R_2)^*(R_3)\cup R_4$$
+	for $R_1=\delta(q_i,q_\text{rip}), R_2=\delta(q_\text{rip}, q_\text{rip}), R_3=\delta(q_\text{rip},q_j)$ and $R_4=\delta(q_i,q_j)$.
+	
+	Return $\texttt{CONVERT}(G')$.  
 \end{enumerate}
 
 \begin{lemma}
@@ -559,15 +559,15 @@ We thus have the two way implication.
 Find the regular expression corresponding to the following NFA.
 \begin{center}
 \begin{tikzpicture}
-    \node[state, initial] (1) {$1$};
-    \node[state, accepting, right of=1] (2) {$2$};
-    \node[state, accepting, below of=1] (3) {$3$};
-    \draw (1) edge[above, bend left=15] node{$a$} (2)
-          (2) edge[below, bend left=15] node{$a$} (1)
-          (2) edge[loop above] node{$b$} (2)
-          (1) edge[right, bend left=15] node{$b$} (3)
-          (3) edge[left, bend left=15] node{$b$} (1)
-          (3) edge[below] node{$a$} (2);
+	\node[state, initial] (1) {$1$};
+	\node[state, accepting, right of=1] (2) {$2$};
+	\node[state, accepting, below of=1] (3) {$3$};
+	\draw (1) edge[above, bend left=15] node{$a$} (2)
+		  (2) edge[below, bend left=15] node{$a$} (1)
+		  (2) edge[loop above] node{$b$} (2)
+		  (1) edge[right, bend left=15] node{$b$} (3)
+		  (3) edge[left, bend left=15] node{$b$} (1)
+		  (3) edge[below] node{$a$} (2);
 \end{tikzpicture}
 \end{center}
 \end{exercise}
@@ -591,9 +591,9 @@ However, this immediately begs the question, what is a condition to determine wh
 \begin{theorem}[The Pumping Lemma]
 If $A$ is a regular language, then there is a number $p$, called the \textit{pumping length}, where if $s$ is any string in $A$ of length at least $p$, then $s$ can be divided into three pieces, $s=xyz$, satisfying the following conditions:
 \begin{enumerate}
-    \item For each $i\geq 0$, $xy^iz\in A$,
-    \item $|y|>0$, and
-    \item $|xy|\leq p$.
+	\item For each $i\geq 0$, $xy^iz\in A$,
+	\item $|y|>0$, and
+	\item $|xy|\leq p$.
 \end{enumerate}
 \end{theorem}
 
@@ -622,9 +622,9 @@ Prove that $B=\{w\mid w\text{ has an equal number of $0$s and $1$s}\}$ is a nonr
 \begin{exercise}
 Prove the nonregularity of the following languages.
 \begin{enumerate}[(a)]
-    \item $D=\{ww\mid w\in\{0,1\}^*\}$.
-    \item $E=\{1^{n^2}\mid n\geq 0\}$. This is a \textit{unary} nonregular language.
-    \item $F=\{0^i1^j\mid i>j\}$.
+	\item $D=\{ww\mid w\in\{0,1\}^*\}$.
+	\item $E=\{1^{n^2}\mid n\geq 0\}$. This is a \textit{unary} nonregular language.
+	\item $F=\{0^i1^j\mid i>j\}$.
 \end{enumerate}
 \end{exercise}
 
@@ -685,8 +685,8 @@ Show that $L$ is nonregular. (The meaning of $w^\mathcal{R}$ is described in \re
 \begin{exercise}
 Say that string $x$ is a \textit{prefix} of string $y$ if a string $z$ exists such that $xz=y$ and that $x$ is a \textit{proper prefix} of $y$ if in addition, $x\neq y$. Let $A$ be any language. Show that the class of regular languages is closed under the following two operations.
 \begin{enumerate}[(a)]
-    \item $\texttt{NOPREFIX}(A)=\{w\in A\mid \text{no proper prefix of $w$ is in $A$}\}$
-    \item $\texttt{NOEXTEND}(A)=\{w\in A\mid w\text{ is not the proper prefix of any string in $A$}\}$
+	\item $\texttt{NOPREFIX}(A)=\{w\in A\mid \text{no proper prefix of $w$ is in $A$}\}$
+	\item $\texttt{NOEXTEND}(A)=\{w\in A\mid w\text{ is not the proper prefix of any string in $A$}\}$
 \end{enumerate}
 \end{exercise}
 

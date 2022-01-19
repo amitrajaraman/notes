@@ -213,7 +213,7 @@
 
 	Now, consider the series
 	\[ \sum_{n=0}^\infty \frac{z^n}{n!}. \]
-	The radius of convergence of this series is $\infty$. So, it converges for any complex number $z$, and convergence is uniform on eveyr compact subset of $\C$.\\
+	The radius of convergence of this series is $\infty$. So, it converges for any complex number $z$, and convergence is uniform on every compact subset of $\C$.\\
 	The above defines a function $\exp:\C\to\C$.\\
 	We also denote $e^z = \exp(z)$.
 
@@ -298,3 +298,68 @@
 	\end{proof}
 
 	If the series $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ has radius of convergence $R > 0$, then $f$ is analytic on $B(a,R)$. Therefore, $\exp$ is analytic on $\C$.
+
+	%%% LECTURE OF 14-01-2022 (MISSED)
+
+	%%% LECTURE OF 19-01-2022 (MISSED)
+
+\subsection{Cauchy-Riemann Equations}
+
+	Let $f:G\to\C$ be analytic and let
+	\[ u(x,y) = \Re(f(x+\iota y)), v(x,y) = \Re(f(x+\iota y)) \]
+	for $x+\iota y \in G$. Let us evaluate the limit
+	\[ f'(z) = \lim_{h\to 0} \frac{f(z+h)-f(z)}{h}. \]
+	in two different ways.\\
+	First, if we let $h\to 0$ through real values, we get
+	\[ f'(z) = \frac{\partial u}{\partial x}(x,y) + \iota \frac{\partial v}{\partial x}(x,y). \]
+	Along the imaginary axis, we get
+	\[ f'(z) = -\iota \frac{\partial u}{\partial y}(x,y) + \frac{\partial v}{\partial y}(x,y). \]
+	Therefore,
+	\[ \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \text{ and } \frac{\partial u}{\partial y} = - \frac{\partial v}{\partial x}. \]
+
+	Supposing that $u$ and $v$ have continuous second derivative (we shall later show that they are infinitely differentiable), we have that
+	\[ \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y} \text{ and } \frac{\partial^2 u}{\partial y^2} = \frac{\partial^2 v}{\partial y \partial x}. \]
+	Therefore, since the second derivatives are continuous,
+	\begin{equation}
+		\label{eqn-harmonic}
+		\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0.
+	\end{equation}
+	A function $u$ with continuous second partial derivatives satisfying \Cref{eqn-harmonic} is said to be \emph{harmonic}. Similarly, $v$ is also harmonic.
+
+	\begin{ftheo}
+		Let $u$, $v$ be real-valued functions defined on an open connected set (a \emph{region}) $G$ and suppose that they have continuous second partial derivatives. Then, $f:G\to\C$ defined by $f(z) = u(z) + \iota v(z)$ is analytic iff $u$ and $v$ satisfy the Cauchy-Riemann equations.
+	\end{ftheo}
+	\begin{proof}
+		We have already shown the forward direction.\\
+		For the other direction, let $z = x + \iota y \in G$ and $B(z,r) \subseteq G$. Let $h = s + \iota t \in B(0,r)$. Our goal is to show that for all $\epsilon > 0$, there exists $\delta > 0$ such that
+		\[ \left| \frac{f(z+h) - f(z) - f'(z)h}{h} \right| < \epsilon \]
+		for all $h \in B(0,\delta)$ for some $f'(z) \in \C$.
+		Note that
+		\[ u(x+s,y+t) - u(x,y) = \left( u(x+s,y+t) - u(x,y+t) \right) + \left( u(x,y+t) - u(x,y) \right). \]
+		Now, for fixed $t \in (-r,r)$, $s \mapsto u(x+s,y+t)$ is a differentiable function on $(-r,r)$. We apply the mean value theory to conclude that there exist $s_1,t_1 \in (-r,r)$ for each $s+\iota t \in B(0,r)$ such that $|s_1| < |s|$, $|t_1| < |t|$, and
+		\begin{align*}
+			u(x+s,y+t) - u(x,y+t) &= u_x(x+s_1,y+t)s \\
+			u(x,y+t) - u(x,y) &= u_y(x,y+t_1)t.
+		\end{align*}
+		Now, let
+		\[ \varphi(s,t) = \left( u(x+s,y+t) - u(x,y) \right) - \left( u_x(x,y)s + u_y(x,y)t \right). \]
+		We get that
+		\[ \varphi(s,t) = \left(s u_x(x+s_1,y+t) - s u_x(x,y)\right) + \left(t u_y(x,y+t_1) - t u_y(x,y)\right). \]
+		So,
+		\[ \frac{\varphi(s,t)}{s+\iota t} = \frac{s}{s+\iota t} \left(u_x(x+s_1,y+t) - u_x(x,y)\right) + \frac{t}{s+\iota t} \left(u_y(x,y+t_1) - u_y(x,y)\right) \]
+		and on taking the limit of both sides as $s+\iota t \to 0$, we can use the fact that $|s| \le |s+\iota t|$, $|t| \le |s+\iota t|$, $|s_1| < |s|$, $|t_1| < t$, and the continuity of $u_x$, $u_y$, to conclude that
+		\[ \lim_{s+\iota t \to 0} \frac{\varphi(s,t)}{s+\iota t} = 0. \]
+		Therefore,
+		\[ u(x+s,y+t) - u(x,y) = u_x(x,y)s + u_y(x,y) t + \varphi(s,t). \]
+		We get a similar equation for $v$ as well, with a function $\psi$ (in place of $\varphi$). Combining the two,
+		\begin{align*}
+			\frac{f(z+s+\iota t) - f(z)}{s+\iota t} &= \frac{u(x+s,y+t)-u(x,y)}{s+\iota t} + \iota \frac{v(x+s,y+t) - v(x,y)}{s+\iota t} \\
+				&= \frac{s u_x(x,y) + t u_y(x,y) + \varphi(s,t) + \iota \left( s v_x(x,y) + t v_y(x,y) + \psi(s,t) \right)}{s+\iota t} \\
+				&= \frac{u_x(x,y) (s+\iota t) + \iota v_x(x,y) (s+\iota t) + \varphi(s,t) + \iota \psi(s,t)}{s+\iota t},
+		\end{align*}
+		where we used Cauchy-Riemann equations in the final step and thus,
+		\[ \lim_{s+\iota t \to 0} \frac{f(z+s+\iota t) - f(z)}{s+\iota t} = u_x(x,y) + \iota v_x(x,y), \]
+		completing the proof. Since $u_x$ and $v_x$ are continuous, $f'$ is continuous and $f$ is analytic.
+	\end{proof}
+
+	
