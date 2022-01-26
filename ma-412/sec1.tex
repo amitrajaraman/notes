@@ -362,4 +362,86 @@
 		completing the proof. Since $u_x$ and $v_x$ are continuous, $f'$ is continuous and $f$ is analytic.
 	\end{proof}
 
-	
+	A next question is: given some $u$ such that
+	\[ \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}, \]
+	when does there exist harmonic $v$ such that $u + \iota v$ is analytic? Such a $v$ is referred to as a \emph{harmonic conjugate} of $u$.
+
+	It turns out that the answer is not always. Indeed, $u(x,y) = \log((x^2+y^2)^{1/2})$ on $\C\setminus\{0\}$, despite being harmonic, does not have a harmonic conjugate.
+
+	\begin{ftheo}
+		Let $G$ be either the entirety of $\C$ or some open disk. If $u : G \to \R$ is a harmonic function, then $u$ has a harmonic conjugate.
+	\end{ftheo}
+	\begin{proof}
+		Let $G = B(0,R)$ for some $0 < R \le \infty$ and let $u : G \to \R$ be analytic. Define
+		\[ v(x,y) = \int_0^y u_x(x,t) \dif t + \varphi(x) \]
+		so that $u_x = v_y$. We shall determine $\varphi$ such that $v_x = - u_y$. Differentiating with respect to $x$, we get
+		\begin{align*}
+			v_x(x,y) &= \int_0^y u_{xx}(x,t) \dif t + \varphi'(x) \\
+				&= - \int_0^y u_{yy}(x,t) \dif t + \varphi'(x) \\
+				&= - u_y(x,y) + u_y(x,0) + \varphi'(x).
+		\end{align*}
+		Therefore, $\varphi'(x) = - u_y(x,0)$, and the function
+		\[ v(x,y) = \int_0^y u_x(x,t) \dif t - \int_0^x u_y(s,0) \dif s \]
+		is a harmonic conjugate of $u$.
+	\end{proof}
+
+	The above proof requires that the entire segments $[(0,0),(x,0)]$ $[(x,0),(x,y)]$ are contained in $G$, which is true when we are on a disk.
+
+\subsection{Analytic functions as mappings}
+
+	Consider the two hyperbolas defined by
+	\begin{align*}
+		x^2-y^2 &= c \\
+		2xy &= d,
+	\end{align*}
+	where $c,d \ne 0$.\\
+	This gives
+	\[ y = \pm \sqrt{ \frac{-c \pm \sqrt{d^2+c^2}} }{2}. \]
+	Consider the functions
+	\begin{align*}
+		u(x,y) &= x^2 - y^2 \\
+		v(x,y) &= 2xy.
+	\end{align*}
+	The two hyperbolas above are mapped by this $f = u + \iota v$ to the straight lines $u=c$ and $v=d$.\\
+
+	\begin{fdef}
+		A \emph{path} in a region $G \subseteq \C$ is a continuous function $\gamma:[a,b]\to G$ for some interval $[a,b]$ in $\R$. If $\gamma'(t)$ exissts for each $t \in [a,b]$ and $\gamma':[a,b]\to\C$ is continuous, then $\gamma$ is
+	\end{fdef}
+
+	By the existence of $\gamma'$, we mean that the two-sided limit
+	\[ \lim_{h\to 0} \frac{\gamma(t+h)-\gamma(t)}{h} \]
+	exists for $t \in (a,b)$ and the right and left sided limits exist for $t = a,b$ respectively. This is equivalent to saying that $\Re \gamma$ and $\Im \gamma$ have derivatives.
+
+	Suppose $\gamma : [a,b] \to G$ is a smooth path and for some $t_0 \in (a,b)$, $\gamma'(t_0) \ne 0$. Then, $\gamma$ has a \emph{tangent line} at the point $z_0 = \gamma(t_0)$. This lines goes through the point $z_0$ in the direction of the vector $\gamma'(t_0)$, that is, the slope of the line is $\tan(\arg \gamma'(t_0))$.\\
+
+	If $\gamma_1$ and $\gamma_2$ are two smooth paths with $\gamma_1(t_1) = \gamma_2(t_2) = z_0$ and $\gamma_1'(t_1),\gamma_2'(t_2) \ne 0$, then define the \emph{angle} between the paths $\gamma_1,\gamma_2$ at $z_0$ to be $\arg(\gamma_2'(t_2)) - \arg(\gamma_1'(t_1))$.\\
+
+	Suppose $\gamma$ is a smooth path in $G$ and $f:G\to\C$ is analytic. Then, $\sigma = f \circ \gamma$ is also a smooth path and $\sigma'(t) = f'(\gamma(t)) \cdot \gamma'(t)$. Further, if $t_0$ is a fixed point of $f$ with $\gamma(t_0) = z_0$,
+	\[ \arg(\sigma'(t_0)) - \arg(\gamma'(t_0)) = \arg(f'(z_0)). \]
+	Letting $\gamma_1,\gamma_2$ be smooth paths with $\gamma_1(t_1) = \gamma_2(t_2) = z_0$ with non-zero derivatives at $t_1,t_2$ respectively, and lt $\sigma_1 = f \circ \gamma_1, \sigma_2 = f \circ \gamma_2$. Further suppose that the two paths $\gamma_1,\gamma_2$ are not tangent to each other at $z_0$. Then,
+	\[ \arg(\gamma_2'(t_2)) - \arg(\gamma_1'(t_1)) = \arg(\sigma_2'(t_2)) - \arg(\sigma_1'(t_1)). \]
+	This says that the angle between two paths are preserved after applying an analytic function to both. A function $f$ satisfying this is said to have the \emph{angle-preserving property}.
+
+	\begin{fdef}
+		A function $f : G \to \C$ which has the angle-preserving property and also has 
+		\[ \lim_{z\to a} \left|\frac{f(z)-f(a)}{z-a}\right| \]
+		existing is called a \emph{conformal map}.
+	\end{fdef}
+
+	It turns out that a function $f$ is a conformal map if and only if it is analytic and $f'(z) \ne 0$ for all $z$ (How?).
+
+	\begin{fdef}
+		A mapping of the form
+		\[ S(z) = \frac{az+b}{cz+d} \]
+		is called a \emph{linear fractional transformation}. If we further have that $ad-bc \ne 0$, then $S(z)$ is called a \emph{M\"{o}bius transformation}.
+	\end{fdef}
+
+	We have
+	\[ S'(z) = \frac{ad-bc}{(cz+d)^2}. \]
+
+	If $w = S(z)$, it is relatively simple to show that
+	\[ z = S^{-1}(w) = \frac{dw-b}{-cw+a}. \]
+	Therefore, the inverse of a M\"{o}bius transformation is a M\"{o}bius transformation. The composition of two M\"{o}bius transformations is a M\"{o}bius transformation as well.\\
+	Also observe that the coefficiencts $a,b,c,d$ for a given M\"{o}bius transformation are not unique since we can multiply them by a constant. We may also extend $S$ to $\C_\infty$ with $S(\infty) = a/c$ and $S(-d/c) = \infty$.\\
+
+	$S(z) = z+a$ is called a \emph{translation}, $S(z) = az$ with $a\ne 0$ is called a \emph{dilation}, $S(z) = e^{\iota\theta} z$ is called a \emph{rotation}, and $S(z) = 1/z$ is called the \emph{inversion}. We shall next show that any M\"{o}bius transformation is a composition of these five types of transformations.
