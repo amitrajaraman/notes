@@ -13,6 +13,10 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[colorlinks]{hyperref}
 \usepackage{tikz}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{graphicx}
 \usetikzlibrary{automata, positioning, arrows, matrix}
 \tikzset{->, >=stealth', node distance = 2cm}
 
@@ -23,7 +27,7 @@
 \usepackage{fancyhdr}
 \lhead{\sffamily{Automata and Languages}}
 \chead{\sffamily{\thepage}}
-\rhead{\sffamily{-Amit Rajaraman}}
+\rhead{\sffamily{Amit Rajaraman}}
 \cfoot{}
 \pagestyle{fancy}
 
@@ -38,17 +42,53 @@
 \numberwithin{equation}{section}
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}
+\newenvironment{ftheo}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
+  {\end{theorem}\end{shaded}}
 \newtheorem{lemma}[theorem]{Lemma}
+\newenvironment{flem}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{lemma}}
+  {\end{lemma}\end{shaded}}
 \newtheorem{corollary}[theorem]{Corollary}
+\newenvironment{fcor}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{corollary}}
+  {\end{corollary}\end{shaded}}
+\newtheorem{porism}[theorem]{Porism}
+\newenvironment{fpor}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{porism}}
+  {\end{porism}\end{shaded}}
 \newtheorem{definition}{Definition}
+\newenvironment{fdef}
+  {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
+  {\end{definition}\end{shaded}}
+\newtheorem*{conjecture*}{Conjecture}
+\newenvironment{fcon}
+  {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{conjecture*}}
+  {\end{conjecture*}\end{shaded}}
 \numberwithin{definition}{section}
 \numberwithin{theorem}{section}
 \newtheorem{exercise}{Exercise}
 \newtheorem*{example}{Example}
 
 \theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
 \numberwithin{exercise}{section}
-\newtheorem*{solution}{Solution}
+
+\mdfdefinestyle{solutionstyle}{%
+  % linecolor=gray,linewidth=1pt,%
+  % frametitlerule=true,%
+  frametitlebackgroundcolor=white,
+  % backgroundcolor=  gray!20,  
+  bottomline=false, topline=false, rightline=false, leftline=true,
+  innerlinewidth=0.7pt, outerlinewidth=0.7pt, middlelinewidth=2pt, middlelinecolor=white, %
+  innerleftmargin=6pt,innerbottommargin=0pt,
+  skipabove=0pt
+}
+\mdtheorem[style=solutionstyle]{solution}{Solution}
+\numberwithin{solution}{section}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
 
 \begin{document}
 
