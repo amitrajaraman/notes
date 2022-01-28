@@ -396,7 +396,7 @@
 	\end{align*}
 	where $c,d \ne 0$.\\
 	This gives
-	\[ y = \pm \sqrt{ \frac{-c \pm \sqrt{d^2+c^2}} }{2}. \]
+	\[ y = \pm \sqrt{ \frac{-c \pm \sqrt{d^2+c^2}}{2} }. \]
 	Consider the functions
 	\begin{align*}
 		u(x,y) &= x^2 - y^2 \\
@@ -444,4 +444,104 @@
 	Therefore, the inverse of a M\"{o}bius transformation is a M\"{o}bius transformation. The composition of two M\"{o}bius transformations is a M\"{o}bius transformation as well.\\
 	Also observe that the coefficiencts $a,b,c,d$ for a given M\"{o}bius transformation are not unique since we can multiply them by a constant. We may also extend $S$ to $\C_\infty$ with $S(\infty) = a/c$ and $S(-d/c) = \infty$.\\
 
-	$S(z) = z+a$ is called a \emph{translation}, $S(z) = az$ with $a\ne 0$ is called a \emph{dilation}, $S(z) = e^{\iota\theta} z$ is called a \emph{rotation}, and $S(z) = 1/z$ is called the \emph{inversion}. We shall next show that any M\"{o}bius transformation is a composition of these five types of transformations.
+	$S(z) = z+a$ is called a \emph{translation}, $S(z) = az$ with $a\ne 0$ is called a \emph{dilation}, $S(z) = e^{\iota\theta} z$ is called a \emph{rotation}, and $S(z) = 1/z$ is called the \emph{inversion}. We shall see later that any M\"{o}bius transformation is a composition of these five types of transformations.
+
+	What are the fixed points of a M\"{o}bius transformation $S$? $S(z) = z$ gives
+	\[ cz^2 + (a-d)z + b = 0. \]
+	Therefore, a M\"{o}bius transformation has at most two fixed points unless $S(z) = z$ for all $z \in \C_\infty$.\\
+
+	Let $a,b,c\in\C_\infty$ be distinct with $S(a) = \alpha$, $S(b) = \beta$, $S(c) = \gamma$. Let $T$ be another M\"{o}bius transformation with $T(a) = \alpha$, $T(b) = \beta$, $T(c) = \gamma$. Then $T^{-1} \circ S$ has three (distinct) fixed points, and therefore $S = T$.\\
+	Therefore, any M\"{o}bius transformation is uniquely determined by its value at any three distinct points.\\
+
+	Let $z_2,z_3,z_4 \in \C_\infty$ be distinct. Define $S:\C_\infty\to\C_\infty$ by
+	\[
+	S(z) =
+	\begin{cases}
+		\frac{(z-z_3)/(z-z_4)}{(z_2-z_3)(z_2-z_4)}, & z_2,z_3,z_4 \in \C, \\
+		\frac{z_2-z_4}{z-z_4}, & z_3 = \infty, \\
+		\frac{z-z_3}{z_2-z_3}, & z_4 = \infty. \\
+	\end{cases}
+	\]
+	In any case, $S(z_2) = 1$, $S(z_3) = 0$, $S(z_4) = \infty$, and $S$ is the only transformation having this property.
+
+	\begin{definition}
+		If $z_1 \in \C_\infty$, then $(z_1,z_2,z_3,z_4)$ is referred to as the \emph{cross-ratio} of $z_1,z_2,z_3,z_4$ and is the image of $z_1$ under the M\"{o}bius transformation described above, which is the unique M\"{o}bius transformation taking $z_2$ to $1$, $z_3$ to $0$, and $z_4$ to $\infty$.
+	\end{definition}
+
+	For example, $(z_2,z_2,z_3,z_4) = 1$ and $(z,1,0,\infty) = z$.\\
+	If $M$ is any M\"{o}bius transformation with $M(w_2) = 1$, $M(w_3) = 0$, $M(w_4) = \infty$, then $M(z) = (z,w_2,w_3,w_4)$ for any $z \in \C_\infty$.
+
+	\begin{theorem}
+		If $z_2,z_3,z_4$ are distinct points and $T$ is any M\"{o}bius transformation, then
+		\[ (z_1,z_2,z_3,z_4) = (Tz_1,Tz_2,Tz_3,Tz_4). \]
+	\end{theorem}
+	\begin{proof}
+		Let $S(z) = (z,z_2,z_3,z_4)$. If $M = ST^{-1}$, then
+		\[ M(T(z_2)) = 1, \quad M(T(z_3)) = 0, \quad M(T(z_4)) = \infty. \]
+		Therefore, $M = (z,Tz_2,Tz_3,Tz_4)$. That is,
+		\[ ST^{-1}z = (z,Tz_2,Tz_3,Tz_4) \]
+		for all $z \in \C_\infty$. Setting $z = Tz_1$ yields the required.
+	\end{proof}
+
+	\begin{lemma}
+		If $\{z_2,z_3,z_4\},\{w_2,w_3,w_4\} \subseteq \C_\infty$, then there exists a unique M\"{o}bius transformation $S$ with $Sz_i = w_i$ for each $i$.
+	\end{lemma}
+	
+	We omit the proof of the above.
+
+	\begin{lemma}
+		\label{thm: mobius real to circle}
+		Let $\{z_1,z_2,z_3,z_4\} \subseteq \C_\infty$. Then, $(z_1,z_2,z_3,z_4)$ is real iff the four points lie on a circle.
+	\end{lemma}
+	\begin{proof}
+		Define $S:\C_\infty\to\C_\infty$ by $Sz = (z,z_2,z_3,z_4)$. We are done if we show that $S^{-1}(\R_\infty)$ is a circle (since a circle is uniquely determined by three distinct points on it).\\
+		Let $S^{-1}(z) = (az+b)/(cz+d)$.\\
+
+		First, let us show that $S^{-1}(\R_\infty) \subseteq \Gamma$ for a circle $\Gamma$ in $\C_\infty$. Let $w \in S^{-1}(\R_\infty)$. Then, $Sw = \overline{Sw}$ so
+		\[ \frac{aw+b}{cw+d} = \frac{\overline{a}\overline{w} + \overline{b}}{\overline{c}\overline{w} + \overline{d}}. \]
+		This gives that
+		\begin{equation}
+			\tag{(*)}
+			\label{eqn: mobius circle real}
+			(a\overline{c} - \overline{a}c)|w|^2 + (a\overline{d} - \overline{b}c)w + (b\overline{c} - d\overline{a})\overline{w} + (b\overline{d} - \overline{b}d) = 0.
+		\end{equation}
+		If $a\overline{c}$ is real, we get that
+		\[ \Im\left((a\overline{d}-\overline{b}c)w + b\overline{d}\right) = 0, \]
+		which is a circle through $\infty$ (a line).\\
+		If on the other hand $a\overline{c}$ is not real, then \Cref{eqn: mobius circle real} becomes
+		\[ 2\iota\underbrace{\Im(a\overline{c})}_{\alpha \ne 0}|w|^2 + (a\overline{d} - b\overline{c})w + (b\overline{c} - \overline{a}d)\overline{w} + (b\overline{d} - \overline{b}d) = 0. \]
+		Dividing by $2\iota\alpha$,
+		\[ |w|^2 + \frac{(a\overline{d} - b\overline{c})w}{2\iota\alpha} + \frac{(b\overline{c} - \overline{a}d)\overline{w}}{2\iota\alpha} + \frac{(b\overline{d} - \overline{b}d)}{2\iota\alpha} = 0. \]
+		Since $\alpha$ is real,
+		\[ \overline{\frac{(b\overline{c} - \overline{a}d)\overline{w}}{2\iota\alpha}} = \frac{(a\overline{d} - b\overline{c})w}{2\iota\alpha} \]
+		and
+		\[ \frac{(b\overline{d} - \overline{b}d)}{2\iota\alpha} \]
+		is real. This gives
+		\[ |w|^2 + \overline{\gamma}w + \gamma\overline{w} - \delta = 0 \]
+		for some $\gamma \in \C, \delta \in \R$. This is equivalent to $|w+\gamma| = (|\gamma|^2 + \delta)^{1/2}$, which is the equation of a circle\footnote{it may be checked that $|\gamma|^2 + \delta$ is a positive real by substituting their values}.\\
+
+		Letting $T = S^{-1}$ and $\Gamma$ be the circle obtained in the previous part of the proof, we must now show that $T(\R_\infty) = \Gamma$. Since $\R_\infty$ is connected and compact and $T$ is a homeomorphism, $T(\R_\infty)$ is a closed arc, say $\Gamma_1$, of $\Gamma$. If $\Gamma_1 \ne \Gamma$, let $z_1,z_2$ be the endpoints of this arc. If $T(\infty) = z_3$ which is distinct from $z_1,z_2$, then $\R_\infty \setminus \{\infty\}$ is connected but $\Gamma_1 \setminus \{z_1\}$ is disconnected, which is a contradiction. So, suppose $T(\infty) = z_1$. Then, $\R_\infty \setminus \{\infty,T^{-1}(z_2)\}$ is disconnected but $\Gamma_1 \setminus \{z_1,z_2\}$ is connected, yielding a contradiction once more and completing the proof.
+	\end{proof}
+
+	Next, we give a more general version of the above.
+	
+	\begin{ftheo}
+		A M\"{o}bius transformation takes circles to circles.
+	\end{ftheo}
+
+	Note that \Cref{thm: mobius real to circle} follows from this since $\R_\infty$ is a circle (of infinite radius) in $\C_\infty$.
+
+	\begin{proof}
+		Let $\Gamma$ be a circle in $\C_\infty$ and $S$ a M\"{o}bius transformation. Let $z_2,z_3,z_4$ be three distinct points on $\Gamma$, and set $w_j = Sz_j$ for each $j$. We claim that $S(\Gamma)$ is the circle $\Gamma'$ determined by $w_2,w_3,w_4$. Indeed,
+		\[ (z,z_2,z_3,z_4) = (Sz,w_2,w_3,w_4) \]
+		for any $z$, and if $z \in \Gamma$, the LHS is real by \Cref{thm: mobius real to circle}, and using the same theorem on the RHS completes the proof.
+	\end{proof}
+
+	\begin{fdef}
+		Let $\Gamma$ be a circle through $z_2,z_3,z_4$. The points $z,z^* \in \C_\infty$ are said to be \emph{symmetric} with respect to $\Gamma$ if
+		\[ (z^*,z_2,z_3,z_4) = \overline{(z,z_2,z_3,z_4)}. \]
+	\end{fdef}
+
+	\begin{remark}
+		The above definition only depends on $\Gamma$, not the choice of $z_2,z_3,z_4$.
+	\end{remark}
