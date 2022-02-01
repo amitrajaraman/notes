@@ -566,3 +566,14 @@ The variables of the CFG we shall construct will represent ``events" that the NP
 \begin{proof}
     This is an immediate corollary of \ref{NPDAtoCFGequivalence} and \ref{CFGtoNPDAequivalence}.
 \end{proof}
+
+\subsection{The Pumping Lemma}
+
+\begin{lemma}[Pumping Lemma for Context-Free Languages]
+    If $L$ is a context-free language, then there is a number $p$, called the \textit{pumping length}, where if $s$ is any string in $A$ of length at least $p$, then $s$ can be divided into five parts $s=uvwxy$, satisfying the following conditions:
+    \begin{enumerate}
+        \item for each $i\geq 0$, $uv^iwx^iy\in L$,
+        \item $|vx|>0$, and
+        \item $|vwx|\leq p$.
+    \end{enumerate}
+\end{lemma}

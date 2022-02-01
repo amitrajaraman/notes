@@ -387,7 +387,7 @@
 
 	The above proof requires that the entire segments $[(0,0),(x,0)]$ $[(x,0),(x,y)]$ are contained in $G$, which is true when we are on a disk.
 
-\subsection{Analytic functions as mappings}
+\subsection{Transformations}
 
 	Consider the two hyperbolas defined by
 	\begin{align*}
@@ -472,6 +472,7 @@
 	If $M$ is any M\"{o}bius transformation with $M(w_2) = 1$, $M(w_3) = 0$, $M(w_4) = \infty$, then $M(z) = (z,w_2,w_3,w_4)$ for any $z \in \C_\infty$.
 
 	\begin{theorem}
+		\label{thm: cross-product mobius equal}
 		If $z_2,z_3,z_4$ are distinct points and $T$ is any M\"{o}bius transformation, then
 		\[ (z_1,z_2,z_3,z_4) = (Tz_1,Tz_2,Tz_3,Tz_4). \]
 	\end{theorem}
@@ -545,3 +546,84 @@
 	\begin{remark}
 		The above definition only depends on $\Gamma$, not the choice of $z_2,z_3,z_4$.
 	\end{remark}
+
+	Observe that $z$ is symmetric with respect to itself with respect to $\Gamma$ if and only if $z \in \Gamma$. Indeed, it implies that $(z,z_2,z_3,z_4)$ is real, which by \Cref{thm: mobius real to circle} implies that $z \in \Gamma$.\\
+	
+	What does it mean for $z,z^*$ to be symmetric?\\
+	If $\Gamma$ is a straight line, $z,z^*$ are symmetric with respect to $\Gamma$ iff their perpendicular bisector is equal to $\Gamma$. That is, the line joining $z,z^*$ is perpendicular to $\Gamma$ and they are the same distance from $\Gamma$ (but on opposite sides). Indeed, choosing $z_4 = \infty$, we get that
+	\[ \frac{z^* - z_3}{z_2 - z_3} = \frac{\overline{z} - \overline{z_3}}{\overline{z_2} - \overline{z_3}}, \]
+	so
+	\[ |z - z_3| = |z^* - z_3| \]
+	for all $z_3 \in \Gamma$.\\
+	Now, suppose that $\Gamma = \{ z : |z-a| = R \}$ for some $0 < R < \infty$. We extensively use \Cref{thm: cross-product mobius equal} and the five types of M\"{o}bius translations in the following sequence of equations. Then,
+	\begin{align*}
+		(z^*,z_2,z_3,z_4) &= \overline{(z,z_2,z_3,z_4)} \\
+			&= \overline{(z-a,z_2-a,z_3-a,z_4-a)} \\
+			&= \left(\overline{z}-\overline{a},\frac{R^2}{z_2 - a},\frac{R^2}{z_3 - a},\frac{R^2}{z_4 - a}\right) \\
+			&= \left(\frac{R^2}{\overline{z}-\overline{a}},z_2-a,z_3-a,z_4-a\right) \\
+			&= \left( \frac{R^2}{\overline{z} - \overline{a}} + a , z_2, z_3, z_4 \right).
+	\end{align*}
+
+	Therefore, $z^* = a + \frac{R^2}{\overline{z}-\overline{a}}$, that is,
+	\[ (z^* - a) (\overline{z} - \overline{a}) = R^2. \]
+	Since
+	\[ \frac{z^* - a}{z - a} = \frac{R^2}{|z-a|^2} > 0 \]
+	is real, it follows that $z^*$ is on the ray $\{a + t(z-a) : 0 < t < \infty\}$. We also have that
+	\[ |z^* - a| |z - a| = R^2, \]
+	so one can easily obtain $z^*$ from $z$ or vice-versa. 
+
+	\begin{lemma}[Symmetry Principle]
+		If a M\"{o}bius transformation takes a circle $\Gamma_1$ to the circle $\Gamma_2$, then any pair of points symmetric with respect to $\Gamma_1$ is mapped to a pair of points symmetric with respect to $\Gamma_2$.
+	\end{lemma}
+	\begin{proof}
+		The proof of this is near-direct.
+		\begin{align*}
+			(Tz,Tz_2,Tz_3,Tz_4) &= (z^*,z_2,z_3,z_4) \\
+				&= \overline{(z,z_2,z_3,z_4)} \\
+				&= \overline{(Tz,Tz_2,Tz_3,Tz_4)}. \qedhere
+		\end{align*}
+	\end{proof}
+
+
+	\begin{fdef}
+		If $\Gamma$ is a circle, then an \emph{orientation} for $\Gamma$ is an ordered triple $(z_1,z_2,z_3)$ of points in $\Gamma$.
+	\end{fdef}
+	An orientation is used to represent a ``direction'' of the circle, where we ``go'' from $z_1$ to $z_2$ to $z_3$.\\
+
+	Let $\Gamma = \R$ and $z_1,z_2,z_3 \in \R$. Also put $Tz = (z,z_1,z_2,z_3)$. Since $T(\R_\infty) = \R_\infty$, $a,b,c,d$ can be chosen to be reals. Then,
+	\begin{align*}
+		Tz &= \frac{az+b}{cz+d} \\
+			&= \frac{az+b}{|cz+d|^2} (c\overline{z}+d) \\
+			&= \frac{1}{|cz+d|^2} \left( ac |z|^2 + bd + bc\overline{z} + adz \right).
+	\end{align*}
+	So,
+	\[ \Im(z,z_1,z_2,z_3) = \frac{ad-bc}{|cz+d|^2} \Im z \]
+	and thus, $\{ z : \Im (z,z_1,z_2,z_3) \}$ is either the upper or lower half-plane depending on whether $ad-bc$ is positive or negative. Note that $ad-bc$ is the determinant of $\begin{pmatrix}a & b \\ c & d\end{pmatrix}$.\\
+
+	Let $\Gamma$ be an arbitrary circle and suppose that $z_1,z_2,z_3 \in \Gamma$. Then, for any M\"{o}bius transformation $S$,
+	\begin{align*}
+		\{ z : \Im(z,z_1,z_2,z_3) > 0 \} &= \{ z : \Im(Sz,Sz_1,Sz_2,Sz_3) > 0 \} \\
+			&= S^{-1} \{ z : \Im(z,Sz_1,Sz_2,Sz_3) > 0 \}.
+	\end{align*}
+	So, if $S$ is chosen to map $\Gamma$ to $\R_\infty$, then the above set is equal to $S^{-1}$ of either the upper or lower halfspace.\\
+
+	\begin{definition}
+		If $z_1,z_2,z_3$ is an orientation of $\Gamma$, we denote the \emph{right side} and \emph{left side} of $\Gamma$ (with respect to $(z_1,z_2,z_3)$) to be
+		\[ \{ z : \Im(z,z_1,z_2,z_3) > 0 \} \text{ and } \{z : \Im(z,z_1,z_2,z_3) < 0\} \]
+		respectively.
+	\end{definition}
+
+	\begin{theorem}[Orientation Principle]
+		Let $\Gamma_1,\Gamma_2$ be circles in $\C_\infty$ such that $T\Gamma_1 = \Gamma_2$ for some M\"{o}bius transformation $T$. Let $(z_1,z_2,z_3)$ be an orientation of $\Gamma_1$. Then, $T$ takes the right side (resp. left side) of $\Gamma_1$ with respect to the orientation $(z_1,z_2,z_3)$ to the right side (resp. left side) of $\Gamma_2$ with respect to the orientation $(Tz_1,Tz_2,Tz_3)$.
+	\end{theorem}
+	The proof of the above is left as an exercise to the reader.\\
+
+	Since $(z,1,0,\infty) = z$ by definition, the right side of $\R_\infty$ with respect to the orientation $(1,0,\infty)$ is the upper half-plane.\\
+
+	\begin{exercise}
+		Find an analytic function $f : G \to \C$ where $G = \{ z : \Re z > 0 \}$, such that $f(G) = \{ z : |z| < 1 \}$.
+	\end{exercise}
+
+	Similar to the above exercise, one may show that
+	\[ g(z) = \frac{e^z - 1}{e^z + 1} \]
+	maps the infinite strip $\{ z : |\Im z| < \pi/2 \}$ to the open unit disk $D$.
