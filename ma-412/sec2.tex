@@ -1,0 +1,104 @@
+\section{Integration}
+
+\subsection{Basic definitions}
+
+	\subsubsection{Integrals of real functions}
+
+		First, let us recall the definition of the Riemann\footnote{technically the Darboux integral?} integral of functions on $\R$.
+
+		\begin{fdef}[Riemann Integral]
+			Let $[a,b]$ be a given interval. A \emph{partition} $\mathcal{P}$ of $[a,b]$ is a finite set of points $x_0,x_1,\ldots,x_n$ where
+			\[ a = x_0 \le x_1 \le \cdots \le x_{n-1} \le x_n = b.  \]
+			We also write $\Delta x_i = x_i - x_{i-1}$ for $i = 1,2,\ldots,n$.\\
+			For a bounded real function $f$ on $[a,b]$ and each partition $\mathcal{P}$ of $[a,b]$, we set
+			\[ M_i = \sup_{x_{i-1} \le x \le x_i} f(x), \qquad m_i = \inf_{x_{i-1} \le x \le x_i} f(x). \]
+			Further, set
+			\[ U(\mathcal{P},f) = \sum_{i=1}^{n} M_i \Delta x_i, \qquad L(\mathcal{P},f) = \sum_{i=1}^n m_i \Delta x_i \]
+			as the upper and lower Riemann sum respectively,
+			and finally,
+			\[ \overline{\int_a^b} f \dif x = \inf_{\mathcal{P}} U(\mathcal{P},f), \qquad \underline{\int_a^b} f \dif x = \sup_{\mathcal{P}} L(\mathcal{P},f) \]
+			as the upper and lower Riemann integrals of $f$.\\
+			cc
+		\end{fdef}
+
+		Next, we define the slightly more general Riemann-Stieltjes integral. Note that this is the same as the usual Riemann integral when $\alpha$ is the identity function.
+
+		\begin{fdef}[Riemann-Stieltjes Integral]
+			Let $\alpha : [a,b] \to \R$ be a monotonically increasing function on $[a,b]$. Corresponding to each partition $\mathcal{P}$ of $[a,b]$, write $\Delta \alpha_i = \alpha(x_i) - \alpha(x_{i-1})$. Clearly, $\Delta \alpha_i \ge 0$ for each $i$.\\
+			For any real function $f$ which is bounded on $[a,b]$, we put
+			\[ U(\mathcal{P},f,\alpha) = \sum_{i=1}^n M_i \Delta \alpha_i, \qquad L(\mathcal{P},f,\alpha) = \sum_{i=1}^n m_i \Delta \alpha_i, \]
+			where $M_i,m_i$ are defined as in the definition of the Riemann integral. We then define
+			\[ \overline{\int_a^b} f \dif \alpha = \inf_{\mathcal{P}} U(\mathcal{P},f,\alpha), \qquad \underline{\int_a^b} f \dif \alpha = \sup_{\mathcal{P}} L(\mathcal{P},f,\alpha). \]
+			If these two are equal, we say that $f$ is \emph{Riemann-Stieltjes integrable} with respect to $\alpha$ on $[a,b]$ and denote the common value as $\int_a^b f \dif \alpha$.
+		\end{fdef}
+
+		We also remark that
+		\[ \int_a^b f \dif \alpha = \lim_{\max \Delta \alpha_k \to 0} \sum_{k=1}^n f(\tau_k) \Delta \alpha_k, \]
+		where $x_{k-1} \le \tau_k \le x_k$ for each $k$.\\
+		More generally, we define the \emph{mesh} of $\mathcal{P}$ with respect to $\alpha$ as
+		\[ \norm{\mathcal{P}} = \max\{ \Delta\alpha_i : 1 \le i \le n \}. \]
+		So for all $\epsilon > 0$, there exists $\delta > 0$ such that for any partition $\mathcal{P}$ of $[a,b]$ with $\norm{P} < \delta$, then
+		\[ \left| \sum_{k=1}^n f(\tau_k) \Delta\alpha_k - \int_a^b f \dif \alpha \right| < \epsilon \]
+		for any choice of points $x_{k-1} \le \tau_k \le x_k$.
+
+	\subsection{Riemann-Stieltjes integrals of complex-valued functions}
+
+		\begin{fdef}
+			A function $\gamma : [a,b] \to \C$ for $[a,b] \subseteq \R$ is said to be of \emph{bounded variation} if there exists $M > 0$ such that for any partition $\mathcal{P} = \{ a = t_0 < t_1 < \cdots < t_{m-1} < t_m = b \}$ of $[a,b]$,
+			\[ v(\gamma;\mathcal{P}) = \sum_{k=1}^m |\gamma(t_k) - \gamma(t_{k-1})| \le M. \]
+			The \emph{total variation} $V(\gamma)$ of $\gamma$ is defined by
+			\[ V(\gamma) = \sup \{ v(\gamma;\mathcal{P}) : \mathcal{P}\text{ is a partition of }[a,b] \}. \]
+			Clearly, $V(\gamma) \le M < \infty$.
+		\end{fdef}
+
+		\begin{lemma}
+			Let $\gamma : [a,b] \to \C$ be of bounded variation. Then,
+			\begin{enumerate}
+				\item If $\mathcal{P},\mathcal{Q}$ are partitions of $[a,b]$ with $\mathcal{P} \subseteq \mathcal{Q}$, then $v(\gamma;\mathcal{P}) \le v(\gamma;\mathcal{Q})$.
+				\item If $\sigma : [a,b] \to \C$ is also of bounded variation and $\alpha,\beta\in\C$, then $\alpha\gamma + \beta\sigma$ is of bounded variation and
+				\[ V(\alpha\gamma + \beta\sigma) \le |\alpha| V(\gamma) + |\beta| V(\sigma). \]
+			\end{enumerate}
+		\end{lemma}
+		We omit the proof of the above, which is direct on using the triangle inequality on the definition of $v(\gamma;\mathcal{P})$.
+
+		\begin{lemma}
+			If $\gamma : [a,b] \to \C$ is piecewise smooth, $\gamma$ is of bounded variation and
+			\[ V(\gamma) = \int_a^b |\gamma'(t)| \dif t. \]
+		\end{lemma}
+		\begin{proof}
+			It suffices to show the required in the case where $\gamma$ is smooth, since in general we can consider the refinement of any partition that splits along the pieces along which $\gamma$ is smooth.\\
+			The right hand side is well-defined since $\gamma'$ is continuous. Let $\mathcal{P} = \{ a = t_0 < t_1 < \cdots < t_{m-1} < t_m = b \}$. By definition,
+			\begin{align*}
+				v(\gamma,\mathcal{P}) &= \sum_{k=1}^m |\gamma(t_k) - \gamma(t_{k-1})| \\
+					&= \sum_{k=1}^m \left| \int_{t_{k-1}}^{t_k} \gamma'(t) \dif t \right| \\
+					&\le \sum_{k=1}^m \int_{t_{k-1}}^{t_k} |\gamma'(t)| \dif t = \int_a^b |\gamma'(t)| \dif t.
+			\end{align*}
+			Therefore, $V(\gamma) \le \int_a^b |\gamma'(t)| \dif t$, so $\gamma$ is of bounded variation.\\
+			Since $\gamma'$ is continuous, it is uniformly continuous. So, if $\epsilon > 0$, we may choose $\delta_1 > 0$ such that
+			\[ |s-t| < \delta_1 \implies |\gamma'(s) - \gamma'(t)| < \epsilon. \]
+			Also, let $\delta_2 > )$ such that if $\norm{P} < \delta_2$, then
+			\[ \left| \int_a^b |\gamma'(t)| \dif t - \sum_{k=1}^m |\gamma'(\tau_k)| (t_k - t_{k-1}) \right| < \epsilon, \]
+			where $\tau_k$ is any point in $[t_{k-1},t_k]$. Therefore,
+			\begin{align*}
+				\int_a^b |\gamma'(t)| \dif t &\le \epsilon + \sum_{k=1}^{m} |\gamma'(t_k)| (t_k - t_{k-1}) \\
+					&= \epsilon + \sum_{k=1}^m \left| \int_{t_{k-1}}^{t_k} \gamma'(\tau_k) \dif t \right| \\
+					&\le \epsilon + \sum_{k=1}^m \left| \int_{t_{k-1}}^{t_k} (\gamma'(\tau_k) - \gamma'(t)) \dif t \right| + \sum_{k=1}^m \left| \int_{t_{k-1}}^{t_k} \gamma'(t) \dif t \right|.
+			\end{align*}
+			If $\norm{P} < \delta = \min(\delta_1,\delta_2)$, then $|\gamma'(\tau_k) - \gamma'(t)| < \epsilon$ for all $t \in [t_{k-1},t_k]$ and
+			\begin{align*}
+				\int_a^b |\gamma'(t) \dif t| &\le \epsilon + \epsilon(b-a) + \sum_{k=1}^{m} |\gamma(t_k) - \gamma(t_{k-1})| \\
+					&= \epsilon(1 + b-a) + V(\gamma;P) \le \epsilon(1 + b-a) + V(\gamma),
+			\end{align*}
+			so we are done since $1+b-a > 0$ is finite and $\epsilon$ can be made arbitrarily small.
+		\end{proof}
+
+		\begin{ftheo}
+			Let $\gamma : [a,b] \to \C$ be of bounded variation and suppose that $f : [a,b] \to \C$ is continuous. Then, there exists a (unique) complex number $\mathcal{I}$ such that for every $\epsilon > 0$, there exists $\delta > 0$ such that when $\mathcal{P} = \{ t_0 < t_1 < \cdots < t_m \}$ is a partition of $[a,b]$ with $\norm{P} = \max_{1 \le k \le m} (t_k - t_{k-1}) < \delta$,
+			\[ \left| \mathcal{I} - \sum_{k=1}^m f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon \]
+			for any choice of points $\tau_k$ with $t_{k-1} \le \tau_k \le t_k$.\\
+			This $\mathcal{I}$ is called the integral of $f$ with respect to $\gamma$ over $[a,b]$ and is denoted by
+			\[ \mathcal{I} = \int_a^b f \dif \gamma = \int_a^b f(t) \dif\gamma(t). \]
+		\end{ftheo}
+		\begin{proof}
+			First of all, note that it suffices to consider the case where $\gamma$ is real-valued, since we can write $\gamma = \gamma_1 + \iota \gamma_2$, where $\gamma_1,\gamma_2$ are real-valued, to get two integrals $\mathcal{I}_1,\mathcal{I}_2$ (for $\gamma_1,\gamma_2$ respectively), and finally use the triangle inequality to get $\mathcal{I} = \mathcal{I}_1 + \iota\mathcal{I}_2$.
+		\end{proof}
