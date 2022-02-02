@@ -464,20 +464,20 @@
 	The two hyperbolas above are mapped by this $f = u + \iota v$ to the straight lines $u=c$ and $v=d$.\\
 
 	\begin{fdef}
-		A \emph{path} in a region $G \subseteq \C$ is a continuous function $\gamma:[a,b]\to G$ for some interval $[a,b]$ in $\R$. If $\gamma'(t)$ exissts for each $t \in [a,b]$ and $\gamma':[a,b]\to\C$ is continuous, then $\gamma$ is
+		A \emph{path} in a region $G \subseteq \C$ is a continuous function $\gamma:[a,b]\to G$ for some interval $[a,b]$ in $\R$. If $\gamma'(t)$ exissts for each $t \in [a,b]$ and $\gamma':[a,b]\to\C$ is continuous, then $\gamma$ is said to be \emph{smooth}. $\gamma$ is said to be \emph{piecewise smooth} if there is a partition $a=t_0 < t_1 < \cdots t_{n-1} < t_n = b$ of $[a,b]$ such that $\gamma$ is smooth on each subinterval $[t_{i-1},t_i]$ for $1\le i\le n$.
 	\end{fdef}
 
 	By the existence of $\gamma'$, we mean that the two-sided limit
 	\[ \lim_{h\to 0} \frac{\gamma(t+h)-\gamma(t)}{h} \]
 	exists for $t \in (a,b)$ and the right and left sided limits exist for $t = a,b$ respectively. This is equivalent to saying that $\Re \gamma$ and $\Im \gamma$ have derivatives.
 
-	Suppose $\gamma : [a,b] \to G$ is a smooth path and for some $t_0 \in (a,b)$, $\gamma'(t_0) \ne 0$. Then, $\gamma$ has a \emph{tangent line} at the point $z_0 = \gamma(t_0)$. This lines goes through the point $z_0$ in the direction of the vector $\gamma'(t_0)$, that is, the slope of the line is $\tan(\arg \gamma'(t_0))$.\\
+	Suppose $\gamma : [a,b] \to G$ is a smooth path and for some $t_0 \in (a,b)$, $\gamma'(t_0) \ne 0$. Then, $\gamma$ has a \emph{tangent line} at the point $z_0 = \gamma(t_0)$. This line goes through the point $z_0$ in the direction of the vector $\gamma'(t_0)$, that is, the slope of the line is $\tan(\arg \gamma'(t_0))$.\\
 
 	If $\gamma_1$ and $\gamma_2$ are two smooth paths with $\gamma_1(t_1) = \gamma_2(t_2) = z_0$ and $\gamma_1'(t_1),\gamma_2'(t_2) \ne 0$, then define the \emph{angle} between the paths $\gamma_1,\gamma_2$ at $z_0$ to be $\arg(\gamma_2'(t_2)) - \arg(\gamma_1'(t_1))$.\\
 
-	Suppose $\gamma$ is a smooth path in $G$ and $f:G\to\C$ is analytic. Then, $\sigma = f \circ \gamma$ is also a smooth path and $\sigma'(t) = f'(\gamma(t)) \cdot \gamma'(t)$. Further, if $t_0$ is a fixed point of $f$ with $\gamma(t_0) = z_0$,
+	Suppose $\gamma$ is a smooth path in $G$ and $f:G\to\C$ is analytic. Then, $\sigma = f \circ \gamma$ is also a smooth path and $\sigma'(t) = f'(\gamma(t)) \cdot \gamma'(t)$. Further, if $z_0$ is a fixed point of $f$ with $\gamma(t_0) = z_0$,
 	\[ \arg(\sigma'(t_0)) - \arg(\gamma'(t_0)) = \arg(f'(z_0)). \]
-	Letting $\gamma_1,\gamma_2$ be smooth paths with $\gamma_1(t_1) = \gamma_2(t_2) = z_0$ with non-zero derivatives at $t_1,t_2$ respectively, and lt $\sigma_1 = f \circ \gamma_1, \sigma_2 = f \circ \gamma_2$. Further suppose that the two paths $\gamma_1,\gamma_2$ are not tangent to each other at $z_0$. Then,
+	Let $\gamma_1,\gamma_2$ be smooth paths with $\gamma_1(t_1) = \gamma_2(t_2) = z_0$ with non-zero derivatives at $t_1,t_2$ respectively, and let $\sigma_1 = f \circ \gamma_1, \sigma_2 = f \circ \gamma_2$. Further suppose that the two paths $\gamma_1,\gamma_2$ are not tangent to each other at $z_0$. Then,
 	\[ \arg(\gamma_2'(t_2)) - \arg(\gamma_1'(t_1)) = \arg(\sigma_2'(t_2)) - \arg(\sigma_1'(t_1)). \]
 	This says that the angle between two paths are preserved after applying an analytic function to both. A function $f$ satisfying this is said to have the \emph{angle-preserving property}.
 
@@ -516,7 +516,7 @@
 	\[
 	S(z) =
 	\begin{cases}
-		\frac{(z-z_3)/(z-z_4)}{(z_2-z_3)(z_2-z_4)}, & z_2,z_3,z_4 \in \C, \\
+		\frac{(z-z_3)/(z-z_4)}{(z_2-z_3)/(z_2-z_4)}, & z_2,z_3,z_4 \in \C, \\
 		\frac{z_2-z_4}{z-z_4}, & z_3 = \infty, \\
 		\frac{z-z_3}{z_2-z_3}, & z_4 = \infty. \\
 	\end{cases}
@@ -528,7 +528,7 @@
 	\end{definition}
 
 	For example, $(z_2,z_2,z_3,z_4) = 1$ and $(z,1,0,\infty) = z$.\\
-	If $M$ is any M\"{o}bius transformation with $M(w_2) = 1$, $M(w_3) = 0$, $M(w_4) = \infty$, then $M(z) = (z,w_2,w_3,w_4)$ for any $z \in \C_\infty$.
+	If $M$ is any M\"{o}bius transformation with $M(w_2) = 1$, $M(w_3) = 0$, $M(w_4) = \infty$, then $M(z) = (z,w_2,w_3,w_4)$ for all $z \in \C_\infty$.
 
 	\begin{theorem}
 		\label{thm: cross-product mobius equal}
@@ -561,14 +561,14 @@
 		\[ \frac{aw+b}{cw+d} = \frac{\overline{a}\overline{w} + \overline{b}}{\overline{c}\overline{w} + \overline{d}}. \]
 		This gives that
 		\begin{equation}
-			\tag{(*)}
+			\tag{$*$}
 			\label{eqn: mobius circle real}
 			(a\overline{c} - \overline{a}c)|w|^2 + (a\overline{d} - \overline{b}c)w + (b\overline{c} - d\overline{a})\overline{w} + (b\overline{d} - \overline{b}d) = 0.
 		\end{equation}
 		If $a\overline{c}$ is real, we get that
 		\[ \Im\left((a\overline{d}-\overline{b}c)w + b\overline{d}\right) = 0, \]
 		which is a circle through $\infty$ (a line).\\
-		If on the other hand $a\overline{c}$ is not real, then \Cref{eqn: mobius circle real} becomes
+		If on the other hand $a\overline{c}$ is not real, then (\ref{eqn: mobius circle real}) becomes
 		\[ 2\iota\underbrace{\Im(a\overline{c})}_{\alpha \ne 0}|w|^2 + (a\overline{d} - b\overline{c})w + (b\overline{c} - \overline{a}d)\overline{w} + (b\overline{d} - \overline{b}d) = 0. \]
 		Dividing by $2\iota\alpha$,
 		\[ |w|^2 + \frac{(a\overline{d} - b\overline{c})w}{2\iota\alpha} + \frac{(b\overline{c} - \overline{a}d)\overline{w}}{2\iota\alpha} + \frac{(b\overline{d} - \overline{b}d)}{2\iota\alpha} = 0. \]
@@ -578,7 +578,7 @@
 		\[ \frac{(b\overline{d} - \overline{b}d)}{2\iota\alpha} \]
 		is real. This gives
 		\[ |w|^2 + \overline{\gamma}w + \gamma\overline{w} - \delta = 0 \]
-		for some $\gamma \in \C, \delta \in \R$. This is equivalent to $|w+\gamma| = (|\gamma|^2 + \delta)^{1/2}$, which is the equation of a circle\footnote{it may be checked that $|\gamma|^2 + \delta$ is a positive real by substituting their values}.\\
+		for some $\gamma \in \C, \delta \in \R$. This is equivalent to $|w+\gamma| = (|\gamma|^2 + \delta)^{1/2}$, which is the equation of a circle\footnote{it may be checked that $|\gamma|^2 + \delta$ is a positive real by substituting their values.}.\\
 
 		Letting $T = S^{-1}$ and $\Gamma$ be the circle obtained in the previous part of the proof, we must now show that $T(\R_\infty) = \Gamma$. Since $\R_\infty$ is connected and compact and $T$ is a homeomorphism, $T(\R_\infty)$ is a closed arc, say $\Gamma_1$, of $\Gamma$. If $\Gamma_1 \ne \Gamma$, let $z_1,z_2$ be the endpoints of this arc. If $T(\infty) = z_3$ which is distinct from $z_1,z_2$, then $\R_\infty \setminus \{\infty\}$ is connected but $\Gamma_1 \setminus \{z_1\}$ is disconnected, which is a contradiction. So, suppose $T(\infty) = z_1$. Then, $\R_\infty \setminus \{\infty,T^{-1}(z_2)\}$ is disconnected but $\Gamma_1 \setminus \{z_1,z_2\}$ is connected, yielding a contradiction once more and completing the proof.
 	\end{proof}
