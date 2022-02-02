@@ -55,7 +55,7 @@
 	Observe that rather conveniently,
 	\[ \cis\theta_1 \cdot \cis\theta_2 = \cis(\theta_1 + \theta_2). \]
 	Therefore, inductively,
-	\[ z_1 z_2 \cdots z_n = \left(\prod_{i} |z_i|\right) \cdots r_n \cis\left(\sum_i \arg z_i \right). \]
+	\[ z_1 z_2 \cdots z_n = \left(\prod_{i} |z_i|\right) \cis\left(\sum_i \arg z_i \right). \]
 	In particular,
 	\[ z^n = r^n \cis(n\theta) \]
 	for any $n > 0$. If $z \ne 0$ (equivalently, $r\ne0$), the above holds for all $n \in \Z$.\\
@@ -64,7 +64,7 @@
 		\label{eqn: de moivre's}
 		(\cos\theta + \iota\sin\theta)^n = \cos(n\theta) + \iota\sin(n\theta)
 	\end{equation}
-	\Cref{eqn: de moivre's} is referred to as \emph{de Moivre's formula}.\\
+	\Cref{eqn: de moivre's} is referred to as \emph{de Moivre's Formula}.\\
 
 	Let us consider the equation $z^n = a$. This equation has $n$ roots of the form
 	\[ z = |a|^{1/n} \cis\left( \frac{2k\pi + \arg z}{n} \right) \]
@@ -93,7 +93,7 @@
 	So,
 	\[ |z|^2 = \frac{1-t^2}{(1-t)^2} = \frac{1+t}{1-t} \]
 	and
-	\[ t = 1 - \frac{|z|^2-1}{|z|^2+1}. \]
+	\[ t = \frac{|z|^2-1}{|z|^2+1}. \]
 	Therefore, we map $z$ to
 	\[ Z = \left( \frac{2 \Re z}{|z|^2+1} , \frac{2 \Im z}{|z|^2+1} , \frac{|z|^2-1}{|z|^2+1}. \right) \in S. \]
 	Based on this, we can define a distance metric between points in $\C_\infty$. For $z,z' \in \C_\infty$ mapping to $Z,Z' \in S$, we let $d(z,z')$ be the Euclidean distance between $Z,Z'$ in $\R^3$. More explicitly,
@@ -103,9 +103,7 @@
 			&= \frac{2|z-z'|}{\left((|z|^2+1) (|z'|^2+1)\right)^{1/2}}
 	\end{align*}
 	when $z,z'\in\C$ and if $z' = \infty$ (so $Z' = (0,0,1)$), we have
-	\begin{align*}
-		d(z,z') &= 
-	\end{align*}
+	\[ d(z,z') = \frac{4}{|z|^2 + 1} \]
 
 	This correspondence between points of $S$ and $\C_\infty$ is called the \emph{stereographic projection}. 
 
@@ -141,18 +139,18 @@
 		So,
 		\begin{align*}
 			|z_m - z_k| &= \left| \sum_{i=k+1}^m a_i \right| \\
-				&\ge \sum_{i=k+1}^m |a_i| < \epsilon,
+				&\le \sum_{i=k+1}^m |a_i| < \epsilon,
 		\end{align*}
 		completing the proof.
 	\end{proof}
 
 	\begin{exercise}
 		\label{ex: conv of summ zn}
-		Show that $\sum_{n=0}^\infty z_n$ converges iff $|z| < 1$.
+		Show that $\sum_{n=0}^\infty z^n$ converges iff $|z| < 1$.
 	\end{exercise}
 
 	\begin{ftheo}
-		For a given power series $\sum_{n=0}^\infty a_n (z-a)^n$, define the number of $R$ ($0\le R\le \infty$) by
+		For a given power series $\sum_{n=0}^\infty a_n (z-a)^n$, define the number $R$ ($0\le R\le \infty$) by
 		\[ \frac{1}{R} = \limsup_{n\to\infty} |a_n|^{1/n}. \]
 		Then,
 		\begin{itemize}
@@ -276,20 +274,16 @@
 			\item[(b)] Once again, it suffices to prove the result for $k = 0$. For $|z| < R$ and $g(z) = \sum_{n=1}^\infty n a_n z^{n-1}$,
 			\[ s_n(z) = \sum_{k=0}^n a_k z^k \text{ and } R_n(z) = \sum_{k=n+1}^\infty a_k z^k, \]
 			fix a point $w \in B(0,R)$ and $r$ such that $|w| < r < R$. We wish to show that $f'(w)$ exists and is equal to $g(w)$. Let $\delta > 0$ be arbitrary with $\overline{B(w,\delta)} \subseteq B(0,r)$. Letting $z \in B(w,\delta)$, we have
-			\begin{align*}
-				\frac{f(z)-f(w)}{z-w} - g(w) &= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \frac{R_n(z) - R_n(w)}{z-w} \\
-					&= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \frac{1}{z-w} \sum_{k=n+1}^\infty a_k (z^k - w^k) \\
-					&= \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \sum_{k=n+1}^\infty a_k \frac{z^k - w^k}{z-w}.
-			\end{align*}
+			\[ \frac{f(z)-f(w)}{z-w} - g(w) = \frac{s_n(z)-s_n(w)}{z-w} - s_n'(w) + s_n'(w) - g(w) + \frac{R_n(z) - R_n(w)}{z-w}. \]
 			We have
 			\[ |z^k - w^k| = |z-w||z^{k-1} + z^{k-2}w + \cdots + w^{k-1}| \le |z-w| kr^{k-1}. \]
 			Therefore,
-			\[ \left| \frac{R_n(z) - R_n(w)}{z-w} \right| \le \sum_{k=n+1}^\infty |a_k| k r^{k-1}. \]
-			Since $r < R$, $\sum_{k=1}^\infty |a_k| k r^{k-1}$ converges and so for any $\epsilon > 0$, there exists $N_1 \in N$ such that
+			\[ \left| \frac{R_n(z) - R_n(w)}{z-w} \right| = \left| \sum_{k=n+1}^\infty a_k \frac{z^k - w^k}{z-w} \right| \le \sum_{k=n+1}^\infty |a_k| k r^{k-1}. \]
+			Since $r < R$, $\sum_{k=1}^\infty |a_k| k r^{k-1}$ converges and so for any $\epsilon > 0$, there exists $N_1 \in N$ such that for $n \ge N_1$,
 			\[ \left| \frac{R_n(z) - R_n(w)}{z-w} \right| < \epsilon/3. \]
 			Since $\lim s_n'(w) = g(w)$, there exists $N_2 \in \N$ such that
 			\[ |s_n'(w) - g(w)| < \epsilon/3 \]
-			for $n \ge N_2$. Choose $n \ge \max(N_1, N_2)$. Then, there exists $\delta < 0$ such that whenever $0 < |z-w| < \delta$,
+			for $n \ge N_2$. Choose $n \ge \max(N_1, N_2)$. Then, there exists $\delta > 0$ such that whenever $0 < |z-w| < \delta$,
 			\[ \left| \frac{s_n(z) - s_n(w)}{z-w} - s_n'(w) \right| < \epsilon/3. \]
 			Putting all these together, we get the desideratum.
 
