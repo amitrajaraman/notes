@@ -291,16 +291,81 @@
 		\end{itemize}
 	\end{proof}
 
-	If the series $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ has radius of convergence $R > 0$, then $f$ is analytic on $B(a,R)$. Therefore, $\exp$ is analytic on $\C$.
+	If the series $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ has radius of convergence $R > 0$, then $f$ is analytic on $B(a,R)$. Therefore, $\exp$ is analytic on $\C$.\\
+	%%% LECTURE 4
+	Further, letting $g = \exp$,
+	\[ g'(z) = \sum_{n=1}^\infty \frac{n}{n!} z^{n-1} = \sum_{n=1}^\infty \frac{1}{(n-1)!} z^{n-1} = g(z). \]
 
-	%%% LECTURE OF 14-01-2022 (MISSED)
+	Define the functions $\cos$ and $\sin$ using power series as
+	\begin{align*}
+		\cos z &= 1 - \frac{z^2}{2!} + \frac{z^4}{4!} + \cdots + (-1)^k \frac{z^{2k}}{(2k)!} + \cdots \\
+		\sin z &= z - \frac{z^3}{3!} + \frac{z^5}{5!} + \cdots + (-1)^k \frac{z^{2k+1}}{(2k+1)!} + \cdots
+	\end{align*}
+	Note that
+	\[ \cos z = \frac{e^{\iota z} + e^{-\iota z}}{2} \text{ and } \sin z = \frac{e^{\iota z} - e^{-\iota z}}{2\iota}. \]
+	Therefore,
+	\[ e^{\iota z} = \cos z + \iota \sin z. \]
+	In particular, if $z = \theta \in \R$,
+	\[ e^{\iota \theta} = \cos \theta + \iota \sin \theta. \]
+	It is direct to show next that $\cos^2 z + \sin^2 z = 1$ for $z \in \C$.
+
+	\begin{definition}
+		A function $f$ is said to be \emph{periodic} with period $c$ if $f(z) = f(z+c)$ for all $z\in\C$.
+	\end{definition}
+
+	$e^{z}$ is periodic with period $2\pi\iota$.\\
+
+	Similar to $\cos$ and $\sin$, one can define the function $\log$ as
+	\[ \log (1 + z) = z - \frac{z^2}{2} + \frac{z^3}{3} - \frac{z^4}{4} + \cdots. \]
+	$\log z$ is defined only when $|z-1| < 1$. Further note that we cannot define $\log$ as the inverse of $\exp$ (as we do over the reals) since $\exp$ is not injective here.\\
+	We would like to define $\log$ such that $w = \exp z$ when $z = \log w$. Since $\exp$ is non-zero, also suppose that $w \ne 0$. If $z = x + \iota y$, then $|w| = e^x$ and $\arg w = y + 2\pi k\iota$ for some $k\in\Z$. Therefore, the solution set for $e^z = w$ is
+	\[ \{ \log w + \iota (\arg w + 2\pi k) : k \in \Z \}. \]
+
+	\begin{fdef}
+		If $G$ is an open connected set in $\C$ and $f : G \to \C$ is a continuous function such that $z = \exp(f(z))$ for all $z \in G$, then $f$ is a \emph{branch of the logarithm}.
+	\end{fdef}
+
+	\begin{lemma}
+		If $G \subseteq \C$ is open and connected and $f$ is a branch of the logarithm on $G$, then the totality of the branches of $\log z$ are the functions $f(z) + 2\pi k\iota$ for $k \in \Z$.
+	\end{lemma}
+	\begin{proof}
+		If $g(z) = f(z) + 2\pi k\iota$ for some $k \in \Z$, then $\exp(g(z)) = \exp(f(z)) = z$, so $g$ is also a branch of the logarithm.\\
+		On the other hand, suppose that $g$ is a branch of the logarithm. For $z\in G$, $\exp(f(z)) = \exp(g(z)) = z$, so $g(z) = f(z) + 2\pi k\iota$. However, note that this $k$ depends on $z$. We must show that the same $k$ works for all $z$. Indeed, $h(z) = (g(z) - f(z))/2\pi\iota$ is continuous on $G$ and $h(G) \subseteq \Z$, so the required follows.
+	\end{proof}
+
+
+	Now, let $G = \C \setminus \R_{\le 0}$. Clearly, $G$ is connected and each $z \in G$ can be uniquely denoted by $|z| e^{\iota\theta}$, where $-\pi < \theta < \pi$. For $\theta$ in this range, define
+	\[ f(r e^{\iota\theta}) = \log r + \iota\theta. \]
+	This is a branch of the logarithm on $G$, and is commonly referred to as the \emph{principal branch}.
+
+	\begin{theorem}
+		Let $G,\Omega$ be open subsets of $\C$. Suppose that $f : G \to \C$ and $g : \Omega \to \C$ are continuous such that $g(f(z)) = z$ for all $z \in G$. If $G$ is differentiable and $g'(z) \ne 0$, $f$ is differentiable and
+		\[ f'(z) = \frac{1}{g'(f(z))}. \]
+		If $g$ is analytic, so is $f$.
+	\end{theorem}
+	\begin{proof}
+		Fix $a \in G$ and let $h \in \C \setminus \{0\}$ with $a+h \in G$. Since $g(f(a)) = a \ne a+h = g(f(a+h))$, $f(a) \ne f(a+h)$.
+		Also,
+		\[ 1 = \frac{g(f(a+h)) - g(f(a))}{h} = \frac{g(f(a+h)) - g(f(a))}{f(a+h)-f(a)} \cdot {f(a+h)-f(a)}{h}. \]
+		Take the limit of either side as $h \to 0$. The first fraction is equal to $g'(f(a))$ since $\lim_{h\to 0} (f(a+h) - f(a)) = 0$, and therefore $\lim_{h\to0} (f(a+h) - f(a))/h = f'(a)$ exists, and $1 = g'(f(a)) \cdot f'(a)$. The required follows.\\
+		If $g$ is analytic, then $g'$ is continuous so $f$ is analytic.
+	\end{proof}
+
+	\begin{corollary}
+		Any branch of the logarithm function is analytic and has derivative $z \mapsto 1/z$.
+	\end{corollary}
+
+	Given a branch of the logarithm $f$ on an open connected set $G$ and fixed $b \in \C$, define $g(z) = \exp(bf(z))$. If $b \in \Z$, $g(z) = z^b$. In general, this defines a branch of $z^b$ ($b\in\C$) for any open connected set on which there is a branch of $\log z$.\\
+	If we write $z^b$ as a function, it is implicitly understood that the $f$ in $\exp(bf(z))$ is the principal branch of the logarithm. Since $\log$ is analytic, so is $z \mapsto z^b$.
+
+
 
 	%%% LECTURE OF 19-01-2022 (MISSED)
 
 \subsection{Cauchy-Riemann Equations}
 
 	Let $f:G\to\C$ be analytic and let
-	\[ u(x,y) = \Re(f(x+\iota y)), v(x,y) = \Re(f(x+\iota y)) \]
+	\[ u(x,y) = \Re(f(x+\iota y)), v(x,y) = \Im(f(x+\iota y)) \]
 	for $x+\iota y \in G$. Let us evaluate the limit
 	\[ f'(z) = \lim_{h\to 0} \frac{f(z+h)-f(z)}{h}. \]
 	in two different ways.\\
@@ -312,7 +377,7 @@
 	\[ \frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \text{ and } \frac{\partial u}{\partial y} = - \frac{\partial v}{\partial x}. \]
 
 	Supposing that $u$ and $v$ have continuous second derivative (we shall later show that they are infinitely differentiable), we have that
-	\[ \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y} \text{ and } \frac{\partial^2 u}{\partial y^2} = \frac{\partial^2 v}{\partial y \partial x}. \]
+	\[ \frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y} \text{ and } \frac{\partial^2 u}{\partial y^2} = - \frac{\partial^2 v}{\partial y \partial x}. \]
 	Therefore, since the second derivatives are continuous,
 	\begin{equation}
 		\label{eqn-harmonic}
@@ -330,7 +395,7 @@
 		for all $h \in B(0,\delta)$ for some $f'(z) \in \C$.
 		Note that
 		\[ u(x+s,y+t) - u(x,y) = \left( u(x+s,y+t) - u(x,y+t) \right) + \left( u(x,y+t) - u(x,y) \right). \]
-		Now, for fixed $t \in (-r,r)$, $s \mapsto u(x+s,y+t)$ is a differentiable function on $(-r,r)$. We apply the mean value theory to conclude that there exist $s_1,t_1 \in (-r,r)$ for each $s+\iota t \in B(0,r)$ such that $|s_1| < |s|$, $|t_1| < |t|$, and
+		Now, for fixed $t \in (-r,r)$, $s \mapsto u(x+s,y+t)$ is a differentiable function on $(-r,r)$. We apply the mean value theorem to conclude that there exist $s_1,t_1 \in (-r,r)$ for each $s+\iota t \in B(0,r)$ such that $|s_1| < |s|$, $|t_1| < |t|$, and
 		\begin{align*}
 			u(x+s,y+t) - u(x,y+t) &= u_x(x+s_1,y+t)s \\
 			u(x,y+t) - u(x,y) &= u_y(x,y+t_1)t.
