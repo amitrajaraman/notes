@@ -100,5 +100,34 @@
 			\[ \mathcal{I} = \int_a^b f \dif \gamma = \int_a^b f(t) \dif\gamma(t). \]
 		\end{ftheo}
 		\begin{proof}
-			First of all, note that it suffices to consider the case where $\gamma$ is real-valued, since we can write $\gamma = \gamma_1 + \iota \gamma_2$, where $\gamma_1,\gamma_2$ are real-valued, to get two integrals $\mathcal{I}_1,\mathcal{I}_2$ (for $\gamma_1,\gamma_2$ respectively), and finally use the triangle inequality to get $\mathcal{I} = \mathcal{I}_1 + \iota\mathcal{I}_2$.
+			First of all, note that it suffices to consider the case where $\gamma$ is real-valued, since we can write $\gamma = \gamma_1 + \iota \gamma_2$, where $\gamma_1,\gamma_2$ are real-valued, to get two integrals $\mathcal{I}_1,\mathcal{I}_2$ (for $\gamma_1,\gamma_2$ respectively), and finally use the triangle inequality to get $\mathcal{I} = \mathcal{I}_1 + \iota\mathcal{I}_2$.\\
+			Since $f$ is continuous, it is uniformly continuous. We can (inductively) find positive numbers $\delta_1 > \delta_2 > \cdots $ such that if $|s-t| < \delta_m$, $|f(s) - f(t)| < 1/m$. For each $M \ge 1$, let $\mathcal{P}_m$ be the collection of all partitions of $[a,b]$ with $\norm{P} \le \delta_m$, so $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots \supseteq \mathcal{P}_m \supseteq \cdots$. Finally, define $F_m$ to be the closure of the set
+			\[ \{ \sum_{k=1}^n f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) : P \in \mathcal{P}_m \text{ and } t_{k-1} \le \tau_k \le t_k \}. \]
+			First note, that because $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots$, it follows trivially that
+			\[ F_1 \supseteq F_2 \supseteq \cdots. \]
+			We claim that
+			\begin{align}
+				\diam F_m &\le \frac{2}{m} V(\gamma). \label{eqn: diam-bound}
+			\end{align}
+			If we do this, then Cantor's Theorem (since $\C$ is complete) implies that there is precisely one complex number $\mathcal{I}$ such that $\mathcal{I} \in F_m$ for all $m \ge 1$. Then, for any $\epsilon > 0$, we may let $m > (2/\epsilon)V(\gamma)$ so $\epsilon > (2/m) V(\gamma) \ge \diam F_m$. Since $\mathcal{I} \in F_m$, $F_m \subseteq B(\mathcal{I},\epsilon)$. Therefore, $\delta = \delta_m$ gets the job done.\\
+			To show \Cref{eqn: diam-bound}, it suffices to show that
+			\[ \diam \left\{ f(\tau_k) \left( \gamma(t_k) - \gamma(t_{k-1}) \right) : P \in \mathcal{P}_m \text{ and } \right\} \le \frac{2}{m} V(\gamma). \]
+			To do this, if $P = \{ t_0 < \cdots < t_n \}$ is a partition, denote by $S(P)$ a sum of the form $\sum f(\tau_k) \left( \gamma(t_k)  - \gamma(t_{k-1})\right)$ where $t_{k-1} \le \tau_k \le t_k$ for each $k$. Fixing $m \ge 1$, let $P \in \mathcal{P}_m$. If $P \subseteq Q$ (so $Q \in \mathcal{P}_m$ as well), then
+			\[ |S(P) - S(Q)| < \frac{1}{m} V(\gamma). \]
+			We only show this in the case where $Q$ is obtained from $P$ by adding a single extra partition point (the general case follows similarly). Let $Q = \{ t_0 < t_1 < \cdots < t_{p-1} < t^* < t_p < \cdots t_n \}$. If $t_{p-1} \le \sigma \le t^*$ and $t^* \le \sigma' \le t_p$. Then,
+			\[ S(Q) = \sum_{k \ne p} f(\sigma_k) ( \gamma(t_k) - \gamma(t_{k-1}) ) + f(\sigma) \left( \gamma(t^*) - \gamma(t_{p-1}) \right) + f(\sigma') \left( \gamma(t_p) - \gamma(t^*) \right). \]
+			Then, using the definition of $\delta_m$,
+			\begin{align*}
+				\left| S(P) - S(Q) \right| &= \left| \sum_{k\ne p} \left( f(\tau_k) - f(\sigma_k) \right) \left( \gamma(t_k) - \gamma(t_{k-1}) \right) \right. \\
+				&\qquad\left. + f(\tau_p) (\gamma(t_p) - \gamma(t_{p-1})) - f(\sigma)(\gamma(t^*) - \gamma(t_{p-1})) - f(\sigma')( \gamma(t_p) - \gamma(t^*) ) \right| \\
+				&\le \frac{1}{m} \sum_{k \ne p} |\gamma(t_k) - \gamma(t_{k-1}| + \left| \left( f(\tau_p) - f(\sigma) \right) \left( \gamma(t^*) - \gamma(t_{p-1}) \right) + \left( f(\tau_p) - f(\sigma') \right) \left( \gamma(t_p) - \gamma(t^*) \right) \right| \\
+				&\le \frac{1}{m} \sum_{k \ne p} \left| \gamma(t_k) - \gamma(t_{k-1}) \right| + \frac{1}{m} \left| \gamma(t^*) - \gamma(t_{p-1}) \right| + \frac{1}{m} \left| \gamma(t_p) - \gamma(t^*) \right| \\
+				&\le \frac{1}{m} V(\gamma).
+			\end{align*}
+
+			Next, let $P,R$ be any two partitions in $R$, and $Q - P \cup R$ a partition that contains $P$ and $R$. Using the first part,
+			\[ |S(P) - S(Q)| \le |S(P) - S(Q)| + |S(Q) - S(R)| \le \frac{2}{m} V(\gamma). \]
+			It follows that the diameter of the set of interest is at most $(2/m) V(\gamma)$, completing the proof.
 		\end{proof}
+
+		
