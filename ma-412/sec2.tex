@@ -41,7 +41,7 @@
 		\[ \left| \sum_{k=1}^n f(\tau_k) \Delta\alpha_k - \int_a^b f \dif \alpha \right| < \epsilon \]
 		for any choice of points $x_{k-1} \le \tau_k \le x_k$.
 
-	\subsection{Riemann-Stieltjes integrals of complex-valued functions}
+	\subsubsection{Riemann-Stieltjes integrals of complex-valued functions}
 
 		\begin{fdef}
 			A function $\gamma : [a,b] \to \C$ for $[a,b] \subseteq \R$ is said to be of \emph{bounded variation} if there exists $M > 0$ such that for any partition $\mathcal{P} = \{ a = t_0 < t_1 < \cdots < t_{m-1} < t_m = b \}$ of $[a,b]$,
@@ -130,4 +130,95 @@
 			It follows that the diameter of the set of interest is at most $(2/m) V(\gamma)$, completing the proof.
 		\end{proof}
 
-		
+		\begin{ftheo}
+			Let $f,g$ be continuous functions on $[a,b]$ and let $\gamma,\sigma$ be functions of bounded variation on $[a,b]$. Then for any scalars $\alpha,\beta$,
+			\begin{align*}
+				\int_a^b (\alpha f + \beta g) \dif \gamma &= \alpha \int_a^b f \dif \gamma + \beta \int_a^b g \dif \gamma \\
+				\int_a^b f \dif( \alpha\gamma + \beta\sigma ) = \alpha\int_a^b f \dif \gamma + \beta\int_a^b f \dif \sigma.
+			\end{align*}
+		\end{ftheo}
+
+		% \begin{proof}
+		% 	It follows near-directly that $\int_a^b \alpha f \dif \gamma = \alpha \int_a^b f \dif \gamma$ (just use $|\alpha|\epsilon$ instead of $\epsilon$ in the definition). So, to show \Cref{eqn: scalar-addition-closure of fn int}, it suffices to show it for $\alpha = \beta = 1$. To do this, use $\epsilon/2$ in the definitions of integrability, and take $\delta = \min\{\delta_1,\delta_2\}$ (where $\delta_1,\delta_2$ are the values obtained from the integrability of $f,g$).\\
+		% 	Similarly, $\int_a^b f \dif (\alpha \gamma) = \alpha \int_a^b f \dif \gamma$ and $\int_a^b f \dif(\gamma+\sigma) = \int_a^b f \dif \gamma + \int_a^b f \dif \sigma$.
+		% \end{proof}
+
+		\begin{lemma}
+			\label{lemma: can split integral}
+			Let $\gamma : [a,b] \to \C$ be of bounded variation and let $f : [a,b] \to \C$ be continuous. If $a = t_0 < t_1 < \cdots < t_{n-1} < t_n = b$, then
+			\[ \int_a^b f \dif \gamma = \sum_{k=1}^n \int_{t_{k-1}}^{t_k} f \dif \gamma. \]
+		\end{lemma}
+
+		We omit the proofs of the above.
+
+		\begin{ftheo}
+			If $\gamma$ is piecewise smooth and $f : [a,b] \to \C$ is continuous, then $\int_a^b f \dif \gamma = \int_a^b f(t) \gamma'(t) \dif t$.
+		\end{ftheo}
+		\begin{proof}
+			It suffices to consider the case where $\gamma$ is smooth by \Cref{lemma: can split integral}. Also, by looking at the real and imaginary parts of $\gamma$ separately, it suffices to consider the case where $\gamma$ is real-valued on $[a,b]$. Let $\epsilon > 0$ and choose $\delta > 0$ such that $P = \{ a = t_0 < t_1 < \cdots < t_n = b \}$ has $\norm{P} < \delta$, then
+			\[ \left| \int_a^b f \dif \gamma - \sum_{k=1}^n f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon/2 \]
+			for any $t_{k-1} \le \tau_k \le t_k$ for each $k$.\\
+			Applying the mean value theorem on $\gamma$ (this requires that $\gamma$ be real-valued), one gets that there exists $\tau_k \in [t_{k-1},t_k]$ for each $k$ such that
+			\[ \gamma'(\tau_k) = \frac{\gamma(t_k) - \gamma(t_{k-1})}{t_k - t_{k-1}}. \]
+			Using these $\tau_k$ specifically, 
+			\[ \left| \int_a^b f \dif \gamma - \sum_{k=1}^n f(\tau_k) \gamma'(\tau_k) (t_k - t_{k-1}) \right| < \epsilon/2 \]
+		\end{proof}
+
+\subsection{Integrals On Curves}
+
+	\begin{fdef}
+		$\gamma:[a,b]\to\C$ is called a \emph{rectifiable path} if it is continuous and of bounded variation. Note that if $\gamma$ is piecewise smooth, then it is rectifiable and its length is
+		\[ \int_a^b |\gamma'(t)| \dif t = V(\gamma). \]
+	\end{fdef}
+
+	\begin{fdef}
+		If $\gamma : [a,b] \to \C$ is a rectifiable path and $f$ is a function continuous on $[a,b]$, then the \emph{(line) integral} of $f$ along $\gamma$ is
+		\[ \int_a^b f(\gamma(t)) \dif \gamma(t). \]
+		This line integral is also denoted as
+		\[ \int_\gamma f = \int_\gamma f(z) \dif z \]
+	\end{fdef}
+
+	For example, if $\gamma:[0,2\pi] \to \C$ as $\gamma(t) = e^{\iota t}$,
+	\[ \int_\gamma \frac{1}{z} \dif z = \int_0^{2\pi} e^{-\iota t} (\iota e^{\iota t}) \dif t = 2 \pi \iota. \]
+	and
+	\[ \int_\gamma z^m \dif z = \int_0^{2\pi} e^{\iota m t} (\iota e^{\iota t}) \dif t = \iota \int_0^{2\pi} \cos((m+1)t) \dif t - \int_0^{2\pi} \sin((m+1)t) \dif t = 0. \]
+
+	\begin{theorem}
+		If $\gamma : [a,b] \to \C$ is a rectifiable path and $\varphi : [c,d] \to [a,b]$ is a continuous non-decreasing function with $\varphi(c) = a, \varphi(d) = b$, then for any function $f$ continuous on $\gamma$,
+		\[ \int_\gamma f = \int_{\gamma \circ \varphi} f. \]
+	\end{theorem}
+
+	\begin{remark}
+		The above uses the fact that $\gamma \circ \varphi$ is also rectifiable (Why is this true?).
+	\end{remark}
+
+	\begin{proof}
+		Let $\epsilon > 0$ and choose $\delta_1 > 0$ such that for a partition $\{ s_0 < s_1 < \cdots  < s_n \}$ of $[c,d]$ with $(s_{k} - s_{k-1}) < \delta_1$ and any $s_{k-1} \le \sigma_k \le s_k$,
+		\[ \left| \int_{\gamma \circ \varphi} f - \sum_{k=1}^{n} f((\gamma \circ \varphi)(s_k)) - f((\gamma \circ \varphi)(s_{k-1})) \right| < \epsilon/2. \]
+		Similarly, choose $\delta_2 > 0$ such that for a partition $\{ t_0 < t_1 < \cdots < t_m \}$ of $[a,b]$ with $(t_k - t_{k-1}) < \delta_2$ and $t_{k-1} \le \tau_k \le t_k$,
+		\[ \left| \int_{\gamma} f - \sum_{k=1}^{m} f(\gamma(t_k)) - f(\gamma(t_{k-1})) \right| < \epsilon/2. \]
+		Since $\varphi$ is uniformly continuous on $[c,d]$, there exists $\delta > 0$ less than $\delta_1$ such that $|\varphi(s) - \varphi(t)| < \delta_2$ whenever $|s-t| < \delta$. So, if $\{ s_0 < s_1 < \cdots < s_n \}$ is a partition of $[c,d]$ with $(s_k - s_{k-1}) < \delta < \delta_1$ and $t_k = \varphi(s_k)$, then $\{ t_0 < t_1 < \cdots < t_n \}$ is a partition of $[a,b]$ with $(t_k - t_{k-1}) < \delta_2$. If $s_{k-1} \le \sigma_k \le s_k$ and $\tau_k = \varphi(\sigma_k)$, then we can use the two earlier inequalities to conclude that
+		\[ \left| \int_\gamma f - \int_{\gamma \circ \varphi} f \right| < \epsilon, \]
+		completing the proof.
+	\end{proof}
+
+	\begin{definition}
+		Let $\gamma : [a,b] \to \C$ be a rectifiable path, and for $a \le t \le b$, set $|\gamma|(t) = V(\gamma;[a,t])$. That is,
+		\[ |\gamma|(t) = \sup\left\{ \sum_{k=1}^{n} |\gamma(t_k) - \gamma(t_{k-1})| : \{ t_0 < t_1 < \cdots < t_n \}\text{ is a partition of }[a,t] \right\}. \]
+		Clearly, $|\gamma|$ is increasing on $[a,b]$ and of bounded variation. In fact, $V(|\gamma|;[a,b]) = |\gamma|(b) - |\gamma|(a)$. If $f$ is continuous on $[a,b]$, define
+		\[ \int f |\dif z| = \int_a^b f(\gamma(t)) \dif |\gamma|(t). \]
+	\end{definition}
+
+	\begin{ftheo}
+		Let $\gamma$ be a rectifiable curve and suppose that $f$ is a function continuous on $\{\gamma\}$. Then,
+		\begin{equation}
+			\int_\gamma f = - \int_{-\gamma} f,
+		\end{equation}
+		\begin{equation}
+			\left| \int_\gamma f \right| \le \int_\gamma |f| |\dif z| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
+		\end{equation}
+		and for $c \in \C$,
+		\begin{equation}
+			\int_\gamma f(z) \dif z = \int_{\gamma + c} f(z-c) \dif z.
+		\end{equation}
+	\end{ftheo}
