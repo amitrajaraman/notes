@@ -212,13 +212,107 @@
 	\begin{ftheo}
 		Let $\gamma$ be a rectifiable curve and suppose that $f$ is a function continuous on $\{\gamma\}$. Then,
 		\begin{equation}
+			\label{eqn: 2.2}
 			\int_\gamma f = - \int_{-\gamma} f,
 		\end{equation}
 		\begin{equation}
+			\label{eqn: 2.3}
 			\left| \int_\gamma f \right| \le \int_\gamma |f| |\dif z| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
 		\end{equation}
 		and for $c \in \C$,
 		\begin{equation}
+			\label{eqn: 2.4}
 			\int_\gamma f(z) \dif z = \int_{\gamma + c} f(z-c) \dif z.
 		\end{equation}
 	\end{ftheo}
+	\begin{proof}
+		\Cref{eqn: 2.2,eqn: 2.4} follow near-directly from the definition, so we prove only \Cref{eqn: 2.3}. Let $\epsilon > 0$. Then, there exists $\delta > 0$ such that if $P = \{ t_0 < t_1 < \cdots t_n \}$ is a partition of $[a,b]$ with $\norm{P} < \delta$, then
+		\begin{align*}
+			\left| \left| \int_\gamma f(z) \dif z \right| - \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| \right| &\le \left| \int_\gamma f(z) \dif z - \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| \\
+			&< \epsilon/2
+		\end{align*}
+		for any $t_{k-1} \le \tau_k \le t_k$.
+		That is,
+		\begin{align*}
+			\left| \int_\gamma f(z) \dif z \right| &< \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| + \epsilon/2 \\
+			&\le  \sum_{k=1}^n \left| f(\gamma(\tau_k)) \right| \left|\gamma(t_k) - \gamma(t_{k-1}) \right| + \epsilon/2.
+		\end{align*}
+		We may also assume that for this same $\delta$,
+		\[  . \]
+		Recall that $|\gamma|(t)$ is an increasing function. So,
+		\[ |\gamma(t_k)| - |\gamma|(t_{k-1}) \ge |\gamma(t_k) - \gamma(t_{k-1})| \]
+		Therefore,
+		\begin{align*}
+			\left| \int_\gamma f(z) \dif z \right| &< \sum_{k=1}^n |f(\gamma(\tau_k))| \left( |\gamma|(t_k) - |\gamma|(t_{k-1}) \right) + \epsilon/2 \\
+				&< \int_\gamma |f(z)| |\dif z| + \epsilon.
+		\end{align*}
+		It follows that
+		\[ \left| \int_\gamma f(z) \dif z \right| \le \int_\gamma |f(z)| |\dif z|. \]
+		To conclude the proof, note that
+		\[ \int_\gamma |\dif z| = |\gamma|(b) - |\gamma|(a) = |\gamma|(b) = V(\gamma), \]
+		so
+		\[ \int_\gamma |f(z)| |\dif z| \le V(\gamma) \sup_{z \in \{\gamma\}} |f(z)|. \]
+	\end{proof}
+
+	\begin{flem}
+		\label{lemma: polygonal}
+		If $G$ is an open set in $\C$, $\gamma : [a,b] \to G$ is a rectifiable path, and $f : G \to \C$ is continuous, then for every $\epsilon > 0$ there exists a polygonal path $\Gamma$ in $G$ such that $\Gamma(a) = \gamma(a)$, $\Gamma(b) = \gamma(b)$, and
+		\[ \left| \int_\gamma f - \int_\Gamma f \right| < \epsilon \]
+	\end{flem}
+	\begin{proof}
+		We prove the result in the case where $G$ is an open disk. In the general case where $G$ need not be a disk, since $\{\gamma\}$ is compact, there exists a number $r$ with $0 < r < d(\{\gamma\},\partial G)$. Choose $\delta > 0$ such that $|\gamma(s) - \gamma(t)| < r$ when $|s-t| < \delta$. The idea is that we shall take several smaller disks and stitch together the polygonal paths on each of these sections.\\
+		If $P = \{ t_0 < t_1 < \cdots < t_n \}$ is a partition of $[a,b]$ with $\norm{P} < \delta$, then $|\gamma(t_k) - \gamma(t_{k-1})| < r$ for $t_{k-1} \le t \le t_k$. That is, if $\gamma_k : [t_{k-1}, t_k] \to G$ is defined by $\gamma_k(t) = \gamma(t)$, then $\{\gamma_k\} \subseteq B(\gamma(t_{k-1}),r)$ for $1 \le k \le n$. Getting a polygonal path $\Gamma_k$ for each $k$ such that
+		\[ \left| \int_{\gamma_k} f - \int_{\Gamma_k} f \right| < \epsilon/n, \]
+		defining $\Gamma(t) = \Gamma_k(t)$ on $[t_{k-1},t_k]$ does the job.
+		\\
+
+		Now, let us prove the result in the disk case.\\
+		Because $\{\gamma\}$ is a compact set, $d = d(\{\gamma\},\partial G) > 0$. It follows that if $G = B(c,r)$, then $\{\gamma\} \subseteq B(c,\rho)$ where $\rho = r - d/2$.\\
+		Now, observe that $f$ is uniformly continuous on $\overline{B}(c,\rho) \subseteq G$. Thus, we may assume without loss of generality that $f$ is uniformly continuous on $G$. Now, choose $\delta > 0$ such that if $|z-w| < \delta$, then $|f(z) - f(w)| < \epsilon$. If $\gamma : [a,b] \to G$, then $\gamma$ is uniformly continuous so there is a partition $P = \{t_0 < t_1 < \cdots < t_n\}$ of $[a,b]$ such that if $t_{k-1} \le s,t \le t_k$, $|\gamma(s) - \gamma(t)| < \delta$, and such that for $t_{k-1} \le \tau_k \le t_k$,
+		\[ \left| \int_\gamma f - \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon. \]
+		Now, define $\Gamma : [a,b] \to G$ by
+		\[ \Gamma(t) = \frac{(t_k - t) \gamma(t_{k-1}) + (t - t_{k-1}) \gamma(t_k)}{t_k - t_{k-1}} \]
+		if $t_{k-1} \le t \le t_k$. This is the polygonal path we shall consider. Indeed,
+		\begin{align*}
+			\Gamma(t) - \gamma(\tau_k) &= \frac{t_k - t}{t_k - t_{k-1}} (\gamma(t_{k-1}) - \gamma(\tau_k)) + \frac{t - t_{k-1}}{t_k - t_{k-1}} (\gamma(t_k) - \gamma(\tau_k)),
+		\end{align*}
+		so
+		\begin{align*}
+			|\Gamma(t) - \gamma(\tau_k)| &\le \left| \frac{t_k - t}{t_k - t_{k-1}} \right| \left| \gamma(t_{k-1}) - \gamma(\tau_k) \right| + \left| \frac{t - t_{k-1}}{t_k - t_{k-1}} \right| \left| \gamma(t_k) - \gamma(\tau_k) \right| \\
+				&\le \left| \gamma(t_{k-1}) - \gamma(\tau_k) \right| + \left| \gamma(t_k) - \gamma(\tau_k) \right| < 2\delta.
+		\end{align*}
+		Thus,
+		\begin{align*}
+			\int_\Gamma f &= \int_a^b f(\Gamma(t)) \Gamma'(t) \dif t \\
+				&= \sum_{k-1}^n \frac{\gamma(t_k) - \gamma(t_{k-1})}{t_k - t_{k-1}} \int_{t_{k-1}}^{t_k} f(\Gamma(t)) \dif t
+		\end{align*}
+		and
+		\begin{align*}
+			\left| \int_\gamma f - \int_\Gamma f \right| &= \left| \int_\gamma f - \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| + \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) - \int_\Gamma f \right| \\
+				&\le \epsilon + \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) - \int_\Gamma f \right| \\
+				&\le \epsilon + \sum_{k=1}^n \frac{|\gamma(t_k) - \gamma(t_{k-1})|}{t_k - t_{k-1}} \int_{t_{k-1}}^{t_k} |f(\Gamma(t)) - f(\gamma(\tau_k))| \dif t \\
+				&\le \epsilon + \epsilon \sum_{k=1}^n |\gamma(t_k) - \gamma(t_{k-1})| \\
+				&\le \epsilon (1 + V(\gamma)),
+		\end{align*}
+		which can be made arbitrarily small, thus completing the proof.
+	\end{proof}
+
+	The following can be thought of as an analogue of the Fundamental Theorem of Calculus for complex functions.
+
+	\begin{ftheo}
+		Let $G$ be open in $\C$ and $\gamma$ be a rectifiable path in $G$ with initial and end points $\alpha,\beta$. If $f : G \to \C$ is a continuous function with a primitive $F : G \to \C$ ($F$ is differentiable and $F' = f$), then
+		\[ \int_\gamma (F) = F(\beta) - F(\alpha). \]
+	\end{ftheo}
+	\begin{proof}
+		When $\gamma : [a,b] \to \C$ is piecewise smooth,
+		\begin{align*}
+			\int_\gamma f &= \int_a^b f(\gamma(t)) \gamma'(t) \dif t \\
+				&= \int_a^b F'(\gamma(t)) \gamma'(t) \dif t \\
+				&= \int_a^b (F \circ \gamma)'(t) \dif t \\
+				&= (F \circ \gamma) (b) - (F \circ \gamma) (a) & \text{(by the Fundamental Theorem of Calculus)} \\
+				&= F(b) - F(a).
+		\end{align*}
+		In general, we may use \Cref{lemma: polygonal}. For $\epsilon > 0$, let $\Gamma$ be a polygonal path of the described form. Since $\Gamma$ is piecewise smooth, $\int_\Gamma f = F(\beta) - F(\alpha)$, so
+		\[ \left| \int_\gamma f - (F(\beta) - F(\alpha)) \right| < \epsilon. \]
+		Since $\gamma$ was chosen arbitrarily, the desideratum follows.
+	\end{proof}
