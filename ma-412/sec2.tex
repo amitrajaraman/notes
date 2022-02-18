@@ -301,7 +301,7 @@
 
 	\begin{ftheo}
 		Let $G$ be open in $\C$ and $\gamma$ be a rectifiable path in $G$ with initial and end points $\alpha,\beta$. If $f : G \to \C$ is a continuous function with a primitive $F : G \to \C$ ($F$ is differentiable and $F' = f$), then
-		\[ \int_\gamma (F) = F(\beta) - F(\alpha). \]
+		\[ \int_\gamma F = F(\beta) - F(\alpha). \]
 	\end{ftheo}
 	\begin{proof}
 		When $\gamma : [a,b] \to \C$ is piecewise smooth,
@@ -316,3 +316,70 @@
 		\[ \left| \int_\gamma f - (F(\beta) - F(\alpha)) \right| < \epsilon. \]
 		Since $\gamma$ was chosen arbitrarily, the desideratum follows.
 	\end{proof}
+
+	The fundamental theorem of calculus says that each continuous function has a primitive. However, this is not true for functions of complex variables. For example, letting $f(z) = |z|^2$, if $F$ is a primitive of $f$, then $F$ is analytic. So, if $F = U + \iota V$, $x^2 + y^2 = F'(x+\iota y)$. Consequently,
+	\begin{align*}
+		\dpd{U}{x} &= \dpd{V}{y} = x^2 + y^2 \\
+		\dpd{U}{y} &= \dpd{V}{x} = 0.
+	\end{align*}
+	However, $\pd{U}{y} = 0$ implies that $U(x,y) = u(x)$ for some function $u$, which implies that $u'(x) = x^2 + y^2$, a contradiction.
+
+\subsection{Power series representation of analytic functions}
+
+	Recall the following result which we had used in the proof of \Cref{theo: open disk harmonic conjugate}.
+
+	\begin{theorem}
+		Let $\varphi : [a,b] \times [c,d] \to \C$ be a continuous function and defined $g : [c,d] \to \C$ by
+		\[ g(t) = \int_a^b \varphi(s,t) \dif s. \]
+		Then $g$ is continuous. Moreover, if $\pd{\varphi}{t}$ exists and is a continuous function on $[a,b] \times [c,d]$, then $g$ is continuously differentiable and
+		\[ g'(t) = \int_a^b \dpd{\varphi}{t}(s,t) \dif s. \]
+	\end{theorem}
+
+	This is referred to as the Leibniz rule.\\
+
+	For example, this may be used to prove that if $|z| < 1$,
+	\[ \int_0^{2\pi} \frac{e^{\iota s}}{e^{\iota s} - z} = 2 \pi. \]
+	To do so, let $\varphi(s,t) = e^{\iota s} / (e^{\iota s} - tz)$ for $0 \le t \le 1$ and $0 \le s \le 2\pi$. Observe that $\varphi$ is continuously differentiable since $|z| < 1$. Thus,
+	\[ g(t) = \int_0^{2\pi} \varphi(s,t) \dif s \]
+	is continuously differentiable. Since $\varphi(s,0) = 1$, $g(0) = 2\pi$. Now,
+	\begin{align*}
+		g'(t) &= \int_0^{2\pi} \dpd{\varphi}{t}(s,t) \dif s \\
+			&= \int_0^{2\pi} \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2}.
+	\end{align*}
+	For fixed $t$, $\Phi(s) = z\iota/(e^{\iota s} - tz)$ satisfies
+	\[ \Phi'(s) = -\frac{\iota z}{(e^{\iota s} - tz)^{2}} \cdots \iota e^{\iota s} = \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2}. \]
+	Therefore, $g'(t) = \Phi(2\pi) - \Phi(0) = 0$, so $g$ is a constant and $g(t) = g(0) = 2\pi$ for any $t$, $1$ in particular.
+
+	\begin{prop}
+		Let $f : G \to \C$ be analytic and suppose that $\overline{B(a,r)} \subseteq G$ for some $r > 0$. If $\gamma(t) = a + re^{\iota t}$ for $ 0 \le t \le 2\pi$, then
+		\[ f(z) = \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{w - z} \dif w \]
+		for $|z-a| < r$.
+	\end{prop}
+	\begin{proof}
+		Defining $G_1 = \left\{ (z-a)/r : z \in G \right\}$ and $g(z) = f(a + r z)$, it suffices to consider the case where $a = 0$ and $r = 1$.\\
+		Fix $z$ with $|z| < 1$. It must be shown that
+		\[ f(z) = \int_{2\pi\iota} \int_\gamma \frac{f(w)}{w-z} \dif w = \frac{1}{2\pi} \int_0^{2\pi} \frac{f(e^{\iota s} e^{\iota s})}{e^{\iota s} - z} \dif s. \]
+		That is, we want to show that
+		\begin{align*}
+			 0 &= \int_0^{2\pi} \frac{f(e^{\iota s}) e^{\iota s}}{e^{\iota s} - z} \dif s - 2 \pi f(z) \\
+			 	&= \int_0^{2\pi} \left(\frac{f(e^{\iota s}) e^{\iota s}}{e^{\iota s} - z} - f(z)\right) \dif s.
+		\end{align*}
+		For this, let
+		\[ \varphi(s,t) = \frac{f(z + t(e^{\iota s} - z)) e^{\iota s}}{e^{\iota s} - z} - f(z) \]
+		for $0 \le t \le 1$ and $0 \le s \le 2\pi$, and
+		\[ g(t) = \int_0^{2\pi} \varphi(s,t) \dif s. \]
+		We wish to show that $g(1) = 0$. Observe that
+		\[ g(0) = \int_0^{2\pi} \frac{f(z) e^{\iota s}}{e^{\iota s} - z} - f(z) \dif s = f(z) \int_0^{2\pi} \frac{e^{\iota s}}{e^{\iota s} - z} \dif s - 2\pi f(z) = 0. \]
+		Also,
+		\begin{align*}
+			g'(t) &= \int_0^{2\pi} \dpd{\varphi}{t}(s,t) \dif s \\
+				&= \int_0^{2\pi} \frac{e^{\iota s}}{e^{\iota s} - z} f'(z + t(e^{\iota s} - z)) (e^{\iota s} - z) \dif s \\
+				&= \int_0^{2\pi} e^{\iota s} f'(z + t(e^{\iota s - z})) \dif s \\
+				&= \frac{1}{t} f(z + t(e^{\iota s} - z)) \Biggr|_{s=0}^{s=2\pi} \\
+				&= 0,
+		\end{align*}
+		completing the proof.
+	\end{proof}
+
+	If $|z-a| = r$ and $w$ is on the circle $|w-a| = r$, then
+	\[ \frac{1}{w-z} = \frac{1}{w-a} \cdot \frac{1}{1 - \frac{z-a}{w-a}} = \frac{1}{w-a} \sum_{i=0}^{\infty} \left( \frac{z-a}{w-a} \right)^i. \]
