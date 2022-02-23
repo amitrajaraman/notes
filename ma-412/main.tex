@@ -2,6 +2,34 @@
 \usepackage[utf8]{inputenc}
 \usepackage{complexAnal}
 
+\title{MA 412: Complex Analysis}
+\author{Amit Rajaraman}
+\date{Spring 2022}
+
+\lhead{\sffamily{MA 412: Complex Analysis}}
+\chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
+\rhead{\sffamily{Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge \scshape MA 412: Complex Analysis} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large\textbf{Amit Rajaraman}}\\ % Author name
+    
+    \vspace{0.4cm}
+    Last updated \today % Year published
+
+\endgroup}
+
 \begin{document}
 
 \thispagestyle{empty}

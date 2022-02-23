@@ -4,7 +4,7 @@
 
 	\subsubsection{Integrals of real functions}
 
-		First, let us recall the definition of the Riemann\footnote{technically the Darboux integral?} integral of functions on $\R$.
+		First, let us recall the definition of the Riemann integral\footnote{technically the Darboux integral?} of functions on $\R$.
 
 		\begin{fdef}[Riemann Integral]
 			Let $[a,b]$ be a given interval. A \emph{partition} $\mathcal{P}$ of $[a,b]$ is a finite set of points $x_0,x_1,\ldots,x_n$ where
@@ -75,7 +75,7 @@
 			Therefore, $V(\gamma) \le \int_a^b |\gamma'(t)| \dif t$, so $\gamma$ is of bounded variation.\\
 			Since $\gamma'$ is continuous, it is uniformly continuous. So, if $\epsilon > 0$, we may choose $\delta_1 > 0$ such that
 			\[ |s-t| < \delta_1 \implies |\gamma'(s) - \gamma'(t)| < \epsilon. \]
-			Also, let $\delta_2 > )$ such that if $\norm{P} < \delta_2$, then
+			Also, let $\delta_2 > 0$ such that if $\norm{P} < \delta_2$, then
 			\[ \left| \int_a^b |\gamma'(t)| \dif t - \sum_{k=1}^m |\gamma'(\tau_k)| (t_k - t_{k-1}) \right| < \epsilon, \]
 			where $\tau_k$ is any point in $[t_{k-1},t_k]$. Therefore,
 			\begin{align*}
@@ -100,17 +100,17 @@
 		\end{ftheo}
 		\begin{proof}
 			First of all, note that it suffices to consider the case where $\gamma$ is real-valued, since we can write $\gamma = \gamma_1 + \iota \gamma_2$, where $\gamma_1,\gamma_2$ are real-valued, to get two integrals $\mathcal{I}_1,\mathcal{I}_2$ (for $\gamma_1,\gamma_2$ respectively), and finally use the triangle inequality to get $\mathcal{I} = \mathcal{I}_1 + \iota\mathcal{I}_2$.\\
-			Since $f$ is continuous, it is uniformly continuous. We can (inductively) find positive numbers $\delta_1 > \delta_2 > \cdots $ such that if $|s-t| < \delta_m$, $|f(s) - f(t)| < 1/m$. For each $M \ge 1$, let $\mathcal{P}_m$ be the collection of all partitions of $[a,b]$ with $\norm{P} \le \delta_m$, so $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots \supseteq \mathcal{P}_m \supseteq \cdots$. Finally, define $F_m$ to be the closure of the set
-			\[ \{ \sum_{k=1}^n f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) : P \in \mathcal{P}_m \text{ and } t_{k-1} \le \tau_k \le t_k \}. \]
-			First note, that because $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots$, it follows trivially that
+			Since $f$ is continuous, it is uniformly continuous. We can (inductively) find positive numbers $\delta_1 > \delta_2 > \cdots $ such that if $|s-t| < \delta_m$, $|f(s) - f(t)| < 1/m$. For each $M \ge 1$, let $\mathcal{P}_m$ be the collection of all partitions $P$ of $[a,b]$ with $\norm{P} \le \delta_m$, so $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots \supseteq \mathcal{P}_m \supseteq \cdots$. Finally, define $F_m$ to be the closure of the set
+			\[ \left\{ \sum_{k=1}^n f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) : P \in \mathcal{P}_m \text{ and } t_{k-1} \le \tau_k \le t_k \right\}. \]
+			Because $\mathcal{P}_1 \supseteq \mathcal{P}_2 \supseteq \cdots$, it follows trivially that
 			\[ F_1 \supseteq F_2 \supseteq \cdots. \]
 			We claim that
 			\begin{align}
 				\diam F_m &\le \frac{2}{m} V(\gamma). \label{eqn: diam-bound}
 			\end{align}
 			If we do this, then Cantor's Theorem (since $\C$ is complete) implies that there is precisely one complex number $\mathcal{I}$ such that $\mathcal{I} \in F_m$ for all $m \ge 1$. Then, for any $\epsilon > 0$, we may let $m > (2/\epsilon)V(\gamma)$ so $\epsilon > (2/m) V(\gamma) \ge \diam F_m$. Since $\mathcal{I} \in F_m$, $F_m \subseteq B(\mathcal{I},\epsilon)$. Therefore, $\delta = \delta_m$ gets the job done.\\
-			To show \Cref{eqn: diam-bound}, it suffices to show that
-			\[ \diam \left\{ f(\tau_k) \left( \gamma(t_k) - \gamma(t_{k-1}) \right) : P \in \mathcal{P}_m \text{ and } \right\} \le \frac{2}{m} V(\gamma). \]
+			So, we must show that
+			\[ \diam \left\{ f(\tau_k) \left( \gamma(t_k) - \gamma(t_{k-1}) \right) : P \in \mathcal{P}_m \text{ and } t_{k-1} \le \tau_k \le t_k \right\} \le \frac{2}{m} V(\gamma). \]
 			To do this, if $P = \{ t_0 < \cdots < t_n \}$ is a partition, denote by $S(P)$ a sum of the form $\sum f(\tau_k) \left( \gamma(t_k)  - \gamma(t_{k-1})\right)$ where $t_{k-1} \le \tau_k \le t_k$ for each $k$. Fixing $m \ge 1$, let $P \in \mathcal{P}_m$. If $P \subseteq Q$ (so $Q \in \mathcal{P}_m$ as well), then
 			\[ |S(P) - S(Q)| < \frac{1}{m} V(\gamma). \]
 			We only show this in the case where $Q$ is obtained from $P$ by adding a single extra partition point (the general case follows similarly). Let $Q = \{ t_0 < t_1 < \cdots < t_{p-1} < t^* < t_p < \cdots t_n \}$. If $t_{p-1} \le \sigma \le t^*$ and $t^* \le \sigma' \le t_p$. Then,
@@ -124,7 +124,7 @@
 				&\le \frac{1}{m} V(\gamma).
 			\end{align*}
 
-			Next, let $P,R$ be any two partitions in $R$, and $Q - P \cup R$ a partition that contains $P$ and $R$. Using the first part,
+			Next, let $P,R$ be any two partitions in $\mathcal{P}_m$, and $Q = P \cup R$ a partition that contains $P$ and $R$. Using the first part,
 			\[ |S(P) - S(Q)| \le |S(P) - S(Q)| + |S(Q) - S(R)| \le \frac{2}{m} V(\gamma). \]
 			It follows that the diameter of the set of interest is at most $(2/m) V(\gamma)$, completing the proof.
 		\end{proof}
@@ -133,7 +133,7 @@
 			Let $f,g$ be continuous functions on $[a,b]$ and let $\gamma,\sigma$ be functions of bounded variation on $[a,b]$. Then for any scalars $\alpha,\beta$,
 			\begin{align*}
 				\int_a^b (\alpha f + \beta g) \dif \gamma &= \alpha \int_a^b f \dif \gamma + \beta \int_a^b g \dif \gamma \\
-				\int_a^b f \dif( \alpha\gamma + \beta\sigma ) = \alpha\int_a^b f \dif \gamma + \beta\int_a^b f \dif \sigma.
+				\int_a^b f \dif( \alpha\gamma + \beta\sigma ) &= \alpha\int_a^b f \dif \gamma + \beta\int_a^b f \dif \sigma.
 			\end{align*}
 		\end{ftheo}
 
@@ -142,11 +142,11 @@
 		% 	Similarly, $\int_a^b f \dif (\alpha \gamma) = \alpha \int_a^b f \dif \gamma$ and $\int_a^b f \dif(\gamma+\sigma) = \int_a^b f \dif \gamma + \int_a^b f \dif \sigma$.
 		% \end{proof}
 
-		\begin{lemma}
+		\begin{prop}
 			\label{lemma: can split integral}
 			Let $\gamma : [a,b] \to \C$ be of bounded variation and let $f : [a,b] \to \C$ be continuous. If $a = t_0 < t_1 < \cdots < t_{n-1} < t_n = b$, then
 			\[ \int_a^b f \dif \gamma = \sum_{k=1}^n \int_{t_{k-1}}^{t_k} f \dif \gamma. \]
-		\end{lemma}
+		\end{prop}
 
 		We omit the proofs of the above.
 
@@ -154,13 +154,18 @@
 			If $\gamma$ is piecewise smooth and $f : [a,b] \to \C$ is continuous, then $\int_a^b f \dif \gamma = \int_a^b f(t) \gamma'(t) \dif t$.
 		\end{ftheo}
 		\begin{proof}
-			It suffices to consider the case where $\gamma$ is smooth by \Cref{lemma: can split integral}. Also, by looking at the real and imaginary parts of $\gamma$ separately, it suffices to consider the case where $\gamma$ is real-valued on $[a,b]$. Let $\epsilon > 0$ and choose $\delta > 0$ such that $P = \{ a = t_0 < t_1 < \cdots < t_n = b \}$ has $\norm{P} < \delta$, then
+			It suffices to consider the case where $\gamma$ is smooth by \Cref{lemma: can split integral}. Also, by looking at the real and imaginary parts of $\gamma$ separately, it suffices to consider the case where $\gamma$ is real-valued on $[a,b]$. Let $\epsilon > 0$ and choose $\delta > 0$ such that if $P = \{ a = t_0 < t_1 < \cdots < t_n = b \}$ has $\norm{P} < \delta$, then
 			\[ \left| \int_a^b f \dif \gamma - \sum_{k=1}^n f(\tau_k) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon/2 \]
+			and
+			\[ \left| \int_a^b f(t) \gamma'(t) \dif t - \sum_{k=1}^n f(\tau_k) \gamma'(\tau_k) (t_k - t_{k-1}) \right| < \epsilon/2 \]
 			for any $t_{k-1} \le \tau_k \le t_k$ for each $k$.\\
 			Applying the mean value theorem on $\gamma$ (this requires that $\gamma$ be real-valued), one gets that there exists $\tau_k \in [t_{k-1},t_k]$ for each $k$ such that
 			\[ \gamma'(\tau_k) = \frac{\gamma(t_k) - \gamma(t_{k-1})}{t_k - t_{k-1}}. \]
 			Using these $\tau_k$ specifically, 
-			\[ \left| \int_a^b f \dif \gamma - \sum_{k=1}^n f(\tau_k) \gamma'(\tau_k) (t_k - t_{k-1}) \right| < \epsilon/2 \]
+			\[ \left| \int_a^b f \dif \gamma - \sum_{k=1}^n f(\tau_k) \gamma'(\tau_k) (t_k - t_{k-1}) \right| < \epsilon/2, \]
+			so
+			\[ \left| \int_a^b f \dif \gamma - \int_a^b f(t) \gamma'(t) \dif t \right| < \epsilon, \]
+			completing the proof.
 		\end{proof}
 
 \subsection{Integrals On Curves}
@@ -171,10 +176,10 @@
 	\end{fdef}
 
 	\begin{fdef}
-		If $\gamma : [a,b] \to \C$ is a rectifiable path and $f$ is a function continuous on $[a,b]$, then the \emph{(line) integral} of $f$ along $\gamma$ is
+		If $\gamma : [a,b] \to \C$ is a rectifiable path and $f$ is a function continuous on $\{\gamma\}$, then the \emph{(line) integral} of $f$ along $\gamma$ is
 		\[ \int_a^b f(\gamma(t)) \dif \gamma(t). \]
 		This line integral is also denoted as
-		\[ \int_\gamma f = \int_\gamma f(z) \dif z \]
+		\[ \int_\gamma f = \int_\gamma f(z) \dif z. \]
 	\end{fdef}
 
 	For example, if $\gamma:[0,2\pi] \to \C$ as $\gamma(t) = e^{\iota t}$,
@@ -226,10 +231,7 @@
 	\end{ftheo}
 	\begin{proof}
 		\Cref{eqn: 2.2,eqn: 2.4} follow near-directly from the definition, so we prove only \Cref{eqn: 2.3}. Let $\epsilon > 0$. Then, there exists $\delta > 0$ such that if $P = \{ t_0 < t_1 < \cdots t_n \}$ is a partition of $[a,b]$ with $\norm{P} < \delta$, then
-		\begin{align*}
-			\left| \left| \int_\gamma f(z) \dif z \right| - \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| \right| &\le \left| \int_\gamma f(z) \dif z - \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| \\
-			&< \epsilon/2
-		\end{align*}
+		\[ \left| \left| \int_\gamma f(z) \dif z \right| - \left| \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| \right| \le \left| \int_\gamma f(z) \dif z - \sum_{k=1}^n f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon/2 \]
 		for any $t_{k-1} \le \tau_k \le t_k$.
 		That is,
 		\begin{align*}
@@ -237,9 +239,9 @@
 			&\le  \sum_{k=1}^n \left| f(\gamma(\tau_k)) \right| \left|\gamma(t_k) - \gamma(t_{k-1}) \right| + \epsilon/2.
 		\end{align*}
 		We may also assume that for this same $\delta$,
-		\[  . \]
+		\[ \sum_{k=1}^n |f(\gamma(t_k))| (|\gamma|(t_k) - |\gamma|(t_{k-1})) < \int_\gamma |f(z)| |\dif z| + \epsilon/2 . \]
 		Recall that $|\gamma|(t)$ is an increasing function. So,
-		\[ |\gamma(t_k)| - |\gamma|(t_{k-1}) \ge |\gamma(t_k) - \gamma(t_{k-1})| \]
+		\[ |\gamma|(t_k) - |\gamma|(t_{k-1}) \ge |\gamma(t_k) - \gamma(t_{k-1})| \]
 		Therefore,
 		\begin{align*}
 			\left| \int_\gamma f(z) \dif z \right| &< \sum_{k=1}^n |f(\gamma(\tau_k))| \left( |\gamma|(t_k) - |\gamma|(t_{k-1}) \right) + \epsilon/2 \\
@@ -299,8 +301,8 @@
 	The following can be thought of as an analogue of the Fundamental Theorem of Calculus for complex functions.
 
 	\begin{ftheo}
-		Let $G$ be open in $\C$ and $\gamma$ be a rectifiable path in $G$ with initial and end points $\alpha,\beta$. If $f : G \to \C$ is a continuous function with a primitive $F : G \to \C$ ($F$ is differentiable and $F' = f$), then
-		\[ \int_\gamma F = F(\beta) - F(\alpha). \]
+		Let $G$ be open in $\C$ and $\gamma$ be a rectifiable path in $G$ with initial and end points $\alpha,\beta$ respectively. If $f : G \to \C$ is a continuous function with a primitive $F : G \to \C$ ($F$ is differentiable and $F' = f$), then
+		\[ \int_\gamma f = F(\beta) - F(\alpha). \]
 	\end{ftheo}
 	\begin{proof}
 		When $\gamma : [a,b] \to \C$ is piecewise smooth,
@@ -309,11 +311,11 @@
 				&= \int_a^b F'(\gamma(t)) \gamma'(t) \dif t \\
 				&= \int_a^b (F \circ \gamma)'(t) \dif t \\
 				&= (F \circ \gamma) (b) - (F \circ \gamma) (a) & \text{(by the Fundamental Theorem of Calculus)} \\
-				&= F(b) - F(a).
+				&= F(\beta) - F(\alpha).
 		\end{align*}
 		In general, we may use \Cref{lemma: polygonal}. For $\epsilon > 0$, let $\Gamma$ be a polygonal path of the described form. Since $\Gamma$ is piecewise smooth, $\int_\Gamma f = F(\beta) - F(\alpha)$, so
 		\[ \left| \int_\gamma f - (F(\beta) - F(\alpha)) \right| < \epsilon. \]
-		Since $\gamma$ was chosen arbitrarily, the desideratum follows.
+		Since $\epsilon$ was chosen arbitrarily, the desideratum follows.
 	\end{proof}
 
 	The fundamental theorem of calculus says that each continuous function has a primitive. However, this is not true for functions of complex variables. For example, letting $f(z) = |z|^2$, if $F$ is a primitive of $f$, then $F$ is analytic. So, if $F = U + \iota V$, $x^2 + y^2 = F'(x+\iota y)$. Consequently,
@@ -327,12 +329,12 @@
 
 	Recall the following result which we had used in the proof of \Cref{theo: open disk harmonic conjugate}.
 
-	\begin{theorem}
+	\begin{ftheo}
 		Let $\varphi : [a,b] \times [c,d] \to \C$ be a continuous function and defined $g : [c,d] \to \C$ by
 		\[ g(t) = \int_a^b \varphi(s,t) \dif s. \]
 		Then $g$ is continuous. Moreover, if $\pd{\varphi}{t}$ exists and is a continuous function on $[a,b] \times [c,d]$, then $g$ is continuously differentiable and
 		\[ g'(t) = \int_a^b \dpd{\varphi}{t}(s,t) \dif s. \]
-	\end{theorem}
+	\end{ftheo}
 
 	This is referred to as the Leibniz rule.\\
 
@@ -343,10 +345,10 @@
 	is continuously differentiable. Since $\varphi(s,0) = 1$, $g(0) = 2\pi$. Now,
 	\begin{align*}
 		g'(t) &= \int_0^{2\pi} \dpd{\varphi}{t}(s,t) \dif s \\
-			&= \int_0^{2\pi} \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2}.
+			&= \int_0^{2\pi} \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2} \dif s.
 	\end{align*}
 	For fixed $t$, $\Phi(s) = z\iota/(e^{\iota s} - tz)$ satisfies
-	\[ \Phi'(s) = -\frac{\iota z}{(e^{\iota s} - tz)^{2}} \cdots \iota e^{\iota s} = \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2}. \]
+	\[ \Phi'(s) = -\frac{\iota z}{(e^{\iota s} - tz)^{2}} \cdot \iota e^{\iota s} = \frac{ze^{\iota s}}{(e^{\iota s} - tz)^2}. \]
 	Therefore, $g'(t) = \Phi(2\pi) - \Phi(0) = 0$, so $g$ is a constant and $g(t) = g(0) = 2\pi$ for any $t$, $1$ in particular.
 
 	\begin{prop}
@@ -357,7 +359,7 @@
 	\begin{proof}
 		Defining $G_1 = \left\{ (z-a)/r : z \in G \right\}$ and $g(z) = f(a + r z)$, it suffices to consider the case where $a = 0$ and $r = 1$.\\
 		Fix $z$ with $|z| < 1$. It must be shown that
-		\[ f(z) = \int_{2\pi\iota} \int_\gamma \frac{f(w)}{w-z} \dif w = \frac{1}{2\pi} \int_0^{2\pi} \frac{f(e^{\iota s} e^{\iota s})}{e^{\iota s} - z} \dif s. \]
+		\[ f(z) = \int_{2\pi\iota} \int_\gamma \frac{f(w)}{w-z} \dif w = \frac{1}{2\pi} \int_0^{2\pi} \frac{f(e^{\iota s}) e^{\iota s}}{e^{\iota s} - z} \dif s. \]
 		That is, we want to show that
 		\begin{align*}
 			 0 &= \int_0^{2\pi} \frac{f(e^{\iota s}) e^{\iota s}}{e^{\iota s} - z} \dif s - 2 \pi f(z) \\

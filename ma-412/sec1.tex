@@ -67,17 +67,17 @@
 	\Cref{eqn: de moivre's} is referred to as \emph{de Moivre's Formula}.\\
 
 	Let us consider the equation $z^n = a$. This equation has $n$ roots of the form
-	\[ z = |a|^{1/n} \cis\left( \frac{2k\pi + \arg z}{n} \right) \]
+	\[ z = |a|^{1/n} \cis\left( \frac{2k\pi + \arg a}{n} \right) \]
 	for $k = 0,1,\ldots,n-1$.
 
 	A \emph{line} in the complex plane is a set of the form
 	\[ L = \{ z = a+tb : t \in \R \}, \]
 	for some fixed $a,b\in\C$, where $b$ is a \emph{directional} vector whose absolute value may be assumed to be $1$. Since $b \ne 0$, we equivalently have
-	\[ L = \{ z : \Im\left( \frac{z-a}{b} \right) = 0 \}. \]
+	\[ L = \left\{ z : \Im\left( \frac{z-a}{b} \right) = 0 \right\}. \]
 	We can also define the half-planes
 	\begin{align*}
-		H_a &= \{ z : \Im\left( \frac{z-a}{b} \right) > 0 \} \\
-		K_a &= \{ z : \Im\left( \frac{z-a}{b} \right) < 0 \}.
+		H_a &= \left\{ z : \Im\left( \frac{z-a}{b} \right) > 0 \right\} \\
+		K_a &= \left\{ z : \Im\left( \frac{z-a}{b} \right) < 0 \right\}.
 	\end{align*}
 	Note that $H_a = a + H_0$, where the addition is Minkowski addition:
 	\[ H_a = \{ a + z : z \in H_0 \}. \]
@@ -319,7 +319,7 @@
 	\[ \log (1 + z) = z - \frac{z^2}{2} + \frac{z^3}{3} - \frac{z^4}{4} + \cdots. \]
 	$\log z$ is defined only when $|z-1| < 1$. Further note that we cannot define $\log$ as the inverse of $\exp$ (as we do over the reals) since $\exp$ is not injective here.\\
 	We would like to define $\log$ such that $w = \exp z$ when $z = \log w$. Since $\exp$ is non-zero, also suppose that $w \ne 0$. If $z = x + \iota y$, then $|w| = e^x$ and $\arg w = y + 2\pi k\iota$ for some $k\in\Z$. Therefore, the solution set for $e^z = w$ is
-	\[ \{ \log w + \iota (\arg w + 2\pi k) : k \in \Z \}. \]
+	\[ \{ \log |w| + \iota (\arg w + 2\pi k) : k \in \Z \}. \]
 
 	\begin{fdef}
 		If $G$ is an open connected set in $\C$ and $f : G \to \C$ is a continuous function such that $z = \exp(f(z))$ for all $z \in G$, then $f$ is a \emph{branch of the logarithm}.
@@ -346,7 +346,7 @@
 	\begin{proof}
 		Fix $a \in G$ and let $h \in \C \setminus \{0\}$ with $a+h \in G$. Since $g(f(a)) = a \ne a+h = g(f(a+h))$, $f(a) \ne f(a+h)$.
 		Also,
-		\[ 1 = \frac{g(f(a+h)) - g(f(a))}{h} = \frac{g(f(a+h)) - g(f(a))}{f(a+h)-f(a)} \cdot {f(a+h)-f(a)}{h}. \]
+		\[ 1 = \frac{g(f(a+h)) - g(f(a))}{h} = \frac{g(f(a+h)) - g(f(a))}{f(a+h)-f(a)} \cdot \frac{f(a+h)-f(a)}{h}. \]
 		Take the limit of either side as $h \to 0$. The first fraction is equal to $g'(f(a))$ since $\lim_{h\to 0} (f(a+h) - f(a)) = 0$, and therefore $\lim_{h\to0} (f(a+h) - f(a))/h = f'(a)$ exists, and $1 = g'(f(a)) \cdot f'(a)$. The required follows.\\
 		If $g$ is analytic, then $g'$ is continuous so $f$ is analytic.
 	\end{proof}
@@ -422,7 +422,7 @@
 	\end{proof}
 
 	A next question is: given some $u$ such that
-	\[ \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}, \]
+	\[ \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0, \]
 	when does there exist harmonic $v$ such that $u + \iota v$ is analytic? Such a $v$ is referred to as a \emph{harmonic conjugate} of $u$.
 
 	It turns out that the answer is not always. Indeed, $u(x,y) = \log((x^2+y^2)^{1/2})$ on $\C\setminus\{0\}$, despite being harmonic, does not have a harmonic conjugate.
@@ -466,7 +466,7 @@
 
 	\begin{fdef}
 		A \emph{path} in a region $G \subseteq \C$ is a continuous function $\gamma:[a,b]\to G$ for some interval $[a,b]$ in $\R$. If $\gamma'(t)$ exissts for each $t \in [a,b]$ and $\gamma':[a,b]\to\C$ is continuous, then $\gamma$ is said to be \emph{smooth}. $\gamma$ is said to be \emph{piecewise smooth} if there is a partition $a=t_0 < t_1 < \cdots t_{n-1} < t_n = b$ of $[a,b]$ such that $\gamma$ is smooth on each subinterval $[t_{i-1},t_i]$ for $1\le i\le n$.\\
-		For a path $\gamma : [a,b] \to \C$, $[a,b]$ is sometimes referred to as the \emph{trace} of $\gamma$ and denoted $\{\gamma\}$.
+		For a path $\gamma : [a,b] \to \C$, $\gamma([a,b])$ is sometimes referred to as the \emph{trace} of $\gamma$ and denoted $\{\gamma\}$.
 	\end{fdef}
 
 	By the existence of $\gamma'$, we mean that the two-sided limit
@@ -486,7 +486,7 @@
 	\begin{fdef}
 		A function $f : G \to \C$ which has the angle-preserving property and also has 
 		\[ \lim_{z\to a} \left|\frac{f(z)-f(a)}{z-a}\right| \]
-		existing is called a \emph{conformal map}.
+		existing for all $a \in G$ is called a \emph{conformal map}.
 	\end{fdef}
 
 	It turns out that a function $f$ is a conformal map if and only if it is analytic and $f'(z) \ne 0$ for all $z$ (How?).
@@ -503,7 +503,7 @@
 	If $w = S(z)$, it is relatively simple to show that
 	\[ z = S^{-1}(w) = \frac{dw-b}{-cw+a}. \]
 	Therefore, the inverse of a M\"{o}bius transformation is a M\"{o}bius transformation. The composition of two M\"{o}bius transformations is a M\"{o}bius transformation as well.\\
-	Also observe that the coefficiencts $a,b,c,d$ for a given M\"{o}bius transformation are not unique since we can multiply them by a constant. We may also extend $S$ to $\C_\infty$ with $S(\infty) = a/c$ and $S(-d/c) = \infty$.\\
+	Also observe that the coefficients $a,b,c,d$ for a given M\"{o}bius transformation are not unique since we can multiply them by a constant. We may also extend $S$ to $\C_\infty$ with $S(\infty) = a/c$ and $S(-d/c) = \infty$.\\
 
 	$S(z) = z+a$ is called a \emph{translation}, $S(z) = az$ with $a\ne 0$ is called a \emph{dilation}, $S(z) = e^{\iota\theta} z$ is called a \emph{rotation}, and $S(z) = 1/z$ is called the \emph{inversion}. We shall see later that any M\"{o}bius transformation is a composition of these five types of transformations.
 
@@ -557,7 +557,7 @@
 	\end{lemma}
 	\begin{proof}
 		Define $S:\C_\infty\to\C_\infty$ by $Sz = (z,z_2,z_3,z_4)$. We are done if we show that $S^{-1}(\R_\infty)$ is a circle (since a circle is uniquely determined by three distinct points on it).\\
-		Let $S^{-1}(z) = (az+b)/(cz+d)$.\\
+		Let $S(z) = (az+b)/(cz+d)$.\\
 
 		First, let us show that $S^{-1}(\R_\infty) \subseteq \Gamma$ for a circle $\Gamma$ in $\C_\infty$. Let $w \in S^{-1}(\R_\infty)$. Then, $Sw = \overline{Sw}$ so
 		\[ \frac{aw+b}{cw+d} = \frac{\overline{a}\overline{w} + \overline{b}}{\overline{c}\overline{w} + \overline{d}}. \]
