@@ -245,6 +245,7 @@
 	We shall show later that if $f$ is differentiable then its derivative is continuous, and so $f$ is analytic.
 
 	\begin{ftheo}
+		\label{theo: power series rad conv}
 		Let $f(z) = \sum_{n=0}^\infty a_n (z-a)^n$ have radius of convergence $R > 0$. Then
 		\begin{itemize}
 			\item[(a)] For each $k \ge 1$, the series
@@ -661,7 +662,7 @@
 	\end{align*}
 	So,
 	\[ \Im(z,z_1,z_2,z_3) = \frac{ad-bc}{|cz+d|^2} \Im z \]
-	and thus, $\{ z : \Im (z,z_1,z_2,z_3) \}$ is either the upper or lower half-plane depending on whether $ad-bc$ is positive or negative. Note that $ad-bc$ is the determinant of $\begin{pmatrix}a & b \\ c & d\end{pmatrix}$.\\
+	and thus, $\{ z : \Im (z,z_1,z_2,z_3) > 0 \}$ is either the upper or lower half-plane depending on whether $ad-bc$ is negative or positive. Note that $ad-bc$ is the determinant of $\begin{pmatrix}a & b \\ c & d\end{pmatrix}$.\\
 
 	Let $\Gamma$ be an arbitrary circle and suppose that $z_1,z_2,z_3 \in \Gamma$. Then, for any M\"{o}bius transformation $S$,
 	\begin{align*}

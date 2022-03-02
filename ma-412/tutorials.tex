@@ -1,0 +1,97 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{complexAnal}
+
+\title{MA 412: Complex Analysis Tutorials}
+\author{Amit Rajaraman}
+\date{Spring 2022}
+
+\lhead{\sffamily{MA 412: Complex Analysis Tutorials}}
+\chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
+\rhead{\sffamily{Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge \scshape MA 412: Complex Analysis Tutorials} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large\textbf{Amit Rajaraman}}\\ % Author name
+    
+    \vspace{0.4cm}
+    Last updated \today % Year published
+
+\endgroup}
+
+\begin{document}
+
+\thispagestyle{empty}
+\titleBC
+
+\tableofcontents
+\clearpage
+\setcounter{section}{3}
+
+
+\section{Assignment 4}
+
+\begin{exercise}
+    \label{ex:4.1}
+    Let $\gamma : [a,b] \to \R$ be non-decreasing. Show that $\gamma$ is of bounded variation and $V(\gamma) = \gamma(b) - \gamma(a)$.
+\end{exercise}
+\begin{solution*}
+    For any partition $P = \{ a = t_0 < t_1 < \cdots < t_m = b \}$ of $[a,b]$,
+    \begin{align*}
+        v(\gamma;P) &= \sum_{k=1}^{m} |\gamma(t_k) - \gamma(t_{k-1})| \\
+            &= \sum_{k=1}^{m} \gamma(t_k) - \gamma(t_{k-1}) \\
+            &= \gamma(t_m) - \gamma(t_0) = \gamma(a) - \gamma(b),
+    \end{align*}
+    so $V(\gamma)$ is equal to $\gamma(a) - \gamma(b)$.
+\end{solution*}
+
+\begin{exercise}
+    Let $\gamma : [a,b] \to \C$ be a function of bounded variation. Then, show that $V(|\gamma|;[a,b]) = V(\gamma;[a,b])$, where $|\gamma|$ on $[a,b]$ is defined by $|\gamma|(t) = V(\gamma;[a,t])$.
+\end{exercise}
+\begin{solution*}
+    Since $|\gamma| : [a,b] \to \R$ is non-decreasing, we can use \Cref{ex:4.1} to get that
+    \[ V(|\gamma|;[a,b]) = |\gamma(b)| - |\gamma|(a) = V(\gamma;[a,b]). \]
+\end{solution*}
+
+\begin{exercise}
+    Let $\gamma : [a,b] \to \C$ be a function of bounded variation. Then, show that $V(|\gamma|;[a,b]) = V(\gamma;[a,b])$, where $|\gamma|$ on $[a,b]$ is defined by $|\gamma|(t) = V(\gamma;[a,t])$.
+\end{exercise}
+\begin{solution*}
+    Since $|\gamma| : [a,b] \to \R$ is non-decreasing, we can use \Cref{ex:4.1} to get that
+    \[ V(|\gamma|;[a,b]) = |\gamma(b)| - |\gamma|(a) = V(\gamma;[a,b]). \]
+\end{solution*}
+
+\setcounter{exercise}{3}
+
+\begin{exercise}
+    If $\gamma:[a,b] \to \C$ is a rectifiable path and $\varphi:[c,d]\to[a,b]$ is a continuous non-decreasing function with $\varphi(c) = a$, $\varphi(d) = b$; then show that for any function $f$ continuous on $\{\gamma\}$,
+    \[ \int_\gamma f = \int_{\gamma \circ \varphi} f. \]
+\end{exercise}
+\begin{proof}
+    Fix $\epsilon > 0$. Let $\delta_1 > 0$ such that for any partition $P = \{t_0 < t_1 < \cdots < t_m\}$ of $[a,b]$ with $\norm{P} < \delta_1$,
+    \[ \left| \int_\gamma f - \sum_{k=1}^m f(\gamma(\tau_k)) (\gamma(t_k) - \gamma(t_{k-1})) \right| < \epsilon/2 \]
+    for any choice of $\tau_k$ in $[t_{k-1},t_k]$.\\
+    Since $\varphi$ is a continuous function on the compact set $[c,d]$, it is uniformly continuous. Let $\delta > 0$ such that $|s-t| < \delta$ implies that $|\varphi(s) - \varphi(t)| < \delta_1$. Further assume that for this choice of $\delta$, for any partition $P' = \{ s_0 < s_1 < \cdots < s_m \}$ of $[c,d]$,
+    \[ \left| \int_{\gamma \circ \varphi} f - \sum_{k=1}^m f((\gamma\circ\varphi)(\sigma_k)) ((\gamma\circ\varphi)(s_k) - (\gamma\circ\varphi)(s_{k-1})) \right| < \epsilon/2 \]
+    for any choice of $\sigma_k$ in $[s_{k-1},s_k]$.\\
+    Now, fix $t_k = \varphi(s_k)$ for each $k$.  
+\end{proof}
+
+
+
+
+% \bibliographystyle{alpha}
+% \bibliography{references}
+
+\end{document}

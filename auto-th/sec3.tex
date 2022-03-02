@@ -1,0 +1,3 @@
+\section{Turing Machines}
+
+Similar to how a NPDA is just an NFA with an additional stack to store information, a Turing machine is an NFA with an ``input tape'' -- this is an infinitely long string. If the input word is $w_1w_2 \cdots w_n$, this input tape is initially of the form $w_1 w_2 \cdots w_n B B B \cdots$, where $B$. If we see the input $w_i$ when in state $q_j$, we do three things -- move to a state $q_k$, replace the symbol $w_i$ with some other symbol $X$, and move the tape left or right. Such a transition is represented by labelling the arrow from $q_j$ to $q_k$ as $w_i / X, R$ or $w_i / X, L$. If the machine ``halts'' (there are no moves possible) at a particular state, we accept if we are in an accepting state.
