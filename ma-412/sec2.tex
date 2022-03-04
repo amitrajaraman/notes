@@ -437,7 +437,7 @@
 	where $\gamma(t) = a+re^{\iota t}$ for $0 \le t \le 2\pi$.\\
 
 	\begin{corollary}[Cauchy's Estimate]
-		\label{theo: cauchy's estimate}
+		\label{theo: cauchys estimate}
 		Let $f$ be analytic on $B(a,R)$ and suppose $|f(z)| \le M$ for all $z \in B(a,R)$. Then
 		\[ |f^{(n)}(a)| \le \frac{n!M}{R^n}. \]
 	\end{corollary}
@@ -466,16 +466,52 @@
 	Therefore, entire functions may be considered as polynomials of ``infinite degree''. Polynomials of finite non-zero degree are typically unbounded. These two insights lead to the following result.
 
 	\begin{ftheo}[Liouville's Theorem]
-		\label{liouville's theorem}
+		\label{liouvilles theorem}
 		If $f$ is a bounded entire function, then $f$ is constant.
 	\end{ftheo}
 	\begin{proof}
-		Suppose that $|f(z)| \le M$ for all $z \in \C$. We shall show that $f'(z) = 0$ for all $z \in \C$. By \nameref{theo: cauchy's estimate}, since $f$ is analytic on any disk $B(z,R)$, $|f'(z)| \le M/R$. However, $R$ is arbitrary so $f'(z) = 0$ for any $z \in \C$.
+		Suppose that $|f(z)| \le M$ for all $z \in \C$. We shall show that $f'(z) = 0$ for all $z \in \C$. By \nameref{theo: cauchys estimate}, since $f$ is analytic on any disk $B(z,R)$, $|f'(z)| \le M/R$. However, $R$ is arbitrary so $f'(z) = 0$ for any $z \in \C$.
 	\end{proof}
 
 	\begin{ftheo}[Fundamental Theorem of Algebra]
-		If $p$ is a non-constant polynomial, then there exists $a \in \C$ with $p(a) = 0$.
+		If $p$ is a non-constant polynomial with coefficients in $\C$, then there exists $a \in \C$ with $p(a) = 0$.
 	\end{ftheo}
 	\begin{proof}
-		Suppose $p(z) \ne 0$ for all $z \in \C$. Consider the entire function $f(z) = 1/p(z)$. This function is then bounded as $p(z)$ goes to $\infty$ as $z$ goes to infinity. By \nameref{liouville's theorem}, $f$ (and thus $p$) is constant, which is a contradiction.
+		Suppose $p(z) \ne 0$ for all $z \in \C$. Consider the entire function $f(z) = 1/p(z)$. This function is then bounded as $p(z)$ goes to $\infty$ as $z$ goes to infinity. By \nameref{liouvilles theorem}, $f$ (and thus $p$) is constant, which is a contradiction.
 	\end{proof}
+
+	Due to the above, $\C$ is an algebraically closed field.
+
+	\begin{corollary}
+		If $p(z)$ is a polynomial and its roots are $(p_j)$ with multiplicity $k_j$ (for $1\le j\le m$), then $p(z) = C (z-a_1)^{k_1} (z-a_2)^{k_2} \cdots (z-a_m)^{k_m}$ for some constant $C$, where $\sum k_j$ is the degree of $p$.
+	\end{corollary}
+
+	It is not too difficult to show that if $p(z)$ is a non-constant polynomial, then $p$ is a surjective analytic function on $\C$. However, we know that the map  $z \mapsto e^z$ is an entire function but there is no $b \in C$ such that $e^b = 0$. So, power series (``polynomials of infinite degree'') cannot be thought of in the same way as ordinary polynomials (of finite degree). However, we shall see later that given a non-constant entire function $f$, there exists at most one $a \in \C$ that is not in the image of $f$. This is referred to as Little Picard's Theorem.
+
+	\begin{ftheo}
+		Let $G$ be a connected open set and $f : G \to \C$ be analytic. Then, the following are equivalent statements.
+		\begin{enumerate}[label=(\alph*)]
+			\item $f$ is identically zero.
+			\item There exists $a \in \C$ such that for all $n \ge 0$, $f^{(n)}(a) = 0$.
+			\item $\{ z \in G : f(z) = 0 \}$ has a limit point in $G$.
+		\end{enumerate}
+	\end{ftheo}
+	\begin{proof}
+		Clearly, (a) implies (b) and (c).\\
+		Next, let us show that (c) implies (b). Let $a \in G$ be a limit point of the zero set of $f$. Let $R > 0$ such that $B(a,R) \subseteq G$. Since $a$ is a limit point of $z$ and $f$ is continuous, $f(a) = 0$. Let $n \ge 1$ such that $f^{(k)}(a) = 0$ for $k < n$ and $f^{(n)}(a) \ne 0$. Expanding $f$ as a power series about $a$ gives that
+		\[ f(z) = \sum_{k=n}^\infty a_k (z-a)^{k} \]
+		for $|z-a| < R$ and $a_n \ne 0$. Let
+		\[ g(z) = \sum_{k=n}^\infty a_k (z-a)^{k-n}. \]
+		Since $g$ is continuous in $B(a,R)$ and $g(a) \ne 0$, let $r<R$ such that $g(z) \ne 0$ when $|z-a| < r$. Since $a$ is a limit point of $z$, there exists $b$ with $f(b) = 0$ and $0 < |a-b| < r$. This gives $0 = (b-a)^n g(b)$, so $g(b) = 0$, a contradiction. Therefore, no such $n$ can be found and (b) is true.\\
+		Finally, let us show that (b) implies (a). Let
+		\[ A = \{ z \in G : f^{(n)}(z) = 0 \text{ for all } n \ge 0 \}. \]
+		By the definition of (b), $A \ne \ emptyset$. We shall show that $A$ is both open and closed in $G$, and by the connectedness of $G$ is follows that $A$ is the entirety of $G$. Showing that $A$ is closed is direct -- if $z \in \overline{A}$ and $(z_k)$ a sequence such that $z_k \to z$, then since each $f^{(k)}$ is continuous, $f^{(n)}(z) = \lim f^{(n)}(z_k) = 0$ for all $n \ge 0$, and so $z \in A$. On the other hand, if $a \in A$, we can write $f(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(a)}{n!} (z-a)^n = 0$ on $B(a,R)$ (for some $R > 0$), so $B(a,R) \subseteq A$ and $A$ is open, completing the proof.
+	\end{proof}
+
+	\begin{corollary}
+		If $f,g$ are analytic on a region $G$, then $f \equiv g$ iff $\{ z \in G : f(z) = g(z) \}$ has a limit point in $G$.
+	\end{corollary}
+
+	\begin{corollary}
+		If $f$ is non-trivial and analytic on an open connected set $G$, then each zero of $f$ has finite multiplicity. More explicitly, for each $a \in G$ with $f(a) = 0$, there is an integer $n \ge 1$ and an analytic function $g : G \to \C$ such that $g(a) \ne 0$ and $f(z) = (z-a)^n g(z)$ for all $z \in G$.
+	\end{corollary}
