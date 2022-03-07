@@ -1,3 +1,63 @@
 \section{Turing Machines}
 
-Similar to how a NPDA is just an NFA with an additional stack to store information, a Turing machine is an NFA with an ``input tape'' -- this is an infinitely long string. If the input word is $w_1w_2 \cdots w_n$, this input tape is initially of the form $w_1 w_2 \cdots w_n B B B \cdots$, where $B$. If we see the input $w_i$ when in state $q_j$, we do three things -- move to a state $q_k$, replace the symbol $w_i$ with some other symbol $X$, and move the tape left or right. Such a transition is represented by labelling the arrow from $q_j$ to $q_k$ as $w_i / X, R$ or $w_i / X, L$. If the machine ``halts'' (there are no moves possible) at a particular state, we accept if we are in an accepting state.
+
+Before we get to the more rigorous part of Turing machines, we require some setup. \\
+Recall the definition of a countable set -- a set that is in bijection with $\N$. For example, one may show that $\Z$, $\N^2$, and in general, $\N^k$ (for any fixed $k \ge 1$) is countable.\\
+One may also show that a countable union of countable sets is countable. A consequence of this is that the set of all finite sequences in $\N$ is countable. However, it turns out that the set of all (countable) sequences in $\N$ is not countable!\\
+Countable sets are also often referred to as ``enumerable''.\\
+
+Inspired by this but with a more computer-science flavour, one may define the following.
+
+\begin{fdef}
+	A set $S$ is said to be \emph{computably enumerable} if there exists an algorithm that enumerates the members of $S$, that is, a sequence $s_1, s_2, s_3, \cdots$ (which is infinite if $S$ is), such that any element of $S$ is a member of the sequence.
+\end{fdef}
+
+One question that might immediately come to mind is: what is the difference between a computably enumerable set and an enumerable set? \\
+Returning to the context of our study, define the following set of languages.
+
+\begin{fdef}
+	A language $L \subseteq \Sigma^*$ is said to be \emph{recursively enumerable} if it is computably enumerable.
+\end{fdef}
+
+Clearly, we must establish some dichotomy between computable enumerability and ordinary enumerability, since their equivalence would imply that \emph{any} language is recursively enumerable. This is especially important since it turns out that computers in fact recognize recursively enumerable languages -- this shall make more sense later in the section.
+
+\begin{prop}
+	If $|\Sigma|\ge 2$, there exists a language over $\Sigma$ that cannot be recognized by a program.
+\end{prop}
+\begin{proof}
+	Clearly, it suffices to consider the case where $\Sigma = 2$, so let $\Sigma = \{0,1\}$. Observe that the set $\mathcal{P}(\{0,1\}^*)$ is not countable. Since the set of all programs can be thought of as a subset of all finite sequences of ASCII characters, it is countable.
+\end{proof}
+This is bad! However, this problem seems irreparably bad, so let us go back to our nook of languages that can be recognized by a program, and try to build machinery to recognize them, namely Turing machines.\\
+
+Similar to how a NPDA is just an NFA with an additional stack to store information, a Turing machine is an NFA with an ``input tape'' -- this is an infinitely long string. If the input word is $w_1w_2 \cdots w_n$, this input tape is initially of the form $w_1 w_2 \cdots w_n b b b \cdots$, where $b$ is a special ``blank'' symbol. If we see the input $w_i$ when in state $q_j$, we do three things -- move to a state $q_k$, replace the symbol $w_i$ with some other symbol $X$, and move the tape left or right. Such a transition is represented by labelling the arrow from $q_j$ to $q_k$ as $w_i / X, R$ or $w_i / X, L$. If the machine ``halts'' (there are no moves possible) at a particular state, we accept if we are in an accepting state.\\
+So, let us now get to an example of a Turing machine, constructing that one recognizes the (context-free) language $\{ 0^n 1^n : n \ge 1 \}$. This Turing machine has tape alphabet $\{X,Y,0,1,b\}$.
+
+\begin{center}
+\begin{tikzpicture}[node distance=3cm]
+	\node[state, initial] (q0) {$q_{0}$};
+	\node[state, right of=q0] (q1) {$q_{1}$};
+	\node[state, right of=q1] (q2) {$q_{2}$};
+	\node[state, right of=q2] (q3) {$q_{3}$};
+	\node[state, right of=q3] (q4) {$q_{4}$};
+	\draw (q0) edge[above] node{$0/X,R$} (q1)
+		  (q1) edge[loop above] node{$0/0,R$$Y/Y,R$} (q1)
+		  (q1) edge[below] node{$1/Y,L$} (q2)
+		  (q2) edge[bend left, below] node{$X/X,R$} (q0)
+		  (q0) edge[bend right=60, below] node{$Y/Y,R$} (q3)
+		  (q3) edge[loop above] node{$Y/Y,R$} (q4)
+		  (q3) edge[above] node{$b/b,R$} (q4);
+\end{tikzpicture}
+\end{center}
+
+\begin{fdef}[Turing Machine]
+	A Turing machine is a $7$-tuple $(Q,\Sigma,\Gamma,\delta,q_0,b,F)$, where
+	\begin{enumerate}
+		\item $Q$ is the finite set of states,
+		\item $\Sigma \subseteq \Gamma \setminus \{b\}$ is the alphabet,
+		\item $\Gamma$ is the tape alphabet,
+		\item $\delta : Q \times \Gamma \to Q \times \Gamma \times \{L,R\}$ is the transition function,
+		\item $q_0 \in Q$ is the start state,
+		\item $b \in \Gamma$ is a special blank symbol, and
+		\item $F \subseteq Q$ is the set of final states.
+	\end{enumerate}
+\end{fdef}
