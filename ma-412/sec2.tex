@@ -214,11 +214,12 @@
 	\end{definition}
 
 	\begin{ftheo}
-		Let $\gamma$ be a rectifiable curve and suppose that $f$ is a function continuous on $\{\gamma\}$. Then,
+		Let $\gamma : [a,b] \to \C$ be a rectifiable curve and suppose that $f$ is a function continuous on $\{\gamma\}$. Then,
 		\begin{equation}
 			\label{eqn: 2.2}
-			\int_\gamma f = - \int_{-\gamma} f,
+			\int_\gamma f = - \int_{-\gamma} f
 		\end{equation}
+		where $(-\gamma)(t) = \gamma(a+b-t)$,
 		\begin{equation}
 			\label{eqn: 2.3}
 			\left| \int_\gamma f \right| \le \int_\gamma |f| |\dif z| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
@@ -515,3 +516,94 @@
 	\begin{corollary}
 		If $f$ is non-trivial and analytic on an open connected set $G$, then each zero of $f$ has finite multiplicity. More explicitly, for each $a \in G$ with $f(a) = 0$, there is an integer $n \ge 1$ and an analytic function $g : G \to \C$ such that $g(a) \ne 0$ and $f(z) = (z-a)^n g(z)$ for all $z \in G$.
 	\end{corollary}
+	\begin{proof}
+		It is clear that there exists a largest $n \ge 1$ such that $f^{(k)}(a) = 0$ for all $k \le n-1$.
+	\end{proof}
+
+	\begin{corollary}
+		If $f : G \to \C$ is non-trivial and analytic, and $a \in G$ with $f(a) = 0$, then there exists $R > 0$ such that $B(a,R) \subseteq G$, and $f(z) \ne 0$ for all $0 < |z-a| < R$. 
+	\end{corollary}
+	The above follows from the fact that the zeros of $f$ are isolated.
+
+	\begin{ftheo}[Maximum Modulus Theorem]
+		\label{theo: maximum modulus theorem}
+		If $G$ is a region and $f:G\to\C$ is an analytic function such that there is a point $a\in G$ with $|f(a)| \ge |f(z)|$ for all $z \in G$, then $f$ is constant.
+	\end{ftheo}
+	That is, if $|f|$ attains its maximum, $f$ is constant.
+	\begin{proof}
+		Let $\overline{B(a,r)} \subseteq G$ and $\gamma(t) = a + re^{\iota t}$ for $0 \le t \le 2\pi$. Then,
+		\begin{align*}
+			f(a) &= \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{w-a} \dif w \\
+				&= \frac{1}{2\pi} \int_0^{2\pi} f(a + re^{\iota t}) \dif t.
+		\end{align*}
+		Therefore,
+		\[ |f(a)| \le \frac{1}{2\pi} \int_0^{2\pi} |f(a+re^{\iota t})| \dif t \le |f(a)|. \]
+		Therefore,
+		\[ 0 = \int_0^{2\pi} \left( |f(a)| - |f(a+re^{\iota t})| \right) \dif t. \]
+		Since the integrand is continuous is non-negative, $|f(a)| = |f(a+re^{\iota t})|$ for all $t \in [0,2\pi]$. If $f(a) = 0$, we are clearly done. Otherwise, since $r$ was arbitrary, $f$ maps any disk $B(a,R)$ to the circle $|z| = |f(a)|$. It may then be shown using the Cauchy-Riemann equations that $f$ is constant on $B(a,R)$ and is equal to $f(a)$ for all $|z-a| < R$. Therefore, $f(z) = f(a)$ for all $z \in G$ since the zeros of $f-f(a)$ are not isolated.
+	\end{proof}
+
+	Recall that
+	\[ \int_\gamma \frac{1}{z-a} \dif z  = 2 \pi \iota n \]
+	if $\gamma(t) = a + e^{\iota n t}$ for $t \in [0,2\pi]$. However, this property is not peculiar to the path $\gamma$, as shown by the following result.
+
+	\begin{ftheo}
+		If $\gamma : [0,1] \to \C$ is a closed rectifiable curve and $a \not\in \{\gamma\}$, then
+		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{1}{z-a} \dif z \]
+		is an integer.
+	\end{ftheo}
+	\begin{proof}
+		Using \Cref{lemma: polygonal}, we may assume that $\gamma$ is piecewise smooth (Why?). \\
+		Let us assume that $\gamma$ is smooth.
+		Define $g : [0,1] \to \C$ by
+		\[ g(t) = \int_0^t \frac{\gamma'(s)}{\gamma(s) - a} \dif s. \]
+		Then, $g(0) = 0$ and $g(1) = \int_\gamma 1/(z-a) \dif z$. We also have that
+		\[ g'(t) = \frac{\gamma'(t)}{\gamma(t) - a} \]
+		for $0 \le t \le 1$. This gives that
+		\[ \od{}{t} \left(e^{-g(t)}(\gamma(t) - a)\right) = e^{-g(t)} \gamma'(t) - g'(t) e^{-g(t)} (\gamma(t)-a) = 0. \]
+		Therefore,
+		\[ e^{-g(0)} (\gamma(0) - a) = e^{-g(1)} (\gamma(1) - a). \]
+		Because $\gamma(0) = \gamma(1)$ (the curve is closed) and $g(0) = 0$, $g(1) = 2\pi\iota n$ for some integer $n$.
+		In the case where $\gamma$ is piecewise-smooth, we can define $g$ by integrating over each of the smooth intervals and the result follows near-identically.
+	\end{proof}
+
+	\begin{fdef}
+		If $\gamma$ is a closed rectifiable curve in $\C$ then for $a \not\in \{\gamma\}$,
+		\[ n(\gamma;a) = \frac{1}{2\pi\iota} \int_\gamma \frac{1}{z-a} \dif z \]
+		is called the \emph{index} of $\gamma$ with respect to the point $a$. It is also sometimes referred to as the \emph{winding number} of $\gamma$ around $a$.
+	\end{fdef}
+	Recall the definition of $(-\gamma)$ from \eqref{eqn: 2.2}, also denoted $\gamma^{-1}$. If $\gamma$ and $\sigma$ are curves on $[0,1]$ with $\gamma(1) = \sigma(0)$, $\gamma+\sigma$ is the curve
+	\[ (\gamma+\sigma)(t) = \begin{cases} \gamma(2t), & 0 \le t \le 1/2, \\ \sigma(2t-1), & 1/2 \le t \le 1. \end{cases} \]
+
+	\begin{prop}
+		If $\sigma,\gamma$ are closed rectifiable curves with the same initial (and final) points, then
+		\begin{equation}
+			n(\gamma;a) = -n(-\gamma;a)
+		\end{equation}
+		for all $a \not\in \{\gamma\}$ and
+		\begin{equation}
+			n(\gamma+\sigma;a) = n(\gamma;a) + n(\sigma;a)
+		\end{equation}
+		for all $a \not\in \{\sigma\} \cup \{\gamma\}$.
+	\end{prop}
+	We omit the proof of the above.\\
+
+	The reason for $n(\cdot;\cdot)$ being called the winding number is clear from what happens in the case of a circle. For $a + e^{2\pi\iota n t}$, then $n(\gamma;a) = n$ is the number of times this curve ``winds'' or ``wraps'' around $a$. In fact, if $|b-a| < 1$, $n(\gamma;b) = n$ and if $|b-a| > 1$, $n(\gamma;b) = 0$.
+
+	\begin{ftheo}
+		Let $\gamma$ be a closed rectifiable curve in $\C$. Then $n(\gamma;a)$ is constant for $a$ belonging to a component of $G = \C \setminus \{\gamma\}$. Also, $n(\gamma;a) = 0$ for $a$ belonging to the unbounded component of $G$.
+	\end{ftheo}
+	\begin{remark}
+		By components, we mean maximal connected subsets of $G$.\\
+		Since $\{\gamma\}$ is compact, $\{ z : |z| > R \} \subseteq G$ for sufficiently large $R$, so $\gamma$ has precisely one unbounded component.\\
+	\end{remark}
+	\begin{proof}
+		Define $f : G \to \C$ by $f(a) = n(\gamma;a)$.
+		If we manage to show that $f$ is continuous on $G$, we are done since the image of this map is a subset of the integers and each component is connected by definition.\\
+		Recall that components of $G$ are open. Fix $a \in G$ and let $r = d(a ; \{\gamma\}) > 0$. If $|a-b| < \delta < r/2$, then
+		\begin{align*}
+			|f(a) - f(b)| &= \frac{1}{2\pi} \left| \int_\gamma \left( \frac{1}{z-a} - \frac{1}{z-b} \right) \dif z \right| \\
+				&= \frac{1}{2\pi} \left| \int_\gamma \frac{a-b}{(z-a)(z-b)} \dif z \right| \\
+				&\le \frac{|a-b|}{2\pi} \int_\gamma \frac{1}{|z-a||z-b|} |\dif z|.
+		\end{align*}
+	\end{proof}
