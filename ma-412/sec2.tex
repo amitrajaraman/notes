@@ -210,7 +210,7 @@
 		Let $\gamma : [a,b] \to \C$ be a rectifiable path, and for $a \le t \le b$, set $|\gamma|(t) = V(\gamma;[a,t])$. That is,
 		\[ |\gamma|(t) = \sup\left\{ \sum_{k=1}^{n} |\gamma(t_k) - \gamma(t_{k-1})| : \{ t_0 < t_1 < \cdots < t_n \}\text{ is a partition of }[a,t] \right\}. \]
 		Clearly, $|\gamma|$ is increasing on $[a,b]$ and of bounded variation. In fact, $V(|\gamma|;[a,b]) = |\gamma|(b) - |\gamma|(a)$. If $f$ is continuous on $[a,b]$, define
-		\[ \int f |\dif z| = \int_a^b f(\gamma(t)) \dif |\gamma|(t). \]
+		\[ \int f |{\dif} {z}| = \int_a^b f(\gamma(t)) \dif |\gamma|(t). \]
 	\end{definition}
 
 	\begin{ftheo}
@@ -222,7 +222,7 @@
 		where $(-\gamma)(t) = \gamma(a+b-t)$,
 		\begin{equation}
 			\label{eqn: 2.3}
-			\left| \int_\gamma f \right| \le \int_\gamma |f| |\dif z| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
+			\left| \int_\gamma f \right| \le \int_\gamma |f| |{\dif} {z}| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
 		\end{equation}
 		and for $c \in \C$,
 		\begin{equation}
@@ -240,20 +240,20 @@
 			&\le  \sum_{k=1}^n \left| f(\gamma(\tau_k)) \right| \left|\gamma(t_k) - \gamma(t_{k-1}) \right| + \epsilon/2.
 		\end{align*}
 		We may also assume that for this same $\delta$,
-		\[ \sum_{k=1}^n |f(\gamma(t_k))| (|\gamma|(t_k) - |\gamma|(t_{k-1})) < \int_\gamma |f(z)| |\dif z| + \epsilon/2 . \]
+		\[ \sum_{k=1}^n |f(\gamma(t_k))| (|\gamma|(t_k) - |\gamma|(t_{k-1})) < \int_\gamma |f(z)| |{\dif} {z}| + \epsilon/2 . \]
 		Recall that $|\gamma|(t)$ is an increasing function. So,
 		\[ |\gamma|(t_k) - |\gamma|(t_{k-1}) \ge |\gamma(t_k) - \gamma(t_{k-1})| \]
 		Therefore,
 		\begin{align*}
 			\left| \int_\gamma f(z) \dif z \right| &< \sum_{k=1}^n |f(\gamma(\tau_k))| \left( |\gamma|(t_k) - |\gamma|(t_{k-1}) \right) + \epsilon/2 \\
-				&< \int_\gamma |f(z)| |\dif z| + \epsilon.
+				&< \int_\gamma |f(z)| |{\dif} {z}| + \epsilon.
 		\end{align*}
 		It follows that
-		\[ \left| \int_\gamma f(z) \dif z \right| \le \int_\gamma |f(z)| |\dif z|. \]
+		\[ \left| \int_\gamma f(z) \dif z \right| \le \int_\gamma |f(z)| |{\dif} {z}|. \]
 		To conclude the proof, note that
-		\[ \int_\gamma |\dif z| = |\gamma|(b) - |\gamma|(a) = |\gamma|(b) = V(\gamma), \]
+		\[ \int_\gamma |{\dif} {z}| = |\gamma|(b) - |\gamma|(a) = |\gamma|(b) = V(\gamma), \]
 		so
-		\[ \int_\gamma |f(z)| |\dif z| \le V(\gamma) \sup_{z \in \{\gamma\}} |f(z)|. \]
+		\[ \int_\gamma |f(z)| |{\dif} {z}| \le V(\gamma) \sup_{z \in \{\gamma\}} |f(z)|. \]
 	\end{proof}
 
 	\begin{flem}
@@ -443,7 +443,7 @@
 		\[ |f^{(n)}(a)| \le \frac{n!M}{R^n}. \]
 	\end{corollary}
 	Indeed, the above applies with $r < R$ so we get that
-	\[ |f^{(n)}(a)| \le \frac{n!}{2\pi} \int_\gamma \frac{|f(w)|}{|w-a|^{n+1}} |\dif w| \le \frac{n!}{2\pi} \cdot \frac{M}{r^{n+1}} \cdot 2\pi r = \frac{n!M}{r^n}. \]
+	\[ |f^{(n)}(a)| \le \frac{n!}{2\pi} \int_\gamma \frac{|f(w)|}{|w-a|^{n+1}} |{\dif} {w}| \le \frac{n!}{2\pi} \cdot \frac{M}{r^{n+1}} \cdot 2\pi r = \frac{n!M}{r^n}. \]
 	Since $r < R$ is arbitrary, we may let $r \to R^{-}$.
 
 	\begin{prop}
@@ -588,22 +588,32 @@
 	\end{prop}
 	We omit the proof of the above.\\
 
-	The reason for $n(\cdot;\cdot)$ being called the winding number is clear from what happens in the case of a circle. For $a + e^{2\pi\iota n t}$, then $n(\gamma;a) = n$ is the number of times this curve ``winds'' or ``wraps'' around $a$. In fact, if $|b-a| < 1$, $n(\gamma;b) = n$ and if $|b-a| > 1$, $n(\gamma;b) = 0$.
+	The reason for $n(\cdot;\cdot)$ being called the winding number is clear from what happens in the case of a circle. For $a + e^{2\pi\iota n t}$, then $n(\gamma;a) = n$ is the number of times this curve ``winds'' or ``wraps'' around $a$. In fact, if $|b-a| < 1$, $n(\gamma;b) = n$ and if $|b-a| > 1$, $n(\gamma;b) = 0$.\\
+
+	Recall that the components of a set are its maximal connected subsets.
 
 	\begin{ftheo}
 		Let $\gamma$ be a closed rectifiable curve in $\C$. Then $n(\gamma;a)$ is constant for $a$ belonging to a component of $G = \C \setminus \{\gamma\}$. Also, $n(\gamma;a) = 0$ for $a$ belonging to the unbounded component of $G$.
 	\end{ftheo}
 	\begin{remark}
-		By components, we mean maximal connected subsets of $G$.\\
-		Since $\{\gamma\}$ is compact, $\{ z : |z| > R \} \subseteq G$ for sufficiently large $R$, so $\gamma$ has precisely one unbounded component.\\
+		Since $\{\gamma\}$ is compact, the connected set $\{ z : |z| > R \} \subseteq G$ for sufficiently large $R$, so $\gamma$ has precisely one unbounded component.
 	\end{remark}
 	\begin{proof}
 		Define $f : G \to \C$ by $f(a) = n(\gamma;a)$.
-		If we manage to show that $f$ is continuous on $G$, we are done since the image of this map is a subset of the integers and each component is connected by definition.\\
-		Recall that components of $G$ are open. Fix $a \in G$ and let $r = d(a ; \{\gamma\}) > 0$. If $|a-b| < \delta < r/2$, then
+		If we manage to show that $f$ is continuous on $G$, we are done since the image of this map is a subset of the integers and each component is connected by definition, so $f$ is constant on each component.\\
+		Recall that components of $G$ are open. Fix $a \in G$ and let $r = d(a , \{\gamma\}) > 0$. If $|a-b| < \delta \le r/2$ (we shall fix $\delta$ more precisely later), then
 		\begin{align*}
 			|f(a) - f(b)| &= \frac{1}{2\pi} \left| \int_\gamma \left( \frac{1}{z-a} - \frac{1}{z-b} \right) \dif z \right| \\
-				&= \frac{1}{2\pi} \left| \int_\gamma \frac{a-b}{(z-a)(z-b)} \dif z \right| \\
-				&\le \frac{|a-b|}{2\pi} \int_\gamma \frac{1}{|z-a||z-b|} |\dif z|.
+				&\le \frac{|a-b|}{2\pi} \int_\gamma \frac{1}{|z-a||z-b|} |{\dif} {z}|.
 		\end{align*}
+		By definition, $|z-a| \ge r$ for any $a \in \{\gamma\}$ and $|z-b| \ge |z-a| - |a-b| \ge r/2$. So,
+		\begin{align*}
+			|f(a) - f(b)| &\le \frac{|a-b|}{2\pi} \int_\gamma \frac{2}{r^2} |{\dif} {z}| \\
+				&\le \frac{\delta}{\pi r^2} V(\gamma).
+		\end{align*}
+		For a given $\epsilon > 0$, setting $\delta = \min\{r/2, \epsilon\pi r^2 / V(\gamma)\}$ does the job, completing the first part of the proof.\\
+
+		It remains to show that $\lim_{a\to\infty}f(a) = 0$ (Why does this imply the required?). Let $U$ be the unbounded component of $G$. For a given $R > 0$, let $a \in U$ such that $d(a;\gamma) > R$. Then,
+		\[ |f(a)| = \frac{1}{2\pi} \int_\gamma \left|\frac{1}{z-a}\right| |{\dif} {z}| \le \frac{1}{2\pi R} \int_\gamma |{\dif} {z}| = \frac{V(\gamma)}{2\pi R}. \]
+		$R$ can be made arbitrarily large (as $a\to\infty$), so we are done.
 	\end{proof}

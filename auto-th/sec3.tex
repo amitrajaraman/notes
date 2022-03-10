@@ -82,12 +82,28 @@
 	\begin{definition}
 		An \emph{instantaneous description} of a Turing machine is a string of the form $\alpha q\beta$, where $\alpha,\beta \in \Gamma^*$ and $q \in Q$.
 	\end{definition}
-	What this represents is that $\alpha,\beta$ are on the tape with an infinite number of blanks on either side, and $q$, the state the automaton is at, is just before the position pointed at by the head.
+	What this represents is that $\alpha,\beta$ are on the tape with an infinite number of blanks on either side, and $q$, the state the automaton is at, is just before the position pointed at by the head.\\
+	We further write that $\alpha q \beta \vdash \alpha' q' \beta'$ if a single step can take the first ID to the second.
+
+	\begin{definition}
+		A Turing machine is said to \emph{accept} the word $w$ if
+		\[ q_0 w \vdash \cdots \vdash \alpha q_k\beta, \]
+		$q_k \in F$, and there is no move possible from the final ID (it \emph{halts}).
+	\end{definition}
 
 	\begin{exercise}
 		Construct a Turing machine that accepts
 		\[ L = \{ ww : w \in \{a,b\}^+ \}. \]
 	\end{exercise}
+
+	In both DFAs and NPDAs, we had that the run time of the automaton is bounded above by some known quantity (the length of the word). In Turing machines however, this is not the case! A Turing machines is a decision procedure (outputting `yes' or `no') only if it halts for all inputs.\\
+	This is referred to as a \emph{semi-decision procedure}.\\
+
+	Consider Hilbert's tenth problem -- does a given polynomial (over possibly multiple variables) with integer coefficients have integer roots? Since it is possible to enumerate all possible integer tuples, it is possible to give a semi-decision procedure to solve this problem.\\
+	It in fact turns out that this problem is undecidable, as shown by Martin Davis, Yuri Matiyasecich, Hilary Putnam, and Julia Robinson.\\
+
+	Suppose there is a \emph{partial} function $\N^k \to \N$, and we have $y = f(x_1,x_2,\ldots,x_k)$. Suppose we give the input as $x_1$ $0$s, followed by a $1$, then $x_2$ $0$s, and all the way till $x_k$ $0$s. Then, there exists a Turing machine that halts on this input (and does not halt on invalid outputs), and more importantly, the tape is just $y$ $0$s when it halts.
+
 
 \subsection{Type-\texorpdfstring{0}{$0$} Grammars}
 
@@ -104,3 +120,5 @@
 		BT_b &\to T_bb \mid T_ab \\
 		AT_a &\to T_aa \mid a.
 	\end{align*}
+
+	It turns out that Type-$0$ Grammars are equivalent to Turing machines!\\
