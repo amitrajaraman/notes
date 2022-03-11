@@ -617,3 +617,58 @@
 		\[ |f(a)| = \frac{1}{2\pi} \int_\gamma \left|\frac{1}{z-a}\right| |{\dif} {z}| \le \frac{1}{2\pi R} \int_\gamma |{\dif} {z}| = \frac{V(\gamma)}{2\pi R}. \]
 		$R$ can be made arbitrarily large (as $a\to\infty$), so we are done.
 	\end{proof}
+
+	Now, one would expect to see that for a ``nice'' $f$ defined on a nice region $G$, for closed rectifiable paths $\gamma$, $\int_\gamma f$ is zero. Indeed, this is evidenced by how we saw that $n(\gamma;a)$ is zero on the unbounded component of $\C\setminus\{\gamma\}$. Even before that, we had seen that $\int_\gamma f = 0$ if $f : G \to \C$ is analytic, $\gamma$ is a closed rectifiable curve, and $G = B(a,R)$.\\
+	It turns out that the last of the above statements is true for a more general class of regions, not just disks. It is not true on any region however, since the winding number of a path about a point can be nonzero. It turns out that this winding number situation is the only real problematic case, and we shall see that this ``general class of regions'' is the set of regions without any ``hole''.\\
+	On the other hand, one may ask the question: for a fixed domain $G$ and $f$ analytic on $G$, for what $\gamma$ inside $G$ is $\int_\gamma f = 0$?
+
+	\begin{flem}
+		Let $\gamma$ be a rectifiable curve and suppose $\varphi : \{\gamma\} \to \C$ is continuous. Then, for each $m \ge 1$, defining
+		\[ F_m(z) = \int_\gamma \frac{\varphi(w)}{(w-z)^m}, \]
+		$F_m$ is analytic on $\C\setminus\{\gamma\}$ and $F_m'(z) = m F_{m+1}(z)$.
+	\end{flem}
+	Note that this matches the power series expansion for a general function we had got earlier, where $a_n$, which is related to the $n$th derivative of $f$ at that point, was evaluated as an integral of the above form.
+	\begin{proof}
+		Let us first show that $F_m$ is continuous for each $m$. Let $a \in \C\setminus\{\gamma\}$. We have
+		\begin{align}
+			F_m(z) - F_m(a) &= \int_\gamma \varphi(w) \left( \frac{1}{(w-z)^m} - \frac{1}{(w-a)^m} \right) \dif w \nonumber \\
+				&= \int_\gamma \left( \frac{1}{w-z} - \frac{1}{w-a} \right) \sum_{k=1}^{m} \frac{1}{(w-z)^{m-k} (w-a)^{k-1}} \dif w \nonumber \\
+				&= \int_\gamma (z-a) \sum_{k=1}^{m} \frac{1}{(w-z)^{m-k+1} (w-a)^{k}} \dif w \label{eqn: 2.7}
+		\end{align}
+		So,
+		\[ |F_m(z) - F_m(a)| \le \int_\gamma |\varphi(w)| |z-a| \sum_{k=1}^m \frac{1}{|w-z|^{m+1-k}|w-a|^{k}} |{\dif} {w}| \]
+		Since $\varphi$ is continous on $\{\gamma\}$ and $\{\gamma\}$ is compact, there exists $M > 0$ such that $|\varphi(w)| \le M$ for all $w \in \{\gamma\}$. Because $a\not\in\{\gamma\}$, $r = d(a,\{\gamma\}) > 0$. Let $\delta \le r/2$. Then, for $z \in \C\setminus\{\gamma\}$ with $|z-a| < \delta$, we have that $|w-z| \ge r$ and $|w-a| \ge |w-z| - |z-a| \ge r/2$. So,
+		\begin{align*}
+			|F_m(z) - F_m(a)| &\le \int_\gamma |\varphi(w)| |z-a| \sum_{k=1}^m \frac{1}{|w-z|^{m+1-k}|w-a|^{k}} |{\dif} {w}| \\
+				&= M\delta \int_\gamma \sum_{k=1}^m \frac{1}{|w-z|^{m+1-k}|w-a|^{k}} |{\dif} {w}| \\
+				&\le M\delta \int_\gamma \sum_{k=1}^m \frac{1}{(r/2)^{m+1}} |{\dif}{w}| \\
+				&= \delta \cdot Mm \left(\frac{2}{r}\right)^{m+1} V(\gamma).
+		\end{align*}
+		Taking $\delta$ appropriately small, we are done with the first part of the proof.\\
+		Now, let us show the differentiability of $F_m$. Rewriting \eqref{eqn: 2.7},
+		\[ \frac{F_m(z) - F_m(a)}{z-a} = \sum_{k=1}^m \int_\gamma \frac{\varphi(w)(w-a)^{-k}}{(w-z)^{m+1-k}} \dif w. \]
+		The limit of this as $z\to a$ is clearly well-defined, so $F_m$ is differentiable. Because $a\not\in\gamma$ by definition, each of the $m$ integrands above is a continuous function of $w$.\\
+		Therefore,
+		\begin{align*}
+			\lim_{z\to a} \frac{F_m(z) - F_m(a)}{z-a} = \sum_{k=1}^m \int_\gamma \frac{\varphi(w)(w-a)^{-k}}{(w-a)^{m+1-k}} \dif w \\
+				&= \sum_{k=1}^m \int_\gamma \frac{\varphi(w)}{(w-a)^{m+1}} \dif w = m F_{m+1}(a). \qedhere
+		\end{align*}
+	\end{proof}
+
+	\begin{ftheo}[Cauchy's Integral Formula, version 1]
+		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma;w) = 0$ for $w \not\in \C\setminus G$. Then, for $a \in G\setminus\{\gamma\}$,
+		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f(z)}{z-a} \dif z = n(\gamma;a) f(a). \]
+	\end{ftheo}
+	\begin{proof}
+		Define $\varphi : G \times G \to \C$ as
+		\[ \varphi(z,w) =
+			\begin{cases}
+				\frac{f(z) - f(w)}{z-w}, & z\ne w \\
+				f'(z), & z=w.
+			\end{cases}
+		\]
+		Observe that if we show that $\int_\gamma \varphi(z,w) \dif w = 0$, then
+		\[ f(z) \int_\gamma \frac{w-z} \dif w = \int_\gamma \frac{f(w)}{w-z} \dif w, \]
+		which implies the required since the left-hand side is just $n(\gamma;a) f(a)$.\\
+		It is not too difficult to show that $\varphi$ is continuous $G\times G$ (this uses the continuity of $f'$!). 
+	\end{proof}
