@@ -593,6 +593,7 @@
 	Recall that the components of a set are its maximal connected subsets.
 
 	\begin{ftheo}
+		\label{theo: winding number constant on components}
 		Let $\gamma$ be a closed rectifiable curve in $\C$. Then $n(\gamma;a)$ is constant for $a$ belonging to a component of $G = \C \setminus \{\gamma\}$. Also, $n(\gamma;a) = 0$ for $a$ belonging to the unbounded component of $G$.
 	\end{ftheo}
 	\begin{remark}
@@ -619,10 +620,11 @@
 	\end{proof}
 
 	Now, one would expect to see that for a ``nice'' $f$ defined on a nice region $G$, for closed rectifiable paths $\gamma$, $\int_\gamma f$ is zero. Indeed, this is evidenced by how we saw that $n(\gamma;a)$ is zero on the unbounded component of $\C\setminus\{\gamma\}$. Even before that, we had seen that $\int_\gamma f = 0$ if $f : G \to \C$ is analytic, $\gamma$ is a closed rectifiable curve, and $G = B(a,R)$.\\
-	It turns out that the last of the above statements is true for a more general class of regions, not just disks. It is not true on any region however, since the winding number of a path about a point can be nonzero. It turns out that this winding number situation is the only real problematic case, and we shall see that this ``general class of regions'' is the set of regions without any ``hole''.\\
+	It turns out that the last of the above statements is true for a more general class of regions, not just disks. It is not true on any region however, since the winding number of a path about a point can be nonzero. It turns out that this winding number situation is the only real problematic case, and we shall see in \nameref{cauchys theorem v1} that this ``general class of regions'' is the set of regions without any ``hole''.\\
 	On the other hand, one may ask the question: for a fixed domain $G$ and $f$ analytic on $G$, for what $\gamma$ inside $G$ is $\int_\gamma f = 0$?
 
 	\begin{flem}
+		\label{lemma 2.31: Fm}
 		Let $\gamma$ be a rectifiable curve and suppose $\varphi : \{\gamma\} \to \C$ is continuous. Then, for each $m \ge 1$, defining
 		\[ F_m(z) = \int_\gamma \frac{\varphi(w)}{(w-z)^m}, \]
 		$F_m$ is analytic on $\C\setminus\{\gamma\}$ and $F_m'(z) = m F_{m+1}(z)$.
@@ -650,14 +652,16 @@
 		The limit of this as $z\to a$ is clearly well-defined, so $F_m$ is differentiable. Because $a\not\in\gamma$ by definition, each of the $m$ integrands above is a continuous function of $w$.\\
 		Therefore,
 		\begin{align*}
-			\lim_{z\to a} \frac{F_m(z) - F_m(a)}{z-a} = \sum_{k=1}^m \int_\gamma \frac{\varphi(w)(w-a)^{-k}}{(w-a)^{m+1-k}} \dif w \\
+			\lim_{z\to a} \frac{F_m(z) - F_m(a)}{z-a} &= \sum_{k=1}^m \int_\gamma \frac{\varphi(w)(w-a)^{-k}}{(w-a)^{m+1-k}} \dif w \\
 				&= \sum_{k=1}^m \int_\gamma \frac{\varphi(w)}{(w-a)^{m+1}} \dif w = m F_{m+1}(a). \qedhere
 		\end{align*}
 	\end{proof}
 
 	\begin{ftheo}[Cauchy's Integral Formula, version 1]
-		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma;w) = 0$ for $w \not\in \C\setminus G$. Then, for $a \in G\setminus\{\gamma\}$,
+		\label{cauchy integral formula v1}
+		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma;w) = 0$ for $w \in \C\setminus G$, then for $a \in G\setminus\{\gamma\}$,
 		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f(z)}{z-a} \dif z = n(\gamma;a) f(a). \]
+		In particular, if $n(\gamma;a) = 0$, the integral on the left is zero.
 	\end{ftheo}
 	\begin{proof}
 		Define $\varphi : G \times G \to \C$ as
@@ -667,8 +671,100 @@
 				f'(z), & z=w.
 			\end{cases}
 		\]
-		Observe that if we show that $\int_\gamma \varphi(z,w) \dif w = 0$, then
-		\[ f(z) \int_\gamma \frac{w-z} \dif w = \int_\gamma \frac{f(w)}{w-z} \dif w, \]
-		which implies the required since the left-hand side is just $n(\gamma;a) f(a)$.\\
-		It is not too difficult to show that $\varphi$ is continuous $G\times G$ (this uses the continuity of $f'$!). 
+		Observe that if we show that $\int_\gamma \varphi(z,w) \dif z = 0$, then
+		\[ f(z) \int_\gamma \frac{1}{w-z} \dif w = \int_\gamma \frac{f(w)}{w-z} \dif z, \]
+		which implies the required since the left-hand side is just $2\pi\iota n(\gamma;z) f(z)$.\\
+		It is not too difficult to show that $\varphi$ is continuous $G\times G$ (this uses the continuity of $f'$!).\\
+		Fix some $w \in G$. We shall first show that $\psi_w$ that maps $z \mapsto \varphi(z,w)$ is analytic on $G$. First, let us check at $a \ne w$. We have
+		\begin{align*}
+		 	\lim_{h\to 0} \frac{\varphi(a+h,w) - \varphi(a,w)}{h} &= \lim_{h\to 0} \frac{1}{h} \left( \frac{f(a+h) - f(w)}{a+h-w} - \frac{f(a) - f(w)}{a-w} \right) \\
+		 		&= \lim_{h \to 0} \frac{1}{h} \left( \frac{(a-w) (f(a+h) - f(w)) - (a-w) f(a) - hf(a) + (a+h-w)f(w)}{(a+h+w)(a-w)} \right) \\
+		 		&= \lim_{h \to 0} \frac{1}{h} \left( \frac{(a-w)(f(a+h)-f(a)) - h(f(a)-f(w))}{(a+h-w)(a-w)} \right) \\
+		 	\psi_w'(a) &= \frac{f'(a)}{a-w} - \frac{f(a)-f(w)}{(a-w)^2}.
+		\end{align*} 
+		Since $f$ is analytic, $\psi_w$ is analytic on $G \setminus \{w\}$.\\
+		For $a=w$ on the other hand,
+		\begin{align}
+			\lim_{h\to 0} \frac{\varphi(w+h,w) - \varphi(w,w)}{h} &= \lim_{h\to 0} \frac{1}{h} \left( \frac{f(w+h) - f(w)}{h} - f'(w) \right) \nonumber \\
+				&= \lim_{h\to 0} \frac{f(w+h) - f(w) - hf'(w)}{h^2} \label{eqn: 2.8} \\
+			\psi_w'(w) &= \frac{1}{2} f''(w), \nonumber
+		\end{align}
+		where the final step is direct on using the fact that $f$ has a power series expansion on some $B(w,r)$ for small $r$.\\
+		Checking that $\psi_w$ is analytic at $G$ is not too difficult on using the power series expansion of $f$ about $w$ (we in fact get a limit similar to \eqref{eqn: 2.8}).\\
+		So, we now have that $\psi_w$ is analytic. Define
+		\[ H = \{ w \in \C : n(\gamma;w) = 0 \}. \]
+		By \Cref{theo: winding number constant on components}, $H$ is open. Moreover, $G \cup H = \C$. Define $g:\C\to\C$ by
+		\[
+			g(z) =
+			\begin{cases}
+				\int_\gamma \psi_w(z) \dif w, & z \in G \\
+				\int_\gamma \frac{f(w)}{w-z} \dif w, & z \in H.
+			\end{cases}
+		\]
+		We shall show that $g$ is bounded and entire, and thus constant. If we then show that $\lim_{z\to 0} g(z) = 0$ (this involves only the second part of the definition of $g$), we have $g(z) = 0$ on $G$ as well, which is exactly what we want.\\
+		Boundedness of the first part is straightforward as $G$ may be assumed to be bounded. For the second part,
+		\[ \int_\gamma \frac{|f(w)|}{|w-z|} |{\dif}{w}| \le M \int_\gamma \frac{1}{|w-z|} |{\dif}{w}|, \]
+		where $M$ is the supremum of $f$. However, the integral is clearly bounded, and the integrand (so the integral) may even be made infinitely small as $z \to \infty$. If we show now that $g$ is entire, then $g$ is zero everywhere on $\C$ and we are home.
+	\end{proof}
+
+	\begin{ftheo}[Cauchy's Integral Formula, version 2]
+		\label{cauchys integral formula v2}
+		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma_1,\ldots,\gamma_m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C\setminus G$, then for $a \in G\setminus\bigcup_k\{\gamma_k\}$,
+		\[ \sum_{k=1}^m \frac{1}{2\pi\iota} \int_{\gamma_i} \frac{f(z)}{z-a} \dif z = f(a) \sum_{k=1}^m n(\gamma_k;a). \]
+	\end{ftheo}
+	The idea of the proof is very similar to that of \nameref{cauchy integral formula v1}, with the only difference being that we define
+	\[ H = \{ z \in \C : \sum_k n(\gamma_k;z) = 0 \} \]
+	and
+	\[
+		g(z) = 
+		\begin{cases}
+			\sum_{k=1}^m \int_{\gamma_k} \frac{f(w)}{w-z} \dif w, & z \in H, \\
+			\sum_{k=1}^m \varphi(z,w) \dif w, & z \in G.
+		\end{cases}
+	\]
+
+	\begin{fcor}[Cauchy's Theorem, version 1]
+		\label{cauchys theorem v1}
+		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $(\gamma_k))_{k=1}^m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C \setminus G$, then
+		\[ \sum_{k=1}^m \int_{\gamma_k} f = 0. \]
+	\end{fcor}
+
+	The above follows directly from \nameref{cauchys integral formula v2} on setting $g(z) = f(z) (z-a)$ for some $a \in G \setminus \bigcup_k \{\gamma_k\}$. Indeed, such an $a$ exists since $\bigcup_k \{\gamma_k\}$ is a finite union of compact sets so is closed and bounded, but $G$ is open (if it is closed, it must be $\C$, which is not bounded).\\
+	In fact, we may even prove \Cref{cauchys integral formula v2} from \Cref{cauchys theorem v1} by using it on the analytic function
+	\[
+		g(z) =
+		\begin{cases}
+			\frac{f(z)-f(a)}{z-a}, & z \ne a, \\
+			f'(a), & z = a.
+		\end{cases}
+	\]
+
+	Going back to \Cref{lemma 2.31: Fm}, we have that
+	\[ F(z) = n(\gamma;z) = \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{w-z} \dif w \]
+	for $z \in G \setminus \{\gamma\}$. The result there says that
+	\[ F^{(m)}(a) = m! \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{m+1}} \dif w. \]
+	Further,
+	\[ F^{(m)}(a) = n(\gamma;a) f^{(m)}(a) \]
+	since $n(\gamma,\cdot)$ is constant on components.
+
+	\begin{theorem}
+		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $(\gamma_k))_{k=1}^m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C \setminus G$, then for $a \in G \setminus \bigcup \{\gamma_k\}$ and $r \ge 1$,
+		\[ f^{(r)}(a) \sum_{k=1}^m n(\gamma_k;a) = r! \sum_{k=1}^m \frac{1}{2\pi\iota} \int_{\gamma_k} \frac{f(w)}{(w-a)^{r+1}} \dif w. \]
+	\end{theorem}
+
+	\begin{ftheo}[Morera's Theorem]
+		Let $G$ be a region and $f : G \to \C$ be continuous such that for any triangular path $T$ in $G$, $\int_T f = 0$. Then $f$ is analytic.
+	\end{ftheo}
+	Above, a ``triangular path'' is a closed polygonal curve that consists of three ``edges''. That is, it looks like a triangle.
+	\begin{proof}
+		It is enough to show that $f$ is analytic on each open disk contained inside $G$, so assume wlog that $G$ is an open disk $B(a,R)$.
+		We are done if we find a primitive $F$ of $f$. Indeed, this would mean that $F$, and thus $f$, is analytic.\\
+		For $z \in G$, define
+		\[ F(z) = \int_{[a,z]} f  , \]
+		where $[a,z]$ is the segment joining $a$ and $z$. More concretely, it is parametrized by the curve
+		\[ \gamma(t) = a + t(z-a) \]
+		for $t \in [0,1]$.\\
+		For any $z_0, z \in G$,
+		\[ F(z) = \int_{[a,z_0]} f + \int_{[z_0,z]} f = F(z_0) + \int_{[z_0,z]} f . \]
+		
 	\end{proof}
