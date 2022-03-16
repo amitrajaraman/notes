@@ -514,6 +514,7 @@
 	\end{corollary}
 
 	\begin{corollary}
+		\label{cor: finite multiplicity}
 		If $f$ is non-trivial and analytic on an open connected set $G$, then each zero of $f$ has finite multiplicity. More explicitly, for each $a \in G$ with $f(a) = 0$, there is an integer $n \ge 1$ and an analytic function $g : G \to \C$ such that $g(a) \ne 0$ and $f(z) = (z-a)^n g(z)$ for all $z \in G$.
 	\end{corollary}
 	\begin{proof}
@@ -542,6 +543,8 @@
 		\[ 0 = \int_0^{2\pi} \left( |f(a)| - |f(a+re^{\iota t})| \right) \dif t. \]
 		Since the integrand is continuous is non-negative, $|f(a)| = |f(a+re^{\iota t})|$ for all $t \in [0,2\pi]$. If $f(a) = 0$, we are clearly done. Otherwise, since $r$ was arbitrary, $f$ maps any disk $B(a,R)$ to the circle $|z| = |f(a)|$. It may then be shown using the Cauchy-Riemann equations that $f$ is constant on $B(a,R)$ and is equal to $f(a)$ for all $|z-a| < R$. Therefore, $f(z) = f(a)$ for all $z \in G$ since the zeros of $f-f(a)$ are not isolated.
 	\end{proof}
+
+\subsection{Integrals along closed curves}
 
 	Recall that
 	\[ \int_\gamma \frac{1}{z-a} \dif z  = 2 \pi \iota n \]
@@ -657,6 +660,10 @@
 		\end{align*}
 	\end{proof}
 
+	\begin{definition}
+		If $\gamma$ is a closed rectifiable curve and $G$ is a region, we say that $\gamma$ is \emph{homologous} to $0$ on $G$ and write $\gamma \approx 0$ in $G$ if $n(\gamma;w) = 0$ for all $w \in \C\setminus G$.
+	\end{definition}
+
 	\begin{ftheo}[Cauchy's Integral Formula, version 1]
 		\label{cauchy integral formula v1}
 		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma;w) = 0$ for $w \in \C\setminus G$, then for $a \in G\setminus\{\gamma\}$,
@@ -723,7 +730,8 @@
 		\end{cases}
 	\]
 
-	\begin{fcor}[Cauchy's Theorem, version 1]
+	% \begin{fcor}[Cauchy's Theorem, version 1]
+	\begin{fcor}[Cauchy's Theorem]
 		\label{cauchys theorem v1}
 		Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $(\gamma_k))_{k=1}^m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C \setminus G$, then
 		\[ \sum_{k=1}^m \int_{\gamma_k} f = 0. \]
@@ -753,18 +761,54 @@
 	\end{theorem}
 
 	\begin{ftheo}[Morera's Theorem]
+		\label{morera's theorem}
 		Let $G$ be a region and $f : G \to \C$ be continuous such that for any triangular path $T$ in $G$, $\int_T f = 0$. Then $f$ is analytic.
 	\end{ftheo}
-	Above, a ``triangular path'' is a closed polygonal curve that consists of three ``edges''. That is, it looks like a triangle.
+	Above, a triangular path is a closed polygonal curve that consists of three ``edges''. That is, it looks like a triangle.
 	\begin{proof}
 		It is enough to show that $f$ is analytic on each open disk contained inside $G$, so assume wlog that $G$ is an open disk $B(a,R)$.
 		We are done if we find a primitive $F$ of $f$. Indeed, this would mean that $F$, and thus $f$, is analytic.\\
 		For $z \in G$, define
-		\[ F(z) = \int_{[a,z]} f  , \]
-		where $[a,z]$ is the segment joining $a$ and $z$. More concretely, it is parametrized by the curve
+		\[ F(z) = \int_{[a,z]} f, \]
+		where $[a,z]$ is the segment joining $a$ and $z$. More concretely, $[a,z]$ is the curve given by
 		\[ \gamma(t) = a + t(z-a) \]
 		for $t \in [0,1]$.\\
-		For any $z_0, z \in G$,
+		Fix some $z_0 \in G$. We shall show that $F'(z_0) = f(z_0)$ For any $z \in G$,
 		\[ F(z) = \int_{[a,z_0]} f + \int_{[z_0,z]} f = F(z_0) + \int_{[z_0,z]} f . \]
-		
+		Then,
+		\begin{align*}
+			\frac{F(z) - F(z_0)}{z-z_0} &= \frac{1}{z-z_0} \int_{[z_0,z]} f \\
+				&= f(z_0) + \frac{1}{z-z_0} \int_{z_0,z} f(w) - f(z_0) \dif w.
+		\end{align*}
+		Now, fixing $\epsilon > 0$, use the continuity of $f$ to get $\delta > 0$ such that if $|z_0 - w| < \delta$, then $|f(z_0) - f(w)| < \epsilon$. Then, when $|z_0 - z| < \delta$,
+		\begin{align*}
+			\left| \frac{F(z) - F(z_0)}{z-z_0} - f(z_0) \right| \le \frac{1}{|z-z_0|} \int_{[z_0,z]} |f(w) - f(z_0)| |{\dif}{w}| \\
+				&\le \frac{1}{|z-z_0|} \int_{[z_0,z]} \epsilon |{\dif}{w}| \\
+				&= \epsilon,
+		\end{align*}
+		completing the proof.
 	\end{proof}
+
+	Recall \Cref{cor: finite multiplicity}. Similarly, if $a_1,\ldots,a_k$ are the zeroes of $f$ (repeated according to multiplicity), then
+	\[ f(z) = (z-a_1)(z-a_2)\cdots(z-a_k) g(z), \]
+	where $g(a_i) \ne 0$ for all $i$. Therefore,
+	\[ \frac{f'(z)}{f(z)} = \frac{1}{z-a_1} + \frac{1}{z-a_2} + \cdots + \frac{1}{z-a_k} + \frac{g'(z)}{g(z)}. \]
+
+	\begin{prop}
+		Let $G$ be a region and $f$ an analytic function on $G$ with finitely many zeroes $a_1,\ldots,a_k$ (repeated according to multiplicity). If $\gamma$ is a closed rectifiable curve in $G$ that does not pass through any $a_j$ and $\gamma \approx 0$ on $G$, then
+		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)} \dif z = \sum_j n(\gamma;a_j). \]
+	\end{prop}
+
+	We do not prove the above since it follows directly from the prior discussion and \Cref{cauchys theorem v1}.
+
+	\begin{corollary}
+		Let $G$ be a region and $f$ an analytic function on $G$ with finitely many points $a_1,\ldots,a_k$ with $f(a_i) = \alpha$. If $\gamma$ is a closed rectifiable curve in $G$ that does not pass through any $a_j$ and $\gamma \approx 0$ on $G$, then
+		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\alpha} \dif z = \sum_j n(\gamma;a_j). \]
+	\end{corollary}
+
+	The above follows directly on applying the previous proposition to $f-\alpha$.\\
+
+	Recall that if $\gamma:[0,1] \to G$ is rectifiable and $f:G\to\C$ is analytic, then $\sigma = (f\circ\gamma)$ is rectifiable. \\
+	Suppose we further have that $\gamma$ is closed and smooth and $\gamma \approx 0$ in $G$. Let $\alpha \in \C \setminus \{\sigma\}$. Then,
+	\[ n(\sigma;\alpha) = \frac{1}{2\pi\iota} \int_\sigma \frac{1}{w-\alpha} \dif w = \frac{1}{2\pi\iota} \int_0^1 \frac{f'(\gamma(t))\gamma'(t)}{f(\gamma(t)) - \alpha} \dif t = \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\alpha}, \]
+	which we just evaluated above. As might be expected, this is in fact true for any closed rectifiable $\gamma$.
