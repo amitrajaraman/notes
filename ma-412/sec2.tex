@@ -487,9 +487,10 @@
 		If $p(z)$ is a polynomial and its roots are $(p_j)$ with multiplicity $k_j$ (for $1\le j\le m$), then $p(z) = C (z-a_1)^{k_1} (z-a_2)^{k_2} \cdots (z-a_m)^{k_m}$ for some constant $C$, where $\sum k_j$ is the degree of $p$.
 	\end{corollary}
 
-	It is not too difficult to show that if $p(z)$ is a non-constant polynomial, then $p$ is a surjective analytic function on $\C$. However, we know that the map  $z \mapsto e^z$ is an entire function but there is no $b \in C$ such that $e^b = 0$. So, power series (``polynomials of infinite degree'') cannot be thought of in the same way as ordinary polynomials (of finite degree). However, we shall see later that given a non-constant entire function $f$, there exists at most one $a \in \C$ that is not in the image of $f$. This is referred to as Little Picard's Theorem.
+	It is not too difficult to show that if $p(z)$ is a non-constant polynomial, then $p$ is a surjective analytic function on $\C$. However, we know that the map  $z \mapsto e^z$ is an entire function but there is no $b \in C$ such that $e^b = 0$. So, power series (``polynomials of infinite degree'') cannot be thought of in the same way as ordinary polynomials (of finite degree). In fact, given a non-constant entire function $f$, there exists at most one $a \in \C$ that is not in the image of $f$. This is referred to as Little Picard's Theorem.
 
 	\begin{ftheo}
+		\label{theo: f identically zero}
 		Let $G$ be a connected open set and $f : G \to \C$ be analytic. Then, the following are equivalent statements.
 		\begin{enumerate}[label=(\alph*)]
 			\item $f$ is identically zero.
@@ -761,7 +762,7 @@
 	\end{theorem}
 
 	\begin{ftheo}[Morera's Theorem]
-		\label{morera's theorem}
+		\label{moreras theorem}
 		Let $G$ be a region and $f : G \to \C$ be continuous such that for any triangular path $T$ in $G$, $\int_T f = 0$. Then $f$ is analytic.
 	\end{ftheo}
 	Above, a triangular path is a closed polygonal curve that consists of three ``edges''. That is, it looks like a triangle.
@@ -802,6 +803,7 @@
 	We do not prove the above since it follows directly from the prior discussion and \Cref{cauchys theorem v1}.
 
 	\begin{corollary}
+		\label{cor 2.38}
 		Let $G$ be a region and $f$ an analytic function on $G$ with finitely many points $a_1,\ldots,a_k$ with $f(a_i) = \alpha$. If $\gamma$ is a closed rectifiable curve in $G$ that does not pass through any $a_j$ and $\gamma \approx 0$ on $G$, then
 		\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\alpha} \dif z = \sum_j n(\gamma;a_j). \]
 	\end{corollary}
@@ -811,4 +813,111 @@
 	Recall that if $\gamma:[0,1] \to G$ is rectifiable and $f:G\to\C$ is analytic, then $\sigma = (f\circ\gamma)$ is rectifiable. \\
 	Suppose we further have that $\gamma$ is closed and smooth and $\gamma \approx 0$ in $G$. Let $\alpha \in \C \setminus \{\sigma\}$. Then,
 	\[ n(\sigma;\alpha) = \frac{1}{2\pi\iota} \int_\sigma \frac{1}{w-\alpha} \dif w = \frac{1}{2\pi\iota} \int_0^1 \frac{f'(\gamma(t))\gamma'(t)}{f(\gamma(t)) - \alpha} \dif t = \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\alpha}, \]
-	which we just evaluated above. As might be expected, this is in fact true for any closed rectifiable $\gamma$.
+	which we just evaluated above. As might be expected, this is in fact true for any closed rectifiable $\gamma$.\\
+
+	What about the scenario of \Cref{cor 2.38} where $f$ has infinitely many zeroes in $G$? By \Cref{theo: f identically zero}, any limit point of the zero set $Z(f)$ of $f$ is in $\partial G$. Since $G$ is open, $\partial G \cap G = \emptyset$\\
+	We shall show that
+	\[ Z(f) \cap \underbrace{\{ z \in \C : n(\gamma;z) \ne 0 \}}_{H} \subseteq G, \]
+	so \Cref{cor 2.38} is still true, since all but finitely many of the terms are zero.\\
+	Observe that $H$ is closed and bounded in $\C$, and is thus compact. Further note that since the zeroes of $f$ are isolated, $Z(f) \cap H$ is a discrete closed subset of $H$. But any discrete compact set is finite(!), so we are done.\\
+	Therefore, even in the infinite zero case of \Cref{cor 2.38}, we have
+	\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)} \dif z = \sum n(\gamma;a), \]
+	where the sum is over all points in $Z(f)$, taken with multiplicity.
+
+
+	\begin{prop}
+		Let $f : G \to \C$ be analytic and non-constant, $\alpha \in f(G) \setminus \{\sigma\}$, and $\gamma \approx 0$ in $G$ is such that $n(\gamma;a) = 1$ for all $a \in f^{-1}(\alpha)$ (this also assumes that $\{\gamma\}$ does not contain any such $a$). Then, $f(G)$ contains the component of $\C\setminus\{\sigma\}$ containing $\alpha$, where $\sigma = f \circ \gamma$.
+	\end{prop}
+	\begin{proof}
+		Let $\beta$ belong to the mentioned component. We must show show the existence of a $z \in G$ with $f(z) = \beta$.\\
+		By \Cref{theo: winding number constant on components}, $n(\sigma;\alpha) = n(\sigma;\beta)$. The first quantity is equal to $m = \sum_k n(\gamma;z_k(\alpha))$, and the second is equal to $\frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\beta} \dif z$, where $z_k(\alpha)$ are the finitely many points inside $G$ for which $n(\gamma;z_k(\alpha)) \ne 0$ and $f(z_k(\alpha)) = \alpha$. Note that $m \ne 0$ by the $n(\gamma;a) = 1$ condition. If $\beta \not\in f(G)$, then the function $z \mapsto f'(z) / (f(z) - \beta)$ is analytic on $G$. Since $\gamma \approx 0$ on $G$, this must then be zero by \nameref{cauchys theorem v1} so we have arrived at a contradiction, proving the claim.
+	\end{proof}
+
+	Further note that above, we get that the number $m$ of points $z_k(\alpha)$ (taken with multiplicity) is equal to the number of point $z_k(\beta)$.
+
+	\begin{lemma}
+		\label{lemma: open mapping lemma}
+		Suppose $f$ is analytic and non-constant on $B(a,R)$. If $f-\alpha$ has a zero at $a$ of order $m$, then there exist $\epsilon,\delta > 0$ such that for $0 < |\zeta-\alpha| < \delta$, the equation $f-\zeta$ has exactly $m$ simple roots in $B(a,\epsilon)$.
+	\end{lemma}
+
+	This also implies that $f(B(a,\epsilon)) \supseteq B(\alpha,\delta)$.
+
+	\begin{ftheo}[Open Mapping Theorem]
+		\label{open mapping theorem}
+		Let $G$ be a region and let $f$ be a non-constant analytic function on $G$. Then for any open $U \subseteq G$, $f(U)$ is open in $\C$.
+	\end{ftheo}
+	\begin{proof}
+		Fix $\alpha \in f(U)$. We shall demonstrate the existence of $\delta > 0$ such that $B(\alpha,\delta) \subseteq U$. Since $\alpha \in f(U)$, let $a \in U$ such that $f(a) = \alpha$. There also exists $R > 0$ such that $B(a,R) \subseteq U$. The result directly follows on using the remark after the previous lemma.
+	\end{proof}
+
+	\begin{ftheo}[Goursat's Theorem]
+		\label{goursats theorem}
+		Let $G\subseteq \C$ be open and $f:G\to\C$ be differentiable. Then, $f$ is analytic.
+	\end{ftheo}
+	\begin{proof}
+		It suffices to consider the case where $G$ is an open disk. By \nameref{moreras theorem}, it suffices to show that $\int_T f = 0$ for any triangular curve $T$ in $G$. Fix some such $T = [a,b,c,a]$, and let $\triangle$ be the closed set formed by its convex hull. Joining the midpoints of each side of $T$, we get four triangles $(\triangle_i)_{i=1}^4$ as follows. Let $T_i = \partial \triangle_i$ be paths having the following `directions'. Then,
+		\[ \int_T f = \sum_{i=1}^4 \int_{T_i} f. \]
+		Let $T^{(1)} \in \{T_i\}_{i=1}^4$ such that
+		\[ \left| \int_{T^{(1)}} f \right| = \max_i \left| \int_{T_i} f \right|. \]
+		Observe that $\ell(T_i) = (1/2) \ell(T)$ and $\diam(\triangle_i) = (1/2) \diam(\triangle)$. Now,
+		\[ \left| \int_T f \right| \le 4 \left| \int_{T^{(1)}} f \right|. \]
+		We may perform the same process on $T^{(1)}$ to get $T^{(2)}$, and in general on $T^{(i)}$ to get $T^{(i+1)}$. This sequence of triangles is such that if $\triangle^{(n)} = \conv(T^{(n)})$, then
+		\[ \triangle^{(1)} \supseteq \triangle^{(2)} \supseteq \cdots \triangle^{(n)} \supseteq \cdots, \]
+		\[ \left| \int_{T^{(n)}} f \right| \le 4 \left| \int_{T^{(n+1)}} f \right|, \]
+		\[ \ell(T^{(n+1)}) = \frac{1}{2} \ell(T^{(n)}), \text{ and } \diam(\triangle^{(n+1)}) = \frac{1}{2} \diam(\triangle^{(n)}). \]
+		This yields that
+		\begin{align*}
+			\left| \int_T f \right| &\le 4^n \left| \int_{T^{(n)}} f \right|, \\
+			\ell(T^{(n)}) &= \frac{1}{2^n} \ell(T), \\
+			\diam(\triangle^{(n)}) &= \frac{1}{2^n} \diam(\triangle).
+		\end{align*}
+		Using Cantor's Theorem, since $\C$ is complete, $\bigcap_n \triangle^{(n)}$ is a singleton, say $\{z_0\}$. Fix $\epsilon > 0$. Because $f$ is differentiable at $z_0$, let $\delta > 0$ such that $B(z_0,\delta) \subseteq G$ and
+		\[ \left| \frac{f(z) - f(z_0)}{z-z_0} - f'(z_0) \right| < \epsilon \]
+		whenever $|z-z_0| < \delta$. Now, choose $n$ such that $\diam(\triangle^{(n)}) < \delta$. Since $z_0 \in \triangle^{(n)}$, $\triangle^{(n)} \subseteq B(z_0,\delta)$. We now have that
+		\begin{align*}
+			\left| \int_T f \right| &\le 4^n \left| \int_{T^{(n)}} f \right| \\
+				&= 4^n \left| \int_T f(z) - f(z_0) - f'(z_0) (z-z_0) \dif z \right| \\
+				&\le 4^n \int_T \left| f(z) - f(z_0) - f'(z_0) (z-z_0) \right| |{\dif} z| \\
+				&\le 4^n \int_T \epsilon |z-z_0| |{\dif} z| \\
+				&\le 4^n \int_T \epsilon \diam(\triangle^{(n)}) |{\dif} z| \\
+				&= 4^n \epsilon \diam(\triangle^{(n)}) \ell(T^{(n)}) \\
+				&= \epsilon \diam(\triangle) \ell(T).
+		\end{align*} 
+		Since $\epsilon$ can be made arbitrarily small, we are done.
+	\end{proof}
+
+	\begin{fdef}
+		Let $\gamma_1,\gamma_2:[0,1] \to \C$ be two closed rectifiable curves. Then, a \emph{homotopy} between $\gamma_1,\gamma_2$ is a continuous function $\Gamma:[0,1]\times[0,1] \to \C$ such that
+		\begin{enumerate}
+			\item $\Gamma(s,0) = \gamma_1(s)$,
+			\item $\Gamma(s,1) = \gamma_2(s)$, and
+			\item $\Gamma(0,t) = \Gamma(1,t)$ for any $s,t$.
+		\end{enumerate}
+		If there exists a homotopy between two curves, they are said to be \emph{homotopic} and we write $\gamma_1 \sim \gamma_2$.
+	\end{fdef}
+
+
+
+	\begin{ftheo}[Homotopic version of Cauchy's theorem]
+		If $\gamma_0,\gamma_1$ are closed rectifiable curves in a region $G$ and $\gamma_0 \sim \gamma_1$, then
+		\[ \int_{\gamma_0} f = \int_{\gamma_1} f \]
+		for every analytic $f$ on $G$.
+	\end{ftheo}
+	\begin{proof}
+		
+	\end{proof}
+
+	\begin{corollary}
+		If $\gamma \sim 0$, then $\gamma \approx 0$.
+	\end{corollary}
+	Above, $0$ refers to any constant curve that maps every $t \in [0,1]$ to some fixed $a \in \C$. Similar to how we define $\gamma \approx 0$, we may define $\gamma_1 \approx \gamma_2$ on $G$ in general, asserting that the winding numbers at the relevant points with respect to the two curves are equal.
+	\begin{proof}
+		Letting $\gamma_0$ be a constant curve, for any $w \not \in G$,
+		\begin{align*}
+			n(\gamma;w) &= \frac{1}{2\pi\iota} \int_\gamma \frac{1}{z-w} \dif z \\
+				&= \frac{1}{2\pi\iota} \int_{\gamma_0} \frac{1}{z-w} \dif z \\
+				&= \frac{1}{2\pi\iota} \int_{\gamma_0} \frac{1}{a-w} \dif z = 0.
+		\end{align*}
+	\end{proof}
+
+	The converse of the above is not true in general.
