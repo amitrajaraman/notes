@@ -896,15 +896,25 @@
 		If there exists a homotopy between two curves, they are said to be \emph{homotopic} and we write $\gamma_1 \sim \gamma_2$.
 	\end{fdef}
 
-
-
 	\begin{ftheo}[Homotopic version of Cauchy's theorem]
 		If $\gamma_0,\gamma_1$ are closed rectifiable curves in a region $G$ and $\gamma_0 \sim \gamma_1$, then
 		\[ \int_{\gamma_0} f = \int_{\gamma_1} f \]
 		for every analytic $f$ on $G$.
 	\end{ftheo}
 	\begin{proof}
-		
+		We only prove the result in the case where there exists a homotopy $\Gamma$ between $\gamma_0,\gamma_1$ with continuous second partial derivatives. Then, throughout the unit square $I^2 = [0,1]^2$,
+		\[ \md{\Gamma}{2}{s}{\phantom{1}}{t}{\phantom{1}} = \md{\Gamma}{2}{t}{\phantom{1}}{s}{\phantom{1}}. \]
+		Define
+		\[ g(t) = \int_0^1 f(\Gamma(s,t)) \dpd{\Gamma}{s}(s,t) \dif s. \]
+		We have that
+		\[ g(0) = \int_0^1 f(\gamma_0(s)) \cdot \dpd{\gamma_0}{s}(s) \dif s = \int_{\gamma_0} f \]
+		and similarly, $g(1) = \int_{\gamma_1} f$. If we show that $g$ is constant, we are done. To show this,
+		\[ g'(t) = \int_0^1 \left( f'(\Gamma(s,t)) \dpd{\Gamma}{t}(s,t) \dpd{\Gamma}{s}(s,t) + f(\Gamma(s,t)) \md{\Gamma}{2}{t}{\phantom{1}}{s}{\phantom{1}}(s,t) \right) \dif s. \]
+		Now,
+		\[ \dpd{}{s} \left( (f \circ \Gamma)(s,t) \dpd{\Gamma}{t}(s,t) \right) = f'(\Gamma(s,t)) \dpd{\Gamma}{t}(s,t) \dpd{\Gamma}{s}(s,t) + f(\Gamma(s,t)) \md{\Gamma}{2}{t}{\phantom{1}}{s}{\phantom{1}}(s,t). \]
+		Therefore,
+		\[ g'(t) = (f \circ \Gamma)(1,t) \dpd{\Gamma}{t}(1,t) - (f \circ \Gamma)(0,t) \dpd{\Gamma}{t}(0,t). \]
+		Since $\Gamma(0,t) = \Gamma(1,t)$ for all $t$, this is zero. Therefore, $g$ is constant on $[0,1]$ and $\int_{\gamma_0} f = \int_{\gamma_1} f$.
 	\end{proof}
 
 	\begin{corollary}
@@ -921,3 +931,52 @@
 	\end{proof}
 
 	The converse of the above is not true in general.
+
+	\begin{fdef}[Simply connected domain]
+		An open set $G$ is said to be \emph{simply connected} if $G$ is connected and every closed curve $\gamma$ on $G$ is homotopic to a constant curve.
+	\end{fdef}
+
+	Recall that when a curve is homotopic to a constant curve, we write $\gamma \sim 0$.
+
+	For example, any convex set is simply connected, as is seen by the homotopy
+	\[ \Gamma(s,t) = t\gamma(s) + (1-t)a, \]
+	where $a$ is a constant and $\gamma$ is any path in the convex set. In fact, similarly, any star-shaped set is simply connected.
+
+	\begin{ftheo}
+		$G$ is simply connected if and only if $\C_\infty \setminus G$ is connected.
+	\end{ftheo}
+
+	\begin{corollary}
+		If $G$ is simply connected, $\int_\gamma f = 0$ for every closed rectifiable curve $\gamma$ in $G$ and analytic function $f$ on $G$.
+	\end{corollary}
+
+	Recall that if a function has a primitive, then its integral along any closed rectifiable curve is zero.\\
+	Further, the proof of \nameref{moreras theorem} showed that the converse is true on open disks.
+
+	\begin{prop}
+		If $G$ is simply connected and $f:G \to \C$ is analytic in $G$, then $f$ has a primitive in $G$.
+	\end{prop}
+	\begin{proof}
+		Fix $a \in G$. Define
+		\[ F(z) = \int_{\gamma_z} f(z) \dif z, \]
+		where $\gamma_z$ is any rectifiable path from $a$ to $z$. Simple connectedness implies that the value of the above is the same for any choice of $\gamma_z$. Indeed, if $\gamma_1,\gamma_2$ are two such choices, then the path $(\gamma_1 * \gamma_2^{-1}) \sim 0$, so the integral along it is $0$. This integral is just equal to $\int_{\gamma_1} f - \int_{\gamma_2} f$. For $z_0 \in G$, let $R > 0$ such that $B(z_0,R) \subseteq G$. For any $\epsilon > 0$, we must demonstrate a $\delta > 0$ such that whenever $|z-z_0| < \delta$,
+		\[ \left| \frac{F(z) - F(z_0)}{z-z_0} - f(z_0) \right| < \epsilon. \]
+		It suffices to show this for $z \in B(z_0,R)$. To do this, we can let $\gamma_1$ be a path from $a$ to $z_0$ and $\gamma_2 = [z_0,z]$. Then,
+		\begin{align*}
+			\frac{F(z) - F(z_0)}{z-z_0} &= \frac{1}{z-z_0} \left( \int_{\gamma_1 * \gamma_2} f - \int_{\gamma_1} f \right) \\
+				&= \frac{1}{z-z_0} \int_{[z_0,z]} f.
+		\end{align*}
+		The rest of the proof follows exactly as that of Morera's Theorem, and we can show that $F' = f$.
+	\end{proof}
+
+	\begin{corollary}
+		If $G$ is simply connected and $f : G \to \C$ is analytic such that $f(z) \ne 0$ for all $z \in G$, there exists analytic $g : G \to \C$ such that $e^{g(z)} = f(z)$ for all $z \in G$.
+	\end{corollary}
+
+	In particular, there exists a branch of the log on any simply connected domain that does not contain $0$.
+
+	\begin{proof}
+		Then, there exists an analytic function $h : G \to \C$ such that $h(z) = f'(z) / f(z)$. Now,
+		\[ \dd{}{z} (e^{-h(z)} f(z)) &= e^{-h(z)} f'(z) - f(z) h'(z) e^{-h(z)} = 0. \]
+		Therefore, $e^{-h(z)} f(z)$ is some non-zero constant $\alpha$, so $f(z) = \alpha e^{h(z)}$. We easily get some $\beta$ such that $e^{\beta} = \alpha$, so the analytic function $\beta + h(z)$ does the job.
+	\end{proof}
