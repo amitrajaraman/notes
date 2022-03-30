@@ -1,0 +1,158 @@
+\title{Differential Geometry}
+\author{Amit Rajaraman}
+\date{Fall 2021}
+
+\usepackage{amsmath,amssymb,amsthm,amsfonts,amscd}
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage[tmargin=1in, bmargin=1in, lmargin=0.75in, rmargin=0.75in]{geometry}
+\usepackage[colorlinks]{hyperref}
+\usepackage{tikz}
+\usepackage{cleveref}
+\usetikzlibrary{arrows}
+\usepackage{mathtools}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{doi}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{esvect}
+\usepackage{commath}
+\usepackage{lastpage}
+\usepackage{tgpagella}
+\usepackage{anyfontsize}
+\usepackage{tkz-graph}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily{#1}}
+\SetCommentSty{mycommfont}
+\SetArgSty{textup}
+\usepackage[square,numbers]{natbib}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
+\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\thesubsection.}{0.2cm}{\large}
+\titleformat{\subsubsection}[block]{\large\bfseries\sffamily}{\normalsize\thesubsubsection.}{0.15cm}{\normalsize}
+% \titleclass{\subsubsubsection}{straight}[\subsection]
+% \newcounter{subsubsubsection}[subsubsection]
+% \renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+% \titleformat{\subsubsubsection}
+%   {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+% \titlespacing*{\subsubsubsection}
+% {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\usepackage{fancyhdr}
+\lhead{\sffamily{Differential Geometry}}
+\chead{\sffamily{\thepage~/~\pageref*{LastPage}}}
+\rhead{\sffamily{Amit Rajaraman}}
+\cfoot{}
+\pagestyle{fancy}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setlength\parindent{0pt}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\renewcommand{\emptyset}{\varnothing}
+
+\Crefname{algocf}{Algorithm}{Algorithms}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rp}{\mathbb{R}^+}
+\newcommand{\Rn}{\mathbb{R}^n}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\H}{\mathbb{H}}
+\newcommand{\Int}{\operatorname{Int}}
+\newcommand{\vol}{\operatorname{vol}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\rad}{\operatorname{rad}}
+\renewcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\opnorm}[1]{\norm{#1}_{\text{op}}}
+\newcommand{\indic}{\mathbbm{1}}
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}}
+\newcommand{\expec}{\textbf{E}}
+\newcommand{\Var}{\operatorname{\textbf{Var}}}
+\newcommand{\conv}{\operatorname{Conv}}
+\newcommand{\exx}{\operatorname{ex}}
+\newcommand{\avg}{\operatorname{avg}}
+\newcommand{\med}{\operatorname{med}}
+\newcommand{\Span}{\operatorname{span}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\girth}{\operatorname{girth}}
+\newcommand{\Cay}{\operatorname{Cay}}
+\newcommand{\Val}{\operatorname{Val}}
+\newcommand{\ES}{\operatorname{ES}}
+
+\numberwithin{equation}{section}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newenvironment{ftheo}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
+  {\end{theorem}\end{shaded}}
+\newtheorem{lemma}[theorem]{Lemma}
+\newenvironment{flem}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{lemma}}
+  {\end{lemma}\end{shaded}}
+\newtheorem{corollary}[theorem]{Corollary}
+\newenvironment{fcor}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{corollary}}
+  {\end{corollary}\end{shaded}}
+\newtheorem{porism}[theorem]{Porism}
+\newenvironment{fpor}
+  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{porism}}
+  {\end{porism}\end{shaded}}
+\newtheorem{definition}{Definition}
+\newenvironment{fdef}
+  {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
+  {\end{definition}\end{shaded}}
+\newtheorem*{conjecture*}{Conjecture}
+\newenvironment{fcon}
+  {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{conjecture*}}
+  {\end{conjecture*}\end{shaded}}
+\numberwithin{definition}{section}
+\numberwithin{theorem}{section}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\numberwithin{exercise}{section}
+
+\mdfdefinestyle{solutionstyle}{%
+  % linecolor=gray,linewidth=1pt,%
+  % frametitlerule=true,%
+  frametitlebackgroundcolor=white,
+  % backgroundcolor=  gray!20,  
+  bottomline=false, topline=false, rightline=false, leftline=true,
+  innerlinewidth=0.7pt, outerlinewidth=0.7pt, middlelinewidth=2pt, middlelinecolor=white, %
+  innerleftmargin=6pt,innerbottommargin=0pt,
+  skipabove=0pt
+}
+\mdtheorem[style=solutionstyle]{solution}{Solution}
+\numberwithin{solution}{section}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\newcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge \scshape Differential Geometry} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large\textbf{Amit Rajaraman}}\\ % Author name
+    
+    \vspace{0.4cm}
+    Last updated \today % Year published
+
+\endgroup}

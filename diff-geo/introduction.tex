@@ -1,0 +1,59 @@
+\section{Introduction}
+
+\subsection{Topological Manifolds}
+
+\begin{fdef}[Topological manifold]
+	An $n$-dimensional \emph{topological manifold} is a paracompact Hausdorff topological space $M$ such that every $p \in M$ is contained in some open set $U_p$ that is homeomorphic to an open subset of $\R^n$ (for some $n$).
+\end{fdef}
+This property is sometimes referred to by saying that $M$ is ``locally Euclidean''. \\
+While we referred to the $n$ in the definition of a topological manifold as a quantity depending on the point of concern, it is in fact invariant for connected components. Therefore, this $n$ is referred to as the \emph{dimension} $\dim(M)$ of the manifold. This is a consequence of \Cref{brouwers theorem}, which we state without proof.
+\begin{ftheo}[Brouwer's Theorem]
+	\label{brouwers theorem}
+	The image of an open $U \subseteq \R^n$ under an injective continuous map $f : U \to \R^n$ is open and $f$ is a homeomorphism from $U$ to $f(U)$. It follows that if $U \subseteq \R^n$ is homeomorphic to $V \subseteq \R^m$, then $m = n$.
+\end{ftheo}
+
+The most direct example of a topological manifold is $\R^n$, which is of dimension $n$. A slightly more complicated example is that the $n$-torus $T^n = S^1 \times S^1 \times \cdots \times S^1$ is a manifold of dimension $n$.\\
+It is not too difficult to see that if $M_1$ and $M_2$ are manifolds of dimension $n_1$ and $n_2$, then $M_1 \times M_2$, endowed with the product topology, is also a manifold of dimension $n_1 + n_2$.
+
+Manifolds have several interesting properties that usual topological spaces do not have. For example, connectedness and path-connectedness become equivalent.
+
+\begin{prop}
+	A manifold $M$ is connected iff it is path-connected.
+\end{prop}
+\begin{proof}
+	It is clear that path-connectedness implies connectedness.\\
+	For the other direction, let $x \in M$ and $S$ be the path component of $M$ containing $x$. It suffices to show that $S$ is clopen. Indeed, connectedness would then imply that $M = S$.\\
+	Let $y \in S$, and $U_y \ni y$ be an open set homeomorphic to an open set $V_y \subseteq \R^n$ with homeomorphism $\varphi$. Let $B(\varphi(y),r) \subseteq V_y$ for some $r > 0$. Then, a path from $\varphi(y)$ to any $z \in B(\varphi (y),r)$ extends to a path from $y$ to $\varphi^{-1}(z)$. This implies that the open set $\varphi^{-1}(B(\varphi(y),r))$ is contained in $S$, so $S$ is open.\\
+	On the other hand, let $y$ be a limit point of $S$. Similar to the previous argument, $U_y \ni y$, $V_y \subseteq \R^n$, and $B(\varphi(y),r) \subseteq V_y$. We then have that $\varphi^{-1}(B(\varphi(y),r)) \cap S \ne \emptyset$, so say it contains $z$. By an identical argument to the previous graph, there is a path from $z$ to $y$, which leads to a path from $x$ to $y$ by connecting this path to the one from $x$ to $z$.
+\end{proof}
+
+Some definitions of a topological manifold replace paracompactness with the second countability of each component. Indeed, the two turn out to be equivalent for a locally Euclidean Hausdorff space.\\
+
+Define the Euclidean halfspace
+\[ \H^n = \R^n_{x^n \ge 0} = \{ (x^1,\ldots,x^n) \in \R^n : x^n \ge 0 \}. \]
+
+\begin{fdef}
+	A \emph{topological space with boundary} is a paracompact Hausdorff topological space $M$ such that every $p \in M$ is contained in some open set $U_p$ that is homeomorphic to an open subset of $\H^n$ (for some $n$).
+\end{fdef}
+The \emph{boundary points} $\partial M$ of $M$ consists of those points that map to points on $\partial\H^n$ under some homeomorphism $\varphi: U_p \to V_{\varphi(p)}$, and the \emph{interior points} $\Int(M)$ of $M$ consist of those that map to points of $\Int(\H^n)$. It is once again a consequence of Brouwer's Theorem that this does not depend on the choice of homeomorphism.\\
+
+Theorem 3.33 from \href{https://amitrajaraman.github.io/notes/ma-406/connandcomp.pdf}{here} implies that any manifold is regular (using Lemma 4.5(a) from \href{https://amitrajaraman.github.io/notes/ma-406/axioms.pdf}{here}). We mentioned earlier that any topological manifold has second countable components. Since any regular second countable space is metrizable, this means that each of the components of a manifold are metrizable. This may then be extended to a metric on the entirety of the manifold, by bounding the metric within a component from above by $1/2$ (say), and setting the distance between points in distinct components to be $1$.
+
+\begin{fdef}[Chart]
+	Let $M$ be a set. A \emph{chart} $(U,x)$ on $M$ is a bijection of a subset $U \subseteq M$ onto an open subset of some $\R^n$.
+\end{fdef}
+
+If $\pi_i$ is the $i$th projection function $\R^n \to \R$, then $x^i = \pi_i \circ x$ is the $i$th \emph{coordinate function} of $(U,x)$. If $p \in M$ and $(U,x)$ is a chart with $p \in U$ such that $x(p) = 0 \in \R^n$, then we say that the chart is \emph{centered} at $p$.
+
+\begin{fdef}[Atlas]
+	Let $\mathcal{A} = \{(U_\alpha,x_\alpha)\}_{\alpha \in A}$ be a collection of $\R^n$-valued charts on a set $M$. $\mathcal{A}$ is said to be a \emph{$\R^n$-valued atlas of class $C^r$} if
+	\begin{enumerate}
+		\item $\bigcup_{\alpha \in A} U_\alpha = M$,
+		\item the sets of the form $x_\alpha(U_\alpha \cap U_\beta)$ are open, and
+		\item when $U_\alpha \cap U_\beta \ne \emptyset$, the function
+		\[ x_\beta \circ x_\alpha^{-1} : x_\alpha(U_\alpha \cap U_\beta) \to x_\beta(U_\alpha \cap U_\beta) \]
+		is a $C^r$ diffeomorphism.\footnotemark
+	\end{enumerate}
+\end{fdef}
+\footnotetext{Recall that a function $f$ is a $C^r$ diffeomorphism if both $f$ and $f^{-1}$ are $C^r$ differentiable. }
+
