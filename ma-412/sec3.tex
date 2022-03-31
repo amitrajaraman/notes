@@ -434,46 +434,6 @@
 
 		\begin{proof}
 			Then, there exists an analytic function $h : G \to \C$ such that $h(z) = f'(z) / f(z)$. Now,
-			\[ \dd{}{z} (e^{-h(z)} f(z)) &= e^{-h(z)} f'(z) - f(z) h'(z) e^{-h(z)} = 0. \]
+			\[ \frac{\dif}{\dif z} (e^{-h(z)} f(z)) = e^{-h(z)} f'(z) - f(z) h'(z) e^{-h(z)} = 0. \]
 			Therefore, $e^{-h(z)} f(z)$ is some non-zero constant $\alpha$, so $f(z) = \alpha e^{h(z)}$. We easily get some $\beta$ such that $e^{\beta} = \alpha$, so the analytic function $\beta + h(z)$ does the job.
 		\end{proof}
-
-	\subsection{Singularities}
-
-		A function $f$ is said to have a singularity at 
-
-		\begin{fdef}
-			A function $f$ is said to have an \emph{isolated singularity} at $a$ if there exists $R > 0$ such that $f$ is defined and analytic on $B(a,R) \setminus \{a\}$ but not on $B(a,R)$.\\
-			Further, $f$ is said to have a \emph{removable singularity} at $a$ if there is an analytic function $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R) \setminus \{a\}$.
-		\end{fdef}
-
-		The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
-
-		\begin{theorem}
-			If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
-		\end{theorem}
-		\begin{proof}
-			If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
-			\[ lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
-			For the converse, define
-			\[ g(z) =
-			\begin{cases}
-				(z-a) f(z), & z \ne a \\
-				0, & z=a.	
-			\end{cases}
-			\]
-			Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = h(z)$ for some analytic $h$ $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
-			To prove analyticity, we shall use Morera's Theorem. For a $T$ in $B(a,R)$, if $a$ is not inside $T$, then $T \sim 0$ in $B(a,R)^*$ so $\int_T g = 0$ ($g$ is analytic on the punctured disk).\\
-			For the remaining case, it suffices to consider the scenario where $a$ is one of the vertices of $T = [a,b,c,a]$. Indeed, we may in general ``split'' the triangle into three subtriangles, each of which has $a$ as a vertex. Let $x \in [a,b]$ and $y \in [a,c]$. Observe that the integral of $g$ along $T = [a,b,c,a]$ is equal to that along $T_1 = [a,x,y,a]$. However, $\left| \int_{T_1} g \right|$ is at most $M V(T_1) = M (|a-x| + |a-y| + |x-y|)$, where $M$ is the supremum of $|g|$ over some $\overline{B(a,\delta)} \subseteq B(a,R)$ that contains $T$, and this can be made arbitrarily small by bringing $x,y$ close to $a$, completing the proof.
-		\end{proof}
-
-		Interestingly, the above says that if $f$ has an isolated singularity at $a$ and $\lim_{z \to a} (z-a) f(z) = 0$, then $\lim_{z \to a} f(z)$ exists!
-
-		\begin{fdef}[Pole]
-			If $z = a$ is an isolated singularity of $f$, $a$ is said to be a \emph{pole} of $f$ if $\lim_{z \to a} f(z) = \infty$. That is, for any $M > 0$, there exists $\delta > 0$ such that $|f(z)| \ge M$ whenever $0 < |z-a| < \delta$.
-		\end{fdef}
-
-		\begin{prop}
-			If $G$ is a region with $a \in G$ and $f$ is analytic on $G \setminus \{a\}$ with a pole at $a$, then there is $m \in \Z^+$ and analytic $g : G \to \C$ such that
-			\[ f(z) = \frac{g(z)}{(z-a)^m}. \]
-		\end{prop}

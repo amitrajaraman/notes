@@ -1,0 +1,99 @@
+\section{Singularities}
+
+	\subsection{Poles and singularities}
+
+		A function $f$ is said to have a singularity at 
+
+		\begin{fdef}
+			A function $f$ is said to have an \emph{isolated singularity} at $a$ if there exists $R > 0$ such that $f$ is defined and analytic on $B(a,R) \setminus \{a\}$ but not on $B(a,R)$.\\
+			Further, $f$ is said to have a \emph{removable singularity} at $a$ if there is an analytic function $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R) \setminus \{a\}$.
+		\end{fdef}
+
+		The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
+
+		\begin{theorem}
+			\label{theo 3.22}
+			If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
+		\end{theorem}
+		\begin{proof}
+			If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
+			\[ lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
+			For the converse, define
+			\[ g(z) =
+			\begin{cases}
+				(z-a) f(z), & z \ne a \\
+				0, & z=a.	
+			\end{cases}
+			\]
+			Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = h(z)$ for some analytic $h$ $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
+			To prove analyticity, we shall use Morera's Theorem. For a $T$ in $B(a,R)$, if $a$ is not inside $T$, then $T \sim 0$ in $B(a,R)^*$ so $\int_T g = 0$ ($g$ is analytic on the punctured disk).\\
+			For the remaining case, it suffices to consider the scenario where $a$ is one of the vertices of $T = [a,b,c,a]$. Indeed, we may in general ``split'' the triangle into three subtriangles, each of which has $a$ as a vertex. Let $x \in [a,b]$ and $y \in [a,c]$. Observe that the integral of $g$ along $T = [a,b,c,a]$ is equal to that along $T_1 = [a,x,y,a]$. However, $\left| \int_{T_1} g \right|$ is at most $M V(T_1) = M (|a-x| + |a-y| + |x-y|)$, where $M$ is the supremum of $|g|$ over some $\overline{B(a,\delta)} \subseteq B(a,R)$ that contains $T$, and this can be made arbitrarily small by bringing $x,y$ close to $a$, completing the proof.
+		\end{proof}
+
+		Interestingly, the above says that if $f$ has an isolated singularity at $a$ and $\lim_{z \to a} (z-a) f(z) = 0$, then $\lim_{z \to a} f(z)$ exists!
+
+		\begin{fdef}[Pole]
+			If $z = a$ is an isolated singularity of $f$, $a$ is said to be a \emph{pole} of $f$ if $\lim_{z \to a} f(z) = \infty$. That is, for any $M > 0$, there exists $\delta > 0$ such that $|f(z)| \ge M$ whenever $0 < |z-a| < \delta$.
+		\end{fdef}
+
+		\begin{prop}
+			If $G$ is a region with $a \in G$ and $f$ is analytic on $G \setminus \{a\}$ with a pole at $a$, then there is $m \in \Z^+$ and analytic $g : G \to \C$ such that
+			\[ f(z) = \frac{g(z)}{(z-a)^m}. \]
+		\end{prop}
+		
+		This is equivalent to asserting that there exists $m \in \Z^+$ such that $f(z) (z-a)^m$ has a removable singularity at $a$.
+
+		\begin{proof}
+			We have that
+			\[ \lim_{z \to a} \frac{1}{f(z)} = 0. \]
+			Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 3.22} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
+			Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
+			\[ g(z) = \begin{cases} (z-a)^m f(z), & z \ne a, \\ 1/h_2(a), & z = a. \end{cases} \]
+		\end{proof}
+
+		\begin{definition}
+			If $f$ has a pole at $a$ and $m$ is the smallest positive integer such that $f(z)/(z-a)^m$ has a removable singularity at $a$, then $f$ is said to have a pole of \emph{order} $m$ at $a$.
+		\end{definition}
+
+		It is seen that if we take $m$ as the order of the pole in the previous proposition, then $g(a) \ne 0$.\\
+		If $G = B(a,R)$, then the obtained $g$ (for the order) is analytic, and hence,
+		\[ g(z) = a_{-m} + a_{-(m-1)}(z-a) + \cdots + a_{-1} (z-a)^{m-1} + (z-a)^m \sum_{k=0}^\infty a_k (z-a)^k. \]
+		Consequently,
+		\[ f(z) = \sum_{k = -m}^{\infty} a_k (z-a)^k. \]
+		Note that the function obtained by taking only the non-negative values of $k$ in the above summation is analytic on $B(a,R)$. Also, since $m$ is the order of the pole, $a_{-m} = g(a) \ne 0$.
+
+		\begin{definition}
+			If $f$ has a pole of order $m$ at $a$ and
+			\[ f(z) = \sum_{k=-m}^{\infty} a_{k} (z-a)^k, \]
+			then
+			\[ \sum_{k=-m}^{-1} a_k (z-a)^k \]
+			is referred to as the \emph{singular part} of $f$ at $a$.
+		\end{definition}
+
+	\subsection{Laurent Series}
+
+		Let us now look at how to deal with doubly infinite summations in general.
+
+		\begin{definition}
+			If $\{ z_n : n \in \Z \}$ is a doubly infinite sequence of complex numbers, then
+			\[ \sum_{n=-\infty}^{\infty} z_n \]
+			is \emph{absolutely convergent} if both $\sum_{n=0}^\infty z_n$ and $\sum_{n=1}^\infty z_{-n}$ are absolutely convergent. \\
+			If $u_n$ is a function on a set $S$ for $n \in \Z$ and $\sum_{n=-\infty}^{\infty} u_n(s)$ is absolutely convergent for each $s \in S$, then the sum $\sum_{n=-\infty}^{\infty} u_n$ is \emph{uniformly convergent} on $S$ if both $\sum_{n=0}^{\infty} u_n$ and $\sum_{n=1}^{\infty} u_{-n}$ converge uniformly on $S$.
+		\end{definition}
+		
+		Given $0 \le R_1 < R_2 \le \infty$ and $a \in \C$, define the \emph{annulus}
+		\[ \ann(a,R_1,R_2) = \{ z \in \C : R_1 < |z-a| < R_2 \}. \]
+		In particular, $\ann(a,0,R) = B(a,R)^*$.
+
+		\begin{theorem}
+			Let $f$ be analytic on $\ann(a,R_1,R_2)$. Then,
+			\[ f(z) = \sum_{n=-\infty}^{\infty} a_n (z-a)^n \]
+			where the convergence is absolute and uniform over $\overline{\ann(a,r_1,r_2)}$ for any $R_1 < r_1 < r_2 < R_2$.\\
+			Further, the coefficients $a_n$ are given by the formula
+			\[ a_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(z)}{(z-a)^{n+1}} \dif z, \]
+			where $\gamma$ is the circle $|z-a| = r$ for some $R_1 < r < R_2$. Moreover, this integral is independent of $r$ and the choice of coefficients is unique.
+		\end{theorem}
+
+		\begin{proof}
+			It is clear that the integrals for paths of distinct $r$ are the same since the two paths are path-homotopic.
+		\end{proof}
