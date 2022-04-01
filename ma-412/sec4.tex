@@ -12,12 +12,12 @@
 		The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
 
 		\begin{theorem}
-			\label{theo 3.22}
+			\label{theo 4.1}
 			If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
 		\end{theorem}
 		\begin{proof}
 			If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
-			\[ lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
+			\[ \lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
 			For the converse, define
 			\[ g(z) =
 			\begin{cases}
@@ -46,7 +46,7 @@
 		\begin{proof}
 			We have that
 			\[ \lim_{z \to a} \frac{1}{f(z)} = 0. \]
-			Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 3.22} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
+			Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 4.1} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
 			Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
 			\[ g(z) = \begin{cases} (z-a)^m f(z), & z \ne a, \\ 1/h_2(a), & z = a. \end{cases} \]
 		\end{proof}
@@ -62,13 +62,13 @@
 		\[ f(z) = \sum_{k = -m}^{\infty} a_k (z-a)^k. \]
 		Note that the function obtained by taking only the non-negative values of $k$ in the above summation is analytic on $B(a,R)$. Also, since $m$ is the order of the pole, $a_{-m} = g(a) \ne 0$.
 
-		\begin{definition}
+		\begin{fdef}
 			If $f$ has a pole of order $m$ at $a$ and
 			\[ f(z) = \sum_{k=-m}^{\infty} a_{k} (z-a)^k, \]
 			then
 			\[ \sum_{k=-m}^{-1} a_k (z-a)^k \]
 			is referred to as the \emph{singular part} of $f$ at $a$.
-		\end{definition}
+		\end{fdef}
 
 	\subsection{Laurent Series}
 
@@ -85,15 +85,62 @@
 		\[ \ann(a,R_1,R_2) = \{ z \in \C : R_1 < |z-a| < R_2 \}. \]
 		In particular, $\ann(a,0,R) = B(a,R)^*$.
 
-		\begin{theorem}
+		\begin{ftheo}
 			Let $f$ be analytic on $\ann(a,R_1,R_2)$. Then,
 			\[ f(z) = \sum_{n=-\infty}^{\infty} a_n (z-a)^n \]
 			where the convergence is absolute and uniform over $\overline{\ann(a,r_1,r_2)}$ for any $R_1 < r_1 < r_2 < R_2$.\\
 			Further, the coefficients $a_n$ are given by the formula
 			\[ a_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(z)}{(z-a)^{n+1}} \dif z, \]
-			where $\gamma$ is the circle $|z-a| = r$ for some $R_1 < r < R_2$. Moreover, this integral is independent of $r$ and the choice of coefficients is unique.
-		\end{theorem}
+			where $\gamma$ is the circle $a+re^{\iota t}$ for some $R_1 < r < R_2$. Moreover, this integral is independent of $r$ and the choice of coefficients is unique.
+		\end{ftheo}
 
 		\begin{proof}
-			It is clear that the integrals for paths of distinct $r$ are the same since the two paths are path-homotopic.
+			It is clear that the integrals for paths of distinct $r$ are the same since two such paths are path-homotopic.\\
+			Define $f_2 : B(a,R_2) \to \C$ be
+			\[ f_2(z) = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w, \]
+			where $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$ with $r > |z-a|$. Notice that $f_2$ is well-defined and analytic on $B(a,R_2)$ by \Cref{lemma 2.31: Fm}. Similarly, consider the function $f_1 : \ann(a,R_1,\infty) \to \C$ defined by
+			\[ f_1(z) = - \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w \]
+			where $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$ with $r < |z-a|$. Once more, $f_1$ is well-defined and analytic on $\ann(a,R_1,\infty)$.\\
+			Let $z \in \ann(a,R_1,R_2)$ and let $r_1,r_2 \in (R_1,R_2)$ with $r_1 < |z-a| < r_2$. Let $\gamma_i(t) = a + r_i e^{\iota t}$ for $i=1,2$, and $\lambda$ be a straight line curve joining $a+r_1$ to $a+r_2$, and assume this does not pass through $z$. Finally, let $\Gamma = \gamma_1 + \lambda - \gamma_2 - \lambda$. Then, for any $b \not\in \ann(a,R_1,R_2)$,
+			\begin{align*}
+				n(\Gamma;b) &= \frac{1}{2\pi\iota} \int_{\Gamma} \frac{1}{w-b} \dif w \\
+					&= \frac{1}{2\pi\iota} \left( \int_{\gamma_1} \frac{1}{w-b} \dif w - \int_{\gamma_2} \frac{1}{w-b} \dif w \right) \\
+					&= n(\gamma_1;b) - n(\gamma_2;b) = 0.
+			\end{align*}
+			That is, $\Gamma \approx 0$ in $\ann(a,R_1,R_2)$. By Cauchy's integral formula,
+			\begin{align*}
+				\frac{1}{2\pi\iota} \int_{\Gamma} \frac{f(w)}{w-z} \dif w &= n(\Gamma;z) f(z) \\
+					&= \left( n(\gamma_1;z) - n(\gamma_2;z) \right) f(z) \\
+					&= -f(z).
+			\end{align*}
+			Therefore,
+			\begin{align*}
+				f(z) &= - \frac{1}{2\pi\iota} \int_{\gamma_1} \frac{f(w)}{w-z} \dif w + \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(w)}{w-z} \dif w \\
+					&= f_1(z) + f_2(z).
+			\end{align*}
+			We shall now expand $f_1$ and $f_2$ as power series. Since $f_2$ is analytic on $B(a,R_2)$, it is equal to a power series $\sum_{n=0}^{\infty} a_n (z-a)^n$, where
+			\[ a_n = \frac{f_2^{(n)}(a)}{n!} = \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(z)}{(z-a)^{n+1}} \dif z \]
+			by \Cref{lemma 2.31: Fm}.\\
+			$f_1$ on the other hand is problematic because the region of analyticity is not an open disk. To resolve this, let
+			\[ g(z) = \begin{cases} f_1(a+\frac{1}{z}), & 0 < |z| < 1/R_1, \\ 0, & z = 0. \end{cases} \]
+			It may be shown that $\lim_{z\to 0} g(z) = 0$, and $g$ is thus analytic on $B(a,1/R_1)$ by a method similar to what we did in the proof of \Cref{theo 4.1}. Therefore, $g$ has a power series, so
+			\[ g(z) = \sum_{n=1}^{\infty} a_{-n} z^n, \]
+			and thus, for $z \in \ann(a,R_1,\infty)$,
+			\[ f_1(z) = \sum_{n=1}^{\infty} a_{-n} \frac{1}{(z-a)^n}, \]
+			and the desideratum follows because $f = f_1 + f_2$.\\
+
+			It remains to show that the coefficients are unique. Suppose that we can write
+			\[ f(z) = \sum_{n=-\infty}^{\infty} b_n (z-a)^n \]
+			Let $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$. We wish to show that
+			\[ b_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w. \]
+			for $z \in \ann(a,R_1,R_2)$, such that the convergence is absolute and uniform on $\overline{\ann(a,r_1,r_2)}$ for $R_1 < r_1 < r_2 < R_2$. Due to absolute convergence,
+			\[ f(w) = \lim_{m\to\infty} \sum_{k=-m}^m b_k (w-a)^k = \lim_{m\to\infty} S_m(w)  \]
+			Due to uniform convergence,
+			\begin{align*}
+				\frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w &= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{S_m(w)}{(w-a)^{n+1}} \dif w \\
+					&= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{1}{(w-a)^{n+1}} \sum_{k=-m}^m b_k (w-a)^k \dif w \\
+					&= \lim_{m\to\infty} \sum_{k=-m}^m b_k \frac{1}{2\pi\iota} \int_{\gamma}(w-a)^{k-n-1} \dif w \\
+					&= b_n n(\gamma;a) = b_n,
+			\end{align*}
+			where the second-to-last term follows from the fact that every other summand has a primitive so integrates to $0$, thus completing the proof.
 		\end{proof}
