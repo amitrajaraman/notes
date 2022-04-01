@@ -393,7 +393,7 @@
 
 	\begin{lemma}
 		Let $\gamma$ be a rectifiable curve in $\C$ and suppose that $F_n$ and $F$ are continuous functions on $\{\gamma\}$. If $(F_n)$ uniformly converges to $F$ on $\{\gamma\}$, then
-		\[ \int_\gamma = \lim_{n\to\infty} \int_\gamma F_n. \]
+		\[ \int_\gamma F = \lim_{n\to\infty} \int_\gamma F_n. \]
 	\end{lemma}
 	\begin{proof}
 		Let $\epsilon > 0$ and let $N \in \N$ such that
@@ -420,14 +420,14 @@
 			f(z) = \sum_{n=0}^{\infty} \left(\frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}}\right) (z-a)^n.
 		\end{equation}
 		Since
-		\[ a_n = \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}}. \]
+		\[ a_n = \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}} \dif w. \]
 		is independent of $z$, \eqref{eqn: unsimplified taylor} converges for $|z-a| < R$. However, we now know from \Cref{theo: power series rad conv}(c) that $a_n = f^{(n)}(a)/n!$, completing the proof.
 	\end{proof}
 
 	\begin{corollary}
-		If $f$ is analytic,
-		\[ f^{(n)}(a) = \frac{1}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}} \dif w \]
-		where $\gamma = a + re^{\iota t}$ and $r < R$, the radius of convergence of the series.
+		If $f$ is analytic on $B(a,R)$,
+		\[ f^{(n)}(a) = \frac{n!}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}} \dif w \]
+		where $\gamma = a + re^{\iota t}$ and $r < R$.
 	\end{corollary}
 
 	\begin{corollary}
@@ -436,6 +436,7 @@
 	Indeed, this follows directly from the fact that
 	\[ f^{(n)}(a) = \frac{n!}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}} \dif w \]
 	where $\gamma(t) = a+re^{\iota t}$ for $0 \le t \le 2\pi$.\\
+	That is, continuous differentiability implies infinite differentiability.
 
 	\begin{corollary}[Cauchy's Estimate]
 		\label{theo: cauchys estimate}
@@ -458,7 +459,7 @@
 	\end{proof}
 
 	\begin{fdef}
-		An \emph{entire} function is a function which is defined and analyitc on the whole complex plane $\C$.
+		An \emph{entire} function is a function which is defined and analytic on the whole complex plane $\C$.
 	\end{fdef}
 
 	\begin{prop}
@@ -507,7 +508,7 @@
 		Since $g$ is continuous in $B(a,R)$ and $g(a) \ne 0$, let $r<R$ such that $g(z) \ne 0$ when $|z-a| < r$. Since $a$ is a limit point of $z$, there exists $b$ with $f(b) = 0$ and $0 < |a-b| < r$. This gives $0 = (b-a)^n g(b)$, so $g(b) = 0$, a contradiction. Therefore, no such $n$ can be found and (b) is true.\\
 		Finally, let us show that (b) implies (a). Let
 		\[ A = \{ z \in G : f^{(n)}(z) = 0 \text{ for all } n \ge 0 \}. \]
-		By the definition of (b), $A \ne \ emptyset$. We shall show that $A$ is both open and closed in $G$, and by the connectedness of $G$ is follows that $A$ is the entirety of $G$. Showing that $A$ is closed is direct -- if $z \in \overline{A}$ and $(z_k)$ a sequence such that $z_k \to z$, then since each $f^{(k)}$ is continuous, $f^{(n)}(z) = \lim f^{(n)}(z_k) = 0$ for all $n \ge 0$, and so $z \in A$. On the other hand, if $a \in A$, we can write $f(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(a)}{n!} (z-a)^n = 0$ on $B(a,R)$ (for some $R > 0$), so $B(a,R) \subseteq A$ and $A$ is open, completing the proof.
+		By the definition of (b), $A \ne \emptyset$. We shall show that $A$ is both open and closed in $G$, and by the connectedness of $G$ it follows that $A$ is the entirety of $G$. Showing that $A$ is closed is direct -- if $z \in \overline{A}$ and $(z_k)$ a sequence such that $z_k \to z$, then since each $f^{(k)}$ is continuous, $f^{(n)}(z) = \lim f^{(n)}(z_k) = 0$ for all $n \ge 0$, and so $z \in A$. On the other hand, if $a \in A$, we can write $f(z) = \sum_{n = 0}^\infty \frac{f^{(n)}(a)}{n!} (z-a)^n = 0$ on $B(a,R)$ (for some $R > 0$), so $B(a,R) \subseteq A$ and $A$ is open, completing the proof.
 	\end{proof}
 
 	\begin{corollary}
@@ -518,9 +519,9 @@
 		\label{cor: finite multiplicity}
 		If $f$ is non-trivial and analytic on an open connected set $G$, then each zero of $f$ has finite multiplicity. More explicitly, for each $a \in G$ with $f(a) = 0$, there is an integer $n \ge 1$ and an analytic function $g : G \to \C$ such that $g(a) \ne 0$ and $f(z) = (z-a)^n g(z)$ for all $z \in G$.
 	\end{corollary}
-	\begin{proof}
-		It is clear that there exists a largest $n \ge 1$ such that $f^{(k)}(a) = 0$ for all $k \le n-1$.
-	\end{proof}
+	% \begin{proof}
+	% 	It is clear that there exists a largest $n \ge 1$ such that $f^{(k)}(a) = 0$ for all $k \le n-1$.
+	% \end{proof}
 
 	\begin{corollary}
 		If $f : G \to \C$ is non-trivial and analytic, and $a \in G$ with $f(a) = 0$, then there exists $R > 0$ such that $B(a,R) \subseteq G$, and $f(z) \ne 0$ for all $0 < |z-a| < R$. 
@@ -542,5 +543,5 @@
 		\[ |f(a)| \le \frac{1}{2\pi} \int_0^{2\pi} |f(a+re^{\iota t})| \dif t \le |f(a)|. \]
 		Therefore,
 		\[ 0 = \int_0^{2\pi} \left( |f(a)| - |f(a+re^{\iota t})| \right) \dif t. \]
-		Since the integrand is continuous is non-negative, $|f(a)| = |f(a+re^{\iota t})|$ for all $t \in [0,2\pi]$. If $f(a) = 0$, we are clearly done. Otherwise, since $r$ was arbitrary, $f$ maps any disk $B(a,R)$ to the circle $|z| = |f(a)|$. It may then be shown using the Cauchy-Riemann equations that $f$ is constant on $B(a,R)$ and is equal to $f(a)$ for all $|z-a| < R$. Therefore, $f(z) = f(a)$ for all $z \in G$ since the zeros of $f-f(a)$ are not isolated.
+		Since the integrand is continuous and non-negative, $|f(a)| = |f(a+re^{\iota t})|$ for all $t \in [0,2\pi]$. If $f(a) = 0$, we are clearly done. Otherwise, since $r$ was arbitrary, $f$ maps any disk $B(a,R)$ to the circle $|z| = |f(a)|$. It may then be shown using the Cauchy-Riemann equations that $f$ is constant on $B(a,R)$ and is equal to $f(a)$ for all $|z-a| < R$. Therefore, $f(z) = f(a)$ for all $z \in G$ since the zeros of $f-f(a)$ are not isolated.
 	\end{proof}

@@ -122,7 +122,7 @@
 
 		\begin{ftheo}[Cauchy's Integral Formula, version 1]
 			\label{cauchy integral formula v1}
-			Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma$ is a closed rectifiable curve in $G$ such that $n(\gamma;w) = 0$ for $w \in \C\setminus G$, then for $a \in G\setminus\{\gamma\}$,
+			Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $\gamma \approx 0$ in $G$, then for $a \in G\setminus\{\gamma\}$,
 			\[ \frac{1}{2\pi\iota} \int_\gamma \frac{f(z)}{z-a} \dif z = n(\gamma;a) f(a). \]
 			In particular, if $n(\gamma;a) = 0$, the integral on the left is zero.
 		\end{ftheo}
@@ -189,7 +189,7 @@
 		% \begin{fcor}[Cauchy's Theorem, version 1]
 		\begin{fcor}[Cauchy's Theorem]
 			\label{cauchys theorem v1}
-			Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $(\gamma_k))_{k=1}^m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C \setminus G$, then
+			Let $G$ be an open subset of $\C$ and $f : G \to \C$ be analytic. If $(\gamma_k)_{k=1}^m$ are closed rectifiable curves in $G$ such that $\sum_k n(\gamma_k;w) = 0$ for $w \in \C \setminus G$, then
 			\[ \sum_{k=1}^m \int_{\gamma_k} f = 0. \]
 		\end{fcor}
 
@@ -270,7 +270,7 @@
 		\[ n(\sigma;\alpha) = \frac{1}{2\pi\iota} \int_\sigma \frac{1}{w-\alpha} \dif w = \frac{1}{2\pi\iota} \int_0^1 \frac{f'(\gamma(t))\gamma'(t)}{f(\gamma(t)) - \alpha} \dif t = \frac{1}{2\pi\iota} \int_\gamma \frac{f'(z)}{f(z)-\alpha}, \]
 		which we just evaluated above. As might be expected, this is in fact true for any closed rectifiable $\gamma$.\\
 
-		What about the scenario of \Cref{cor 2.38} where $f$ has infinitely many zeroes in $G$? By \Cref{theo: f identically zero}, any limit point of the zero set $Z(f)$ of $f$ is in $\partial G$. Since $G$ is open, $\partial G \cap G = \emptyset$\\
+		What about the scenario of \Cref{cor 2.38} where $f$ has infinitely many zeroes in $G$? By \Cref{theo: f identically zero}, any limit point of the zero set $Z(f)$ of $f$ is in $\partial G$. Since $G$ is open, $\partial G \cap G = \emptyset$. \\
 		We shall show that
 		\[ Z(f) \cap \underbrace{\{ z \in \C : n(\gamma;z) \ne 0 \}}_{H} \subseteq G, \]
 		so \Cref{cor 2.38} is still true, since all but finitely many of the terms are zero.\\
@@ -353,6 +353,13 @@
 			If there exists a homotopy between two curves, they are said to be \emph{homotopic} and we write $\gamma_1 \sim \gamma_2$.
 		\end{fdef}
 
+		When a curve is homotopic to a constant curve, we write $\gamma \sim 0$.\\
+
+		In a convex set, any two paths are homotopic. as is seen by the homotopy
+		\[ \Gamma(s,t) = t\gamma(s) + (1-t)a \]
+		between any curve and a constant curve. Similarly, any two paths are homotopic in a star-shaped set, as can be seen by using the above homotopy with $a$ as the point that is in sight of everything.
+
+
 		\begin{ftheo}[Homotopic version of Cauchy's theorem]
 			If $\gamma_0,\gamma_1$ are closed rectifiable curves in a region $G$ and $\gamma_0 \sim \gamma_1$, then
 			\[ \int_{\gamma_0} f = \int_{\gamma_1} f \]
@@ -392,12 +399,6 @@
 		\begin{fdef}[Simply connected domain]
 			An open set $G$ is said to be \emph{simply connected} if $G$ is connected and every closed curve $\gamma$ on $G$ is homotopic to a constant curve.
 		\end{fdef}
-
-		Recall that when a curve is homotopic to a constant curve, we write $\gamma \sim 0$.
-
-		For example, any convex set is simply connected, as is seen by the homotopy
-		\[ \Gamma(s,t) = t\gamma(s) + (1-t)a, \]
-		where $a$ is a constant and $\gamma$ is any path in the convex set. In fact, similarly, any star-shaped set is simply connected.
 
 		\begin{ftheo}
 			$G$ is simply connected if and only if $\C_\infty \setminus G$ is connected.
