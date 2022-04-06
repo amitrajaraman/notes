@@ -1,146 +1,203 @@
 \section{Singularities}
 
-	\subsection{Poles and singularities}
+\subsection{Poles and singularities}
 
-		A function $f$ is said to have a singularity at 
+	A function $f$ is said to have a singularity at 
 
-		\begin{fdef}
-			A function $f$ is said to have an \emph{isolated singularity} at $a$ if there exists $R > 0$ such that $f$ is defined and analytic on $B(a,R) \setminus \{a\}$ but not on $B(a,R)$.\\
-			Further, $f$ is said to have a \emph{removable singularity} at $a$ if there is an analytic function $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R) \setminus \{a\}$.
-		\end{fdef}
+	\begin{fdef}
+		A function $f$ is said to have an \emph{isolated singularity} at $a$ if there exists $R > 0$ such that $f$ is defined and analytic on $B(a,R) \setminus \{a\}$ but not on $B(a,R)$.\\
+		Further, $f$ is said to have a \emph{removable singularity} at $a$ if there is an analytic function $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R) \setminus \{a\}$.
+	\end{fdef}
 
-		The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
+	The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
 
-		\begin{theorem}
-			\label{theo 4.1}
-			If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
-		\end{theorem}
-		\begin{proof}
-			If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
-			\[ \lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
-			For the converse, define
-			\[ g(z) =
-			\begin{cases}
-				(z-a) f(z), & z \ne a \\
-				0, & z=a.	
-			\end{cases}
-			\]
-			Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = h(z)$ for some analytic $h$ $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
-			To prove analyticity, we shall use Morera's Theorem. For a $T$ in $B(a,R)$, if $a$ is not inside $T$, then $T \sim 0$ in $B(a,R)^*$ so $\int_T g = 0$ ($g$ is analytic on the punctured disk).\\
-			For the remaining case, it suffices to consider the scenario where $a$ is one of the vertices of $T = [a,b,c,a]$. Indeed, we may in general ``split'' the triangle into three subtriangles, each of which has $a$ as a vertex. Let $x \in [a,b]$ and $y \in [a,c]$. Observe that the integral of $g$ along $T = [a,b,c,a]$ is equal to that along $T_1 = [a,x,y,a]$. However, $\left| \int_{T_1} g \right|$ is at most $M V(T_1) = M (|a-x| + |a-y| + |x-y|)$, where $M$ is the supremum of $|g|$ over some $\overline{B(a,\delta)} \subseteq B(a,R)$ that contains $T$, and this can be made arbitrarily small by bringing $x,y$ close to $a$, completing the proof.
-		\end{proof}
+	\begin{theorem}
+		\label{theo 4.1}
+		If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
+	\end{theorem}
+	\begin{proof}
+		If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
+		\[ \lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
+		For the converse, define
+		\[ g(z) =
+		\begin{cases}
+			(z-a) f(z), & z \ne a \\
+			0, & z=a.	
+		\end{cases}
+		\]
+		Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = h(z)$ for some analytic $h$ $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
+		To prove analyticity, we shall use Morera's Theorem. For a $T$ in $B(a,R)$, if $a$ is not inside $T$, then $T \sim 0$ in $B(a,R)^*$ so $\int_T g = 0$ ($g$ is analytic on the punctured disk).\\
+		For the remaining case, it suffices to consider the scenario where $a$ is one of the vertices of $T = [a,b,c,a]$. Indeed, we may in general ``split'' the triangle into three subtriangles, each of which has $a$ as a vertex. Let $x \in [a,b]$ and $y \in [a,c]$. Observe that the integral of $g$ along $T = [a,b,c,a]$ is equal to that along $T_1 = [a,x,y,a]$. However, $\left| \int_{T_1} g \right|$ is at most $M V(T_1) = M (|a-x| + |a-y| + |x-y|)$, where $M$ is the supremum of $|g|$ over some $\overline{B(a,\delta)} \subseteq B(a,R)$ that contains $T$, and this can be made arbitrarily small by bringing $x,y$ close to $a$, completing the proof.
+	\end{proof}
 
-		Interestingly, the above says that if $f$ has an isolated singularity at $a$ and $\lim_{z \to a} (z-a) f(z) = 0$, then $\lim_{z \to a} f(z)$ exists!
+	Interestingly, the above says that if $f$ has an isolated singularity at $a$ and $\lim_{z \to a} (z-a) f(z) = 0$, then $\lim_{z \to a} f(z)$ exists!
 
-		\begin{fdef}[Pole]
-			If $z = a$ is an isolated singularity of $f$, $a$ is said to be a \emph{pole} of $f$ if $\lim_{z \to a} f(z) = \infty$. That is, for any $M > 0$, there exists $\delta > 0$ such that $|f(z)| \ge M$ whenever $0 < |z-a| < \delta$.
-		\end{fdef}
+	\begin{fdef}[Pole]
+		If $z = a$ is an isolated singularity of $f$, $a$ is said to be a \emph{pole} of $f$ if $\lim_{z \to a} f(z) = \infty$. That is, for any $M > 0$, there exists $\delta > 0$ such that $|f(z)| \ge M$ whenever $0 < |z-a| < \delta$.
+	\end{fdef}
 
-		\begin{prop}
-			If $G$ is a region with $a \in G$ and $f$ is analytic on $G \setminus \{a\}$ with a pole at $a$, then there is $m \in \Z^+$ and analytic $g : G \to \C$ such that
-			\[ f(z) = \frac{g(z)}{(z-a)^m}. \]
-		\end{prop}
+	An isolated singularity that is neither a removable singularity nor a pole is referred to as an \emph{essential singularity}.
+
+	\begin{prop}
+		If $G$ is a region with $a \in G$ and $f$ is analytic on $G \setminus \{a\}$ with a pole at $a$, then there is $m \in \Z^+$ and analytic $g : G \to \C$ such that
+		\[ f(z) = \frac{g(z)}{(z-a)^m}. \]
+	\end{prop}
+	
+	This is equivalent to asserting that there exists $m \in \Z^+$ such that $f(z) (z-a)^m$ has a removable singularity at $a$.
+
+	\begin{proof}
+		We have that
+		\[ \lim_{z \to a} \frac{1}{f(z)} = 0. \]
+		Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 4.1} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
+		Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
+		\[ g(z) = \begin{cases} (z-a)^m f(z), & z \ne a, \\ 1/h_2(a), & z = a. \end{cases} \qedhere \]
+	\end{proof}
+
+	\begin{definition}
+		If $f$ has a pole at $a$ and $m$ is the smallest positive integer such that $f(z)/(z-a)^m$ has a removable singularity at $a$, then $f$ is said to have a pole of \emph{order} $m$ at $a$.
+	\end{definition}
+
+	It is seen that if we take $m$ as the order of the pole in the previous proposition, then $g(a) \ne 0$.\\
+	If $G = B(a,R)$, then the obtained $g$ (for the order) is analytic, and hence,
+	\[ g(z) = a_{-m} + a_{-(m-1)}(z-a) + \cdots + a_{-1} (z-a)^{m-1} + (z-a)^m \sum_{k=0}^\infty a_k (z-a)^k. \]
+	Consequently,
+	\[ f(z) = \sum_{k = -m}^{\infty} a_k (z-a)^k. \]
+	Note that the function obtained by taking only the non-negative values of $k$ in the above summation is analytic on $B(a,R)$. Also, since $m$ is the order of the pole, $a_{-m} = g(a) \ne 0$.
+
+	\begin{fdef}
+		If $f$ has a pole of order $m$ at $a$ and
+		\[ f(z) = \sum_{k=-m}^{\infty} a_{k} (z-a)^k, \]
+		then
+		\[ \sum_{k=-m}^{-1} a_k (z-a)^k \]
+		is referred to as the \emph{singular part} of $f$ at $a$.
+	\end{fdef}
+
+\subsection{Laurent Series}
+
+	Let us now look at how to deal with doubly infinite summations in general.
+
+	\begin{definition}
+		If $\{ z_n : n \in \Z \}$ is a doubly infinite sequence of complex numbers, then
+		\[ \sum_{n=-\infty}^{\infty} z_n \]
+		is \emph{absolutely convergent} if both $\sum_{n=0}^\infty z_n$ and $\sum_{n=1}^\infty z_{-n}$ are absolutely convergent. \\
+		If $u_n$ is a function on a set $S$ for $n \in \Z$ and $\sum_{n=-\infty}^{\infty} u_n(s)$ is absolutely convergent for each $s \in S$, then the sum $\sum_{n=-\infty}^{\infty} u_n$ is \emph{uniformly convergent} on $S$ if both $\sum_{n=0}^{\infty} u_n$ and $\sum_{n=1}^{\infty} u_{-n}$ converge uniformly on $S$.
+	\end{definition}
+	
+	Given $0 \le R_1 < R_2 \le \infty$ and $a \in \C$, define the \emph{annulus}
+	\[ \ann(a,R_1,R_2) = \{ z \in \C : R_1 < |z-a| < R_2 \}. \]
+	In particular, $\ann(a,0,R) = B(a,R)^*$.
+
+	\begin{ftheo}
+		Let $f$ be analytic on $\ann(a,R_1,R_2)$. Then,
+		\[ f(z) = \sum_{n=-\infty}^{\infty} a_n (z-a)^n \]
+		where the convergence is absolute and uniform over $\overline{\ann(a,r_1,r_2)}$ for any $R_1 < r_1 < r_2 < R_2$.\\
+		Further, the coefficients $a_n$ are given by the formula
+		\[ a_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(z)}{(z-a)^{n+1}} \dif z, \]
+		where $\gamma$ is the circle $a+re^{2\pi\iota t}$ for some $R_1 < r < R_2$. Moreover, this integral is independent of $r$ and the choice of coefficients is unique.
+	\end{ftheo}
+
+	This summation is referred to as the function's \emph{Laurent series expansion}.
+
+	\begin{proof}
+		It is clear that the integrals for paths of distinct $r$ are the same since two such paths are path-homotopic.\\
+		Define $f_2 : B(a,R_2) \to \C$ be
+		\[ f_2(z) = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w, \]
+		where $\gamma(t) = a+re^{2\pi\iota t}$ for some $R_1 < r < R_2$ with $r > |z-a|$. Notice that $f_2$ is well-defined and analytic on $B(a,R_2)$ by \Cref{lemma 2.31: Fm}. Similarly, consider the function $f_1 : \ann(a,R_1,\infty) \to \C$ defined by
+		\[ f_1(z) = - \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w \]
+		where $\gamma(t) = a+re^{2\pi\iota t}$ for some $R_1 < r < R_2$ with $r < |z-a|$. Once more, $f_1$ is well-defined and analytic on $\ann(a,R_1,\infty)$.\\
+		Let $z \in \ann(a,R_1,R_2)$ and let $r_1,r_2 \in (R_1,R_2)$ with $r_1 < |z-a| < r_2$. Let $\gamma_i(t) = a + r_i e^{2\pi\iota t}$ for $i=1,2$, and $\lambda$ be a straight line curve joining $a+r_1$ to $a+r_2$, and assume this does not pass through $z$. Finally, let $\Gamma = \gamma_1 + \lambda - \gamma_2 - \lambda$. Then, for any $b \not\in \ann(a,R_1,R_2)$,
+		\begin{align*}
+			n(\Gamma;b) &= \frac{1}{2\pi\iota} \int_{\Gamma} \frac{1}{w-b} \dif w \\
+				&= \frac{1}{2\pi\iota} \left( \int_{\gamma_1} \frac{1}{w-b} \dif w - \int_{\gamma_2} \frac{1}{w-b} \dif w \right) \\
+				&= n(\gamma_1;b) - n(\gamma_2;b) = 0.
+		\end{align*}
+		That is, $\Gamma \approx 0$ in $\ann(a,R_1,R_2)$. By Cauchy's integral formula,
+		\begin{align*}
+			\frac{1}{2\pi\iota} \int_{\Gamma} \frac{f(w)}{w-z} \dif w &= n(\Gamma;z) f(z) \\
+				&= \left( n(\gamma_1;z) - n(\gamma_2;z) \right) f(z) \\
+				&= -f(z).
+		\end{align*}
+		Therefore,
+		\begin{align*}
+			f(z) &= - \frac{1}{2\pi\iota} \int_{\gamma_1} \frac{f(w)}{w-z} \dif w + \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(w)}{w-z} \dif w \\
+				&= f_1(z) + f_2(z).
+		\end{align*}
+		We shall now expand $f_1$ and $f_2$ as power series. Since $f_2$ is analytic on $B(a,R_2)$, it is equal to a power series $\sum_{n=0}^{\infty} a_n (z-a)^n$, where
+		\[ a_n = \frac{f_2^{(n)}(a)}{n!} = \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(z)}{(z-a)^{n+1}} \dif z \]
+		by \Cref{lemma 2.31: Fm}.\\
+		$f_1$ on the other hand is problematic because the region of analyticity is not an open disk. To resolve this, let
+		\[ g(z) = \begin{cases} f_1(a+\frac{1}{z}), & 0 < |z| < 1/R_1, \\ 0, & z = 0. \end{cases} \]
+		It may be shown that $\lim_{z\to 0} g(z) = 0$, and $g$ is thus analytic on $B(a,1/R_1)$ by a method similar to what we did in the proof of \Cref{theo 4.1}. Therefore, $g$ has a power series, so
+		\[ g(z) = \sum_{n=1}^{\infty} a_{-n} z^n, \]
+		and thus, for $z \in \ann(a,R_1,\infty)$,
+		\[ f_1(z) = \sum_{n=1}^{\infty} a_{-n} \frac{1}{(z-a)^n}, \]
+		and the desideratum follows because $f = f_1 + f_2$.\\
+
+		It remains to show that the coefficients are unique. Suppose that we can write
+		\[ f(z) = \sum_{n=-\infty}^{\infty} b_n (z-a)^n \]
+		Let $\gamma(t) = a+re^{2\pi\iota t}$ for some $R_1 < r < R_2$. We wish to show that
+		\[ b_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w. \]
+		for $z \in \ann(a,R_1,R_2)$, such that the convergence is absolute and uniform on $\overline{\ann(a,r_1,r_2)}$ for $R_1 < r_1 < r_2 < R_2$. Due to absolute convergence,
+		\[ f(w) = \lim_{m\to\infty} \sum_{k=-m}^m b_k (w-a)^k = \lim_{m\to\infty} S_m(w)  \]
+		Due to uniform convergence,
+		\begin{align*}
+			\frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w &= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{S_m(w)}{(w-a)^{n+1}} \dif w \\
+				&= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{1}{(w-a)^{n+1}} \sum_{k=-m}^m b_k (w-a)^k \dif w \\
+				&= \lim_{m\to\infty} \sum_{k=-m}^m b_k \frac{1}{2\pi\iota} \int_{\gamma}(w-a)^{k-n-1} \dif w \\
+				&= b_n n(\gamma;a) = b_n,
+		\end{align*}
+		where the second-to-last term follows from the fact that every other summand has a primitive so integrates to $0$, thus completing the proof.
+	\end{proof}
+
+	\begin{corollary}
+		Let $a$ be an isolated singularity of $f$ and let $f(z) = \sum_{-\infty}^{\infty} a_n (z-a)^n$ be its Laurent series expansion in $\ann(a,0,R)$. Then,
+		\begin{enumerate}[label=(\alph*)]
+			\item $a$ is a removable singularity iff $a_n = 0$ for $n \le -1$.
+			\item $a$ is a pole of order $m$ iff $a_{-m} \ne 0$ and $a_n = 0$ for all $n < -m$.
+			\item $a$ is an essential singularity iff $a_n \ne 0$ for infinitely many negative integers $n$.
+		\end{enumerate}
+	\end{corollary}
+	We omit the proof of the above.
+
+	\begin{ftheo}[Casoratti-Weierstrass Theorem]
+		If $f$ has an essential singularity at $a$, then for any $\delta > 0$, $\overline{f(\ann(a,0,\delta))} = \C$.
+	\end{ftheo}
+	\begin{proof}
+		Fix some $R > 0$. We wish to show that $f(\ann(a,0,R))$ is dense in $\C$. Suppose instead that there exist $c \in \C$ and $\epsilon > 0$ such that $f(\ann(a,0,R)) \cap B(c,\epsilon) = \emptyset$. That is,
+		\[ |f(z) - c| \ge \epsilon \]
+		for all $z \in \ann(a,0,R)$. Consequently,
+		\[ \lim_{z \to a} \frac{|f(z) - c|}{|z-a|} = \infty. \]
+		This means that the function $g : z \mapsto (f(z) - c)/(z-a)$ has a pole at $a$ of order $m \ge 1$ (say). Therefore, $(z-a)^{m-1} (f(z) - c)$ has a removable singularity at $z = a$, so
+		\[ \lim_{z \to a} (z-a)^{m} (f(z) - c) = 0. \]
+		Because $m \ge 1$, this means that $\lim_{z \to a} (z-a)^m f(z) = 0$. This means that $f$ has a pole at $a$, which contradicts the fact that it has an essential singularity.
+	\end{proof}
+
+	We now define what it means to have a singularity at $\infty$.
+
+	\begin{definition}
+		Let $R > 0$ and $G = \{z : |z| > R\}$, $f : G \to \C$ is said to have an isolated singularity at $\infty$ if $z \mapsto f(1/z)$ has an isolated singularity at $0$.
+	\end{definition}
+	We have similar definitions for a removable singularity, pole (of order $m$), or essential singularity at $\infty$.\\
+	It may be shown that an entire function has a removable singularity at $\infty$ iff it is constant. An entire function $f : \C \to \C$ has a pole $\infty$ of order $m$ iff it is a polynomial of degree $m$.\\
+
+\subsection{Residues}
+
+	\begin{fdef}
+		Let $f$ have an isolated singularity at $a$ and let $f(z) = \sum_{-\infty}^{\infty} a_n (z-a)^n$ be its Laurent series expansion about $a$. Then, the \emph{residue} of $f$ at $a$ is the coefficient $a_{-1}$. We denote this by $\Res(f;a)$.
+	\end{fdef}
+
+	That is, if $f$ is analytic on $\ann(a,0,R_1)$,
+	\[ \Res(f;a) = \frac{1}{2\pi\iota} \int_{\gamma} f(z) \dif z, \]
+	where $\gamma = a + re^{2\pi\iota t}$ for any $0 < r < R_1$.\\
+	A natural question to ask is: what is the value of the above integral if $\gamma$ contains more than one singularity?
+
+	\begin{ftheo}
+		Let $f$ be analytic on a region $G \setminus \{b_1,\ldots,b_m\}$, where each $b_k \in G$ is an isolated singularity of $f$. If $\gamma$ is a closed rectifiable curve that does not pass through any of the points $a_k$ and $\gamma \approx 0$ in $G$, then
+		\[ \frac{1}{2\pi\iota} \int_{\gamma} f = \sum_{k=1}^m n(\gamma;a_k) \Res(f;a_k). \]
+	\end{ftheo}
+
+	Just like zeros in the discussion after \Cref{cor 2.38}, singularities are isolated here. As a result, the above works out even if there are infinitely many isolated singularities, because only finitely many of the $n(\gamma;a_k)$ are non-zero.
+
+	\begin{proof}
 		
-		This is equivalent to asserting that there exists $m \in \Z^+$ such that $f(z) (z-a)^m$ has a removable singularity at $a$.
-
-		\begin{proof}
-			We have that
-			\[ \lim_{z \to a} \frac{1}{f(z)} = 0. \]
-			Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 4.1} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
-			Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
-			\[ g(z) = \begin{cases} (z-a)^m f(z), & z \ne a, \\ 1/h_2(a), & z = a. \end{cases} \]
-		\end{proof}
-
-		\begin{definition}
-			If $f$ has a pole at $a$ and $m$ is the smallest positive integer such that $f(z)/(z-a)^m$ has a removable singularity at $a$, then $f$ is said to have a pole of \emph{order} $m$ at $a$.
-		\end{definition}
-
-		It is seen that if we take $m$ as the order of the pole in the previous proposition, then $g(a) \ne 0$.\\
-		If $G = B(a,R)$, then the obtained $g$ (for the order) is analytic, and hence,
-		\[ g(z) = a_{-m} + a_{-(m-1)}(z-a) + \cdots + a_{-1} (z-a)^{m-1} + (z-a)^m \sum_{k=0}^\infty a_k (z-a)^k. \]
-		Consequently,
-		\[ f(z) = \sum_{k = -m}^{\infty} a_k (z-a)^k. \]
-		Note that the function obtained by taking only the non-negative values of $k$ in the above summation is analytic on $B(a,R)$. Also, since $m$ is the order of the pole, $a_{-m} = g(a) \ne 0$.
-
-		\begin{fdef}
-			If $f$ has a pole of order $m$ at $a$ and
-			\[ f(z) = \sum_{k=-m}^{\infty} a_{k} (z-a)^k, \]
-			then
-			\[ \sum_{k=-m}^{-1} a_k (z-a)^k \]
-			is referred to as the \emph{singular part} of $f$ at $a$.
-		\end{fdef}
-
-	\subsection{Laurent Series}
-
-		Let us now look at how to deal with doubly infinite summations in general.
-
-		\begin{definition}
-			If $\{ z_n : n \in \Z \}$ is a doubly infinite sequence of complex numbers, then
-			\[ \sum_{n=-\infty}^{\infty} z_n \]
-			is \emph{absolutely convergent} if both $\sum_{n=0}^\infty z_n$ and $\sum_{n=1}^\infty z_{-n}$ are absolutely convergent. \\
-			If $u_n$ is a function on a set $S$ for $n \in \Z$ and $\sum_{n=-\infty}^{\infty} u_n(s)$ is absolutely convergent for each $s \in S$, then the sum $\sum_{n=-\infty}^{\infty} u_n$ is \emph{uniformly convergent} on $S$ if both $\sum_{n=0}^{\infty} u_n$ and $\sum_{n=1}^{\infty} u_{-n}$ converge uniformly on $S$.
-		\end{definition}
-		
-		Given $0 \le R_1 < R_2 \le \infty$ and $a \in \C$, define the \emph{annulus}
-		\[ \ann(a,R_1,R_2) = \{ z \in \C : R_1 < |z-a| < R_2 \}. \]
-		In particular, $\ann(a,0,R) = B(a,R)^*$.
-
-		\begin{ftheo}
-			Let $f$ be analytic on $\ann(a,R_1,R_2)$. Then,
-			\[ f(z) = \sum_{n=-\infty}^{\infty} a_n (z-a)^n \]
-			where the convergence is absolute and uniform over $\overline{\ann(a,r_1,r_2)}$ for any $R_1 < r_1 < r_2 < R_2$.\\
-			Further, the coefficients $a_n$ are given by the formula
-			\[ a_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(z)}{(z-a)^{n+1}} \dif z, \]
-			where $\gamma$ is the circle $a+re^{\iota t}$ for some $R_1 < r < R_2$. Moreover, this integral is independent of $r$ and the choice of coefficients is unique.
-		\end{ftheo}
-
-		\begin{proof}
-			It is clear that the integrals for paths of distinct $r$ are the same since two such paths are path-homotopic.\\
-			Define $f_2 : B(a,R_2) \to \C$ be
-			\[ f_2(z) = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w, \]
-			where $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$ with $r > |z-a|$. Notice that $f_2$ is well-defined and analytic on $B(a,R_2)$ by \Cref{lemma 2.31: Fm}. Similarly, consider the function $f_1 : \ann(a,R_1,\infty) \to \C$ defined by
-			\[ f_1(z) = - \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{w-z} \dif w \]
-			where $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$ with $r < |z-a|$. Once more, $f_1$ is well-defined and analytic on $\ann(a,R_1,\infty)$.\\
-			Let $z \in \ann(a,R_1,R_2)$ and let $r_1,r_2 \in (R_1,R_2)$ with $r_1 < |z-a| < r_2$. Let $\gamma_i(t) = a + r_i e^{\iota t}$ for $i=1,2$, and $\lambda$ be a straight line curve joining $a+r_1$ to $a+r_2$, and assume this does not pass through $z$. Finally, let $\Gamma = \gamma_1 + \lambda - \gamma_2 - \lambda$. Then, for any $b \not\in \ann(a,R_1,R_2)$,
-			\begin{align*}
-				n(\Gamma;b) &= \frac{1}{2\pi\iota} \int_{\Gamma} \frac{1}{w-b} \dif w \\
-					&= \frac{1}{2\pi\iota} \left( \int_{\gamma_1} \frac{1}{w-b} \dif w - \int_{\gamma_2} \frac{1}{w-b} \dif w \right) \\
-					&= n(\gamma_1;b) - n(\gamma_2;b) = 0.
-			\end{align*}
-			That is, $\Gamma \approx 0$ in $\ann(a,R_1,R_2)$. By Cauchy's integral formula,
-			\begin{align*}
-				\frac{1}{2\pi\iota} \int_{\Gamma} \frac{f(w)}{w-z} \dif w &= n(\Gamma;z) f(z) \\
-					&= \left( n(\gamma_1;z) - n(\gamma_2;z) \right) f(z) \\
-					&= -f(z).
-			\end{align*}
-			Therefore,
-			\begin{align*}
-				f(z) &= - \frac{1}{2\pi\iota} \int_{\gamma_1} \frac{f(w)}{w-z} \dif w + \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(w)}{w-z} \dif w \\
-					&= f_1(z) + f_2(z).
-			\end{align*}
-			We shall now expand $f_1$ and $f_2$ as power series. Since $f_2$ is analytic on $B(a,R_2)$, it is equal to a power series $\sum_{n=0}^{\infty} a_n (z-a)^n$, where
-			\[ a_n = \frac{f_2^{(n)}(a)}{n!} = \frac{1}{2\pi\iota} \int_{\gamma_2} \frac{f(z)}{(z-a)^{n+1}} \dif z \]
-			by \Cref{lemma 2.31: Fm}.\\
-			$f_1$ on the other hand is problematic because the region of analyticity is not an open disk. To resolve this, let
-			\[ g(z) = \begin{cases} f_1(a+\frac{1}{z}), & 0 < |z| < 1/R_1, \\ 0, & z = 0. \end{cases} \]
-			It may be shown that $\lim_{z\to 0} g(z) = 0$, and $g$ is thus analytic on $B(a,1/R_1)$ by a method similar to what we did in the proof of \Cref{theo 4.1}. Therefore, $g$ has a power series, so
-			\[ g(z) = \sum_{n=1}^{\infty} a_{-n} z^n, \]
-			and thus, for $z \in \ann(a,R_1,\infty)$,
-			\[ f_1(z) = \sum_{n=1}^{\infty} a_{-n} \frac{1}{(z-a)^n}, \]
-			and the desideratum follows because $f = f_1 + f_2$.\\
-
-			It remains to show that the coefficients are unique. Suppose that we can write
-			\[ f(z) = \sum_{n=-\infty}^{\infty} b_n (z-a)^n \]
-			Let $\gamma(t) = a+re^{\iota t}$ for some $R_1 < r < R_2$. We wish to show that
-			\[ b_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w. \]
-			for $z \in \ann(a,R_1,R_2)$, such that the convergence is absolute and uniform on $\overline{\ann(a,r_1,r_2)}$ for $R_1 < r_1 < r_2 < R_2$. Due to absolute convergence,
-			\[ f(w) = \lim_{m\to\infty} \sum_{k=-m}^m b_k (w-a)^k = \lim_{m\to\infty} S_m(w)  \]
-			Due to uniform convergence,
-			\begin{align*}
-				\frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w &= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{S_m(w)}{(w-a)^{n+1}} \dif w \\
-					&= \lim_{m\to\infty} \frac{1}{2\pi\iota} \int_{\gamma} \frac{1}{(w-a)^{n+1}} \sum_{k=-m}^m b_k (w-a)^k \dif w \\
-					&= \lim_{m\to\infty} \sum_{k=-m}^m b_k \frac{1}{2\pi\iota} \int_{\gamma}(w-a)^{k-n-1} \dif w \\
-					&= b_n n(\gamma;a) = b_n,
-			\end{align*}
-			where the second-to-last term follows from the fact that every other summand has a primitive so integrates to $0$, thus completing the proof.
-		\end{proof}
+	\end{proof}
