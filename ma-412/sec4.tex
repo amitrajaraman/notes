@@ -192,6 +192,7 @@
 	A natural question to ask is: what is the value of the above integral if $\gamma$ contains more than one singularity?
 
 	\begin{ftheo}
+		\label{residue theorem}
 		Let $f$ be analytic on a region $G \setminus \{b_1,\ldots,b_m\}$, where each $b_k \in G$ is an isolated singularity of $f$. If $\gamma$ is a closed rectifiable curve that does not pass through any of the points $a_k$ and $\gamma \approx 0$ in $G$, then
 		\[ \frac{1}{2\pi\iota} \int_{\gamma} f = \sum_{k=1}^m n(\gamma;a_k) \Res(f;a_k). \]
 	\end{ftheo}
@@ -201,3 +202,31 @@
 	\begin{proof}
 		
 	\end{proof}
+
+	Improper integrals are of two types: either infinite integrals or when the integrand is discontinuous.
+
+	\Cref{residue theorem} is incredibly useful at times. For example, let us show that
+	\[ \int_{-\infty}^\infty \frac{x^2}{1+x^4} \dif x = \frac{\pi}{\sqrt{2}}. \]
+	Define $f(z) = z^2/(1+z^4)$. Clearly, $f$ is analytic on $\C \setminus Z(1+z^4)$. Let $a_k = e^{(2k+1)\pi\iota/4}$ for each $k = 1,2,3,4$ be the elements of $Z(1+z^4)$. Now,
+	\[ \Res(f;a_1) = \lim_{z\to a_1} f(z) = \frac{a_1^2}{(a_1 - a_2)(a_1 - a_3)(a_1 - a_4)}. \]
+	We can compute each of the residues to get
+	\begin{align*}
+		\Res(f;a_1) &= \frac{1}{4} e^{-\iota\pi/4}, \\
+		\Res(f;a_2) &= \frac{1}{4} e^{-3\iota\pi/4}.
+	\end{align*}
+
+	Let $R > 1$ and consider the curves $\gamma_1(t) = Re^{\pi\iota t}$ and $\gamma_2(t) = (2t-1)R$. Now,
+	\begin{align*}
+		\frac{1}{2\pi\iota} \int_{\gamma_1 * \gamma_2} f &= n(\gamma;a_1) \Res(f;a_1) + n(\gamma;a_2) \Res(f;a_2) \\
+			&= \frac{1}{4} \left(e^{-\iota\pi/4} + e^{-3\iota\pi/4}\right) = -\frac{\iota}{2\sqrt{2}}.
+	\end{align*}
+	Therefore,
+	\[ \int_{-\infty}^\infty \frac{x^2}{1+x^4} \dif x = \frac{\pi}{\sqrt{2}} - \lim_{R \to \infty} \int_{\gamma_2} f. \]
+	It remains to compute the final quantity.
+	\begin{align*}
+		\int_{\gamma_1} f &= \int_0^\pi \frac{(Re^{\iota t})^2}{1 + (Re^{\iota t})^4} R\iota e^{\iota t} \dif t \\
+			&= \iota R^3 \int_0^\pi \frac{e^{3\iota t}}{1 + R^4 e^{4\iota t}}.
+	\end{align*}
+	We have
+	\[ \left| \iota R^3 \int_0^\pi \frac{e^{3\iota t}}{1 + R^4 e^{4\iota t}} \right| \le R^3 \int_0^\pi \frac{1}{R^4 - 1} |{\dif}{t}| = \frac{R^3}{R^4 - 1} \pi. \]
+	Therefore, $\lim_{R\to\infty} \int_{\gamma_2} f = 0$, and the value of the required integral is just $]pi/\sqrt{2}$!
