@@ -229,4 +229,57 @@
 	\end{align*}
 	We have
 	\[ \left| \iota R^3 \int_0^\pi \frac{e^{3\iota t}}{1 + R^4 e^{4\iota t}} \right| \le R^3 \int_0^\pi \frac{1}{R^4 - 1} |{\dif}{t}| = \frac{R^3}{R^4 - 1} \pi. \]
-	Therefore, $\lim_{R\to\infty} \int_{\gamma_2} f = 0$, and the value of the required integral is just $]pi/\sqrt{2}$!
+	Therefore, $\lim_{R\to\infty} \int_{\gamma_2} f = 0$, and the value of the required integral is just $]pi/\sqrt{2}$!\\
+
+	Recall that if $f$ is analytic and has a zero of multiplicty $m$ at $a$, then
+	$f(z) = (z-a)^m g(z)$, where $g$ is analytic and $g(a) \ne 0$. Consequently,
+	\[ \frac{f'(z)}{f(z)} = \frac{m}{z-a} + \frac{g'(z)}{g(z)} \]
+	on $B(a,R)^*$ for some $R > 0$.\\
+	On the other hand, if $f$ has a pole at $a$ of order $m$, then $f(z) = (z-a)^{-m} g(z)$ where $g$ is analytic and $g(a) \ne 0$. So,
+	\[ \frac{f'(z)}{f(z)} = \frac{-m}{z-a} + \frac{g'(z)}{g(z)} \]
+	on $B(a,R)^*$ for some $R > 0$.\\
+
+	\begin{fdef}
+		If $G$ is open and $f$ an analytic function on $G$ except for poles, then $f$ is said to be \emph{meromorphic} on $G$.
+	\end{fdef}
+
+	\begin{ftheo}[Argument Principle]
+		\label{argument principle}
+		Let $f$ be meromorphic on $G$ with poles at $p_1,\ldots,p_m$ and zeros at $z_1,\ldots,z_n$ (counted multiple times according to multiplicity). If $\gamma$ is a closed rectifiable curve inside $G$ with $\gamma \approx 0$ in $G$ that does not pass through any $p_i$ or $z_i$, then
+		\[ \frac{1}{2\pi\iota} \int_{\gamma} \frac{f'(z)}{f(z)} = \sum_{k=1}^n n(\gamma;z_k) - \sum_{k=1}^m n(\gamma;p_k). \]
+	\end{ftheo}
+	The proof is straightforward using the observation before the previous definition.\\
+
+	Recall that if $f$ is one-one and analytic on some open set $G$ and $f(G) = \Omega$, then $f^{-1} : \Omega \to G$ is analytic.
+
+	% \begin{exercise}
+	% 	If $f$ is analytic on $\overline{B(a,R)}$ and one-one on $B(a,R)$, show that $f$ is one-one on $\overline{B(a,R)}$.
+	% \end{exercise}
+	% do I just have that no f(z) is equal to the value of f at an interior point instead?
+
+	\begin{prop}
+		Let $f$ be analytic on an open set containing $\overline{B(a,R)}$, and suppose $f$ is one-one on $B(a,R)$. If $\Omega = f(B(a,R))$ and $\gamma$ is the circle $z = a+Re^{2\pi\iota t}$, then for each $w \in \Omega$,
+		\[ f^{-1}(w) = \frac{1}{2\pi\iota} \int_{\gamma} \frac{zf'(z)}{f(z)-w}. \]
+	\end{prop}
+	\begin{proof}
+		For $w \in \Omega$, $f(z) - w$ has a zero in $B(a,R)$ of multiplicity $1$ (due to \Cref{lemma: open mapping lemma}). It follows that
+		\[ \frac{f'(z)}{f(z)-w} = \frac{1}{z-f^{-1}(w)} + \frac{g'(z)}{g(z)} \]
+		where $g(z) \ne 0$ for all $z \in B(a,R)$.\\
+		So,
+		\[ \frac{1}{2\pi\iota} \int_{\gamma} \frac{zf'(z)}{f(z)-w} = \underbrace{\frac{1}{2\pi\iota}\int_{\gamma} \frac{z}{z-f^{-1}(w)}}_{f^{-1}(w)} + \underbrace{\frac{1}{2\pi\iota} \int_{\gamma} \frac{zg'(z)}{g(z)}}_{0}, \]
+		by \Cref{cauchy integral formula v1}, completing the proof.
+	\end{proof}
+
+
+	\begin{ftheo}[Rouche's Theorem]
+		Suppose $f$ and $g$ are meromorphic in an open set containing $\overline{B(a,R)}$ with no zeros or poles on the circle $\gamma: t \mapsto a+Re^{2\pi\iota t}$. If $Z_f,Z_g$ (resp. $P_f,P_g$) are the number of zeros (resp. poles) of $f$ and $g$ respectively inside $\gamma$ counted according to multiplicity, and  $|f(z) + g(z)| < |f(z)| + |g(z)|$ on $\gamma$, then $Z_f - P_f = Z_g - P_g$.
+	\end{ftheo}
+	\begin{proof}
+		It follows that on $\gamma$, $f(z)/g(z)$ is never a positive real. That is, it takes values inside $\C \setminus \R_{\ge 0}$ on an open set $U$ containing $\{\gamma\}$. Let $\log$ be a branch of the log ion $\C \setminus \R_{\ge 0}$. Then, $\frac{(f/g)'}{(f/g)}$ has primitive $\log(f/g)$ on $U$. As a result,
+		\begin{align*}
+			0 &= \frac{1}{2\pi\iota} \int_{\gamma} \frac{(f/g)'}{(f/g)} \\
+				&= \int_{\gamma} \frac{f'g - fg'}{g^2} \cdot \frac{g}{f} \\
+				&= \int_{\gamma} \frac{f'}{f} - \int_{\gamma} \frac{g'}{g}.
+		\end{align*} 
+		The result follows from the \nameref{argument principle}.
+	\end{proof}

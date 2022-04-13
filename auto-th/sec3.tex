@@ -14,21 +14,7 @@
 	\end{fdef}
 
 	One question that might immediately come to mind is: what is the difference between a computably enumerable set and an enumerable set? \\
-	Returning to the context of our study, define the following set of languages.
-
-	\begin{fdef}
-		A language $L \subseteq \Sigma^*$ is said to be \emph{recursively enumerable} if it is computably enumerable.
-	\end{fdef}
-
-	Clearly, we must establish some dichotomy between computable enumerability and ordinary enumerability, since their equivalence would imply that \emph{any} language is recursively enumerable. This is especially important since it turns out that computers in fact recognize recursively enumerable languages -- this shall make more sense later in the section.
-
-	\begin{prop}
-		If $|\Sigma|\ge 2$, there exists a language over $\Sigma$ that cannot be recognized by a program.
-	\end{prop}
-	\begin{proof}
-		Clearly, it suffices to consider the case where $\Sigma = 2$, so let $\Sigma = \{0,1\}$. Observe that the set $\mathcal{P}(\{0,1\}^*)$ is not countable. Since the set of all programs can be thought of as a subset of all finite sequences of ASCII characters, it is countable. The desideratum follows.
-	\end{proof}
-	This means that there exist languages that are countable but not computably enumerable, which is bad! However, this problem seems irreparably bad, so let us go back to our nook of languages that can be recognized by a program, and try to build machinery to recognize them, namely Turing machines.\\
+	% Returning to the context of our study, define the following set of languages.
 
 	Similar to how a NPDA is just an NFA with an additional stack to store information, a Turing machine is an NFA with an ``input tape'' -- this is an infinitely long string. If the input word is $w_1w_2 \cdots w_n$, this input tape is initially of the form $w_1 w_2 \cdots w_n b b b \cdots$, where $b$ is a special ``blank'' symbol. If we see the input $w_i$ when in state $q_j$, we do three things -- move to a state $q_k$, replace the symbol $w_i$ with some other symbol $X$, and move the tape left or right. Such a transition is represented by labelling the arrow from $q_j$ to $q_k$ as $w_i / X, R$ or $w_i / X, L$. If the machine ``halts'' (there are no moves possible) at a particular state, we accept if we are in an accepting state.\\
 	So, let us now get to an example of a Turing machine, constructing that one recognizes the (context-free) language $\{ 0^n 1^n : n \ge 1 \}$. This Turing machine has tape alphabet $\{X,Y,0,1,b\}$.
@@ -100,10 +86,16 @@
 	This is referred to as a \emph{semi-decision procedure}.\\
 
 	Consider Hilbert's tenth problem -- does a given polynomial (over possibly multiple variables) with integer coefficients have integer roots? Since it is possible to enumerate all possible integer tuples, it is possible to give a semi-decision procedure to solve this problem.\\
-	It in fact turns out that this problem is undecidable, as shown by Martin Davis, Yuri Matiyasecich, Hilary Putnam, and Julia Robinson.\\
+	It in fact turns out that this problem is undecidable, as shown by Martin Davis, Yuri Matiyasevich, Hilary Putnam, and Julia Robinson.\\
 
-	Suppose there is a \emph{partial} function $\N^k \to \N$, and we have $y = f(x_1,x_2,\ldots,x_k)$. Suppose we give the input as $x_1$ $0$s, followed by a $1$, then $x_2$ $0$s, and all the way till $x_k$ $0$s. Then, there exists a Turing machine that halts on this input (and does not halt on invalid outputs), and more importantly, the tape is just $y$ $0$s when it halts.
+	% Suppose there is a \emph{partial} function $\N^k \to \N$, and we have $y = f(x_1,x_2,\ldots,x_k)$. Suppose we give the input as $x_1$ $0$s, followed by a $1$, then $x_2$ $0$s, and all the way till $x_k$ $0$s. Then, there exists a Turing machine that halts on this input (and does not halt on invalid outputs), and more importantly, the tape is just $y$ $0$s when it halts.
 
+	Similar to how we had defined regular languages and context-free languages, we define the following class of languages.
+
+	\begin{fdef}
+		A language $L \subseteq \Sigma^*$ is said to be \emph{recursively enumerable} if it is recognized by some Turing machine.
+	\end{fdef}
+	An immediate question is: do there even exist languages that are not recursively enumerable? We shall answer this and deal with related questions in Subsection \ref{subsec: limits of computation}.
 
 \subsection{Type-\texorpdfstring{0}{$0$} Grammars}
 
@@ -122,3 +114,128 @@
 	\end{align*}
 
 	It turns out that Type-$0$ Grammars are equivalent to Turing machines!\\
+
+\subsection{Computable functions}
+	
+	Turing machines are not just restricted to recognizing languages. The same framework may be used to do several things:
+	\begin{itemize}
+		\item First is just language recognition which we have seen.
+		\item Second is computation. Given a ``simple'' function from $\N^k \to \N$, we can begin the input tape with the input values separated by $\#$s (to separate the input variables), and when the Turing machine halts, the tape has the output on it. This is easily extended to \emph{partial} functions, which need not be defined on all of $\N^k$, by taking the output as valid iff it halts on an accepting state. A function that is not partial is said to be \emph{total}.
+		\item Third, we have enumeration. The tape begins empty, and an enumeration of a (countable) language is output. For example, if the language is $\{0^n1^n : n \in \N\}$, the output is $01\#0011\#000111\#\cdots$ and the Turing machine never halts.
+	\end{itemize}
+
+	The second question presents an interesting question: what exactly does ``simple'' mean? More precisely, exactly which functions may be computed by Turing machines?\\
+
+	This leads to the subject of recursive function theory.\\
+	Before we move to the subject proper, let us define some functions and operators used.
+
+	\begin{fdef}
+		Define the \emph{primitive functions} as follows.
+		\begin{enumerate}
+			\item 
+			Given $k,n \in \N$, the \emph{constant} function $C^k_n : \N^k \to \N$ is the constant function on $k$ variables defined by
+			\[ C_n^k(x_1,\ldots,x_k) = n \]
+			for all $x_1,\ldots,x_k \in \N$.
+
+			\item
+			The \emph{successor} function $S: \N \to \N$ is defined by
+			\[ S(x) = x+1 \]
+			for all $x \in \N$.
+
+			\item
+			Given $k,i \in \N$ with $i \le k$, the \emph{projection} function $P_i^k : \N^k \to \N$ is defined by
+			\[ P_i^k(x_1,\ldots,x_k) = x_i \]
+			for all $x_1,\ldots,x_n \in \N$.
+		\end{enumerate}
+
+		Further define the following operators.
+		\begin{enumerate}
+			\item
+			The \emph{composition} operator is defined as follows.
+			Given a function $h: \N^m \to \N$ and $m$ functions $g_1,\ldots,g_m : \N^k \to \N$, define the function
+			\[ (h\circ(g_1,\ldots,g_m))(x_1,\ldots,x_k) = f(g_1(x_1,\ldots,x_k),\ldots,g_m(x_1,\ldots,x_k)) \]
+			for all $x_1,\ldots,x_k \in \N$.
+
+			\item
+			The \emph{primitive recursion} operator is defined as follows.
+			Given $k \in \N$, $g : \N^{k-1} \to \N$, and $h: \N^{k+1} \to \N$, define the function $\rho(g,h) : \N^{k} \to \N$ by
+			\[ (\rho(g,h))(x_1,x_2,\ldots,x_k) = \begin{cases} g(x_2,\ldots,x_k), & x_1 = 0, \\ h(x_1-1,g(x_1-1,x_2,x_3,\ldots,x_n),x_2,x_3,\ldots,x_n), & \text{otherwise.} \end{cases} \]
+
+			\item
+			The \emph{minimization} operator is defined as follows. Given $k\in\N$, $f:\N^{k+1} \to \N$, the function $\mu(f) : \N^k \to \N$ is defined by
+			\[ (\mu(f))(x_1,\ldots,x_k) = \min \{ z : f(z,x_1,\ldots,x_k) = 0 \}. \]
+			Note that the minimization operator need not be well-defined for a given $f$ (the value of the function may be non-zero for all $z$). So, $\mu(f)$ is a partial function.
+		\end{enumerate}
+	\end{fdef}
+
+	Using the above, we may define several classes of ``computable'' functions.
+
+	\begin{fdef}
+		The class of \emph{primitive recursive functions} is the smallest class of total functions that contains the primitive functions and is closed under composition and primitive recursion.\\
+		The class of \emph{general recursive functions} is the smallest class of functions (total or partial) that contains the primitive functions and is closed under composition, primitive recursion, and minimization.\\
+		The class of \emph{general recursive functions} is the smallest class of total functions that contains the primitive functions and is closed under composition, primitive recursion, and minimization.
+	\end{fdef}
+
+	For example, the function $f : (x,y) \mapsto x+y$ is defined by
+	\[ f = \rho(P_2^2, S \circ P_2^3). \]
+
+\subsection{Recursively enumerable and recursive languages}
+
+	Recall that recursively enumerable languages are those languages recognized by a Turing machine.
+
+	\begin{prop}
+		\label{prop: exist non rec en langs}
+		There exist non-recursively enumerable languages over any alphabet $\Sigma$.
+	\end{prop}
+	\begin{proof}
+		Clearly, it suffices to consider the case where $|\Sigma| = 1$, so let $\Sigma = a$. Observe that the set $\mathcal{P}(a^*)$ is not countable. Any Turing machine can be thought of as a string over $\{0,1\}$, namely as the concatenation of the strings $0^i10^j10^k10^l10^s$, where for each transition from $q_i$ to $q_j$ with the lab $k/l,s$ (numbering the tape symbols and alphabet symbols ahead of time), with the transitions separated by $11$s. The set of such strings is a subset of $\{0,1\}^*$, so it (and thus the set of all Turing machines) is countable! The required follows.
+	\end{proof}
+
+	These limits however, are only useful to us in the sense that we would like to know whether a given problem is within the limits or not. Indeed, the above argument may be used to show that there exist languages that cannot be recognized by any program (in C, say) either, because any program is a finite string of ASCII characters. Let us study our little nook of recursively enumerable languages a little more before moving to the limits. In fact, a program is weaker than a Turing machine since it has a finite amount of memory.
+
+	\begin{definition}[Algorithm]
+		An \emph{algorithm} is a Turing machine that halts for any input.\\
+		A language recognized by an algorithm is said to be a \emph{recursive language}.
+	\end{definition}
+
+	Nearly every language one might run into is recursive.
+
+	\begin{ftheo}
+		The class of recursively enumerable languages is closed under union, intersection, concatenation and the Kleene star.\\
+		The class of recursively enumerable languages is closed under union, intersection, concatenation, the Kleene star, and complementation.
+	\end{ftheo}
+	\begin{proof}
+		Let us begin by showing the closure of recursively enumerable languages under various operations.
+		\begin{enumerate}
+			\item Union. Create a two-tape Turing machine, with the two tapes simulating the Turing machines for each of the languages. Accept when either of the two simulations accepts -- note that we forcibly halt the running of the other Turing machine after one accepts.
+			\item Intersection. Again, create a two-tape Turing machine, with each of the two tapes simulating the Turing machines for each of the languages. Accept when both simulations accept.
+			\item Concatenation. Create a two-tape Turing machine as follows. Given input $w$, non-deterministically guess a break as $w=xy$, move $y$ to the second tape, and run the second Turing machine on $y$. Accept if both simulations accept.
+			\item Kleene star.The idea of this is identical to that of concatenation, except that we guess multiple breaks instead of just one.
+		\end{enumerate}
+		Now, let us move on to the closure of recursive languages.
+		\begin{enumerate}
+			\item The construction for union and intersection is identical to that for recursively enumerable languages. Since both Turing machines halt for any input, so does the new Turing machine.
+			\item The construction for concatenation and Kleene star is identical as well. % systematically guess all breaks to destroy non-determinism? what's wrong with having a NTM?
+			\item Complementation. Let the original Turing machine run and accept iff it halts on a non-accepting state.
+		\end{enumerate}
+	\end{proof}
+
+\subsection{Limits of computation}
+\label{subsec: limits of computation}
+
+	A common theme of questioning is asking whether a given ``object'' has a certain ``property''. For example, given a graph $G$ and an input number $k$, one may ask whether $G$ has a clique of size $k$. In such a problem, the inputs $(G,k)$ is referred to as an \emph{instance} of the problem. Any instance of the problem may be encoded as a word over some alphabet, say $\{0,1\}$, and based on this one can ask the question whether it is possible to construct a Turing machine that recognizes the words corresponding to all positive instances of the problem.
+
+	\begin{fdef}
+		A problem is \emph{decidable} if there is an algorithm to answer it. Otherwise, the problem is said to be \emph{undecidable}.
+	\end{fdef}
+
+	As seen in \Cref{prop: exist non rec en langs}, not every language is recognizable by a Turing machine.\\
+	In fact, one may use a diagonalization argument to construct a non-recursively enumerable language as
+	\[ L_d = \{ w : w \text{ is the $i$th string but is not recognized by the $i$th TM } \}. \]
+	However, this is hardly interesting outside of the fact that it exists. Do there exist more useful undecidable languages?\\
+
+	Before moving to this, let us give an example of a language that is recursively enumerable but not recursive. Recall from earlier that any Turing machine may be translated to a string over $\{0,1\}$. Consider the \emph{universal Turing machine} that takes as input a Turing machine $M$ and a binary string $w$, and accepts iff $M$ recognizes $w$. $M$ and $w$ can be separated by $111$ in the input. If the input is not of this desired form, we immediately reject. It is not too difficult to construct a Turing machine that recognizes this language -- we maintain one tape for the initial input, one for the tape of (a simulation of) $M$, and a third to store the state of $M$.\\
+	We claim that the language $L_u$ recognized by the above Turing machine is undecidable. Suppose instead that it was recursive, and let $U$ be an algorithm that recognizes it. Given an input $w$, we may then check if it is in $L_d$ as follows.
+	% \begin{enumerate}
+	% 	\item Confirm that $w$ is a valid TM code. If it is not, the language is empty
+	% \end{enumerate}
