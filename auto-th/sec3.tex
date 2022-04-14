@@ -65,7 +65,7 @@
 
 	At any point of time, the Turing machine has a tape that contains a string of symbols with an infinite number of blanks on either side. Initially, this string is just the input, and the head is at the leftmost symbol.
 
-	\begin{definition}
+	\begin{definition}[Instantaneous Description]
 		An \emph{instantaneous description} of a Turing machine is a string of the form $\alpha q\beta$, where $\alpha,\beta \in \Gamma^*$ and $q \in Q$.
 	\end{definition}
 	What this represents is that $\alpha,\beta$ are on the tape with an infinite number of blanks on either side, and $q$, the state the automaton is at, is just before the position pointed at by the head.\\
@@ -120,7 +120,7 @@
 	Turing machines are not just restricted to recognizing languages. The same framework may be used to do several things:
 	\begin{itemize}
 		\item First is just language recognition which we have seen.
-		\item Second is computation. Given a ``simple'' function from $\N^k \to \N$, we can begin the input tape with the input values separated by $\#$s (to separate the input variables), and when the Turing machine halts, the tape has the output on it. This is easily extended to \emph{partial} functions, which need not be defined on all of $\N^k$, by taking the output as valid iff it halts on an accepting state. A function that is not partial is said to be \emph{total}.
+		\item Second is computation. Given a ``simple'' function from $\N^k \to \N$, we can begin the input tape with the input values separated by $\#$s (to separate the input variables), and when the Turing machine halts, the tape has the output on it. This is easily extended to \emph{partial} functions, which need not be defined on all of $\N^k$, by taking the output as valid iff it halts on an accepting state. A function that is not partial is said to be \emph{total}. When a Turing machine is used in this manner, it is called a \emph{transducer}.
 		\item Third, we have enumeration. The tape begins empty, and an enumeration of a (countable) language is output. For example, if the language is $\{0^n1^n : n \in \N\}$, the output is $01\#0011\#000111\#\cdots$ and the Turing machine never halts.
 	\end{itemize}
 
@@ -202,7 +202,7 @@
 
 	\begin{ftheo}
 		The class of recursively enumerable languages is closed under union, intersection, concatenation and the Kleene star.\\
-		The class of recursively enumerable languages is closed under union, intersection, concatenation, the Kleene star, and complementation.
+		The class of recursive languages is closed under union, intersection, concatenation, the Kleene star, and complementation.
 	\end{ftheo}
 	\begin{proof}
 		Let us begin by showing the closure of recursively enumerable languages under various operations.
@@ -232,10 +232,104 @@
 	As seen in \Cref{prop: exist non rec en langs}, not every language is recognizable by a Turing machine.\\
 	In fact, one may use a diagonalization argument to construct a non-recursively enumerable language as
 	\[ L_d = \{ w : w \text{ is the $i$th string but is not recognized by the $i$th TM } \}. \]
+	One may also consider the language $L_d'$ wherein instead of considering all strings, we only consider those strings that are valid TM codes (and reject everything else). This is defined by the slightly simpler-to-state
+	\[ L_d' = \{ w : \text{if } w \text{ is a TM code, it does not recognize itself} \}. \]
 	However, this is hardly interesting outside of the fact that it exists. Do there exist more useful undecidable languages?\\
 
 	Before moving to this, let us give an example of a language that is recursively enumerable but not recursive. Recall from earlier that any Turing machine may be translated to a string over $\{0,1\}$. Consider the \emph{universal Turing machine} that takes as input a Turing machine $M$ and a binary string $w$, and accepts iff $M$ recognizes $w$. $M$ and $w$ can be separated by $111$ in the input. If the input is not of this desired form, we immediately reject. It is not too difficult to construct a Turing machine that recognizes this language -- we maintain one tape for the initial input, one for the tape of (a simulation of) $M$, and a third to store the state of $M$.\\
-	We claim that the language $L_u$ recognized by the above Turing machine is undecidable. Suppose instead that it was recursive, and let $U$ be an algorithm that recognizes it. Given an input $w$, we may then check if it is in $L_d$ as follows.
-	% \begin{enumerate}
-	% 	\item Confirm that $w$ is a valid TM code. If it is not, the language is empty
-	% \end{enumerate}
+	We claim that the language $L_u$ recognized by the above Turing machine is undecidable. Suppose instead that it was recursive, and let $U$ be an algorithm that recognizes it. Given an input $w$, we may then check if it is in $L_d'$ as follows.
+	\begin{enumerate}
+		\item Check if $w$ is a valid TM code. If it is not, accept.
+		\item Feed $w111w$ into $U$.
+		\item Reject if $U$ halts on an accepting state and accept otherwise.
+	\end{enumerate}
+	This definitely halts (because $U$ is an algorithm), so we have an algorithm for $L_d'$, which is a contradiction!
+
+	\begin{definition}[Property]
+		A set of languages is called a \emph{property} of languages. If a language belongs to a certain property, it is said to have that property.
+	\end{definition}
+	Given a property $P$, let $L_P$ be the language comprising TM codes of TMs $M$ such that $L(M)$ has $P$.\\
+	Two obvious \emph{trivial} properties are:
+	\begin{enumerate}
+		\item The ``always false'' property, which is the empty set.
+		\item The ``always true'' property, which has every language.
+	\end{enumerate}
+	These are clearly decidable. Very surprisingly, these are the \emph{only} decidable properties!
+
+	\begin{ftheo}[Rice's Theorem]
+		For any non-trivial property $P$ that has a recursively enumerable language, $L_P$ is undecidable.
+	\end{ftheo}
+
+	Let us give some more setup before proving this result.
+
+	\begin{fdef}[Reduction]
+		A \emph{reduction} from language $L$ to $L'$ is an algorithm that given a string $w$, converts it to a string $x$ such that $x \in L'$ iff $w \in L$.
+	\end{fdef}
+
+	If a language $L'$ is undecidable and we have a reduction from $L$ to $L'$, then the two algorithms together give an algorithm for $L$! That is, if there is a reduction from $L'$ to $L$ and $L$ is decidable, then so is $L'$. The contrapositive of this is that if we have a reduction from $L'$ to $L$ and $L'$ is undecidable, then so is $L$. \\
+	Observe that our earlier ``reduction'' of $L_d'$ to $L_u$ is not in fact a reduction in the sense of the above definition. Indeed, we had complemented the result of $U$ which is not allowed by the above definition.
+
+	\begin{proof}[Proof of Rice's Theorem]
+		Let us assume that $\emptyset$ does not have $P$. If it does, consider the complement of $P$ instead -- this works out because the class of recursive languages is closed under complementation.\\
+		We shall reduce $L_u$ to $L_P$. Given a word $w$ and Turing machine code $M$, we must generate a Turing machine code $M'$ such that $M$ recognizes $w$ iff $L(M')$ has $P$. \\
+		Let $L$ be a recursively enumerable language which has property $P$ and $M_L$ a TM that recognizes $L$.
+		When given input $x$, $M'$ works as follows:
+		\begin{enumerate}
+			\item It simulates $M$ on $w$.
+			\item If accepted, it begins simulating $M_L$ on $x$.
+			\item Accept iff $M_L$ accepts $x$ in the second step.
+		\end{enumerate}
+		Why does this work?
+		\begin{itemize}
+			\item If $M$ does not recognize $w$, then we never move past the first step, so the language of $M'$ is $\emptyset$, which does not have $P$.
+			\item If $M$ recognizes $w$, then $M'$ ends up accepting a word $x$ iff $M_L$ accepts $x$, that is, $x \in L$. As a result, if $M$ recognizes $w$, the language of $M'$ is just $L$, which does have $P$.
+		\end{itemize}
+		The Turing machine is just a filter that outputs a fixed language with $P$ if $M$ recognizes $w$ and $\emptyset$ otherwise.\\
+		The existence of the reduction implies that $L_P$ is undecidable, completing the proof.
+	\end{proof}
+
+	The important point to note is that while the Turing machine $M'$ itself may not be algorithm (it is not), the \emph{creation} of $M'$ from $M$ and $w$ is.
+
+	While this is all good, we are yet to get an undecidable language that is not tied to some sort of Turing machine machinery! To give a more general example, consider the following.
+
+	\begin{fprob}[Post's Correspondence Problem]
+		An instance of PCP is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$.
+	\end{fprob}
+
+	We also present a slightly modified version of the above for the sake of proving undecidability.
+
+	\begin{problem}[Modified Post's Correspondence Problem]
+		An instance of MPCP is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$ and $i_1 = 1$.
+	\end{problem}
+
+	To prove undecidability, we shall give a reduction from $L_u$ to PCP. This shall be done by reducing it to MPCP, then reducing MPCP to PCP. ``Concatenating'' the two reductions yields a reduction from $L_u$ to PCP.
+
+	\begin{theorem}
+		MPCP is reducible to PCP.
+	\end{theorem}
+	\begin{proof}
+		Consider an instance $(w_1,\ldots,w_n)$ and $(x_1,\ldots,x_n)$ of MPCP. For each string $v$, refer to the $i$th character of $v$ as $v_i$. The corresponding instance of PCP we use is of the form $(w_0',w_1',\ldots,w_n',\$)$ and $(x_0',x_1',\ldots,x_n',*\$)$ where
+		\[ w_0' = *(w_1)_1*(w_1)_2*\cdots*(w_1)_{\ell(w_1)}* \text{ and } x_0' = *(x_1)_1*(x_1)_2*\cdots*(x_1)_{\ell(x_1)}. \]
+		For $i \ge 1$,
+		\[ w_i' = (w_i)_1*(w_i)_2*\cdots*(w_i)_{\ell(w_i)}* \text{ and } x_0' = *(x_i)_1*(x_i)_2*\cdots*(x_i)_{\ell(x_i)}. \]
+		If the MPCP instance is positive, it is clear that so is the PCP instance -- we just need to insert $*$s everywhere and add a $\$$ at the end. If the PCP instance is positive, then observe that the sequence must begin with $0$. Indeed, if it were to start with any other index $i \ne 0$, the first character of the $w_i'$ would be $*$, but not that of the $x_i'$. That is, it forces the $w_i$ corresponding to the string to be $w_1$, which is exactly what is required by MPCP.
+	\end{proof}
+
+	\begin{ftheo}
+		PCP is undecidable.
+	\end{ftheo}
+	\begin{proof}
+		We shall give a reduction from $L_u$ to MPCP. Suppose we are given a Turing machine $M$ and a word $w$. Assume that $M$ has a semi-infinite tape. The MPCP instance will simulate the instantaneous descriptions of the running of the Turing machine on $w$.\\
+		The list of pairs of strings $(w_i,x_i)$ is as follows.
+		\begin{enumerate}
+			\item $(\#,\#q_0w\#)$. This is the first string (forced by MPCP to start), wherein the second string starts off with the initial ID. $q_0$ is the start state of $M$.
+			\item $(\#,\#)$. This ends the ID currently being read.
+			\item $(X,X)$ for any tape symbol $X$ of $M$. This is the copying of a tape symbol from the previous ID to the next.
+			\item $(qX,Yp)$ for each transition $\delta(q,X) = (p,Y,R)$. This represents $q$ seeing the symbol $X$ and moving to the right, replacing $X$ with $Y$.
+			\item $(ZqX,pZY)$ for each transition $\delta(q,X) = (p,Y,L)$ and any tape symbol $Z$. To move to the left, we also have to take into account the previous symbol and shift it to the right.
+			\item $(q\#,Yp\#)$ for each transition $\delta(q,B) = (p,Y,R)$. It is possible to replace a blank symbol immediately after the very end of the string and move to the right.
+			\item $(Zq\#,pZY\#)$ for each transition $\delta(q,B) = (p,Y,R)$. It is possible to replace a blank symbol immediately after the very end of the string and move to the left.
+		\end{enumerate}
+		The idea is as follows: both strings attempt to create the list of the IDs separated by $\#$s, except that the second string is ahead by one ID. To ensure string equality, the first string must copy the previous ID in the second string, and we can change the second string appropriately to convey that it is an ID.\\
+		The role of the $w_i$ is just to ``read'' the previous ID.
+	\end{proof}

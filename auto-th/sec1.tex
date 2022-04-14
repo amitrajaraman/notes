@@ -714,6 +714,6 @@ Let $B$ and $D$ be two languages. Write $B\Subset D$ if $B\subseteq D$ and $D$ c
 \begin{exercise}
 Let $M=\{Q,\Sigma,\delta,q_0,F\}$ be a DFA and $h\in Q$ be called its ``home''. A \textit{synchronizing sequence} for $M$ and $h$ is a string $s\in\Sigma^*$ where $\hat\delta(q,s)=h$ for all $q\in Q$ (Here $\hat\delta(q,s)$ is the state $M$ ends up at when it starts at $q$ and processes $s$). Say that $M$ is \textit{synchronizable} if it has a synchronizing sequence for some state $h$. Prove that if $M$ is a $k$-state synchronizable DFA, it has a synchronizing sequence of length at most $k^3$.
 
-This has in fact been improved by Kohavi (?, check again) to show that the length of the synchronizing sequence lies between $\frac{k^3-k}{6}$ and $\frac{k^2+k-4}{2}$. \u{C}ern\'{y} conjectured in 1964 that this bound can be improved to $(k-1)^2$, a very tight bound, which remains one of the largest unsolved problems in Automata Theory at the time of writing this.
+This has in fact been improved by Kohavi (?, check again) to show that the length of the synchronizing sequence lies between $\frac{k^3-k}{6}$ and $\frac{k^2+k-4}{2}$. \v{C}ern\'{y} conjectured in 1964 that this bound can be improved to $(k-1)^2$, a very tight bound, which remains one of the largest unsolved problems in Automata Theory at the time of writing this.
 \end{exercise}
 \clearpage
