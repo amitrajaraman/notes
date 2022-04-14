@@ -293,43 +293,78 @@
 	While this is all good, we are yet to get an undecidable language that is not tied to some sort of Turing machine machinery! To give a more general example, consider the following.
 
 	\begin{fprob}[Post's Correspondence Problem]
-		An instance of PCP is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$.
+		An instance of \textsf{PCP} is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$.
 	\end{fprob}
 
 	We also present a slightly modified version of the above for the sake of proving undecidability.
 
-	\begin{problem}[Modified Post's Correspondence Problem]
-		An instance of MPCP is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$ and $i_1 = 1$.
-	\end{problem}
+	\begin{problem*}[Modified Post's Correspondence Problem]
+		An instance of \textsf{MPCP} is two lists $(w_1,w_2,\ldots,w_n)$ and $(x_1,x_2,\ldots,x_n)$ of strings over some alphabet $\Sigma$. The answer to this instance is yes iff there exists some non-empty sequence $i_1,i_2,\ldots,i_k$ of indices in $[n]$ such that $w_{i_1} w_{i_2} \cdots w_{i_k} = x_{i_1} x_{i_2} \cdots x_{i_k}$ and $i_1 = 1$.
+	\end{problem*}
 
-	To prove undecidability, we shall give a reduction from $L_u$ to PCP. This shall be done by reducing it to MPCP, then reducing MPCP to PCP. ``Concatenating'' the two reductions yields a reduction from $L_u$ to PCP.
+	To prove undecidability, we shall give a reduction from $L_u$ to \textsf{PCP}. This shall be done by reducing it to \textsf{MPCP}, then reducing \textsf{MPCP} to \textsf{PCP}. ``Concatenating'' the two reductions yields a reduction from $L_u$ to \textsf{PCP}.
 
 	\begin{theorem}
-		MPCP is reducible to PCP.
+		\textsf{MPCP} is reducible to \textsf{PCP}.
 	\end{theorem}
 	\begin{proof}
-		Consider an instance $(w_1,\ldots,w_n)$ and $(x_1,\ldots,x_n)$ of MPCP. For each string $v$, refer to the $i$th character of $v$ as $v_i$. The corresponding instance of PCP we use is of the form $(w_0',w_1',\ldots,w_n',\$)$ and $(x_0',x_1',\ldots,x_n',*\$)$ where
+		Consider an instance $(w_1,\ldots,w_n)$ and $(x_1,\ldots,x_n)$ of \textsf{MPCP}. For each string $v$, refer to the $i$th character of $v$ as $v_i$. The corresponding instance of \textsf{PCP} we use is of the form $(w_0',w_1',\ldots,w_n',\$)$ and $(x_0',x_1',\ldots,x_n',*\$)$ where
 		\[ w_0' = *(w_1)_1*(w_1)_2*\cdots*(w_1)_{\ell(w_1)}* \text{ and } x_0' = *(x_1)_1*(x_1)_2*\cdots*(x_1)_{\ell(x_1)}. \]
 		For $i \ge 1$,
 		\[ w_i' = (w_i)_1*(w_i)_2*\cdots*(w_i)_{\ell(w_i)}* \text{ and } x_0' = *(x_i)_1*(x_i)_2*\cdots*(x_i)_{\ell(x_i)}. \]
-		If the MPCP instance is positive, it is clear that so is the PCP instance -- we just need to insert $*$s everywhere and add a $\$$ at the end. If the PCP instance is positive, then observe that the sequence must begin with $0$. Indeed, if it were to start with any other index $i \ne 0$, the first character of the $w_i'$ would be $*$, but not that of the $x_i'$. That is, it forces the $w_i$ corresponding to the string to be $w_1$, which is exactly what is required by MPCP.
+		If the \textsf{MPCP} instance is positive, it is clear that so is the \textsf{PCP} instance -- we just need to insert $*$s everywhere and add a $\$$ at the end. If the \textsf{PCP} instance is positive, then observe that the sequence must begin with $0$. Indeed, if it were to start with any other index $i \ne 0$, the first character of the $w_i'$ would be $*$, but not that of the $x_i'$. That is, it forces the $w_i$ corresponding to the string to be $w_1$, which is exactly what is required by \textsf{MPCP}.
 	\end{proof}
 
 	\begin{ftheo}
-		PCP is undecidable.
+		\textsf{PCP} is undecidable.
 	\end{ftheo}
 	\begin{proof}
-		We shall give a reduction from $L_u$ to MPCP. Suppose we are given a Turing machine $M$ and a word $w$. Assume that $M$ has a semi-infinite tape. The MPCP instance will simulate the instantaneous descriptions of the running of the Turing machine on $w$.\\
+		We shall give a reduction from $L_u$ to \textsf{MPCP}. Suppose we are given a Turing machine $M$ and a word $w$. Assume that
+		\begin{enumerate}
+			\item $M$ has a semi-infinite tape.
+			\item $M$ has exactly one accepting state that has no outward transitions. To assume this, we can add a transition to the new accepting state for each ``missing'' transition from each of the old accepting states (the symbol inputs for which it would halt at the accepting state). Let this accepting state be $f$.  
+		\end{enumerate}
+		The \textsf{MPCP} instance will simulate the instantaneous descriptions of the running of the Turing machine on $w$.\\
 		The list of pairs of strings $(w_i,x_i)$ is as follows.
 		\begin{enumerate}
-			\item $(\#,\#q_0w\#)$. This is the first string (forced by MPCP to start), wherein the second string starts off with the initial ID. $q_0$ is the start state of $M$.
+			\item $(\#,\#q_0w\#)$. This is the first string (we are forced to start with this by \textsf{MPCP}), wherein the second string starts off with the initial ID. $q_0$ is the start state of $M$.
 			\item $(\#,\#)$. This ends the ID currently being read.
 			\item $(X,X)$ for any tape symbol $X$ of $M$. This is the copying of a tape symbol from the previous ID to the next.
 			\item $(qX,Yp)$ for each transition $\delta(q,X) = (p,Y,R)$. This represents $q$ seeing the symbol $X$ and moving to the right, replacing $X$ with $Y$.
 			\item $(ZqX,pZY)$ for each transition $\delta(q,X) = (p,Y,L)$ and any tape symbol $Z$. To move to the left, we also have to take into account the previous symbol and shift it to the right.
 			\item $(q\#,Yp\#)$ for each transition $\delta(q,B) = (p,Y,R)$. It is possible to replace a blank symbol immediately after the very end of the string and move to the right.
 			\item $(Zq\#,pZY\#)$ for each transition $\delta(q,B) = (p,Y,R)$. It is possible to replace a blank symbol immediately after the very end of the string and move to the left.
+			\item $(Xf,f)$ and $(fY,f)$ for all tape symbols $X,Y$. When we enter the accepting state, we must accept. This is done by destroying all the tape symbols until only $f$ is left.
+			\item $(f\#\#,\#)$. When only $f$ is left on the tape, we even out the two strings by adding this and stopping.
 		\end{enumerate}
-		The idea is as follows: both strings attempt to create the list of the IDs separated by $\#$s, except that the second string is ahead by one ID. To ensure string equality, the first string must copy the previous ID in the second string, and we can change the second string appropriately to convey that it is an ID.\\
-		The role of the $w_i$ is just to ``read'' the previous ID.
+		The idea is as follows: both strings attempt to create the list of the IDs separated by $\#$s, except that the second string is ahead by one ID. To ensure string equality, the first string must copy the previous ID in the second string, and we can change the second string appropriately to convey that it is an ID. The role of the $w_i$ is just to ``read'' the previous ID.\\
+		By construction, the given instance of \textsf{MPCP} is positive iff $M$ recognizes $w$.
 	\end{proof}
+
+	\begin{exercise}
+		Consider the problem \textsf{Amibiguity}, defined as follows. An instance of \textsf{Ambiguity} is a context-free grammar. The answer to this instance is yes iff the grammar is ambiguous.\\
+		Show that \textsf{Ambiguity} is undecidable.
+	\end{exercise}
+	% \begin{align*}
+	% 	S &\to A \mid B \\
+	% 	A &\to a_i A i \\
+	% 	B &\to b_i B i
+	% \end{align*}
+
+
+	\begin{exercise}
+		Consider the problem with each instance being a context-free grammar, with the answer being yes iff the language generated by the grammar is equal to all of $\Sigma^*$. Show that this problem is undecidable.
+	\end{exercise}
+	% if the lang generated by A (B) above is L_A (L_B) then PCP answer is yes iff L_A^c \cup L_B^c is all of \Sigma^*. a cfg for this can be created. 
+
+	The above discussion demonstrates that some problems cannot expect to be solved at all. Even among the questions we can solve however, we can create a hierarchy based on how efficiently it is possible to solve it.
+
+	\begin{definition}
+		A Turing machine that given an input of length $n$, always halts within $T(n)$ moves is said to be \emph{$T(n)$-time bounded}.
+	\end{definition}
+	In the deterministic multitape case, the above roughly refers to an ``$O(T(n))$ running time algorithm''.
+
+	\begin{fdef}
+		The class \textsf{P} of languages consists of the languages recognized by those deterministic Turing machines $M$ that are $p(n)$-time bounded for some polynomial $p$. Such a Turing machine is said to be polynomial-time bounded (or polytime bounded).\\
+		The class \textsf{NP} of languages consists of the languages recognized by those nondeterministic Turing machines $M$ that are $p(n)$-time bounded for some polynomial $p$. Here, the running time of a nondeterministic Turing machine is the maximum number of steps taken along any branch. \\
+	\end{fdef}
