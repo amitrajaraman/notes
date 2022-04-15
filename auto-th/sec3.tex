@@ -316,6 +316,7 @@
 	\end{proof}
 
 	\begin{ftheo}
+		\label{ftheo: pcp is undecidable}
 		\textsf{PCP} is undecidable.
 	\end{ftheo}
 	\begin{proof}
@@ -368,3 +369,55 @@
 		The class \textsf{P} of languages consists of the languages recognized by those deterministic Turing machines $M$ that are $p(n)$-time bounded for some polynomial $p$. Such a Turing machine is said to be polynomial-time bounded (or polytime bounded).\\
 		The class \textsf{NP} of languages consists of the languages recognized by those nondeterministic Turing machines $M$ that are $p(n)$-time bounded for some polynomial $p$. Here, the running time of a nondeterministic Turing machine is the maximum number of steps taken along any branch. \\
 	\end{fdef}
+
+	One of the Clay Institute's Millennium problems, the question of whether $\mathsf{P} = \mathsf{NP}$ is an extremely important open question in computer science.\\
+	To resolve this debate, it is impractical (and impossible) to attempt to create a polynomial time scheme for every single problem in \textsf{NP}. A natural question to ask is: does there exist some smaller subclass of questions in \textsf{NP} which it suffices to consider?
+
+	\begin{fdef}
+		A problem $H$ is said to be \emph{\textsf{NP}-hard} if if it is in \textsf{P}, then $\mathsf{NP} = \mathsf{P}$. More precisely, given any problem $G$ in \textsf{NP}, there exists a polynomial time reduction from $G$ to $H$.\\
+		A problem $H$ is said to be \emph{\textsf{NP}-complete} if it is in \textsf{NP} and it is \textsf{NP}-hard.
+	\end{fdef}
+
+	A complete problem ``represents'' every problem in \textsf{NP}. When we say that there is a polynomial time reduction from $G$ to $H$, we mean that given any instance $x$ of $G$, it is possible to construct a polytime algorithm that outputs an instance of $y$ of $H$ (it behaves as a transducer) such that $H$ recognizes $y$ iff $G$ recognizes $x$.\\
+	Why is it that the existence of a polynomial time reduction for any problem in \textsf{NP} implies that if $H \in \mathsf{P}$, then $\textsf{P} = \textsf{NP}$? Suppose that $H \in \mathsf{P}$ and has a $p(n)$-time bounded polytime algorithm and we have a reduction that takes polynomial time $q(n)$. If $H$ is given an instance of length $n$, then the reduction takes time $q(n)$ and further, the instance fed to $H$ is of length at most $q(n)$. This instance is solved in at most $p(q(n))$, so the entire instance for $H$ is solved in $q(n) + p(q(n))$, which is a polynomial.\\
+
+	Now, let us see a problem that is \textsf{NP}-complete.
+
+	\begin{fprob}[The Satisfiability Problem]
+		An instance of \textsf{SAT} is a boolean formula over some variables. The answer to this instance is yes iff there exists some truth assignment to the variables such that the truth value of the entire formula is true.
+	\end{fprob}
+
+	We omit more precise definitions of ``boolean formula'' and ``truth assignment'', hoping that the reader has learnt these elsewhere. To encode a given boolean formula, we must have it as a string over a finite alphabet. The $i$th variable is encoded as the symbol $x$ followed by $i$ in binary. The propositional logic symbols $(,),\lor,\land,\neg$ are left as they are.
+
+	\begin{ftheo}[Cook's Theorem]
+		\textsf{SAT} is \textsf{NP}-complete.
+	\end{ftheo}
+	\begin{proof}
+		It is not too difficult to see that \textsf{SAT} is in \textsf{NP}; we can ``guess'' a truth assignment to the variables in polynomial time then check if this truth assignment satisfies the formula in polynomial time.\\
+		Let $L$ be a language in \textsf{NP}, and $M$ a nondeterministic Turing machine recognizing $L$ that has a single semi-infinite tape and a single accepting state $f$ with no outward transitions. Let $p(n)$ be a polynomial time bound for $M$. \\
+		Given $w,M$, we must construct a boolean formula that is satisfiable iff $M$ recognizes $w$. Let $\Gamma$ be the union of the tape alphabet and state space of $M$ (assume the two are disjoint). Our formula shall have $(p(n)+1)^2 |\Gamma|$ variables.\\
+		Consider a sequence $I_0 \vdash I_1 \vdash \cdots \vdash I_{k}$ of IDs of $M$, where $k \le p(n)$. Each $I_j$ is of length at most $p(n)$, so assume that each is of length exactly $p(n)$ by padding with blanks at the right if necessary. Also assume that $k = p(n)$ by  The symbol $X_{ij}$ represents the $j$th position of the $i$th ID. It is constituted of $|\Gamma|$ variables $y_{ij,A}$ for each $A \in \Gamma$, wherein $y_{ij,A}$ is 1 iff $X_{ij} = A$.\\
+		The SAT formula is constituted of four parts:
+		\begin{enumerate}
+			\item Each position $X_{ij}$ has a unique symbol.\\
+			This is represented by
+			\[ \bigwedge_{\substack{0 \le i,j \le p(n) \\ X,Y \in \Gamma, X \ne Y}} (\neg y_{ij,X} \lor \neg y_{ij,Y} ). \]
+			This requires $O(p(n)^2 \log n)$ symbols to be written.
+
+			\item The first ID is the starting ID. \\
+			This is represented by asserting that $X_{00} = q_0$, $X_{0i} = w_i$ for $1 \le i \le n$, and $X_{0i} = B$ for all $n < i \le p(n)$. Each of these can be represented by appropriate $y_{0i,X}$ clauses. This requires $O(p(n) \log n)$ symbols.
+
+			\item There is an accepting state somewhere. \\
+			This is merely the disjunction of the $y_{ij,f}$ for all valid $i,j$. This requires $O(p(n)^2 \log n)$ symbols.
+
+			\item The transitions from ID to ID are correct. \\
+			\begin{itemize}
+				\item First, we have that if none of $X_{i-1,j-1}, X_{i-1,j}, X_{i-1,j+1}$ is a state, then $X_{ij}$ is equal to $X_{i-1,j}$.
+				\item If $\delta(q,X)$ contains $(p,Y,R)$ or $(p,Y,L)$, and we have $CqX$ at some point in the ID, then it changes appropriately. The encoding of this is very similar to that done in \Cref{ftheo: pcp is undecidable}, so we omit it and skip the tedium. There is a special case to be considered at the ``edges'' of the ID.
+			\end{itemize}
+		\end{enumerate}
+	\end{proof}
+
+	Further note that upon minor modifications of the final part, the above proof in fact gives a boolean formula in \emph{conjunctive normal form} (CNF): a conjunction of disjunctions of literals (variables or their negations). So, the problem \textsf{CSAT} of deciding the satisfiability of a CNF formula is \textsf{NP}-complete as well.
+
+	It is well-known that any CNF formula may be reduced to a 3-CNF formula (a CNF formula where each clause has three literals) in polynomial time that is satisfiable iff the original is. So, 3-\textsf{CSAT} is \textsf{NP}-complete as well.
