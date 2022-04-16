@@ -1,106 +1,11 @@
 \documentclass{article}
-
-\title{Automata and Languages}
-\author{Amit Rajaraman}
-\date{March 2020}
-
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{amsfonts}
-\usepackage{enumerate}
-\usepackage[margin=1in]{geometry}
-\usepackage[colorlinks]{hyperref}
-\usepackage{tikz}
-\usepackage[framemethod=tikz]{mdframed}
-\usepackage{framed}
-\usepackage{xcolor}
-\usepackage{graphicx}
-\usepackage{cleveref}
-\usetikzlibrary{automata, positioning, arrows, matrix}
-\tikzset{->, >=stealth', node distance = 2cm}
 
-\usepackage{titlesec}
-\titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
-\titleformat{\subsection}[block]{\large\bfseries\sffamily}{\thesubsection.}{0.2cm}{\large}
-
-\usepackage{fancyhdr}
-\lhead{\sffamily{Automata and Languages}}
-\chead{\sffamily{\thepage}}
-\rhead{\sffamily{Amit Rajaraman}}
-\cfoot{}
-\pagestyle{fancy}
-
-\setlength\parindent{0pt}
-
-\renewcommand{\qedsymbol}{$\blacksquare$}
-
-\newcommand{\yields}{\Rightarrow}
-\newcommand{\derives}{\overset{*}{\yields}}
-\newcommand{\writeNPDA}{(Q,\Sigma,\Gamma,\delta,q_0,Z_0,F)}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
-
-\numberwithin{equation}{section}
-\theoremstyle{definition}
-\newtheorem{theorem}{Theorem}
-\newenvironment{ftheo}
-  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
-  {\end{theorem}\end{shaded}}
-\newtheorem{lemma}[theorem]{Lemma}
-\newenvironment{flem}
-  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{lemma}}
-  {\end{lemma}\end{shaded}}
-\newtheorem{corollary}[theorem]{Corollary}
-\newenvironment{fcor}
-  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{corollary}}
-  {\end{corollary}\end{shaded}}
-\newtheorem{porism}[theorem]{Porism}
-\newenvironment{fpor}
-  {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{porism}}
-  {\end{porism}\end{shaded}}
-\newtheorem{prop}[theorem]{Proposition}
-\newtheorem{definition}{Definition}
-\newenvironment{fdef}
-  {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
-  {\end{definition}\end{shaded}}
-\newtheorem*{conjecture*}{Conjecture}
-\newenvironment{fcon}
-  {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{conjecture*}}
-  {\end{conjecture*}\end{shaded}}
-\newtheorem*{problem*}{Problem}
-\newenvironment{fprob}
-  {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{problem*}}
-  {\end{problem*}\end{shaded}}
-\numberwithin{definition}{section}
-\numberwithin{theorem}{section}
-\newtheorem{exercise}{Exercise}
-\newtheorem*{example}{Example}
-
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-
-\numberwithin{exercise}{section}
-
-\mdfdefinestyle{solutionstyle}{%
-  % linecolor=gray,linewidth=1pt,%
-  % frametitlerule=true,%
-  frametitlebackgroundcolor=white,
-  % backgroundcolor=  gray!20,  
-  bottomline=false, topline=false, rightline=false, leftline=true,
-  innerlinewidth=0.7pt, outerlinewidth=0.7pt, middlelinewidth=2pt, middlelinecolor=white, %
-  innerleftmargin=6pt,innerbottommargin=0pt,
-  skipabove=0pt
-}
-\mdtheorem[style=solutionstyle]{solution}{Solution}
-\numberwithin{solution}{section}
-
-\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+\usepackage{auto}
 
 \begin{document}
 
-\maketitle
+\titleBC
 \thispagestyle{empty}
 
 \tableofcontents
