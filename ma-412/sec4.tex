@@ -11,10 +11,10 @@
 
 	The punctured disk $B(a,R) \setminus \{a\}$ is typically denoted $B(a,R)^*$.
 
-	\begin{theorem}
+	\begin{ftheo}
 		\label{theo 4.1}
 		If $f$ has an isolated singularity at $a$, then $a$ is a removable singularity of $f$ iff $\lim_{z \to a} (z-a) f(z) = 0$.
-	\end{theorem}
+	\end{ftheo}
 	\begin{proof}
 		If $f$ has a removable singularity at $z = a$, there exists $R > 0$ and analytic $g : B(a,R) \to \C$ such that $g = f$ on $B(a,R)^*$. This implies that
 		\[ \lim_{z\to a} (z-a) f(z) = \lim_{z \to a} (z-a) g(z) = 0. \]
@@ -25,7 +25,7 @@
 			0, & z=a.	
 		\end{cases}
 		\]
-		Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = h(z)$ for some analytic $h$ $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
+		Clearly, $g$ is continuous. We are done if we show that $g$ is analytic on $B(a,R)$. Indeed, we can then write $g(z) = (z-a) h(z)$ for some analytic $h$ on $B(a,R)$ that is equal to $f$ on $B(a,R)^*$.\\
 		To prove analyticity, we shall use Morera's Theorem. For a $T$ in $B(a,R)$, if $a$ is not inside $T$, then $T \sim 0$ in $B(a,R)^*$ so $\int_T g = 0$ ($g$ is analytic on the punctured disk).\\
 		For the remaining case, it suffices to consider the scenario where $a$ is one of the vertices of $T = [a,b,c,a]$. Indeed, we may in general ``split'' the triangle into three subtriangles, each of which has $a$ as a vertex. Let $x \in [a,b]$ and $y \in [a,c]$. Observe that the integral of $g$ along $T = [a,b,c,a]$ is equal to that along $T_1 = [a,x,y,a]$. However, $\left| \int_{T_1} g \right|$ is at most $M V(T_1) = M (|a-x| + |a-y| + |x-y|)$, where $M$ is the supremum of $|g|$ over some $\overline{B(a,\delta)} \subseteq B(a,R)$ that contains $T$, and this can be made arbitrarily small by bringing $x,y$ close to $a$, completing the proof.
 	\end{proof}
@@ -48,13 +48,13 @@
 	\begin{proof}
 		We have that
 		\[ \lim_{z \to a} \frac{1}{f(z)} = 0. \]
-		Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 4.1} that $h$ has a removable singularity at $z = a$. Thus, there exists analaytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R^*)$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
-		Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
+		Define $h(z) = 1/f(z)$ on some $B(a,R)^*$ where $f$ is nowhere $0$. It is not too difficult to show using \Cref{theo 4.1} that $h$ has a removable singularity at $z = a$. Thus, there exists analytic $h_1 : B(a,R) \to \C$ such that $h_1 = 1/f$ on $B(a,R)^*$. Further, let $m \ge 1$ such that $h_1(z) = (z-a)^m h_2(z)$, where $h_2(a) \ne 0$ and $h_2$ is analytic on $B(a,R)$.\\
+		Then, $(z-a)^m f(z) = 1/h_2(z)$ on $B(a,R')^*$ for some $R'$. Let $g = 1/h_2$. This $g$ may be extended to an analytic function from $G \to \C$ as
 		\[ g(z) = \begin{cases} (z-a)^m f(z), & z \ne a, \\ 1/h_2(a), & z = a. \end{cases} \qedhere \]
 	\end{proof}
 
 	\begin{definition}
-		If $f$ has a pole at $a$ and $m$ is the smallest positive integer such that $f(z)/(z-a)^m$ has a removable singularity at $a$, then $f$ is said to have a pole of \emph{order} $m$ at $a$.
+		If $f$ has a pole at $a$ and $m$ is the smallest positive integer such that $f(z)(z-a)^m$ has a removable singularity at $a$, then $f$ is said to have a pole of \emph{order} $m$ at $a$.
 	\end{definition}
 
 	It is seen that if we take $m$ as the order of the pole in the previous proposition, then $g(a) \ne 0$.\\
@@ -135,9 +135,10 @@
 
 		It remains to show that the coefficients are unique. Suppose that we can write
 		\[ f(z) = \sum_{n=-\infty}^{\infty} b_n (z-a)^n \]
+		for $z \in \ann(a,R_1,R_2)$, such that the convergence is absolute and uniform on $\overline{\ann(a,r_1,r_2)}$ for $R_1 < r_1 < r_2 < R_2$.\\
 		Let $\gamma(t) = a+re^{2\pi\iota t}$ for some $R_1 < r < R_2$. We wish to show that
 		\[ b_n = \frac{1}{2\pi\iota} \int_{\gamma} \frac{f(w)}{(w-a)^{n+1}} \dif w. \]
-		for $z \in \ann(a,R_1,R_2)$, such that the convergence is absolute and uniform on $\overline{\ann(a,r_1,r_2)}$ for $R_1 < r_1 < r_2 < R_2$. Due to absolute convergence,
+		Due to absolute convergence,
 		\[ f(w) = \lim_{m\to\infty} \sum_{k=-m}^m b_k (w-a)^k = \lim_{m\to\infty} S_m(w)  \]
 		Due to uniform convergence,
 		\begin{align*}
@@ -167,7 +168,7 @@
 		\[ |f(z) - c| \ge \epsilon \]
 		for all $z \in \ann(a,0,R)$. Consequently,
 		\[ \lim_{z \to a} \frac{|f(z) - c|}{|z-a|} = \infty. \]
-		This means that the function $g : z \mapsto (f(z) - c)/(z-a)$ has a pole at $a$ of order $m \ge 1$ (say). Therefore, $(z-a)^{m-1} (f(z) - c)$ has a removable singularity at $z = a$, so
+		This means that the function $g : z \mapsto (f(z) - c)/(z-a)$ has a pole at $a$ of order $m\ge1$ (say). Therefore, $(z-a)^{m-1} (f(z) - c)$ has a removable singularity at $z = a$, so
 		\[ \lim_{z \to a} (z-a)^{m} (f(z) - c) = 0. \]
 		Because $m \ge 1$, this means that $\lim_{z \to a} (z-a)^m f(z) = 0$. This means that $f$ has a pole at $a$, which contradicts the fact that it has an essential singularity.
 	\end{proof}
@@ -178,7 +179,7 @@
 		Let $R > 0$ and $G = \{z : |z| > R\}$, $f : G \to \C$ is said to have an isolated singularity at $\infty$ if $z \mapsto f(1/z)$ has an isolated singularity at $0$.
 	\end{definition}
 	We have similar definitions for a removable singularity, pole (of order $m$), or essential singularity at $\infty$.\\
-	It may be shown that an entire function has a removable singularity at $\infty$ iff it is constant. An entire function $f : \C \to \C$ has a pole $\infty$ of order $m$ iff it is a polynomial of degree $m$.\\
+	It may be shown that an entire function has a removable singularity at $\infty$ iff it is constant. An entire function $f : \C \to \C$ has a pole at $\infty$ of order $m$ iff it is a polynomial of degree $m$.\\
 
 \subsection{Residues}
 
@@ -203,13 +204,13 @@
 		
 	\end{proof}
 
-	Improper integrals are of two types: either infinite integrals or when the integrand is discontinuous.
+	Improper integrals occur in two cases: either the integral is infinite or the integrand is discontinuous.
 
 	\Cref{residue theorem} is incredibly useful at times. For example, let us show that
 	\[ \int_{-\infty}^\infty \frac{x^2}{1+x^4} \dif x = \frac{\pi}{\sqrt{2}}. \]
 	Define $f(z) = z^2/(1+z^4)$. Clearly, $f$ is analytic on $\C \setminus Z(1+z^4)$. Let $a_k = e^{(2k+1)\pi\iota/4}$ for each $k = 1,2,3,4$ be the elements of $Z(1+z^4)$. Now,
-	\[ \Res(f;a_1) = \lim_{z\to a_1} f(z) = \frac{a_1^2}{(a_1 - a_2)(a_1 - a_3)(a_1 - a_4)}. \]
-	We can compute each of the residues to get
+	\[ \Res(f;a_1) = \lim_{z\to a_1} f(z) (z-a_1) = \frac{a_1^2}{(a_1 - a_2)(a_1 - a_3)(a_1 - a_4)}. \]
+	We can compute the residues to get
 	\begin{align*}
 		\Res(f;a_1) &= \frac{1}{4} e^{-\iota\pi/4}, \\
 		\Res(f;a_2) &= \frac{1}{4} e^{-3\iota\pi/4}.
@@ -221,7 +222,7 @@
 			&= \frac{1}{4} \left(e^{-\iota\pi/4} + e^{-3\iota\pi/4}\right) = -\frac{\iota}{2\sqrt{2}}.
 	\end{align*}
 	Therefore,
-	\[ \int_{-\infty}^\infty \frac{x^2}{1+x^4} \dif x = \frac{\pi}{\sqrt{2}} - \lim_{R \to \infty} \int_{\gamma_2} f. \]
+	\[ \int_{-\infty}^\infty \frac{x^2}{1+x^4} \dif x = \frac{\pi}{\sqrt{2}} - \lim_{R \to \infty} \int_{\gamma_1} f. \]
 	It remains to compute the final quantity.
 	\begin{align*}
 		\int_{\gamma_1} f &= \int_0^\pi \frac{(Re^{\iota t})^2}{1 + (Re^{\iota t})^4} R\iota e^{\iota t} \dif t \\
@@ -229,9 +230,9 @@
 	\end{align*}
 	We have
 	\[ \left| \iota R^3 \int_0^\pi \frac{e^{3\iota t}}{1 + R^4 e^{4\iota t}} \right| \le R^3 \int_0^\pi \frac{1}{R^4 - 1} |{\dif}{t}| = \frac{R^3}{R^4 - 1} \pi. \]
-	Therefore, $\lim_{R\to\infty} \int_{\gamma_2} f = 0$, and the value of the required integral is just $]pi/\sqrt{2}$!\\
+	Therefore, $\lim_{R\to\infty} \int_{\gamma_2} f = 0$, and the value of the required integral is just $\pi/\sqrt{2}$!\\
 
-	Recall that if $f$ is analytic and has a zero of multiplicty $m$ at $a$, then
+	Recall that if $f$ is analytic and has a zero of multiplicity $m$ at $a$, then
 	$f(z) = (z-a)^m g(z)$, where $g$ is analytic and $g(a) \ne 0$. Consequently,
 	\[ \frac{f'(z)}{f(z)} = \frac{m}{z-a} + \frac{g'(z)}{g(z)} \]
 	on $B(a,R)^*$ for some $R > 0$.\\
@@ -275,7 +276,7 @@
 		Suppose $f$ and $g$ are meromorphic in an open set containing $\overline{B(a,R)}$ with no zeros or poles on the circle $\gamma: t \mapsto a+Re^{2\pi\iota t}$. If $Z_f,Z_g$ (resp. $P_f,P_g$) are the number of zeros (resp. poles) of $f$ and $g$ respectively inside $\gamma$ counted according to multiplicity, and  $|f(z) + g(z)| < |f(z)| + |g(z)|$ on $\gamma$, then $Z_f - P_f = Z_g - P_g$.
 	\end{ftheo}
 	\begin{proof}
-		It follows that on $\gamma$, $f(z)/g(z)$ is never a positive real. That is, it takes values inside $\C \setminus \R_{\ge 0}$ on an open set $U$ containing $\{\gamma\}$. Let $\log$ be a branch of the log ion $\C \setminus \R_{\ge 0}$. Then, $\frac{(f/g)'}{(f/g)}$ has primitive $\log(f/g)$ on $U$. As a result,
+		It follows that on $\gamma$, $f(z)/g(z)$ is never a non-negative real. That is, it takes values inside $\C \setminus \R_{\ge 0}$ on an open set $U$ containing $\{\gamma\}$. Let $\log$ be a branch of the log on $\C \setminus \R_{\ge 0}$. Then, $\frac{(f/g)'}{(f/g)}$ has primitive $\log(f/g)$ on $U$. As a result,
 		\begin{align*}
 			0 &= \frac{1}{2\pi\iota} \int_{\gamma} \frac{(f/g)'}{(f/g)} \\
 				&= \int_{\gamma} \frac{f'g - fg'}{g^2} \cdot \frac{g}{f} \\
