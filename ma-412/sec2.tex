@@ -171,9 +171,10 @@
 \subsection{Integrals On Curves}
 
 	\begin{fdef}
-		$\gamma:[a,b]\to\C$ is called a \emph{rectifiable path} if it is continuous and of bounded variation. Note that if $\gamma$ is piecewise smooth, then it is rectifiable and its length is
-		\[ \int_a^b |\gamma'(t)| \dif t = V(\gamma). \]
+		$\gamma:[a,b]\to\C$ is called a \emph{rectifiable path} if it is continuous and of bounded variation.
 	\end{fdef}
+	Note that if $\gamma$ is piecewise smooth, then it is rectifiable and its length is
+	\[ \int_a^b |\gamma'(t)| \dif t = V(\gamma). \]
 
 	\begin{fdef}
 		If $\gamma : [a,b] \to \C$ is a rectifiable path and $f$ is a function continuous on $\{\gamma\}$, then the \emph{(line) integral} of $f$ along $\gamma$ is
@@ -217,9 +218,9 @@
 		Let $\gamma : [a,b] \to \C$ be a rectifiable curve and suppose that $f$ is a function continuous on $\{\gamma\}$. Then,
 		\begin{equation}
 			\label{eqn: 2.2}
-			\int_\gamma f = - \int_{-\gamma} f
+			\int_\gamma f = - \int_{\gamma^{-1}} f
 		\end{equation}
-		where $(-\gamma)(t) = \gamma(a+b-t)$,
+		where $\gamma^{-1}(t) = \gamma(a+b-t)$,
 		\begin{equation}
 			\label{eqn: 2.3}
 			\left| \int_\gamma f \right| \le \int_\gamma |f| |{\dif} {z}| \le V(\gamma) \sup\{ |f(z)| : z \in \{\gamma\} \},
@@ -404,6 +405,7 @@
 	\end{proof}
 
 	\begin{ftheo}
+		\label{analytic functions have power series}
 		Let $f$ be analytic on $B(a,R)$. Then,
 		\[ f(z) = \sum_{n=0}^\infty a_n(z-a)^n \]
 		for all $|z-a| < R$, where $a_n = f^{(n)}(a)/n!$ and this series has radius of convergence at least $R$.
@@ -433,9 +435,7 @@
 	\begin{corollary}
 		If $f:G\to\C$ is analytic, then $f$ is infinitely differentiable.
 	\end{corollary}
-	Indeed, this follows directly from the fact that
-	\[ f^{(n)}(a) = \frac{n!}{2\pi\iota} \int_\gamma \frac{f(w)}{(w-a)^{n+1}} \dif w \]
-	where $\gamma(t) = a+re^{\iota t}$ for $0 \le t \le 2\pi$.\\
+	Indeed, this follows directly from the previous corollary.
 	That is, continuous differentiability implies infinite differentiability.
 
 	\begin{corollary}[Cauchy's Estimate]
@@ -443,7 +443,7 @@
 		Let $f$ be analytic on $B(a,R)$ and suppose $|f(z)| \le M$ for all $z \in B(a,R)$. Then
 		\[ |f^{(n)}(a)| \le \frac{n!M}{R^n}. \]
 	\end{corollary}
-	Indeed, the above applies with $r < R$ so we get that
+	For $r < R$, so we get that
 	\[ |f^{(n)}(a)| \le \frac{n!}{2\pi} \int_\gamma \frac{|f(w)|}{|w-a|^{n+1}} |{\dif} {w}| \le \frac{n!}{2\pi} \cdot \frac{M}{r^{n+1}} \cdot 2\pi r = \frac{n!M}{r^n}. \]
 	Since $r < R$ is arbitrary, we may let $r \to R^{-}$.
 
@@ -472,8 +472,12 @@
 		If $f$ is a bounded entire function, then $f$ is constant.
 	\end{ftheo}
 	\begin{proof}
-		Suppose that $|f(z)| \le M$ for all $z \in \C$. We shall show that $f'(z) = 0$ for all $z \in \C$. By \nameref{theo: cauchys estimate}, since $f$ is analytic on any disk $B(z,R)$, $|f'(z)| \le M/R$. However, $R$ is arbitrary so $f'(z) = 0$ for any $z \in \C$.
+		Suppose that $|f(z)| \le M$ for all $z \in \C$. We shall show that $f' \equiv 0$. By \nameref{theo: cauchys estimate}, since $f$ is analytic on any disk $B(z,R)$, $|f'(z)| \le M/R$. However, $R$ is arbitrary so $f'(z) = 0$ for any $z \in \C$.
 	\end{proof}
+
+	\begin{exercise}
+		If $f$ is an entire function that is bounded above by $A + B |z|^n$ for some positive $A,B \in \R$ for sufficiently large $|z|$, show that $f$ is a polynomial of degree at most $n$.
+	\end{exercise}
 
 	\begin{ftheo}[Fundamental Theorem of Algebra]
 		If $p$ is a non-constant polynomial with coefficients in $\C$, then there exists $a \in \C$ with $p(a) = 0$.
@@ -540,8 +544,8 @@
 				&= \frac{1}{2\pi} \int_0^{2\pi} f(a + re^{\iota t}) \dif t.
 		\end{align*}
 		Therefore,
-		\[ |f(a)| \le \frac{1}{2\pi} \int_0^{2\pi} |f(a+re^{\iota t})| \dif t \le |f(a)|. \]
-		Therefore,
+		\[ |f(a)| \le \frac{1}{2\pi} \int_0^{2\pi} |f(a+re^{\iota t})| \dif t \le |f(a)| \]
+		and
 		\[ 0 = \int_0^{2\pi} \left( |f(a)| - |f(a+re^{\iota t})| \right) \dif t. \]
 		Since the integrand is continuous and non-negative, $|f(a)| = |f(a+re^{\iota t})|$ for all $t \in [0,2\pi]$. If $f(a) = 0$, we are clearly done. Otherwise, since $r$ was arbitrary, $f$ maps any disk $B(a,R)$ to the circle $|z| = |f(a)|$. It may then be shown using the Cauchy-Riemann equations that $f$ is constant on $B(a,R)$ and is equal to $f(a)$ for all $|z-a| < R$. Therefore, $f(z) = f(a)$ for all $z \in G$ since the zeros of $f-f(a)$ are not isolated.
 	\end{proof}

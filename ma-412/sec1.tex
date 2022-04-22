@@ -242,7 +242,7 @@
 	\[ (g \circ f)'(z) = g'(f(z)) \cdot f'(z) \]
 	for all $z \in G$. This is called the \emph{chain rule}.\\
 
-	We shall show later in \Cref{goursats theorem} that if $f$ is differentiable then its derivative is continuous, and so $f$ is analytic.
+	We shall show in \Cref{analytic functions have power series} that any analytic function is infinitely differentiable, and later in \Cref{goursats theorem} that any differentiable function is analytic. That is, mere differentiability implies infinite differentiability!
 
 	\begin{ftheo}
 		\label{theo: power series rad conv}
@@ -336,7 +336,7 @@
 
 
 	Now, let $G = \C \setminus \R_{\le 0}$. Clearly, $G$ is connected and each $z \in G$ can be uniquely denoted by $|z| e^{\iota\theta}$, where $-\pi < \theta < \pi$. For $\theta$ in this range, define
-	\[ f(r e^{\iota\theta}) = \log r + \iota\theta. \]
+	\[ f(r e^{\iota\theta}) = \log |z| + \iota\theta. \]
 	This is a branch of the logarithm on $G$, and is commonly referred to as the \emph{principal branch}.
 
 	\begin{theorem}
@@ -677,12 +677,13 @@
 		respectively.
 	\end{definition}
 
+	Since $(z,1,0,\infty) = z$ by definition, the right side of $\R_\infty$ with respect to the orientation $(1,0,\infty)$ is the upper half-plane.
+
 	\begin{theorem}[Orientation Principle]
 		Let $\Gamma_1,\Gamma_2$ be circles in $\C_\infty$ such that $T\Gamma_1 = \Gamma_2$ for some M\"{o}bius transformation $T$. Let $(z_1,z_2,z_3)$ be an orientation of $\Gamma_1$. Then, $T$ takes the right side (resp. left side) of $\Gamma_1$ with respect to the orientation $(z_1,z_2,z_3)$ to the right side (resp. left side) of $\Gamma_2$ with respect to the orientation $(Tz_1,Tz_2,Tz_3)$.
 	\end{theorem}
-	The proof of the above is left as an exercise to the reader.\\
+	The proof of the above is left as an exercise to the reader.
 
-	Since $(z,1,0,\infty) = z$ by definition, the right side of $\R_\infty$ with respect to the orientation $(1,0,\infty)$ is the upper half-plane.\\
 
 	\begin{exercise}
 		Find an analytic function $f : G \to \C$ where $G = \{ z : \Re z > 0 \}$, such that $f(G) = \{ z : |z| < 1 \}$.
