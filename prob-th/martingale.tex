@@ -1,0 +1,233 @@
+\section{Martingales}
+
+	\subsection{Introduction}
+
+		Before we get to stochastic processes, we must build a notion of ``time'' in a probability space. First, let us do so in a discrete setting.
+
+		\begin{fdef}
+			Let $(\Omega,\mathcal{F},P)$ be a probability space. A (discrete time) \textit{filtration} is an increasing sequence $(\mathcal{F}_n)$ of $\sigma$-algebras $\mathcal{F}_0\subseteq\mathcal{F}_1\subseteq\cdots\subseteq\mathcal{F}$. The quadruple $(\Omega,\mathcal{F},(\mathcal{F}_n),P)$ is called a \textit{filtered probability space}.
+		\end{fdef}
+
+		$\mathcal{F}_n$ is essentially the ``set of questions'' we can ask at time $n$. For example, if we are flipping a coin and are at time $n$, we can ask and get the answer to ``Did the coin flips up to time $n$ give more heads than tails?'' but we cannot know the answer to ``Did the coin flips up to time $N>n$ give more heads than tails?''. We can of course compute probabilities corresponding to the latter case, but we cannot answer it with certainty.
+
+		\begin{definition}
+			\label{def: adapted and previsible}
+			Let $(\Omega,\mathcal{F},(\mathcal{F}_n),P)$ be a filtered probability space. A process $(X_n)$ is called \textit{$\mathcal{F}_n$-adapted} if $X_n$ is $\mathcal{F}_n$-measurable for each $n$, and \textit{$\mathcal{F}_n$-previsible} if $X_n$ is $\mathcal{F}_{n-1}$-measurable for each $n$.
+		\end{definition}
+
+		% In the above, a stochastic process is just a sequence of $\mathcal{F}$-measurable random variables.
+		We often refer to the above as just adapted or previsible processes if it is clear from context what the filtration is.
+
+		In the adapted case, $X_n$ represents something in the past or present, whereas in the previsible case, $X_n$ represents something in the past.
+
+		Similarly, we can generate a filtration given a process -- this is what we shall use more often.
+
+		\begin{definition}
+			Let $(\Omega,\mathcal{F},P)$ be a probability space and $(X_n)$ be a process. The \textit{filtration generated} by $(X_n)$ is defined by $\mathcal{F}_n^X=\sigma(X_0,\ldots,X_n)$ for each $n$.
+		\end{definition}
+		Note that the process $X_n$ is $\mathcal{F}_n^X$-adapted by construction.
+
+		Even if some sequences don't explicitly have any relation to the (physical) notion of time, it is often useful to think of them as an adapted stochastic process -- for example, a sequence of approximations $\expec[X\mid Y_n]$ to $\expec[X\mid Y]$.
+
+		\begin{fdef}
+			A process $X$ is said to be a \textit{martingale} (with respect to the filtration $\mathcal{F}_n$) if
+			\begin{enumerate}
+				\item $X$ is adapted,
+				\item $\expec[|X_n|] < \infty$ for all $n \ge 0$, and
+				\item $\expec[X_n \mid \mathcal{F}_{n-1}] = X_{n-1}$ almost surely for all $n \ge 1$.
+			\end{enumerate}
+			Similarly, one can define \emph{supermartingales} and \emph{submartingales} where the final condition is replaced with $\expec[X_n \mid \mathcal{F}_{n-1}] \le X_{n-1}$ and $\expec[X_n \mid \mathcal{F}_{n-1}] \ge X_{n-1}$ respectively.
+		\end{fdef}
+
+		Observe that the final condition is equivalent to saying that for all $n \ge m$,
+		\[ \expec[X_n \mid \mathcal{F}_{m}] = X_m. \]
+		Indeed,
+		\[ \expec[X_n \mid \mathcal{F}_{m}] = \expec[X_n \mid \mathcal{F}_{n-1} \mid \mathcal{F}_{n-2} \mid \cdots \mid \mathcal{F}_m] = \expec[X_{n-1} \mid \mathcal{F}_{n-2} \mid \cdots \mid \mathcal{F}_m] = \cdots = X_m. \]
+
+		It is plain to see that if a process is both a supermartingale and a submartingale, it is a martingale. If $X$ is a supermartingale, then $-X$ is a submartingale. Most of the results we shall state shall involve supermartingales. Using the second observation, we may extend this to results about submartingales. Since martingales are supermartingales and submartingales, we finally get a corresponding result for martingales.\\
+
+		The name `martingale' comes from a betting strategy. We can think of playing a sequence of games, wherein $X_n$ represents our total winnings after the $n$th game. In general of course, there need not be any relation between the $X_i$. In a fair setting however, we should make (and lose) no money on average. If we make money, then it is unfair towards the casino, and if we lose money, then it is unfair towards us (most casinos are unfair towards us). That is, if we have totally won $X_m$ dollars at time $m$, then our expected winnings at some time point $n>m$ should be $\expec[X_n \mid \sigma\{X_0,\ldots,X_m\}] = X_m$ as well!\\
+
+		Let us see some basic examples of martingales.\\
+
+		\begin{itemize}
+			\item If $(X_n)_{n=1}^\infty$ are a sequence of independent random variables with $\expec[|X_k|] < \infty$ and $\expec[X_k] = 0$ for all $k$, then the process defined by
+			\[ S_n = \sum_{i=1}^n X_i \]
+			on the filtration $\mathcal{F}_n = \sigma(X_1,\ldots,X_n)$ defines a martingale. Indeed,
+			\begin{align*}
+				\expec[S_n \mid \mathcal{F}_{n-1}] &= \expec[X_1 + \cdots + X_n \mid \mathcal{F}_{n-1}] \\
+					&= \expec[X_1 + \cdots + X_{n-1} \mid \mathcal{F}_{n-1}] + \expec[X_n \mid \mathcal{F}_{n-1}] \\
+					&= \expec[X_1 + \cdots + X_{n-1} \mid \mathcal{F}_{n-1}] = S_{n-1},	
+			\end{align*}
+			where the second-to-last inequality follows from the independence of $X_n$ from $X_1,\ldots,X_{n-1}$.
+
+			\item Inspired similarly, if $(X_n)_{n=1}^\infty$ are a sequence of non-negative independent random variables with $\expec[X_k] = 1$ for all $k$, then the process defined by
+			\[ M_n = \prod_{i=1}^n X_i \]
+			defines a martingale (on the same filtration as that in the previous example). We leave the details to the reader.
+
+			\item Another interesting example is that of ``learning data'' about a fixed random variable. Let $\xi \in \mathcal{L}^1(\Omega,\mathcal{F},\textbf{P})$ and $(\mathcal{F}_n)$ be a filtration. Then, $M_n = \expec[\xi \mid \mathcal{F}_n]$ defines a filtration.\\
+			It turns out that by a result we shall see later, $M_n \to M_\infty = \expec[\xi \mid \mathcal{F}_\infty]$. An interesting question is: when is $\xi = \expec[\xi \mid \mathcal{F}_\infty]$?
+		\end{itemize}
+	
+		Martingales turn out to be (perhaps surprisingly) pervasive in probability theory and are seen in several places. To begin with, let us relate martingales a bit more to the above betting strategy.
+
+		Recall the definition of previsible processes from \Cref{def: adapted and previsible}. Let $C = (C_n)$ be a previsible process. Think of $C_n$ as one's stake in the $n$th bet. This stake is decided on the basis of the winnings up to time $n-1$. The total winnings up to time $n$ are then
+		\[ (C \cdot X)_n = \sum_{1 \le k \le n} C_k (X_k - X_{k-1}). \]
+		It is referred to as the \emph{martingale transform} of $X$ by $C$.
+
+		
+
+
+		\begin{lemma}[Doob Decomposition]
+			\label{doob decomposition}
+			Let $(\Omega,\mathcal{F},P)$ be a probability space, $(\mathcal{F}_n)$ be a filtration, and $(X_n)$ be $\mathcal{F}_n$-adapted with $X_n\in\mathcal{L}^1$ for every $n$. Then, we can write $X_n = X_0 + A_n + M_n$ almost surely, where $(A_n)$ is $\mathcal{F}_n$-previsible and $M_n$ is a $\mathcal{F}_n$-martingale with $M_0=0$. Further, this decomposition is unique.
+		\end{lemma}
+
+		This is not too difficult to prove on setting $A_n = \sum_{k=1}^n \expec[X_k - X_{k-1} \mid \mathcal{F}_{k-1}]$.
+		% \begin{proof}
+		% 	For each $n$, let $A_n=\sum_{k=1}^n\expec[X_k - X_{k-1} \mid \mathcal{F}_{k-1}]$. $A_n$ is well-defined since each $X_k\in\mathcal{L}^1$ and predictable. Let $M_n = X_n - X_0 - A_n$; we claim that $(M_n)$ is a martingale.
+		% \end{proof}
+
+		\begin{definition}
+			Let $(M_n)$ be a martingale and $(A_n)$ be a predictable process. Then $(A\cdot M)_n = \sum_{k=1}^n A_k (M_k - M_{k-1})$, known as the \textit{martingale transform} of $M$ by $A$, is a martingale, provided that $A_n$ and $(A\cdot M)_n$ are in $\mathcal{L}^1$ for all $n$.
+		\end{definition}
+
+		Keeping in line with our gambling analogy, here, $M_n$ would represent our total winnings at time $n$ if we were to stake one dollar in the game and $A_k$ represents the number of dollars we stake at time $k$. The $A_n$ should be predictable because we place our bet \textit{before} the game occurs.\\
+
+		Let us now consider a particular betting strategy, which seems to go against the intuition built thus far for a martingale. First, choose some $a<b$. We play against a single friend\footnote{They may not be your friend at the end of the game, however.} of ours. Whenever our own capital sinks below $a$, we bet one dollar until it exceeds $b$ dollars. At this point, we stop betting money and wait until our capital sinks below $a$ again.\\
+		In each ``round'' from $a$ to $b$, we make $(b-a)$ dollars. This seems contradictory! It seems to imply that if we played the game for a long time, we would repeatedly make $(b-a)$ dollars and become rich. However, any betting strategy should be a martingale -- what are we missing?\\
+		If we face $k$ reversals of fortune, we will make $k(b-a)$ dollars. The only part we have not considered is when we hit $a$ dollars for the $(k+1)$th time but have not hit $b$ dollars for the $(k+1)$th time yet. Since it must balance out, we must make a significant loss before we reach the next $b$. That is, the expected loss incurred from the last time we started staking money (when we hit $a$ for the $(k+1)$th time) should be equal to $k(b-a)$.\\
+		The only logical conclusion in the case where the $M_n$ is bounded is that we can only cross $a$ and $b$ a finite number of times! Otherwise, we could (expect to) make infinite money by playing with the above strategy. That is, the $M_n$ must converge to some random variable.
+
+		\begin{lemma}[Doob's Upcrossing Lemma]
+			\label{doob's upcrossing lemma}
+			Let $(M_n)$ be a martingale and denote by $U_n(a,b)$ the number of ``upcrossings'' of $a<b$ up to time $n$. Then, $\expec[U_n(a,b)] \leq \expec[(a-M_n)^+]/(b-a)$.
+		\end{lemma}
+		\begin{proof}
+			This is easily proved as in the previous paragraph. Set $C_0 = 0$ and for $k>0$, $C_k = \indic_{C_{k-1}=1}\indic_{M_{k-1} < b} + \indic_{C_{k-1}=0}\indic_{M_{k-1} \leq a}$. Let $X_n = (C\cdot M)_n$. Then $X_n \geq (b-a)U_n(a,b) - (a-M_n)^+$ (Why?). However, $X_n$ is a martingale, so $\expec[X_n] = \expec[X_0] = 0$, proving the result.
+		\end{proof}
+
+		We now come to perhaps the most important result in martingale theory.
+
+		\begin{ftheo}[Martingale Convergence Theorem]
+			\label{martingale convergence theorem}
+			Let $(M_n)$ be a $\mathcal{F}_n$-martingale such that $\sup_n\expec[|M_n|]<\infty$, $\sup_n\expec[(M_n)^+]<\infty$, or $\sup_n\expec[(M_n)^-]<\infty$. Then, there exists a $\mathcal{F}_\infty$-measurable random variable $M_\infty\in\mathcal{L}^1$, where $\mathcal{F}_\infty = \sigma(\mathcal{F}_n : n\in\N)$, such that $M_n\to M_\infty$ almost surely.
+		\end{ftheo}
+		\begin{proof}
+			It is not too difficult to show that the three conditions (involving expectation) are equivalent.\\
+			Let $\omega\in\Omega$. First of all, we claim that that $M_n(\omega)$ cannot have distinct $\limsup$ and $\liminf$ (so it converges) -- if we choose some rational $a,b$ such that $\liminf M_n(\omega)<a<b<\limsup M_n(\omega)$, then there would be infinitely many upcrossings. However,
+			\[ \Pr[\exists a,b\in\Q\text{ such that $M_n$ crosses $a,b$ i.o.}] \leq \sum_{a,b\in\Q} \Pr[M_n\text{ crosses $a,b$ i.o.}] = \sum_{a,b\in\Q}\Pr[U_\infty(a,b)=\infty] = 0, \]
+			where the last step follows from using the Monotone Convergence Theorem on $\expec[U_n(a,b)] \leq (|a|+\sup_n\expec[|M_n|])/(b-a) < \infty$, so $\expec[U_\infty(a,b)]<\infty$.\\
+			Therefore, $M_n$ converges to some $M_\infty$ almost surely. Using Fatou's Lemma, $\expec[M_\infty] \leq \liminf \expec[|M_n|] < \infty$, so $M_\infty$ is both almost surely finite and in $\mathcal{L}^1$.
+		\end{proof}
+
+		Similar to martingales, we define the following.
+
+		\begin{definition}
+			A $\mathcal{F}_n$-adapted process $(X_n)$ is said to be a \textit{supermartingale} if it satisfies $\expec[X_n\mid\mathcal{F}_m] \leq X_m$ almost surely for every $m\leq n$ and a \textit{submartingale} if it satisfies $\expec[X_n\mid\mathcal{F}_m] \geq X_m$ almost surely for every $m\leq n$. 
+		\end{definition}
+
+		For example, the winnings in casinos usually form a supermartingale -- they thrive on the fact that you are expected to lose money.
+
+		The analogue of \Cref{doob decomposition} for supermartingales is the following.
+
+		\begin{lemma}
+			Let $(\Omega,\mathcal{F},P)$ be a probability space, $(\mathcal{F}_n)$ be a filtration, and $(X_n)$ be $\mathcal{F}_n$-adapted with $X_n\in\mathcal{L}^1$ for every $n$. Then, we can write $X_n = X_0 + A_n + M_n$ almost surely, where $(A_n)$ is a non-increasing predictable process and $M_n$ is a martingale with $M_0=0$. Further, this decomposition is unique.
+		\end{lemma}
+
+		\begin{lemma}
+			Let $M_n$ be an almost surely non-negative supermartingale and $k>0$. Then
+			\[ \Pr\left[\sup_n M_n \geq k\right] \leq \frac{\expec[M_0]}{k}. \]
+		\end{lemma}
+
+		\subsection{Stopping Times}
+
+		\begin{definition}
+			A \textit{stopping time} is a random time $\tau:\Omega\to\{0,1,\ldots,\infty\}$ such that $\{\omega\in\Omega : \tau(\omega)\leq n\}\in\mathcal{F}_n$ for each $n$.
+		\end{definition}
+
+		Continuing with the gambling analogy, this essentially represents the time we leave the table. For example, quitting while we're ahead and letting $\tau=\inf\{k : X_k \geq 20\}$ is a stopping time. The definition of a stopping time just says that our decision to leave is based solely on whatever events have transpired thus far. As another example, one might decide to leave when we are done with our final upcrossing (as defined before \Cref{doob's upcrossing lemma}). However, it is impossible to determine whether or not this is the case since we cannot look into the future to see if there are no more upcrossings.
+
+		\begin{definition}
+			Let $(X_n)$ be a stochastic process and $\tau<\infty$ be a stopping time. Then $X_\tau$ denotes the random variable $X_{\tau(\omega)}(\omega)$, that is, the process $X_n$ evaluated at $\tau$. In general, the stochastic process $X_n'(\omega) = X_{\min\{n,\tau(\omega)\}}(\omega)$ is called the \textit{stopped process}. That is, $X_n'=X_n$ for $n<\tau$ and $X_n' = X_\tau$ for $n\geq\tau$.
+		\end{definition}
+
+		As mentioned, this represents our winnings if we stop playing the game at $\tau$.
+
+		\begin{lemma}[Optional Stopping Theorem]
+			\label{optional stopping}
+			Let $M_n$ be a martingale and $\tau<\infty$ be a stopping time. Then $\expec[M_\tau]=\expec[M_0]$ if any of the following holds
+			\begin{enumerate}[(a)]
+				\item $\tau<K$ almost surely for some $K\in\N$.
+				\item $|M_n|<\infty$ almost surely for all $n$.
+				\item $|M_n-M_{n-1}|<\infty$ almost surely for all $n$ and $\expec[\tau]<\infty$.
+			\end{enumerate}
+			If any of these conditions hold for a supermartingale, then $\expec[M_\tau]\leq\expec[M_0]$.
+		\end{lemma}
+
+		Let us now look at the gambling idea we gave earlier of ``quitting while we are ahead''. Suppose $\xi_1,\xi_2,\ldots$ are iid and each take $\pm 1$ with probability $1/2$ each. Let $M_n = M_0 + \sum_{i=1}^k \xi_i$. It is easy to see that $(M_n)$ forms a martingale. In the gambling context, this just means that at each time step, we gain or lose a dollar with probability $1/2$.
+		\begin{itemize}
+			\item First of all, note that $M_n$ does \textit{not} converge (Why?). To solidify the notion of quitting while ahead, consider the stopping time $\tau = \inf\{n : M_n\geq 2M_0\}$. We wait until this happens, and then stop playing.\\
+			The first question we ask is: is $\tau<\infty$? Perhaps unintuitively, the answer is yes. Indeed, $M_{\min\{n,\tau\}} \leq 2M_0$ almost surely for all $n$. Therefore, we may apply the martingale convergence theorem to get that $M_{\min\{n,\tau\}}$ converges. Further, since $M_n$ only takes integer values and changes by $1$ at each step, it is not too difficult to show that convergence can only occur if it ``gets stuck'' at $M_0$, that is, $\tau<\infty$ almost surely. This seems to be a contradiction --  a way to earn free money!
+
+			\item Next, note that while $M_{\min\{n,\tau\}}\to 2M_0$ almost surely, it does not converge in $\mathcal{L}^1$. Indeed, the latter would imply that the expectations converge as well, but this is clearly not the case since $\expec[M_{\min\{n,\tau\}}]$ does not converge to $\expec[M_\tau]$. Intuitively, a process does not converge in $\mathcal{L}^1$ only when the ``outliers'' of the process grow very rapidly. In the current context, this would mean that while we eventually double our capital, we incur massive losses in the middle in order to keep the game fair.
+
+			\item To quantify this, suppose that there is also some maximum debt amount $(-R)$ we can incur, so the stopping time is now $\kappa = \inf\{n : M_n\geq 2M_0 \text{ or }M_n\leq -R\}$. Since $|M_{\max\{n,\kappa\}}| \leq \max\{R,2M_0\}$, we can use \Cref{optional stopping} to get that $\expec[M_\kappa] = \expec[M_0]$. However, $M_\kappa$ takes either $-R$ or $2M_0$, so we can actually calculate the probability that each occurs.\\
+			The conclusion is that in a fair game, no money can be made on average \textit{unless} we allow ourselves to play for an arbitrarily long amount of time and go arbitrarily far into debt.
+		\end{itemize}
+
+	\subsection{Towards Continuous Time}
+
+		In the continuous setting, we usually work with stochastic processes in either a time period $[0,T]$ or $[0,\infty)$. In either case, a \textit{stochastic process} on the probability space $(\Omega,\mathcal{F},P)$ is a family of (measurable) random variables $(X_t)$ indexed by time $t$.
+
+		\begin{definition}
+			\label{def: modification indisting}
+			Let $X_t$ and $Y_t$ be two stochastic processes. Then $X_t$ and $Y_t$ are said to be \textit{indistinguishable} if $\Pr[X_t=Y_t\text{ for all }t]=1$ and \textit{modifications} of each other if $\Pr[X_t=Y_t]=1$ for all $t$.
+		\end{definition}
+
+		First of all, it should be mentioned that we are being slightly messy here. The event ``$X_t=Y_t$ for all $t$'' is equal to $\bigcap_t \{\omega : X_t(\omega)=Y_t(\omega)\}$, which need not even be an element of the $\sigma$-algebra! We shall assume, however, that the $\sigma$-algebra is sufficiently rich and this set is an element.\\
+		Some texts define indistinguishability slightly different and instead say that this set must contain a subset of measure $1$. That is, there exists some set $A$ such that $\Pr[A]=1$ and for every $\omega\in A$ and $t$, $X_t(\omega)=Y_t(\omega)$.\\
+
+		Second, it should be noted that indistinguishability of two stochastic processes implies that they are modifications of each other (Why?). Further, the converse holds in the discrete setting (countably many time points) since
+		\[ \Pr\left[\bigcap_n \{\omega : X_n(\omega)=Y_n(\omega)\}\right] \geq 1 - \sum_{n} \Pr\left[\{\omega : X_n(\omega)\neq Y_n(\omega)\}\right]. \]
+
+		The fact that the converse does not hold in general by shown by considering the probability space with $\Omega = [0,\infty)$ and $\mathcal{B}(\Omega)$, the time period as $[0,\infty)$ and the processes as
+		\[
+			X_t(\omega) = 
+			\begin{cases}
+				1, & t=\omega, \\
+				0, & \text{otherwise},
+			\end{cases}
+			Y_t(\omega) = 0
+		\]
+		for all $t\geq 0$ and $\omega\in\Omega$.\\
+
+		In the continuous setting, a filtration is given by a family of $\sigma$-algebras $(\mathcal{F}_t)$ indexed by time such that $\mathcal{F}_s \subseteq \mathcal{F}_t$ for all $s\leq t$.
+
+		\begin{definition}
+			Let $X_t$ be a stochastic process on some filtered probability space $(\Omega,\mathcal{F},\mathcal{F}_t,P)$, and time set $\mathbb{T}\subseteq[0,\infty)$ (of the form $[0,T]$ or $[0,\infty)$). Then $X_t$ is said to be 
+			\begin{itemize}
+				\item \textit{adapted} if $X_t$ is $\mathcal{F}_t$-measurable for all $t$,
+				\item \textit{measurable} if the random variable $X_{\cdot}:\mathbb{T}\times\Omega\to\R$ is $\mathcal{B}(\mathbb{T})\times\mathcal{F}$-measurable, and
+				\item \textit{progressively measurable} if $X_{\cdot}:[0,t]\cap\mathbb{T}\times\Omega\to\R$ is $\mathcal{B}([0,t]\cap\mathbb{T})\times\mathcal{F}$-measurable for all $t$.
+			\end{itemize}
+		\end{definition}
+
+		The first definition is familiar to the reader, and the second and third essentially say that
+		\[ Y_t = \int_0^t X_s\d{s} \]
+		is well-defined and $\mathcal{F}$-measurable (for measurable) or $\mathcal{F}_t$-measurable (for progressively measurable). In particular, progressive measurability ensures that $Y_t$ is adapted.\\
+		There exists a result that says that every adapted measurable process has a modification that is progressively measurable, but we shall not require it.\\
+
+		Life is made much easier if we restrict ourselves to continuous paths, that is, the function $t\mapsto X_t(\omega)$ is continuous for every $\omega$. Indeed, if they are continuous, then it suffices to compare them at a countable dense subset, say the rationals.
+
+		\begin{lemma}
+			Let $X_t$ and $Y_t$ be stochastic processes with continuous paths. If $X_t$ and $Y_t$ are modifications, then they are indistinguishable. If $X_t$ is adapted and measurable, then it is progressively measurable.
+		\end{lemma}
+		\begin{proof}
+			The first result is direct on considering a countably dense subset (say the rational time points) and using the second remark after \Cref{def: modification indisting}.\\
+			Construct a sequence of approximate processes $X_k : [0,t]\times\Omega\to\R$ such that $X_t^k(\omega)=X_t(\omega)$ for all $\omega\in\Omega$ and $t=0,2^{-k},\ldots,2^{-k}\lfloor 2^k t\rfloor$ such that the sample paths are piecewise linear. Then for $s\in[0,t]$ and $\omega\in\Omega$, $X_s^k(\omega)\to X_s(\omega)$ as $k\to\infty$. Each $X_k$ is $\mathcal{B}([0,t])\times\mathcal{F}$-measurable. Since the limit of a sequence of measurable maps is measurable, the result follows.
+		\end{proof}
+
+		\begin{theorem}[Martingale Convergence Theorem]
+			Let $M_t$ be a martingale and suppose that each $M_t$ has continuous sample paths. If $\sup_t\expec[|M_t|]<\infty$, $\sup_t\expec[(M_t)^+]<\infty$, or $\sup_t \expec[(M_t)^-]<\infty$, then there exists a $\mathcal{F}_\infty$-measurable random variable $M_\infty\in\mathcal{L}^1$ such that $M_t\to M_\infty$ almost surely.
+		\end{theorem}

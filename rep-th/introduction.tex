@@ -1,0 +1,396 @@
+
+\section{Introduction}
+
+	\subsection{Basic Definitions}
+
+		\subsubsection{Representations}
+
+			\begin{fdef}[Representation]
+				\label{def: representation}
+				A \emph{representation} of a group $G$ is a homomorphism $\varphi : G \to \GL(V)$ for some finite-dimensional vector space $V$ over $\C$. The \emph{degree} of $\varphi$ is the dimension of $V$.
+			\end{fdef}
+			Henceforth, $V$ (or any other symbol for a vector space) is used to denote a non-trivial vector space over $\C$.\\
+			The map $\varphi(g)$ is typically denoted $\varphi_g$, and $\varphi_g(v)$ as $\varphi_gv$.\\
+			Note that since $\varphi$ is a homomorphism, it is determined by its values on any generating set of $G$.\\
+			Recall that given a group $G$ and set $X$, a group action of $G$ on $X$ is merely a function $G \to S_X$. Representations can thus be pictured as a special case of a group action where the image of any element is not just a bijection, it is linear.
+
+			\begin{fex}
+				Let $X$ be a set $X$ and consider the \emph{linearisation} $\C X$ of $X$, defined as the vector space with elements of the form $\sum_{x \in X} c_x x$, where each $c_x \in \C$, addition defined by
+				\[ \sum_{x \in X} c_x x + \sum_{x \in X} d_x x = \sum_{x \in X} (c_x + d_x) x, \]
+				and scalar multiplication by
+				\[ c \sum_{x \in X} c_x x = \sum_{x \in X} (cc_x) x. \]
+				It is clear that $\C X$ has basis $X$.\\
+				Observe that any group action of a group $G$ on $X$ extends to an action on $\C X$ as a representation! Indeed, we define
+				\[ g \cdot \left( \sum_{x \in X} c_x x \right) = \sum_{x \in X} c_x (g\cdot x). \]
+			\end{fex}
+
+			If $V$ is a $1$-dimensional vector space over $\C$, then $\GL(V) \cong \C$. In such a case, to stay sane, we usually write $z$ instead of $\varphi$ to denote a representation\footnote{one could say that in such a scenario, $z$ is used to \emph{represent a representation}.}, so each $z_g$ is a complex.
+
+			The trivial representation of a group $G$ is the homomorphism $z : G \to \C^*$ given by $z_g = 1$ for all $g \in G$.
+
+			\begin{fex}
+				Let $n \in \N$. Recall that $\GL(\C^*) \cong \GL(\C)$, so any degree-one representation may be considered as a function $z : \Z/n\Z \to \C^*$. However, recall from \Cref{prop: deg-one reps of ZnZ} that any representation is of the form defined by $z(\overline{m}) = \omega_n^{km}$ for some fixed $k \in \N$. It turns out that these are the ``only'' representations of a finite cyclic group (where ``only'' is defined in an appropriate sense, as we shall see later).\\
+			\end{fex}
+			
+			Observe that the above mentioned representations are incredibly restrictive, and we are barely using the fact that the representation is to $\C^*$.\\
+
+			\begin{fex}
+				\label{ex: deg one reps of nonabelian groups}
+				Now, consider the degree-one representations $z : G \to \C^*$ of a non-Abelian group $G$. Recall the (Abelian) \emph{commutator subgroup} $[G,G]$ of $G$ consisting of elements of the form $xy-yx$. Because $\C^*$ is Abelian, $[G,G] \subseteq \ker z$. Consequently, $z$ factors through the quotient as
+				\begin{center}
+				\begin{tikzcd}
+					G \arrow[d, two heads] \arrow[r, "z"] & \C^* \\
+					{G/[G,G]} \arrow[ru, "\widetilde{z}", dashed]
+				\end{tikzcd}
+				\end{center}
+			\end{fex}
+			As a result, when studying degree-one representations, it suffices to assume that the group is non-Abelian.\\
+
+			Why are representations useful? Consider the problem of, given a group $G$ and $x,y \in G$, finding $x \in G$ such that $gxg^{-1} = y$. It might then be easier to find $M$ such that $M \varphi_x M^{-1} = \varphi_y$ since testing matrix similarity is a well-studied problem. A $g$ in the preimage of $M$ may then be a good candidate for the required.
+
+		\subsubsection{Equivalence}
+
+			Let $\varphi : G \to \GL(V)$ be a degree-$n$ representation. Let $B,B'$ be two bases of $V$, and consider the two corresponding isomorphisms $T,T' : V \to \C^n$ mapping the basis elements of $B$, $B'$ to the standard basis vectors of $\C^n$. We would then like that the two representations $\psi,\psi' : G \to \C^n$ defined by
+			\[ \psi_g = T\varphi_gT^{-1} \text{ and } \psi'_g T'\varphi_g(T')^{-1} \]
+			are the same in some sense. Towards this, we define the following.
+
+			\begin{fdef}
+				Two representations $\varphi : G \to \GL(V)$ and $\psi : G \to \GL(W)$ are said to be \emph{equivalent} if there exists an isomorphism (an \emph{equivalence}) $T : V \to W$ such that $\psi_g = T\varphi_gT^{-1}$ for all $g \in G$. If this is the case, we write $\varphi \sim \psi$.
+			\end{fdef}
+
+			Note that $T$ must be independent of $g$!\\
+			The above definition can be represented as saying that there exists an equivalence $T : V \to W$ such that the following commutes for all $g \in G$.
+			\begin{center}
+			\begin{tikzcd}
+				V \arrow[rr, "\varphi_g"] \arrow[dd, "T"] & & V \arrow[dd, "T"] \\
+				& & \\
+				W \arrow[rr, "\psi_g"] & & W
+			\end{tikzcd}
+			\end{center}
+
+			Observe that $V,W$ must be isomorphic, that is, $\varphi,\psi$ are of the same degree.
+
+			\begin{prop}
+				Let $G$ be a group and $z,z^* : G \to \C^*$ be degree-one representations. Then, $z \sim z^*$ iff $z = z^*$.
+			\end{prop}
+			\begin{proof}
+				Let $z \sim z^*$ and $T : \C^* \to \C^*$ be an equivalence. Then, for any $g \in G$,
+				\begin{align*}
+					z^*_gv &= Tz_gT^{-1}v \\
+						&= z_g TT^{-1}v & (T\text{ is linear}) \\
+						&= z_gv,
+				\end{align*}
+				so $z = z'$.
+			\end{proof}
+
+			From \Cref{theo: finite abelian group dual} and \Cref{ex: deg one reps of nonabelian groups}, we get the following.
+
+			\begin{corollary}
+				Any finite group $G$ has exactly $|G/[G,G]|$ inequivalent degree-one representations.
+			\end{corollary}
+
+		\subsubsection{Irreducibility}
+
+			\begin{fdef}[Invariant subspace]
+				Let $\varphi : G \to \GL(V)$ be a representation. A subspace $W \le V$ is said to be \emph{$G$-invariant} with respect to $\varphi$ if for all $g \in G$ and $w \in W$, $\varphi_g(W) = W$.
+			\end{fdef}
+
+			Observe that if $W\le V$ is $G$-invariant with respect to $\varphi$, then $\restr{\varphi}{W} : G \to \GL(W)$ defined by $(\restr{\varphi}{W})_g(w) = \varphi_g(w)$ is a representation. In such a case, $\restr{\varphi}{W}$ is said to be a \emph{subrepresentation} of $W$.\\
+			Based on the direct sum of vector spaces, one can similarly define the direct sum of representations.
+
+			\begin{fdef}[Direct sum]
+				Let $\varphi^{(1)} : G \to \GL(V_1)$ and $\varphi^{(2)} : G \to \GL(V_2)$ be representations. Then, their (external) \emph{direct sum} is the representation $\varphi^{(1)} \oplus \varphi^{(2)} : G \to \GL(V_1 \oplus V_2)$ defined by
+				\[ \left(\varphi^{(1)} \oplus \varphi^{(2)}\right)_g(v_1,v_2) = (\varphi^{(1)}_g(v_1), \varphi^{(1)}_g(v_2)) \]
+				for all $g \in G$ and $(v_1,v_2) \in V_1 \oplus V_2$.
+			\end{fdef}
+
+			The above is more natural to picture using matrices.\\
+			If $V_1 = \GL_m(\C)$ and $V_2 = \GL_n(\C)$ above, then each $\varphi^{(i)}_g$ can be expressed as a matrix. The matrix in $\GL_{m+n}(\C)$ corresponding to their direct sum is then given by
+			\[ \left( \varphi^{(1)} \oplus \varphi^{(2)} \right)_g = \begin{pmatrix} \varphi^{(1)}_g &  \\  & \varphi^{(2)}_g \end{pmatrix}, \]
+			where the empty cells are appropriately sized $0$ matrices.\\
+			
+			Recall the trivial representation of a group $G$. Observe then that the representation $\varphi : G \to \GL_n(\C)$ given by $\rho_g = I_n$ for all $g \in G$ is equivalent to the direct sum of $n$ copies of the trivial representation.
+
+			\begin{fprop}
+				\label{prop: decomposability direct sum invariant}
+				If $V_1,V_2 \le V$ are $G$-invariant subspaces with respect to $\varphi$ and $V = V_1 \oplus V_2$, then $\varphi$ is equivalent to $\restr{\varphi}{V_1} \oplus \restr{\varphi}{V_2}$.
+			\end{fprop}
+			\begin{proof}
+				Consider the map $T : V \to V_1 \oplus V_2$ defined by $T(v_1+v_2) = (v_1,v_2)$ ($V_1 \oplus V_2$ here is the external direct sum). Let $\psi = \restr{\varphi}{V_1} \oplus \restr{\varphi}{V_2}$. Then,
+				\begin{align*}
+					\psi_g(v_1,v_2) &= \left( \left(\restr{\varphi}{V_1}\right)_g(v_1) , \left(\restr{\varphi}{V_2}\right)_g(v_2) \right) \\
+						&= (\varphi_g(v_1), \varphi_g(v_2)) \\
+						&= T(\varphi_g(v_1) + \varphi_g(v_2)) \\
+						&= T\varphi_g(v_1+v_2) \\
+						&= T\varphi_gT^{-1}(v_1,v_2). \qedhere
+				\end{align*}
+			\end{proof}
+
+			Above, let $B_i$ be a basis of $V_i$ for $i = 1,2$. Because each $V_i$ is $G$-invariant, $\varphi_g(B_i) \subseteq \C B_i$. The matrix representation of $\varphi \cong \varphi^{(1)} \oplus \varphi^{(2)}$ is then
+			\[ [\varphi_g]_B = \begin{bmatrix} \left[\varphi^{(1)}_g\right]_{B_1} & \\ & \left[\varphi^{(2)}_g\right]_{B_2} \end{bmatrix}. \]
+
+			Thus, it is seen that representations may be broken down into smaller representations which operate on invariant subspaces. The following definition arises naturally.
+
+			\begin{fdef}[Irreducible representation]
+				A non-zero representation $\varphi : G \to \GL(V)$ is said to be \emph{irreducible} if the only $G$-invariant subspaces of $V$ are $0$ and $V$.
+			\end{fdef}
+
+			Note however that if a represenation is reducible, it need not actually have a decomposition of the form described in \Cref{prop: decomposability direct sum invariant}. We shall see an example of this later in %%%%%%%%%% **********
+
+			\begin{fex}
+				Let $G$ be a finite group with generators $a$ and $b$, and suppose every element can be written as $a^i b^j$ for (non-negative) integers $i,j$. Since the inverse of any group element can be written as $a^i b^j$, it is seen that any group element can also be written as $b^{j'} a^{i'}$ for non-negative $i',j'$ (let $i' = (|a|-1)i$ and $j' = (|b|-1)j$). So, assume that $n \coloneqq |a| \le |b|$.\\
+				We claim that any irreducible representation $\varphi$ of $G$ is of degree at most $n$. Let $\varphi : G \to \GL(V)$ be a representation. Let $v$ be an eigenvector of $\varphi_b$ and consider
+				\[ W = \langle v, \varphi_a v, \varphi_{a^2} v, \ldots, \varphi_{a^{n-1}} v \rangle. \]
+				Clearly, $0 < \dim W \le n$. If we manage to show that $W$ is $G$-invariant, we are done since $\varphi$ is irreducible so $V = W$ (in particular, $\dim V \le n$). \\
+				Let $0 \le k < n$ and consider some arbitrary $g = a^i b^j \in G$. Let $a^i b^j a^k = a^p b^q$. Then,
+				\begin{align*}
+					\varphi_{a^i b^j} ( \varphi_{a^k} v) &= \varphi_{a^i b^j a^k} v \\
+						&= \varphi_{a^p} \varphi_{b^q} v \\
+						&= \varphi_{a^p} \lambda v & \text{($v$ is an eigenvector of $\varphi_b$ and so $\varphi_{b^q}$)} \\
+						&= \lambda \varphi_{a^p} v \in W.
+				\end{align*}
+
+				In particular, any irreducible representation of the dihedral group $D_n$ has degree at most two.
+			\end{fex}
+
+			\begin{fprop}
+				Let $\rho : H \to \GL(V)$ be an irreducible representation and $\psi : G \to H$ be a surjective group homomorphism. Then, $\rho \circ \psi$ is an irreducible representation of $G$.
+			\end{fprop}
+			\begin{proof}
+				Let $\varphi = \rho \circ \psi$. Let $W$ be a $G$-invariant subspace wrt $\varphi$. We shall show that it is also $H$-invariant wrt $\rho$ to complete the proof. Indeed, for any $w \in W$ and $h \in H$, we have $h = \psi(g)$ for some $g \in G$. As a result,
+				\[ \rho_h(w) = \rho_{\psi(g)}(w) = (\rho \circ \psi)_g(w) = \varphi_g(w) \in W. \qedhere \]
+			\end{proof}
+
+			\begin{fprop}
+				\label{prop: deg 2 reps irreducible iff common eigenvec}
+				If $\varphi : G \to \GL(V)$ is a degree two representation, $\varphi$ is irreducible iff there is no common eigenvector $v$ to all $\varphi_g$ with $g \in G$.
+			\end{fprop}
+			\begin{proof}
+				If $v$ is an eigenvector of all $\varphi_g$, then $\C v$ is a $G$-invariant subspace, so the forward direction is done.\\
+				Now, suppose that there is no common eigenvector $v$ to all of the $\varphi_g$ but there is a non-trivial $G$-invariant subspace $W$ of $V$. Because it is a degree-two representation, $W = \C v$ for some $v \in V$. It follows that for each $g\in G$, $\varphi_g v = \lambda_g v$ (for some $\lambda_g \in \C$), so the desideratum follows.
+			\end{proof}
+
+			\begin{remark}
+				The above result almost directly generalizes to degree three representations for \emph{finite} groups as well. The key point to note is that if the representation of a finite group is reducible, then we can write $V = W \oplus W'$ for some non-zero $G$-invariant subspaces $W,W'$.\\
+				We shall prove this later in \Cref{prop: deg 3 reps of finite groups reducible iff common eigenvec}.
+			\end{remark}
+
+		\subsubsection{Decomposability}
+
+			\begin{fdef}[Complete Reducibility]
+				Let $G$ be a group. A representation $\varphi : G \to \GL(V)$ is said to be \emph{completely reducible} if $V = V_1 \oplus \cdots \oplus V_n$ where each $V_i$ is $G$-invariant and $\restr{\varphi}{V_i}$ is irreducible for each $i$.
+			\end{fdef}
+
+			Equivalently, by \Cref{prop: decomposability direct sum invariant}, the above is equivalent to saying that $\varphi = \varphi^{(1)} \oplus \cdots \varphi^{(n)}$ for some irreducible representations $\varphi^{(i)}$.
+
+			\begin{remark}
+				Note that any irreducible representation is completely reducible. Indeed, the $V_i$ need not be proper subspaces of $V$.
+			\end{remark}
+
+			In some sense, complete reducibility says that we do not run into the weird situation wherein the representation is not irreducible yet we cannot ``reduce'' it to a direct sum of `smaller' representations.
+
+			The main result of this section is showing that any representation of a finite group is completely reducible.
+
+			Based on the above remark, we can further define the more logical thing to consider as follows.
+
+			\begin{fdef}[Decomposability]
+				A non-zero representation $\varphi$ is said to be \emph{decomposable} if $V = V_1 \oplus V_2$ for some non-zero $G$-invariant subspaces $V_1,V_2 \le V$. Otherwise, $\varphi$ is said to be \emph{indecomposable}.
+			\end{fdef}
+
+			First, let us show that irreducibility, complete reducibility, and decomposability are preserved under equivalence.
+
+			\begin{lemma}
+				Let $\varphi : G \to \GL(V)$ and $\psi : G \to \GL(W)$ be equivalent representations with $T : V \to W$ being a corresponding equivalence. If $V_1 \le V$ is $G$-invariant, so is $W_1 = T(V_1)$.
+			\end{lemma}
+			\begin{proof}
+				Let $w \in W_1$ and $g \in G$. We have by definition that $\psi w = T\varphi T^{-1}w$. We have that $T^{-1} w \in V_1$, so since $V_1$ is $G$-invariant $\varphi T^{-1} w \in V_1$, so $T \varphi T^{-1} w \in W_1$ by definition of $W_1$.
+			\end{proof}
+
+			\begin{flem}
+				\label{equivalence preserves reducibility}
+				Let $\varphi : G \to \GL(V)$ and $\psi : G \to \GL(W)$ be equivalent representations. Then,
+				\begin{enumerate}
+					\item If $\varphi$ is reducible, so is $\psi$.
+					\item If $\varphi$ is decomposable, so is $\psi$.
+					\item If $\varphi$ is completely reducible, so is $\psi$.
+				\end{enumerate}
+			\end{flem}
+			\begin{proof}
+				Let $T : V \to W$ be a corresponding equivalence.
+				\begin{enumerate}
+					\item Let $V_1 \le V$ be a proper non-zero $G$-invariant subspace. Because $T$ is an isomorphism, $W_1$ is also non-zero and proper. By the previous lemma, this is also $G$-invariant and we are done.
+					\item If $V = V_1 \oplus V_2$ for non-zero $V_1,V_2$, then $W = T(V_1) \oplus T(V_2)$ since $T$ is an isomorphism. If $V_1,V_2$ are $G$-invariant, so are $T(V_1)$ and $T(V_2)$ by the previous lemma so we are done.
+					\item Again, if $V = V_1 \oplus \cdots \oplus V_n$, then $W = W_1 \oplus \cdots \oplus W_n$ where $W_i = T(V_i)$ and each $V_i$ or $W_i$ is $G$-invariant (with respect to the appropriate representation).\\
+					We must check that if $\restr{\varphi}{V_i}$ is irreducible, so is $\restr{\psi}{W_i}$. However, this is direct as the following diagram commutes for all $g \in G$.
+					\begin{center}
+					\begin{tikzcd}
+						V_i \arrow[rr, "\left(\restr{\varphi}{V_i}\right)_g"] \arrow[dd, "\restr{T}{V_i}"] & & V_i \arrow[dd, "\restr{T}{V_i}"] \\
+						& & \\
+						W_i \arrow[rr, "\left(\restr{\psi}{W_i}\right)_g"] & & W_i
+					\end{tikzcd}
+					\end{center}
+					It is easily seen that $\restr{T}{V_i}$ is an isomorphism from $V_i$ to $W_i$. \qedhere
+				\end{enumerate}
+			\end{proof}
+
+			\begin{fprop}
+				Let $G$ be a finite cyclic group. Then all irreducible representations of $G$ are of degree one.
+			\end{fprop}
+			\begin{proof}
+				We may assume that $G = \Z/n\Z$ by \Cref{equivalence preserves reducibility}. Let $\varphi : G \to \GL_m(\C)$ be a representation with $m \ge 2$.\\
+				Note that $\varphi_{\overline{1}}^n = I_n$. Recall \Cref{minimal polynomial}. It follows that the minimal polynomial of $\varphi_{\overline{1}}$ is a factor of $X^n - 1$, and in particular, has distinct roots. It follows from \Cref{diagonalisable iff min poly has distinct roots} that $\varphi_{\overline{1}}$ is diagonalisable.\\
+				Let $D$ be a diagonal matrix and $T \in \GL_m(\C)$ such that $T\varphi_{\overline{1}}T^{-1} = D$.
+				Then $T\varphi_{\overline{k}}T^{-1} = D^k$
+				for any $1 \le k \le n$. Therefore, consider the equivalent representation $\psi : G \to \GL_m(\C)$ defined by $\psi_g = T\varphi_g T^{-1}$. $\psi_g$ is diagonal for all $g \in G$. Clearly, $\psi$ is decomposable into $m$ non-zero proper representations, contradicting irreducibility.
+			\end{proof}
+
+	\subsection{Maschke's Theorem and Complete Reducibility}
+
+			The aim of this section is to show that any representation of a \textbf{finite} group is completely reducible in \nameref{theo: maschke's theorem}.
+
+			To begin, we shall show that a representation of a \textbf{finite} group is decomposable iff it is reducible in \Cref{theo: finite group red iff decomp}.
+			We first prove this for a specific type of representation in \Cref{lem: unitary decomp iff irred}.
+
+
+			\begin{fdef}[Unitary]
+				Let $V$ be an inner product space. A representation $\varphi : G \to \GL(V)$ is said to be \emph{unitary} if $\varphi_g$ is unitary for every $g \in G$.
+			\end{fdef}
+
+			That is, $\varphi$ is a map from $G$ to $U(V)$. Observe that unitarity depends on the inner product we place on the latent space! The usefulness arises when one observes certain properties of unitary representations (independent of the inner product), as we shall shortly see in \Cref{lem: rep finite group equivalent to unitary}.
+
+			Identifying $\GL_1(\C)$ with $\C^*$, one sees that $U_1(\C)$ ends up becoming $S_1$. Therefore, a degree-one unitary representation is a homomorphism $\varphi : G \to S^1$.\\
+			Recall that any degree-one representation of a finite group maps into $S^1$. Indeed, we have that $\varphi_g^{|G|} = 1$. Therefore, any such representation is unitary.
+
+			\begin{fex}
+				$\varphi : \R \to S^1$ defined by $t \mapsto \exp(2\pi\iota t)$ is a degree-one unitary representation of $(\R,+)$.
+			\end{fex}
+
+			Recall that decomposability implies reducibility, but the converse need not hold for a general representation.
+
+			\begin{flem}
+				\label{lem: unitary decomp iff irred}
+				Let $\varphi : G \to \GL(V)$ be a unitary representation. Then, $\varphi$ is decomposable iff it is not irreducible.
+			\end{flem}
+			\begin{proof}
+				Suppose that $\varphi$ is not irreducible. We shall show that it is decomposable. Let $W \le V$ be a non-zero proper $G$-invariant subspace. We are done if we show that $W^\top$ is $G$-invariant as well. Let $g \in G$. We know that $\varphi_g$ is unitary and $W$ is $\varphi_g$-invariant. Recalling \Cref{prop: unitary perp is invariant}, $W^\perp$ is $\varphi_g$-invariant. Since $g$ was arbitrary, $W^\perp$ is $G$-invariant with respect to $\varphi$, completing the proof.
+			\end{proof}
+
+			As usual, we denote by $\langle \cdot,\cdot\rangle$ the standard inner product on $\C^n$.
+
+			Over the next three lemmas, we define a new inner product and show that any representation is equivalent to a unitary representation using this inner product.
+
+			\begin{lemma}
+				\label{lemma 1.57}
+				Let $G$ be a finite group and $\rho : G \to \GL_n(\C)$ a representation. Consider the product $(\cdot,\cdot)$ on $\C^n$ defined by
+				\[ (v,w) = \sum_{g \in G} \langle \rho_gv, \rho_gw\rangle. \]
+				$(\cdot,\cdot)$ is an inner product.
+			\end{lemma}
+			Note that the sum is well-defined because $G$ is finite.
+			\begin{proof}
+				Let $c_1,c_2 \in \C$ and $v_1,v_2,v,w \in \C$. Then,
+				\begin{align*}
+					(c_1v_1 + c_2v_2 , w) &= \sum_{g \in G} \langle \rho_g(c_1v_1+c_2v_2) , \rho_gw \rangle \\
+						&= \sum_{g \in G} \langle c_1\rho_g v_1 + c_2 \rho_g v_2 , \rho_g w \rangle \\
+						&= \sum_{g \in G} c_1 \langle \rho_g v_1, \rho_g w \rangle + c_2 \langle \rho_g v_2, w \rangle \\
+						&= c_1 (v_1,w) + c_2 (v_2,w).
+				\end{align*}
+				Next,
+				\begin{align*}
+					(w,v) &= \sum_{g \in G} \langle \rho_g w , \rho_g v \rangle \\
+						&= \sum_{g \in G} \overline{\langle \rho_g v , \rho_g w \rangle} \\
+						&= \overline{\sum_{g \in G} \langle \rho_g v , \rho_g w \rangle} = \overline{(v,w)}.
+				\end{align*}
+				Finally,
+				\[ (v,v) = \sum_{g \in G} (\rho_g v,\rho_g v) \ge 0. \]
+				with equality iff $\rho_g v = 0$ for every $g \in G$. In particular, $v = \rho_1 v = 0$.
+			\end{proof}
+
+			\begin{lemma}
+				\label{lemma 1.58}
+				With the same notation as in the previous lemma, $\rho$ is unitary with respect to the inner product $(\cdot,\cdot)$.
+			\end{lemma}
+			\begin{proof}
+				Let $v,w$ and $g \in G$. We would like to show that $(\rho_g v, \rho_g w) = (v, w)$. Indeed,
+				\begin{align*}
+					(\rho_g v, \rho_g w) &= \sum_{g' \in G} \langle \rho_{g'}\rho_g v , \rho_{g'}\rho_g w \rangle \\
+						&= \sum_{g' \in G} \langle \rho_{g'g} v , \rho_{g'g} w \rangle\\
+						&= \sum_{g' \in G} \langle \rho_{g'} v , \rho_{g'} w \rangle & (\text{$g' \mapsto g'g$ is a bijection}) \\
+						&= (v,w). \qedhere
+				\end{align*}
+			\end{proof}
+
+			\begin{flem}
+				\label{lem: rep finite group equivalent to unitary}
+				Every representation of a finite group $G$ is equivalent to a unitary representation.
+			\end{flem}
+			\begin{proof}
+				Let $\varphi : G \to \GL(V)$ be a representation and $n = \dim V$. Fix an isomorphism $T : V \to \C^n$ and set $\rho_g = T \varphi_g T^{-1}$ for each $g \in G$. Clearly, $\rho$ is a representation $G \to \GL_n(\C)$ that is equivalent to $\varphi$.\\
+				By \Cref{lemma 1.58}, $\rho$ is a unitary representation with respect to the inner product defined in \Cref{lemma 1.57} and we are done.
+			\end{proof}
+
+			\begin{ftheo}
+				\label{theo: finite group red iff decomp}
+				Let $\varphi : G \to \GL(V)$ be a non-zero representation of a finite group. Then, $\varphi$ is reducible iff it is decomposable.
+			\end{ftheo}
+			\begin{proof}
+				The desideratum follows directly from \cref{lem: rep finite group equivalent to unitary,lem: unitary decomp iff irred,equivalence preserves reducibility}.
+			\end{proof}
+
+			The above further shows that if $\varphi : G \to \GL(V)$ is a representation of a finite group $G$ and $V_1$ is a non-zero proper $G$-invariant subspace, then we can decompose $V = V_1 \oplus V_2$, where $V_2$ is the subspace orthogonal to $V_1$ (for an appropriate inner product structure) and is also $G$-invariant (and non-zero and proper).
+
+			\begin{fprop}
+				\label{prop: deg 3 reps of finite groups reducible iff common eigenvec}
+				Let $\varphi : G \to \GL(V)$ be a degree $3$ representation of a finite group. $\varphi$ is reducible iff there is a common vector $v$ to all the $\varphi_g$ for $g \in G$.
+			\end{fprop}
+			The proof of the above is exactly as described in the remark after \Cref{prop: deg 2 reps irreducible iff common eigenvec}. Reducibility implies decomposability, so we get a one-dimensional invariant subspace.
+
+			Now, let us give an example of an infinite group that is reducible but not decomposable.
+
+			\begin{fex}
+				Let $\varphi : \Z \to \GL_2(\C)$ be the representation defined by
+				\[ \varphi_n =
+				\begin{bmatrix}
+					1 & n \\
+					& 1	
+				\end{bmatrix}. \]
+				$\varphi$ is reducible because $\C e_1$ is a $\Z$-invariant subspace. However, there is no other eigenvector to all the $\varphi_n$, so there is no other $\Z$-invariant subspace. As a result, $\varphi$ is not decomposable.\\
+				It is worth noting that \Cref{lem: unitary decomp iff irred} is true even for an infinite group, and \Cref{lemma 1.57} is where it breaks.
+			\end{fex}
+
+			Further, the above cannot be strengthened to degree $4$ representations since we need not have a $1$-dimensional invariant subspace.
+
+			\begin{fex}
+				Let $\psi : D_4 \to \GL_4(\C)$ be defined by
+				\[ \psi_r = \begin{bmatrix}
+					\iota & & & \\
+					& -\iota & & \\
+					& & \iota & \\
+					& & & -\iota
+				\end{bmatrix}
+				\text{ and }
+				\psi_s = \begin{bmatrix}
+					& 1 & & \\
+					1 & & & \\
+					& & & 1 \\
+					& & 1 &
+				\end{bmatrix}.\]
+				It may be checked that $\psi_r$ and $\psi_s$ have no common eigenvector.
+			\end{fex}
+
+			Now, we arrive at the main result of this section.
+
+			\begin{ftheo}[Maschke's Theorem]
+				\label{theo: maschke's theorem}
+				Every representation of a finite group is completely reducible.
+			\end{ftheo}
+			\begin{proof}
+				We prove this by induction on the degree of the representation $\varphi : G \to \GL(V)$. \\
+				If $\dim V = 1$, then $\varphi$ is irreducible (so completely reducible) and we are done. \\
+				Let $n \ge 1$ and suppose that the statement is true for representations of degree $\le n$. Let $\dim V = n+1$. If $\varphi$ is irreducible, we are done. Otherwise, by \Cref{theo: finite group red iff decomp}, $V = U \oplus W$ for non-zero $G$-invariant subspaces $U,W$. We may then apply the inductive hypothesis on $U,W$ to write
+				\[ U = U_1 \oplus \cdots \oplus U_n \text{ and } W = W_1 \oplus \cdots \oplus W_m \]
+				for non-zero $G$-invariant subspaces $U_i$ and $W_i$ such that $\restr{\varphi}{U_i}$ and $\restr{\varphi}{W_j}$ are irreducible for $1 \le i \le n$, $1 \le j \le m$. Consequently,
+				\[ V = U_1 \oplus \cdots \oplus U_n \oplus W_1 \oplus \cdots \oplus W_m \]
+				and we are done.
+			\end{proof}
+
+\clearpage

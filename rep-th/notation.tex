@@ -1,0 +1,139 @@
+\section{Notation}
+	
+	Given a set $X$, $S_X$ is the set of all bijections from $X$ to itself.
+
+\section{Preliminaries}
+
+	We define precisely those things that the author of these notes did not know at the time of reading. If there are things in these notes you do not know that are not defined anywhere within the notes, too bad!
+	
+	\subsection{Algebra}
+
+		\begin{fdef}
+			\label{def: dual group}
+			Given a group $G$, $\hat{G}$ denotes the set of all group homomorphisms from $G \to \C^*$. This is a group under point-wise operations and is called the \emph{dual group} of $G$.
+		\end{fdef}
+
+		\begin{prop}
+			If $G_1,G_2$ are groups and $G = G_1 \times G_2$, then $\hat{G} \cong \hat{G_1} \times \hat{G_2}$.
+		\end{prop}
+		\begin{proof}
+			Let $\varphi \in \hat{G}$. Define the homomorphism $\Phi: \hat{G} \to \hat{G_1} \times \hat{G_2}$ by $\varphi \mapsto (\varphi_1,\varphi_2)$, where
+			\[ \varphi_1(g_1) = \varphi(g_1,1) \text{ and } \varphi_2(g_2) = \varphi(2,g_2). \]
+			Let us show that $\Phi$ is injective by showing that precisely one $\varphi \in \hat{G}$ maps to $(1,1)$. Indeed, this would imply that $\varphi(g_1,1) = \varphi(1,g_2) = 1$ for all $g_1 \in G_2, g_2 \in G_2$. As $\varphi$ is a homomorphism, $\varphi(g_1,g_2) = 1$ as well.\\
+			For surjectivity, let $(\rho_1,\rho_2) \in \hat{G_1} \times \hat{G_2}$. Consider $\varphi : G \to \C^*$ defined by $\varphi(g_1,g_2) = \rho_1(g_1) \rho_2(g_2)$. It is not difficult to show that $\varphi \in \hat{G}$ since $\rho_1,\rho_2$ are homomorphisms
+		\end{proof}
+
+		\begin{prop}
+			\label{prop: deg-one reps of ZnZ}
+			If $G = \Z/n\Z$, then $\hat{G} \sim G$.
+		\end{prop}
+		\begin{proof}
+			Let $\varphi : G \to \C^*$ be a homomorphism. Observe that $\varphi$ is determined by $\varphi(\overline{1})$. Further, since $n\overline{m} = 0$ for any $\overline{m} \in G$, $\varphi(\overline{m})^n = \varphi(0)$, so every $\varphi(g)$ is an $n$th root of unity. As a result, there are at most $n$ elements in $\hat{G}$ corresponding to which of the $n$ roots of unity $\overline{1}$ is mapped to -- each such homomorphism $\varphi^{(k)}$ is of the form $\varphi(\overline{m}) = \omega_n^{km}$ for some $k$. It is easily checked that all of these do in fact correspond to homomorphisms.\\
+			Further, this group is cyclic because $\varphi^{(k)} = (\varphi^{(1)})^k$.
+		\end{proof}
+
+		\begin{theorem}
+			\label{theo: finite abelian group dual}
+			For any finite abelian group $G$, $\hat{G} \sim G$.
+		\end{theorem}
+		This follows directly using the classification theorem of finite groups and the previous two propositions.
+
+	\subsection{Linear Algebra}
+
+		\begin{fprop}
+			\label{prop: invariant pseudo def}
+			Let $W \le V$ be vector spaces and $T \in \GL(V)$. Then, $T$ is $W$-invariant iff $T(W) = W$.
+		\end{fprop}
+
+		\begin{fdef}
+			Let $V$ be a finite dimensional inner product space and $T \in \End(V)$. The \emph{adjoint} of $T$ is the unique linear operator $T^*$ such that for any $v,w \in V$,
+			\[ \langle Tv,w\rangle = \langle v,T^*w\rangle. \]
+		\end{fdef}
+
+		\begin{fprop}
+			\label{prop: perp is adjoint invariant}
+			Let $V$ be an inner product space and $T \in \End(V)$. Suppose that $W \le V$ be $T$-invariant. Then, $W^\perp$ is $T^*$-invariant.
+		\end{fprop}
+		\begin{proof}
+			Let $w \in W^\perp$. Then for any $v \in W$, we have
+			\[ 0 = \langle Tv, w \rangle = \langle v, T^*w \rangle,  \]
+			so $T^*w \in W^\perp$ and the desideratum follows.
+		\end{proof}
+
+		\begin{fdef}
+			Let $V$ be an inner product space and $U \in \GL(V)$. $U$ is said to be \emph{unitary} if
+			\[ \langle v,w\rangle = \langle Uv, Uw \rangle \]
+			for all $v,w\in V$.
+		\end{fdef}
+
+		In other words,
+		\[ \langle v, U^*Uw\rangle = \langle v, w\rangle. \]
+		However, the identity map is its own adjoint, so $U^* = U^{-1}$.
+
+		The subset $U(V) \subseteq \GL(V)$ of all unitary operators forms a subgroup.
+
+		\begin{fdef}
+			A matrix $U \in \GL_n(\C)$ is said to be \emph{unitary} if $U^*U = I_n$.
+		\end{fdef}
+
+		The set of all unitary matrices is denoted $U_n(\C)$ and is a subgroup of $\GL_n(\C)$.
+
+		\begin{fprop}
+			\label{prop: unitary perp is invariant}
+			Let $V$ be an inner product space and $T \in U(V)$. Suppose that $W \le V$ is $T$-invariant. Then, $W^\perp$ is also $T$-invariant.
+		\end{fprop}
+		\begin{proof}
+			Recalling \Cref{prop: perp is adjoint invariant}, we have that $W^\perp$ is $T^{-1}$-invariant. It then follows by \Cref{prop: invariant pseudo def} that $W^\perp$ is $T$-invariant as well ($T^{-1}(W^\perp) = W^\perp$ so $T(W^\perp) = W^\perp$).
+		\end{proof}
+
+		\begin{fdef}[Minimal Polynomial]
+			\label{minimal polynomial}
+			Let $T \in \End(V)$. The \emph{minimal polynomial} of $T$ is the unique monic polynomial $m(X) \in \C[X]$ of minimal degree such that $m(T)$ is the zero operator.
+		\end{fdef}
+
+		\begin{fdef}[Diagonalisable]
+			Let $T \in \End(V)$. $T$ is said to be \emph{diagonalisable} if there exists a basis $B$ of $V$ consisting of eigenvectors of $T$.
+		\end{fdef}
+
+		For the rest of this section, we use $T$ to denote an element of $\End(V)$ and $m(X)$ its minimal polynomial.
+
+		\begin{fprop}
+			Let $T \in \End(V)$, $m(X)$ be its minimal polynomial, and $p(X) \in \C[X]$ be any polynomial such that $p(T) = 0$. Then $p(\lambda) = 0$ for any eigenvalue $\lambda \in \C$ of $T$. In particular, all the eigenvalues of $T$ (in $\C$) are roots of the minimal polynomial.
+		\end{fprop}
+		\begin{proof}
+			Suppose
+			\[ p(X) = a_0 + a_1 X + \cdots + a_r X^r. \]
+			If $\lambda$ is an eigenvalue of $T$ and $v$ ($\ne 0$) a corresponding eigenvector, then $T^k v = \lambda^k v$. So,
+			\begin{align*}
+				0 = p(T)v &= \left( a_0 + a_1 T + \cdots + a_r T^r \right) v \\
+					&= \left(a_0 + a_1 \lambda + a_2 \lambda^2 + \cdots + a_r \lambda^r\right) v = p(\lambda) v. 
+			\end{align*}
+			As $v \ne 0$, $p(\lambda) = 0$.
+		\end{proof}
+
+		As the minimal polynomial divides the characteristic polynomial, this says that the minimal polynomial and characteristic polynomial have precisely the same roots. 
+
+		\begin{ftheo}
+			\label{diagonalisable iff min poly has distinct roots}
+			Let $T \in \End(V)$ and $m(X)$ be its minimal polynomial. $T$ is diagonalisable if and only if $m(X)$ has distinct roots.
+		\end{ftheo}
+		\begin{proof}
+			First, suppose that $T$ is diagonalisable.\\
+			Let $\lambda_1,\ldots,\lambda_r$ be the distinct eigenvalues of $T$. Consider
+			\[ p(X) = (X - \lambda_1) (X - \lambda_2) \cdots (X - \lambda_r). \]
+			It is clear from the previous proposition that $p(X) \mid m(X)$. If we manage to show that $m(X) \mid p(X)$, then $m(X) = p(X)$ and we are done. To show this, it suffices to show that $p(T) = 0$, and to show this it suffices to show that $p(T)$ annihilates some basis of $V$. Towards this, let $B$ be an eigenbasis of $V$ with respect to $T$ (since $T$ is diagonalisable, this exists). Any $v \in B$ is annihilated by some $T - \lambda_i$. Since all the $(T-\lambda_i)$ commute, it follows that $p(T)$ vanishes on $B$, and thus $V$.\\
+
+			Now, suppose that $m(X)$ has distinct roots, and let it be equal to $(X-\lambda_1) \cdots (X-\lambda_r)$ for distinct $\lambda_i \in \C$. Let $E_\lambda$ denote the eigenspace of $\lambda$. We wish to show that $V = \bigoplus_{i=1}^r E_{\lambda_i}$. Recall that eigenvectors corresponding to different eigenspaces are linearly independent. As a result, it suffices to show that $V = \bigplus_{i=1}^r E_{\lambda_i}$. For each $i \in [r]$, let
+			\[ g_i(X) = \prod_{j \ne i} (X - \lambda_j) \]
+			and
+			\[ f_i(X) = \frac{g_i(X)}{g_i(\lambda_i)}. \]
+			Observe that
+			\[ 1 = \sum_{i=1}^r f_i(X). \]
+			Indeed, they are polynomials of degree at most $r-1$ that agree at the $r$ points $(\lambda_i)_{i=1}^r$. As a result, for any $v \in V$,
+			\[ v = \sum_{i=1}^r f_i(T)v. \]
+			If we manage to show that $f_i(T)v \in E_{\lambda_i}$, we are done.
+			This is not too difficult to see as
+			\[ (T - \lambda_i) f_i(T)v = \frac{1}{g_i(\lambda_i)} m(T) v = 0. \qedhere \]
+		\end{proof}
+
+\clearpage

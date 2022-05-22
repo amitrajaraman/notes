@@ -31,7 +31,7 @@ $I(X^n_\cdot)$ is a random variable in $\mathcal{L}^2$. It is easier to analyze 
 	\label{eqn: ito isometry 2}
 	\norm{I(X_n)}_{2,\Pbb} = \norm{X_n}_{2,\mu_T\times\Pbb}.
 \end{equation}
-This is precisely why the equation is an isometry -- the map $I : \mathcal{L}^2(\Pbb) \to \mathcal{L}^2(\mu_T\times\Pbb)$ preserves $\mathcal{L}^2$-distance (at least when applied to adapted integrands)!\\
+This is precisely why the equation is an isometry -- the map $I : \mathcal{L}^2(\mu_T\times\Pbb) \to \mathcal{L}^2(\Pbb)$ preserves $\mathcal{L}^2$ distance! (at least when applied to adapted integrands)\\
 
 \begin{lemma}
 	Let $X_\cdot \in \mathcal{L}^2(\mu_T\times\Pbb)$ and suppose there exists a sequence of $\mathcal{F}_t$-adapted simple processes $X_\cdot^n \in \mathcal{L}^2(\mu_T\times\Pbb)$ such that
@@ -44,7 +44,7 @@ This is precisely why the equation is an isometry -- the map $I : \mathcal{L}^2(
 \begin{proof}
 	As $m,n\to\infty$,
 	\[ \norm{X_\cdot^m - X_\cdot^n}_{2,\mu_T\times\Pbb} \leq \norm{X_\cdot^m - X_\cdot}_{2,\mu_T\times\Pbb} + \norm{X_\cdot - X_\cdot^n}_{2,\mu_T\times\Pbb} \to 0. \]
-	By \eqref{eqn: ito isometry 2}, $\norm{I(X_m) - I(X_n)}_{2,\Pbb}\to 0$ as $m,n\to\infty$ as well. That is, $I(X_\cdot^n)$ is a Cauchy sequence in $\mathcal{L}^2(\Pbb)$. Let $I(X_\cdot)$ be the limit of this sequence.\\
+	By \eqref{eqn: ito isometry 2}, $\norm{I(X_m) - I(X_n)}_{2,\Pbb}\to 0$ as $m,n\to\infty$ as well. That is, $(I(X_\cdot^n))_{n \in \N}$ is Cauchy in $\mathcal{L}^2(\Pbb)$. Let $I(X_\cdot)$ be the limit of this sequence.\\
 	Now, let $Y_\cdot^n$ be another $\mathcal{F}_t$-adapted simple process that satisfies \eqref{eqn: extending ito beyond simple} and let $I(X_\cdot^n)$ converge to $I(Y_\cdot)$ in $\mathcal{L}^2(\Pbb)$. Then,
 	\[ \norm{I(Y_\cdot) - I(X_\cdot)}_{2,\Pbb} \leq \norm{I(Y_\cdot) - I(Y_\cdot^n)}_{2,\Pbb} + \norm{I(Y_\cdot^n) - I(X_\cdot^n)}_{2,\Pbb} + \norm{I(X_\cdot^n) - I(X_\cdot)}_{2,\Pbb}. \]
 	The first and last terms converge to $0$ by definition and the above argument, and the second argument can be shown to do the same using \eqref{eqn: ito isometry 2}.\\
@@ -55,7 +55,7 @@ Now, the question is: what functions $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ 
 It turns out that this is the case for any $\mathcal{F}_t$-adapted process.
 
 \begin{lemma}
-	Let $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ be $\mathcal{F}_t$-adapted. Then, there is a sequence of $\mathcal{F}_t$-adapted simple processes $X_\cdot^n\in\mathcal{L}^2(\mu_T\times\Pbb)$
+	Let $X_\cdot\in\mathcal{L}^2(\mu_T\times\Pbb)$ be $\mathcal{F}_t$-adapted. Then, there is a sequence of $\mathcal{F}_t$-adapted simple processes $X_\cdot^n\in\mathcal{L}^2(\mu_T\times\Pbb)$ such that $X^n_\cdot \to X_\cdot$ in $\mathcal{L}_2$.
 \end{lemma}
 
 In the case where $X_\cdot$ is bounded and has continuous sample paths, the simple functions defined by $X_t^n = X_{k2^{-n}}$, where $k2^{-n}T \leq t < (k+1)2^{-n}T$ gets the job done -- this is not too difficult to show using the Dominated Convergence Theorem.\\
@@ -73,11 +73,11 @@ Now, we aim to extend the It\^{o} integral even further. Indeed, while the set o
 To do so, we first define the It\^{o} integral as a stochastic process on $[0,T]$ with continuous sample paths, then extend it to a process on $[0,\infty)$ using a neat trick called \textit{localization}. We then extend the integral to a wider class of integrands.\\
 
 Let $X^n_t$ be a $\mathcal{F}_t$-adapted simple process in $\mathcal{L}^2(\mu_T\times\Pbb)$ with jump times $(t_i)_{i=0}^{N+1}$. For any $t\leq T$, define the simple integral
-\[ I_t(X^n_\cdot) = \int_0^t X_s^n \d{W}_s = \int_0^T \indic_{s\leq t} X_s^n \d{W}_s = \sum_{i=0}^N X_{t_i}^n (W_{\min\{t_{i+1}, t\}} - W_{\min\{t_i,t\}}. \]
+\[ I_t(X^n_\cdot) = \int_0^t X_s^n \d{W}_s = \int_0^T \indic_{s\leq t} X_s^n \d{W}_s = \sum_{i=0}^N X_{t_i}^n (W_{\min\{t_{i+1}, t\}} - W_{\min\{t_i,t\}}). \]
 
 First of all, $I_t(X^n_\cdot)$ is a $\mathcal{F}_t$-martingale. This is not too difficult to show, show that for any $i$ and $r<t$,
 \[ \expec[X_{t_i}^n(W_{\min\{t_{i+1},t\}} - W_{t_{i},t}) \mid \mathcal{F}_r] = X_{t_i}^n (W_{\min\{t_{i+1},r\}} - W_{t_{i},r}). \]
-Indeed, this makes sense since the discrete time $I_{t_i}(X^n_\cdot)$ is a martingale transform, and the Wiener process is a martingale.
+Indeed, this makes sense since the discrete time $I_{t_i}(X^n_\cdot)$ is a martingale transform (the Wiener process is a martingale).
 
 \begin{lemma}
 	Let $X_t$ be a $\mathcal{F}_t$-adapted process in $\mathcal{L}^2(\mu_T\times\Pbb)$. Then the It\^{o} integral $I_t(X_\cdot)$, $t\in[0,T]$, can be chosen to have continuous sample paths.

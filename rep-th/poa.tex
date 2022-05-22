@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{Plan of Action}
+\usepackage{rep-th}
+
+\renewcommand*{\titleBC}{\begingroup % Create the command for including the title page in the document
+    \centering % Center all text
+    
+    \def\CP{\Huge \scshape \topicname} % Title
+    
+    \settowidth{\unitlength}{\CP} % Set the width of the curly brackets to the width of the title
+    \HRule{0.5pt} \\[0.6cm]
+    {\CP} \\[\baselineskip] % Print title
+    \HRule{0.5pt} \\[0.5cm]
+    \vspace{0.5cm}
+    
+    {\Large{\myname}}\\ % Author name
+    {\Large{Mentor: Aryaman Maithani}}
+    
+    \vspace{0.4cm}
+\endgroup}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\titleBC
+
+\subsection*{References}
+
+The only reference to be used is the mentor's notes for representation theory which can be found \href{https://aryamanmaithani.github.io/math/rep-theory/Notes.pdf}{here}, with some possible reference to the cited book, namely \emph{Representation Theory of Finite Groups} by Benjamin Steinberg.
+
+\subsection*{Tentative Schedule}
+
+I plan to cover sections 1 (Group representations), 2 (Character Theory and Orthogonality Relations), 3 (The Dimension Theorem), and 7 (Fourier Analysis on Finite Groups). If time permits and I am ahead of schedule, I will additionally cover section 8 (Burnside's Theorems).
+
+The schedule is as follows:\\
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+	\hline
+	Week 1 & Section 1.1 \\
+	Week 2 & Sections 1.2, 2.1 \\
+	Week 3 & Sections 2.2, 2.3 \\
+	Week 4 & Section 2.4 \\
+	Week 5 & Sections 2.5, 2.6 \\
+	Week 6 & Sections 3, 7.1, 7.2 \\
+	Week 7 & Sections 7.3 to 7.5 \\
+	Week 8 & Wrapping up the report and video presentation \\
+	\hline
+\end{tabular}
+\end{center}
+
+\end{document}

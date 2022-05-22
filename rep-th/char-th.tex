@@ -1,0 +1,32 @@
+\section{Character Theory and Orthogonality Relations}
+
+	\subsection{Morphisms}
+
+		\begin{fdef}[Morphism]
+			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be representations. A \emph{morphism} from $\varphi$ to $\rho$ is a linear map $T : V \to W$ such that the following diagram commutes for all $g \in G$.
+			\begin{center}
+			\begin{tikzcd}
+				V \arrow[rr, "\varphi_g"] \arrow[dd, "T"] & & V \arrow[dd, "T"] \\
+				& & \\
+				W \arrow[rr, "\rho_g"] & & W
+			\end{tikzcd}
+			\end{center}
+			The set of all morphisms from $\varphi$ to $\rho$ is denoted $\Hom_G(\varphi,\rho)$.
+		\end{fdef}
+
+		By definition, $\Hom_G(\varphi,\rho) \subseteq \Hom(V,W)$.\\
+
+		Recall that any representation is just a special group action of $G$ on the vector space of interest. Based off this, writing $gv$ instead of $\varphi_g v$, the definition of a morphism can be alternatively written as saying that $Tgv = gTv$ for all $g\in G, v \in V$.\footnote{the first $g$ is a $\varphi_g$ and the second is a $\rho_g$}.
+
+		Also observe that if $T \in \Hom_G(\varphi,\rho)$ is an isomorphism, then $\varphi \sim \rho$.
+
+		\begin{remark}
+			$T \in \Hom(V,V)$ is in $\Hom_G(\varphi,\varphi)$ iff it commutes with every $\varphi_g$. In particular, the identity map is an element of $\Hom_G(\varphi,\varphi)$.
+		\end{remark}
+
+		\begin{fprop}
+			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be representations, and $T \in \Hom_G(\varphi,\rho)$. $\ker T$ and $\im T$ are $G$-invariant subspaces of $V$ and $W$ with respect to $\varphi$ and $\rho$ respectively.
+		\end{fprop}
+		\begin{proof}
+			
+		\end{proof}
