@@ -28,5 +28,422 @@
 			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be representations, and $T \in \Hom_G(\varphi,\rho)$. $\ker T$ and $\im T$ are $G$-invariant subspaces of $V$ and $W$ with respect to $\varphi$ and $\rho$ respectively.
 		\end{fprop}
 		\begin{proof}
-			
+			Let $v \in \ker T$. Then, for $g \in G$,
+			\[ T (\varphi_g v) = \rho_g T v = 0,  \]
+			so $\varphi_g v \in \ker T$. Similarly, for $w \in \im T$, letting $v \in V$ such that $Tv = w$, 
+			\[ \rho_g w = \rho_g T v = T (\varphi_g v) \in \im T.  \]
 		\end{proof}
+
+		We had mentioned earlier that $\Hom_G(\varphi,\rho) \subseteq \Hom(V,W)$. In fact, the following stronger statement is true.
+
+		\begin{fprop}
+			\label{prop: hom is a subspace}
+			Let $G$ be a group and $\varphi : G \to \GL(V)$, $\rho : G \to \GL(W)$ be representations. Then $\Hom_G(\varphi,\rho)$ is a subspace of $\Hom(V,W)$.
+		\end{fprop}
+		\begin{proof}
+			Clearly, $0 \in \Hom_G(\varphi,\rho)$. If $S,T \in \Hom_G(\varphi,\rho)$ and $\alpha \in \C$, then for any $g \in G$ and $v \in V$,
+			\begin{align*}
+				(S + \alpha T) \varphi_g v &= S \varphi_g v + \alpha T \varphi_g v \\
+					&= \rho_g S v + \alpha \rho_g T v \\
+					&= \rho_g S v + \rho_g (\alpha T) v = \rho_g (S + \alpha T) v, 
+			\end{align*}
+			so $S + \alpha T \in \Hom_G(\varphi,\rho)$.
+		\end{proof}
+
+		Another expected result is that the homomorphism subspaces of equivalent representations are isomorphic.
+
+		\begin{prop}
+			\label{prop: homs of equivalent are isomorphic}
+			Let $G$ be a group and $\varphi_i : G \to \GL(V_i)$, $\rho_i : G \to \GL(W_i)$ be representations for $i = 1,2$. If $\varphi^{(1)} \sim \varphi^{(2)}$ and $\rho^{(1)} \sim \rho^{(2)}$, then $\dim \Hom_G(\varphi^{(1)},\rho^{(1)}) = \dim \Hom_G(\varphi^{(2)},\rho^{(2)})$.
+		\end{prop}
+		\begin{proof}
+			Let $P : V_1 \to V_2$ and $R : W_1 \to W_2$ be corresponding equivalences. Consider $\Phi : \Hom_G (\varphi^{(1)},\rho^{(1)}) \to \Hom_G (\varphi^{(2)},\rho^{(2)})$ defined by $\Phi(S) = R \circ S \circ P^{-1}$. We claim that $\Phi$ is an isomorphism between the subspaces. Let us first show that this does indeed map into $\Hom_G(\varphi^{(2)},\rho^{(2)})$. We have that for any $g \in G$ and $v \in V_1$,
+			\begin{align*}
+				\Phi(S) (\varphi^{(2)})_g v &= R S P^{-1} (\varphi^{(2)})_g v \\
+					&= R S (\varphi^{(1)})_g P^{-1} v & \text{($P^{-1}$ is an equivalence)} \\
+					&= R (\rho^{(1)})_g S P^{-1} v & (S \in \Hom_G(\varphi^{(1)},\rho^{(1)})) \\
+					&= (\rho^{(2)})_g R S P^{-1} v & \text{($R$ is an equivalence)} \\
+					&= (\rho^{(2)})_g \Phi(S) v.
+			\end{align*}
+			It is clear that $\Phi$ is linear, and further that $\Phi$ is a bijection as an inverse is easily constructed similarly.
+		\end{proof}
+
+		\begin{flem}[Schur's Lemma]
+			\label{lem: schurs lemma}
+			Let $G$ be a group, $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be irreducible representations of $G$, and $T \in \Hom_G(\varphi,\rho)$. Then, either $T$ is an equivalence or $T = 0$.
+		\end{flem}
+		\begin{proof}
+			Suppose that $T \ne 0$. It suffices to show that $T$ is a bijection. If $\ker T \ne 0$, then we have a nonzero proper subspace $\ker T$ that is $G$-invariant (with respect to $\varphi$), contradicting irreducibility (of $\varphi$). Therefore, $T$ is injective. Similarly, $\im T \ne 0$ and if $\im T \ne W$, we have a nonzero proper subspace $\im T$ that is $G$-invariant (with respect to $\rho$), contradicting irreducibility (of $\rho$). Therefore, $T$ is surjective, completing the first part of the proof.
+		\end{proof}
+
+		\begin{fcor}
+			\label{cor: schurs corollary}
+			Let $G$ be a group, $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be irreducible representations of $G$, and $T \in \Hom_G(\varphi,\rho)$.
+			\begin{enumerate}[label=(\alph*)]
+				\item If $\varphi \not\sim \rho$, then $\Hom_G(\varphi,\rho) = 0$.
+				\item If $\varphi = \rho$, $T = \lambda I$ for some $\lambda \in \C$. That is, $\Hom_G (\varphi,\varphi)$ is one-dimensional with basis $\{I\}$.
+			\end{enumerate}
+		\end{fcor}
+		\begin{proof}
+			(a) is immediate from Schur's Lemma.\\
+			For (b), let $\lambda$ be an eigenvalue of $T$ (which exists since $\C$ is algebraically closed). Recall that $I \in \Hom_G(\varphi,\varphi)$. It follows from \Cref{prop: hom is a subspace} that $T - \lambda I \in \Hom_G(\varphi,\varphi)$. By the definition of an eigenvalue, $T - \lambda I$ is not invertible. Therefore, $T - \lambda I = 0$, proving the required.
+		\end{proof}
+
+		Next, let us show that a direct sum of representations corresponds to a direct sum of their $\Hom$s as well.
+
+		\begin{fprop}
+			\label{prop: direct sum of reps direct sum of Homs}
+			Let $\varphi : G \to \GL(V)$ and $\rho_i : G \to \GL(W_i)$ be representations for $i = 1,2$. It is true that
+			\[ \Hom_G(\varphi,\rho^{(1)} \oplus \rho^{(2)}) \cong \Hom_G(\varphi,\rho^{(1)}) \oplus \Hom_G(\varphi,\rho^{(2)}). \]
+			In particular,
+			\[ \dim \Hom_G(\varphi,\rho^{(1)} \oplus \rho^{(2)}) = \dim \Hom_G(\varphi,\rho^{(1)}) + \dim \Hom_G(\varphi,\rho^{(2)}). \]
+		\end{fprop}
+		\begin{proof}
+			Let $T \in \Hom_G(\varphi,\rho^{(1)}\oplus\rho^{(2)}) \subseteq \Hom(V,W_1\oplus W_2)$. Letting $\pi_i$ denote the projection maps, $\pi_i \circ T : V \to W_i$ is linear for $i = 1,2$. Further, $(\pi_i \circ T) \in \Hom_G(\varphi,\rho_i)$ because
+			\[ (\pi_i \circ T) \varphi_g v = \pi_i (\rho^{(1)} \oplus \rho^{(2)})_g T v = (\rho_i)_g T v. \]
+			On the other hand, given morphisms $T_i \in \Hom_G(V,W_i)$ for $i = 1,2$, $T : V \to W$ defined by $T(v) = (T_1(v), T_2(v))$ is also a morphism. As a result, the correspondence $(T_1,T_2) \mapsto T$ is bijective and $\C$-linear, so is an isomorphism.
+		\end{proof}
+
+		\begin{fcor}
+			Let $\varphi^{(1)},\ldots,\varphi^{(s)}$ be pairwise inequivalent irreducible representations of $G$. Set
+			\[ \varphi = \underbrace{\varphi^{(1)} \oplus \cdots \oplus \varphi^{(1)}}_{m_1} \oplus \cdots \oplus \underbrace{\varphi^{(s)} \oplus \cdots \oplus \varphi^{(s)}}_{m_s}. \]
+			Then,
+			\[ \dim \Hom_G (\varphi^{(r)}, \varphi) = m_r \]
+			for $1 \le r \le s$.
+		\end{fcor}
+		\begin{proof}
+			We have
+			\begin{align*}
+				\dim \Hom_G (\varphi^{(r)}, \varphi) &= \sum_{i=1}^s m_i \dim \Hom_G (\varphi^{(r)},\varphi^{(i)}) & \text{(by \Cref{prop: direct sum of reps direct sum of Homs})} \\
+					&= m_r & \text{(by \Cref{cor: schurs corollary})}. \qedhere
+			\end{align*}
+		\end{proof}
+
+		The above says that if we know that a representation is completely reducible and we know the (pairwise inequivalent and irreducible) representations that occur in a decomposition, then the number of times each representation occurs is fixed as well.
+
+		\begin{fcor}
+			\label{cor: completely reducible unique decomp}
+			Let $\varphi^{(1)},\ldots,\varphi^{(s)}$ and $\psi^{(1)},\ldots,\psi^{(r)}$ be pairwise\footnote{the two lists are separately pairwise inequivalent} inequivalent irreducible representations of $G$. Let $\varphi$ be a representation of $G$ such that
+			\[ \varphi \cong \bigoplus_{i=1}^{s} (\varphi^{(i)})^{m_i} \cong \bigoplus_{j=1}^r (\psi^{(j)})^{n_j} \]
+			where $m_i,n_j > 0$.
+			Then, $r=s$ and there is a permutation $\sigma$ of $[r]$ such that $\varphi^{(i)} \sim \psi^{(\sigma_i)}$ and $m_i = n_{\sigma(i)}$.
+		\end{fcor}
+		\begin{proof}
+			It suffices to show that each $\varphi_i$ is equivalent to some $\psi_j$. Indeed, pairwise inequivalence then implies that $r=s$, and the previous corollary shows that $m_i = n_j$. Suppose instead that $\varphi^{(1)}$ is not equivalent to any $\psi_j$. Then, denoting by $(psi^{(j)})^{n_j}$ the direct sum of $n_j$ $\psi^{(j)}$s,
+			\begin{align*}
+				m_1 &= \Hom(\varphi^{(1)}, \varphi) \\
+					&= \Hom(\varphi^{(1)}, \bigoplus_{j=1}^s (\psi^{(j)})^{n_j}) \\
+					&= \sum_{j=1}^s n_j \Hom(\varphi^{1},\psi^{(j)}) = 0,
+			\end{align*}
+			leading to a contradiction and completing the proof.
+		\end{proof}
+
+		Compare this to \nameref{theo: maschkes theorem}. There we had that any representation of a finite group is completely reducible. Here, we have shown that the decomposition of any completely reducible representation is ``unique''!\\
+
+		Recall \Cref{prop: cyclic group degree one}.
+
+		\begin{ftheo}[Irreducible representations of finite abelian groups]
+			\label{theo: irreducible reps of finite abelian groups}
+			Let $G$ be an abelian group. Any irreducible representation of $G$ has degree $1$.
+		\end{ftheo}
+		\begin{proof}
+			Let $\varphi : G \to \GL(V)$ be an irreducible representation.\\
+			For any $h \in G$, for all $g \in G$ $\varphi_h \varphi_g = \varphi_g \varphi_h$, so $\varphi_h \in \Hom_G(\varphi,\varphi)$. \Cref{cor: schurs corollary}(b) then shows that $\varphi_h = \lambda_h I$ for some $\lambda_h \in \C$ (this uses that $\varphi$ is irreducible). Fix any $v \in V$. Then, $\varphi_h v = \lambda_h I v = \lambda_h v \in \C v$, so $\C v$ is a $G$-invariant subspace. By irreducibility, $V = \C v$ and is thus one-dimensional.
+		\end{proof}
+
+		Further recall that we had characterized the degree one representations of an abelian group in \Cref{cor: deg one reps of abelian group}.
+
+		\begin{corollary}
+			\label{cor: rep of finite abelian group is diagonalizable}
+			Let $G$ be a finite abelian group and $\varphi : G \to \GL_n(\C)$ a representation. Then, there exists invertible $T$ such that $T^{-1}\varphi_g T$ is diagonal for all $g \in G$.
+		\end{corollary}
+		Note that $T$ is independent of $g$.
+		\begin{proof}
+			Since $G$ is finite and abelian, we can write using \Cref{theo: maschkes theorem,theo: irreducible reps of finite abelian groups} that
+			\[ \varphi = \varphi^{(1)} \oplus \cdots \oplus \varphi^{(n)} \]
+			where each $\varphi^{(i)}$ is degree $1$. If $T$ is an isomorphism giving the above equivalence, then
+			\[ T^{-1} \varphi_g T = \diag(\varphi^{(1)}_g,\ldots,\varphi^{(n)}_g). \]
+		\end{proof}
+
+		\begin{corollary}
+			\label{cor: finite order diagonalisable}
+			Let $A \in \GL_n(\C)$ be of finite order. Then $A$ is diagonalisable.
+		\end{corollary}
+		\begin{proof}
+			Consider the representation $\varphi : \Z/n\Z \to \GL_n(\C)$ defined by $\overline{k} \mapsto A^k$. \Cref{cor: rep of finite abelian group is diagonalizable} implies that $\varphi_{\overline{1}} = A$ is diagonalisable (in fact, $I,A,\ldots,A^{n-1}$ are simultaneously diagonalisable).
+		\end{proof}
+
+	\subsection{The Orthogonality Relations}
+
+		\begin{tcolorbox}[colframe=red!25,colback=red!25]
+			\underline{\textbf{For the remainder of this report, assume that any group $G$ is finite}} unless otherwise mentioned.
+		\end{tcolorbox}
+
+		\begin{fdef}
+			Let $G$ be a group. Define the \emph{group algebra} $L(G) \coloneqq \C^G$. $L(G)$ is a vector space over $\C$ in the natural sense. It is also an inner product space when equipped with the inner product
+			\[ \langle f_1,f_2 \rangle = \frac{1}{|G|} \sum_{g \in G} f_1(g) \overline{f_2(g)}. \]
+			In particular, the \emph{norm} of $f \in L(G)$ is $\norm{f} = \sqrt{\langle f,f\rangle}$.
+		\end{fdef}
+
+		Note that the sum involved in $\langle f_1,f_2\rangle$ makes sense because $G$ is finite. Given a representation $\varphi : G \to \GL_n(\C)$, we get $n^2$ elements $\varphi_{ij} : G \to \C$ corresponding to the $n^2$ entries of the matrix. We shall study $\varphi_{ij}$ when $\varphi$ is irreducible and unitary.
+
+		\begin{fprop}
+			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be representations. Define for any linear transformation $T : V \to W$
+			\[ T^\sharp = \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T \varphi_g \in \Hom_G(\varphi,\rho). \]
+			Then,
+			\begin{enumerate}[label=(\alph*)]
+				\item $T^\sharp \in \Hom_G(\varphi,\rho)$,
+				\item if $T \in \Hom_G(\varphi,\rho)$, then $T^\sharp = T$, and
+				\item the map $P : \Hom_\C(V,W) \to \Hom_G(\varphi,\rho)$ defined by $T \mapsto T^\sharp$ is a surjective linear map.
+			\end{enumerate}
+		\end{fprop}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}
+				\item For any $h \in H$,
+				\begin{align*}
+					T^\sharp \varphi_h &= \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T \varphi_g \varphi_h \\
+						&= \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T \varphi_{gh} \\
+						&= \frac{1}{|G|} \sum_{g' \in G} \rho_{hg'^{-1}} T \varphi_{g'} & (g \mapsto gh \text{ defines a bijection }G\to G) \\
+						&= \rho_h \frac{1}{|G|} \sum_{g' \in G} \rho_{g'^{-1}} T \varphi_{g'} = \rho_h T^\sharp.
+				\end{align*}
+
+				\item If $T \in \Hom_G(\varphi,\rho)$, then
+				\begin{align*}
+					T^\sharp &= \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T \varphi_g \\
+						&= \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} \rho_g T \\
+						&= \frac{1}{|G|} \sum_{g \in G} T = T.
+				\end{align*}
+
+				\item (b) shows that $P$ is surjective. For linearity, we have that for any $T_1,T_2 \in \Hom_\C(V,W)$ and $c \in \C$,
+				\begin{align*}
+					P(cT_1 + T_2) &= \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} (cT_1 + T_2) \varphi_g \\
+						&= c \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T_1 \varphi_g + \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T_2 \varphi_g \\
+						&= cP(T_1) + P(T_2). \qedhere
+				\end{align*}
+			\end{enumerate}
+		\end{proof}
+
+		\begin{fprop}
+			\label{prop: schur lemma but sharp}
+			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be irreducible representations and let $T : V \to W$ be a linear map. Then,
+			\begin{enumerate}[label=(\alph*)]
+				\item if $\varphi \not\sim \rho$, $T^\sharp = 0$ and
+				\item if $\varphi = \rho$, $T^\sharp = \frac{\Tr T}{\deg \varphi} I$.
+			\end{enumerate}
+		\end{fprop}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}[label = (\alph*)]
+				\item This is straightforward on an application of \nameref{lem: schurs lemma} since $T^\sharp \in \Hom_G(\varphi,\rho)$.
+				\item Again, by \nameref{lem: schurs lemma}, we have that $T^\sharp = \lambda I$ for some $\lambda I \in \C$. Now, note that
+				\[ \Tr T^\sharp = \Tr(\lambda I) = \lambda \deg \varphi. \]
+				We also have
+				\begin{align*}
+					\Tr T^\sharp &= \Tr \left( \frac{1}{|G|} \sum_{g \in G} \varphi_{g^{-1}} T \varphi_g \right) \\
+						&= \frac{1}{|G|} \sum_{g \in G} \Tr \left( \varphi_{g^{-1}} T \varphi_g \right) \\
+						&= \frac{1}{|G|} \sum_{g \in G} \Tr \left( \varphi_{g^{-1}} \varphi_g T \right) & (\Tr(ABC) = \Tr(ACB)) \\
+						&= \Tr T,
+				\end{align*}
+				so the required follows.
+			\end{enumerate}
+		\end{proof}
+
+		Suppose that $V = \C^n$ and $W = \C^m$. $P$ is then a linear form from $\GL(V,W) = M_{m \times n}(\C)$ to itself. A natural question to ask is: how do we represent $P$ as a matrix with respect to the standard basis vectors $E_{ij}$? (Recall that $E_{ij}$ is the $m \times n$ matrix with $1$ in the $(i,j)$th entry and $0$ elsewhere)\\
+		It is a straightforward computational task to check that if $A = (a_{ij}) \in M_{r \times m}(\C)$, $E_{ki} \in M_{m \times n}(\C)$, and $B = (b_{ij}) \in M_{n \times s}(\C)$, then
+		\begin{equation}
+			(AE_{ki}B)_{lj} = a_{lk} b_{ij}.
+		\end{equation}
+
+		\begin{flem}
+			\label{lem: schur orthogonality lemma}
+			Let $\varphi : G \to U_n(\C)$ and $\rho : G \to U_m(\C)$ be unitary representations of $G$. Let $A = E_{ki} \in M_{m \times n}(\C)$. Then,
+			\[ A_{lj}^\sharp = \langle \varphi_{ij} , \rho_{kl} \rangle. \]
+		\end{flem}
+		\begin{proof}
+			Let $g \in G$. Because $\rho_g$ is unitary, $\rho_{g^{-1}} = \rho_g^*$. As a result, $(\rho_{g^{-1}})_{lk} = \overline{(\rho_g)_{kl}}$. Consequently,
+			\begin{align*}
+				(A^\sharp)_{lj} &= \frac{1}{|G|} \sum_{g \in G} (\rho_{g^{-1}} A \varphi_g)_{lj} \\
+					&= \frac{1}{|G|} \sum_{g \in G} (\rho_{g^{-1}})_{lk} (\varphi_{g})_{ij} \\
+					&= \frac{1}{|G|} \sum_{g \in G} \overline{(\rho_{g})_{kl}} (\varphi_{g})_{ij} \\
+					&= \langle \varphi_{ij} , \rho_{kl} \rangle. \qedhere
+			\end{align*}
+		\end{proof}
+
+		\begin{ftheo}[Schur's Orthogonality Relations]
+			\label{theo: schurs orthogonality relations}
+			Let $\varphi : G \to U_n(\C)$ and $\rho : G \to U_m(\C)$ be inequivalent irreducible unitary representations of a group $G$. Then,
+			\begin{enumerate}[label=(\alph*)]
+				\item $\langle \varphi_{ij} , \rho_{kl} \rangle = 0$.
+				\item $\langle \varphi_{ij} , \varphi_{kl} \rangle = \begin{cases} 1/n , & (i,j) = (k,l), \\ 0, & \text{otherwise.} \end{cases}$
+			\end{enumerate}
+			In particular, the set $\{ \varphi_{ij} : 1 \le i,j \le n \} \cup \{ \rho_{kl} : 1 \le k,l \le m \}$ is a linearly independent set.
+		\end{ftheo}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}[label = (\alph*)]
+				\item 
+				Let $A = E_{ki} \in M_{m \times n}(\C)$. By \Cref{prop: schur lemma but sharp}, $A^\sharp = 0$ because $\varphi \not\sim \rho$, so in particular, using \Cref{lem: schur orthogonality lemma}, $\langle \varphi_{ij} , \rho_{kl} \rangle = (A^\sharp)_{lj} = 0$.
+
+				\item
+				Let $A = E_{ki} \in M_{n \times n}(\C)$. By \Cref{prop: schur lemma but sharp}, $A^\sharp = \frac{\Tr A}{n} I$. $\Tr A$ is $1$ if $k = i$ and $0$ otherwise. We also have $\langle \varphi_{ij} , \rho_{kl} \rangle = \left(\frac{\Tr A}{n} I\right)_{lj}$, which is zero if $l \ne j$. That is, the quantity of interest is equal to $1/n$ if $k = i$ and $l = j$ and $0$ otherwise. \qedhere
+			\end{enumerate}
+		\end{proof}
+
+		\begin{fcor}
+			\label{cor: orthonormal set of fns for irred unitary rep}
+			Let $\varphi$ be an irreducible unitary representation of $G$ of degree $n$. The set $\{ \sqrt{n} \varphi_{ij} : 1 \le i,j \le n \}$ of functions forms an orthonormal set.
+		\end{fcor}
+
+		\begin{fprop}
+			\label{prop: finitely many irreducible representations}
+			Let $G$ be a (finite) group. The following are true.
+			\begin{enumerate}[label = (\alph*)]
+				\item There are finitely many equivalence classes of irreducible representations of $G$.
+				\item Let $\varphi^{(1)},\ldots,\varphi^{(s)}$ be a transversal of unitary representatives of irreducible representations of $G$. Set $d_i = \deg \varphi^{(i)}$. Then, the set of functions
+				\[ \{ \sqrt{d_k} \varphi^{(k)}_{ij} : 1 \le k \le s, 1 \le i,j \le d_k \} \]
+				is orthonormal.
+			\end{enumerate}
+		\end{fprop}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}[label = (\alph*)]
+				\item By \Cref{lem: rep finite group equivalent to unitary}, any equivalence class of representations (any class of irreducible representations in particular) contains a unitary representation. As $\dim L(G) = |G|$, no linearly independent set of vectors in $L(G)$ can contain more than $|G|$ elements. Because orthonormal sets are linearly independent, \Cref{cor: orthonormal set of fns for irred unitary rep,theo: schurs orthogonality relations}(a) show that there can only be finitely many classes of irreducible representations.
+
+				\item This again directly follows from \Cref{cor: orthonormal set of fns for irred unitary rep,theo: schurs orthogonality relations}(a).
+			\end{enumerate}
+		\end{proof}
+
+		In particular, using the same notation as the above proposition, we have that
+		\[ s \le d_1^2 + d_2^2 + \cdots + d_s^2 \le |G|. \]
+		Indeed, the lower bound is obvious as each $d_i \ge 1$. For the upper bound, each representation of degree $d_k$ corresponds to $d_k^2$ many orthonormal functions, so the overall set of representations corresponds to $\sum d_i^2$ orthonormal functions, which can be at most $\dim L(G) = |G|$. This also says that the degree of any irreducible representation is at most $\sqrt{|G|}$.
+
+		In fact, we shall see later that it is \emph{exactly} $|G|$.
+
+	\subsection{Characters and Class Functions}
+
+		Recall the remark after \Cref{cor: completely reducible unique decomp}, which said that the decomposition given by \nameref{theo: maschkes theorem} is unique. In this section, we shall prove a stronger version of the same (explicitly finding the number of irreducible representations), arriving at some interesting results along the way.\\
+		Given an endomorphism of a finite dimensional vector space, we can talk about its trace, which is just the trace of any matrix representation after fixing an ordered basis. It is not too difficult to see that this trace is basis-invariant. We extensively use this fact in this section, namely that $\Tr(ABC) = \Tr(ACB)$ so if $C = A^{-1}$ then $\Tr(ABA^{-1}) = \Tr(B)$.
+
+		\begin{fdef}[Character]
+			Let $\varphi : G \to \GL(V)$ be a representation. The \emph{character} $\chi_\varphi : G \to \C$ of $\varphi$ is defined by $\chi_{\varphi}(g) = \Tr \varphi_g$. The character of an irreducible representation is called an \emph{irreducible character}.
+		\end{fdef}
+
+		As mentioned, the character does not depend on the basis we choose, so we may assume that we are talking about matrix representations. If $\varphi : G \to \GL_n(\C)$ is a representation given by $\varphi_g = ((\varphi_g)_{ij})$, $\chi_\varphi(g) = \sum_{i=1}^n (\varphi_g)_{ii}$.\\
+
+		Occasionally, we cut out the explicit writing of the representation and directly refer to characters of a group. The degree of this character is just the degree of the corresponding representation.
+
+		\begin{remark}
+			If $z : G \to \C^* \incl \C$ is a degree $1$ representation, then $\chi_z = z$. Henceforth, we treat degree $1$ representations and their characters as the same.
+		\end{remark}
+
+		\begin{prop}
+			If $\varphi : G \to \GL(V)$ is a representation, $\chi_\varphi(1) = \deg \varphi = \dim V$.
+		\end{prop}
+		\begin{proof}
+			Indeed, $\varphi_1 = \Id_V$ so $\chi_\varphi(1) = \Tr \varphi_1 = \Tr \Id_V = \dim V = \deg \varphi$.
+		\end{proof}
+
+		\begin{prop}
+			\label{prop: character same under equiv}
+			If $\varphi$ and $\rho$ are equivalent representations, $\chi_\varphi = \chi_\rho$.
+		\end{prop}
+		\begin{proof}
+			We may assume that $\varphi,\rho : G \to \GL_n(\C)$. If $T \in \GL_n(\C)$ is an invertible matrix such that $\varphi_g = T \rho_g T^{-1}$ for all $g \in G$, then
+			\[ \chi_\varphi(g) = \Tr \varphi_g = \Tr (T \rho_g T^{-1}) = \Tr \rho_g = \chi_\rho(g). \qedhere \]
+		\end{proof}
+
+		\begin{corollary}
+			Let $G$ be a group of order $n$ and $\chi$ a character of degree $m$ of $G$. Then, $\chi(g)$ is a sum of $m$ $n$th roots of unity for each $g \in G$.
+		\end{corollary}
+		\begin{proof}
+			Because characters are invariant under equivalence, let us assume that the representation is of the form $\varphi : G \to \GL_m(\C)$. Fix $g \in G$. Then, $\varphi_g^n = I$ so $\varphi_g$ is diagonalisable by \Cref{cor: finite order diagonalisable}. So, we may assume that $\varphi_g$ is diagonal. It has eigenvalues $(\lambda_i)_{i=1}^m$, where each $\lambda_i$ is an $n$th root of unity. The desideratum follows.
+		\end{proof}
+
+		A proof similar to \Cref{prop: character same under equiv} also shows the following.
+
+		\begin{fprop}
+			Let $\chi$ be a character of $G$. Then, $\chi$ is constant on conjugacy classes of $G$.
+		\end{fprop}
+		\begin{proof}
+			Let $g,h \in G$ and $\varphi$ be a representation corresponding to $\chi$. Then,
+			\begin{align*}
+				\chi(g) &= \Tr \varphi_g \\
+					&= \Tr (\varphi_{h^{-1}} \varphi_g \varphi_h) \\
+					&= \Tr \varphi_{h^{-1}gh} = \chi(h^{-1}gh). \qedhere
+			\end{align*}
+		\end{proof}
+
+		Functions such as these have a name of their own.
+
+		\begin{fdef}[Class function]
+			A function $f : G \to \C$ is said to be a \emph{class function} if $f(g) = f(h^{-1}gh)$ for all $g,h \in G$. The set of all class functions is denoted $Z(L(G))$.
+		\end{fdef}
+
+		Given a conjugacy class $C \subseteq G$ and a class function $f$, we denote by $f(C)$ the constant value taken by $f$ on $C$.
+
+		\begin{prop}
+			$Z(L(G))$ is a subspace of $L(G)$.
+		\end{prop}
+		We omit the proof of the above as it is very straightforward.
+
+		\begin{fdef}
+			Given a group $G$, the set of conjugacy classes of $G$ is denoted $\Cl(G)$. For $C \in \Cl(G)$, we define $\delta_C : G \to \C$ by
+			\[ \delta_C(g) = \begin{cases} 1, & g \in C, \\ 0, & \text{otherwise.} \end{cases} \]
+		\end{fdef}
+
+		That is, $\delta_C$ is the indicator function of $C$.
+
+		\begin{fprop}
+			The set $B = \{ \delta_C : C \in \Cl(G) \}$ is a basis of $Z(L(G))$. In particular, $\dim Z(L(G)) = |\Cl(G)|$.
+		\end{fprop}
+		\begin{proof}
+			It is clear that $\delta_C \in \Cl(G)$ for each $C \in \Cl(G)$.
+
+			To show that $B$ spans $Z(L(G))$, note that for any $f \in Z(L(G))$,
+			\[ f = \sum_{C \in \Cl(G)} f(C) \delta_C. \]
+			This is easily checked by computing both sides at an arbitrary $g \in G$.
+
+			To show linear independence on the other hand, we have for $C,C' \in \Cl(G)$
+			\[ \langle \delta_C , \delta_{C'} \rangle = \sum_{g \in G} \delta_C(g) \overline{\delta_{C'}(g)} = \begin{cases} 0 , & C \ne C', \\ \frac{|C|}{|G|}, & C = C' \end{cases} \]
+			and any set of orthogonal nonzero vectors is linearly independent.
+
+			The desideratum follows.
+		\end{proof}
+
+		\begin{ftheo}
+			Let $\varphi,\rho$ be irreducible representations of $G$. Then
+			\[ \langle \chi_\varphi , \chi_\rho \rangle = \begin{cases} 1 , & \varphi \sim \rho, \\ 0 , & \varphi \not\sim \rho. \end{cases} \]
+			Thus, the set of irreducible characters of $G$ forms an orthonormal set of class functions.
+		\end{ftheo}
+		\begin{proof}
+			By \Cref{lem: rep finite group equivalent to unitary,prop: character same under equiv}, we may assume that $\varphi : G \to U_n(\C)$ and $\rho : G \to U_m(\C)$. We have
+			\begin{align*}
+				\langle \chi_\varphi , \chi_\rho \rangle &= \frac{1}{|G|} \sum_{g \in G} \chi_\varphi(g) \overline{\chi_\rho(g)} \\
+					&= \frac{1}{|G|} \sum_{g \in G} \left(\sum_{1 \le i \le n} \varphi_{ii}(g)\right) \overline{\left( \sum_{1 \le j \le m} \rho_{jj}(g) \right)} \\
+					&= \sum_{\substack{1 \le i \le n \\ 1 \le j \le m}} \frac{1}{|G|} \sum_{g \in G} \varphi_{ii}(g) \overline{\rho_{jj}(g)} \\
+					&= \sum_{\substack{1 \le i \le n \\ 1 \le j \le m}} \langle \varphi_{ii} , \rho_{jj} \rangle.
+			\end{align*}
+			Recall \nameref{theo: schurs orthogonality relations}. If $\varphi \not\sim \rho$, then it immediately follows that the above quantity of interest is $0$. If $\varphi \sim \rho$ on the other hand, we may assume that $\varphi = \rho$ by \Cref{prop: character same under equiv}. We then again have by Schur's orthogonality relations that the summand is nonzero only when $i = j$, and in this case it is just equal to $1/n$. The overall sum is then $n \cdot 1/n = 1$, completing the proof.
+		\end{proof}
+
+		\begin{fcor}
+			Given two inequivalent irreducible representations $\varphi , \rho$ of $G$, $\chi_{\varphi} \ne \chi_{\rho}$.
+		\end{fcor}
+		\begin{proof}
+			We have $\langle \chi_\varphi , \chi_\rho \rangle = 0$, but if $\chi_\varphi = \chi_\rho$ we also have $\langle \chi_\varphi , \chi_\varphi \rangle = 1$.
+		\end{proof}
+
+		\begin{fcor}
+			Two irreducible representations are equivalent if and only if they have the same character.
+		\end{fcor}
+
+		Consequently, there are at most $|\Cl(G)|$ equivalence classes of irreducible representations.
+
+		\begin{definition}
+			If $V$ is a vector, $\varphi$ is a representation, and $m \in \N$, then
+			\[ mV = \underbrace{V \oplus \cdots \oplus V}_{m} \text{ and } m\varphi = \underbrace{\varphi \oplus \cdots \oplus \varphi}_{m}. \]
+			$0V$ is the zero vector space and $0\varphi$ is the degree zero representation
+		\end{definition}
+
+		
