@@ -351,8 +351,11 @@ Given a graph, how do we compute a maximum matching, or simpler yet, $\nu(G)$?
 			Therefore, to find a maximum matching on a bipartite graph, we may merely find a maximum flow in the corresponding network $\mathcal{N}$.\\
 
 			For the second application, we give a result of Schrijver's.\\
-			Suppose $A$ is a $m\times n$ $\{0,1\}$-matrix that has $k$ $1$s in each row and $r$ $1$s in each column (this implies that $mk=nr$). Suppose $\alpha \in (0,1) \cap \Q$ such that $\alpha k = k'$ and $\alpha r = r'$ are integers.\\
-			Then, one can change some of the $1$s in $A$ to $0$s such that in the resulting array $A'$, there are $k'$ $1$s in each row and $r'$ $1$s in each column.\\
+
+			Suppose $A$ is a $m\times n$ $\{0,1\}$-matrix that has $k$ $1$s in each row and $r$ $1$s in each column (this implies that $mk=nr$). Let $k' \le k, r' \le r$ such that $\alpha \coloneqq k'/k = r'/r$.\\
+			Then, one can change some of the $1$s in $A$ to $0$s such that in the resulting array $A'$, there are $k'$ $1$s in each row and $r'$ $1$s in 
+			each column.\\
+			
 			To prove this, assign a bipartite graph $G = (X,Y,E)$ to $A$ as follows. $X$ is the rows of $A$, $Y$ is the columns of $A$, and $xy\in E(G)$ (with $x\in X$, $y\in Y$) iff $A_{xy} = 1$. We have that $d(x) = k$ and $d(y) = r$ for all $x\in X$, $y\in Y$.\\
 			Craft a network $\mathcal{N}$ using $G$ exactly as we did above in the first application, with
 			\[
