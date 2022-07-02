@@ -188,6 +188,7 @@
 		Note that the sum involved in $\langle f_1,f_2\rangle$ makes sense because $G$ is finite. Given a representation $\varphi : G \to \GL_n(\C)$, we get $n^2$ elements $\varphi_{ij} : G \to \C$ corresponding to the $n^2$ entries of the matrix. We shall study $\varphi_{ij}$ when $\varphi$ is irreducible and unitary.
 
 		\begin{fprop}
+			\label{prop def: sharp}
 			Let $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be representations. Define for any linear transformation $T : V \to W$
 			\[ T^\sharp = \frac{1}{|G|} \sum_{g \in G} \rho_{g^{-1}} T \varphi_g \in \Hom_G(\varphi,\rho). \]
 			Then,
@@ -315,7 +316,9 @@
 		\end{proof}
 
 		In particular, using the same notation as the above proposition, we have that
-		\[ s \le d_1^2 + d_2^2 + \cdots + d_s^2 \le |G|. \]
+		\begin{equation}
+			s \le d_1^2 + d_2^2 + \cdots + d_s^2 \le |G|. \label{eqn: sum of degree squared of irreds inequality}
+		\end{equation}
 		Indeed, the lower bound is obvious as each $d_i \ge 1$. For the upper bound, each representation of degree $d_k$ corresponds to $d_k^2$ many orthonormal functions, so the overall set of representations corresponds to $\sum d_i^2$ orthonormal functions, which can be at most $\dim L(G) = |G|$. This also says that the degree of any irreducible representation is at most $\sqrt{|G|}$.
 
 		In fact, we shall see later that it is \emph{exactly} $|G|$.
@@ -338,6 +341,7 @@
 		\end{remark}
 
 		\begin{prop}
+			\label{prop: character of 1}
 			If $\varphi : G \to \GL(V)$ is a representation, $\chi_\varphi(1) = \deg \varphi = \dim V$.
 		\end{prop}
 		\begin{proof}
@@ -395,6 +399,7 @@
 		That is, $\delta_C$ is the indicator function of $C$.
 
 		\begin{fprop}
+			\label{prop: dim ZLG}
 			The set $B = \{ \delta_C : C \in \Cl(G) \}$ is a basis of $Z(L(G))$. In particular, $\dim Z(L(G)) = |\Cl(G)|$.
 		\end{fprop}
 		\begin{proof}
@@ -412,6 +417,7 @@
 		\end{proof}
 
 		\begin{ftheo}
+			\label{theo: inner product of irreducible characters}
 			Let $\varphi,\rho$ be irreducible representations of $G$. Then
 			\[ \langle \chi_\varphi , \chi_\rho \rangle = \begin{cases} 1 , & \varphi \sim \rho, \\ 0 , & \varphi \not\sim \rho. \end{cases} \]
 			Thus, the set of irreducible characters of $G$ forms an orthonormal set of class functions.
@@ -435,8 +441,11 @@
 		\end{proof}
 
 		\begin{fcor}
+			\label{cor: irred equivalent iff same char}
 			Two irreducible representations are equivalent if and only if they have the same character.
 		\end{fcor}
+
+		In \Cref{cor: equivalent iff same char}, we shall see that the above holds in more generality.\\
 
 		Consequently, there are at most $|\Cl(G)|$ equivalence classes of irreducible representations.
 
@@ -446,4 +455,228 @@
 			$0V$ is the zero vector space and $0\varphi$ is the degree zero representation.
 		\end{definition}
 
+		Now, we would like to show the uniqueness of decomposition, just as we did in \Cref{cor: completely reducible unique decomp}. Indeed, this is easier now since we have a finite number of irreducible representations. Suppose we are given a transerversal $\varphi^{(1)},\ldots,\varphi^{(s)}$ of irreducible representations, and let
+		\[ \varphi \sim m_1 \varphi^{(1)} \oplus m_2 \cdots \oplus m_s \varphi^{(s)}. \]
+
+		\begin{lemma}
+			Let $\varphi = \rho \oplus \psi$. Then $\chi_{\varphi} = \chi_\rho + \chi_\psi$.
+		\end{lemma}
+		\begin{proof}
+			We may suppose that $\rho : G \to \GL_n(\C)$ and $\psi : G \to \GL_m(\C)$. The block matrix form of $\varphi : G \to \GL_{n+m}(\C)$ can then be written as
+			\[ \varphi_g = \begin{bmatrix} \rho_g & \\ & \psi_g \end{bmatrix}, \]
+			and the required immediately follows.
+		\end{proof}
+
+		As an immediate consequence of the above lemma and \Cref{theo: inner product of irreducible characters}, we get the following.
+
+		\begin{ftheo}
+			 Suppose we are given a transerversal $\varphi^{(1)},\ldots,\varphi^{(s)}$ of irreducible representations, and let $\varphi$ be a representation such that
+			\[ \varphi \sim m_1 \varphi^{(1)} \oplus m_2 \cdots \oplus m_s \varphi^{(s)}. \]
+			Then, $m_i = \langle \chi_\varphi , \chi_{\varphi^{(i)}}$.
+		\end{ftheo}
+
+		That is, as we saw earlier, the decomposition of $\varphi$ into irreducible representations is ``unique''.
 		
+		\begin{fcor}
+			\label{cor: equivalent iff same char}
+			$\varphi$ is determined up to equivalence by its character.
+		\end{fcor}
+
+		The above follows quite directly from the fact that the decomposition is unique.
+
+		\begin{fcor}
+			\label{cor: character inner product natural}
+			\phantom{pain}
+			\begin{enumerate}
+				\item $\norm{\chi}^2 \in \N$, and $\norm{\chi} = 1$ iff $\chi$ is irreducible.
+				\item $\langle \chi_1 , \chi_2 \rangle \in \N_0$. Note that the characters themslves need not necessarily be real-valued.
+			\end{enumerate}
+		\end{fcor}
+		
+		To see this, note that if
+		\[ \rho_1 \sim m_1 \varphi^{(1)} \oplus \cdots \oplus m_s \varphi^{(s)} \]
+		and
+		\[ \rho_2 \sim n_1 \varphi^{(1)} \oplus \cdots \oplus n_s \varphi^{(s)}, \]
+		then $\langle \chi_{\rho_1} , \chi_{\rho_2} \rangle = \sum_i m_i n_i$.
+
+		\begin{fcor}
+			Let $z : G \to \C^*$ be a degree one representation and $\rho : G \to \GL_n(\C)$ be a representation. Consider $\varphi : G \to \GL_n(\C)$ defined by $\varphi_g = z_g \rho_g$. Then,
+			\begin{enumerate}[label=(\alph*)]
+				\item $\varphi$ is a representation,
+				\item $\chi_\varphi = z \chi_\rho$ and $\norm{\chi_\varphi} = \norm{\chi_\rho}$,
+				\item $\varphi$ is irreducible iff $\rho$ is, and
+				\item if there exists $g_0 \in G$ such that $z_{g_0} \ne 1$ and $\chi_\varphi(g_0) \ne 0$, then $\rho \not\sim \varphi$.
+			\end{enumerate}
+		\end{fcor}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}[label=(\alph*)]
+				\item This is direct as $z_{g_1} \rho_{g_2} = \rho_{g_2} z_{g_1}$.
+
+				\item We have $\chi_\varphi(g) = \Tr(\varphi_g) = \Tr(z_g \rho_g) = z_g \Tr(\rho_g)$, so $\chi_\varphi = (z \chi_\rho)(g)$.\\
+				Because $G$ is finite, we have $z_g^{|G|} = 1$, and so $|z_g| = 1$. Consequently, $\norm{\chi_\varphi(g)} = \norm{z_g \chi_\rho(g)} = \norm{\chi_\rho(g)}$. As a result, $\norm{\chi_\varphi} = \norm{\chi_\rho}$ as well.
+
+				\item Since $\varphi$ (resp. $\rho$) is irreducible iff $\norm{\chi_\varphi}$ (resp. $\norm{\chi_\rho}$) is $1$, we are done.
+
+				\item This follows from \Cref{cor: equivalent iff same char} since in this case, $\chi_\varphi(g_0) \ne \chi_\rho(g_0)$.
+			\end{enumerate}
+		\end{proof}
+
+
+		\begin{fdef}
+			Let $G$ be a finite group and $\varphi^{(1)},\ldots,\varphi^{(s)}$ be a transversal of irreducible unitary representations of $G$. If $\rho \sim m_1 \varphi^{(1)} \oplus \cdots \oplus m_s \varphi^{(s)}$, then $m_i$ is said to be the \emph{multiplicity} of $\varphi^{(i)}$ in $\rho$. If $m_i > 0$, $\varphi^{(i)}$ is said to be an \emph{irreducible constituent} of $\rho$.
+		\end{fdef}
+
+		Using the notation of the above definition, $\deg \rho = \sum m_i \deg \varphi^{(i)}$.\\
+		Letting $m_i = \langle \chi_\rho , \chi_{\varphi^{(i)}} \rangle$, we have
+		\[ \rho \sim m_1 \varphi^{(1)} \oplus \cdots \oplus m_s \varphi^{(s)}. \]
+
+
+	\subsection{The Regular Representation}
+
+		Recall linearisation.
+
+		\begin{fdef}[Regular representation]
+			Let $G$ be a finite group. The \emph{regular representation} of $G$ is the homomorphism $L : G \to \GL(\C G)$ defined by
+			\[ L_g \left( \sum_{h \in G} c_h h \right) = \sum_{h \in G} c_h gh = \sum_{x \in G} c_{g^{-1}x} x \]
+			for $g \in G$.
+		\end{fdef}
+
+		The above representation can be understood very simply on noting that given a standard basis vector $h \in G$ of $\C G$, $L_g h$ is just $gh$, that is, it permutes the basis vectors. It acts on arbitrary elements by extending this map linearly to $\C G$. This may be used to check that the regular representation is indeed a representation. \\
+		Clearly, $\deg L = |G|$. As a result, by \Cref{eqn: sum of degree squared of irreds inequality}, $L$ is \emph{not} irreducible.
+
+		\begin{fprop}
+			The regular representation is a unitary representation of $G$.
+		\end{fprop}
+		\begin{proof}
+			Fix $g \in G$. We have
+			\begin{align*}
+				\left\langle L_g \sum_{h \in G} c_h h , L_g \sum_{h \in G} d_h h \right\rangle &= \left\langle \sum_{h \in G} c_{g^{-1}h} h , \sum_{h \in G} d_{g^{-1}h} h \right\rangle \\
+					&= \sum_{h \in G} c_{g^{-1} h} d_{g^{-1} h} \\
+					&= \sum_{h \in G} c_h d_h = \left\langle \sum_{h \in G} c_h h , \sum_{h \in G} d_h h \right\rangle.
+			\end{align*}
+		\end{proof}
+
+		\begin{fprop}
+			The character of the regular representation $L$ is given by
+			\[ \chi_L(g) = \begin{cases} |G| , & g = 1, \\ 0 , & \text{otherwise.} \end{cases} \]
+		\end{fprop}
+		\begin{proof}
+			By \Cref{prop: character of 1}, $\chi_L(1) = |G|$. Let $g \ne 1$ and fix an ordering $(g_1,\ldots,g_n)$ of $|G|$. We claim that all the diagonal entries of the matrix representation $[L_g]$ of $L_g$ with respect to this basis are $0$. Indeed, for any $g_i$, $gg_i \ne g_i$, so the $i$th entry of the $i$th column is $0$. It follows that $\chi_L(g) = \Tr [L_G] = 0$.
+		\end{proof}
+
+		The above can be used in conjunction with \Cref{cor: character inner product natural} to give an alternate proof that $L$ is not irreducible.
+
+		For the remainder of this subsection, fix a finite group $G$, $\varphi^{(1)},\ldots,\varphi^{(s)}$ as a transversal of irreducible unitary representations of $G$, $d_i = \deg \varphi^{(i)}$, and let $\chi_i = \chi_{\varphi^{(i)}}$.\\
+
+		We shall now show that the second inequality is in fact an equality in \Cref{eqn: sum of degree squared of irreds inequality}.
+
+		\begin{ftheo}
+			\label{theo: sum of degree squared of irreds}
+			Let $L$ denote the regular representation of $G$. Then,
+			\[ L \sim d_1 \varphi^{(1)} \oplus \cdots \oplus d_s \varphi^{(s)}. \]
+			In particular,
+			\[ |G| = \sum d_i^2. \]
+		\end{ftheo}
+		\begin{proof}
+			It suffices to show that $\langle \chi_L , \chi_i \rangle = d_i$. Indeed, this is immediate as
+			\[ \langle \chi_L , \chi_i \rangle = \frac{1}{|G|} \sum_{g \in G} \chi_L(g) \overline{\chi_i(g)} = \frac{1}{|G|} \chi_L(1) \chi_i(1) = d_i. \]
+		\end{proof}
+
+		Using \Cref{prop: finitely many irreducible representations}, we get the following.
+
+		\begin{fcor}
+			\label{cor: orthonormal basis of LG}
+			The set $B = \{ \sqrt{d_k} \varphi_{ij}^{(k)} : 1 \le k \le s, 1 \le i,j \le d_k \}$ is an orthonormal basis of $L(G)$.
+		\end{fcor}
+
+		\begin{fprop}
+			\label{cor: orthonormal basis of ZLG}
+			The set $B = \{\chi_1 , \ldots, \chi_s\}$ is an orthonormal basis of $Z(L(G))$.
+		\end{fprop}
+		\begin{proof}
+			Assume that $\varphi^{(i)} : G \to U_{d_i}(\C)$.\\
+			Recall by \Cref{theo: inner product of irreducible characters} that $B$ is an orthonormal set. We are done if we show that it is a basis. Let $f \in Z(L(G)) \le L(G)$. By \Cref{cor: orthonormal basis of LG}, we have constants $c_{ij}^{(k)} \in \C$ such that
+			\[ f = \sum c_{ij}^{(k)} \varphi_{ij}^{(k)}. \]
+			Let $x \in G$. We have
+			\begin{align*}
+				f(x) &= \frac{1}{|G|} \sum_{g \in G} f(g^{-1}xg) & (f \in Z(L(G))) \\
+					&= \frac{1}{|G|} \sum_{g \in G} \sum_{i,j,k} c_{ij}^{(k)} \varphi_{ij}^{(k)}(g^{-1}xg) \\
+					&= \sum_{i,j,k} c_{ij}^{(k)} \frac{1}{|G|} \sum_{g \in G} \varphi_{ij}^{(k)}(g^{-1}xg) \\
+					&= \sum_{i,j,k} c_{ij}^{(k)} \left[\frac{1}{|G|} \sum_{g \in G} \varphi^{(k)}(g^{-1})\varphi^{(k)}(x)\varphi^{(k)}(g)\right]_{ij} \\
+					&= \sum_{i,j,k} c_{ij}^{(k)} \left[\left(\varphi^{(k)}(x)\right)^\sharp\right]_{ij} & (\text{recall \Cref{prop def: sharp}}) \\
+					&= \sum_{i,j,k} c_{ij}^{(k)} \frac{\Tr \varphi^{(k)}(x)}{d_k} I_{ij} & (\text{recall \Cref{prop: schur lemma but sharp}}) \\
+					&= \sum_{i,k} \frac{c_{ii}^{(k)}}{d_k} \chi_k(x) \\
+					&= \sum_k \left( \sum_i \frac{c_{ii}^{(k)}}{d_k} \right) \chi_k(x),
+			\end{align*}
+			so $B$ is a basis and we are done.
+		\end{proof}
+
+		Now use \Cref{prop: dim ZLG} to get the following.
+
+		\begin{fcor}
+			\label{cor: number of irred reps is conjug}
+			There are precisely $|\Cl(G)|$ equivalence classes of irreducible representations of a group $G$.
+		\end{fcor}
+
+		Recall that $|\Cl(G)| = |G|$ iff $G$ is abelian.
+
+		\begin{fcor}
+			\label{cor: equivalence classes of irreds for abelian}
+			$G$ has $|G|$ equivalence classes of irreducible representations iff $G$ is abelian.
+		\end{fcor}
+
+		In the above scenario, we have $|G| = d_1^2 + \cdots + d_{|G|}^2$, so we get the following.
+
+		\begin{fcor}
+			$G$ is abelian iff all its irreducible representations have degree one.
+		\end{fcor}
+
+
+		\begin{fdef}
+			Let $G$ be a finite group with irreducible characters $\chi_1,\ldots,\chi_s$ and conjugacy classes $C_1,\ldots,C_s$. The \emph{character table} of $G$ is the $s \times s$ matrix $\mathsf{X}$ with $\mathsf{X}_{ij} = \chi_i(C_j)$.
+		\end{fdef}
+
+		The above table is square because of \Cref{cor: number of irred reps is conjug}.
+
+		\begin{fprop}
+			Let $C,C'$ be conjugacy classes of $G$ and $g \in C, h \in C'$. Then,
+			\[ \sum_{i=1}^s \chi_i(g) \overline{\chi_i(h)} = \begin{cases} |G|/|C| , & C = C', \\ 0, & \text{otherwise.} \end{cases} \]
+			Consequently, the columns of the character table are orthogonal, and it is invertible.
+		\end{fprop}
+		\begin{proof}
+			Recall \Cref{cor: orthonormal basis of ZLG} and also that $\delta_{C'} \in Z(L(G))$. So,
+			\[ \delta_{C'} = \sum_{i=1}^s \langle \delta_{C'} , \chi_i \rangle \chi_i. \]
+			So,
+			\begin{align*}
+				\delta_{C'}(g) &= \sum_{i=1}^s \frac{1}{|G|} \sum_{x \in G} \delta_{C'}(x) \overline{\chi_i(x)} \chi_i(g) \\
+					&= \frac{1}{|G|} \sum_{i=1}^s \sum_{x \in C'} \overline{\chi_i(x)} \chi_i(g) \\
+					&= \frac{|C'|}{|G|} \sum_{i=1}^s \overline{\chi_i(h)} \chi_i(g) & (\chi_i \text{ is a class function}) \\
+				\sum_{i=1}^s \overline{\chi_i(h)} \chi_i(g) &= \frac{|G|}{|C'|} \delta_{C'}(g).
+			\end{align*}
+			The desideratum follows.
+		\end{proof}
+
+	\subsection{Representations of abelian groups}
+
+		We conclude this section by completing our discussion of representations of abelian groups. For this subsection, let $G$ be an abelian group.\\
+		By \Cref{prop: cyclic group degree one,cor: equivalence classes of irreds for abelian}, we know that the $|G|$ degree one representations of $G$ are precisely the irreducible representations of $G$.\\
+		Recall from \Cref{prop: deg-one reps of ZnZ} that we know all of these representations when $G = \Z/n\Z$. By the structure theorem of finite abelian groups, we get a complete description of the irreducible representations of $G$ for any abelian group in general using the following lemma.
+
+		\begin{flem}
+			Let $G_1,G_2$ be finite abelian groups. with $m = |G_1|$ and $n = |G_2|$. Suppose that $\rho_1,\ldots,\rho_m$ and $\varphi_1,\ldots,\varphi_n$ are all the irreducible representations of $G_1$ and $G_2$ respectively. The functions $\alpha_{ij} : G_1 \times G_2 \to \C$ for $1 \le i \le m$ and $1 \le j \le n$ defined by
+			\[ \alpha_{ij}(g_1,g_2) = \rho_i(g_1) \varphi_j(g_2) \]
+			form a complete set of irreducible representations of $G$.
+		\end{flem}
+		\begin{proof}
+			Note that $\alpha_{ij}(g,1) = \rho_i(g)$ and $\alpha_{ij}(1,g) = \varphi_j(g)$. This gives that all the $\alpha_{ij}$ are distinct as $\alpha_{ij}$ and $\alpha_{kl}$ are identical iff $\rho_i$ and $\rho_k$ are identical and $\varphi_j$ and $\varphi_l$ are identical.\\
+			Further, because each $\alpha_{ij}$ is degree-one, it suffices to show that each $\alpha_{ij}$ is a homomorphism. This is immediate as by commutativity,
+			\begin{align*}
+			 	\alpha_{ij}((g_1,g_2)(g_1',g_2')) &= \alpha_{ij}(g_1g_1',g_2g_2') \\
+			 		&= \varphi_i(g_1g_1') \rho_j(g_2g_2') \\
+			 		&= \varphi_i(g_1) \varphi_i(g_1') \rho_j(g_2) \rho_j(g_2') \\
+			 		&= \varphi_i(g_1) \rho_j(g_2) \varphi_i(g_1') \rho_j(g_2') = \alpha_{ij}(g_1,g_2) \alpha_{ij}(g_1',g_2'). \qedhere
+			 \end{align*} 
+		\end{proof}
+
+		Further observe that because degree-one representations are the same as their characters, the above can be used quite easily to get the character table of the product.
