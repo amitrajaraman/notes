@@ -1,0 +1,85 @@
+\section{The Dimension Theorem}
+
+	Recall the previous section where we showed that a given group $G$ has only finitely many irreducible representations. In this section, we shall show that the degree of any irreducible representation divides the order of the group.\\
+	Also recall algebraic integers (\Cref{def: algebraic integer}).
+
+	\begin{fprop}
+		\label{prop: character alg int}
+		Let $\chi$ be a character of $G$. Then, $\chi(g)$ is an algebraic integer for all $g \in G$.
+	\end{fprop}
+	\begin{proof}
+		Recall that any root of unity is an algebraic integer. The required then follows on using \Cref{cor: character sum of roots of unity,prop: alg int subring}.
+	\end{proof}
+
+	For the remainder of this section, let $G$ be a finite group with conjugacy classes $\{C_i\}_{i=1}^s$ with $C_1 = \{1\}$. For $i \in [s]$, let $h_i = |C_i|$. Let $\varphi : G \to \GL(V)$ denote a degree $d$ representation and $\chi_i = \chi_\varphi(C_i)$. Finally, let $T_i = \sum_{x \in C_i} \varphi_x$.
+
+	\begin{flem}
+		If $\varphi$ is irreducible, $T_i = \frac{h_i}{d} \chi_i \cdot I$.
+	\end{flem}
+	\begin{proof}
+		First, for any $g \in G$,
+		\[ \varphi_g T_i \varphi_{g^{-1}} = \varphi_g \left( \sum_{x \in C_i} \varphi_x \right) \varphi_{g^{-1}} = \sum_{x \in C_i} \varphi_{gxg^{-1}} = \sum_{y \in C_i} \varphi_y = T_i, \]
+		so $T_i \in \Hom(\varphi,\varphi)$. By \Cref{cor: schurs corollary}, $T_i = \lambda I$ for some $\lambda \in \C$. Now,
+		\[ \lambda = \frac{1}{d} \Tr T_i = \frac{1}{d} \sum_{x \in C_i} \Tr \varphi_x = \frac{1}{d} \sum_{x \in C_i} \chi_i = \frac{h_i}{d} \chi_i, \]
+		completing the proof.
+	\end{proof}
+
+	\begin{flem}
+		$T_i \circ T_j = \sum_{k=1}^s a_{ijk} T_k$ for some $\{a_{ijk}\}_{1\le i,j,k\le s} \subseteq \Z$.
+	\end{flem}
+	Note that $\varphi$ is not assumed to be irreducible in this lemma.
+	\begin{proof}
+		First,
+		\[ T_i \circ T_j = \left(\sum_{x \in C_i} \varphi_x\right) \circ \left(\sum_{y \in C_j} \varphi_y\right) = \sum_{\substack{x \in C_i \\ y \in C_j}} \varphi_{xy} = \sum_{g \in G} a_{ijg} \varphi_g, \]
+		where $a_{ijg} = |\{(x,y) \in C_i \times C_j : xy = g\}|$. Let $X_{ijg}$ be this set. Suppose that $g_1,g_2 \in C_k$, and let $g_2 = kg_1k^{-1}$. Observe then that the function $X_{ijg_1} \to X_{ijg_2}$ defined by $(x,y) \mapsto (kxk^{-1},kyk^{-1})$ is a bijection. Indeed, it has inverse $(x,y) \mapsto (k^{-1}xk,k^{-1}yk)$. So, $a_{ijg_1} = a_{ijg_2}$. Letting the value of $a_{ijg}$ for $g \in C_k$ be $a_{ijk}$, we get
+		\[ T_i \circ T_j = \sum_{g \in G} a_{ijg} \varphi_g = \sum_{k=1}^s \sum_{g \in C_k} a_{ijk} \varphi_g = \sum_{k=1}^s a_{ijk} T_k. \]
+	\end{proof}
+
+	Combining the two lemmas, we get the following.
+
+	\begin{fcor}
+		For some $\{a_{ijk}\}_{1\le i,j,k\le s} \subseteq \Z$,
+		\[ \left( \frac{h_i}{d} \chi_i \right) \left( \frac{h_j}{d} \chi_j \right) = \sum_{k=1}^s a_{ijk} \frac{h_k}{d} \chi_k. \]
+	\end{fcor}
+
+	\begin{flem}
+		\label{lemma: hi chii di alg int}
+		If $\varphi$ is irreducible, $h_i \chi_i/d_i$ is an algebraic integer for every $i$.
+	\end{flem}
+	\begin{proof}
+		Using the previous corollary, it is not too difficult to come up with an appropriate integer matrix in the context of \Cref{prop: alg int iff integer eigenvalue}.
+	\end{proof}
+
+	\begin{ftheo}[Dimension Theorem]
+		\label{theo: dimension th}
+		Let $\varphi$ be an irreducible degree $d$ representation of $G$. Then, $d$ divides $|G|$.
+	\end{ftheo}
+	\begin{proof}
+		By \Cref{theo: inner product of irreducible characters}, $\langle \chi_\varphi , \chi_\varphi \rangle = 1$. So,
+		\[ \frac{|G|}{d} = \frac{|G|}{d} \cdot \frac{1}{|G|} \sum_{g \in G} \chi_\varphi(g) \overline{\chi_\varphi(g)} = \sum_{g \in G} \frac{\chi_\varphi(g)}{d} \overline{\chi_\varphi(g)} = \sum_{i=1}^s \sum_{g \in C_i} \frac{\chi_\varphi(g)}{d} \overline{\chi_\varphi(g)} = \sum_{i=1}^s \left( \frac{h_i\chi_i}{d} \right) \overline{\chi_i}. \]
+		Note that $h_i \chi_i / d$ is an algebraic integer by \Cref{lemma: hi chii di alg int}, and $\overline{\chi_i}$ is an algebraic integer by \Cref{prop: character alg int} (recall that $\A$ is closed under conjugation). By \Cref{prop: alg int subring}, $|G|/d$ is an algebraic integer too. However, this is rational, so the desideratum follows from \Cref{prop: rational alg ints are ints}.
+	\end{proof}
+
+	\begin{fcor}
+		Let $p,q$ be primes with $p \le q$ and $q \not\equiv 1 \pmod p$. Then, any group $G$ of order $pq$ is abelian. In particular, so are groups of order $p^2$.
+	\end{fcor}
+	\begin{proof}
+		Let $d_1,\ldots,d_s$ be the degrees of the irreducible representations of $G$. We shall show that $d_i = 1$ for all $i$, then use \Cref{cor: abelian iff irred degree one}. Let us assume without loss of generality that $d_1 = 1$. We have
+		\[ pq = 1 + d_2^2 + \cdots + d_s^2. \]
+		By the \nameref{theo: dimension th}, $d_i \in \{1,p,q,pq\}$ for all $i$. In fact, because $p \le q$, $d_i \in \{1,p\}$. Let $m$ be the number of representations of degree $1$ and $n$ that of degree $p$. We have $pq = m + np^2$. So, $p \mid m$. Let $m = pm'$. We have $q = m' + np$. By \Cref{cor: number of degree one reps}, $m \mid pq$, so $m' \mid q$. As a result, $m'\in\{1,q\}$. However, $m'$ cannot be $1$ because that with the previous equation would contradict the fact that $q \not\equiv 1 \pmod p$. Therefore, $m' = q$ and $m = pq$, completing the proof.
+	\end{proof}
+
+	Recall that the above is a basic fact from group theory which is typically proved using the Sylow theorems.
+
+	\begin{porism}
+		Let $G$ be a group of order $pq$ for primes $p<q$. Then, all irreducible representations of $G$ have degree either $1$ or $p$. Moreover, $G$ has an irreducible representation of degree $p$ iff it is non-abelian. 
+	\end{porism}
+
+	Noting that $m = |G/[G,G]|$ and $p \mid m$ in the proof of the previous corollary, we get the following.
+
+	\begin{fpor}
+		Let $G$ be a group of order $pq$ for primes $p < q$. Then, $|[G,G]| \in \{1,q\}$. Moreover, $|[G,G]| = q$ iff $G$ is non-abelian.
+	\end{fpor}
+
+	As before, this can be proved using elementary group theory as well. We leave the details of this as an exercise to the reader.
+

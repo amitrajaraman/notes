@@ -136,4 +136,70 @@
 			\[ (T - \lambda_i) f_i(T)v = \frac{1}{g_i(\lambda_i)} m(T) v = 0. \qedhere \]
 		\end{proof}
 
+	\subsection{Number Theory}
+
+
+		\begin{fdef}[Algebraic integer]
+			\label{def: algebraic integer}
+			$\alpha \in \C$ is said to be an \emph{algebraic integer} if it is a root of a monic polynomial with integer coefficients. That is, there exists $n > 0$ and integers $a_0,\ldots,a_{n-1}$ such that $\alpha^n + a_{n-1}\alpha^{n-1} + \cdots + a_0 = 0$.\\
+			The set of all algebraic integers is denoted $\A$.
+		\end{fdef}
+
+		The monic requirement is important. For example, $1/2$ is a root of $2z-1$ which is not monic, and is in fact not an algebraic integer.
+
+		\begin{fex}[Closure under negation and conjugation]
+			If $\alpha \in \A$, and $p$ is a monic polynomial of degree $n$ with $p(\alpha) = 0$, then considering the polynomial $z \mapsto (-1)^n p(-z)$ shows that $-\alpha \in \A$ as well. Since $p$ has real coefficients, we also have that $\overline{\alpha} \in \A$.
+		\end{fex}
+
+		\begin{fprop}
+			\label{prop: rational alg ints are ints}
+			$\A \cap \Q = \Z$.
+		\end{fprop}
+		\begin{proof}
+			Let $r = p/q \in \Q$ be an algebraic integer with $p \in \Z$, $q \in \N$, and $\gcd(p,q) = 1$. Let $a_0,\ldots,a_{n-1} \in \Z$ with $r^n + a_{n-1}r^{n-1} + \cdots + a_0 = 0$. Multiplying with $q^n$ gives $p^n + a_{n-1}qp^{n-1} + \cdots + a_0q^n = 0$. Note that all of these terms but the first are divisible by $q$. Consequently, even the first term must be divisible by $q$. That is, $q \mid p^n$. Since $\gcd(p,q) = 1$, this implies that $q=1$, proving the required.
+		\end{proof}
+
+		\begin{fex}
+			Let $A$ be a square integer matrix. The eigenvalues of $A$ are precisely the roots of $\det(zI - A)$, which is a monic polynomial. As a result, any eigenvalue of an integer matrix is an algebraic integer.
+		\end{fex}
+
+		It turns out that the above in fact characterizes all algebraic integers.
+
+		\begin{fprop}
+			\label{prop: alg int iff integer eigenvalue}
+			$\alpha \in \C$ is an algebraic integer iff it is an eigenvalue of a square integer matrix $A$. 
+		\end{fprop}
+		\begin{proof}
+			We have already seen that the backward implication is true.\\
+			Let $\alpha \in \A$ and $a_{n-1},\ldots,a_{0}$ such that $\alpha^n + a_{n-1}\alpha^{n-1} + \cdots + a_0$. Then, $\alpha^n = -a_{n-1}\alpha^{n-1}-\cdots-a_0$ and we get
+			\[
+				\begin{bmatrix}
+					y\cdot 1 \\ y \cdot y \\ \vdots \\ y \cdot y^{n-2} \\ y \cdot y^{n-1}
+				\end{bmatrix}
+				= 
+				\begin{bmatrix}
+					0 & 1 & 0 & \cdots & 0 & 0 \\
+					0 & 0 & 1 & \cdots & 0 & 0 \\
+					\vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+					0 & 0 & 0 & \cdots & 0 & 1 \\
+					-a_0 & -a_1 & -a_2 & \cdots & -a_{n-1} & -a_{n-1}
+				\end{bmatrix}
+				\begin{bmatrix}
+					1 \\ y \\ \vdots \\ y^{n-2} \\ y^{n-1}
+				\end{bmatrix},
+			\]
+			completing the proof.
+		\end{proof}
+
+		\begin{fprop}
+			\label{prop: alg int subring}
+			$\A$ is a subring of $\C$.
+		\end{fprop}
+		\begin{proof}
+			It is easy to see that $0 \in \A$, and we already saw that it is closed under additive inverses. Let $\alpha,\beta \in \A$. 
+		\end{proof}
+
+
+
+
 \clearpage
