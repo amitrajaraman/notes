@@ -1,3 +1,89 @@
 \section{Fourier Analysis on Finite Groups}
 
-	
+	\subsection{Basic definitions}
+
+		\begin{definition}
+			Let $n \in \N$. A function $f : \Z \to \C$ is said to be \emph{periodic} with \emph{period} $n$ iff $f(x+n) = f(x)$ for all $x \in \Z$.
+		\end{definition}
+
+		Note that the period of a given function is not unique.\\
+		It is not difficult to check that the set of functions periodic with period $n$ is in bijection with $L(\Z/n\Z)$, the set of complex-valued functions on $\Z/n\Z$. Also recall that $L(\Z/n\Z)$ has orthonormal basis $\{\chi_k : 0 \le k < n\}$, where $\chi_k(\overline{m}) = \omega_m^{nk}$, so for $f \in L(\Z/n\Z)$,
+		\[ f = \langle f,\chi_0\rangle \chi_0 + \cdots + \langle f,\chi_{n-1}\rangle \chi_{n-1}. \]
+
+		\begin{fdef}[Fourier transform]
+			Let $f : \Z/n\Z \to \C$. The \emph{Fourier transform} $\mathcal{F}(f) = \hat{f} : \Z/n\Z \to \C$ of $f$ is defined by
+			\[ \hat{f}(\overline{m}) = \sum_{k=0}^n f(\overline{k}) e^{-2\pi\iota mk/n} = \sum_{k=0}^n f(\overline{k}) \omega_n^{-mk}. \]
+		\end{fdef}
+
+		By the definition of the inner product,
+		\begin{equation}
+			\label{eqn: fourier character innprod relation}
+			\hat{f}(\overline{m}) = n \langle f,\chi_m\rangle.
+		\end{equation}
+
+		Note that $\mathcal{F} : L(\Z/n\Z) \to L(\Z/n\Z)$ is linear.
+
+		\begin{fprop}
+			The Fourier transform is invertible. More precisely,
+			\[ f = \frac{1}{n} \sum_{k=1}^{n-1} \hat{f}(\overline{k}) \chi_k. \]
+		\end{fprop}
+		This is immedaite since \Cref{eqn: fourier character innprod relation} gives that $\langle f,\chi_k\rangle = \hat{f}(\overline{k})/n$.
+
+	\subsection{The convolution product}
+
+
+		\begin{fdef}[Convolution]
+			Let $G$ be a group and $a,b \in L(G)$. Then, the \emph{convolution} $a*b \in L(G)$ of $a$ with $b$ is defined by
+			\[ (a*b)(x) = \sum_{y \in G} a(xy^{-1}) b(y). \]
+		\end{fdef}
+
+		This is well-defined because $G$ is finite.\\
+
+		Changing $y$ to $xz^{-1}$ above, we get
+		\[ (a*b)(x) = \sum_{z \in G} b(xz^{-1})a(xzx^{-1}). \]
+		As a result, if $a$ is a class function, $(a*b) = (b*a)$. In particular, if $G$ is abelian, $(a*b) = (b*a)$ for all $a,b \in L(G)$. In fact, the converse holds as well, as we shall see shortly.
+
+		Similar to how we defined $\delta_C$ earlier, we define the following.
+
+		\begin{definition}
+			Let $G$ be a group. For $g \in G$, define $\delta_g : G \to \C$ by
+			\[ \delta_g(x) = \begin{cases} 1, & g = x, \\ 0, & \text{otherwise.} \end{cases} \]
+		\end{definition}
+
+		We omit the proofs of the next three lemmas, as they are very easy to check.
+		
+		\begin{prop}
+			Let $G$ be a group and $g,h \in G$. Then, $\delta_g * \delta_h = \delta_{gh}$.
+		\end{prop}
+
+		If $G$ is not abelian, then the above shows that $*$ is not commutative. Indeed, for $g,h \in G$ such that $gh \ne hg$, $\delta_g * \delta_h \ne \delta_h * \delta_g$.
+
+		\begin{prop}
+			\label{prop: convolution with delta}
+			Let $a \in L(G)$ and $g,h \in G$. Then, $(a*\delta_h)(g) = a(gh^{-1})$ and $(\delta_h*a)(g) = a(h^{-1}g)$.
+		\end{prop}
+
+		\begin{fprop}
+			For all $a,b,c\in L(G)$,
+			\begin{enumerate}
+				\item $a * \delta_1 = \delta_1 * a$,
+				\item $a * (b * c) = (a * b) * c$, and
+				\item $a * (b + c) = (a * b) + (a * c)$.
+			\end{enumerate}
+			That is, $(L(G),+,*)$ is a ring with multiplicative identity $\delta_1$.
+		\end{fprop}
+
+		$L(G)$ is a commutative ring iff $G$ is commutative. This also justifies why we earlier called $L(G)$ the group algebra.\\
+		Also note that the map $i : G \to L(G)$ defined by $g \mapsto \delta_g$ is a group homomorphism into the group $(L(G))^\times$ of units.\\
+		Recall \Cref{def: center of ring}.
+
+		\begin{fprop}
+			$a : G \to \C$ is a class function iff $a$ is in the center of $L(G)$.
+		\end{fprop}
+		This explains why we denoted the set of class functions as $Z(L(G))$ earlier!
+		\begin{proof}
+			We already saw earlier that if $a$ is a class function, it commutes with all of $L(G)$.\\
+			On the other hand, let $a$ be in the center of $L(G)$ and let $g,h \in G$. Then, by \Cref{prop: convolution with delta},
+			\[ a(gh) = (a * \delta_{h^{-1}})(g) = (\delta_{h^{-1}} * a) (g) = a(hg). \]
+			Setting $g$ as $xy^{-1}$ and $h$ as $y$ then shows that $a$ is a class function, completing the proof.
+		\end{proof}
