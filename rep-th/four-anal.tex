@@ -2,88 +2,302 @@
 
 	\subsection{Basic definitions}
 
+		\subsubsection{Introduction}
+
+			\begin{definition}
+				Let $n \in \N$. A function $f : \Z \to \C$ is said to be \emph{periodic} with \emph{period} $n$ iff $f(x+n) = f(x)$ for all $x \in \Z$.
+			\end{definition}
+
+			Note that the period of a given function is not unique.\\
+			It is not difficult to check that the set of functions periodic with period $n$ is in bijection with $L(\Z/n\Z)$, the set of complex-valued functions on $\Z/n\Z$. Also recall that $L(\Z/n\Z)$ has orthonormal basis $\{\chi_k : 0 \le k < n\}$, where $\chi_k(\overline{m}) = \omega_m^{nk}$, so for $f \in L(\Z/n\Z)$,
+			\[ f = \langle f,\chi_0\rangle \chi_0 + \cdots + \langle f,\chi_{n-1}\rangle \chi_{n-1}. \]
+
+			\begin{fdef}[Fourier transform on $\Z/n\Z$]
+				Let $f : \Z/n\Z \to \C$. The \emph{Fourier transform} $\mathcal{F}(f) = \hat{f} : \Z/n\Z \to \C$ of $f$ is defined by
+				\[ \hat{f}(\overline{m}) = \sum_{k=0}^n f(\overline{k}) e^{-2\pi\iota mk/n} = \sum_{k=0}^n f(\overline{k}) \omega_n^{-mk}. \]
+			\end{fdef}
+
+			By the definition of the inner product,
+			\begin{equation}
+				\label{eqn: fourier character innprod relation}
+				\hat{f}(\overline{m}) = n \langle f,\chi_m\rangle.
+			\end{equation}
+
+			Note that $\mathcal{F} : L(\Z/n\Z) \to L(\Z/n\Z)$ is linear.
+
+			\begin{fprop}
+				The Fourier transform is invertible. More precisely,
+				\[ f = \frac{1}{n} \sum_{k=1}^{n-1} \hat{f}(\overline{k}) \chi_k. \]
+			\end{fprop}
+			This is immediate since \Cref{eqn: fourier character innprod relation} gives that $\langle f,\chi_k\rangle = \hat{f}(\overline{k})/n$.
+
+		\subsubsection{The convolution product}
+
+			\begin{fdef}[Convolution]
+				Let $G$ be a group and $a,b \in L(G)$. Then, the \emph{convolution} $a*b \in L(G)$ of $a$ with $b$ is defined by
+				\[ (a*b)(x) = \sum_{y \in G} a(xy^{-1}) b(y). \]
+			\end{fdef}
+
+			This is well-defined because $G$ is finite.\\
+
+			Changing $y$ to $xz^{-1}$ above, we get
+			\[ (a*b)(x) = \sum_{z \in G} b(xz^{-1})a(xzx^{-1}). \]
+			As a result, if $a$ is a class function, $(a*b) = (b*a)$. In particular, if $G$ is abelian, $(a*b) = (b*a)$ for all $a,b \in L(G)$. In fact, the converse holds as well, as we shall see shortly.
+
+			Similar to how we defined $\delta_C$ earlier, we define the following.
+
+			\begin{definition}
+				Let $G$ be a group. For $g \in G$, define $\delta_g : G \to \C$ by
+				\[ \delta_g(x) = \begin{cases} 1, & g = x, \\ 0, & \text{otherwise.} \end{cases} \]
+			\end{definition}
+
+			We omit the proofs of the next three lemmas, as they are very easy to check.
+			
+			\begin{prop}
+				Let $G$ be a group and $g,h \in G$. Then, $\delta_g * \delta_h = \delta_{gh}$.
+			\end{prop}
+
+			If $G$ is not abelian, then the above shows that $*$ is not commutative. Indeed, for $g,h \in G$ such that $gh \ne hg$, $\delta_g * \delta_h \ne \delta_h * \delta_g$.
+
+			\begin{prop}
+				\label{prop: convolution with delta}
+				Let $a \in L(G)$ and $g,h \in G$. Then, $(a*\delta_h)(g) = a(gh^{-1})$ and $(\delta_h*a)(g) = a(h^{-1}g)$.
+			\end{prop}
+
+			\begin{fprop}
+				For all $a,b,c\in L(G)$,
+				\begin{enumerate}
+					\item $a * \delta_1 = \delta_1 * a$,
+					\item $a * (b * c) = (a * b) * c$, and
+					\item $a * (b + c) = (a * b) + (a * c)$.
+				\end{enumerate}
+				That is, $(L(G),+,*)$ is a ring with multiplicative identity $\delta_1$.
+			\end{fprop}
+
+			$L(G)$ is a commutative ring iff $G$ is commutative. This also justifies why we earlier called $L(G)$ the group algebra.\\
+			Also note that the map $i : G \to L(G)$ defined by $g \mapsto \delta_g$ is a group homomorphism into the group $(L(G))^\times$ of units.\\
+			Recall \Cref{def: center of ring}.
+
+			\begin{fprop}
+				$a : G \to \C$ is a class function iff $a$ is in the center of $L(G)$.
+			\end{fprop}
+			This explains why we denoted the set of class functions as $Z(L(G))$ earlier!
+			\begin{proof}
+				We already saw earlier that if $a$ is a class function, it commutes with all of $L(G)$.\\
+				On the other hand, let $a$ be in the center of $L(G)$ and let $g,h \in G$. Then, by \Cref{prop: convolution with delta},
+				\[ a(gh) = (a * \delta_{h^{-1}})(g) = (\delta_{h^{-1}} * a) (g) = a(hg). \]
+				Setting $g$ as $xy^{-1}$ and $h$ as $y$ then shows that $a$ is a class function, completing the proof.
+			\end{proof}
+
+	\subsection{Fourier analysis on finite groups}
+
+		Recall the dual group of a group from \Cref{def: dual group}. In the case where $G$ is finite and abelian, the elements of $\hat{G}$ are precisely the irreducible characters of $G$. Earlier, we had defined the Fourier transform for only groups of the form $\Z/n\Z$. Now, we shall extend it more generally to abelian groups, as a function $\mathcal{F} : L(G) \to L(\hat{G})$. Also recall from \Cref{theo: finite abelian group dual} that $G \cong \hat{G}$.
+
+		\begin{fdef}[Fourier transform on abelian groups]
+			Let $G$ be a finite abelian group and $f \in L(G)$ a function. The \emph{Fourier transform} $\mathcal{F}(f) = \hat{f} \in L(\hat{G})$ is defined by
+			\[ \hat{f}(\chi) = |G|\langle f,\chi\rangle = \sum_{g \in G} f(g) \overline{\chi(g)}. \]
+			The complex numbers $|G| \langle f,\chi\rangle$ are called the \emph{Fourier coefficients} of $f$.
+		\end{fdef}
+
+		For the case where $G = \Z/n\Z$, an example of an isomorphism $G \to \hat{G}$ is given by $\overline{k} \mapsto \chi_{\overline{k}}$, where $\chi_{\overline{k}}$ is defined by $\chi_{\overline{k}}(\overline{m}) = \omega_n^{mk}$. It is then easy to see that this Fourier transform does correspond with that we gave earlier.\\
+
+		Since any irreducible character $\chi \in L(G)$, it makes sense to talk about the Fourier transform of a character (this takes irreducible characters as input). Using \Cref{theo: inner product of irreducible characters}, we then have for any irreducible character $\theta \in L(G)$,
+		\[ \hat{\chi}(\theta) = |G| \langle \chi,\theta\rangle = \begin{cases} |G|, & \theta = \chi, \\ 0, & \text{otherwise.} \end{cases} \]
+		That is, $\hat{\chi} = |G| \delta_\chi$.\\
+
+		Again, as before, the Fourier transform is invertible.
+
+		\begin{lemma}[Fourier inversion]
+			\label{lem: fourier inversion}
+			Let $G$ be an abelian group. $\mathcal{F} : L(G) \to L(\hat{G})$ is injective. In particular, if $f \in L(G)$,
+			\[ f = \frac{1}{|G|} \sum_{\chi \in \hat{G}} \hat{f}(\chi) \chi. \]
+		\end{lemma}
+		\begin{proof}
+			We have
+			\[ f = \sum_{\chi \in \hat{G}} \langle f,\chi\rangle \chi = \frac{1}{|G|} \sum_{\chi \in \hat{G}} |G| \langle f,\chi\rangle \chi = \frac{1}{|G|} \sum_{\chi \in \hat{G}} \hat{f}(\chi) \chi. \qedhere \]
+		\end{proof}
+
+		\begin{fprop}
+			\label{prop: fourier iso of vspaces}
+			$\mathcal{F} : L(G) \to L(\hat{G})$ is an isomorphism of vector spaces.
+		\end{fprop}
+		\begin{proof}
+			For $f_1,f_2 \in L(G)$, $\alpha \in \C$, and $\chi \in \hat{G}$,
+			\[ \mathcal{F}(\alpha f_1 + f_2)(\chi) = |G|\langle \alpha f_1 + f_2 , \chi\rangle = |G| \alpha \langle f_1,\chi\rangle + |G|\langle f_2,\chi\rangle = \alpha \mathcal{F}(f_1)(\chi) + \mathcal{F}(f_2)(\chi). \]
+			Since $\mathcal{F}$ is injective, linear, and $\dim L(G) = \dim L(\hat{G}) = |G|$, $\mathcal{F}$ is an isomorphism.
+		\end{proof}
+
+		We would also like $\mathcal{F}$ to be an isomorphism of rings. However, the convolution product on $L(\hat{G})$ does not work out for this, and we must use the point-wise product $\cdot$ instead. Clearly, this makes $L(\hat{G})$ a commutative ring with identity as the constant map $g \mapsto 1$. $L(G)$ is also commutative in this case, but with identity $\delta_1$.
+
+		\begin{ftheo}
+			\label{theo: fourier isomorphism of rings abelian}
+			Let $G$ be an abelian group and $a,b \in L(G)$. The Fourier transform satisfies 
+			\[ \widehat{a * b} = \hat{a} \cdot \hat{b}. \]
+			As a result, $\mathcal{F} : L(G) \to L(\hat{G})$ is an isomorphism between the rings $(L(G),+,*)$ and $(L(\hat{G}),+,\cdot)$.
+		\end{ftheo}
+		\begin{proof}
+			Let $\chi \in \hat{G}$. Then,
+			\begin{align*}
+				\widehat{a * b}(\chi) &= \sum_{x \in G} (a * b)(x) \overline{\chi(x)} \\
+					&= \sum_{x \in G} \left(\sum_{y \in G} a(xy^{-1}) b(y)\right) \overline{\chi(x)} \\
+					&= \sum_{y \in G} b(y) \sum_{x \in G} a(xy^{-1}) \overline{\chi(x)} \\
+					&= \sum_{y \in G} b(y) \sum_{z \in G} a(z) \overline{\chi(zy)} \\
+					&= \sum_{y \in G} b(y) \overline{\chi(y)} \sum_{z \in G} a(z) \overline{\chi(z)} = \hat{a}(\chi) \cdot \hat{b}(\chi). \qedhere
+			\end{align*}
+		\end{proof}
+
+		For the remainder of this subsection, we discuss an application of Fourier analysis in graph theory.\\
+		Recall the definition of a(n undirected) graph and its adjacency matrix.
+
+		\begin{fdef}[Cayley Graph]
+			Let $G$ be a finite group written in some fixed order. A subset $S \subseteq G$ is said to be \emph{symmetric} if
+			\begin{enumerate}
+				\item $1\not\in S$ and
+				\item $s \in S \implies s^{-1} \in S$.
+			\end{enumerate}
+			If $S$ is a symmetric subset of $G$, the \emph{Cayley graph} of $G$ with respect to $S$ is the graph with vertex set $G$ and edge $\{g,h\}$ iff $gh^{-1} \in S$.
+		\end{fdef}
+
+		Note that the above definition makes sense because $gh^{-1} \in S$ iff $hg^{-1} \in S$.\\
+		Whenever $G = \Z/n\Z$, we assume this ``fixed order'' to be $\{\overline{0},\ldots,\overline{n-1}\}$.
+
 		\begin{definition}
-			Let $n \in \N$. A function $f : \Z \to \C$ is said to be \emph{periodic} with \emph{period} $n$ iff $f(x+n) = f(x)$ for all $x \in \Z$.
+			A Cayley graph of $\Z/n\Z$ (with respect to any symmetric set) is called a \emph{circulant graph} (on $n$ vertices).
 		\end{definition}
 
-		Note that the period of a given function is not unique.\\
-		It is not difficult to check that the set of functions periodic with period $n$ is in bijection with $L(\Z/n\Z)$, the set of complex-valued functions on $\Z/n\Z$. Also recall that $L(\Z/n\Z)$ has orthonormal basis $\{\chi_k : 0 \le k < n\}$, where $\chi_k(\overline{m}) = \omega_m^{nk}$, so for $f \in L(\Z/n\Z)$,
-		\[ f = \langle f,\chi_0\rangle \chi_0 + \cdots + \langle f,\chi_{n-1}\rangle \chi_{n-1}. \]
+		\begin{definition}
+			A matrix $A = (a_{ij})$ is said to be \emph{circulant} if there exists a function $f : \Z/n\Z \to \C$ such that $a_{ij} = f(\overline{j} - \overline{i})$. 
+		\end{definition}
+
+		Equivalently, a circulant matrix is of the form
+		\[
+			\begin{bmatrix}
+				a_0 & a_1 & \cdots & a_{n-2} & a_{n-1} \\
+				a_{n-1} & a_0 & \cdots & a_{n-3} & a_{n-2} \\
+				\vdots & \vdots & \ddots & \vdots & \vdots \\
+				a_2 & a_3 & \cdots & a_0 & a_1 \\
+				a_1 & a_2 & \cdots & a_{n-1} & a_0
+			\end{bmatrix}.
+		\]
+
+		It is not too difficult to verify that for any symmetric subset $S$ of $G = \Z/n\Z$, the circulant matrix corresponding to $f = \delta_S$ is the adjacency matrix of the Cayley graph of $G$ with respect to $S$.
+
+		\begin{flem}
+			\label{lemma 3.9}
+			Let $G$ be an abelian group and $a \in L(G)$. Define $A : L(G) \to L(G)$ by $A(b) = a * b$. Then, $A$ is linear and $\chi$ an eigenvector of $A$ with eigenvalue $\hat{a}(\chi)$ for all $\chi \in \hat{G}$. Consequently, $A$ is diagonalisable.
+		\end{flem}
+		\begin{proof}
+			Linearity is easily checked and we omit the proof.\\
+			Let $\chi \in \hat{G}$ be arbitrary. Then,
+			\[ \widehat{a * \chi} = \hat{a} \cdot \hat{\chi} = |G| \hat{a} \cdot \delta_\chi = |G| \hat{a}(\chi) \delta_\chi . \]
+			By \Cref{lem: fourier inversion}, 
+			\[ A(\chi) = a * \chi = \hat{a}(\chi) \chi, \]
+			and $\chi$ is an eigenvector of $A$ with eigenvalue $\hat{a}(\chi)$.\\
+			Because $G$ is abelian, $Z(L(G)) = L(G)$ and $\hat{G}$, a basis of $Z(L(G))$, is constituted of precisely the irreducible characters of $G$. As a result, $\hat{G}$ is an eigenbasis of $Z(L(G))$ and $A$ is diagonalisable.
+		\end{proof}
+
+		\begin{ftheo}
+			Let $G = \{g_1,\ldots,g_n\}$ be an ordered abelian group, $S \subseteq G$ a symmetric set, $\chi_1,\ldots,\chi_n$ the irreducible characters of $G$, and $A$ the adjacency matrix of the Cayley graph of $G$ with respect to $S$. Then,
+			\begin{enumerate}[label=(\alph*)]
+				\item The eigenvalues of $A$ are
+				\[ \lambda_i = \sum_{s \in S} \chi_i(s) \]
+				for $1 \le i \le n$.
+				\item A corresponding orthonormal basis of eigenvectors is given by
+				\[ v_i = \frac{1}{\sqrt{|G|}} \begin{bmatrix} \chi_i(g_1) & \cdots & \chi_i(g_n) \end{bmatrix}^\top. \]
+			\end{enumerate}
+		\end{ftheo}
+		Note that given the above, the $\lambda_i$ must be symmetric as $A$ is symmetric.
+		\begin{proof}
+			Define $F : L(G) \to L(G)$ by $F(b) = \delta_S * b = \sum_{x \in S} b(x)$. We shall analyze the eigenvalues and eigenvectors of $F$, and finally show that $A$ is the matrix representation of $F$ with respect to another ordered basis.\\
+			By \Cref{lemma 3.9}, $F$ has eigenvectors $\chi_i$ with corresponding eigenvalue
+			\[ \hat{\delta}_S(\chi_i) = |G| \langle \delta_S,\chi_i\rangle = \sum_{x \in S} \overline{\chi_i(x)} = \sum_{x \in S} \chi_i(x^{-1}) = \sum_{y \in S} \chi_i(y) = \lambda_i. \]
+			Consider $B = (\delta_{g_1},\ldots,\delta_{g_n})$ of $L(G)$, and let $[F]_B$ denote the matrix of $F$ with respect to this ordered basis.
+			The coordinate vector of $\chi_i$ with respect to $B$ is precisely $\sqrt{|G|} v_i$, and the above argument shows that it is an eigenvector with eigenvalue $\lambda_i$. The orthonormality of the $(v_i)$ follows from \Cref{theo: inner product of irreducible characters}.\\
+			It suffices to show that $A = [F]_B$. Let $1 \le i,j \le n$. $([F]_B)_{ij}$ is the coefficient of $\delta_{g_i}$ in $F(g_j)$, which is
+			\[ ([F]_B)_{ij} = F(\delta_{g_j})(g_i) = (\delta_S * \delta_{g_j})(g_i) = \delta_S(g_ig_j^{-1}) \]
+			by \Cref{prop: convolution with delta}. This is precisely $A_{ij}$, completing the proof.
+		\end{proof}
+
+		\begin{fcor}
+			Let $A$ be a $n\times n$ circulant matrix, which is the adjacency matrix of the Cayley graph of $G = \Z/n\Z$ with respect to some symmetric $S \subseteq G$. Then, the eigenvalues of $A$ are
+			\[ \lambda_k = \sum_{\overline{m} \in S} \omega_n^{km} \]
+			for $k = 0,\ldots,n-1$ with a corresponding orthonormal eigenbasis given by
+			\[ v_k = \frac{1}{\sqrt{n}} \begin{bmatrix} 1 & \omega_n^k & \omega_n^{2k} & \cdots & \omega_n^{(n-1)k} \end{bmatrix}. \]
+		\end{fcor}
+
+	\subsection{Fourier analysis on non-abelian groups}
+
+		The issue in non-abelian groups is that $Z(L(G)) \ne L(G)$, and a pointwise product of functions remains commutative. As a result, we cannot have a Fourier transform converting convolution to a pointwise product while staying an isomorphism. To remedy this, we shall look at matrix multiplication instead of pointwise multiplication.\\
+
+		Before going to this, let us look at abelian groups in a different light. Recall that $\C^n$ is a ring with product given by
+		\[ (w_1,\ldots,w_n) \cdot (z_1,\ldots,z_n) = (w_1z_1,\ldots,w_nz_n). \]
+
+		\begin{fprop}
+			Let $G$ be a finite abelian group with irreducible characters $\chi_1,\ldots,\chi_n$. Define $T : L(G) \to \C^n$ by
+			\[ Tf = (\hat{f}(\chi_1),\ldots,\hat{f}(\chi_n)). \]
+			Then, $T$ is an isomorphism of rings.
+		\end{fprop}
+		\begin{proof}
+			Similar to the proof of \Cref{prop: fourier iso of vspaces}, $T$ is an isomorphism of vector spaces, so we only need to show that for $f,g \in L(G)$, $T(f*g) = Tf\cdot Tg$. This however, follows directly from the fact that $\widehat{f*g}(\chi_i) = \hat{f}(\chi_i) \cdot \hat{g}(\chi_i)$.
+		\end{proof}
+
+		\begin{ftheo}
+			Let $G$ be a finite abelian group of order $n$. Then, $L(G) \cong \C^n$ as rings.
+		\end{ftheo}
+
+		The above says that
+		\[ \C^n \cong \underbrace{M_1(\C) \times \cdots \times M_1(\C)}_{n\text{ copies}}. \]
+		In general, we replace the $1$s with the degrees of the irreducible representations (recall that all irreducible representations of abelian groups are degree one).\\
+
+		For the rest of this subsection, let $G$ be a finite group of order $n$, and $\varphi^{(1)},\ldots,\varphi^{(s)}$ a transversal of irreducible unitary representations of $G$. Set $d_k = \deg \varphi^{(k)}$.\\
+		Let $D = \{(i,j,k) : 1 \le k \le s, 1 \le i,j \le d_k\}$. Finally, let $B = \{ \sqrt{d_k} \varphi_{ij}^{(k)} : (i,j,k) \in D \}$. Recall from \Cref{prop: finitely many irreducible representations} that $B$ is an orthonormal basis of $L(G)$.
 
 		\begin{fdef}[Fourier transform]
-			Let $f : \Z/n\Z \to \C$. The \emph{Fourier transform} $\mathcal{F}(f) = \hat{f} : \Z/n\Z \to \C$ of $f$ is defined by
-			\[ \hat{f}(\overline{m}) = \sum_{k=0}^n f(\overline{k}) e^{-2\pi\iota mk/n} = \sum_{k=0}^n f(\overline{k}) \omega_n^{-mk}. \]
+			Define $\mathcal{F} : L(G) \to M_{d_1}(\C) \times \cdots M_{d_s}(\C)$ by $\mathcal{F}(f) = (\hat{f}(\varphi^{(1)}),\ldots,\hat{f}(\varphi^{(s)}))$, where
+			\[ \hat{f}(\varphi^{(k)}) = \sum_{g \in G} f(g) \overline{\varphi_g^{(k)}}. \]
+			$\mathcal{F}(f)$ is said to be the \emph{Fourier transform} of $f$.
 		\end{fdef}
 
-		By the definition of the inner product,
+		That is, $\hat{f}(\varphi^{(k)})$ is just a matrix with
 		\begin{equation}
-			\label{eqn: fourier character innprod relation}
-			\hat{f}(\overline{m}) = n \langle f,\chi_m\rangle.
+		\label{eqn: 3.2}
+			\left(\hat{f}(\varphi^{(k)})\right)_{ij} = \hat{f}(\varphi^{(k)}_{ij}).
 		\end{equation}
+		Note that $\dim L(G) = |G|$, and $\dim (M_{d_1}(\C) \times \cdots \times M_{d_s}(\C)) = d_1^2 + \cdots + d_s^2 = |G|$. We shall show that $\mathcal{F}$ is an isomorphism.
 
-		Note that $\mathcal{F} : L(\Z/n\Z) \to L(\Z/n\Z)$ is linear.
-
-		\begin{fprop}
-			The Fourier transform is invertible. More precisely,
-			\[ f = \frac{1}{n} \sum_{k=1}^{n-1} \hat{f}(\overline{k}) \chi_k. \]
-		\end{fprop}
-		This is immedaite since \Cref{eqn: fourier character innprod relation} gives that $\langle f,\chi_k\rangle = \hat{f}(\overline{k})/n$.
-
-	\subsection{The convolution product}
-
-
-		\begin{fdef}[Convolution]
-			Let $G$ be a group and $a,b \in L(G)$. Then, the \emph{convolution} $a*b \in L(G)$ of $a$ with $b$ is defined by
-			\[ (a*b)(x) = \sum_{y \in G} a(xy^{-1}) b(y). \]
-		\end{fdef}
-
-		This is well-defined because $G$ is finite.\\
-
-		Changing $y$ to $xz^{-1}$ above, we get
-		\[ (a*b)(x) = \sum_{z \in G} b(xz^{-1})a(xzx^{-1}). \]
-		As a result, if $a$ is a class function, $(a*b) = (b*a)$. In particular, if $G$ is abelian, $(a*b) = (b*a)$ for all $a,b \in L(G)$. In fact, the converse holds as well, as we shall see shortly.
-
-		Similar to how we defined $\delta_C$ earlier, we define the following.
-
-		\begin{definition}
-			Let $G$ be a group. For $g \in G$, define $\delta_g : G \to \C$ by
-			\[ \delta_g(x) = \begin{cases} 1, & g = x, \\ 0, & \text{otherwise.} \end{cases} \]
-		\end{definition}
-
-		We omit the proofs of the next three lemmas, as they are very easy to check.
-		
-		\begin{prop}
-			Let $G$ be a group and $g,h \in G$. Then, $\delta_g * \delta_h = \delta_{gh}$.
-		\end{prop}
-
-		If $G$ is not abelian, then the above shows that $*$ is not commutative. Indeed, for $g,h \in G$ such that $gh \ne hg$, $\delta_g * \delta_h \ne \delta_h * \delta_g$.
-
-		\begin{prop}
-			\label{prop: convolution with delta}
-			Let $a \in L(G)$ and $g,h \in G$. Then, $(a*\delta_h)(g) = a(gh^{-1})$ and $(\delta_h*a)(g) = a(h^{-1}g)$.
-		\end{prop}
-
-		\begin{fprop}
-			For all $a,b,c\in L(G)$,
-			\begin{enumerate}
-				\item $a * \delta_1 = \delta_1 * a$,
-				\item $a * (b * c) = (a * b) * c$, and
-				\item $a * (b + c) = (a * b) + (a * c)$.
-			\end{enumerate}
-			That is, $(L(G),+,*)$ is a ring with multiplicative identity $\delta_1$.
-		\end{fprop}
-
-		$L(G)$ is a commutative ring iff $G$ is commutative. This also justifies why we earlier called $L(G)$ the group algebra.\\
-		Also note that the map $i : G \to L(G)$ defined by $g \mapsto \delta_g$ is a group homomorphism into the group $(L(G))^\times$ of units.\\
-		Recall \Cref{def: center of ring}.
-
-		\begin{fprop}
-			$a : G \to \C$ is a class function iff $a$ is in the center of $L(G)$.
-		\end{fprop}
-		This explains why we denoted the set of class functions as $Z(L(G))$ earlier!
+		\begin{flem}
+			\label{theo: fourier is injective}
+			Let $f \in L(G)$. Then,
+			\[ f = \frac{1}{n} \sum_{(i,j,k) \in D} d_k \hat{f}(\varphi^{(k)})_{ij} \varphi_{ij}^{(k)}. \]
+			In particular, $\mathcal{F}$ is injective.
+		\end{flem}
 		\begin{proof}
-			We already saw earlier that if $a$ is a class function, it commutes with all of $L(G)$.\\
-			On the other hand, let $a$ be in the center of $L(G)$ and let $g,h \in G$. Then, by \Cref{prop: convolution with delta},
-			\[ a(gh) = (a * \delta_{h^{-1}})(g) = (\delta_{h^{-1}} * a) (g) = a(hg). \]
-			Setting $g$ as $xy^{-1}$ and $h$ as $y$ then shows that $a$ is a class function, completing the proof.
+			Because $B$ is an orthonormal basis, it suffices to show that
+			\[ \langle f , \sqrt{d_k} \varphi_{ij}^{(k)} \rangle = \frac{1}{n} \sqrt{d_k} \hat{f}(\varphi^{(k)})_{ij}, \]
+			which is just \Cref{eqn: 3.2}.
+		\end{proof}
+
+		\begin{flem}
+			$\mathcal{F}$ is an isomorphism of vector spaces.
+		\end{flem}
+		\begin{proof}
+			As usual, checking linearity is easy. $\mathcal{F}$ is injective by \Cref{theo: fourier is injective}. We also saw earlier that the dimensions of $L(G)$ and $M_{d_1}(\C) \times \cdots \times M_{d_s}(\C)$ are equal, so we are done.
+		\end{proof}
+
+		$M_{d_1}(\C) \times \cdots \times M_{d_s}(\C)$ is a ring as well, with the coordinate-wise product.
+
+		\begin{ftheo}[Wedderburn's Theorem]
+			\label{wedderburns theorem}
+			The Fourier transform is an isomorphism of rings.
+		\end{ftheo}
+		\begin{proof}
+			Let $a,b \in L(G)$. All we need to show is that $\widehat{a,b} = \hat{a} \cdot \hat{b}$. Since the latter product is coordinate-wise, this is equivalent to showing that $\widehat{a*b}(\varphi^{(k)}) = \hat{a}(\varphi^{(k)}) \cdot \hat{b}(\varphi^{(k)})$ for all $1 \le k \le s$ (the product on the right is matrix multiplication). The proof is very similar to that of \Cref{theo: fourier isomorphism of rings abelian}:
+			\begin{align*}
+				\widehat{a*b}(\varphi^{(k)}) &= \sum_{g \in G} (a*b)(g) \overline{\varphi^{(k)}(g)} \\
+					&= \sum_{g,h \in G} a(gh^{-1}) b(h) \overline{\varphi^{(k)}(g)} \\
+					&= \sum_{h \in G} b(h) \sum_{g \in G} a(gh^{-1}) \overline{\varphi^{(k)}(g)} & \text{($a,b$ commute because they take values in $\C$)} \\
+					&= \sum_{h \in G} b(h) \sum_{g \in G} a(g) \overline{\varphi^{(k)}(gh)} \\
+					&= \sum_{h \in G} b(h) \sum_{g \in G} a(g) \overline{\varphi^{(k)}(g)} \cdot \overline{\varphi^{(k)}(h)} \\
+					&= \left(\sum_{g \in G} a(g) \overline{\varphi^{(k)}(g)}\right) \cdot \left(\sum_{h \in G} b(h) \overline{\varphi^{(k)}(h)}\right) = \hat{a}(\varphi^{(k)}) \cdot \hat{b}(\varphi^{(k)}). & \qedhere
+			\end{align*}
 		\end{proof}
