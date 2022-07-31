@@ -1,0 +1,97 @@
+\section{Problem Sheets}
+
+	\subsection{Problem Sheet 1}
+
+		\begin{problem}
+			Let $S(n,k)$ and $s(n,k)$ be Stirling numbers of the second and first kind respectively. Show that for all $n,k$, we have $s(n,k) \ge S(n,k)$.
+		\end{problem}
+	
+		\begin{solution*}
+			Let $X_{S(n,k)}$ be the set of partitions of $[n]$ into exactly $k$ parts and $X_{s(n,k)}$ the number of permutations of $[n]$ with exactly $k$ cycles. Recall that by definition, $|X_{S(n,k)}| = S(n,k)$ and $|X_{s(n,k)}| = s(n,k)$. It suffices to demonstrate an injection $f$ from $X_{S(n,k)}$ to $X_{s(n,k)}$. We do so as follows. Let $\{\{x_{1,1},\ldots,x_{1,n_1}\},\ldots,\{x_{k,1},\ldots,x_{1,n_k}\}\}$ be a partition of $[n]$ into exactly $k$ parts, where $x_{i,j_1} < x_{i,j_2}$ for $j_1 < j_2$. Then, we have a corresponding permutation of $[n]$ with exactly $k$ cycles given by $(x_{1,1},\ldots,x_{1,n_1})\cdots(x_{k,1},\ldots,x_{k,n_k})$. This map is clearly an injection, so we are done.
+		\end{solution*}
+
+		\begin{problem}
+			Show that
+			\[ S(n,k) = \sum_{r=1}^k (-1)^{k-r} \frac{r^n}{r!(k-r)!}. \]
+		\end{problem}
+		\begin{solution*}
+			$S(n,k)$ is merely $k!$ times the number of surjective functions from $[n]$ to $[k]$ (because the ordering of the partitions does not matter). The set of functions that are \emph{not} surjective is
+			\[ \bigcup_{i \in [n]} \{ f \in [k]^{[n]} : i \not\in \Im(f) \}. \]
+			The size of the above is quite easily determined by the inclusion-exclusion principle to get
+			\[ k^n - k!S(n,k) = \sum_{r=1}^{k-1} (-1)^{r+1} \cdot \underbrace{\binom{k}{r}}_\text{choosing $r$ elements in $[k]$ to ``avoid''} \cdot \underbrace{(k-r)^n}_\text{counting functions that avoid the chosen}, \]
+			and the desideratum immediately follows.
+		\end{solution*}
+
+		\begin{problem}
+			Let $A_n(y) = \sum_{k} S(n,k) y^k$. Show that $A_n(y) = (y + yD)^n1$ where $D = \od{}{y}$ is the derivative operator.
+		\end{problem}
+		\begin{solution*}
+			
+		\end{solution*}
+
+		\begin{problem}
+			Let $D_n$ be the number of derangements in $\mathfrak{S}_n$ and let $D(x) = \sum_{n \ge 0} D_n x^n/n!$ be its egf. Determine $D(x)$.
+		\end{problem}
+		\begin{solution*}
+			A permutation $\pi \in \mathfrak{S}_n$ is a derangement iff it has no cycles of length $1$. Define $f : \N \to \N_0$ by
+			\[ f(k) = \begin{cases} 0 , & k = 1, \\ 1 , & \text{otherwise.} \end{cases} \]
+			By the earlier observation, $\pi \in \mathfrak{S}_n$ is a derangement iff $f(|C_1|)\cdots f(|C_k|) = 1$ where $C_1,\ldots,C_k$ are the cycles of $\pi$.
+			Using Corollary 5.1.9 in \cite{ec2}, we get that
+			\[ D(x) = \exp \left(\sum_{n \ge 2} \frac{x^n}{n}\right) = \exp \left( -x - \log(1-x) \right) = \frac{e^{-x}}{1-x} . \]
+		\end{solution*}
+
+		\begin{problem}
+			Let $s(n,2)$ denote the number of $\pi \in \mathfrak{S}_n$ with $2$ cycles in its cyclic decomposition and let $H_n$ denote the $n$th harmonic number. Show that $s(n+1,2) = H_n \times n!$.
+		\end{problem}
+		\begin{solution*}
+			It is easily checkable that the number of cyclic permutations of $[k]$ is $(k-1)!$. We have
+			\begin{align*}
+				s(n+1,2) &= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \binom{n+1}{k} (k-1)! (n+1-k-1)! \\
+					&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{(n+1)!}{k(n+1-k)} \\
+					&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} n! \left( \frac{1}{k} + \frac{1}{n+1-k} \right) \\
+					&= n! \left(\sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{1}{k} + \sum_{k=\lceil (n+1)/2 \rceil}^{n} \frac{1}{k} \right) \\
+					&= \begin{cases} n!H_n, & \text{$n$ is even}, \\ n! (H_n + \frac{2}{n+1}), & \text{$n$ is odd.} \end{cases} 
+			\end{align*}
+		\end{solution*}
+
+		\begin{problem}
+			For a fixed positive integer $k$, consider the egf $f_k(x) = \sum_{n \ge 0} s(n,k) x^n/n!$. Show that
+			\[ f_k(x) = \frac{1}{k!} \ln\left( \frac{1}{1-x} \right)^k. \]
+		\end{problem}
+		\begin{solution*}
+			Define $g : \N \to \N_0$ by
+			\[ g(r) = \begin{cases} 1, & r = k, \\ 0, & \text{otherwise.} \end{cases} \]
+			Observe that
+			\[ s(n,k) = \sum_{\pi \in \mathfrak{S}_n} g(r), \]
+			where $C_1,\ldots,C_r$ are the cycles in $\pi$. We now use Corollary 5.1.8 in \cite{ec2} with $f$ being the function that takes the constant $1$. We have $E_g(x) = \frac{1}{(k-1)!} x^k$, so we get that
+			\[ f_k(x) = \frac{1}{(k-1)!} \left( \sum_{n \ge 1} \frac{x^n}{n} \right)^k = \frac{1}{(k-!)!} \ln \left( \frac{1}{1-x} \right)^k. \]
+		\end{solution*}
+
+		\begin{problem}
+			Find $\sum_{k=0}^n (-1)^k s(n,k)$.
+		\end{problem}
+		\begin{solution*}
+			
+		\end{solution*}
+
+
+		\begin{problem}
+			Show that $S(n+1,k+1) = \sum_{m=0}^n \binom{n}{m} S(m,k)$.
+		\end{problem}
+		\begin{solution*}
+			
+		\end{solution*}
+
+		\begin{problem}
+			Find the number of ways in which a product of $n$ distinct primes can be factored.
+		\end{problem}
+		\begin{solution*}
+			
+		\end{solution*}
+
+		\begin{problem}
+			Show that for $n \ge 1$, the $S_{n,k}$ as $k$ varies has either a unique maximum value or has at most two equal values.
+		\end{problem}
+		\begin{solution*}
+			
+		\end{solution*}

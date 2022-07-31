@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{MA 861 : Combinatorics I}
+\usepackage{../generic}
+
+% Quiz before midsem - 15%
+% Midsem - 30%
+% Quiz 2 after midsem - 15%
+% Endsem - 15%
+
+% Prereqs
+% - some knowledge of generating functions (both ordinary (ogfs) and exponential (egfs***)) -- see Wilf - generating functionology
+% - Stanley - Enumerative Combinatorics II Chapter 5 : exponential formula and combinatorial formula for egfs (permutation version)
+% - Gessel-Viennot Lemma -- given integral (P_i)_{i=1}^n and (Q_i)_{i=1}^n, how many ways to choose disjoint paths from P_i to Q_i? Enumerative Combinatorics I Chapter 2 (Sieve methods)
+% - Representation Theory of finite groups (MA 538), symmetric groups in particular
+% - Some basic stuff like Stirling number, Euler number etc
+% - Lagrange's Theorem (will be covered in the course?) -- when is F(G(x)) defined (gen. funcs) -- either when $F(x)$ is a poly or $G(x)$ has zero constant term
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\titleBC
+\tableofcontents
+\clearpage
+
+\setcounter{section}{-1}
+
+\input{notation}
+\input{introduction}
+\input{psheets}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+
+
+\end{document}

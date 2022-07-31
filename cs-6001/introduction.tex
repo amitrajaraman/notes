@@ -1,0 +1,100 @@
+\section{Introduction}
+
+In typical linear programming, we have an objective that a \emph{single} individual is trying to maximize (subject to some constraints). In game theory, we typically study systems where there are \emph{multiple} individuals with objectives that they are trying to maximize, but each individual can only set some of the variables (the set of variables is shared). An optimal solution for one individual might not be the optimal solution for another. As a result, it is now better to look at \emph{equilibria} instead of pure black-and-white optimality.\\
+These equilibria are what we shall study.
+
+The course is broadly split in two parts:
+\begin{itemize}
+	\item \emph{Game theory}, where we study games, interactions between agents who want to maximize their utilities. This is a predictive approach. We wish to find the most probably outcomes or responses of the agents/players.
+	\item \emph{Mechanism design}, where we try to design a game with desirable outcomes. This is a prescriptive approach. Given a reasonable outcome, we wish to build a game that yields this as a probable outcome.
+\end{itemize}
+The above is essentially analysis versus synthesis.\\
+
+A well-known example of game theory is the \href{https://en.wikipedia.org/wiki/Prisoner%27s_dilemma}{\emph{Prisoner's Dilemma}}.\\
+Consider the following scenario. Two kingdoms can each decide to dedicate all their resources to either agriculture or warfare. If both kingdoms choose warfare, they each earn one unit of joy. If one chooses agriculture and the other chooses warfare, the former earns nothing while the latter earns six units of joy. Finally, if both choose agriculture, they each earn five units of joy.\\
+This can be represented by the following matrix.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+	\hline
+	\textsf{A}, \textsf{B} & Agriculture & War \\
+	\hline
+	Agriculture & 5, 5 & 0, 6 \\
+	\hline
+	War & 6, 0 & 1, 1 \\
+	\hline
+\end{tabular}
+\end{center}
+
+The above matrix is called a \emph{}. Each of the two numbers in the cells are referred to as the \emph{utilities} of the respective kingdoms.\\
+Suppose that kingdom \textsf{A} decides to invest in agriculture. In this case, note that irrespective of what the other kingdom decides to choose, \textsf{A} can increase its payoff by switching to investing in warfare. Consequently, it makes more sense to invest in warfare (since the game is symmetric, this is true for both players). Even though both kingdoms heading to war is not the most profitable outcome, it is the most likely outcome.\\
+
+A \emph{game} is a formal representation of the strategic interaction between multiple agents called \emph{players}.
+The choices available to the players are called \emph{actions}. A mapping from the state of the game to the set of actions is referred to as a \emph{strategy}.\\
+Depending on the context, games can be represented in different ways, normal form, extensive form, repeated form, stochastic form, etcetera.\\
+
+\emph{Game theory} is the formal study of the strategic interactions between players who are rational and intelligent.\\
+A player is rational if they pick actions to maximize their payoff.\\
+A player is intelligent if they know the rules of the game perfectly and picks actions assuming that the remaining players are also rational and intelligent. This also assumes that the player has sufficient computational ability to find the ``optimal'' action.\\
+
+Let us now look at an example of mechanism design. Suppose we want to split a cake in two parts (for two children, say) in an ``envy-free'' fashion. That is, neither child would prefer the other piece of cake. We do not see the children's preferences, so we do not even know what a fair division might involve. This well-known problem has a well-known solution -- make one child cut the cake and the other choose the piece. Why does this work? The first child splits it in a way that is exactly half from their perspective, and they are indifferent to the two pieces. The second child on the other hand gets a larger piece in their perspective.\\
+% Disgrace of Dijon (module 2) for example of bad mechanism design -- fifa 1982 group II
+
+\subsection{Chess}
+
+	The reader is no doubt familiar with the rules of chess. It has tow players, \emph{White} and \emph{Black}, with 16 pieces each. Each piece has some legal moves (the players' actions are these moves). The game starts with White and players take turns. White wins if they capture Black's king, and Black wins they capture White's king. There are a couple of conditions under which a draw can occur, which we do not detail.\\
+	There are numerous natural questions that arise.
+	First and foremost, does White (or Black) have a winning strategy? A winning strategy is a plan of moves such that it wins irrespective of the moves performed by Black. Alternatively, is it possible to guarantee a draw? It is possible for none of these exist.\\
+
+	What is a strategy? Denote a board position by $x_k$. A \emph{game situation} is a finite sequence $(x_0,\ldots,x_k)$, such that
+	$x_0$ is the opening board position and $x_k \to x_{k+1}$ for even (resp. odd) $k$ is created by a single action of White (resp. Black).\\
+	This set of game situations can be naturally represented by a tree, referred to as the \emph{game tree}. The nodes are labelled with board positions $(x_i)$, and arrows between nodes are labelled with actions. A \emph{strategy} is a mapping from game situation to action, which describes what action to take at every vertex of this game tree. This is something of a contingency plan for every possible situation.\\
+	A strategy pair $(s_W, s_B)$ which describes strategies for both players determines an outcome, also called a \emph{play} of the game. This describes a path through the game tree.\\
+	All leaves in the game tree correspond to either White's victory, Black's victory, or a draw.\\
+
+	A \emph{winning strategy} for White is a strategy $s_W^*$ such that for any strategy $s_B$, $(s_W^*,s_B)$ ends in a win for White. Similarly, we can define a \emph{strategy guaranteeing at least a draw for White}, denoted $s_W'$.\\
+	It is not immediately obvious if such strategies exist.
+
+	\begin{ftheo}[von Neumann, 1928]
+		In chess, exactly one of the following statements is true.
+		\begin{enumerate}[label=(\arabic*)]
+			\item White has a winning strategy.
+			\item Black has a winning strategy.
+			\item Each player has a strategy guaranteeing a draw.
+		\end{enumerate}
+	\end{ftheo}
+
+	If any such strategy was known, the game would become boring.
+
+	\begin{proof}
+		Each vertex of the game tree is a game situation. Denote by $\Gamma(x)$ the subtree rooted at $x$ (including $x$ itself) and by $n_x$ the number of vertices in $\Gamma(x)$. $n_x = 1$ implies that $x$ is a terminal vertex.\\
+		Using induction on $n_x$, we prove that one of the three statements must hold at any game situation. The theorem is clearly true for $n_x = 1$. Suppose $x$ is a vertex with $n_x > 1$. By the inductive hypothesis, for all $y \in \Gamma(y) \setminus \{x\}$, the statement holds ($n_y < n_x$). Let $C(x)$ be the vertices reachable from $x$ in one step, and assume wlog that it is White's turn.
+		\begin{enumerate}[label=(\alph*)]
+			\item If there exists $y_0 \in C(x)$ such that (1) is true, then (1) is true at $x$ as well.
+			\item If (2) is true for all $y \in C(x)$, then Black will win irrespective of White's move.
+			\item Otherwise, because (a) does not hold, White does not have a winning strategy for any $y \in C(x)$. As a result, for every $y \in C(x)$, either Black has a winning strategy or both have a draw-guaranteeing strategy.\\
+			Because (b) does not hold, there is some $y \in C(x)$ where Black does not have a winning strategy. By the preceding argument, both players must have a draw-guaranteeing strategy at this node.
+		\end{enumerate}
+	\end{proof}
+
+\subsection{Normal Form Games}
+
+	Normal form is a representation technique for games. The set $N = \{1,\ldots,n\}$ is the set of players. $S_i$ is the set of strategies for player $i$. A particular strategy is denoted $s_i \in S_i$. The set of ``strategy profiles'' is $S = \bigtimes_{i \in N} S_i$, with specific elements $s = (s_1,\ldots,s_n) \in S$. A strategy profile without $i$ is $s_{-i} = (s_1,\ldots,s_{i-1},s_{i+1},\ldots,s_n)$. $u_i : S \to \R$ is the utility function of player $i$.\\
+	The \emph{normal form game} (NFG) representation of a game is the tuple $\langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$. This is the representation we shall use for the remainder of the course. \\
+	If $S_i$ is finite for all $i \in N$, the game is said to be a \emph{finite} game.\\
+
+	As mentioned earlier, a player is rational if they pick actions that maximize their utility. A player is intelligent if they know the rules of the game perfectly, and picks actions assuming that all other players are rational and intelligent.\\
+
+	A fact is said to be \emph{common knowledge} if
+	\begin{enumerate}
+		\item all players know the fact,
+		\item the fact that ``all players know the fact'' is also common knowledge.
+	\end{enumerate}
+
+	Consider the following setup. There is an isolated island (with a hundred people, say) where all people have eye color either blue or black. There is no reflecting surface on the island (people cannot figure out their own eye color) and nobody can communicate with each other.\\
+	One day, a truth-telling god comes to the island and declares that all blue-eyed people are bad for the island and must leave as soon as possible. He also says that there is at least one blue-eyed person on the island. The inhabitants, being deeply devout, do listen to him and leave at the end of a day if they discover that their eyes are blue.\\
+	We encourage the reader to think about how common knowledge percolates in this situation.\\
+
+	If there was only one blue-eyed person, he would see that all other people have black eyes. Because the god said that there is a blue-eyed person, he infers that he must be the only blue-eyed person and leaves at the end of the first day.\\
+	If there were two, then on the second day everyone would notice that all people remain on the island, so they would infer that there are at least two blue-eyed people on the island. If one of the inhabitants sees that exactly one of the other four people is blue-eyed, then he, along with the other blue-eyed person, leaves on the second day.\\
+	This goes on, and it is seen that if there are exactly $n$ blue-eyed people, then all of these $n$ people leave at the end of the $n$th day.
