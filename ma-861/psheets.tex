@@ -15,8 +15,8 @@
 			\[ S(n,k) = \sum_{r=1}^k (-1)^{k-r} \frac{r^n}{r!(k-r)!}. \]
 		\end{problem}
 		\begin{solution*}
-			$S(n,k)$ is merely $k!$ times the number of surjective functions from $[n]$ to $[k]$ (because the ordering of the partitions does not matter). The set of functions that are \emph{not} surjective is
-			\[ \bigcup_{i \in [n]} \{ f \in [k]^{[n]} : i \not\in \Im(f) \}. \]
+			$S(n,k)$ is merely $1/k!$ times the number of surjective functions from $[n]$ to $[k]$ (because the ordering of the partitions does not matter). The set of functions that are \emph{not} surjective is
+			\[ \bigcup_{i \in [n]} \{ f \in [k]^{[n]} : i \not\in \operatorname{Im}(f) \}. \]
 			The size of the above is quite easily determined by the inclusion-exclusion principle to get
 			\[ k^n - k!S(n,k) = \sum_{r=1}^{k-1} (-1)^{r+1} \cdot \underbrace{\binom{k}{r}}_\text{choosing $r$ elements in $[k]$ to ``avoid''} \cdot \underbrace{(k-r)^n}_\text{counting functions that avoid the chosen}, \]
 			and the desideratum immediately follows.
