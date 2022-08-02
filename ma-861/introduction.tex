@@ -34,6 +34,8 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{fdef}
 		Given a permutation $\pi \in \mathfrak{S}_n$, define the \emph{length} $\ell(\pi)$ of $\pi$ to be the smallest $k$ such that there exist adjacent transpositions $\sigma_1,\cdots,\sigma_k$ such that $\pi = \sigma_1\cdots\sigma_k$.
 	\end{fdef}
+	% PRESENT PROOF THAT WE CAN WRITE IT IN THIS WAY ON TUESDAY -- 02/08/2022
+	% DONE.
 
 	\begin{fprop}
 		Consider the \emph{inversion number} $\inv(\pi)$ of a permutation, defined by
@@ -93,6 +95,81 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		The remainder of the proof is identical to that of \Cref{prop: inv n}, since the increases are in bijection with $[n-1]_0$.
 	\end{proof}
 
+	\begin{definition}
+		A parameter $f : \mathfrak{S}_n \to \R$ of permutations such that
+		\[ \sum_{\pi \in \mathfrak{S}_n} q^{f(\pi)} = \prod_{1 \le m \le n} [m]_q \]
+		is said to be \emph{Mahonian}.
+	\end{definition}
 
+	As we saw in \Cref{prop: inv n,prop: maj n}, both $\inv$ and $\maj$ are Mahonian.
 
-	% PRESENT PROOF OF THE FIRST ON TUESDAY -- 02/08/2022
+	\begin{problem*}
+		Count the number of spanning trees in an arbitrary (finite) graph $G$.
+	\end{problem*}
+
+	This was solved by Kirchhoff using the Matrix Tree Theorem.
+	
+	\begin{ftheo}[Matrix Tree Theorem]
+		Consider the \emph{Laplacian} $L = D-A$ of a graph $G$, where $A$ is its adjacency matrix and $D$ is a diagonal matrix with the diagonal entries being the degrees of the vertices. The determinant of any $(n-1)\times(n-1)$ submatrix of $L$ obtained by omitting any arbirary row and column is equal to the number of spanning trees of $G$.
+	\end{ftheo}
+
+	% oriented incidence matrix is totally unimodular -- poincare
+
+	In particular, when $G = K_n$, we end up getting the following.
+
+	\begin{ftheo}[Cayley's Theorem]
+		\label{theo: cayleys theorem}
+		The number of spanningtrees in $K_n$ is $n^{n-2}$.
+	\end{ftheo}
+	One proof by Pr\"{u}fer gives an explicit bijection between spanning trees and sequences $(v_1,\ldots,v_{n-2})$ of vertices in $G$.\\
+	Another proof is of course using the matrix tree theorem, which reduces it to a simple determinant calculation.\\
+	Joyal gave another bijection between elements of the form $(T,u,v)$ where $T$ is a spanning tree and $u,v$ are vertices in $G$, and functions from $[n] \to [n]$.\\
+
+	The proof we give uses exponential generating functions. Recall the following result, which we give without proof. Interested readers may consult Corollary 5.1.6 from \cite{ec2} for further details.
+
+	\begin{ftheo}[Exponential Formula]
+		\label{ec2: egf sum over partitions}
+		Let $\{f_n\}$ be a sequence with exponential generating function
+		\[ F(x) = \sum_{n \ge 1} f_n \frac{x^n}{n!}. \]
+		Define the sequence $h_n$ by
+		\[ h_n = \sum_{\substack{\pi \in \operatorname{SetPartn}([n]) \\ \pi = \{S_1,\ldots,S_k\}}} f_{|S_1|} f_{|S_2|} \cdots f_{|S_k|}  \]
+		and $h_0 = 1$, and let
+		\[ H(x) = \sum_{n \ge 0} h_n \frac{x^n}{n!}. \]
+		Then,
+		\[ H(x) = \exp(F(x)) \]
+	\end{ftheo}
+	Note that the summation of $F$ is for $n \ge 1$, because we may assume that $f_0 = 0$ since $f_0$ does not appear in the expression of any $h_n$.\\
+
+	\begin{fdef}[Compositional inverse]
+		Generating functions $F$ and $G$ are said to be \emph{compositional inverses} if $F(G(x)) = G(F(x)) = x$.
+	\end{fdef}
+
+	At long last, let us return to \Cref{theo: cayleys theorem}.
+
+	\begin{proof}[Proof of \nameref{theo: cayleys theorem}]
+		Instead of looking at the number $\text{T}_n$ of spanning trees, we shall look at $\text{RT}_n$, the number of \emph{rooted} spanning trees. Clearly, $\text{RT}_n = n \text{T}_n$.\\
+		Define $\text{RF}_n$ to be the number of rooted forests on $[n]$ and let
+		\begin{align*}
+			\operatorname{RF}(x) &= \sum_{n \ge 0} \text{RF}_n \frac{x^n}{n!} \\
+			\operatorname{RT}(x) &= \sum_{n \ge 0} \text{RT}_n \frac{x^n}{n!}.
+		\end{align*}
+
+		Using \Cref{ec2: egf sum over partitions}, it is not too difficult to see that
+		\begin{equation}
+			\label{eqn 1}
+			\operatorname{RF}(x) = \exp(\operatorname{RT}(x)).
+		\end{equation}
+
+		\textbf{Claim} (Polya). $\text{RT}_{n+1} = (n+1) \text{RF}_n$.\\
+		Indeed, any rooted tree on $K_{n+1}$ may be obtained from a rooted forest $F$ on $K_n$ by adding a new vertex $v$, adding the edge between each root in $F$ and $v$ to the spanning tree, removing the ``root status'' from all vertices except $v$. $v$ can be labelled in $n+1$ ways, so we are done.\\
+
+		As a result,
+		\begin{equation}
+			\label{eqn 2}
+			\operatorname{RF}(x) = \sum_{n\ge 0} \frac{\operatorname{RT}_{n+1}}{n+1} \cdot \frac{x^n}{n!} = \frac{1}{x} \operatorname{RT}(x).
+		\end{equation}
+		Combining \Cref{eqn 1,eqn 2},
+		\[ \operatorname{RT}(x) = x \exp(\operatorname{RT}(x)). \]
+		That is, $\operatorname{RT}$ is the compositional inverse of $x \mapsto xe^{-x}$. We are almost done.
+
+	\end{proof}
