@@ -71,7 +71,12 @@
 			Find $\sum_{k=0}^n (-1)^k s(n,k)$.
 		\end{problem}
 		\begin{solution*}
-			
+			Recall that a permutation in $\mathfrak{S}_n$ with $k$ cycles has sign $(-1)^{n-k}$. We have
+			\begin{align*}
+				\sum_{k=0}^n (-1)^k s(n,k) &= \sum_{k=0}^n \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ has exactly $k$ cycles}}} (-1)^k \\
+					&= (-1)^n \sum_{\pi \in \mathfrak{S}_n} \sign(\pi).
+			\end{align*}
+			For $n=1$, this is $-1$. Otherwise, note that $\pi \mapsto (1,2) \pi$ is a bijection between odd and even permutations. As a result, the above sum is equal to $0$.
 		\end{solution*}
 
 
@@ -79,15 +84,16 @@
 			Show that $S(n+1,k+1) = \sum_{m=0}^n \binom{n}{m} S(m,k)$.
 		\end{problem}
 		\begin{solution*}
-			
+			We shall count the partitions of $[n+1]$ into exactly $k+1$ parts based on the part $n+1$ is in. We have
+			\[ S(n+1,k+1) = \sum_{S \subseteq [n]} S(|[n]\setminus S|,k) = \sum_{m=0}^n \binom{n}{m} S(n-m,k) = \sum_{m=0}^n \binom{n}{m} S(m,k). \]
 		\end{solution*}
 
-		\begin{problem}
-			Find the number of ways in which a product of $n$ distinct primes can be factored.
-		\end{problem}
-		\begin{solution*}
-			
-		\end{solution*}
+		% \begin{problem}
+		% 	Find the number of ways in which a product of $n$ distinct primes can be factored.
+		% \end{problem}
+		% \begin{solution*}
+		% 	$s(n,k)$.
+		% \end{solution*}
 
 		\begin{problem}
 			Show that for $n \ge 1$, the $S_{n,k}$ as $k$ varies has either a unique maximum value or has at most two equal values.
