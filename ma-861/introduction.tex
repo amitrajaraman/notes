@@ -103,6 +103,8 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	As we saw in \Cref{prop: inv n,prop: maj n}, both $\inv$ and $\maj$ are Mahonian.
 
+\subsection{Counting spanning trees}
+
 	\begin{problem*}
 		Count the number of spanning trees in an arbitrary (finite) graph $G$.
 	\end{problem*}
@@ -125,7 +127,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Another proof is of course using the matrix tree theorem, which reduces it to a simple determinant calculation.\\
 	Joyal gave another bijection between elements of the form $(T,u,v)$ where $T$ is a spanning tree and $u,v$ are vertices in $G$, and functions from $[n] \to [n]$.\\
 
-	The proof we give uses exponential generating functions. Recall the following result, which we give without proof. Interested readers may consult Corollary 5.1.6 from \cite{ec2} for further details.
+	The proof we give uses exponential generating functions. Recall the following result, which we give without proof. Interested readers may consult Corollary 5.1.6 of \cite{ec2} for further details.
 
 	\begin{ftheo}[Exponential Formula]
 		\label{ec2: egf sum over partitions}
@@ -141,10 +143,36 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Note that the summation of $F$ is for $n \ge 1$, because we may assume that $f_0 = 0$ since $f_0$ does not appear in the expression of any $h_n$.\\
 
 	\begin{fdef}[Compositional inverse]
-		Generating functions $F$ and $G$ are said to be \emph{compositional inverses} if $F(G(x)) = G(F(x)) = x$.
+		Generating functions $F$ and $G$ are said to be \emph{compositional inverses} (of each other) if $F(G(x)) = G(F(x)) = x$.
 	\end{fdef}
 
-	At long last, let us return to \Cref{theo: cayleys theorem}.
+	Let
+	\[ F(x) = \sum_{n \ge 0} f_n x^n \text{ and } G(x) = \sum_{n \ge 0} g_n x^n \]
+	be compositional inverses of each other. It is reasonably straightforward to show that $f_0 = g_0 = 0$ and $f_1,g_1 \ne 0$. The first condition implies that the coefficient of any $x^n$ in $F\circ G$ (or $G \circ F$) is finite. 
+
+	\begin{ftheo}[Lagrange Inversion Theorem]
+		\label{theo: lagrange inversion}
+		Let
+		\[ F(x) = \sum_{n \ge 0} f_n x^n \text{ and } G(x) = \sum_{n \ge 0} g_n x^n \]
+		be compositional inverses of each other. Then, $ng_n$ is the coefficient of $1/x$ in $(1/F(x))^n$.
+	\end{ftheo}
+	Equivalently, $ng_n$ is the coefficient of $x^{n-1}$ in $(x/F(x))^n$.
+	\begin{proof}
+		We have
+		\[ x = G(F(x)) = \sum_{i \ge 0} g_i F(x)^i. \]
+		Differentiating,
+		\[ 1 = \sum_{i \ge 0} g_i i F(x)^{i-1} F'(x). \]
+		As a result,
+		\[ \left(\frac{1}{F(x)}\right)^n = \sum_{i \ge 0} g_i i F(x)^{i-1-n} F'(x).  \]
+		Whenever $i \ne n$, the coefficient of $1/x$ in $F(x)^{i-1-n} F'(x) = \left(F(x)^{i-n}/(i-n)\right)'$ is zero. Indeed, recall that the coefficient of $1/x$ in the derivative of any power series with possibly negative exponents is zero.\\
+		As a result, the coefficient of $1/x$ in $(1/F(x))^n$ is equal to the coefficient of $1/x$ in $g_n n F'(x) / F(x)$.
+		% , which is the constant term in $n g_n x F'(x) / F(x)$ -- observe that there cannot be a $x^{-m}$ term for any $m \ge 2$.
+		We have
+		\[ \frac{F'(x)}{F(x)} = \frac{f_1 + 2f_2x + \cdots}{f_1x + f_2x^2 + \cdots}. \]
+		The constant term in this is $f_1/f_1 = 1$, and the desideratum follows. 
+	\end{proof}
+
+	At long last, let us return to \nameref{theo: cayleys theorem}.
 
 	\begin{proof}[Proof of \nameref{theo: cayleys theorem}]
 		Instead of looking at the number $\text{T}_n$ of spanning trees, we shall look at $\text{RT}_n$, the number of \emph{rooted} spanning trees. Clearly, $\text{RT}_n = n \text{T}_n$.\\
@@ -170,6 +198,60 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\end{equation}
 		Combining \Cref{eqn 1,eqn 2},
 		\[ \operatorname{RT}(x) = x \exp(\operatorname{RT}(x)). \]
-		That is, $\operatorname{RT}$ is the compositional inverse of $x \mapsto xe^{-x}$. We are almost done.
-
+		That is, $\operatorname{RT}$ is the compositional inverse of $x \mapsto xe^{-x}$.
+		Now, we use the \nameref{theo: lagrange inversion} to get that $n\text{RT}_n/n!$ is equal to the coefficient of $x^{n-1}$ in $(x/xe^{-x})^n = e^{nx}$, which is $n^{n-1}/(n-1)!$. Therefore, $\text{T}_n = \text{RT}_n/n = n^{n-2}$ and we are done.
 	\end{proof}
+
+	% cool fact: matching polynomial of any graph has real roots.
+
+\subsection{Chebyshev polynomials}
+
+	We would like a polynomial $T_n(x)$ such that $T_n(\cos\theta) = \cos(n\theta)$. Why does such a polynomial even exist? Recall that
+	\[ (\cos \theta + \iota \sin \theta)^n = \cos n\theta + \iota \sin n\theta. \]
+	Since the real part of the left only has even powers of $\sin$, we can convert it to a polynomial of $\cos\theta$s alone.\\
+	For example,
+	\begin{align*}
+		T_0(x) &= 1, \\
+		T_1(x) &= x, \\
+		T_2(x) &= 2x^2-1.
+	\end{align*}
+
+	% % PSHEET 2 EXERCISE 1
+	% \begin{ftheo}
+	% 	Show that
+	% 	\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
+	% 	when $n \ge 2$, and $T_0(x) = 1, T_1(x) = x$.
+	% \end{ftheo}
+
+	\begin{fdef}[Chebyshev polynomial]
+		The $n$th \emph{Chebyshev polynomial of the first kind} $T_n$ is defined as above.\\
+		The $n$th \emph{Chebyshev polynomial of the second kind} $U_n$ is defined by
+		\[ U_n(x) = \begin{cases} 1, & n=0, \\ 2x, & n=1, \\ 2xU_{n-1}(x) - U_{n-2}(x), & n \ge 2. \end{cases} \]
+	\end{fdef}
+
+
+	% \begin{exercise}
+	% 	Show that
+	% 	\begin{enumerate}
+	% 		\item \phantom{pain}
+	% 		\begin{enumerate}[label=\alph*)]
+	% 			\item $T_n(1) = 1$.
+	% 			\item $T_n(-1) = (-1)^n$
+	% 		\end{enumerate}
+	% 		\item \phantom{pain}
+	% 		\begin{enumerate}[label=\alph*)]
+	% 			\item $U_n(1) = n+1$.
+	% 			\item $U_n(-1) = (-1)^n(n+1)$
+	% 		\end{enumerate}
+	% 		\item $U_n(\iota/2)/\iota^{n}$ is the $(n+1)$th Fibonacci number.
+	% 		\item if $m,n \ge 1$,
+	% 		\[ T_{m+n}(x) = T_m(x)U_n(x) - T_{m-1}(x)U_{n-1}(x) \]
+	% 	\end{enumerate}
+	% \end{exercise}
+
+	Consider the number of tilings of a $1\times n$ board $B_n$ using squares ($1\times 1$ pieces) and dimers ($1\times 2$ pieces). It is not too difficult to show that this corresponds to the Fibonacci numbers. Now, instead consider a \emph{weighted} version of this problem, where we give squares a weight of $2x$ and dimers a weight of $-1$. The weight $\wt(T)$ of a given tiling $T$ is equal to the product of the weights of the pieces used. Then, the Chebyshev polynomial $U_n$ is just the sum of the weights of all tilings of $B_n$!
+	\[ U_n(x) = \sum_{\text{tilings $T$ of $B_n$}} \wt(T). \]
+
+	\begin{exercise}
+		Get a similar combinatorial model for $T_n(x)$.
+	\end{exercise}

@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{MA 861 Problem Sheet 2}
+\usepackage{../generic}
+
+% Quiz before midsem - 15%
+% Midsem - 30%
+% Quiz 2 after midsem - 15%
+% Endsem - 15%
+
+% Prereqs
+% - some knowledge of generating functions (both ordinary (ogfs) and exponential (egfs***)) -- see Wilf - generating functionology
+% - Stanley - Enumerative Combinatorics II Chapter 5 : exponential formula and combinatorial formula for egfs (permutation version)
+% - Gessel-Viennot Lemma -- given integral (P_i)_{i=1}^n and (Q_i)_{i=1}^n, how many ways to choose disjoint paths from P_i to Q_i? Enumerative Combinatorics I Chapter 2 (Sieve methods)
+% - Representation Theory of finite groups (MA 538), symmetric groups in particular
+% - Some basic stuff like Stirling number, Euler number etc
+% - Lagrange's Theorem (will be covered in the course?) -- when is F(G(x)) defined (gen. funcs) -- either when $F(x)$ is a poly or $G(x)$ has zero constant term
+
+\begin{document}
+
+\thispagestyle{empty}
+
+% \titleBC
+% \tableofcontents
+% \clearpage
+
+% \setcounter{section}{-1}
+
+% \input{notation}
+% \input{introduction}
+% \input{psheets}
+
+\textbf{\Large Introduction}\\
+
+We assume that the definitions of the following are known.
+
+\begin{enumerate}
+	\item $T_n$, the $n$th Chebyshev polynomial of the first kind.
+	\item $U_n$, the $n$th Chebyshev polynomial of the second kind.
+	\item $f_{n}$, the $n$th Fibonacci number.
+\end{enumerate}
+\phantom{pain}\\
+
+\textbf{\Large Problem Sheet 2}
+
+\begin{enumerate}
+	\item Show that
+	\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
+	when $n \ge 2$ and $T_0(x) = 1, T_1(x) = x$.
+
+	\item Show that
+	\begin{enumerate}[label=(\alph*)]
+		\item $T_n(1) = 1$ and
+		\item $T_n(-1) = (-1)^n$.
+	\end{enumerate}
+		
+	\item Show that
+	\begin{enumerate}[label=(\alph*)]
+		\item $U_n(1) = n+1$.
+		\item $U_n(-1) = (-1)^n(n+1)$
+	\end{enumerate}
+
+	\item Show that
+	\[ \frac{1}{\iota^n} U_n(\iota/2) = f_{n+1}. \]
+
+	\item Show that if $m,n \ge 1$,
+	\[ T_{m+n}(x) = T_m(x)U_n(x) - T_{m-1}(x)U_{n-1}(x). \]
+
+	\item Similar to the tiling combinatorial model for $U_n(x)$, get a combinatorial model for the polynomial $T_n(x)$.
+\end{enumerate}
+
+% \bibliographystyle{alpha}
+% \bibliography{references}
+
+
+\end{document}
