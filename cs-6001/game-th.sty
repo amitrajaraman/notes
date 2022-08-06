@@ -88,6 +88,8 @@
 \newcommand{\DES}{\operatorname{DES}}
 \newcommand{\des}{\operatorname{des}}
 \newcommand{\maj}{\operatorname{maj}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 \numberwithin{equation}{section}
 \theoremstyle{definition}
@@ -127,9 +129,13 @@
 \newtheorem{question}{Question}
 \newtheorem*{question*}{Question}
 \newtheorem*{example}{Example}
+\newtheorem*{example*}{Example}
 \newenvironment{fex}
   {\begin{tcolorbox}\begin{example}}
   {\end{example}\end{tcolorbox}}
+\newenvironment{fex*}
+  {\begin{tcolorbox}\begin{example*}}
+  {\end{example*}\end{tcolorbox}}
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
