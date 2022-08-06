@@ -84,6 +84,10 @@ Let us now look at an example of mechanism design.
 		\end{enumerate}
 	\end{proof}
 
+	\begin{remark}
+		The above proof is technically incorrect since the game tree for chess is infinite, so $\Gamma(x)$ need not be general. This issue can be fixed through some clever manipulation of the ``cycles'' in the game tree to make the graph finite, but we do not go into more detail on this.
+	\end{remark}
+
 \subsection{Normal Form Games}
 
 	Normal form is a representation technique for games. The set $N = \{1,\ldots,n\}$ is the set of players. $S_i$ is the set of strategies for player $i$. A particular strategy is denoted $s_i \in S_i$. The set of ``strategy profiles'' is $S = \bigtimes_{i \in N} S_i$, with specific elements $s = (s_1,\ldots,s_n) \in S$. A strategy profile without $i$ is $s_{-i} = (s_1,\ldots,s_{i-1},s_{i+1},\ldots,s_n)$. $u_i : S \to \R$ is the utility function of player $i$.\\

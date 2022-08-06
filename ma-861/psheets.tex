@@ -26,7 +26,15 @@
 			Let $A_n(y) = \sum_{k} S(n,k) y^k$. Show that $A_n(y) = (y + yD)^n1$ where $D = \od{}{y}$ is the derivative operator.
 		\end{problem}
 		\begin{solution*}
-			
+			First, recall that $S(n+1,k+1) = S(n,k) + (k+1) \cdot S(n,k+1)$ -- the $S(n,k)$ corresponds of those partitions where $n+1$ is in a part of its own, and the $(k+1)S(n,k+1)$ corresponds to those partitions where this is not the case, so we can consider any partition of $[n]$ into $k+1$ parts, then decide which of the $k+1$ parts to place $n+1$ in.\\
+			We have
+			\begin{align*}
+				(y+yD)A_n(y) &= (y+yD) \sum_{k=1}^n S(n,k) y^k \\
+					&= \sum_{k=1}^n S(n,k) (y^{k+1} + ky^k) \\
+					&= S(n,1) y + \sum_{k=2}^{n} y^k (S(n,k-1) + (k-1) S(n,k)) + S(n,n) y^{n+1} \\
+					&= S(n+1,1) y + \sum_{k=2}^n S(n+1,k) y^k + S(n+1,n+1) y^{n+1} = A_{n+1}(y).
+			\end{align*}
+			The required follows inductively.
 		\end{solution*}
 
 		\begin{problem}
@@ -78,7 +86,6 @@
 			\end{align*}
 			For $n=1$, this is $-1$. Otherwise, note that $\pi \mapsto (1,2) \pi$ is a bijection between odd and even permutations. As a result, the above sum is equal to $0$.
 		\end{solution*}
-
 
 		\begin{problem}
 			Show that $S(n+1,k+1) = \sum_{m=0}^n \binom{n}{m} S(m,k)$.
