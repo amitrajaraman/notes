@@ -112,11 +112,11 @@ Let us now look at an example of mechanism design.
 	\begin{center}
 	\begin{tabular}{|c||c|c|c|}
 		\hline
-		\textsf{1}, \textsf{2} & L & M & R \\
+		1, 2 & \textsf{L} & \textsf{M} & \textsf{R} \\
 		\hline \hline
-		U & 1, 0 & 1,3 & 3,2 \\
+		\textsf{U} & $1, 0$ & $1,3$ & $3,2$ \\
 		\hline
-		D & -1,6 & 0,5 & 3,3 \\
+		\textsf{D} & $-1,6$ & $0,5$ & $3,3$ \\
 		\hline
 	\end{tabular}
 	\end{center}
@@ -147,7 +147,8 @@ Let us now look at an example of mechanism design.
 		Suppose there are two players having values $v_1,v_2$ respectively. Each player can choose a number in $[0,M]$, where $M \gg v_1,v_2$. The player who quotes the larger number wins the object (with ties being broken in favour of player \textsf{1}, say), and pays the losing player's chosen number. The utility of the winning player is their value $v_i$ minus their payment (the amount bid by the other player), and the utility of the losing player is $0$.\\
 		As a NFG representation, $N = \{1,2\}$, $S_1 = S_2 = [0,M]$, and
 		\[ u_1(s_1,s_2) = \begin{cases} v_1 - s_2, & s_1 \ge s_2, \\ 0, & \text{otherwise,} \end{cases} \text{ and } u_1(s_1,s_2) = \begin{cases} v_2 - s_1, & s_1 < s_2, \\ 0, & \text{otherwise,} \end{cases} \]
-		It turns out that the strategy $s_i$ where player $i$ chooses $v_i$ is a weakly dominant strategy! Let us check this for player $1$. Suppose that if $s_1' > v_1$ is in $S_1$ and $s_2 \in S_2$. We would like to show that $u_1(s_1,s_2) \ge u_1(s_1',s_2)$. If $s_2 > s_1'$, both payoffs are zero. If $s_2 \le s_1 < s_1'$, then both payoffs are equal to the same value. The remaining case is when $s_1 \le s_2 \le s_1'$. The payoff for $s_1$ is zero, but the payoff for $s_1'$ is non-positive since we are paying more than we value the item.
+		It turns out that the strategy $s_i$ where player $i$ chooses $v_i$ is a weakly dominant strategy! Let us check this for player $1$.\\
+		Suppose that $s_1' > v_1$ is in $S_1$ and $s_2 \in S_2$. We would like to show that $u_1(s_1,s_2) \ge u_1(s_1',s_2)$. If $s_2 > s_1'$, both payoffs are zero. If $s_2 \le s_1 < s_1'$, then both payoffs are equal to the same value. The remaining case is when $s_1 \le s_2 \le s_1'$. The payoff for $s_1$ is zero, but the payoff for $s_1'$ is non-positive since we are paying more than we value the item.
 	\end{fex}
 
 \subsection{Equilibria}
