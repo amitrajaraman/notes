@@ -216,6 +216,11 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		T_2(x) &= 2x^2-1.
 	\end{align*}
 
+	\begin{fprop}
+		\[ T_n(x) = \begin{cases} 1, & n=0, \\ x, & n=1, \\ 2xT_{n-1}(x) - T_{n-2}(x), & n \ge 2. \end{cases} \]
+	\end{fprop}
+	We give the proof of the above in the solution to \Cref{problem: recurrence of Chebyshev of the first kind}.
+
 	% % PSHEET 2 EXERCISE 1
 	% \begin{ftheo}
 	% 	Show that
@@ -223,7 +228,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% 	when $n \ge 2$, and $T_0(x) = 1, T_1(x) = x$.
 	% \end{ftheo}
 
-	\begin{fdef}[Chebyshev polynomial]
+	\begin{fdef}[Chebyshev polynomials]
 		The $n$th \emph{Chebyshev polynomial of the first kind} $T_n$ is defined as above.\\
 		The $n$th \emph{Chebyshev polynomial of the second kind} $U_n$ is defined by
 		\[ U_n(x) = \begin{cases} 1, & n=0, \\ 2x, & n=1, \\ 2xU_{n-1}(x) - U_{n-2}(x), & n \ge 2. \end{cases} \]
@@ -249,9 +254,6 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% 	\end{enumerate}
 	% \end{exercise}
 
-	Consider the number of tilings of a $1\times n$ board $B_n$ using squares ($1\times 1$ pieces) and dimers ($1\times 2$ pieces). It is not too difficult to show that this corresponds to the Fibonacci numbers. Now, instead consider a \emph{weighted} version of this problem, where we give squares a weight of $2x$ and dimers a weight of $-1$. The weight $\wt(T)$ of a given tiling $T$ is equal to the product of the weights of the pieces used. Then, the Chebyshev polynomial $U_n$ is just the sum of the weights of all tilings of $B_n$!
+	Consider the number of tilings of a $1\times n$ board $B_n$ using squares ($1\times 1$ pieces) and dimers ($1\times 2$ pieces). It is not too difficult to show that this corresponds to the Fibonacci numbers.\\
+	Now, instead consider a \emph{weighted} version of this problem, where we give squares a weight of $2x$ and dimers a weight of $-1$. The weight $\wt(T)$ of a given tiling $T$ is equal to the product of the weights of the pieces used. Then, the Chebyshev polynomial $U_n$ is just the sum of the weights of all tilings of $B_n$!
 	\[ U_n(x) = \sum_{\text{tilings $T$ of $B_n$}} \wt(T). \]
-
-	\begin{exercise}
-		Get a similar combinatorial model for $T_n(x)$.
-	\end{exercise}

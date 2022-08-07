@@ -108,3 +108,79 @@
 		\begin{solution*}
 			
 		\end{solution*}
+
+	\subsection{Problem Sheet 2}
+
+		\begin{problem}
+			\label{problem: recurrence of Chebyshev of the first kind}
+			Show that
+			\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
+			when $n \ge 2$ and $T_0(x) = 1, T_1(x) = x$.
+		\end{problem}
+		\begin{solution*}
+			Let $\cos \theta = x$. We have
+			\begin{align*}
+				T_n(x) = \cos n\theta &= \cos (n-1)\theta \cos \theta - \sin (n-1)\theta \sin \theta \\
+					&= x T_{n-1}(x) - ( \sin (n-2)\theta \cos\theta + \cos (n-2)\theta \sin\theta ) \sin\theta \\
+					&= x T_{n-1}(x) - T_{n-2}(x) (1-x^2) - x (\sin\theta \sin (n-2)\theta) \\
+					&= x T_{n-1}(x) + x^2 T_{n-2}(x) - T_{n-2}(x) - x (\cos\theta \cos (n-2)\theta - \cos (n-1)\theta) \\
+					&= 2x T_{n-1}(x) - T_{n-2}(x). \qedhere
+			\end{align*}
+		\end{solution*}
+
+		\begin{problem}
+			Show that
+			\begin{enumerate}[label=(\alph*)]
+				\item $T_n(1) = 1$ \text{ and}
+				\item $T_n(-1) = (-1)^n$.
+			\end{enumerate}
+		\end{problem}
+		\begin{solution*}
+			This immediately follows since $T_n(\cos\theta) = \cos n\theta$, so $T_n(\cos 0) = \cos (n\cdot 0) = 1$ and $T_n(\cos \pi) = \cos(n\pi) = (-1)^n$. They can also be easily proved inductively.
+		\end{solution*}
+
+		\begin{problem}
+			Show that
+			\begin{enumerate}[label=(\alph*)]
+				\item $U_n(1) = n+1$.
+				\item $U_n(-1) = (-1)^n (n+1)$
+			\end{enumerate}
+		\end{problem}
+		\begin{solution*}
+			We prove this inductively. Both statements are trivially true for $n=0,1$. For $n\ge 2$, inductively, we have
+			\[ U_n(1) = 2U_{n-1}(1) - U_{n-2}(1) = 2n - (n-1) = n+1 \]
+			and
+			\[ U_n(-1) = -2U_{n-1}(1) - U_{n-2}(1) = (-1)^{n} \cdot 2n + (-1)^{n-1} (n-1) = (-1)^n (n+1). \]
+		\end{solution*}
+
+		\begin{problem}
+			Show that
+			\[ \frac{1}{\iota^n} U_n(\iota/2) = f_{n+1}. \]
+		\end{problem}
+		\begin{solution*}
+			Again, we prove this inductively. We have $U_0(\iota/2) = 1 = f_1$ and $U_1(\iota/2) = \iota = \iota f_2$. For $n \ge 2$, we inductively have
+			\[ U_n(\iota/2) = \iota U_{n-1}(\iota/2) - U_{n-2}(\iota/2) = \iota^n f_{n} - \iota^{n-2} f_{n-1} = \iota^n (f_n + f_{n-1}) = \iota^n f_{n+1}. \]
+		\end{solution*}
+
+		\begin{problem}
+			Show that if $m,n \ge 1$,
+			\[ T_{m+n}(x) = T_m(x)U_n(x) - T_{m-1}(x)U_{n-1}(x). \]
+		\end{problem}
+		\begin{solution*}
+			This may be checked manually for $m+n=2,3$. We perform induction on $m+n$. We have that
+			\begin{align*}
+				T_{m+n}(x) &= 2xT_{m+n-1}(x) - T_{m+n-2}(x) \\
+					&= 2x (T_{m-1}(x)U_n(x) - T_{m-2}(x)U_{n-1}(x)) - (T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x)U_{n-2}(x)) \\
+					&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) (2x U_{n-1}(x) - U_{n-2}(x)) \\
+					&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) U_n(x) \\
+					&= U_n(x) (2xT_{m-1}(x) - T_{m-2}(x)) - T_{m-1}(x)U_{n-1}(x) \\
+					&= T_m(x) U_n(x) - T_{m-1}(x) U_{n-1}(x).
+			\end{align*}
+		\end{solution*}
+
+		\begin{problem}
+			Similar to the tiling combinatorial model for $U_n$, get a combinatorial model for $T_n$.
+		\end{problem}
+		\begin{solution*}
+			One can do this in a manner identical to that of $U_n$, except that a square piece has weight $x$ if it is at the leftmost $(1,1)$ position.
+		\end{solution*}
