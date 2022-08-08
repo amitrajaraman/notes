@@ -57,4 +57,60 @@
 
 		% next class, pairwise independence.
 
-		
+		% MISSED LECTURE 2
+
+		% LECTURE 3
+	\subsection{Lecture 3: Pairwise Independence}
+
+		Let $X_1,\ldots,X_n$ be random variables such that for any distinct $i,j$, $X_i,X_j$ are independent:
+		\[ \Pr[X_i = \alpha, X_j = \beta] = \Pr[X_i = \alpha] \Pr[X_j = \beta]. \]
+		This is referred to as \emph{pairwise independence}. Analogously, we can define \emph{$k$-wise independence}, which requires that any subset of at most $k$ random variables is independent.
+
+		\begin{fex}
+			Let random variables $X_1,X_2$ take values in $\{0,1\}$ uniformly, and let $X_3 = X_1 \oplus X_2$. This set of random variables is pairwise independent, but not completely independent!
+		\end{fex}
+
+		% independently put each vertex in S with pr 1/2 - 1/2-approx algo for max-cut
+
+		Given a cut $(S,\overline{S})$ of a graph, denote
+		\[ \partial S = \{ (u,v) : u \in S, v \not\in S \}. \]
+		% prof denotes it \delta(S)
+		Consider an algorithm that chooses a uniformly random cut $S$ of the vertex set $V$ (which corresponds to independently choosing each vertex with probability $1/2$). Then,
+		\[ \E[|\partial S|] = \sum_{e \in E} \Pr[e \in \partial S] = \sum_{\{u,v\} \in E} \Pr[u \in S, v \not\in S] + \Pr[u \not\in S, v \in S] = |E|/2. \]
+		In particular, this gives (in expectation) a $1/2$-approximation of a max-cut.\footnote{Using Markov's inequality, it gives a $1/2$-approximation with probability at least $1/2$.}\\
+
+		Now, note that this algorithm does not require independence of all the $|V|$ vertex-choosings, it suffices to have pairwise independence! This begs the question, how do we generate $n$ pairwise independent while using a small number of actual random bits?\\
+		Bouncing off the idea in the previous example, we can take $k$ random bits $X_1,\ldots,X_k$, and generate $2^k-1$ pairwise independent random bits by considering $\bigoplus_{i \in S} X_i$ for each non-empty $S \subseteq [k]$ (why are these pairwise independent?).\\
+		Consequently, we can generate $n$ pairwise random bits using just $O(\log(n))$ random bits.
+
+		\begin{remark}
+			Since we have just $\log n$ random bits, we can cycle through all the possible choices for the bits, since there are only $n$ choices! This gives a deterministic polynomial time $1/2$-approximation algorithm for the max-cut problem. Instead of looking at all the $O(2^n)$ cuts, it is enough to look at $O(n)$ cuts. \\
+			Interestingly, this does not even look at the structure of the graph!
+		\end{remark}
+
+		\begin{fprop}
+			To generate $n$ pairwise independent random bits, we require $\Omega(\log n)$ independent random bits.
+		\end{fprop}
+		\begin{proof}
+			Suppose that given $k$ independent random bits $Y_1,\ldots,Y_k$, we can come up with $n$ pairwise independent random bits $X_1,\ldots,X_n$. Let $f_i : \{0,1\}^k \to \{0,1\}$ for $1 \le i \le n$ be defined by $X_i = f_i(Y_1,\ldots,Y_k)$. Also, denote $f_i^{-1}(1) = \{ x \in \{0,1\}^k : f_i(x) = 1 \}$.\\
+			The basic constraint that $\Pr[X_i = 1] = 1/2$ means that $|f_i^{-1}(1)| = 2^{k-1}$ and the pairwise independence constraint gives that for distinct $i,j$, $|f_i^{-1}(1) \cap f_j^{-1}(1)| = 2^{k-2}$. Let $M$ be the $n \times 2^k$ matrix such that $M_{ij} = f_i(j)$ (in the sense of the binary expansion of $j$).\\
+			The previous constraints then just say that $M M^\top = 2^{k-2} (I+J)$, where $J$ is the all ones matrix.\\
+			Note that the $n \times n$ matrix $2^{k-2}(I+J)$ is of rank $n$. It follows that $\rank(M) = \rank(MM^\top) = n$, so $2^k \ge n$ and we are done!
+		\end{proof}
+
+		% \{0,1\}^k \to \{0,1\}^n -- (2^{n})^{2^k} -- any bit is set for exactly 1/2 the input bits.
+		% f()
+
+		% come up with n size (2^{n}/2) subsets that are ``pairwise independent'' -- S_i \cap S_j = n/4
+
+		Now, what happens if we want to generate pairwise independent functions instead of just bits? Can we do better?\\
+		In particular, can we generate pairwise independent random variables $X_1,\ldots,X_n$ that uniformly take values in $\F_q$, where $q$ is a prime power?\\
+
+		One simple construction is similar to the earlier one -- take $k \coloneqq \log n$ random values $y_1,\ldots,y_k$ from $\F_p$, and consider $\sum_{i \in S} y_i$ for each non-empty $S \subseteq [k]$. This takes $\log n \cdot \log |\F|$ random bits. \\
+
+		% x^ry^s
+
+		A better constructio for $n = q$ is as follows -- randomly choose $a,b \in \F$, and let the required random variables be $\{ az+b : z \in \F_q \}$. This takes just $\log n + \log |\F|$ bits!\\
+		This idea can further be generalized to $k$-wise independence as well, taking a degree-$(k-1)$ polynomial instead. 
+
+		% next lecture: more pairwise independence!
