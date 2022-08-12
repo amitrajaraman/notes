@@ -257,3 +257,55 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Consider the number of tilings of a $1\times n$ board $B_n$ using squares ($1\times 1$ pieces) and dimers ($1\times 2$ pieces). It is not too difficult to show that this corresponds to the Fibonacci numbers.\\
 	Now, instead consider a \emph{weighted} version of this problem, where we give squares a weight of $2x$ and dimers a weight of $-1$. The weight $\wt(T)$ of a given tiling $T$ is equal to the product of the weights of the pieces used. Then, the Chebyshev polynomial $U_n$ is just the sum of the weights of all tilings of $B_n$!
 	\[ U_n(x) = \sum_{\text{tilings $T$ of $B_n$}} \wt(T). \]
+
+
+	Given a tiling $T$, let $S(T)$ and $D(T)$ be the number of squares and dimers in the tiling respectively.
+	In general, define
+	\[ F_n(s,t) = \sum_{\text{tilings $T$ of $B_n$}} s^{S(T)} t^{D(T)}. \]
+
+	Then,
+	\begin{align*}
+		F_0(s,t) &= 1, \\
+		F_1(s,t) &= s, \\
+		F_n(s,t) &= sF_{n-1}(s,t) + tF_{n-2}(s,t).
+	\end{align*}
+
+\subsection{}
+
+	Recall the definition of $[n]_q! = \prod_{i=1}^n [i]_q$. Inspired by this, define
+	\[ \binom{n}{k}_q = \frac{[n]_q!}{[k]_q[n-k]_q!}. \]
+	This is clearly a rational function of $q$. It turns out that this is a polynomial in $q$! For example,
+	\[ \binom{5}{2}_q = \frac{[5]_q[4]_q}{[2]_q[1]_q} = 1 + q + 2q^2 + 2q^3 + 2q^4 + q^5 + q^6. \]
+
+	Recall that
+	\[ \binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}. \]
+
+	\begin{exercise}
+		Show that
+		\[ \binom{n}{q}_q = q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q = \binom{n-1}{k}_q + q^{n-k} \binom{n-1}{k-1}_q . \]
+	\end{exercise}
+	These are called the $q$-Pascal's recurrences.
+
+	\begin{fcor}
+		$\binom{n}{k}_q$ is a polynomial. in $q$ with non-negative coefficients.
+	\end{fcor}
+	It turns out that the coefficients of the polynomial are unimodal and symmetric! We do not prove this, the reader can see _ for more details.
+	% zeinberger, AMM (katyohara?)
+
+	% sperner's theorem(?) : maximal UNIQUE antichain is the binom(n)(n/2) in the middle of the poset
+
+	A natural question to ask then is: what do the coefficients of this polynomial count?\\
+	Let $\binom{n}{k}_q = f_{n,k}(q) = \sum_{r \ge 0} a_{n,k}^{(r)} q^r$.
+	Can we have
+	\[ \binom{n}{k}_q = \sum_{T \in \binom{[n]}{k}} q^{\operatorname{parameter}(T)}? \]
+	$a_{n,k}^{(r)}$ then just counts the number of $T$ with the given parameter value.\\
+	Recall that $\binom{n}{k}$ is the number of paths from $(0,0)$ to $(n-k,k)$ if only upwards and rightwards movements on the integer lattice $\Z^2$ are allowed. Let $P$ be such a path.\\
+	% \prod q^{(x_{i+1}-x_i-1)}
+	% number partitions -- ``ferrer's diagram''
+	Consider the portion of the box above $P$. This can be viewed as the Ferrer diagram of some number partition $\lambda(P)$. $\lambda(P)$ has at most $k$ parts, and no part is of size more than $n-k$. In fact, \emph{all} such partitions correspond to some path!\\
+	What number is $\lambda(P)$ a number partition of? Denote this number as $|\lambda(P)|$. Let $S_{n,k}$ be the set of all paths of the mentioned form. 
+
+	\begin{ftheo}
+		\[ \sum_{P \in S_{n,k}} q^{|\lambda(P)|} = \binom{n}{k}_q. \]
+	\end{ftheo}
+	Surprisingly, the proof of the above is near-straightforward using the $q$-Pascal recurrence -- merely consider two cases depending on whether the first step of the path is right or upwards.

@@ -1,0 +1,386 @@
+\section{Equilibria}
+
+	In this section, we look at various types of ``equilibria'' -- strategies which make sense to be played by rational players.
+
+\subsection{Some types of equilibria}
+
+	\begin{fdef}
+		A strategy profile $(s_1^*,s_2^*,\ldots,s_n^*)$ is a \emph{strictly (weakly) dominant strategy equilibrium} if each $s_i^*$ is a strictly (weakly) dominant strategy for each $i$.
+	\end{fdef}
+	We abbreviate the above as SDSE or WDSE.
+
+	No rational player would play dominated strategies, so we can eliminate dominated strategies one-by-one. A point of note here is that after eliminating a strategy, we get a reduced game with fewer strategies, and this game may have dominated strategies that were not there earlier.\\
+	For strictly dominated strategies, the order of elimination does not matter. For weakly dominated strategies however, some reasonably outcomes may be eliminated (since this effectively says how we break ties).
+
+	\begin{fex}
+		\label{example: order of eliminating dominated strategies}
+		Consider the following.
+		\begin{center}
+		\begin{tabular}{|c||c|c|c|}
+			\hline
+			& \textsf{L} & \textsf{C} & \textsf{R} \\
+			\hline\hline
+			\textsf{T} & 1,2 & 2,3 & 0,3 \\
+			\hline
+			\textsf{M} & 2,2 & 2,1 & 3,2 \\
+			\hline
+			\textsf{B} & 2,1 & 0,0 & 1,0 \\ \hline
+		\end{tabular}
+		\end{center}
+
+		% It may be checked that the dominated strategies are T, R, B, and C.
+
+		Right off the bat, it is seen that \textsf{T}, \textsf{B}, and \textsf{C} are weakly dominated strategies. Suppose we start by imposing that player $1$ does not play \textsf{T}. If we do this, then \textsf{R} becomes weakly dominated as well, so it makes sense to eliminate it. Similarly, we can go on to eliminate \textsf{B} and \textsf{C}. Finally, the payoff of $(\mathsf{M},\mathsf{L})$ is $2,2$.\\
+		On the other hand, if we eliminate strategies in the order of \textsf{B}, \textsf{L}, \textsf{C}, \textsf{T}, then the final remaining strategies are $(\mathsf{M},\mathsf{R})$, which gives a payoff of $3,2$, which is not the same as the previous $2,2$!
+	\end{fex}
+
+
+	Dominant strategies (and dominant strategy equilibria) need not exist in games in general, as can be seen in the following game.
+
+	\begin{center}
+	\begin{tabular}{|c||c|c|}
+		\hline
+		& \textsf{L} & \textsf{R} \\
+		\hline\hline
+		\textsf{L} & $1, 1$ & $0,0$ \\
+		\hline
+		\textsf{R} & $0,0$ & $1,1$ \\
+		\hline 
+	\end{tabular}
+	\end{center}
+
+	As a result, dominance is not enough to give a reasonable outcome, so we must give a more refined notion.
+
+	\begin{fdef}[Nash Equilibrium]
+		A strategy profile $(s_i^*,s_{-i}^*)$ is a \emph{pure strategy Nash equilibrium} (PSNE) if for all $s_i \in S_i$,
+		\[ u_i(s_i^*, s_{-i}^*) \ge u_i(s_i,s_{-i}^*). \]
+	\end{fdef}
+
+	That is, fixing the remaining players' strategies, no player can increase their payoff by moving to another strategy. Unilateral deviation is not beneficial. \\
+	In the above example, $(\mathsf{L},\mathsf{L})$ and $(\mathsf{R},\mathsf{R})$ are both PSNEs.\\
+	PSNEs need not exist either!
+
+	\begin{fex}
+		The following game has no PSNE.
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			& \textsf{L} & \textsf{R} \\
+			\hline\hline
+			\textsf{L} & $-1,1$ & $1,-1$ \\
+			\hline
+			\textsf{R} & $1,-1$ & $1,-1$ \\ \hline
+		\end{tabular}
+		\end{center}
+	\end{fex}
+
+	\begin{fdef}
+		A \emph{best response} of player $i$ against a strategy profile $s_{-i}$ is a strategy that gives the maximum utility. That is,
+		\[ B_i(s_{-i}) = \{ s_i \in S_i : u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}) \text{ for all $s_i' \in S_i$} \}. \]
+	\end{fdef}
+
+	So, a PSNE is a strategy profile $(s_i^*,s_{-i}^*)$ such that $s_i^* \in B_i(s_{-i}^*)$ for all $i \in N$.\\
+	A PSNE gives some sort of stability. Once there, no rational player has a reason to change their strategy.\\
+
+	One of our biggest assumptions thus far is that all players are rational and intelligent. There are, however, other types of rationality.\\
+	One is risk-aversion, where each player makes pessimistic estimates of others. This worst case optimal choice is called a max-min strategy.
+
+	\begin{fdef}
+		A strategy $s_i^\text{maxmin}$ is a \emph{max-min strategy} for player $i$ if
+		\[ s_i^{\text{maxmin}} \in \argmax_{s_i \in S_i} \min_{s_{-i} \in S_{-i}} u_i(s_i,s_{-i}). \]
+		The \emph{max-min value} is defined by
+		\[ \underline{v}_{i} = \max_{s_i \in S_i} \min_{s_{-i} \in S_{-i}} u_i(s_i,s_{-i}). \]
+	\end{fdef}
+
+	We have that for any $t_{-i} \in S_{-i}$,
+	\[ u_i(s_i^\text{maxmin}, t_{-i}) = \underline{v}_i. \]
+
+	\begin{ftheo}
+		Any dominant strategy is a maxmin strategy.
+	\end{ftheo}
+	\begin{proof}
+		Let $s_i^*$ be a dominant strategy for player $i$. We have that for any $s_{-i} \in S_{-i}$ and $s_i' \in S_i \setminus \{s_i^*\}$,
+		\[ u_i(s_i^*, s_{-i}) \ge u_i(s_i', s_{-i}). \]
+		In particular, when we set $s_{-i}$ as any $s_{-i}^\text{min}(s_i^*) \in \argmin_{s_{-i}' \in S_{-i}} u_i(s_i^*,s_{-i}')$, we get
+		\[ \min_{s_{-i} \in S_{-i}} u_i(s_i^*, s_{-i}) = u_i(s_i^*, s_{-i}^\text{min}(s_i^*)) \ge u_i(s_i', s_{-i}^\text{min}(s_i')) \ge \min_{s_{-i} \in S_{-i}} u_i(s_i', s_{-i}) \]
+		That is,
+		\[ s_i^* \in \argmax_{s_i \in S_i} \min_{s_{-i} \in S_{-i}} u_i(s_i,s_{-i}) \qedhere \]
+	\end{proof}
+
+	\begin{ftheo}
+		Every PSNE $s^* = (s_1^*,\ldots,s_n^*)$ of an NFG satisfies
+		\[ u_i(s^*) \ge \underline{v}_i \]
+		for all $i \in N$.
+	\end{ftheo}
+	\begin{proof}
+		We have
+		\begin{align*}
+			u_i(s_i^*, s_{-i}^*) &= \max_{s_i \in S_i} u_i(s_i, s_{-i}^*) & \text{(by definition of PSNE)} \\
+				&\ge \max_{s_i \in S_i} \min_{s_{-i} \in S_{-i}} u_i(s_i, s_{-i}) = \overline{v}_i. \qedhere
+		\end{align*}
+	\end{proof}
+
+	What happens to stability and security when games are eliminated? Recall that depending on the order in which dominant strategies are eliminated, the final value can change.
+
+	\begin{fex}
+		The game matrix involved in this example is very similar to that in \Cref{example: order of eliminating dominated strategies}.
+		\begin{center}
+		\begin{tabular}{|c||c|c|c|}
+			\hline
+			& \textsf{L} & \textsf{C} & \textsf{R} \\
+			\hline\hline
+			\textsf{T} & 1,2 & 2,3 & 0,3 \\
+			\hline
+			\textsf{M} & 2,2 & 2,1 & 3,2 \\
+			\hline
+			\textsf{B} & 2,0 & 0,0 & 1,0 \\ \hline
+		\end{tabular}
+		\end{center}
+		The initial maxmin values for the two players are $2$ for player $1$ and $0$ for player $2$, but after we eliminate \textsf{B}, the values go to $2$ and $2$.\\
+		It is not a coincidence that the maxmin value of $2$ for player $1$ is unchanged.
+	\end{fex}
+
+	\begin{ftheo}
+		Consider an NFG $G = \langle N , (S_i)_{i \in N} , (u_i)_{i \in N}\rangle$. Let $\hat{s}_j \in S_j$ be a dominated strategy, and $\hat{G}$ be the residual game after removing $\hat{s}_j$. The maxmin value of player $j$ in $\hat{G}$ is equal to that in $\hat{G}$.
+	\end{ftheo}
+
+	The idea is that the eliminated strategy cannot be the unique maxmin strategy in $G$ since it is dominated.
+
+	\begin{proof}
+		We are done if we show that there is a maxmin strategy in $G$ in $S_{j} \setminus \{s_{-j}\}$ (Why?).\\
+		Let $\hat{s}_j$ be dominated by $t_j \in S_j \setminus \{\hat{s}_j\}$. Then, for all $s_{-j} \in S_{-j}$,
+		\[ u_j(t_j,s_{-j}) \ge u_j(\hat{s}_j,s_{-j}). \]
+		We have
+		\[ \min_{s_{-j} \in S_{-j}} u_j(t_j,s_{-j}) \ge \min_{s_{-j} \in S_{-j}} u_j(\hat{s}_j,s_{-j}), \]
+		so
+		\[ \max_{s_j \in S_{j} \setminus \{\hat{s}_j\}} \min_{s_{-j} \in S_{-j}} u_j(s_j,s_{-j}) \ge \min_{s_{-j} \in S_{-j}} u_j(\hat{s}_j,s_{-j}), \]
+		completing the proof -- there is another strategy whose value is at least that of $\hat{s}_j$.
+	\end{proof}
+
+	To summarize,
+	\begin{itemize}
+		\item eliminating strictly dominated strategies has no effect on the PSNEs,
+		\item eliminating weakly dominated strategies may make the set of PSNEs smaller, but does not add new PSNEs, and
+		\item the maxmin value is unaffected by eliminating (strictly or weakly) dominated strategies.
+	\end{itemize}
+
+\subsection{Matrix Games}
+
+	\begin{fdef}
+		A \emph{matrix game} or \emph{two player zero-sum game} is a normal form game $\langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$ with $N = \{1,2\}$ and $u_1 + u_2 \equiv 0$.
+	\end{fdef}
+
+	\begin{fex}
+		\label{ex: matrix game}
+		Examples of matrix games are the following.
+
+		\begin{center}
+		\begin{tabular}{|c||c|c|c|}
+			\hline
+			& \textsf{L} & \textsf{C} & \textsf{R} \\ \hline \hline
+			\textsf{T} & $3,-3$ & $-5,5$ & $-2,2$ \\ \hline
+			\textsf{M} & $1,-1$ & $4,-4$ & $1,-1$ \\ \hline
+			\textsf{B} & $6,-6$ & $-3,3$ & $-5,5$ \\ \hline
+		\end{tabular}
+		\end{center}
+
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			& \textsf{L} & \textsf{R} \\ \hline\hline
+			\textsf{L} & $-1,1$ & $1,-1$ \\ \hline
+			\textsf{R} & $1,-1$ & $-1,1$ \\ \hline
+		\end{tabular}
+		\end{center}
+
+		A point to note now that we shall examine in more detail in some time is that the first game has PSNEs while the second does not.
+	\end{fex}
+
+	A matrix game can be represented by a single \emph{utility matrix}, by considering the utilities of only one of the players, say player $1$. Player $2$'s utilities are then just the negative of the matrix.\\
+	Given a utility matrix $u$, $u_1 \equiv u$ and $u_2 \equiv -u$.\\
+
+	What are the PSNEs, if any, of a matrix game?
+
+	\begin{definition}
+		A \emph{saddle point} of a matrix $A$ is an index $A_{ij}$ that is the largest in the $i$th row and the smallest in the $i$th column.
+	\end{definition}
+
+	\begin{ftheo}
+		In a matrix game with utility matrix $u$, $(s_1^*,s_2^*)$ is a PSNE if and only if it is a saddlepoint.
+	\end{ftheo}
+	\begin{proof}
+		Indeed, $(s_1^*,s_2^*)$ is a saddle point iff
+		\begin{align*}
+			u(s_1^*,s_2^*) &\ge u(s_1,s_2*) \text{ for all $s_1 \in S_2$ and} \\
+			u(s_1^*,s_2^*) &\le u(s_1^*,s_2) \text{ for all $s_2 \in S_2$,}
+		\end{align*}
+		which is equivalent to being a PSNE since $u_1 \equiv u$ and $u_2 \equiv -u$.
+	\end{proof}
+
+	\begin{fdef}
+		Given a two player game with utility matrix $u$, define the \emph{maxmin} value $\underline{v}$ by
+		\[ \underline{v} = \max_{s_1 \in S_1} \min_{s_2 \in S_2} u(s_1,s_2) \]
+		and the \emph{minmax} value $\overline{v}$ by
+		\[ \overline{v} = \min_{s_2 \in S_2} \max_{s_1 \in S_1} u(s_1,s_2). \]
+	\end{fdef}
+
+	The above can be slightly rephrased to say
+	\begin{align*}
+		\underline{v} &= \max_{s_1 \in S_1} \min_{s_2 \in S_2} u_1(s_1,s_2) \\
+		\overline{v} &= \max_{s_2 \in S_2} \min_{s_1 \in S_2} u_2(s_1,s_2).
+	\end{align*}
+
+	\begin{flem}
+		\label{lemma: minmax ge maxmin}
+		For matrix games, $\overline{v} \ge \overline{v}$.
+	\end{flem}
+	\begin{proof}
+		Let $\overline{v}$ and $\underline{v}$ be attained by $(s_1,s_2)$ and $(t_1,t_2)$ respectively. Then,
+		\[ \overline{v} = u(s_1,s_2) \stackrel{(1)}{\ge} u(t_1,s_2) \stackrel{(2)}{\ge} u(t_1,t_2) = \underline{v}, \]
+		where $(1)$ is because $(s_1,s_2)$ is a minmax strategy and $(2)$ is because $(t_1,t_2)$ is a maxmin strategy.
+	\end{proof}
+
+	Going back to \Cref{ex: matrix game}, check that in the first game, $\overline{v} = 1 = \underline{v}$, while in the second game, $\overline{v} = 1$ and $\underline{v} = -1$.
+
+	\begin{ftheo}
+		A matrix game has a PSNE iff $\overline{v} = \underline{v}$.
+	\end{ftheo}
+	\begin{proof}
+		We wish to show that a utility matrix $u$ has a saddle point iff its maxmin and minmax values are equal.\\
+		
+		Suppose that $(s_1^*,s_2^*)$ is a saddle point. Then,
+		\[ u(s_1^*,s_2^*) \ge \max_{s_1 \in S_1} u(s_1,s_2^*) \ge \min_{s_2 \in S_2} \max_{s_1 \in S_1} u(s_1,s_2) = \overline{v}. \]
+		An identical argument for player $2$ (keeping in mind that $u_2 \equiv -u$!) yields that $\underline{u} \ge u(s_1^*,s_2^*)$.\\
+		Combining the two,
+		\[ \underline{v} \ge u(s_1^*,s_2^*) \ge \overline{v}. \]
+		Recalling \Cref{lemma: minmax ge maxmin}, we must have that $\overline{v} = \underline{v}$.\\
+
+		Now, suppose that $\overline{v} = \underline{v}$. There is a strategy $(s_1^*,s_2^*)$ that is both a maxmin and minmax strategy (Why?).
+		% Let $(s_1^*,s_2^*)$ be a maxmin strategy such that $u(s_1^*,s_2^*) = \underline{v}$. We claim that $(s_1^*,s_2^*)$ is also a minmax strategy. For any $s_1 \in S_1$, we have that
+		% \[ u(s_1^*,s_2^*) \ge \min_{s_2 \in S_2} u(s_1,s_2) \]
+		%  Observe that
+		% \[ \min_{s_2 \in S_2} \max_{s_1 \in S_1} \overline{v} \le \max_{s_1 \in S_1} u(s_1,s_2^*) = u(s_1^*,s_2^*) \le \max_{s_1 \in S_1} u(s_1,s_2^*) \]
+
+		% $(s_1^*,s_2^*)$ must also be a minmax strategy (Why?). % ???????
+		For any $s_2 \in S_2$,
+		\[ u(s_1^*,s_2) \ge \min_{t_2 \in S_2} u(s_1^*,t_2) = \max_{t_1 \in S_1} \min_{t_2 \in S_2} u(t_1,t_2) = \underline{v}. \]
+		Similarly, for any $s_1 \in S_1$,
+		\[ u(s_1,s_2^*) \le \max_{t_1 \in S_1} u(t_1,s_2^*) = \min_{t_2 \in S_2} \max_{t_1 \in S_1} u(t_1,t_2) = \overline{v}. \]
+		The two equations above imply that $(s_1^*,s_2^*)$ is a saddle point, so we are done.
+	\end{proof}
+
+\subsection{Mixed Strategies}
+
+	So far, one issue is that PSNEs may not exist. We are also limiting ourselves to ``pure'' strategies, in the sense that there is a certain strategy that we definitely play.\\
+
+	Given a finite set $A$, define
+	\[ \Delta A = \{ p \in [0,1]^{A} \sum_{a \in A} p_a = 1 \}. \]
+	A \emph{mixed strategy} of player $i$ is some $s_i \in \Delta(S_i)$.\\
+	Because we are looking at non-cooperative games, mixed strategies of distinct players are independent.\\
+	The utility of the $i$th player for a mixed strategy profile $(\sigma_i,\sigma_{-i})$ is
+	\[ u_i(\sigma_i,\sigma_{-i}) = \sum_{s_1 \in S_1} \cdots \sum_{s_n \in S_n} \left( \prod_{i \in [n]} \sigma_i(s_i) \right) u_i(s_1,\ldots,s_n). \]
+	That is, the utility of a mixed strategy is the expectation of the utilities of the pure strategies.
+
+	\begin{fex}
+		\label{ex: mixed strategy}
+		Consider the following game
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			& \textsf{U} & \textsf{D} \\ \hline\hline
+			\textsf{L} & $-1,1$ & $1,-1$ \\ \hline
+			\textsf{R} & $1,-1$ & $-1,1$ \\ \hline
+		\end{tabular}
+		\end{center}
+		Suppose the mixed strategy $\sigma_1$ chooses $\mathsf{L}$ and $\mathsf{R}$ with probabilities $2/3$ and $1/3$ respectively, and $\sigma_2$chooses $\mathsf{U}$ and $\mathsf{D}$ with probabilities $4/5$ and $1/5$ respectively. Then,
+		\[ u_1(\sigma_1,\sigma_2) = \frac{2}{3}\cdot\frac{4}{5}\cdot(-1) + \frac{2}{3}\frac{1}{5}\cdot 1 + \frac{1}{3}\frac{4}{5}\cdot 1 + \frac{1}{3}\frac{1}{5}\cdot (-1) = -1/5. \] 
+	\end{fex}
+
+	By linearity of expectation, we have
+	\begin{equation}
+		\label{eqn: mixing strategies}
+		u_i(\lambda \sigma_i + (1-\lambda)\sigma_i',\sigma_{-i}) = \lambda u_i(\sigma_i,\sigma_{-i}) + (1-\lambda) u_i(\sigma_i',\sigma_{-i}).
+	\end{equation}
+	This is referred to as mixing strategies.
+
+	\begin{fdef}[Mixed Strategy Nash Equilibrium]
+		A \emph{mixed strategy nash equilibrium} (MSNE) is a mixed strategy profile $(\sigma_i^*,\sigma_{-i}^*)$ such that
+		\[ u_i(\sigma_i^*,\sigma_{-i}^*) \ge u_i(\sigma_i',\sigma_{-i}^*) \]
+		for any $\sigma_i' \in \Delta(S_i)$ for all $i \in N$.
+	\end{fdef}
+
+	A PSNE is just a special case of a MSNE where all the mixed strategies are degenerate distributions.
+
+	\begin{ftheo}
+		\label{theo: for msne suffices to check pure deviations}
+		A mixed strategy profile $(\sigma_i^*,\sigma_{-i}^*)$ is a MSNE iff
+		\[ u_i(\sigma_i^*,\sigma_{-i}^*) \ge u_i(s_i,\sigma_{-i}^*) \]
+		for all $s_i \in S_i$.
+	\end{ftheo}
+	The forward implication is direct on setting the $\sigma_i'$ appropriately, and the backward implication by an extension of \Cref{eqn: mixing strategies} to more than two strategies (How?).\\
+
+	Therefore, any PSNE is a MSNE. In any MSNE, there must be some amount of ``balance'' -- in \Cref{ex: mixed strategy}, the probability distributions that assign $1/2$ to each strategy together constitute a MSNE (check this!).\\
+	How do we make this notion of balance more formal?
+
+	\begin{definition}
+		Given a mixed strategy $\sigma_i$, the \emph{support} of $\sigma_i$ is
+		\[ \delta(\sigma_i) = \{ s_i \in S_i : \sigma_i(s_i) > 0 \}. \]
+	\end{definition}
+
+	We now characterize MSNEs.
+
+	\begin{ftheo}
+		A mixed strategy profile $(\sigma_i^*,\sigma_{-i}^*)$ is a MSNE iff
+		\begin{enumerate}[label=(\alph*)]
+			\item $u_i(s_i,\sigma_{-i}^*)$ is equal for all $s_i \in \delta(\sigma_i^*)$, and
+			\item $u_i(s_i,\sigma_{-i}^*) \ge u_i(s_i',\sigma_{-i}^*)$ for all $s_i \in \delta(\sigma_i^*)$, $s_i' \not\in \delta(\sigma_i^*)$.
+		\end{enumerate}
+	\end{ftheo}
+
+	We encourage the reader to use the above theorem to determine MSNEs in earlier examples.
+
+	\begin{proof}
+		We have
+		\begin{align*}
+			u_i(\sigma_i^*,\sigma_{-i}^*) &= \max_{\sigma_i \in \Delta(S_i)} u_i(\sigma_i,\sigma_{-i}^*) \\
+				&= \max_{s_i \in S_i} u_i(s_i,\sigma_{-i}^*) & \text{(similar to \Cref{theo: for msne suffices to check pure deviations})} \\
+				&= \max_{s_i \in \delta(\sigma_i^*)} u_i(s_i,\sigma_{-i}^*) \\
+				&= \sum_{s_i \in \delta(\sigma_i^*)} \sigma_i^*(s_i) u_i(s_i,\sigma_{-i}^*).
+		\end{align*}
+		It is possible for the maximum and weighted average to be equal iff all the utilities are the same, so (a) is proved.\\
+		Now, suppose that there is some $s_i \in \delta(\sigma_i^*), s_i' \not\in \delta(\sigma_i^*)$ such that
+		\[ u_i(s_i,\sigma_{-i}^*) < u_i(s_i',\sigma_{-i}^*). \]
+		Considering the mixed strategy that is identical to $\sigma_i^*$ except that the weight that was on $s_i$ is shifted to $s_i'$. This gives a strictly larger utility, contradicting the fact that we have an MSNE and proving (b).\\
+
+		Now, let us prove the backward direction. Let $u_i(s_i,\sigma_{-i}^*) = m_i(\sigma_{-i}^*)$ for all $s_i \in \delta(\sigma_i^*)$ (using (a)). Using (b), we have $m_i(\sigma_{-i}^*) = \max_{s_i \in S_i} u_i(s_i,\sigma_{-i}^*)$. Then,
+		\begin{align*}
+			u_i(\sigma_i^*,\sigma_{-i}^*) &= \sum_{s_i \in \delta(\sigma_i^*)} \sigma_i^*(s_i) u_i(s_i,\sigma_{-i}^*) \\
+				&= m_i(\sigma_{-i}^*) \\
+				&= \max_{s_i \in S_i} u_i(s_i,\sigma_{-i}^*),
+		\end{align*}
+		so we are done by \Cref{theo: for msne suffices to check pure deviations}.
+	\end{proof}
+
+	We now try to convert the above theorem to an algorithm. Suppose we have an NFG $G = \langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$. The number of possible supports of $S_1 \times \cdots \times S_n$ is $K = (2^{|S_1|-1})(2^{|S_2|-1})\cdots2^{|S_n|-1}$.\\
+	For every possible support profile $X_1 \times \cdots \times X_n$, solve the following feasibility program.
+	\begin{align*}
+		w_i &= \sum_{s_{-i} \in S_{-i}} \left( \prod_{j \ne i} \sigma_j(s_j) \right) u_i(s_i,s_{-i}) \text{ for all $s_i \in X_i$, $i \in N$ and} \\
+		w_i &\ge \sum_{s_{-i} \in S_{-i}} \left( \prod_{j \ne i} \sigma_j(s_j) \right) u_i(s_i,s_{-i}) \text{ for all $s_i \in S_i \setminus X_i$, $i \in N$,}
+	\end{align*}
+	where
+	\[ \sigma_j(s_j) \ge 0 \text{ for all $s_j \in S_j,j\in N$} \]
+	and $\sum_{s_j \in S_j} \sigma_j(s_j) = 1$ for all $j \in N$.\\
+	This program is not linear unless there are only two players.\\
+	For games in general, there is no polynomial time algorithm known for this. In fact, the problem of finding an MSNE is \emph{PPAD-complete}\footnote{PPAD stands for ``Polynomial Parity Argument on Directed graphs''.}. The interested reader may see \cite{Daskalakis2009TheCO} for more details.\\
+
+	The previous algorithm may be applied to a smaller set of strategies by removing dominated strategies. Now, we can even talk about domination by a mixed strategy. As we saw earlier, removing weak dominated strategy can upset the equilibrium. 
+
+	\begin{ftheo}
+		If a pure strategy $s_i$ is strictly dominated by a mixed strategy $\sigma_i \in \Delta(S_i)$, any MSNE of the game chooses $s_i$ with probability zero.
+	\end{ftheo}
+	We can remove strictly dominated strategies without consequences.
+
+	\begin{ftheo}[Nash 1951, \cite{nash-noncooperative-games}]
+		Any finite game has a mixed Nash equilibrium.
+	\end{ftheo}
+	Above, ``finite'' means that the number of players and strategies are finite.
