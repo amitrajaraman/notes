@@ -226,13 +226,13 @@
 
 	The above can be slightly rephrased to say
 	\begin{align*}
-		\underline{v} &= \max_{s_1 \in S_1} \min_{s_2 \in S_2} u_1(s_1,s_2) \\
-		\overline{v} &= \max_{s_2 \in S_2} \min_{s_1 \in S_2} u_2(s_1,s_2).
+		\underline{v} &= -\min_{s_1 \in S_1} \max_{s_2 \in S_2} u_2(s_1,s_2) \\
+		\overline{v} &= \min_{s_2 \in S_2} \max_{s_1 \in S_2} u_1(s_1,s_2).
 	\end{align*}
 
 	\begin{flem}
 		\label{lemma: minmax ge maxmin}
-		For matrix games, $\overline{v} \ge \overline{v}$.
+		For matrix games, $\overline{v} \ge \underline{v}$.
 	\end{flem}
 	\begin{proof}
 		Let $\overline{v}$ and $\underline{v}$ be attained by $(s_1,s_2)$ and $(t_1,t_2)$ respectively. Then,
