@@ -270,7 +270,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		F_n(s,t) &= sF_{n-1}(s,t) + tF_{n-2}(s,t).
 	\end{align*}
 
-\subsection{}
+\subsection{More on $q$-analogues}
 
 	Recall the definition of $[n]_q! = \prod_{i=1}^n [i]_q$. Inspired by this, define
 	\[ \binom{n}{k}_q = \frac{[n]_q!}{[k]_q[n-k]_q!}. \]
@@ -289,7 +289,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{fcor}
 		$\binom{n}{k}_q$ is a polynomial. in $q$ with non-negative coefficients.
 	\end{fcor}
-	It turns out that the coefficients of the polynomial are unimodal and symmetric! We do not prove this, the reader can see _ for more details.
+	It turns out that the coefficients of the polynomial are unimodal and symmetric! We do not prove this, the reader can see \_ for more details.
 	% zeinberger, AMM (katyohara?)
 
 	% sperner's theorem(?) : maximal UNIQUE antichain is the binom(n)(n/2) in the middle of the poset
@@ -309,3 +309,125 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ \sum_{P \in S_{n,k}} q^{|\lambda(P)|} = \binom{n}{k}_q. \]
 	\end{ftheo}
 	Surprisingly, the proof of the above is near-straightforward using the $q$-Pascal recurrence -- merely consider two cases depending on whether the first step of the path is right or upwards.
+
+\subsection{Derivative polynomials}
+
+	We begin this section by recalling the following rather interesting result.\\
+	Define the \emph{Bell polynomial} $B_{n,k}$ by
+	\[ B_{n,k}(x_1,x_2,\ldots,x_{n-k+1}) = \sum \frac{n!}{j_1! (1!)^{j_1} j_2! (2!)^{j_2} \cdots j_{n-k+1}! ((n-k+1)!)^{n-k+1}} \cdot x_1^{j_1} x_2^{j_2} \cdots x_{n-k+1}^{j_{n-k+1}}, \]
+	where the summation is taken over all indices $j_1,\ldots,j_{n-k+1}$ of non-negative integers such that
+	\begin{align*}
+		k &= j_1 + j_2 + \cdots + j_{n-k+1} \text{ and} \\
+		n &= j_1 + 2j_2 + 3j_3 + \cdots + (n-k+1)j_{n-k+1}.
+	\end{align*}
+	This has a natural correspondence to the Stirling numbers of the second kind, with $j_i$ representing the number of partitions of size $i$. In particular, the sum of coefficients of $B_{n,k}$ is $S_{n,k}$.
+
+	\begin{fprop}[Fa\`{a} di Bruno's Formula,\cite{faadibruno}]
+		\[ D^n f(g(x)) = \sum f^{(k)}(g(x)) \cdot B_{n,k} (g'(x), g''(x), \ldots, g^{(n-k+1)}(x)). \]
+	\end{fprop}
+
+	To illustrate this better, let us look at the first few derivatives explicitly. Dropping the $(x)$ on the right to make the notation more succinct, we have
+	\begin{align*}
+		Df(g(x)) &= f'(g) g' \\
+		D^2f(g(x)) &= f''(g) (g')^2 + f'(g) g'' \\
+		D^3f(g(x)) &= f'''(g) (g')^3 + 3 f''(g) g' g'' + f''(g) g'''.
+	\end{align*}
+	Consider the partitions of $\{1,2,3\}$, given by $1|2|3$, $12|3$, $13|2$, $23|1$, and $123$. The number of partitions of $[n]$ with $n_i$ parts of size $i$ for each $i$ neatly corresponds to the coefficient of $\prod_i (g^{(i)})^{n_i}$!
+
+	% Faa di Bruno's formula
+	% Df(g(x)) = f'(g) g'
+	% D^2 = f''(g)(g')^2 + f'(g)g''
+	% D^3 = f'''(g) (g')^3 + 3 f''(g)(g')(g'') + f''(g)g''' -- 1|2|3 ; 12|3 13|2 12|3 ; 123
+	% coefficients relate to Bell numbers!
+	% even a multivariate version that relates to multivariate partitions (?)
+
+	Let $y = f(x)$. If $Dy = p(f(x))$ for some polynomial $p$, then $D^ny$ is a polynomial of $f$ as well.\\
+	Suppose that $D^ny = p_n(y)$ for some sequence of polynomials $(p_n)$.
+	\begin{exercise}
+		Show that
+		\begin{align*}
+			p_0(y) &= y \\
+			p_n(y) &= \begin{cases} y & n=0 \\ p_{n-1}(y) \cdot p_1(y) & n \ge 1. \end{cases}
+		\end{align*}
+	\end{exercise}
+
+	For the remainder of this section, set $y = \tan x$ and $z = \sec x$. Then, $Dy = 1+y^2 = z^2$ and $Dz = yz$. It is not difficult to see that
+	\begin{align*}
+		D^2y &= 2yz^2 \\
+		D^3y &= 4y^2z^2 + 2z^4 \\
+		D^4y &= 8y^3z^2 + 16yz^4
+	\end{align*}
+
+	\begin{exercise}
+		With $y,z$ defined as above, show that
+		\begin{enumerate}
+			\item $D^ny$ is a homogeneous polynomial in $y,z$ of degree $(n+1)$.
+			\item $D^ny$ has only terms with even exponents of $z$.
+		\end{enumerate}
+	\end{exercise}
+
+	\begin{fcor}
+		We can write $D^ny = \sum_{k=0}^{\lfloor (n-1)/2 \rfloor} W_{n,k} z^{2k+2} y^{n-2k-1}$.
+	\end{fcor}
+
+	\begin{exercise}
+		Prove or disprove that
+		\[ \sum W_{n,k} = n!. \]
+	\end{exercise}
+	Again, we ask the question: is there some parameter on $\pi \in \mathfrak{S}_n$ such that
+	\[ W_n(x) = \sum_{k = 0}^{\lfloor (n-1)/2 \rfloor} W_{n,k} x^k = \sum_{\pi \in \mathfrak{S}_n} x^{\operatorname{parameter}(\pi)}? \]
+
+	\begin{fdef}[Peak]
+		Given a permutation $\pi \in \mathfrak{S}_n$, we say that $i \in [n] \setminus \{1,n\}$ is a \emph{peak} of $\pi$ if $\pi_i > \pi_{i-1}$ and $\pi_i > \pi_{i+1}$. Denote the set of peaks of $\pi$ by $\Peak(\pi)$, $\pk(\pi) = |\Peak(\pi)|$ the number of peaks.
+	\end{fdef}
+
+	\begin{lemma}
+		\label{lem: Wnk recurrence}
+		Show that
+		\[ W_{n,k} = (2k+2) W_{n-1,k} + (n-2k) W_{n-1,k-1}. \]
+		for $n,k \ge 1$.
+	\end{lemma}
+	\begin{proof}
+		We have
+		\begin{align*}
+			D^{n}y &= D \sum_{k=0}^{\lfloor (n-2)/2 \rfloor} W_{n-1,k} z^{2k+2} y^{n-2k-2} \\
+				&= \sum_{k=0}^{\lfloor (n-2)/2 \rfloor} (2k+2) W_{n-1,k} z^{2k+1} \cdot zy \cdot y^{n-2k-2} + (n-2k-2) W_{n-1,k} z^{2k+2} y^{n-2k-3} \cdot z^2 \\
+				&= \sum_{k=0}^{\lfloor (n-2)/2 \rfloor} (2k+2) W_{n-1,k} z^{2k+2} y^{n-2k-1} + (n-2k-2) z^{2k+4} y^{n-2k-3}.
+		\end{align*}
+		The required follows.
+	\end{proof}
+
+	\begin{ftheo}
+		\[ W_n(x) = \sum_{\pi \in \mathfrak{S}_n} x^{\pk(\pi)}. \]
+	\end{ftheo}
+	\begin{proof}
+		Let $Y_n$ be the polynomial on the right, and let $Y_{n,k}$ be its coefficients. It is easily checked that $Y_{n,k}$ and $W_{n,k}$ are equal for $n=0$ or $k=0$. To prove the statement, we shall merely show that $Y_{n,k}$ satisfies the recurrence of \Cref{lem: Wnk recurrence} too.\\
+		Similar to what we did in earlier proofs such as those of \Cref{prop: inv n,prop: maj n}, let $\sigma$ be a permutation in $\mathfrak{S}_{n-1}$.\\ We shall use it to get a permutation $\pi \in \mathfrak{S}_n$ by ``inserting'' $n$ at one of the $n$ possible positions. If we insert it at the position of a non-peak of $\sigma$, the number of peaks increases by one. If we insert it before or after the position of a peak, the number of peaks stays the same. Since peaks cannot occur immediately after each other, we can insert it at precisely $2k+2$ positions while ensuring that the number of peaks does not increase (the extra $2$ is for the extreme positions), and so at $n-2k-2$ positions which increases the number of peaks by one. Therefore,
+		\[ Y_{n,k} = (2k+2)Y_{n-1,k} + (n-2(k-1)-2)Y_{n-1,k-1} = (2k+2) Y_{n-1,k} + (n-2k)Y_{n-1,k-1}. \]
+	\end{proof}
+	\begin{problem}
+		\begin{enumerate}
+			\item Show that
+			\[ W_{n,k} = \_ W_{n-1,k} + \_ W_{n-1,k-1}. \]
+		\end{enumerate}
+	\end{problem}
+
+	% z = sec x, Dz = yz.
+
+\subsection{Matching Theory}
+
+	\begin{fdef}[Matching]
+		Given a graph $G = (V,E)$, a \emph{matching} in $G$ is a collection $M \subseteq E$ of edges such that for any distinct $e_1,e_2 \in M$, $e_1 \cap e_2 = \emptyset$.\\
+		Denote the number of $k$-sized matchings by $m_k(G)$. Define the \emph{matching polynomial}
+		\[ \Match_G(x) = \sum_{k \ge 0} m_k(G) x^k \]
+	\end{fdef}
+
+	Some authors also define the polynomial as
+	\[ N_G(x) = \sum_{k \ge 0} (-1)^k m_k(G) x^{n-2k}. \]
+	Clearly, $N_G(x) = x^n \cdot \Match_G(-1/x^2)$.\\
+
+	There is a very rich literature regarding matching theory. One work that set off a frenzy of results in related areas was \cite{Edmonds1965MaximumMA}, which gave a polynomial-time algorithm to get a maximum weight matching in any graph. It does so by looking at the polytope in $\R^{E}$ that is the convex hull of the indicator functions of all matchings.
+	It is worth noting that while there is a polynomial time algorithm to find a maximum weight matching, the problem of determining the number of maximum matchings in a graph is \textsf{\#P}-complete.
+
+	% convex hull of (01) vectors of matchings in R^{|E|} due to edmonds. this is linear program, so we can get a non-linear programming way. this gives a method to get a maximum weight matching!!! (place any weights you want on edges)
+	% counting number of matchings is #P-complete though.
