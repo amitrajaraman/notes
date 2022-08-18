@@ -59,58 +59,100 @@
 
 		% MISSED LECTURE 2
 
-		% LECTURE 3
-	\subsection{Lecture 3: Pairwise Independence}
+	\subsection{Lectures 3--4: Pairwise Independence}
 
-		Let $X_1,\ldots,X_n$ be random variables such that for any distinct $i,j$, $X_i,X_j$ are independent:
-		\[ \Pr[X_i = \alpha, X_j = \beta] = \Pr[X_i = \alpha] \Pr[X_j = \beta]. \]
-		This is referred to as \emph{pairwise independence}. Analogously, we can define \emph{$k$-wise independence}, which requires that any subset of at most $k$ random variables is independent.
+		\subsubsection{Lecture 3}
 
-		\begin{fex}
-			Let random variables $X_1,X_2$ take values in $\{0,1\}$ uniformly, and let $X_3 = X_1 \oplus X_2$. This set of random variables is pairwise independent, but not completely independent!
-		\end{fex}
+			Let $X_1,\ldots,X_n$ be random variables such that for any distinct $i,j$, $X_i,X_j$ are independent:
+			\[ \Pr[X_i = \alpha, X_j = \beta] = \Pr[X_i = \alpha] \Pr[X_j = \beta]. \]
+			This is referred to as \emph{pairwise independence}. Analogously, we can define \emph{$k$-wise independence}, which requires that any subset of at most $k$ random variables is independent.
 
-		% independently put each vertex in S with pr 1/2 - 1/2-approx algo for max-cut
+			\begin{fex}
+				Let random variables $X_1,X_2$ take values in $\{0,1\}$ uniformly, and let $X_3 = X_1 \oplus X_2$. This set of random variables is pairwise independent, but not completely independent!
+			\end{fex}
 
-		Given a cut $(S,\overline{S})$ of a graph, denote
-		\[ \partial S = \{ (u,v) : u \in S, v \not\in S \}. \]
-		% prof denotes it \delta(S)
-		Consider an algorithm that chooses a uniformly random cut $S$ of the vertex set $V$ (which corresponds to independently choosing each vertex with probability $1/2$). Then,
-		\[ \E[|\partial S|] = \sum_{e \in E} \Pr[e \in \partial S] = \sum_{\{u,v\} \in E} \Pr[u \in S, v \not\in S] + \Pr[u \not\in S, v \in S] = |E|/2. \]
-		In particular, this gives (in expectation) a $1/2$-approximation of a max-cut.\footnote{Using Markov's inequality, it gives a $1/2$-approximation with probability at least $1/2$.}\\
+			% independently put each vertex in S with pr 1/2 - 1/2-approx algo for max-cut
 
-		Now, note that this algorithm does not require independence of all the $|V|$ vertex-choosings, it suffices to have pairwise independence! This begs the question, how do we generate $n$ pairwise independent while using a small number of actual random bits?\\
-		Bouncing off the idea in the previous example, we can take $k$ random bits $X_1,\ldots,X_k$, and generate $2^k-1$ pairwise independent random bits by considering $\bigoplus_{i \in S} X_i$ for each non-empty $S \subseteq [k]$ (why are these pairwise independent?).\\
-		Consequently, we can generate $n$ pairwise random bits using just $O(\log(n))$ random bits.
+			Given a cut $(S,\overline{S})$ of a graph, denote
+			\[ \partial S = \{ (u,v) : u \in S, v \not\in S \}. \]
+			% prof denotes it \delta(S)
+			Consider an algorithm that chooses a uniformly random cut $S$ of the vertex set $V$ (which corresponds to independently choosing each vertex with probability $1/2$). Then,
+			\[ \E[|\partial S|] = \sum_{e \in E} \Pr[e \in \partial S] = \sum_{\{u,v\} \in E} \Pr[u \in S, v \not\in S] + \Pr[u \not\in S, v \in S] = |E|/2. \]
+			In particular, this gives (in expectation) a $1/2$-approximation of a max-cut.\footnote{Using Markov's inequality, it gives a $1/2$-approximation with probability at least $1/2$.}\\
 
-		\begin{remark}
-			Since we have just $\log n$ random bits, we can cycle through all the possible choices for the bits, since there are only $n$ choices! This gives a deterministic polynomial time $1/2$-approximation algorithm for the max-cut problem. Instead of looking at all the $O(2^n)$ cuts, it is enough to look at $O(n)$ cuts. \\
-			Interestingly, this does not even look at the structure of the graph!
-		\end{remark}
+			Now, note that this algorithm does not require independence of all the $|V|$ vertex-choosings, it suffices to have pairwise independence! This begs the question, how do we generate $n$ pairwise independent while using a small number of actual random bits?\\
+			Bouncing off the idea in the previous example, we can take $k$ random bits $X_1,\ldots,X_k$, and generate $2^k-1$ pairwise independent random bits by considering $\bigoplus_{i \in S} X_i$ for each non-empty $S \subseteq [k]$ (why are these pairwise independent?).\\
+			Consequently, we can generate $n$ pairwise random bits using just $O(\log(n))$ random bits.
 
-		\begin{fprop}
-			To generate $n$ pairwise independent random bits, we require $\Omega(\log n)$ independent random bits.
-		\end{fprop}
-		\begin{proof}
-			Suppose that given $k$ independent random bits $Y_1,\ldots,Y_k$, we can come up with $n$ pairwise independent random bits $X_1,\ldots,X_n$. Let $f_i : \{0,1\}^k \to \{0,1\}$ for $1 \le i \le n$ be defined by $X_i = f_i(Y_1,\ldots,Y_k)$. Also, denote $f_i^{-1}(1) = \{ x \in \{0,1\}^k : f_i(x) = 1 \}$.\\
-			The basic constraint that $\Pr[X_i = 1] = 1/2$ means that $|f_i^{-1}(1)| = 2^{k-1}$ and the pairwise independence constraint gives that for distinct $i,j$, $|f_i^{-1}(1) \cap f_j^{-1}(1)| = 2^{k-2}$. Let $M$ be the $n \times 2^k$ matrix such that $M_{ij} = f_i(j)$ (in the sense of the binary expansion of $j$).\\
-			The previous constraints then just say that $M M^\top = 2^{k-2} (I+J)$, where $J$ is the all ones matrix.\\
-			Note that the $n \times n$ matrix $2^{k-2}(I+J)$ is of rank $n$. It follows that $\rank(M) = \rank(MM^\top) = n$, so $2^k \ge n$ and we are done!
-		\end{proof}
+			\begin{remark}
+				Since we have just $\log n$ random bits, we can cycle through all the possible choices for the bits, since there are only $n$ choices! This gives a deterministic polynomial time $1/2$-approximation algorithm for the max-cut problem. Instead of looking at all the $O(2^n)$ cuts, it is enough to look at $O(n)$ cuts. \\
+				Interestingly, this does not even look at the structure of the graph!
+			\end{remark}
 
-		% \{0,1\}^k \to \{0,1\}^n -- (2^{n})^{2^k} -- any bit is set for exactly 1/2 the input bits.
-		% f()
+			\begin{fprop}
+				\label{ind random bits using pairwise ind random bits}
+				To generate $n$ pairwise independent random bits, we require $\Omega(\log n)$ independent random bits.
+			\end{fprop}
+			\begin{proof}
+				% credit: amit and amit
+				Suppose that given $k$ independent random bits $Y_1,\ldots,Y_k$, we can come up with $n$ pairwise independent random bits $X_1,\ldots,X_n$. Let $f_i : \{0,1\}^k \to \{0,1\}$ for $1 \le i \le n$ be defined by $X_i = f_i(Y_1,\ldots,Y_k)$. Also, denote $f_i^{-1}(1) = \{ x \in \{0,1\}^k : f_i(x) = 1 \}$.\\
+				The basic constraint that $\Pr[X_i = 1] = 1/2$ means that $|f_i^{-1}(1)| = 2^{k-1}$ and the pairwise independence constraint gives that for distinct $i,j$, $|f_i^{-1}(1) \cap f_j^{-1}(1)| = 2^{k-2}$. Let $M$ be the $n \times 2^k$ matrix such that $M_{ij} = f_i(j)$ (in the sense of the binary expansion of $j$).\\
+				The previous constraints then just say that $M M^\top = 2^{k-2} (I+J)$, where $J$ is the all ones matrix.\\
+				Note that the $n \times n$ matrix $2^{k-2}(I+J)$ is of rank $n$. It follows that $\rank(M) = \rank(MM^\top) = n$, so $2^k \ge n$ and we are done!
+			\end{proof}
 
-		% come up with n size (2^{n}/2) subsets that are ``pairwise independent'' -- S_i \cap S_j = n/4
+			Alternatively, after getting $M$, one may observe that if we replace $0$ with $-1$, then the rows of $M$ are orthogonal, which again gives the required.
 
-		Now, what happens if we want to generate pairwise independent functions instead of just bits? Can we do better?\\
-		In particular, can we generate pairwise independent random variables $X_1,\ldots,X_n$ that uniformly take values in $\F_q$, where $q$ is a prime power?\\
+			% \{0,1\}^k \to \{0,1\}^n -- (2^{n})^{2^k} -- any bit is set for exactly 1/2 the input bits.
+			% f()
 
-		One simple construction is similar to the earlier one -- take $k \coloneqq \log n$ random values $y_1,\ldots,y_k$ from $\F_p$, and consider $\sum_{i \in S} y_i$ for each non-empty $S \subseteq [k]$. This takes $\log n \cdot \log |\F|$ random bits. \\
+			% come up with n size (2^{n}/2) subsets that are ``pairwise independent'' -- S_i \cap S_j = n/4
 
-		% x^ry^s
+			Now, what happens if we want to generate pairwise independent functions instead of just bits? Can we do better?\\
+			In particular, can we generate pairwise independent random variables $X_1,\ldots,X_n$ that uniformly take values in $\F_q$, where $q$ is a prime power?\\
 
-		A better constructio for $n = q$ is as follows -- randomly choose $a,b \in \F$, and let the required random variables be $\{ az+b : z \in \F_q \}$. This takes just $\log n + \log |\F|$ bits!\\
-		This idea can further be generalized to $k$-wise independence as well, taking a degree-$(k-1)$ polynomial instead. 
+			One simple construction is similar to the earlier one -- take $k \coloneqq \log n$ random values $y_1,\ldots,y_k$ from $\F_p$, and consider $\sum_{i \in S} y_i$ for each non-empty $S \subseteq [k]$. This takes $\log n \cdot \log |\F|$ random bits. \\
 
-		% next lecture: more pairwise independence!
+			A better construction for $n = q$ is as follows -- randomly choose $a_0,a_1 \in \F$, and let the required random variables be $\{ a_1z+a_0 : z \in \F_q \}$. This takes just $\log n + \log |\F|$ bits! We leave the details of checking this to the reader.\\
+
+			% next lecture: more pairwise independence!
+		
+		\subsubsection{Lecture 4}
+
+			% LECTURE 4
+
+			In the above construction for generating $q$ pairwise independent random variables uniform in $\F_q$, if we set $q = 2^r$, then this in fact generates $q$ pairwise independent random bits $\log q$ times, using only $2 \log q$ independent random bits!\\
+			The na\"{i}ve method to do this would involve generating $q$ pairwise independent random bits $\log q$ times, which takes $(\log q)^2$ bits.\\
+
+			Further, we can generalize the construction to $n$ of the form $q^r$ by considering $\{ a_0 + \sum_{i=1}^r a_i x_i : x_i \in \F_q \}$, where the $a_i$ are iid drawn from $\F_q$.\\
+			This idea can further be generalized to $k$-wise independence as well, taking a degree-$(k-1)$ polynomial $\{ \sum_{i=0}^{k-1} a_i x^i : x \in \F_q \}$ instead. Why are these $k$-wise independent? Fix distinct $x_1,x_2,\ldots,x_k \in \F_q$ and $\alpha_1,\ldots,\alpha_k \in \F$. Is it true that
+			\[ \Pr[\sum_{j} a_j x_i^j = \alpha_i \text{ for all $i$}] = \frac{1}{q^k}? \]
+			Indeed, there is a unique solution $(a_0,\ldots,a_{k-1})$ to this since the matrix corresponding to the system of equations is a Vandermonde matrix, which has nonzero determinant (even over $\F_q$).
+
+			\begin{exercise}
+				Show that a Vandermonde matrix is invertible.
+			\end{exercise}
+			\begin{solution*}
+				Suppose instead that there is a nonzero vector $v$ such that $Mv = 0$, where $M$ is our $k\times k$ Vandermonde matrix of interest. This gives a nonzero polynomial of degree at most $k-1$ with $k$ roots, which is not possible.
+			\end{solution*}
+
+	\subsection{Lecture 4: Applications}
+
+		\subsubsection{Lecture 4 (continued)}
+
+			Pseudorandomness has various applications in streaming algorithms. We generally have storage space that is far smaller than the input. We also have only one ``pass'' at the input and cannot look at older input.
+
+			\begin{problem*}
+				Suppose we are getting a stream of items $a_1,\ldots,a_m$ in $[n]$. Count the number of distinct elements that appear.
+			\end{problem*}
+			A realistic example of the above is trying to find the number of unique visitors to a website.
+
+			One trivial way to do this is to store an array of size $n$ of all the elements seen so far (or perhaps marking the elements which have been seen). This requires $O(n)$ space.\\
+			Can we go to $O(\log n)$ space, perhaps slightly giving up precision?\\
+
+			Let $h$ be a function that maps each element in $[n]$ to $[0,1]$ (the continuous interval) uniformly randomly. That is, each $h(i)$ is independently uniformly randomly distributed in $[0,1]$. We start with a variable $m$ set at $\infty$. For a new $a$ in the stream, we set $m \gets \min(m,h(a))$. Finally, output $1/m - 1$.\\
+			The random variable $m$ is essentially the minimum of $k$ random variables iid drawn from $[0,1]$, where $k$ is the number of unique elements. Then, $\E[m] = 1/(k+1)$.
+
+			% next lecture: we need to store the values of all n outputs of h! can we introduce pseudorandomness to alleviate this issue?
+
+			
