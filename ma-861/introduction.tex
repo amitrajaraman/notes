@@ -217,6 +217,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{align*}
 
 	\begin{fprop}
+		\label{prop: recurrence of Tn}
 		\[ T_n(x) = \begin{cases} 1, & n=0, \\ x, & n=1, \\ 2xT_{n-1}(x) - T_{n-2}(x), & n \ge 2. \end{cases} \]
 	\end{fprop}
 	We give the proof of the above in the solution to \Cref{problem: recurrence of Chebyshev of the first kind}.
@@ -517,8 +518,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% \end{exercise}
 
 	\begin{ftheo}
+		\label{theo: roots of matching polynomial real}
 		Given a graph $G$, all roots of $\Match_G(x)$ are real.
 	\end{ftheo}
+	The version of the proof of the above we give is due to Godsil \cite{godsil-matching-poly-real-roots}.
 	\begin{proof}
 		Using \Cref{lem: matching polynomial basic results}(a), we may assume that $G$ is connected.\\
 		We first prove the result for the case where $G$ is a tree $T$. To prove this, we shall prove that $\Match_T(x)$ is the characteristic polynomial $\det(xI-A)$ of the adjacency matrix $A$ of $T$(!); the result then follows since $A$ is a real symmetric matrix and thus has real eigenvalues.\\

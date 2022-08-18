@@ -196,54 +196,64 @@
 		% \end{solution*}
 
 		\begin{problem}
+			\label{problem: three term recurrence matching}
 			A recurrence relation of the following type is called a \emph{three term recurrence} for a sequence $p_n$ of polynomials with $n \ge 0$ (where each $p_n$ is a polynomial of degree $n$) if there exist real numbers $(a_n),(b_n)$ such that 
 			\[ p_{n+1}(x) = (x-a_n)p_n(x) - b_n p_{n-1}(x). \]
 			Show that the matching polynomials of $(P_n)$, $(C_n)$, and $(K_n)$ each satisfy a three term recurrence.
 		\end{problem}
-		% \begin{solution*}
-		% 	\phantom{pain}
-		% 	\begin{enumerate}[label=(\alph*)]
-		% 		\item Let $V(P_n) = [n]$ with $u \leftrightarrow v$ iff $u-v \in \{-1,1\}$. If a matching $M$ on $P_n$ has the edge $e = \{n-1,n\}$, $M \setminus \{e\}$ is a matching of size $|M|-1$ on the subgraph induced by $[n-2]$. If $M$ does not contain $e$, then it is a matching of size $|M|$ on the subgraph induced by $[n-1]$. Therefore,
-		% 		\[ m_{k}(P_n) = m_{k-1}(P_{n-2}) + m_{k}(P_{n-1}) \]
-		% 		and we have
-		% 		\begin{align*}
-		% 			\Match_{P_n}(x) &= \sum_{k \ge 0} m_{k}(P_n) x^k \\
-		% 				&= \sum_{k \ge 0} x \cdot m_{k-1}(P_{n-2}) x^{k-1} + m_{k}(P_{n-1})x^k = x\Match_{P_{n-2}}(x) + \Match_{P_{n-1}}(x).
-		% 		\end{align*}
+		\begin{solution*}
+			% \phantom{pain}
+			\begin{enumerate}[label=(\alph*)]
+				\item Setting $v$ as one of the ``end'' vertices in \Cref{lem: matching polynomial basic results}(b), we get
+				\[ \Match_{P_n}(x) = x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x). \]
 
-		% 		\item Let $V(C_n) = \Z_n$ with $u \leftrightarrow v$ iff $u-v \in \{-1,1\}$. If a matching $M$ on $P_n$ has the edge $e = \{n-2,n-1\}$, $M \setminus \{e\}$ is a matching of size $|M|-1$ on the subgraph induced by $\Z_n \setminus \{n-2,n-1\}$, which is isomorphic to $P_{n-2}$. If $M$ does not contain $e$, then it is a matching of size $|M|$ on the subgraph $C_n \setminus \{e\}$, which is isomorphic to $P_{n}$. Therefore, using the recurrence from (a),
-		% 		\begin{align*}
-		% 			m_{k}(C_n) &= m_{k-1}(P_{n-2}) + m_{k}(P_{n}) \\
-		% 				&= m_{k-2}(P_{n-4}) + {\color {darkgray} m_{k-1}(P_{n-3})} + m_{k-1}(P_{n-2}) + {\color{darkgray} m_{k}(P_{n-1})} \\
-		% 				&= m_{k-1}(C_{n-2}) + {\color{darkgray} m_{k}(C_{n-1})}.
-		% 		\end{align*}
-		% 		and as in the case of $P_n$, we have
-		% 		\[ \Match_{C_n}(x) = x\Match_{C_{n-2}}(x) + \Match_{C_{n-1}}(x). \]
+				\item Fixing some edge $e$ and using \Cref{lem: matching polynomial basic results}(c), then using the recurrence from (a), gives
+				\begin{align*}
+					\Match_{C_n}(x) &= \Match_{P_n}(x) - \Match_{P_{n-2}}(x) \\
+						&= x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x) - x \Match_{P_{n-3}}(x) + \Match_{P_{n-2}}(x) \\
+						&= x\Match_{C_{n-1}}(x) - \Match_{C_{n-2}}(x).
+				\end{align*}
 
-		% 		\item Let $V(K_n) = [n]$. If a matching $M$ on $K_n$ has an edge $e$ incident on $n$ (note that if this is the case, then precisely one such edge can be in $M$), then $M \setminus \{e\}$ is a matching of size $|M|-1$ on the subgraph induced by $[n] \setminus \{e\}$, which is isomorphic to $K_{n-2}$. On the other hand, if no such edge is in $M$, then $M$ is a matching of size $|M|$ on $K_{n-1}$. Therefore,
-		% 		\[ m_k(K_n) = (n-1) m_{k-1}(K_{n-2}) + m_{k}(K_{n-1}). \]
-		% 		So,
-		% 		\begin{align*}
-		% 			\Match_{K_n}(x) &= \sum_{k \ge 0} m_{k}(K_n) x^k \\
-		% 				&= \sum_{k \ge 0} x \cdot (n-1)m_{k-1}(K_{n-2}) x^{k-1} + m_{k}(K_{n-1})x^k = (n-1)x\Match_{P_{n-2}}(x) + \Match_{P_{n-1}}(x).
-		% 		\end{align*}
-		% 	\end{enumerate}
-		% \end{solution*}
+				\item Fixing some vertex $v$ and using \Cref{lem: matching polynomial basic results}(b), we get
+				\[ \Match_{K_n}(x) = x\Match_{K_{n-1}}(x) - (n-1)\Match_{K_{n-2}}(x) \]
+			\end{enumerate}
+		\end{solution*}
 
+		% ALL OF THE ABOVE ARE INTERESTING FUNCS, SEE THEOREM 3 IN \cite{godsil-matching-poly-real-roots}!
 
 		\begin{problem}
 			For $n \ge 1$, show that $\Match_{C_n}(2x) = 2T_n(x)$.
 		\end{problem}
-		% \begin{solution*}
-		% 	We already saw in the previous problem that $\Match_{C_n}(2x)$ satisfies the same recurrence as $2T_n(x)$. It is easily verified that the two are equal for $n=1,2$, so we are done.
-		% \end{solution*}
+		\begin{solution*}
+			The above is easily verified for $n=1,2$, and we saw in \Cref{problem: three term recurrence matching} that $\Match_{C_n}$ satisfies the same recurrence as $2T_n$, which is the same as that of $T_n$ \Cref{prop: recurrence of Tn}.
+		\end{solution*}
 
 		\begin{problem}
 			Let $T$ be a tree with maximum degree $d$. Show that any root of $\Match_T(x)$ has absolute value at most $2\sqrt{d-1}$.
 		\end{problem}
-		% \begin{solution*}
-			
-		% \end{solution*}
+		\begin{solution*}
+			% By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
+			% Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the vector $x$ defined by $x_u = (d-1)^{-d(u,r)/2}$ for $u \in V(T)$.
+			% Let $V_i$ be the set of vertices $u$ with $d(u,r) = i$. Then,
+			% \[ x^\top x = \sum \frac{|V_i|}{(d-1)^i}. \]
+			% Observe that any neighbour of a vertex in $V_i$ must lie in $V_{i-1}$ or $V_{i+1}$.
+			% On the other hand,
+			% \begin{align*}
+			% 	x^\top A x &= \sum_u x_u \sum_{v : u \leftrightarrow v} x_v \\
+			% 		&= \sum_u \frac{1}{(d-1)^{d(u,r)/2}} \sum_{v : u \leftrightarrow v} \frac{1}{(d-1)^{d(v,r)/2}} \\
+			% 		&\le \sum_i \frac{|V_i|}{(d-1)^{i/2}} \left( \frac{1}{(d-1)^{(i-1)/2}} + \frac{(d-1)}{(d-1)^{(i+1)/2}} \right) \\
+			% 		&= 2\sqrt{d-1} \sum_i \frac{|V_i|}{(d-1)^{i}} = 2\sqrt{d-1} x^\top x.
+			% \end{align*}
+
+			By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
+			Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the diagonal matrix $D$ defined by $D_{u,u} = (d-1)^{-d(u,r)/2}$. Consider $B = DAD^{-1}$. Clearly, the spectrum of $A$ and $B$ are equal, so it suffices to show that the eigenvalues of $B$ are at most $2\sqrt{d-1}$. We have
+			\[ B_{uv} = \begin{cases} (d-1)^{(d(u,r)-d(v,r))/2}, & u \leftrightarrow v, \\ 0, & \text{otherwise.} \end{cases} \]
+			Recall the \href{https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem#Perron%E2%80%93Frobenius_theorem_for_irreducible_non-negative_matrices}{Perron-Frobenius Theorem}, one of whose consequences gives that the largest eigenvalue of $B$ is at most the largest row sum of $B$.\\
+			Now, observe that for any vertex $u$ with neighbour $v$, $d(v,r) \in \{d(u,r)-1,d(u,r)+1\}$. Further, because $T$ is a tree, there can be at most one neighbour $v$ with $d(v,r) = d(u,r)-1$ -- were there more, we would have a cycle. Therefore,
+			\[ \lambda_\text{max} \le \max_u \sum_v B_{u,v} = \max_u \sum_{v : v \leftrightarrow u} (d-1)^{d(u,r)-d(v,r)} \le 1 \cdot (d-1)^{1/2} + \frac{d-1}{(d-1)^{1/2}} = 2\sqrt{d-1}. \qedhere \]
+		\end{solution*}
+
+		The idea of the above proof is similar to that of the Alon-Boppana bound, and the $2\sqrt{d-1}$ bound occurs in the definition of \emph{Ramanujan graphs}. For more details, the interested reader may read Theorem 2.27 and following discussion in the author's \href{https://amitrajaraman.github.io/notes/ma-5109/main.pdf}{Topics in Graph Theory notes}.
 
 		\begin{problem}
 			Show that when one runs the recurrence relation of the binomial coefficients backwards, we get signed versions of the binomial coefficients.
@@ -256,3 +266,8 @@
 		\begin{problem}
 			Consider a staircase board $\mathsf{St}_n$ with $n$ columns where the $i$th column has $i-1$ cells all stacked from the same height. We place ``rooks'' on this board and recall that rooks can travel on the same row or column. Two rooks can attack each other if they are on the same row or column and a placement of rooks is said to be non-attacking if no two rooks in the placement can attack each other. Determine the number of ways to place $n-k$ non-attacking rooks in $\mathsf{St}_n$.
 		\end{problem}
+		% \begin{solution*}
+		% 	Denote by $\mathsf{Rook}_{n,n-k}$ the desired quantity. Let $P$ be a placement of $r$ non-attacking rooks. Suppose that in $P$, there are $0 < t \le r$ rooks on the diagonal cells of the form $(i,i)$. Observe that the unattacked positions now correspond to $\mathsf{St}_{n-t}$. That is, the placement of the remaining $n-t$ rooks can be thought of as a placement on $\mathsf{St}_{n-t}$. If there are no rooks on the diagonal, the placement is just one on $\mathsf{St}_{n-1}$. As a result, we have
+		% 	\[ \mathsf{Rook}_{n,r} = \mathsf{Rook}_{n-1,r} + \sum_{t=1}^{r} \binom{n}{t} \mathsf{Rook}_{n-t,r-t}. \]
+		% 	We take $\mathsf{Rook}_{k,0} = 1$. 
+		% \end{solution*}
