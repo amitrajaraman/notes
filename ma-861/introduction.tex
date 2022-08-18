@@ -221,6 +221,23 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{fprop}
 	We give the proof of the above in the solution to \Cref{problem: recurrence of Chebyshev of the first kind}.
 
+	\begin{fprop}
+		\label{problem: recurrence of Chebyshev of the first kind}
+		$T_0(x) = 1$, $T_1(x) = x$, and for $n \ge 2$,
+		\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
+	\end{fprop}
+	\begin{proof}
+		Let $\cos \theta = x$. We have
+		\begin{align*}
+			T_n(x) = \cos n\theta &= \cos (n-1)\theta \cos \theta - \sin (n-1)\theta \sin \theta \\
+				&= x T_{n-1}(x) - ( \sin (n-2)\theta \cos\theta + \cos (n-2)\theta \sin\theta ) \sin\theta \\
+				&= x T_{n-1}(x) - T_{n-2}(x) (1-x^2) - x (\sin\theta \sin (n-2)\theta) \\
+				&= x T_{n-1}(x) + x^2 T_{n-2}(x) - T_{n-2}(x) - x (\cos\theta \cos (n-2)\theta - \cos (n-1)\theta) \\
+				&= 2x T_{n-1}(x) - T_{n-2}(x). \qedhere
+		\end{align*}
+	\end{proof}
+
+
 	% % PSHEET 2 EXERCISE 1
 	% \begin{ftheo}
 	% 	Show that
@@ -257,7 +274,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Consider the number of tilings of a $1\times n$ board $B_n$ using squares ($1\times 1$ pieces) and dimers ($1\times 2$ pieces). It is not too difficult to show that this corresponds to the Fibonacci numbers.\\
 	Now, instead consider a \emph{weighted} version of this problem, where we give squares a weight of $2x$ and dimers a weight of $-1$. The weight $\wt(T)$ of a given tiling $T$ is equal to the product of the weights of the pieces used. Then, the Chebyshev polynomial $U_n$ is just the sum of the weights of all tilings of $B_n$!
 	\[ U_n(x) = \sum_{\text{tilings $T$ of $B_n$}} \wt(T). \]
-
+	Similar to this, we can get a combinatorial model for $T_n$ as well, with the only difference being that a square piece has weight $x$ if it is at the lefmost $(1,1)$ position.
 
 	Given a tiling $T$, let $S(T)$ and $D(T)$ be the number of squares and dimers in the tiling respectively.
 	In general, define
@@ -405,29 +422,115 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Similar to what we did in earlier proofs such as those of \Cref{prop: inv n,prop: maj n}, let $\sigma$ be a permutation in $\mathfrak{S}_{n-1}$.\\ We shall use it to get a permutation $\pi \in \mathfrak{S}_n$ by ``inserting'' $n$ at one of the $n$ possible positions. If we insert it at the position of a non-peak of $\sigma$, the number of peaks increases by one. If we insert it before or after the position of a peak, the number of peaks stays the same. Since peaks cannot occur immediately after each other, we can insert it at precisely $2k+2$ positions while ensuring that the number of peaks does not increase (the extra $2$ is for the extreme positions), and so at $n-2k-2$ positions which increases the number of peaks by one. Therefore,
 		\[ Y_{n,k} = (2k+2)Y_{n-1,k} + (n-2(k-1)-2)Y_{n-1,k-1} = (2k+2) Y_{n-1,k} + (n-2k)Y_{n-1,k-1}. \]
 	\end{proof}
-	\begin{problem}
-		\begin{enumerate}
-			\item Show that
-			\[ W_{n,k} = \_ W_{n-1,k} + \_ W_{n-1,k-1}. \]
-		\end{enumerate}
-	\end{problem}
+
+	% \begin{problem}
+	% 	\begin{enumerate}
+	% 		\item Show that
+	% 		\[ W_{n,k} = \_ W_{n-1,k} + \_ W_{n-1,k-1}. \]
+	% 	\end{enumerate}
+	% \end{problem}
 
 	% z = sec x, Dz = yz.
 
-\subsection{Matching Theory}
+\subsection{Matching theory}
 
 	\begin{fdef}[Matching]
 		Given a graph $G = (V,E)$, a \emph{matching} in $G$ is a collection $M \subseteq E$ of edges such that for any distinct $e_1,e_2 \in M$, $e_1 \cap e_2 = \emptyset$.\\
-		Denote the number of $k$-sized matchings by $m_k(G)$. Define the \emph{matching polynomial}
-		\[ \Match_G(x) = \sum_{k \ge 0} m_k(G) x^k \]
+		The number of $k$-sized matchings is denoted $m_k(G)$. Define the \emph{matching polynomial}
+		\[ \Match_G(x) = \sum_{k \ge 0} (-1)^k m_k(G) x^{n-2k} \]
+		% \[ \Match_G(x) = \sum_{k \ge 0} m_k(G) x^{k}. \]
 	\end{fdef}
-
-	Some authors also define the polynomial as
-	\[ N_G(x) = \sum_{k \ge 0} (-1)^k m_k(G) x^{n-2k}. \]
+	Some books call the above the ``defect'' matching polynomial, taking the actual matching polynomial as $p(x) = \sum_k m_k(G) x^k$. Note that $\Match_G(x) = x^n p(-1/x^2)$. 
+	% Some authors also define the polynomial as
+	% \[ N_G(x) = \sum_{k \ge 0} (-1)^k m_k(G) x^{n-2k}. \]
+	
 	Clearly, $N_G(x) = x^n \cdot \Match_G(-1/x^2)$.\\
 
 	There is a very rich literature regarding matching theory. One work that set off a frenzy of results in related areas was \cite{Edmonds1965MaximumMA}, which gave a polynomial-time algorithm to get a maximum weight matching in any graph. It does so by looking at the polytope in $\R^{E}$ that is the convex hull of the indicator functions of all matchings.
-	It is worth noting that while there is a polynomial time algorithm to find a maximum weight matching, the problem of determining the number of maximum matchings in a graph is \textsf{\#P}-complete.
+	It is worth noting that while there is a polynomial time algorithm to find a maximum weight matching, the problem of determining the number of maximum matchings in a graph is \textsf{\#P}-complete. Consequently, no polynomial time algorithm is known to determine $m_k(G)$ given a graph $G$.\\
+
+	Before moving on, we give some simple lemmas about the matching polynomial.
+	\begin{flem}
+		\label{lem: matching polynomial basic results}
+		\phantom{pain}
+		\begin{enumerate}[label=(\alph*)]
+			\item If $G$ and $H$ are vertex-disjoint graphs,
+			\[ \Match_{G \cup H}(x) = \Match_G(x) \Match_H(x). \]
+			\item Given a graph $G$ and vertex $v \in G$,
+			\[ \Match_G(x) = x \Match_{G \setminus \{v\}}(x) - \sum_{u : u \leftrightarrow v} \Match_{G \setminus \{u,v\}} (x). \]
+			\item Given a graph $G$ and edge $e = \{u,v\} \in G$,
+			\[ \Match_G(x) = \Match_{G\setminus\{e\}}(x) - \Match_{G\setminus\{u,v\}}(x). \]
+		\end{enumerate}
+	\end{flem}
+	\begin{proof}
+		We omit the proof of (a) as it is straightforward.
+		\begin{itemize}
+			\item[(b)] Let $M$ be a matching of size $k$ on $G$. If $M$ does not have an edge incident on $v$, it is a matching of size $k$ on $G \setminus \{v\}$. Otherwise, there is some edge $e = \{u,v\} \ni M$, and $M \setminus \{e\}$ is a matching on $G \setminus \{u,v\}$. As a result,
+			\[ m_k(G) = m_k(G\setminus \{v\}) + \sum_{u : u \leftrightarrow v} m_{k-1}(G\setminus\{u,v\}). \]
+			Multiplying with $(-1)^k x^{n-2k}$ and summing over $k$,
+			\begin{align*}
+				\Match_G(x) &= \sum_k (-1)^k x \cdot x^{(n-1)-2k} m_k(G \setminus \{v\}) - \sum_{u : u \leftrightarrow v} (-1)^{k-1} x^{(n-2)-2(k-1)} m_k(G \setminus \{u,v\}) \\
+					&= x\Match_{G\setminus\{v\}} - \sum_{u : u \leftrightarrow v} \Match_{G \setminus \{u,v\}} (x).
+			\end{align*}
+			\item[(c)] Similar to (b), let $M$ be a matching of size $k$ on $G$. If $M$ does not have $e$, it is a matching of size $k$ on $G \setminus e$. Otherwise, $M \setminus \{e\}$ is a matching on $G \setminus \{u,v\}$. So,
+			\[ m_k(G) = m_k(G \setminus \{e\}) + m_{k-1}(G \setminus \{u,v\}). \]
+			Multiplying with $(-1)^k x^{n-2k}$ and summing over $k$,
+			\begin{align*}
+				\Match_G(x) &= \sum_k (-1)^k x^{n-2k} m_k(G\setminus\{e\}) - (-1)^{k-1} x^{(n-2)-2(k-1)} m_{k-1}(G\setminus\{u,v\}) \\
+					&= \Match_{G\setminus\{e\}}(x) - \Match_{G\setminus\{u,v\}}(x). \qedhere
+			\end{align*}
+		\end{itemize}
+	\end{proof}
+
+
+	\begin{fprop}
+		\phantom{pain}
+		\begin{enumerate}
+			\item $m_k(P_n) = \binom{n-k}{k}$.
+			\item $m_k(C_n) = \frac{n}{n-k} \binom{n-k}{k}$.
+			\item $m_k(K_n) = \binom{n}{2k} \cdot \frac{(2k)!}{2^kk!}$.
+			\item $m_k(K_{n,n}) = \binom{n}{k}^2 k!$.
+		\end{enumerate}
+	\end{fprop}
+	\begin{proof}
+		\phantom{pain}
+		\begin{enumerate}
+			\item Collapse every edge in a matching to its left endpoint, and ``mark'' the collapsed vertices. This results in a path with $n-k$ vertices with $k$ marked vertices. This process of marking the vertices using the matching is reversible, and $m_k(G) = \binom{n-k}{k}$.
+			\item Fix some edge $e$. $e$ is absent in exactly $(n-k)/n$ of the $k$-matchings of $C_n$. In this case, the remaining matching forms a matching on $C_n \setminus \{e\}$, which is isomorphic to $P_n$. Therefore, $(n-k)/n m_k(C_n) = m_k(P_n) = \binom{n-k}{k}$.
+			\item A $k$-matching of $K_n$ is obtained by choosing $2k$ vertices (done in $\binom{n}{2k}$) ways, putting the $2k$ vertices in $k$ indistinguishable ``boxes'' by putting $2$ in each (this can be done in $(2k)!/k!2^k$ ways).
+			\item A $k$-matching is obtained by choosing $k$ vertices from each side of the bipartite graph (done in $\binom{n}{k}^2$ ways), then assigning each vertex on the left side a vertex on the right that it is joined to in the matching (done in $k!$ ways). \qedhere
+		\end{enumerate}
+	\end{proof}
+
+	% \begin{exercise}
+	% 	Show that
+	% 	\begin{enumerate}
+	% 		\item $m_k(C_n) = n/(n-k) \binom{n-k}{k}$.
+	% 		\item $m_k(K_n) = \binom{n}{2k} \cdot (2k!)/(2^k k!)$.
+	% 		\item $m_k(K_{n,n}) = \binom{n}{k} k!$.
+	% 	\end{enumerate}
+	% \end{exercise}
+
+	% \begin{exercise}
+	% 	Given a graph $G$ and edge $e \in G$,
+	% 	\[ \Match_G(x) = ? \]
+	% \end{exercise}
+
+	\begin{ftheo}
+		Given a graph $G$, all roots of $\Match_G(x)$ are real.
+	\end{ftheo}
+	\begin{proof}
+		Using \Cref{lem: matching polynomial basic results}(a), we may assume that $G$ is connected.\\
+		We first prove the result for the case where $G$ is a tree $T$. To prove this, we shall prove that $\Match_T(x)$ is the characteristic polynomial $\det(xI-A)$ of the adjacency matrix $A$ of $T$(!); the result then follows since $A$ is a real symmetric matrix and thus has real eigenvalues.\\
+		Let $xI - A = (b_{ij})$. We have
+		\[ \Charpoly(A) = \sum_{\pi \in \mathfrak{S}_n} \sign(\pi) \prod_{i=1}^n b_{i\pi(i)}. \]
+		First, we claim that if $\pi \in \mathfrak{S}_n$ has a cycle of length greater than $2$, then the term corresponding to $\pi$ on the right will be zero. In other words, the term is zero if $\pi$ is not an involution. Indeed, this follows immediately since $G$ has no cycles (of length $\ge 3$). As a result, if $(i_1,i_2,\ldots,i_t)$ were a cycle in $\pi$, then there must be some $j$ such that $\{i_j i_{j+1}\}$ is not an edge in $G$ and $b_{i_j \sigma(i_j)} = 0$.\\
+		Suppose that some $\pi \in \mathfrak{S}_n$ has $k$ $2$-cycles and $(n-2k)$ fixed points, and also has the term on the right being nonzero. We have $\sign(\pi) = (-1)^{(n- (k + n-2k))} = (-1)^k$. Suppose that the $k$ $2$-cycles are $(i_1,j_1),(i_2,j_2),\ldots,(i_k,j_k)$. We have $b_{i_rj_r} = b_{j_ri_r} = (-1)$ so $b_{i_rj_r}b_{j_ri_r} = 1$, and also that no $i_r$ (or $j_r$) is equal to any other $i_s$ (or $j_s$). That is, the edges constituted by $\{i_r,j_r\}$ form a matching of size $k$! Therefore,
+		\[ \Charpoly(A) = \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ an involution}}} \sign(\pi) \prod_{i=1}^n b_{i\pi(i)} = \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ an involution}}} (-1)^k x^{n-2k} = \sum_{\text{matchings $M$}} (-1)^{|M|} x^{n-2|M|} = \Match_T(x). \]
+
+		For a general graph, we come up with an associated tree, and show that the matching polynomial of our graph divides the matching polynomial of the tree. We do not give this proof.
+	\end{proof}
 
 	% convex hull of (01) vectors of matchings in R^{|E|} due to edmonds. this is linear program, so we can get a non-linear programming way. this gives a method to get a maximum weight matching!!! (place any weights you want on edges)
 	% counting number of matchings is #P-complete though.
+
