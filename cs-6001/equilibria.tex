@@ -1,4 +1,4 @@
-\section{Equilibria}
+\section{Equilibria in NFGs}
 
 	In this section, we look at various types of ``equilibria'' -- strategies which make sense to be played by rational players.
 
@@ -384,3 +384,55 @@
 		Any finite game has a mixed Nash equilibrium.
 	\end{ftheo}
 	Above, ``finite'' means that the number of players and strategies are finite.
+
+
+\subsection{Correlated strategies}
+
+	So far, we have worked in the setting where each agent independently picks their own strategy. Now, we look at an alternative approach with a mediating agent or device. This is merely another version of rationality. It may lead to results where the utility of all players is improved, and is computationally tractable.
+
+	\begin{fex}
+		Consider the following game, modelling the choices of cars at a crossroads.
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline & \textsf{Wait} & \textsf{Go} \\ \hline\hline
+			\textsf{Wait} & $0,0$ & $1,2$ \\ \hline
+			\textsf{Go} & $2,1$ & $-10,-10$ \\ \hline
+		\end{tabular}
+		\end{center}
+		It is clear that both $\mathsf{Wait},\mathsf{Go}$ and $\mathsf{Go},\mathsf{Wait}$ are PSNEs. It can also be seen however that a MSNE assigns some nonzero probability to the event where both players choose $\mathsf{Go}$. In practice, a traffic light guides the players. This trusted third party is called the \emph{mediator}. It randomizes over the strategy \emph{profiles} (and not just strategies like earlier) and suggests the corresponding strategies to the players. If the startegies are enforceable, then it is an equilibrium. 
+	\end{fex}
+
+	\begin{fdef}
+		A \emph{correlated strategy} is a mapping $\pi \in \Delta S$.
+	\end{fdef}
+
+	In the setting of the previous example, an example of a sensible correlated strategy is that which chooses $\mathsf{Wait},\mathsf{Go}$ or $\mathsf{Go},\mathsf{Wait}$ with equal probability $1/2$.
+
+	\begin{fdef}
+		A \emph{correlated equilibrium} is a correlated strategy $\pi$ such that
+		\[ \sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i,s_{-i}) \ge \sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i',s_{-i}) \]
+		for all $s_i,s_i' \in S_i$ for all $i \in N$.
+	\end{fdef}
+	That is, no player benefits from (unilaterally) changing their strategy. This is largely similar to the definition of an MSNE, but the distribution is over strategy profiles and not strategies.\\
+
+	One massive advantage of correlated equilibria is that they can be computed efficiently! We merely need to find a solution to the set of constraints
+	\begin{align*}
+		\sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i,s_{-i}) &\ge \sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i',s_{-i}) \text{ for all $s_i,s_i' \in S_i$ and $i \in N$} \\
+		\pi(s) &\ge 0 \text{ for all $s \in S$} \\
+		\sum_{s \in S} \pi(S) &= 1.
+	\end{align*}
+	If $|S_i| = m$ for all $i$, this gives $O(nm^2)$ inequalities in the first part and $O(m^n)$ inequalities for the second.\\
+	All together, they represent a feasibility linear program.\\
+
+	In MSNEs, the total number of support profiles was $O(2^{mn})$. Here, we just have $O(m^n)$ inequalities, which is exponentially smaller.\\
+
+	\begin{ftheo}
+		Given a MSNE $\sigma^*$, consider the strategy profile distribution $\pi^*$ defined by
+		\[ \pi^*(s_1,\ldots,s_n) = \prod_{i=1}^n \sigma_i^*(s_i). \]
+		Then, $\pi^*$ is a correlated equilibrium.
+	\end{ftheo}
+
+	We omit the proof of the above as it is straightforward.\\
+	Summarizing much of our discussion thus far, we have that the set of SDSEs is contained in the set of WDSEs, which is contained in the set of PSNEs, which is contained in the set of MSNEs, which is contained in the set of CEs.
+
+\clearpage

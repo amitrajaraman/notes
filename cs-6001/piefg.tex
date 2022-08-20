@@ -1,0 +1,89 @@
+\section{Long-form games}
+
+Thus far, we have only looked at ``single-step'' games in NFGs. Not all games can be represented by this however, with an obvious example that we discussed being chess.
+
+\subsection{Perfect information extensive form games}
+
+	\begin{fdef}[Perfect Information Extensive Form Game]
+		A perfect information extensive form game (PIEFG/EFG) is a $7$-tuple $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N}\rangle$ where
+		\begin{itemize}
+			\item $N$ is the set of players,
+			\item $A$ is the set of all possible actions (of all players)
+			\item $\mathcal{H} \subseteq \bigcup_{k=0}^{\infty} A^k$ is the set of all sequences of actions (\emph{histories}) satisfying
+			\begin{itemize}
+				\item $\emptyset \in \mathcal{H}$ and
+				\item if $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$, any subsequence $h' = (a^{(0)},a^{(1)},\ldots,a^{(t)})$ of $h$ (for $t \le \tau$) starting at the root is in $\mathcal{H}$,
+			\end{itemize}
+			\item $Z \subseteq \mathcal{H}$ is the set of all \emph{terminal histories}, where a history $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau-1)})$ is terminal if there exists no $a^{(\tau)} \in A$ with $(a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$,
+			\item $\mathcal{X} : \mathcal{H} \setminus Z \to 2^A$, called the \emph{action set selection function}, gives the set of all valid actions given a non-terminal history,
+			\item $P : \mathcal{H}\setminus Z \to N$ is the \emph{player function} which gives the player who plays at a given non-terminal history, and
+			\item $u_i : Z \to \R$ is the utility of player $i$.
+		\end{itemize}
+	\end{fdef}
+
+	A history is essentially a path from the root in the game tree (recall our discussion of this from the first section).
+
+	A natural next question is: what is a strategy in a PIEFG?
+
+	\begin{fdef}[Strategy]
+		A \emph{strategy} of a player in an EFG is a tuple of actions at every history where the player plays. That is, a strategy of a player $i$ is an element of
+		\[ S_i = \bigtimes_{h \in \mathcal{H} : P(h) = i} \mathcal{X}(h). \]
+	\end{fdef}
+
+	It turns out that we can transform EFGs to NFGs! Indeed, the above definition explicitly describes the strategy set of each player, and associated to any tuple of strategies for all the players, we can determine the payoff.\\
+	This conversion has a massive explosion in size however, and equilibria in the converted NFG do not necessarily make sense in the context of the original EFG. % example at start of module 21
+	Henceforth, we talk about PSNEs of EFGs as PSNEs of their NFG conversion.
+
+	\begin{fdef}
+		A \emph{subgame} of a game is the restriction of the game to the descendants of a history.
+	\end{fdef}
+
+	The idea behind an equilibrium should be \emph{subgame perfection}, where each player chooses the best possible action at each subgame where they play.
+
+	\begin{fdef}[Subgame Perfect Nash Equilibrium]
+		A \emph{subgame perfect nash equilibrium} (SPNE) of an EFG $G$ is a strategy profile $s \in S$ such that for any subgame $G'$ of $G$, the restriction of $s$ to $G'$ is a PSNE of $G'$.
+	\end{fdef}
+
+	Similar to PSNEs, SPNEs are guaranteed to exist in finite PIEFGs.
+	Observe that any SPNE is a PSNE. As we shall now see, the algorithm to find an SPNE is quite simple.\\
+
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{backind}{{backInd}}
+		\KwIn{An EFG $G$}
+		\KwOut{The utility and action to be taken by a given player at a certain history}
+		\Fn{\backind{history $h$}} { 
+			\If{$h\in Z$} {
+				\Return{$u(h),\emptyset$}\;
+			}
+			$\mathsf{bestUtil}_{P(h)} \gets -\infty$\;
+			\ForEach{$a \in \mathcal{X}(h)$} {
+				$\mathsf{utilAtChild}_{P(h)} \gets \backind{$(h,a)$}$\;
+				\If{$\mathsf{bestUtil}_{P(h)} > \mathsf{bestUtil}_{P(h)}$} {
+					$\mathsf{bestUtil}_{P(h)} \gets \mathsf{utilAtChild}_{P(h)}$\;
+					$\mathsf{bestAction}_{P(h)} \gets a$\;
+				}
+			}
+			\Return{$\mathsf{bestUtil}_{P(h)},\mathsf{bestAction}_{P(h)}$}
+		}
+		\caption{Backward induction to determine SPNEs}
+	\end{algorithm}
+
+	The idea of subgame perfection is intrinsically tied to the above algorithm.\\
+	The issue however is that we are essentially parsing the entire tree, so the algorithm is very computationally expensive. Further, some criticize the idea of SPNEs for assuming that the cognitive limit of the players is infinite (which is not realistic).\\
+	It is very easy to find an SPNE in simple games such as tic-tac-toe.\\
+
+	\begin{fex}[Centipede game]
+		Players $1$ and $2$ alternate, and each can play a move from $\{\mathsf{take},\mathsf{push}\}$, with a maximum of $N$ rounds, say. The game terminates when $\mathsf{take}$ is played for the first time or the limit of $N$ rounds if $\mathsf{take}$ is never played.\\
+		The game also fixes some quantities $m_0,m_1$ with $m_0 > m_1$. Suppose that the game ends on round $t \in \{0,\ldots,N-1\}$ with player $p$ making the final move; let $p'$ be the other player. Then, the payoffs for the two players are as follows:
+		\begin{itemize}
+			\item if $p$ played $\mathsf{take}$, then $p,p'$ have payoffs of $2^t m_0$ and $2^tm_1$ respectively.
+			\item if $p$ played $\mathsf{push}$, then $p,p'$ have payoffs of $2^{t+1}m_1$ and $2^{t+1}m_0$ respectively.
+		\end{itemize}
+		That is, if a player plays $\mathsf{push}$, they increase the size of the pot to be won, and if they play $\mathsf{take}$, the game ends, with them getting a larger amount of money.\\
+		Most players except grandmasters play for a few rounds, with some of the reasons claimed for this being altruism, the difference in computational capacity of individuals and incentive difference.
+	\end{fex}
+
+	There are some other criticisms of SPNEs as well, such as that it discusses what to do if the game reaches a certain history, but the equilibrium in earlier stages might show that we cannot actually reach this history.
