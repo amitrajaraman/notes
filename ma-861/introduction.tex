@@ -458,27 +458,27 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 			\item If $G$ and $H$ are vertex-disjoint graphs,
 			\[ \Match_{G \cup H}(x) = \Match_G(x) \Match_H(x). \]
 			\item Given a graph $G$ and vertex $v \in G$,
-			\[ \Match_G(x) = x \Match_{G \setminus \{v\}}(x) - \sum_{u : u \leftrightarrow v} \Match_{G \setminus \{u,v\}} (x). \]
+			\[ \Match_G(x) = x \Match_{G - \{v\}}(x) - \sum_{u : u \leftrightarrow v} \Match_{G - \{u,v\}} (x). \]
 			\item Given a graph $G$ and edge $e = \{u,v\} \in G$,
-			\[ \Match_G(x) = \Match_{G\setminus\{e\}}(x) - \Match_{G\setminus\{u,v\}}(x). \]
+			\[ \Match_G(x) = \Match_{G-e}(x) - \Match_{G-\{u,v\}}(x). \]
 		\end{enumerate}
 	\end{flem}
 	\begin{proof}
 		We omit the proof of (a) as it is straightforward.
 		\begin{itemize}
-			\item[(b)] Let $M$ be a matching of size $k$ on $G$. If $M$ does not have an edge incident on $v$, it is a matching of size $k$ on $G \setminus \{v\}$. Otherwise, there is some edge $e = \{u,v\} \ni M$, and $M \setminus \{e\}$ is a matching on $G \setminus \{u,v\}$. As a result,
-			\[ m_k(G) = m_k(G\setminus \{v\}) + \sum_{u : u \leftrightarrow v} m_{k-1}(G\setminus\{u,v\}). \]
+			\item[(b)] Let $M$ be a matching of size $k$ on $G$. If $M$ does not have an edge incident on $v$, it is a matching of size $k$ on $G - \{v\}$. Otherwise, there is some edge $e = \{u,v\} \ni M$, and $M \setminus \{e\}$ is a matching on $G - \{u,v\}$. As a result,
+			\[ m_k(G) = m_k(G- \{v\}) + \sum_{u : u \leftrightarrow v} m_{k-1}(G-\{u,v\}). \]
 			Multiplying with $(-1)^k x^{n-2k}$ and summing over $k$,
 			\begin{align*}
-				\Match_G(x) &= \sum_k (-1)^k x \cdot x^{(n-1)-2k} m_k(G \setminus \{v\}) - \sum_{u : u \leftrightarrow v} (-1)^{k-1} x^{(n-2)-2(k-1)} m_k(G \setminus \{u,v\}) \\
-					&= x\Match_{G\setminus\{v\}} - \sum_{u : u \leftrightarrow v} \Match_{G \setminus \{u,v\}} (x).
+				\Match_G(x) &= \sum_k (-1)^k x \cdot x^{(n-1)-2k} m_k(G - \{v\}) - \sum_{u : u \leftrightarrow v} (-1)^{k-1} x^{(n-2)-2(k-1)} m_k(G - \{u,v\}) \\
+					&= x\Match_{G-\{v\}} - \sum_{u : u \leftrightarrow v} \Match_{G - \{u,v\}} (x).
 			\end{align*}
-			\item[(c)] Similar to (b), let $M$ be a matching of size $k$ on $G$. If $M$ does not have $e$, it is a matching of size $k$ on $G \setminus e$. Otherwise, $M \setminus \{e\}$ is a matching on $G \setminus \{u,v\}$. So,
-			\[ m_k(G) = m_k(G \setminus \{e\}) + m_{k-1}(G \setminus \{u,v\}). \]
+			\item[(c)] Similar to (b), let $M$ be a matching of size $k$ on $G$. If $M$ does not have $e$, it is a matching of size $k$ on $G - e$. Otherwise, $M \setminus \{e\}$ is a matching on $G - \{u,v\}$. So,
+			\[ m_k(G) = m_k(G - e) + m_{k-1}(G - \{u,v\}). \]
 			Multiplying with $(-1)^k x^{n-2k}$ and summing over $k$,
 			\begin{align*}
-				\Match_G(x) &= \sum_k (-1)^k x^{n-2k} m_k(G\setminus\{e\}) - (-1)^{k-1} x^{(n-2)-2(k-1)} m_{k-1}(G\setminus\{u,v\}) \\
-					&= \Match_{G\setminus\{e\}}(x) - \Match_{G\setminus\{u,v\}}(x). \qedhere
+				\Match_G(x) &= \sum_k (-1)^k x^{n-2k} m_k(G-e) - (-1)^{k-1} x^{(n-2)-2(k-1)} m_{k-1}(G-\{u,v\}) \\
+					&= \Match_{G-e}(x) - \Match_{G-\{u,v\}}(x). \qedhere
 			\end{align*}
 		\end{itemize}
 	\end{proof}
@@ -497,7 +497,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\phantom{pain}
 		\begin{enumerate}
 			\item Collapse every edge in a matching to its left endpoint, and ``mark'' the collapsed vertices. This results in a path with $n-k$ vertices with $k$ marked vertices. This process of marking the vertices using the matching is reversible, and $m_k(G) = \binom{n-k}{k}$.
-			\item Fix some edge $e$. $e$ is absent in exactly $(n-k)/n$ of the $k$-matchings of $C_n$. In this case, the remaining matching forms a matching on $C_n \setminus \{e\}$, which is isomorphic to $P_n$. Therefore, $(n-k)/n m_k(C_n) = m_k(P_n) = \binom{n-k}{k}$.
+			\item Fix some edge $e$. $e$ is absent in exactly $(n-k)/n$ of the $k$-matchings of $C_n$. In this case, the remaining matching forms a matching on $C_n - e$, which is isomorphic to $P_n$. Therefore, $(n-k)/n m_k(C_n) = m_k(P_n) = \binom{n-k}{k}$.
 			\item A $k$-matching of $K_n$ is obtained by choosing $2k$ vertices (done in $\binom{n}{2k}$) ways, putting the $2k$ vertices in $k$ indistinguishable ``boxes'' by putting $2$ in each (this can be done in $(2k)!/k!2^k$ ways).
 			\item A $k$-matching is obtained by choosing $k$ vertices from each side of the bipartite graph (done in $\binom{n}{k}^2$ ways), then assigning each vertex on the left side a vertex on the right that it is joined to in the matching (done in $k!$ ways). \qedhere
 		\end{enumerate}
@@ -531,9 +531,84 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Suppose that some $\pi \in \mathfrak{S}_n$ has $k$ $2$-cycles and $(n-2k)$ fixed points, and also has the term on the right being nonzero. We have $\sign(\pi) = (-1)^{(n- (k + n-2k))} = (-1)^k$. Suppose that the $k$ $2$-cycles are $(i_1,j_1),(i_2,j_2),\ldots,(i_k,j_k)$. We have $b_{i_rj_r} = b_{j_ri_r} = (-1)$ so $b_{i_rj_r}b_{j_ri_r} = 1$, and also that no $i_r$ (or $j_r$) is equal to any other $i_s$ (or $j_s$). That is, the edges constituted by $\{i_r,j_r\}$ form a matching of size $k$! Therefore,
 		\[ \Charpoly(A) = \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ an involution}}} \sign(\pi) \prod_{i=1}^n b_{i\pi(i)} = \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ an involution}}} (-1)^k x^{n-2k} = \sum_{\text{matchings $M$}} (-1)^{|M|} x^{n-2|M|} = \Match_T(x). \]
 
-		For a general graph, we come up with an associated tree, and show that the matching polynomial of our graph divides the matching polynomial of the tree. We do not give this proof.
+		For a general graph, we come up with a tree $T_a(G)$ that depends on a ``starting vertex'' $a \in G$. We then show that the matching polynomial of our graph divides the matching polynomial of the tree.\\
+		To define $T_a$, we need paths starting at $a$ in $G$ without repeated vertices. These paths are the vertices of $T_a(G)$. There is an edge between two paths if one is an extension of another by a single vertex -- for example, the paths $abdc$ and $abdce$ would have an edge between them.\\
+		% possibly insert diagram of the graph given at http://www.math.iitb.ac.in/~krishnan/phd-2022/matching-poly.pdf
+		The heart of the argument is the fact that for any $a\in G$ and $b \in T_a(G)$
+		\[ \frac{\Match_{G - a}(x)}{\Match_G(x)} = \frac{\Match_{T_a(G)- b}(x)}{\Match_{T_a(g)}(x)}. \]
 	\end{proof}
+
+	% QUIZ 1 ON 1 SEP (THURSDAY)
+	
+	This result has some consequences.
+
+	\begin{fdef}[Log-concave]
+		A sequence $(a_n)_{n\ge0}$ is said to be \emph{log-concave} if $a_n^2 \ge a_{n-1} a_{n+1}$ for all $n$.
+	\end{fdef}
+
+
+	\begin{exercise}
+		Show that for a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave.
+	\end{exercise}
+
+	The stirling numbers of the first and second kind are also log-concave.
+
+	\begin{fprop}
+		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then the sequence of coefficients of $A$ is log-concave.
+	\end{fprop}
+
+	\begin{exercise}
+		Prove the above.
+	\end{exercise}
+
+	The above has an even stronger version.
+
+	\begin{fprop}
+		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then $\left(a_i/\binom{n}{i}\right)_{i \ge 0}$ is log-concave. This is referred to as \emph{ultralogconcavity}.
+	\end{fprop}
+
+	\begin{fcor}
+		For any graph $G$, $(m_k(G))_{k\ge 0}$ is log-concave. That is, for all $k$, $m_k(G)^2 \ge m_{k-1}(G)m_{k+1}(G)$.
+	\end{fcor}
+
+	% log-concavity is important! june huh won the fields medal this year for showing that some sequence is log-concave
 
 	% convex hull of (01) vectors of matchings in R^{|E|} due to edmonds. this is linear program, so we can get a non-linear programming way. this gives a method to get a maximum weight matching!!! (place any weights you want on edges)
 	% counting number of matchings is #P-complete though.
 
+
+\subsection{Colorings}
+
+	\begin{fdef}
+		Given a graph $G=(V,E)$, a $k$-\emph{coloring} (sometimes called \emph{proper coloring}) is a function $c:V(G)\to[k]$ such that if $u\Leftrightarrow v$, $c(u) \ne c(v)$.\\
+		The \emph{chromatic number} $\chi(G)$ of a graph is the minimum number of colours required to colour it.\\
+		We denote by $c_k(G)$ the number of $k$-colorings of $G$. Define the \emph{chromatic polynomial}
+		\[ \Chrom_G(x) = \sum_{k \ge 0} c_k(G) x^k. \]
+	\end{fdef}
+	The chromatic polynomial is not a polynomial, it is a power series -- $c_k(G)$ does not eventually go to zero since the function involved is not required to be surjective.\\
+
+	Determining the chromatic number of a graph is (or rather, determining if there exists a $k$-coloring) is $\mathsf{NP}$-hard. The best known algorithm today outputs a colouring which is a $n/\text{polylog}(n)$-approximation of the minimum coloring.
+
+	\begin{prop}
+		A graph $G$ has chromatic number $1$ iff it is an empty graph. It has chromatic number $\le 2$ iff it is bipartite.
+	\end{prop}
+
+	It is difficult to approximate a minimum colouring of even $3$-colorable graphs!
+
+	\begin{ftheo}[Four-Color Theorem]
+		A planar graph is $4$-colorable.
+	\end{ftheo}
+	We omit the proof of the above (for obvious reasons).
+
+	If $G$ is the empty graph $\overline{K_n}$, then $c_k(G) = k^n$ and
+	\[ \Chrom_G(x) = \sum_{k \ge 1} k^n x^k = \frac{A_n(x)}{(1-x)^{n+1}}. \]
+
+	\begin{fprop}[Deletion-contraction recurrence]
+		For any graph $G$, we have for $e \in G$ that
+		\[ \Chrom_G(x) = \Chrom_{G-e}(x) - \Chrom_{G\setminus e}(x) \]
+	\end{fprop}
+	\begin{proof}
+		Take any $k$-coloring of $G-e$. If the endpoints of $e$ have the same colour, it corresponds to a $k$-colouring of $G\setminus e$, and if the endpoints have distinct colours, it corresponds to a $k$-coloring of $G$.
+	\end{proof}
+
+	This leads to a method to find the chromatic polynomial of any graph. Since we know the chromatic polynomial of the empty graph, we can repeatedly delete and contract edges until from our graph until we get to an empty graph.

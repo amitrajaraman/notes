@@ -365,7 +365,7 @@
 	For every possible support profile $X_1 \times \cdots \times X_n$, solve the following feasibility program.
 	\begin{align*}
 		w_i &= \sum_{s_{-i} \in S_{-i}} \left( \prod_{j \ne i} \sigma_j(s_j) \right) u_i(s_i,s_{-i}) \text{ for all $s_i \in X_i$, $i \in N$ and} \\
-		w_i &\ge \sum_{s_{-i} \in S_{-i}} \left( \prod_{j \ne i} \sigma_j(s_j) \right) u_i(s_i,s_{-i}) \text{ for all $s_i \in S_i \setminus X_i$, $i \in N$,}
+		w_i &\ge \sum_{s_{-i} \in S_{-i}} \left( \prod_{j \ne i} \sigma_j(s_j) \right) u_i(s_i,s_{-i}) \text{ for all $s_i \in (S_i \setminus X_i)$, $i \in N$,}
 	\end{align*}
 	where
 	\[ \sigma_j(s_j) \ge 0 \text{ for all $s_j \in S_j,j\in N$} \]

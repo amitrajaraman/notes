@@ -8,8 +8,8 @@
 			Given three $n\times n$ matrices $A,B,C$, decide whether $AB = C$. 
 		\end{problem*}
 
-		One na\"{i}ve way to do this is to compute $AB$ and check if it is identical to $C$. The na\"{i}ve implementation of this runs in $O(n^3)$, while the best known implementation (at the time) runs in about $O(n^{2.373\ldots})$. \\
-		Can we do the required in $O(n^2)$ time, perhaps in a random fashion (with some failure probability)?\\
+		One na\"{i}ve way to do this is to compute $AB$ and check if it is identical to $C$. The na\"{i}ve implementation of this runs in $O(n^3)$, while the best known implementation at the time runs in about $O(n^{2.373\ldots})$. \\
+		Can we do the required in $O(n^2)$ time, perhaps in a random fashion (with some probability of failure)?\\
 
 		% \paragraph{A simple randomized algorithm that does not do the job}
 		Consider the following algorithm to start with. For each row in $C$, choose an entry randomly and verify that it matches the corresponding entry in $AB$. In a similar spirit, a second algorithm is to choose $n$ entries of $C$ randomly and verify.\\
@@ -126,7 +126,7 @@
 
 			Further, we can generalize the construction to $n$ of the form $q^r$ by considering $\{ a_0 + \sum_{i=1}^r a_i x_i : x_i \in \F_q \}$, where the $a_i$ are iid drawn from $\F_q$.\\
 			This idea can further be generalized to $k$-wise independence as well, taking a degree-$(k-1)$ polynomial $\{ \sum_{i=0}^{k-1} a_i x^i : x \in \F_q \}$ instead. Why are these $k$-wise independent? Fix distinct $x_1,x_2,\ldots,x_k \in \F_q$ and $\alpha_1,\ldots,\alpha_k \in \F$. Is it true that
-			\[ \Pr[\sum_{j} a_j x_i^j = \alpha_i \text{ for all $i$}] = \frac{1}{q^k}? \]
+			\[ \Pr\left[\sum_{j} a_j x_i^j = \alpha_i \text{ for all $i$}\right] = \frac{1}{q^k}? \]
 			Indeed, there is a unique solution $(a_0,\ldots,a_{k-1})$ to this since the matrix corresponding to the system of equations is a Vandermonde matrix, which has nonzero determinant (even over $\F_q$).
 
 			\begin{exercise}
