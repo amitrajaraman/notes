@@ -581,11 +581,9 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{fdef}
 		Given a graph $G=(V,E)$, a $k$-\emph{coloring} (sometimes called \emph{proper coloring}) is a function $c:V(G)\to[k]$ such that if $u\Leftrightarrow v$, $c(u) \ne c(v)$.\\
-		The \emph{chromatic number} $\chi(G)$ of a graph is the minimum number of colours required to colour it.\\
-		We denote by $c_k(G)$ the number of $k$-colorings of $G$. Define the \emph{chromatic polynomial}
-		\[ \Chrom_G(x) = \sum_{k \ge 0} c_k(G) x^k. \]
+		The \emph{chromatic number} $\chi(G)$ of a graph is the minimum number of colours required to colour it.
+		We denote by $c_k(G)$ the number of $k$-colorings of $G$.
 	\end{fdef}
-	The chromatic polynomial is not a polynomial, it is a power series -- $c_k(G)$ does not eventually go to zero since the function involved is not required to be surjective.\\
 
 	Determining the chromatic number of a graph is (or rather, determining if there exists a $k$-coloring) is $\mathsf{NP}$-hard. The best known algorithm today outputs a colouring which is a $n/\text{polylog}(n)$-approximation of the minimum coloring.
 
@@ -598,17 +596,58 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{ftheo}[Four-Color Theorem, \cite{4ct}]
 		A planar graph is $4$-colorable.
 	\end{ftheo}
-	We omit the proof of the above (for obvious reasons).
+	We omit the proof of the above (for reasons obvious to anyone familiar with the result).
 
-	If $G$ is the empty graph $\overline{K_n}$, then $c_k(G) = k^n$ and
-	\[ \Chrom_G(x) = \sum_{k \ge 1} k^n x^k = \frac{A_n(x)}{(1-x)^{n+1}}. \]
+	\begin{ftheo}
+		For any graph $G$, there exists a polynomial $\Chrom_G$, known as the \emph{chromatic polynomial}, such that $\Chrom_G(k) = c_k(G)$.
+	\end{ftheo}
+	For example, $\Chrom_{\overline{K_n}}(x) = x^n$. For any tree $T$ on $n$ vertices, $\Chrom_T(x) = t(t-1)^{n-1}$.\\
+	Observe that the chromatic polynomial is unique for a given graph since we know its value at an infinite number of points.
+	
+	The proof of the above follows near-directly from the following result using an inductive argument on the number of edges -- both $G\setminus E$ and $G-e$ have fewer edges than $G$.
 
 	\begin{fprop}[Deletion-contraction recurrence]
+		\label{prop: deletion contraction recurrence}
 		For any graph $G$, we have for $e \in G$ that
 		\[ \Chrom_G(x) = \Chrom_{G-e}(x) - \Chrom_{G\setminus e}(x) \]
 	\end{fprop}
 	\begin{proof}
-		Take any $k$-coloring of $G-e$. If the endpoints of $e$ have the same colour, it corresponds to a $k$-colouring of $G\setminus e$, and if the endpoints have distinct colours, it corresponds to a $k$-coloring of $G$.
+		Take any $k$-coloring of $G-e$. If the endpoints of $e$ have the same colour, it corresponds to a $k$-colouring of $G\setminus e$, and if the endpoints have distinct colours, it corresponds to a $k$-coloring of $G$. Therefore,
+		\[ c_k(G) = c_k(G-e) = c_k(G\setminus e) \]
+		and the result follows.
+	\end{proof}
+	This leads to a method to find the chromatic polynomial of any graph. Since we know the chromatic polynomial of the empty graph, we can repeatedly delete and contract edges until from our graph until we get to an empty graph.\\
+	A natural question based on what we've done so far is: what do the coefficients of the chromatic polynomial mean?
+	We state some known results about the chromatic polynomial.
+
+	% http://www.math.iitb.ac.in/~krishnan/phd-2022/nbc.pdf
+
+	\begin{fcor}
+		$\Chrom_G$ is a monic polynomial with coefficients of alternating sign.
+	\end{fcor}
+
+	Another (not so natural) question is: is $\Chrom_G(x)$ meaningful for $x\not\in\N$?
+
+	\begin{fdef}
+		Given a graph $G = (V,E)$, an \emph{acyclic orientation} of $G$ is obtained by replacing each edge $uv$ with one of the directed arcs $\vv{uv}$ or $\vv{vu}$.
+	\end{fdef}
+
+	\begin{ftheo}
+		$\Chrom_G(-1) = (-1)^n a(G)$, where $n = |V(G)|$ and $a(G)$ is the number of acyclic orientations of $G$.
+	\end{ftheo}
+	\begin{proof}
+		Let $e=\{u,v\}$ be an arbitrary edge in the graph. Using the \nameref{prop: deletion contraction recurrence}, it suffices to show that
+		\[ a(G) = a(G-e) + a(G\setminus e). \]
+		Let $A(G)$ be the set of acyclic orientations on $G$, so $a(G) = |A(G)|$.\\
+		Define $f : A(G) \to A(G-e)$ as the natural restriction map. We claim that $f$ is surjective.\\
+		Suppose instead that some $O' \in A(G-e)$ is not in the image of $f$. Consider the two orientations $O_1,O_2$ which are identical to $O'$ except that the edge $e$ has orientation $u\to v$ or $v\to u$ respectively. Since neither of these is in $A(G)$, there must be a directed path $v \to u$ in $O'$ (because $O_1$ has a cycle) and another directed path $u \to v$ in $O'$ (because $O_2$ has a cycle). Concatenating the two, we get a directed closed walk which must contain a cycle, contradicting the fact that $O' \in A(G-e)$.\\
+		
+		Because $f$ is a restriction map, for any $O' \in A(G-e)$, $|f^{-1}(O')| \in \{1,2\}$. Let $X$ and be the set of all $O'$ with $f^{-1}(O') = 1$ and $Y$ the set of all $O'$ with $f^{-1}(O') = 2$. Also let $x = |X|$ and $y = |Y|$.\\
+		We have $a(G-e) = x+y$ and $a(G) = x+2y$, so we are done if we show that $a(G\setminus e) = y$.\\
+
+		Because we can orient $e$ in either way for any $O' \in A(G-e)$ to get an orientation in $A(G)$, there is no directed path from $u$ to $v$ or $v$ to $u$ in $O'$. In particular, when merging $u$ and $v$ in $O'$ to get an orientation of $A(G\setminus e)$, there is no issue in assigning orientations (there cannot be a vertex $w$ such that $\vv{uw}$ and $\vv{wv}$ are edges).\\
+		This merging procedure can be reversed as well, so there is a bijection between $Y$ and $A(G\setminus e)$ and we are done.
 	\end{proof}
 
-	This leads to a method to find the chromatic polynomial of any graph. Since we know the chromatic polynomial of the empty graph, we can repeatedly delete and contract edges until from our graph until we get to an empty graph.
+	This idea of plugging negative values into polynomials of interest has led to the fascinating subject of combinatorial reciprocity. This includes the idea of ``running recurrences backward''. For example, we have the Fibonacci numbers defined by $f_0 = 0, f_1 = 1$, and $f_{n+1} = f_n + f_{n-1}$. Can we extend this to negative numbers such that $f_{m-1} = f_{m+1} - f_{m}$, where $m-1$ is negative. This leads to a signed version of the Fibonacci numbers, with $f_{-n} = (-1)^{n+1} f_n$ for $n > 0$.\\
+	The interested reader may look at \cite{crt} for more details.

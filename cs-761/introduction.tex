@@ -136,11 +136,11 @@
 				Suppose instead that there is a nonzero vector $v$ such that $Mv = 0$, where $M$ is our $k\times k$ Vandermonde matrix of interest. This gives a nonzero polynomial of degree at most $k-1$ with $k$ roots, which is not possible.
 			\end{solution*}
 
-	\subsection{Lecture 4: Applications}
+	\subsection{Lecture 4: Counting distinct elements in a stream}
 
 		\subsubsection{Lecture 4 (continued)}
 
-			Pseudorandomness has various applications in streaming algorithms. We generally have storage space that is far smaller than the input. We also have only one ``pass'' at the input and cannot look at older input.
+			Pseudorandomness has various applications in streaming algorithms. We generally have storage space that is far smaller than the input. We also have only one ``pass'' at the input and cannot look at older input. We can however run multiple copies of the same algorithm as we get the input, and in this case this can give better results.
 
 			\begin{problem*}
 				Suppose we are getting a stream of items $a_1,\ldots,a_m$ in $[n]$. Count the number of distinct elements that appear.
@@ -155,4 +155,55 @@
 
 			% next lecture: we need to store the values of all n outputs of h! can we introduce pseudorandomness to alleviate this issue?
 
-			
+		\subsubsection{Lecture 5}
+
+			Before moving on, let us verify that $\E[m] = 1/(k+1)$? We have that for $x \in [0,1]$,
+			\[ \Pr[m \ge x] = \Pr[h(i) \ge x \text{ for all $i$}] = (1-x)^k. \]
+			Therefore,
+			\[ \E[m] = \int_0^1 x \cdot k (1-x)^{k-1} \dif x = \int_0^1 n(x^{k-1} - x^k) \dif x = \frac{1}{k+1}. \]
+
+			Now, we still have to store all $n$ outputs of $h$, so this has not really introduced any lower storage space. Choose a field $\F$ with $|\F| = N \ge n$. We shall choose $h(i)$ from $\F$ (or rather, $[N]$) such that they are pairwise independent. Recall that we had seen how to do this in Lectures 3 and 4. This construction only requires us to store the $a$ and $b$ from the algorithm, and we can compute $h(i) = ai+b$ whenever needed. This also lowers the space requirement to $O(\log n)$.  We shall now output $(N/m)-1$ instead of $(1/m)-1$.\\
+			We want to show that $(N/m)-1$ is ``close'' to $k$ with high probability. That is, let us try to bound
+			\[ \Pr\left[ (1-\epsilon)\frac{N}{k} \le m \le (1+\epsilon)\frac{N}{k} \right] \]
+			from below.\\
+			Define
+			\[ Y_{i,\lambda} = \indic_{h(i) > \lambda} = \begin{cases} 1, & \text{if $h(i) > \lambda$} \\ 0, & \text{otherwise.} \end{cases} \]
+			Also define
+			\[ Y_\lambda = \sum_{i \in S} Y_{i,\lambda}, \]
+			where $S$ is the set of the $k$ distinct elements that are seen. Then, we want to find
+			\[ \Pr\left[ Y_{(1-\epsilon)\frac{N}{k+1}} = 0 \text{ and } Y_{(1+\epsilon)\frac{N}{k+1}} \ne 0 \right]. \]
+			Indeed, $m$ is at least the lower bound iff no element in the stream is mapped to something less than it, and at most the upper bound iff at least one element is mapped to something less than it. Now,
+			\[ \E[Y_\lambda] = \sum_{i \in S} \E[Y_{i,\lambda}] \approx k\lambda/N. \]
+			Then, using Markov's inequality,
+			\[ \Pr[Y_\lambda \ge 1] \le \E[Y_i] = \frac{k\lambda}{N} \]
+			and as a result,
+			\[ \Pr[Y_{(1-\epsilon)\frac{N}{k}} = 0] = \Pr\left[ m \ge (1-\epsilon)\frac{N}{k} \right] \ge \epsilon. \]
+			Observe that thus far, we have not used any sort of independence.
+
+			\begin{flem}
+				If $X_1,\ldots,X_n$ are pairwise independent real-valued random variables,
+				\[ \Var\left[\sum_i X_i\right] = \sum_i \Var[X_i]. \]
+			\end{flem}
+			\begin{proof}
+				We have
+				\begin{align*}
+					\Var\left[\sum_i X_i\right] &= \E\left[ \left(\sum_i X_i - \E[X_i]\right)^2 \right] \\
+						&= \E\left[ \sum_i (X_i - \E[X_i])^2 + 2\sum_{i < j} (X_i - \E[X_i])(X_j - \E[X_j]) \right] \\
+						&= \sum_i \E\left[ (X_i-\E[X_i])^2 \right] + 2\sum_{i<j} \E\left[ (X_i-\E[X_i])(X_j-\E[X_j]) \right] \\
+						&= \sum_i \Var[X_i] + 2\sum_{i<j} \E[X_i-\E[X_i]]\E[X_j-\E[X_j]] . & \text{($X_i,X_j$ are independent)}
+				\end{align*}
+			\end{proof}
+
+			Now, set $U = (1+\epsilon)N/k$, so we have $\E[Y_U] = 1+\epsilon$. By the above lemma,
+			\[ \Var[Y_U] = k\Var[Y_{i,U}] = k\cdot\frac{U}{N}\left( 1-\frac{U}{N} \right) = (1+\epsilon)\left(1 - \frac{1+\epsilon}{k}\right). \]
+			Therefore, using Chebyshev's inequality,
+			\begin{align*}
+				\Pr[Y_U \ne 0] &\ge 1 - \Pr\left[ |Y_U - (1+\epsilon)| \ge (1+\epsilon) \right] \\
+					&\ge 1 - \frac{(1+\epsilon)\left(1-\frac{1+\epsilon}{k}\right)}{(1+\epsilon)^2} \ge 1-\frac{1}{1+\epsilon} = \frac{\epsilon}{1+\epsilon}.
+			\end{align*}
+			Finally,
+			\begin{align*}
+				\Pr\left[ Y_{(1-\epsilon)\frac{N}{k}} = 0 \text{ and } Y_{(1+\epsilon)\frac{N}{k}} \ne 0 \right] &\ge 1 - \left( \Pr\left[Y_{(1-\epsilon)\frac{N}{k}} 
+				\ne 0 \right] + \Pr\left[ Y_{(1+\epsilon)\frac{N}{k}} \ne 0 \right] \right) \] \\
+					&\ge \epsilon + \frac{\epsilon}{1+\epsilon} - 1.
+			\end{align*}
