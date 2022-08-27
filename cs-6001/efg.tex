@@ -1,0 +1,241 @@
+\section{Long-form games}
+
+Thus far, we have only looked at ``single-step'' games in NFGs. Not all games can be represented by this however, with an obvious example that we discussed being chess.
+
+\subsection{Perfect information extensive form games}
+
+	\begin{fdef}[Perfect Information Extensive Form Game]
+		A perfect information extensive form game (PIEFG/EFG) is a $7$-tuple $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N}\rangle$ where
+		\begin{itemize}
+			\item $N$ is the set of players,
+			\item $A$ is the set of all possible actions (of all players)
+			\item $\mathcal{H} \subseteq \bigcup_{k=0}^{\infty} A^k$ is the set of all sequences of actions (\emph{histories}) satisfying
+			\begin{itemize}
+				\item $\emptyset \in \mathcal{H}$ and
+				\item if $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$, any subsequence $h' = (a^{(0)},a^{(1)},\ldots,a^{(t)})$ of $h$ (for $t \le \tau$) starting at the root is in $\mathcal{H}$,
+			\end{itemize}
+			\item $Z \subseteq \mathcal{H}$ is the set of all \emph{terminal histories}, where a history $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau-1)})$ is terminal if there exists no $a^{(\tau)} \in A$ with $(a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$,
+			\item $\mathcal{X} : \mathcal{H} \setminus Z \to 2^A$, called the \emph{action set selection function}, gives the set of all valid actions given a non-terminal history,
+			\item $P : \mathcal{H}\setminus Z \to N$ is the \emph{player function} which gives the player who plays at a given non-terminal history, and
+			\item $u_i : Z \to \R$ is the utility of player $i$.
+		\end{itemize}
+	\end{fdef}
+
+	A history is essentially a path from the root in the game tree (recall our discussion of this from the first section).
+
+	A natural next question is: what is a strategy in a PIEFG?
+
+	\begin{fdef}[Strategy]
+		A \emph{strategy} of a player in an EFG is a tuple of actions at every history where the player plays. That is, a strategy of a player $i$ is an element of
+		\[ S_i = \bigtimes_{h \in \mathcal{H} : P(h) = i} \mathcal{X}(h). \]
+	\end{fdef}
+
+	It turns out that we can transform EFGs to NFGs! Indeed, the above definition explicitly describes the strategy set of each player, and associated to any tuple of strategies for all the players, we can determine the payoff.\\
+	This conversion has a massive explosion in size however, and equilibria in the converted NFG do not necessarily make sense in the context of the original EFG. % example at start of module 21
+	Henceforth, we talk about PSNEs of EFGs as PSNEs of their NFG conversion.
+
+	\begin{fdef}
+		A \emph{subgame} of a game is the restriction of the game to the descendants of a history.
+	\end{fdef}
+
+	The idea behind an equilibrium should be \emph{subgame perfection}, where each player chooses the best possible action at each subgame where they play.
+
+	\begin{fdef}[Subgame Perfect Nash Equilibrium]
+		A \emph{subgame perfect nash equilibrium} (SPNE) of an EFG $G$ is a strategy profile $s \in S$ such that for any subgame $G'$ of $G$, the restriction of $s$ to $G'$ is a PSNE of $G'$.
+	\end{fdef}
+
+	Similar to PSNEs, SPNEs are guaranteed to exist in finite PIEFGs.
+	Observe that any SPNE is a PSNE. As we shall now see, the algorithm to find an SPNE is quite simple.\\
+
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\SetNoFillComment
+		\SetKwProg{Fn}{}{}{}
+		\SetKwFunction{backind}{{backInd}}
+		\KwIn{An EFG $G$}
+		\KwOut{The utility and action to be taken by a given player at a certain history}
+		\Fn{\backind{history $h$}} { 
+			\If{$h\in Z$} {
+				\Return{$u(h),\emptyset$}\;
+			}
+			$\mathsf{bestUtil}_{P(h)} \gets -\infty$\;
+			\ForEach{$a \in \mathcal{X}(h)$} {
+				$\mathsf{utilAtChild}_{P(h)} \gets \backind{$(h,a)$}$\;
+				\If{$\mathsf{bestUtil}_{P(h)} > \mathsf{bestUtil}_{P(h)}$} {
+					$\mathsf{bestUtil}_{P(h)} \gets \mathsf{utilAtChild}_{P(h)}$\;
+					$\mathsf{bestAction}_{P(h)} \gets a$\;
+				}
+			}
+			\Return{$\mathsf{bestUtil}_{P(h)},\mathsf{bestAction}_{P(h)}$}
+		}
+		\caption{Backward induction to determine SPNEs}
+	\end{algorithm}
+
+	The idea of subgame perfection is intrinsically tied to the above algorithm.\\
+	The issue however is that we are essentially parsing the entire tree, so the algorithm is very computationally expensive. Further, some criticize the idea of SPNEs for assuming that the cognitive limit of the players is infinite (which is not realistic).\\
+	It is very easy to find an SPNE in simple games such as tic-tac-toe.\\
+
+	\begin{fex}[Centipede game]
+		Players $1$ and $2$ alternate, and each can play a move from $\{\mathsf{take},\mathsf{push}\}$, with a maximum of $N$ rounds, say. The game terminates when $\mathsf{take}$ is played for the first time or the limit of $N$ rounds if $\mathsf{take}$ is never played.\\
+		The game also fixes some quantities $m_0,m_1$ with $m_0 > m_1$. Suppose that the game ends on round $t \in \{0,\ldots,N-1\}$ with player $p$ making the final move; let $p'$ be the other player. Then, the payoffs for the two players are as follows:
+		\begin{itemize}
+			\item if $p$ played $\mathsf{take}$, then $p,p'$ have payoffs of $2^t m_0$ and $2^tm_1$ respectively.
+			\item if $p$ played $\mathsf{push}$, then $p,p'$ have payoffs of $2^{t+1}m_1$ and $2^{t+1}m_0$ respectively.
+		\end{itemize}
+		That is, if a player plays $\mathsf{push}$, they increase the size of the pot to be won, and if they play $\mathsf{take}$, the game ends, with them getting a larger amount of money.\\
+		Most players except grandmasters play for a few rounds, with some of the reasons claimed for this being altruism, the difference in computational capacity of individuals and incentive difference.
+	\end{fex}
+
+	There are some other criticisms of SPNEs as well, such as that it discusses what to do if the game reaches a certain history, but the equilibrium in earlier stages might show that we cannot actually reach this history.
+
+\subsection{Imperfect information extensive form games}
+
+	EFGs are perfect information systems, where every player has perfect information about all developments in the game until that round. This is not useful in many practical scenarios, such as card games. EFGs also do not allow the representation of games with simultaneous moves. For example, the neighbouring kingdom dilemma we discussed in \Cref{ex: neighbouring kingdom dilemma} depends significantly on the fact that both kingdoms move simultaneously.\\
+	This can be modeled as a sequential game, where the second player does not known for certain which history the game is in. This is called an \emph{information set}. Such games where players deal with information sets instead of particular histories are called imperfect information extensive form games. When the information sets are singletons, we get back PIEFGs.
+
+	\begin{fdef}
+		An \emph{imperfect information extensive form games} (IIEFG) is an $8$-tuple $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N},(I_i)_{i \in N}\rangle$ where
+		\begin{itemize}
+			\item $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N}\rangle$ is a PIEFG,
+			\item for every $i \in N$, $I_i = (I_i^1,I_i^2,\ldots,I_i^{k(i)})$ is a partition of $\{ h \in \mathcal{H} \setminus Z : P(h) = i \}$ with the property that $\mathcal{X}(h) = \mathcal{X}(h')$ and $P(h) = P(h') = i$ whenever there exists some $j$ such that $h,h' \in I_i^j$. The $I_i^j$s are called the \emph{information sets} of player $i$, and $I_i$ the collection of information sets of $i$.
+		\end{itemize}
+	\end{fdef}
+
+	At a given information set, the player and all their available actions ar ethe same. The player is not certain which history in the information set the game is at.\\
+	Since the actions now depend on the information sets and not the histories, we denote $\mathcal{X}(I_i^j) \coloneqq \mathcal{X}(h)$ for any $h \in I_i^j$.\\
+	Strategies are also defined over information sets. The strategy set of player $i \in N$ is defined by
+	\[ S_i = \bigtimes_{\tilde{I} \in I_i} \mathcal{X}(\tilde{I}). \]
+	With IIEFGs, NFGs can be represented using EFGs, though this is not very succinct. The representation used is typically chosen on the basis of the game we are working with.
+
+	In NFGs, we had mixed strategies where we randomized over pure strategies. In EFGs, randomization can be done in several ways:
+	\begin{itemize}
+		\item randomize over the strategies defined at the very beginning of the game, and
+		\item randomize over the actions at a given information set -- we call such a strategy a behavioral strategy. This takes advantage of all the information a player has at a certain point of time.
+	\end{itemize}
+
+	\begin{fdef}
+		A \emph{behavioral strategy} of a player in an IIEFG is a function that maps each of their information sets to a probability distribution over the set of actions at that information set
+	\end{fdef}
+
+	A couple of questions come to mind seeing this: can a player attain a higher payoff using one type of strategy? Is there any sort of equivalence between mixed and behavioral strategies.
+
+	Given a node $x$, mixed/behavioral strategy $\sigma_i$, and a mixed/behavioral strategy vector $\xi_{-i}$, denote by $\rho(x;\sigma_i,\chi_{-i})$ the probability of going to the node $x$ in a game.
+	\begin{fdef}[Equivalence of mixed and behavioral strategies]
+		A mixed strategy $\sigma_i$ and a behavioral strategy $b_i$ of a player $i$ in an IIEFG are \emph{equivalent} if for every mixed/behavioral strategy vector $\xi_{-i}$ of the other players and every vertex $x$ in the game tree,
+		\[ \rho(x;\sigma_i,\xi_{-i}) = \rho(x;b_i,\xi_{-i}). \]
+	\end{fdef}
+
+	% add example from module 24 
+
+	Now, by definition, equivalence implies that the above equality holds at leaf nodes.\\
+	In fact, it suffices to check that it holds at leaf nodes! Given an arbitrary non-leaf nodes, the probability of reaching that node is equal to the sum of the probabilities of reaching the leaf nodes in the subtree, so equality at the leaves implies equality at non-leaves.\\
+	In fact, we get the following more generally.
+
+	\begin{ftheo}[Utility Equivalence]
+		If $\sigma_i,b_i$ are equivalent, then for every mixed/behavioral strategy vector of the other players $\xi_{-i}$ and every $j \in N$,
+		\[ u_j(\sigma_i,\xi_{-i}) = u_j(b_i,\xi_{-i}). \]
+	\end{ftheo}
+	\begin{fcor}
+		Let $\sigma$ and $b$ be equivalent. Then, for all $i \in N$, $u_i(\sigma) = u_i(b)$.
+	\end{fcor}
+
+	Behavioral strategies are more natural in IIEFGs. Players plan at a given stage (i.e. information set), and don't have a master plan from the very beginning. They are also far simpler computationally, since we only need to deal with fewer variables. For example, if a player has $4$ information sets with $2$ actions each, a mixed strategy would require $2^4-1$ variables whereas a behavioral strategy requires only $4$.\\
+	It turns out that behavioral strategies and mixed strategies have incomparable power, as the following two examples demonstrate. 
+
+	\begin{fex}[There exist mixed strategies without equivalent behavioral strategies]
+		\label{mixed without equiv behavioral}
+		Consider the following game tree with a single player.
+		\begin{center}
+		\begin{tikzpicture}
+			\tikzstyle{hollow node}=[circle,draw,inner sep=1.5]
+			\node(0)[hollow node]{}
+				[sibling distance=30mm]
+				child{node[hollow node]{}
+					[sibling distance=20mm]
+					child{node[hollow node]{} edge from parent node[above left]{\small$L_2$}}
+					child{node[hollow node]{} edge from parent node[above right]{\small$R_2$}}
+					edge from parent node[above left]{\small$L_1$}}
+				child{node[hollow node]{}
+					[sibling distance=20mm]
+					child{node[hollow node]{} edge from parent node[above left]{\small$L_2$}}
+					child{node[hollow node]{} edge from parent node[above right]{\small$R_2$}} 
+					edge from parent node[above right]{\small$R_1$}};
+			\draw[dashed](0-1)to(0-2);
+		\end{tikzpicture}
+		\end{center}
+		Observe that there does not exist any behavioral strategy $b$ for the player such that $\rho(b;L_1R_2) = \rho(b;R_1L_2) = 0$. Indeed, this would require $b_1(L_2) = b_1(R_2) = 0$.\\
+		On the other hand, there does exist a mixed strategy $\sigma$ that sets $\sigma(L_1R_2) = \sigma(R_1L_2) = 0$. This is easily seen on realizing that $S_1 = \{L_1,L_2\} \times \{R_1,R_2\}$, so we have complete freedom in assigning probabilities to all four leaf ndoes.
+	\end{fex}
+
+	\begin{fex}[There exist behavioral strategies without equivalent mixed strategies]
+		Consider the following game tree with a single player.
+		\begin{center}
+		\begin{tikzpicture}
+			\tikzstyle{hollow node}=[circle,draw,inner sep=1.5]
+			\node(0)[hollow node]{}
+				[sibling distance=20mm]
+				child{node[hollow node]{}
+					child{node[hollow node]{} edge from parent node[above left]{\small$L_1$}}
+					child{node[hollow node]{} edge from parent node[above right]{\small$R_1$}}
+					edge from parent node[above left]{\small$L_1$}}
+				child{node[hollow node]{} edge from parent node[above right]{\small$R_1$}};
+			\draw[dashed,bend right](0-1)to(0);
+		\end{tikzpicture}
+		\end{center}
+		Observe that there exists no mixed strategy that goes to $L_1R_1$ with nonzero probability. Indeed, here, $S_1 = \{L_1,R_1\}$, so the path $L_1R_1$ is not even an option. \\
+		On the other hand, the behavioral strategy that picks $L_1$ or $R_1$ with equal probability $1/2$ does go to $L_1R_1$ with probability $1/4$.
+	\end{fex}
+
+	In the first example above, the player remembers that they made a move but does not remember which move they made. In the second, the player does not remember that they made a move.\\
+
+	So, when exactly does a behavioral strategy not have an equivalent mixed strategy?
+
+	\begin{flem}
+		If there exists a path from the root to some vertex $x$ that passes through the same information set twice, and if the action leading to $x$ is not the same at each of these vertices, then the player of the information set has a behavioral strategy that has no equivalent strategy.
+	\end{flem}
+
+	\begin{ftheo}
+		\label{theo: behavioral has equivalent mixed}
+		Consider an IIEFG such that every vertex has at least two actions. Every behavioral strategy has an equivalent mixed strategy iff each information set of a player intersects every path emanating from the root at most once.
+	\end{ftheo}
+	% add proof after reading msz
+
+	When does a mixed strategy not have an equivalent mixed strategy?\\
+	We need to figure out some way of formalizing the forgetfulness in \Cref{mixed without equiv behavioral}.\\
+	Let $X = (x_0,x_1,\ldots,x_K)$ and $\hat{X} = (x_0,\hat{x}_1,\ldots,\hat{x}_L)$ be two paths in the game tree and $I_i^j$ an information set of player $i$ that intersects the two paths are precisely one vertex, say $x_k$ and $\hat{x}_\ell$ respectively where $k<K$, $\ell<L$. Then, the two paths choose the same action at $I_i^j$ if the two actions at these vertices are identical, that is,
+	\[  a_i(x_k \to x_{k+1}) = a_i(\hat{x}_\ell \to \hat{x}_{\ell+1}). \]
+	In general, we also consider $a_i(x \to y)$ (where $y$ is a descendant but not necessarily a child of $x$), defined by the action $a_i(x \to x')$, where $x'$ is the child of $x$ on the path from $x$ to $y$.
+
+	Player $i$ is said to have perfect recall if
+	\begin{enumerate}
+		\item any path from the root to a leaf intersects an information set of player $i$ at most once, and
+		\item any two paths that end in the same information set of player $i$ pass through the same information sets of $i$ in the same order, and in every such information set, the two paths choose the same action.
+	\end{enumerate}
+
+	Let us state this more formally.
+
+	\begin{fdef}[Perfect recall]
+		Player $i$ is said to have \emph{perfect recall} if for every $I_i^j$ and pair of vertices $x,\hat{x} \in I_i^j$, if the decision vertices of $i$ are $x_i^1,x_i^2,\ldots,x_i^L = x$ and $\hat{x}_i^1,\hat{x}_i^2,\ldots,\hat{x}_i^{\hat{L}}$ respectively for the two paths from the root to $x$ and $\hat{x}$, then
+		\begin{enumerate}
+			\item $L = \hat{L}$,
+			\item for any $1 \le \ell \le L$, $x_i^\ell,\hat{x}_i^\ell \in I_i^k$ for some $k$, and
+			\item for any $1 \le \ell \le L$, $a_i(x_i^\ell \to x_i^{\ell+1}) = a_i(\hat{x}_i^\ell \to \hat{x}_i^{\ell+1})$.
+		\end{enumerate}
+		A game is said to be of perfect recall if every player has perfect recall.
+	\end{fdef}
+
+	Observe that perfect recall subsumes the condition in \Cref{theo: behavioral has equivalent mixed}.
+
+	Let us look at some consequences of perfect recall.\\
+	Given a node $x$, let $S_i^*(x)$ be the set of pure strategies of player $i$ at which he chooses the actions leading to $x$. This is the intersections of members of $S_i$ with the paths from the root to $x$.
+	\begin{ftheo}
+		If $i$ is a player with perfect recall and $x,\hat{x}$ are two vertices in the same information set of $i$, then $S_i^*(x) = S_i^*(\hat{x})$.
+	\end{ftheo}
+
+	The above conclusion follows because the same information sets are seen and we take the same actions at these sets.
+
+	\begin{ftheo}[Kuhn]
+		In an IIEFG, if $i$ is a player with perfect recall, then for any mixed strategy of $i$, there exists an equivalent behavioral strategy.
+	\end{ftheo}
+	% msz theo 6.15
+	The proof is constructive in nature, with the construction using perfect recall.

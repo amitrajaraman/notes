@@ -121,7 +121,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{ftheo}[Cayley's Theorem]
 		\label{theo: cayleys theorem}
-		The number of spanningtrees in $K_n$ is $n^{n-2}$.
+		The number of spanning trees in $K_n$ is $n^{n-2}$.
 	\end{ftheo}
 	One proof by Pr\"{u}fer gives an explicit bijection between spanning trees and sequences $(v_1,\ldots,v_{n-2})$ of vertices in $G$.\\
 	Another proof is of course using the matrix tree theorem, which reduces it to a simple determinant calculation.\\
@@ -401,9 +401,8 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{lemma}
 		\label{lem: Wnk recurrence}
-		Show that
+		For $n,k \ge 1$,
 		\[ W_{n,k} = (2k+2) W_{n-1,k} + (n-2k) W_{n-1,k-1}. \]
-		for $n,k \ge 1$.
 	\end{lemma}
 	\begin{proof}
 		We have
@@ -424,12 +423,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ Y_{n,k} = (2k+2)Y_{n-1,k} + (n-2(k-1)-2)Y_{n-1,k-1} = (2k+2) Y_{n-1,k} + (n-2k)Y_{n-1,k-1}. \]
 	\end{proof}
 
-	% \begin{problem}
-	% 	\begin{enumerate}
+	% \begin{exercise}
 	% 		\item Show that
 	% 		\[ W_{n,k} = \_ W_{n-1,k} + \_ W_{n-1,k-1}. \]
-	% 	\end{enumerate}
-	% \end{problem}
+	% \end{exercise}
 
 	% z = sec x, Dz = yz.
 
@@ -533,9 +530,31 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 		For a general graph, we come up with a tree $T_a(G)$ that depends on a ``starting vertex'' $a \in G$. We then show that the matching polynomial of our graph divides the matching polynomial of the tree.\\
 		To define $T_a$, we need paths starting at $a$ in $G$ without repeated vertices. These paths are the vertices of $T_a(G)$. There is an edge between two paths if one is an extension of another by a single vertex -- for example, the paths $abdc$ and $abdce$ would have an edge between them.\\
+		It is straightforward to see that $G$ is isomorphic to $T_a(G)$ for any vertex $a \in G$ if $G$ is a tree. Indeed, there is precisely one path from $a$ to any vertex $b$ in the tree.
 		% possibly insert diagram of the graph given at http://www.math.iitb.ac.in/~krishnan/phd-2022/matching-poly.pdf
 		The heart of the argument is the fact that for any $a\in G$ and $b \in T_a(G)$
 		\[ \frac{\Match_{G - a}(x)}{\Match_G(x)} = \frac{\Match_{T_a(G)- b}(x)}{\Match_{T_a(g)}(x)}. \]
+		To prove this, we use induction on the number of vertices $n$. The base case is $n=2$, which forces $G$ to be a tree. Now,
+		\begin{align*}
+			\frac{\Match_G(x)}{\Match_{G-a}(x)} &= \frac{x\Match_{G-a}(x) - \sum_{b\Leftrightarrow a} \Match_{G-a-b}(x)}{\Match_{G-a}(x)} \\
+				&= x - \sum_{b \Leftrightarrow a} \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)}.
+		\end{align*}
+		By the inductive hypothesis,
+		\[ \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)} =  \frac{\Match_{T_b(G-a)-b}(x)}{\Match_{T_b(G-a)}(x)}. \]
+		Now, very carefully observe that
+		\begin{align*}
+			T_b(G-a)-b &= \bigcup_{\substack{c \leftrightarrow b \\ c \ne a}} T_c(G-a) \\
+			T_a(G)-a &= \bigcup_{c\leftrightarrow a} T_c(G-a) \\
+			T_a(G)-a-ab &= \left(\bigcup_{\substack{c\leftrightarrow a \\ a \ne b}} T_c(G-a)\right) \cup \left(\bigcup_{\substack{c\leftrightarrow b \\ c \ne a}} T_c(G-a-b)\right) = \left(\bigcup_{\substack{c\leftrightarrow a \\ a \ne b}} T_c(G-a)\right) \cup \left(T_b(G-a)-b\right)
+		\end{align*}
+
+		We can then use \Cref{lem: matching polynomial basic results}(a) to get that
+		\begin{align*}
+			\Match_{T_a(G)-a}(x) &= \prod_{c\Leftrightarrow a} \Match_{T_c(G-a)}(x). \\
+			\Match_{T_a(G)-a-ab}(x) &= \prod_{\substack{c \leftrightarrow a \\ c \ne b}} \Match_{T_c(G-a)}(x) \times \Match_{T_b(G-a)-b}(x).		
+		\end{align*}
+		Dividing the two,
+		\[ \frac{\Match_{T_a(G)-a-b}(x)}{\Match_{T_a(G)-a}(x)} = \frac{\Match_{T_b(G-a)-b}(x)}{\Match} \]
 	\end{proof}
 
 	% QUIZ 1 ON 1 SEP (THURSDAY)
@@ -551,7 +570,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Show that for a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave.
 	\end{exercise}
 
-	The stirling numbers of the first and second kind are also log-concave.
+	The Stirling numbers of the first and second kind are also log-concave.
 
 	\begin{fprop}
 		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then the sequence of coefficients of $A$ is log-concave.
@@ -563,6 +582,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	The above has an even stronger version.
 
+	% add citation for this!
 	\begin{fprop}
 		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then $\left(a_i/\binom{n}{i}\right)_{i \ge 0}$ is log-concave. This is referred to as \emph{ultralogconcavity}.
 	\end{fprop}
@@ -575,6 +595,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	% convex hull of (01) vectors of matchings in R^{|E|} due to edmonds. this is linear program, so we can get a non-linear programming way. this gives a method to get a maximum weight matching!!! (place any weights you want on edges)
 	% counting number of matchings is #P-complete though.
+
 
 
 \subsection{Colorings}
@@ -618,15 +639,33 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{proof}
 	This leads to a method to find the chromatic polynomial of any graph. Since we know the chromatic polynomial of the empty graph, we can repeatedly delete and contract edges until from our graph until we get to an empty graph.\\
 	A natural question based on what we've done so far is: what do the coefficients of the chromatic polynomial mean?
-	We state some known results about the chromatic polynomial.
+	% We state some known results about the chromatic polynomial.
 
 	% http://www.math.iitb.ac.in/~krishnan/phd-2022/nbc.pdf
+	\begin{fdef}
+		Let $G = (V,E)$ be a graph and $<$ a total order on $E$. Given a cycle $C$, the corresponding \emph{broken circuit} $B$ is given by $E(C) \setminus \{e\}$, where $e$ is the smallest edge in $E(C)$ in the total order. A set $A$ of edges is said to be an \emph{NBC set} (no broken circuit) if $B \not\subseteq A$ for any broken circuit $B$. Also let
+		\[ \NBC_k(G) = \{ A \subseteq E : |A| = k \text{ and $A$ is an NBC set} \} \]
+		and $\nbc_k(G) = |\NBC_k(G)|$.\\
+	\end{fdef}
+
+	\begin{ftheo}
+		If $|V| = n$, then for any ordering of $E$,
+		\[ \Chrom_G(t) = \sum_{k=0}^n (-1)^k \nbc_k(G) t^{n-k}. \]	
+	\end{ftheo}
+	\begin{proof}
+		Fix some $t$. For each $A \in \NBC_k(A)$, consider the corresponding subgraph with edge set $A$. This describes a forest on $V$ with $n-k$ components. The number of functions $c : V \to [t]$ such that $c$ is constant on components of $A$ is $t^{n-k}$. Call such a coloring an $A$-improper coloring. For each such pair $(A,c)$, assign the sign $\sign(A,c) = (-1)^k$. Denote the set of all such pairs by $S$. \\
+		We would like to show that
+		\[ \sum_{(A,c) \in S} (-1)^{\sign(A)} = \Chrom_G(t) = c_t(G). \]
+		Observe that $(\emptyset,c) \in S$ for any proper coloring $c$, so it suffices to show that the summation of the remaining terms is $0$. Call this set of remaining terms $S'$. We shall come up with an sign-reversing involution $\iota$ on $S'$ to prove that the sum of signs is $0$.\\
+		Observe that given any $(A,c) \in S'$, there must exist edges that are monochromatic. Let $e$ be the smallest such edge, and let $\iota(A,c) = (A\triangle \{e\},c) = (A',c)$. It is evident that $\iota$ is sign-reversing, and it is an involution because $c$ does not change, so the smallest monochromatic edge $e$ does not either. We are done if we manage to show that the expression on the right is indeed in $S$.\\
+		If $A' = A \setminus \{e\}$, then it is clearly an NBC set and the coloring is $A'$-improper (since it is $A$-improper). If $A' = A \cup \{e\}$, since $e$ joined two vertices of the same color, $c$ is $A'$-improper. Suppose instead that $A'$ is not an NBC set. Then, it contains a broken circuit $B$ such that $e \in B$. Let $C$ be the cycle causing $B$ to be a broken circuit. Because $c$ is $A'$-improper, all vertices in $C$ have the same colour. However, $e$ is the smallest monochromatic edge in $C$, contradicting the fact that a smaller edge was removed to get $B$ and completing the proof.
+	\end{proof}
 
 	\begin{fcor}
 		$\Chrom_G$ is a monic polynomial with coefficients of alternating sign.
 	\end{fcor}
 
-	Another (not so natural) question is: is $\Chrom_G(x)$ meaningful for $x\not\in\N$?
+	Another question (that is not so natural) is: is $\Chrom_G(x)$ meaningful for $x\not\in\N$?
 
 	\begin{fdef}
 		Given a graph $G = (V,E)$, an \emph{acyclic orientation} of $G$ is obtained by replacing each edge $uv$ with one of the directed arcs $\vv{uv}$ or $\vv{vu}$.
@@ -650,4 +689,48 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{proof}
 
 	This idea of plugging negative values into polynomials of interest has led to the fascinating subject of combinatorial reciprocity. This includes the idea of ``running recurrences backward''. For example, we have the Fibonacci numbers defined by $f_0 = 0, f_1 = 1$, and $f_{n+1} = f_n + f_{n-1}$. Can we extend this to negative numbers such that $f_{m-1} = f_{m+1} - f_{m}$, where $m-1$ is negative. This leads to a signed version of the Fibonacci numbers, with $f_{-n} = (-1)^{n+1} f_n$ for $n > 0$.\\
-	The interested reader may look at \cite{crt} for more details.
+	The interested reader may look at \cite{crt} for more details.\\
+
+	Recall that
+	\[ \sum_{n \ge 0} f(n) x^n = \frac{x}{1-x-x^2}. \]
+
+
+\subsection{Increasing spanning forests}
+
+	\begin{fdef}[Increasing spanning forest]
+		Let $G = (V,E)$ and let the elements of $V$ be totally ordered. Let $F$ be a forest in $G$. Root each connected component $T$ of $F$ at its minimum vertex. $F$ is called an \emph{increasing spanning forest} if each tree is increasing, that is, the ``children'' of any vertex in the tree with respect to the rooting are larger than the vertex. Equivalently, any path from a root to a vertex in the tree is increasing.\\
+		Let $\isf_m(G)$ be the number of increasing spanning forests on $G$ with $m$ edges, and define
+		\[ \ISF_G(x) = \sum_{m \ge 0} (-1)^m \isf_m(G) x^{n-m}. \]
+	\end{fdef}
+
+	\begin{flem}
+		\label{lemma: isf}
+		Let $G = (V=[n],E)$ with the total order on $V$ being the natural order. For each $k \in V$, let
+		\[ E_k = \{ \{i,k\} \in E : i<k \}. \]
+		$F$ is an increasing spanning forest of $G$ iff it has at most one edge from each $E_k$. 
+	\end{flem}
+	Observe that the $E_k$ are mutually disjoint and their union is all of $E$.
+	\begin{proof}
+		Suppose that there are two edges $\{i,k\}$ and $\{j,k\}$ in some $E_k$ in an isf $E$, where $i<j$. Then, the root of the tree containing $\{i,j,k\}$ is at most $i$. In particular, one of the paths from this root to $i$ or $j$ must contain the subpath $ikj$ or $jki$, which contradicts the fact that it is increasing.\\
+		
+		On the other hand, let $F \subseteq E$ such that $|F \cap E_k| \le 1$ for each $k$.\\
+		First, let us show that $F$ is acyclic. Suppose instead that $v_1v_2\cdots v_rv_1$ is a cycle, and let $v_j = \max_{1 \le i \le r} v_i$. Then, both $v_{j-1}v_j$ and $v_{j+1}v_j$ are edges in $E_{v_j}$, contradicting the fact that $|F \cap E_{v_j}| \le 1$.\\
+		Now, we must show that it is increasing. Suppose instead that $v_1v_2\cdots v_r$ is a non-increasing path in $F$, with $v_1 \le v_i$ for $i > 1$, and that $v_{j-1} < v_j > v_{j+1}$. This again contradicts the fact that $|F \cap E_{v_j}| \le 1$, completing the proof.
+	\end{proof}
+
+	\begin{ftheo}
+		\label{theo: isf}
+		With $E_i$ defined as above,
+		\[ \ISF_G(x) = \sum_{i=1}^n (x-|E_i|). \]
+	\end{ftheo}
+	\begin{proof}
+		Let the polynomial on the right be $p$. Then, the coefficient of $x^{n-m}$ in $p$ is
+		\[ \sum_{\{i_1,\ldots,i_m\} \subseteq [n]} |E_{i_1}| |E_{i_2}| \cdots |E_{i_m}|. \]
+		This is precisely equal to $\isf_m(G)$ by \Cref{lemma: isf}.
+	\end{proof}
+
+	It has been observed that for certain classes of graphs and orderings, this is equal to the chromatic polynomial -- the interested reader may look at \cite{sagan} for more details.
+	% combinatorics: the art of counting -- bruce sagan(?)
+
+\subsection{Reciprocity Theorems}
+
