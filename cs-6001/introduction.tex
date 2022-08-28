@@ -50,7 +50,7 @@ Let us now look at an example of mechanism design.
 
 \subsection{Chess}
 
-	The reader is no doubt familiar with the rules of chess. It has two players, \emph{White} and \emph{Black}, with 16 pieces each. Each piece has some legal moves (the players' actions are these moves). The game starts with White and players take turns. White wins if they capture Black's king, and Black wins they capture White's king. There are a couple of conditions under which a draw can occur, which we do not detail.\\
+	The reader is no doubt familiar with the rules of chess. It has two players, \emph{White} and \emph{Black}, with 16 pieces each. Each piece has some legal moves (the players' actions are these moves). The game starts with White and players take alternating turns. White wins if they capture Black's king, and Black wins they capture White's king. There are a couple of conditions under which a draw can occur, which we do not detail.\\
 	There are numerous natural questions that arise.
 	First and foremost, does White (or Black) have a winning strategy? A winning strategy is a plan of moves such that it wins irrespective of the moves performed by Black. Alternatively, is it possible to guarantee a draw? It is possible for none of these exist.\\
 
@@ -74,28 +74,28 @@ Let us now look at an example of mechanism design.
 
 	If any such strategy was known, the game would become boring.
 
-	\begin{proof}
+	\begin{proof}[Proof sketch]
 		Each vertex of the game tree is a game situation. Denote by $\Gamma(x)$ the subtree rooted at $x$ (including $x$ itself) and by $n_x$ the number of vertices in $\Gamma(x)$. $n_x = 1$ implies that $x$ is a terminal vertex.\\
 		Using induction on $n_x$, we prove that one of the three statements must hold at any game situation. The theorem is clearly true for $n_x = 1$. Suppose $x$ is a vertex with $n_x > 1$. By the inductive hypothesis, for all $y \in \Gamma(y) \setminus \{x\}$, the statement holds ($n_y < n_x$). Let $C(x)$ be the vertices reachable from $x$ in one step, and assume wlog that it is White's turn.
 		\begin{enumerate}[label=(\alph*)]
 			\item If there exists $y_0 \in C(x)$ such that (1) is true, then (1) is true at $x$ as well.
 			\item If (2) is true for all $y \in C(x)$, then Black will win irrespective of White's move.
 			\item Otherwise, because (a) does not hold, White does not have a winning strategy for any $y \in C(x)$. As a result, for every $y \in C(x)$, either Black has a winning strategy or both have a draw-guaranteeing strategy.\\
-			Because (b) does not hold, there is some $y \in C(x)$ where Black does not have a winning strategy. By the preceding argument, both players must have a draw-guaranteeing strategy at this node.
+			Because (b) does not hold, there is some $y \in C(x)$ where Black does not have a winning strategy. By the preceding argument, both players must have a draw-guaranteeing strategy at this node. \qedhere
 		\end{enumerate}
 	\end{proof}
 
 	\begin{remark}
-		The above proof is technically incorrect since the game tree for chess is infinite, so $\Gamma(x)$ need not be general. This issue can be fixed through some clever manipulation of the ``cycles'' in the game tree to make the graph finite, but we do not go into more detail on this.
+		The above proof is technically incorrect since the game tree for chess is infinite, so $\Gamma(x)$ need not be finite. This issue can be fixed through some clever manipulation of the ``cycles'' in the game tree to make the graph finite, but we do not go into more detail on this.
 	\end{remark}
 
 \subsection{Normal form games}
 
-	Normal form is a representation technique for games. The set $N = \{1,\ldots,n\}$ is the set of players. $S_i$ is the set of strategies for player $i$. A particular strategy is denoted $s_i \in S_i$. The set of ``strategy profiles'' is $S = \bigtimes_{i \in N} S_i$, with specific elements $s = (s_1,\ldots,s_n) \in S$. A strategy profile without $i$ is $s_{-i} = (s_1,\ldots,s_{i-1},s_{i+1},\ldots,s_n)$. $u_i : S \to \R$ is the utility function of player $i$.\\
-	The \emph{normal form game} (NFG) representation of a game is the tuple $\langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$. This is the representation we shall use for the remainder of the course. \\
+	Normal form is a representation technique for games. The set $N = \{1,\ldots,n\}$ is the set of players. $S_i$ is the set of strategies for player $i$. A particular strategy is denoted $s_i \in S_i$. The set of \emph{strategy profiles} is $S = \bigtimes_{i \in N} S_i$, with specific elements $s = (s_1,\ldots,s_n) \in S$. A strategy profile without $i$ is $s_{-i} = (s_1,\ldots,s_{i-1},s_{i+1},\ldots,s_n)$. $u_i : S \to \R$ is the utility function of player $i$.\\
+	The \emph{normal form game} (NFG) representation of a game is the tuple $\langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$.\\
 	If $S_i$ is finite for all $i \in N$, the game is said to be a \emph{finite} game.\\
 
-	As mentioned earlier, a player is rational if they pick actions that maximize their utility. A player is intelligent if they know the rules of the game perfectly, and picks actions assuming that all other players are rational and intelligent.\\
+	As mentioned earlier, a player is rational if they pick actions that maximize their utility. A player is intelligent if they know the rules of the game perfectly, and pick actions assuming that all other players are rational and intelligent.\\
 
 	A fact is said to be \emph{common knowledge} if
 	\begin{enumerate}
@@ -103,7 +103,7 @@ Let us now look at an example of mechanism design.
 		\item the fact that ``all players know the fact'' is also common knowledge.
 	\end{enumerate}
 
-	\begin{fex}
+	\begin{fex}[Propagation of common knowledge]
 		There is an isolated island (with a hundred people, say) where all inhabitants have eye color either blue or black. There is no reflecting surface on the island (people cannot figure out their own eye color) and nobody can communicate with each other.\\
 		One day, a truth-telling god comes to the island and declares that all blue-eyed people are bad for the island and must leave as soon as possible. He also says that there is at least one blue-eyed person on the island. The inhabitants, being deeply devout, do listen to him and leave at the end of the day if they discover that their eyes are blue. In this setting, the fact that there is at least one blue-eyed person on the island is common knowledge. \\
 
@@ -117,7 +117,7 @@ Let us now look at an example of mechanism design.
 	\begin{center}
 	\begin{tabular}{|c||c|c|c|}
 		\hline
-		1, 2 & \textsf{L} & \textsf{M} & \textsf{R} \\
+		$1, 2$ & \textsf{L} & \textsf{M} & \textsf{R} \\
 		\hline \hline
 		\textsf{U} & $1, 0$ & $1,3$ & $3,2$ \\
 		\hline
@@ -126,14 +126,14 @@ Let us now look at an example of mechanism design.
 	\end{tabular}
 	\end{center}
 
-	Observe that player \textsf{2} has no reason to ever play R. Indeed, irrespective of what player \textsf{1} chooses, they can increase their payoff by switching to M instead. In such a scenario, we say that R is dominated by M.\\
+	Observe that player \textsf{2} has no reason to ever play \textsf{R}. Indeed, no matter what player $1$ chooses, they can increase their payoff by switching to \textsf{M} instead. In such a scenario, we say that \textsf{R} is dominated by \textsf{M}.\\
 
 	\begin{fdef}
-		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{strictly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
+		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{weakly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
 		\[ u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}). \]
 
 		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{strictly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
-		\[ u_i(s_i,s_{-i}) > u_i(s_i',s_{-i}) \]
+		\[ u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}) \]
 		and in addition, there exists some $\tilde{s}_{-i} \in S_{-i}$ such that
 		\[ u_i(s_i,\tilde{s}_{-i}) > u_i(s_i',\tilde{s}_{-i}). \]
 	\end{fdef}
