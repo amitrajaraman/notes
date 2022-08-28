@@ -1,6 +1,6 @@
 \section{Long-form games}
 
-Thus far, we have only looked at ``single-step'' games in NFGs. Not all games can be represented by this however, with an obvious example that we discussed being chess.
+Thus far, we have only looked at ``single-step'' games in NFGs. Not all games can be represented by this however, with an obvious example that we have discussed being chess.
 
 \subsection{Perfect information extensive form games}
 
@@ -31,7 +31,50 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 	\end{fdef}
 
 	It turns out that we can transform EFGs to NFGs! Indeed, the above definition explicitly describes the strategy set of each player, and associated to any tuple of strategies for all the players, we can determine the payoff.\\
-	This conversion has a massive explosion in size however, and equilibria in the converted NFG do not necessarily make sense in the context of the original EFG. % example at start of module 21
+	This conversion has a massive explosion in size however, and equilibria in the converted NFG do not necessarily make sense in the context of the original EFG.
+	% example at start of module 21
+
+	\begin{fex}[PSNEs in PIEFGs]
+		Consider the following game with two players, red and blue.
+		\begin{center}
+		\begin{tikzpicture}
+			\tikzstyle{hollow node}=[circle,draw,inner sep=1.5]
+			\tikzstyle{solid node}=[circle,draw,inner sep=1.5,fill=black]
+			\tikzset{
+				red node/.style={circle,draw=red,fill=red,inner sep=1.5},
+				blue node/.style={circle,draw=blue,fill=blue,inner sep=1.5}
+			}
+			\node(0)[red node]{}
+				[sibling distance=30mm]
+				child{node[blue node]{}
+					[sibling distance=20mm]
+					child{node[hollow node]{}
+						node[below]{\small$3,8$}
+						edge from parent node[above left]{\small$C$}}
+					child{node[hollow node]{}
+						node[below]{\small$8,3$}
+						edge from parent node[above right]{\small$D$}}
+					edge from parent node[above left]{\small$A$}}
+				child{node[blue node]{}
+					[sibling distance=20mm]
+					child{node[hollow node]{}
+						node[below]{\small$5,5$}
+						edge from parent node[above left]{\small$E$}}
+					child{node[red node]{}
+						child{node[hollow node]{}
+							node[below]{\small$2,10$}
+							edge from parent node[above left]{\small$G$}}
+						child{node[hollow node]{}
+							node[below]{\small$1,0$}
+							edge from parent node[above right]{\small$H$}}
+						edge from parent node[above right]{\small$F$}} 
+					edge from parent node[above right]{\small$B$}};
+		\end{tikzpicture}
+		\end{center}
+		At the node BF, red has no reason to play $H$ since choosing $G$ results in a higher payoff. However, it is still seen that $(AH,CF)$ (at each node, the player chooses whichever of these actions is available) is a PSNE!\\
+		This is a consequence of the fact that this strategy profile never even reaches the node where red chooses $G$ or $H$, so it never comes into play.
+	\end{fex}
+
 	Henceforth, we talk about PSNEs of EFGs as PSNEs of their NFG conversion.
 
 	\begin{fdef}
@@ -61,7 +104,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 			$\mathsf{bestUtil}_{P(h)} \gets -\infty$\;
 			\ForEach{$a \in \mathcal{X}(h)$} {
 				$\mathsf{utilAtChild}_{P(h)} \gets \backind{$(h,a)$}$\;
-				\If{$\mathsf{bestUtil}_{P(h)} > \mathsf{bestUtil}_{P(h)}$} {
+				\If{$\mathsf{utilAtChild}_{P(h)} > \mathsf{bestUtil}_{P(h)}$} {
 					$\mathsf{bestUtil}_{P(h)} \gets \mathsf{utilAtChild}_{P(h)}$\;
 					$\mathsf{bestAction}_{P(h)} \gets a$\;
 				}
@@ -72,8 +115,8 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 	\end{algorithm}
 
 	The idea of subgame perfection is intrinsically tied to the above algorithm.\\
-	The issue however is that we are essentially parsing the entire tree, so the algorithm is very computationally expensive. Further, some criticize the idea of SPNEs for assuming that the cognitive limit of the players is infinite (which is not realistic).\\
-	It is very easy to find an SPNE in simple games such as tic-tac-toe.\\
+	The issue however is that we are essentially parsing the entire tree, so the algorithm is computationally very expensive. Further, some criticize the idea of SPNEs for assuming that the cognitive limit of the players is infinite (which is not realistic).\\
+	It is easy to find an SPNE in simple games such as tic-tac-toe.\\
 
 	\begin{fex}[Centipede game]
 		Players $1$ and $2$ alternate, and each can play a move from $\{\mathsf{take},\mathsf{push}\}$, with a maximum of $N$ rounds, say. The game terminates when $\mathsf{take}$ is played for the first time or the limit of $N$ rounds if $\mathsf{take}$ is never played.\\
