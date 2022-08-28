@@ -129,15 +129,15 @@ Let us now look at an example of mechanism design.
 	Observe that player \textsf{2} has no reason to ever play \textsf{R}. Indeed, no matter what player $1$ chooses, they can increase their payoff by switching to \textsf{M} instead. In such a scenario, we say that \textsf{R} is dominated by \textsf{M}.\\
 
 	\begin{fdef}
-		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{weakly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
-		\[ u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}). \]
-
 		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{strictly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
+		\[ u_i(s_i,s_{-i}) > u_i(s_i',s_{-i}). \]
+
+		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{weakly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
 		\[ u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}) \]
 		and in addition, there exists some $\tilde{s}_{-i} \in S_{-i}$ such that
 		\[ u_i(s_i,\tilde{s}_{-i}) > u_i(s_i',\tilde{s}_{-i}). \]
 	\end{fdef}
-	So, in the earlier example R is strictly dominated and D is weakly dominated.\\
+	So, in the earlier example \textsf{R} is strictly dominated and \textsf{D} is weakly dominated.\\
 	There is no reason for a rational player to ever play a (weakly or strictly) dominated strategy.
 
 	\begin{fdef}
@@ -149,9 +149,11 @@ Let us now look at an example of mechanism design.
 	Let us give another example of this.
 
 	\begin{fex}
-		Suppose there are two players having values $v_1,v_2$ respectively. Each player can choose a number in $[0,M]$, where $M \gg v_1,v_2$. The player who quotes the larger number wins the object (with ties being broken in favour of player \textsf{1}, say), and pays the losing player's chosen number. The utility of the winning player is their value $v_i$ minus their payment (the amount bid by the other player), and the utility of the losing player is $0$.\\
+		Suppose there are two players having ``values'' $v_1,v_2$ respectively. Each player can choose a number in $[0,M]$, where $M \gg v_1,v_2$. The player who quotes the larger number wins the object (with ties being broken in favour of player $1$, say), and pays the losing player's chosen number. The utility of the winning player is their value $v_i$ minus their payment (the amount bid by the other player), and the utility of the losing player is $0$.\\
 		As a NFG representation, $N = \{1,2\}$, $S_1 = S_2 = [0,M]$, and
 		\[ u_1(s_1,s_2) = \begin{cases} v_1 - s_2, & s_1 \ge s_2, \\ 0, & \text{otherwise,} \end{cases} \text{ and } u_1(s_1,s_2) = \begin{cases} v_2 - s_1, & s_1 < s_2, \\ 0, & \text{otherwise,} \end{cases} \]
 		It turns out that the strategy $s_i$ where player $i$ chooses $v_i$ is a weakly dominant strategy! Let us check this for player $1$.\\
 		Suppose that $s_1' > v_1$ is in $S_1$ and $s_2 \in S_2$. We would like to show that $u_1(s_1,s_2) \ge u_1(s_1',s_2)$. If $s_2 > s_1'$, both payoffs are zero. If $s_2 \le s_1 < s_1'$, then both payoffs are equal to the same value. The remaining case is when $s_1 \le s_2 \le s_1'$. The payoff for $s_1$ is zero, but the payoff for $s_1'$ is non-positive since we are paying more than we value the item.
 	\end{fex}
+
+\clearpage
