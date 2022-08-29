@@ -8,9 +8,9 @@
 \usepackage{enumitem}
 \usepackage[tmargin=1in, bmargin=1in, lmargin=0.75in, rmargin=0.75in]{geometry}
 \usepackage[colorlinks]{hyperref}
-\usepackage{tikz}
+\usepackage{pgf,tikz}
 \usepackage{cleveref}
-\usetikzlibrary{arrows}
+\usetikzlibrary{arrows,automata}
 \usepackage{mathtools}
 \usepackage[framemethod=tikz]{mdframed}
 \usepackage{doi}
@@ -26,11 +26,11 @@
 \usepackage{tcolorbox}
 \usepackage{tikz-cd}
 \usepackage{scalerel}
-% \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
-% \newcommand\mycommfont[1]{\footnotesize\ttfamily{#1}}
-% \SetCommentSty{mycommfont}
-% \SetArgSty{textup}
-% \usepackage[square,numbers]{natbib}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\newcommand\mycommfont[1]{\footnotesize\ttfamily{#1}}
+\SetCommentSty{mycommfont}
+\SetArgSty{textup}
+\usepackage[square,numbers]{natbib}
 
 \usepackage{titlesec}
 \titleformat{\section}[block]{\sffamily\Large\filcenter\bfseries}{\S\thesection.}{0.25cm}{\Large}
@@ -71,7 +71,7 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\F}{\mathbb{F}}
 \newcommand{\E}{\mathbb{E}}
-\newcommand{\indic}{\mathbb{1}}
+\newcommand{\indic}{\mathbbm{1}}
 \DeclareMathOperator{\Var}{Var}
 \newcommand{\bigplus}{\scalerel*{+}{\textstyle\sum}}
 \newcommand{\im}{\operatorname{im}}
