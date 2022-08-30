@@ -193,9 +193,21 @@
 			Let $(E_n)$ be the Euler numbers -- $E_n$ is the number of \href{https://en.wikipedia.org/wiki/Alternating_permutation}{alternating permutations} of $[n]$. Show that its egf
 			\[ E(x) = \sum_{n \ge 0} E_n \frac{x^n}{n!} = \sec x + \tan x. \]
 		\end{problem}
-		% \begin{solution*}
-			% Show that $E_{n+1} = \sum \binom{n}{k} E_k E_{n-k}$
-		% \end{solution*}
+		\begin{solution*}
+			Suppose that $n+1$ is at the $(k+1)$th position of an alternating permutation in $\mathfrak{S}_{n+1}$ (note that $k$ cannot be $0$). We also have $E_0 = 1$. The section before this must be an alternating permutation of some $k$-subset $S$ of $[n]$, and the section after this must also be an alternating permutation of the $(n-k)$-subset $[n] \setminus S$. Therefore,
+			\[ E_{n+1} = \sum_{k=1}^{n} \binom{n}{k} E_k E_{n-k}. \]
+			% Using Theorem 5.1.4 in \cite{ec2} wtih $g(k) = \indic_{k = 2}$,
+			% \[ E(x) =  \]
+			% \begin{align*}
+			% 	E_{n+1} &= \sum_{k=1}^{n} \binom{n}{k} E_k E_{n-k}. \\
+			% 	\frac{E_{n+1}}{(n+1)!} &= \frac{1}{n+1} \sum_{k=1}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}
+			% \end{align*}
+			% Now, observe that the coefficient of $x^n$ in $E(x)^2$ is $\sum_{k=0}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}$. Denoting this coefficient by $F_n$,
+			% \begin{align*}
+			% 	\frac{E_{n+1}}{(n+1)!} &= \frac{1}{n+1} \left(F_n - \frac{E_n}{n!}\right) \\
+			% 	\sum_{n \ge 0} \frac{E_{n+1}}{(n+1)!} x^{n+1} &= x \sum_{n \ge 0} \frac{1}{n+1} \left(F_n - \frac{E_n}{n!}\right) x^n  \\
+			% \end{align*}
+		\end{solution*}
 
 		\begin{problem}
 			\label{problem: three term recurrence matching}
