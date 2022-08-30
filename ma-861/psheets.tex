@@ -258,8 +258,26 @@
 		The idea of the above proof is similar to that of the Alon-Boppana bound, and the $2\sqrt{d-1}$ bound occurs in the definition of \emph{Ramanujan graphs}. For more details, the interested reader may read Theorem 2.27 and following discussion in the author's \href{https://amitrajaraman.github.io/notes/ma-5109/main.pdf}{Topics in Graph Theory notes}.
 
 		\begin{problem}
+			\label{binomial recurrence backwards}
 			Show that when one runs the recurrence relation of the binomial coefficients backwards, we get signed versions of the binomial coefficients.
 		\end{problem}
+		\begin{solution*}
+			The usual binomial recurrence is
+			\[ \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}. \]
+			For negative coefficients, we have
+			\[ \binom{-(n+1)}{k} = \binom{-n}{k} - \binom{-(n+1)}{k-1}. \]
+			We have $\binom{0}{k} = 1$ if $k = 0$ and $0$ otherwise, and also that $\binom{-n}{0} = 1$.
+			For $n\ge 0$, let $f_n(x) = \sum_{k \ge 0} \binom{-n}{k}$. Then,
+			\begin{align*}
+				\sum_{k \ge 1} \binom{-(n+1)}{k} x^k &= \sum_{k \ge 1} \binom{-n}{k} x^k - x \sum_{k \ge 1} \binom{-(n+1)}{k-1} x^{k-1} \\
+				f_{n+1}(x)-1 &= f_n(x)-1 - xf_{n+1}(x) \\
+				f_{n+1}(x) &= \frac{1}{1+x} f_n(x) \\
+				f_{n}(x) &= \frac{1}{(1+x)^n}.
+			\end{align*}
+			Finally,
+			\[ \frac{1}{(1+x)^n} = \sum_{k \ge 0} (-1)^k \binom{n+k}{k} x^k, \]
+			so $\binom{-n}{k} = (-1)^k \binom{n+k}{k}$.
+		\end{solution*}
 
 		\begin{problem}
 			A restricted growth function (RGF) of length $n$ is a sequence $w_1,w_2,\ldots,w_n$ of positive integers such that $w_1 = 1$ and $w_i \le 1 + \max(w_1,\ldots,w_{i-1})$ when $i \ge 2$. Determine the number of RGFs of length $n$.

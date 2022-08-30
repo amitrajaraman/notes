@@ -129,11 +129,11 @@
 			\hline
 			& \textsf{L} & \textsf{C} & \textsf{R} \\
 			\hline\hline
-			\textsf{T} & 1,2 & 2,3 & 0,3 \\
+			\textsf{T} & $1,2$ & $2,3$ & $0,3$ \\
 			\hline
-			\textsf{M} & 2,2 & 2,1 & 3,2 \\
+			\textsf{M} & $2,2$ & $2,1$ & $3,2$ \\
 			\hline
-			\textsf{B} & 2,0 & 0,0 & 1,0 \\ \hline
+			\textsf{B} & $2,0$ & $0,0$ & $1,0$ \\ \hline
 		\end{tabular}
 		\end{center}
 		The initial maxmin values for the two players are $2$ for player $1$ and $0$ for player $2$, but after we eliminate \textsf{B}, the values go to $2$ and $2$.\\
@@ -141,7 +141,7 @@
 	\end{fex}
 
 	\begin{ftheo}
-		Consider an NFG $G = \langle N , (S_i)_{i \in N} , (u_i)_{i \in N}\rangle$. Let $\hat{s}_j \in S_j$ be a dominated strategy, and $\hat{G}$ be the residual game after removing $\hat{s}_j$. The maxmin value of player $j$ in $\hat{G}$ is equal to that in $\hat{G}$.
+		Consider an NFG $G = \langle N , (S_i)_{i \in N} , (u_i)_{i \in N}\rangle$. Let $\hat{s}_j \in S_j$ be a dominated strategy, and $\hat{G}$ be the residual game after removing $\hat{s}_j$. The maxmin value of player $j$ in $\hat{G}$ is equal to that in $G$.
 	\end{ftheo}
 
 	The idea is that the eliminated strategy cannot be the unique maxmin strategy in $G$ since it is dominated.
