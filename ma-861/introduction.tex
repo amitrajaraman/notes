@@ -649,6 +649,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{fdef}
 
 	\begin{ftheo}
+		\label{theo: coeffs of chrom poly nbc}
 		If $|V| = n$, then for any ordering of $E$,
 		\[ \Chrom_G(t) = \sum_{k=0}^n (-1)^k \nbc_k(G) t^{n-k}. \]	
 	\end{ftheo}
@@ -674,6 +675,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{ftheo}
 		$\Chrom_G(-1) = (-1)^n a(G)$, where $n = |V(G)|$ and $a(G)$ is the number of acyclic orientations of $G$.
 	\end{ftheo}
+	Also observe that by \Cref{theo: coeffs of chrom poly nbc}, $a(G)$ is equal to the number of NBC sets in $G$.
 	\begin{proof}
 		Let $e=\{u,v\}$ be an arbitrary edge in the graph. Using the \nameref{prop: deletion contraction recurrence}, it suffices to show that
 		\[ a(G) = a(G-e) + a(G\setminus e). \]
@@ -690,10 +692,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	This idea of plugging negative values into polynomials of interest has led to the fascinating subject of combinatorial reciprocity. This includes the idea of ``running recurrences backward''. For example, we have the Fibonacci numbers defined by $f_0 = 0, f_1 = 1$, and $f_{n+1} = f_n + f_{n-1}$. Can we extend this to negative numbers such that $f_{m-1} = f_{m+1} - f_{m}$, where $m-1$ is negative. This leads to a signed version of the Fibonacci numbers, with $f_{-n} = (-1)^{n+1} f_n$ for $n > 0$.\\
 	The interested reader may look at \cite{crt} for more details.\\
-
-	Recall that
-	\[ \sum_{n \ge 0} f(n) x^n = \frac{x}{1-x-x^2}. \]
-
+	We continue the discussion of this in \Cref{reciprocity theorems}.
 
 \subsection{Increasing spanning forests}
 
@@ -733,4 +732,14 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% combinatorics: the art of counting -- bruce sagan(?)
 
 \subsection{Reciprocity Theorems}
+\label{reciprocity theorems}
 
+	Recall that
+	\[ \frac{1}{(1-x)^{n+1}} = \sum_{k \ge 0} \binom{n+k}{k} x^k. \]
+	
+	We encourage the reader to try \Cref{****} to get that on running the binomial recurrence backwards (for negative $n$), one gets
+	\[ \binom{-(n+1)}{k} = (-1)^k \binom{n+k}{k}. \]
+
+	\begin{exercise}
+		Run the recurrence of $S_{n,k}$ backwards (to negative $n,k$).
+	\end{exercise}

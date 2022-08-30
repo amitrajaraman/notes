@@ -190,11 +190,11 @@
 	\subsection{Problem Sheet 3}
 
 		\begin{problem}
-			Let $(E_n)$ be the Euler numbers. Show that its egf
+			Let $(E_n)$ be the Euler numbers -- $E_n$ is the number of \href{https://en.wikipedia.org/wiki/Alternating_permutation}{alternating permutations} of $[n]$. Show that its egf
 			\[ E(x) = \sum_{n \ge 0} E_n \frac{x^n}{n!} = \sec x + \tan x. \]
 		\end{problem}
 		% \begin{solution*}
-			
+			% Show that $E_{n+1} = \sum \binom{n}{k} E_k E_{n-k}$
 		% \end{solution*}
 
 		\begin{problem}
@@ -262,14 +262,20 @@
 		\end{problem}
 
 		\begin{problem}
-			A restricted growth function (RGF) of length $n$ is a sequence $w_1,w_2,\ldots,w_n$ of positive integers such that $w_1 = 1$ and $w_i \le 1 + \max(w_1,\ldots,w_{i-2})$ when $i \ge 2$. Determine the number of RGFs of length $n$.
+			A restricted growth function (RGF) of length $n$ is a sequence $w_1,w_2,\ldots,w_n$ of positive integers such that $w_1 = 1$ and $w_i \le 1 + \max(w_1,\ldots,w_{i-1})$ when $i \ge 2$. Determine the number of RGFs of length $n$.
 		\end{problem}
+		\begin{solution*}
+			Let $r_{n,k}$ be the number of RGFs $w_1,\ldots,w_n$ of length $n$, where $\max w_i = k$. Then,
+			\[ r_{n,k} = r_{n-1,k-1} + k r_{n-1,k}. \]
+			We also have $r_{1,1} = 1$ and $r_{1,k} = 0$ for $k > 1$. Since the recurrence is identical to that of the Stirling numbers of the second kind and the base values coincide as well, $r_{n,k} = S_{n,k}$. So, the number of RGFs of length $n$ is $\sum_k S_{n,k} = B_n$, the $n$th Bell number.
+		\end{solution*}
 
 		\begin{problem}
 			Consider a staircase board $\mathsf{St}_n$ with $n$ columns where the $i$th column has $i-1$ cells all stacked from the same height. We place ``rooks'' on this board and recall that rooks can travel on the same row or column. Two rooks can attack each other if they are on the same row or column and a placement of rooks is said to be non-attacking if no two rooks in the placement can attack each other. Determine the number of ways to place $n-k$ non-attacking rooks in $\mathsf{St}_n$.
 		\end{problem}
-		% \begin{solution*}
-		% 	Denote by $\mathsf{Rook}_{n,n-k}$ the desired quantity. Let $P$ be a placement of $r$ non-attacking rooks. Suppose that in $P$, there are $0 < t \le r$ rooks on the diagonal cells of the form $(i,i)$. Observe that the unattacked positions now correspond to $\mathsf{St}_{n-t}$. That is, the placement of the remaining $n-t$ rooks can be thought of as a placement on $\mathsf{St}_{n-t}$. If there are no rooks on the diagonal, the placement is just one on $\mathsf{St}_{n-1}$. As a result, we have
-		% 	\[ \mathsf{Rook}_{n,r} = \mathsf{Rook}_{n-1,r} + \sum_{t=1}^{r} \binom{n}{t} \mathsf{Rook}_{n-t,r-t}. \]
-		% 	We take $\mathsf{Rook}_{k,0} = 1$. 
-		% \end{solution*}
+		\begin{solution*}
+			Denote by $\mathsf{Rook}_{n,k}$ the desired quantity.\\
+			If there is no rook in the final column, we get $\mathsf{Rook}_{n-1,k-1}$ placements, and if there is a rook, we have $\mathsf{Rook}_{n-1,k} \cdot (n-1 - (n-k-1)) = k \mathsf{Rook}_{n-1,k}$ -- placing the $n-k-1$ rooks on the rest of the board, we get $k$ possible positions to place the final rook in the $n$th column. In all, we have
+			\[ \mathsf{Rook}_{n,k} = \mathsf{Rook}_{n-1,k-1} + k \mathsf{Rook}_{n-1,k}. \]
+			Note that this is the same as the recurrence for Stirling numbers of the second kind! Verifying that the base values are the same, we get $\mathsf{Rook}_{n,k} = S_{n,k}$.
+		\end{solution*}
