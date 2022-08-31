@@ -73,8 +73,8 @@
 			\[ g(r) = \begin{cases} 1, & r = k, \\ 0, & \text{otherwise.} \end{cases} \]
 			Observe that
 			\[ s(n,k) = \sum_{\pi \in \mathfrak{S}_n} g(r), \]
-			where $C_1,\ldots,C_r$ are the cycles in $\pi$. We now use Corollary 5.1.8 in \cite{ec2} with $f$ being the function that takes the constant $1$. We have $E_g(x) = \frac{1}{(k-1)!} x^k$, so we get that
-			\[ f_k(x) = \frac{1}{(k-1)!} \left( \sum_{n \ge 1} \frac{x^n}{n} \right)^k = \frac{1}{(k-1)!} \ln \left( \frac{1}{1-x} \right)^k. \]
+			where $C_1,\ldots,C_r$ are the cycles in $\pi$. We now use Corollary 5.1.8 in \cite{ec2} with $f$ being the function that takes the constant $1$. We have $E_g(x) = \frac{1}{k!} x^k$, so we get that
+			\[ f_k(x) = \frac{1}{k!} \left( \sum_{n \ge 1} \frac{x^n}{n} \right)^k = \frac{1}{k!} \ln \left( \frac{1}{1-x} \right)^k. \]
 		\end{solution*}
 
 		\begin{problem}
@@ -94,7 +94,7 @@
 		\end{problem}
 		\begin{solution*}
 			We shall count the partitions of $[n+1]$ into exactly $k+1$ parts based on the part $n+1$ is in. We have
-			\[ S(n+1,k+1) = \sum_{S \subseteq [n]} S(|[n]\setminus S|,k) = \sum_{m=0}^n \binom{n}{m} S(n-m,k) = \sum_{m=0}^n \binom{n}{m} S(m,k). \]
+			\[ S(n+1,k+1) = \sum_{T \subseteq [n]} S(|[n]\setminus T|,k) = \sum_{m=0}^n \binom{n}{m} S(n-m,k) = \sum_{m=0}^n \binom{n}{m} S(m,k). \]
 		\end{solution*}
 
 		% \begin{problem}
@@ -194,19 +194,23 @@
 			\[ E(x) = \sum_{n \ge 0} E_n \frac{x^n}{n!} = \sec x + \tan x. \]
 		\end{problem}
 		\begin{solution*}
-			Suppose that $n+1$ is at the $(k+1)$th position of an alternating permutation in $\mathfrak{S}_{n+1}$ (note that $k$ cannot be $0$). We also have $E_0 = 1$. The section before this must be an alternating permutation of some $k$-subset $S$ of $[n]$, and the section after this must also be an alternating permutation of the $(n-k)$-subset $[n] \setminus S$. Therefore,
-			\[ E_{n+1} = \sum_{k=1}^{n} \binom{n}{k} E_k E_{n-k}. \]
-			% Using Theorem 5.1.4 in \cite{ec2} wtih $g(k) = \indic_{k = 2}$,
-			% \[ E(x) =  \]
-			% \begin{align*}
-			% 	E_{n+1} &= \sum_{k=1}^{n} \binom{n}{k} E_k E_{n-k}. \\
-			% 	\frac{E_{n+1}}{(n+1)!} &= \frac{1}{n+1} \sum_{k=1}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}
-			% \end{align*}
-			% Now, observe that the coefficient of $x^n$ in $E(x)^2$ is $\sum_{k=0}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}$. Denoting this coefficient by $F_n$,
-			% \begin{align*}
-			% 	\frac{E_{n+1}}{(n+1)!} &= \frac{1}{n+1} \left(F_n - \frac{E_n}{n!}\right) \\
-			% 	\sum_{n \ge 0} \frac{E_{n+1}}{(n+1)!} x^{n+1} &= x \sum_{n \ge 0} \frac{1}{n+1} \left(F_n - \frac{E_n}{n!}\right) x^n  \\
-			% \end{align*}
+			Let $n \ge 1$. Suppose that $n+1$ is at the $(k+1)$th position of an alternating permutation in $\mathfrak{S}_{n+1}$ for some odd $k$. The section before this as well as the section after this must be equal to the alternating permutations of some subset (of size $k$ or $n-k$) of $[n]$. Consequently,
+			\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ odd}}} \binom{n}{k} E_k E_{n-k}. \]
+			Repeating the same activity but considering the placement of $1$ instead (observe that the number of ``reverse-alternating'' permutations which start with a decrease instead of an increase is equal to the number of alternating permutations) gives that
+			\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ even}}} \binom{n}{k} E_k E_{n-k}. \]
+			Therefore,
+			\begin{align*}
+				2E_{n+1} &= \sum_{k=0}^n \binom{n}{k} E_k E_{n-k} \\
+				2(n+1)\frac{E_{n+1}}{(n+1)!} &= \sum_{k=0}^{n} \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}.
+			\end{align*}
+			Now, observe that the coefficient of $x^n$ in $E(x)^2$ is $F_n = \sum_{k=0}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}$. As a result,
+			\begin{align*}
+				2 (n+1) \frac{E_{n+1}}{(n+1)!} &= F_n \\
+				2 \sum_{n \ge 1} (n+1) x^n \frac{E_{n+1}}{(n+1)!} &= \sum_{n \ge 1} x^n F_n \\
+				2(E'(x)-1) &= E(x)^2-1 \\
+				2E'(x) &= E(x)^2+1
+			\end{align*}
+			Solving this gives $E(x) = \sec x + \tan x$.
 		\end{solution*}
 
 		\begin{problem}
@@ -239,7 +243,7 @@
 			For $n \ge 1$, show that $\Match_{C_n}(2x) = 2T_n(x)$.
 		\end{problem}
 		\begin{solution*}
-			The above is easily verified for $n=1,2$, and we saw in \Cref{problem: three term recurrence matching} that $\Match_{C_n}$ satisfies the same recurrence as $2T_n$, which is the same as that of $T_n$ \Cref{prop: recurrence of Tn}.
+			The above is easily verified for $n=1,2$, and we saw in \Cref{problem: three term recurrence matching} that $\Match_{C_n}$ satisfies the same recurrence as $2T_n$, which is the same as that of $T_n$ from \Cref{prop: recurrence of Tn}.
 		\end{solution*}
 
 		\begin{problem}

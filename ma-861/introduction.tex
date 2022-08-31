@@ -45,7 +45,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{fdef}
 		The \emph{sign} of a permutation $\pi$ is defined by $\sign(\pi) = (-1)^{\inv(\pi)}$. Equivalently,
-		\[ \sign(\pi) = \frac{\prod_{1 \le i < j \le n} (x_{pi_i} - x_{\pi_j})}{\prod_{1 \le i < j \le n} (x_i - x_j)}. \]
+		\[ \sign(\pi) = \frac{\prod_{1 \le i < j \le n} (x_{\pi_i} - x_{\pi_j})}{\prod_{1 \le i < j \le n} (x_i - x_j)}. \]
 	\end{fdef}
 
 	% LATER, STUDY NUMBER OF ``REDUCED'' PRODUCTS? (NUMBER OF WAYS IN WHICH PI CAN BE WRITTEN AS A PRODUCT OF L(PI) ADJ TRANSPOSITIONS)
@@ -112,7 +112,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	This was solved by Kirchhoff using the Matrix Tree Theorem.
 	
 	\begin{ftheo}[Matrix Tree Theorem]
-		Consider the \emph{Laplacian} $L = D-A$ of a graph $G$, where $A$ is its adjacency matrix and $D$ is a diagonal matrix with the diagonal entries being the degrees of the vertices. The determinant of any $(n-1)\times(n-1)$ submatrix of $L$ obtained by omitting any arbirary row and column is equal to the number of spanning trees of $G$.
+		Consider the \emph{Laplacian} $L = D-A$ of a graph $G$, where $A$ is its adjacency matrix and $D$ is a diagonal matrix with the diagonal entries being the degrees of the vertices. The determinant of any $(n-1)\times(n-1)$ submatrix of $L$ obtained by omitting any arbitrary row and column is equal to the number of spanning trees of $G$.
 	\end{ftheo}
 
 	% oriented incidence matrix is totally unimodular -- poincare
@@ -169,7 +169,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		% , which is the constant term in $n g_n x F'(x) / F(x)$ -- observe that there cannot be a $x^{-m}$ term for any $m \ge 2$.
 		We have
 		\[ \frac{F'(x)}{F(x)} = \frac{f_1 + 2f_2x + \cdots}{f_1x + f_2x^2 + \cdots}. \]
-		The constant term in this is $f_1/f_1 = 1$, and the desideratum follows. 
+		The coefficient of $1/x$ in this is $f_1/f_1 = 1$, and the desideratum follows. 
 	\end{proof}
 
 	At long last, let us return to \nameref{theo: cayleys theorem}.
@@ -291,7 +291,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 \subsection{More on $q$-analogues}
 
 	Recall the definition of $[n]_q! = \prod_{i=1}^n [i]_q$. Inspired by this, define
-	\[ \binom{n}{k}_q = \frac{[n]_q!}{[k]_q[n-k]_q!}. \]
+	\[ \binom{n}{k}_q = \frac{[n]_q!}{[k]_q![n-k]_q!}. \]
 	This is clearly a rational function of $q$. It turns out that this is a polynomial in $q$! For example,
 	\[ \binom{5}{2}_q = \frac{[5]_q[4]_q}{[2]_q[1]_q} = 1 + q + 2q^2 + 2q^3 + 2q^4 + q^5 + q^6. \]
 
@@ -300,12 +300,12 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{exercise}
 		Show that
-		\[ \binom{n}{q}_q = q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q = \binom{n-1}{k}_q + q^{n-k} \binom{n-1}{k-1}_q . \]
+		\[ \binom{n}{k}_q = q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q = \binom{n-1}{k}_q + q^{n-k} \binom{n-1}{k-1}_q . \]
 	\end{exercise}
 	These are called the $q$-Pascal's recurrences.
 
 	\begin{fcor}
-		$\binom{n}{k}_q$ is a polynomial. in $q$ with non-negative coefficients.
+		$\binom{n}{k}_q$ is a polynomial in $q$ with non-negative coefficients.
 	\end{fcor}
 	It turns out that the coefficients of the polynomial are unimodal and symmetric! We do not prove this, the reader can see \_ for more details.
 	% zeinberger, AMM (katyohara?)
@@ -326,7 +326,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{ftheo}
 		\[ \sum_{P \in S_{n,k}} q^{|\lambda(P)|} = \binom{n}{k}_q. \]
 	\end{ftheo}
-	Surprisingly, the proof of the above is near-straightforward using the $q$-Pascal recurrence -- merely consider two cases depending on whether the first step of the path is right or upwards.
+	Perhaps surprisingly, the proof of the above is near-straightforward using the $q$-Pascal recurrence -- merely consider two cases depending on whether the first step of the path is right or upwards.
 
 \subsection{Derivative polynomials}
 
@@ -442,7 +442,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% Some authors also define the polynomial as
 	% \[ N_G(x) = \sum_{k \ge 0} (-1)^k m_k(G) x^{n-2k}. \]
 	
-	Clearly, $N_G(x) = x^n \cdot \Match_G(-1/x^2)$.\\
+	Clearly, $\Match_G(x) = x^n \cdot p(-1/x^2)$.\\
 
 	There is a very rich literature regarding matching theory. One work that set off a frenzy of results in related areas was \cite{Edmonds1965MaximumMA}, which gave a polynomial-time algorithm to get a maximum weight matching in any graph. It does so by looking at the polytope in $\R^{E}$ that is the convex hull of the indicator functions of all matchings.
 	It is worth noting that while there is a polynomial time algorithm to find a maximum weight matching, the problem of determining the number of maximum matchings in a graph is \textsf{\#P}-complete. Consequently, no polynomial time algorithm is known to determine $m_k(G)$ given a graph $G$.\\
