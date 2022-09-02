@@ -134,7 +134,7 @@
 
 			We claim that $d_H(C) > n/10d$, so the relative distance is at least $1/10d$. Suppose instead that there is some $x \in \mathcal{C}$ such that $\wt(x) \le n/10d$. Let $S \subseteq [n]$ be the subset of $L$ such that $v \in S$ iff $x_v \ne 0$. By \Cref{exists vert with unique neighbour}, there exists some $u \in R$ such that $M_{uv} = 1$ for precisely one $v \in S$. However, this implies that $(Mx)_u = \sum_v M_{uv} x_{v} = 1$.
 
-	\subsection{Lecture 7: Testing connectivity of undirected graphs}
+	\subsection{Lectures 7--8: Testing connectivity of undirected graphs}
 
 		\subsubsection{Lecture 7 (continued)}
 
@@ -273,9 +273,9 @@
 			\[ \norm{p^{(t)} - u_1} = \norm{M^t (p^{(0)} - u_1)} \]
 			Observe that because $p^{(0)}$ is a probability distribution, $\langle p^{(0)} , u_1 \rangle = 1/n = \langle u_1,u_1 \rangle$, so $p^{(0)}-u_1$ is orthogonal to $u_1$. As a result,
 			\[ \norm{p^{(t)} - u_1} \le \lambda^t \norm{p^{(0)} - u_1}. \]
-			Suppose we want $\norm{p^{(t)} - u_1} \le \epsilon \coloneqq 1/n^2$. For our specific choice of $p^{(0)}$ concentrated on a single point, it is easily verified that $\norm{p^{(0)} - u_1} \le 1$. Therefore, for $t > \log_{\lambda} \epsilon$, $\norm{p^{(t)} - u_1} \le \epsilon$.\\
+			Suppose we want $\norm{p^{(t)} - u_1} \le 1/n^2$. For our specific choice of $p^{(0)}$ concentrated on a single point, it is easily verified that $\norm{p^{(0)} - u_1} \le 1$. Therefore, for $t > \log_{\lambda} \epsilon$, $\norm{p^{(t)} - u_1} \le 1/n^2$.\\
 			We have that the convergence time is
-			\[ \log_\lambda \epsilon = O\left( \frac{1}{1-\lambda} \log \epsilon \right). \]
+			\[ \log_\lambda \epsilon = O\left( \frac{1}{1-\lambda} \log n \right). \]
 			We would like to bound the spectral gap from below, perhaps by an inverse polynomial.\\
 
 			It is true that
@@ -287,13 +287,12 @@
 				x^\top M x &= \sum_i x_i \sum_{j \in \Gamma(i)} \frac{1}{d} x_j \\
 					&= \sum_{(i,i) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{2x_ix_j}{d} \\
 					&= \sum_{(i,i) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{x_i^2 + x_j^2 - (x_i - x_j)^2}{d} \\
-					&= \sum_{(i,j) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d} \\
-					&= \underbrace{\sum_i x_i^2}_{1} - \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d}.
+					&= \underbrace{\sum_{(i,j) \in E} \frac{x_i^2}{d}}_{1} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d}.
 			\end{align*}
-			We want to bound the second expression from below. Because $\langle x,u_1\rangle = 0$, there exist coordinates of both positive and negative sign. Further, by the pigeonhole principle, there exists some coordinate $i_1$ such that $x_{i_1}$ is of absolute value at least $1/\sqrt{n}$. Assume that the sign of this coordinate is positive. Let $i_k$ be a coordinate of negative sign, and $i_1 i_2 \cdots i_k$ a path from $i_1$ to $i_k$. Then,
-
+			We want to bound the second expression from below. Because $\langle x,u_1\rangle = 0$, there exist coordinates of both positive and negative sign. Further, by the pigeonhole principle, there exists some coordinate $i_1$ such that $x_{i_1}$ is of absolute value at least $1/\sqrt{n}$. Assume that the sign of this coordinate is positive. Let $i_k$ be a coordinate of negative sign, and $i_1 i_2 \cdots i_k$ a path from $i_1$ to $i_k$. Then, using the Cauchy-Schwarz inequality,
 			\begin{align*}
-				\sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d} &= \sum_{1 \le j \le (n-1)} (x_{i_{j+1}} - x_{i_{j}})^2 \\
+				\sum_{\substack{(i,j) \in E \\ i \ne j}} (x_i-x_j)^2 &= \sum_{1 \le j \le (n-1)} (x_{i_{j+1}} - x_{i_{j}})^2 \\
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} |x_{i_{j+1}} - x_{i_j}|\right)^2 \\
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} x_{i_{j+1}} - x_{i_j}\right)^2 \ge \frac{1}{n^2}.
 			\end{align*}
+			Therefore, the convergence time is $O\left( n^2d\log n \right) = O(n^3\log n)$.
