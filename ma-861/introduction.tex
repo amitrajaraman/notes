@@ -455,7 +455,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 			\item If $G$ and $H$ are vertex-disjoint graphs,
 			\[ \Match_{G \cup H}(x) = \Match_G(x) \Match_H(x). \]
 			\item Given a graph $G$ and vertex $v \in G$,
-			\[ \Match_G(x) = x \Match_{G - \{v\}}(x) - \sum_{u : u \leftrightarrow v} \Match_{G - \{u,v\}} (x). \]
+			\[ \Match_G(x) = x \Match_{G - \{v\}}(x) - \sum_{u : u \adj v} \Match_{G - \{u,v\}} (x). \]
 			\item Given a graph $G$ and edge $e = \{u,v\} \in G$,
 			\[ \Match_G(x) = \Match_{G-e}(x) - \Match_{G-\{u,v\}}(x). \]
 		\end{enumerate}
@@ -464,11 +464,11 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		We omit the proof of (a) as it is straightforward.
 		\begin{itemize}
 			\item[(b)] Let $M$ be a matching of size $k$ on $G$. If $M$ does not have an edge incident on $v$, it is a matching of size $k$ on $G - \{v\}$. Otherwise, there is some edge $e = \{u,v\} \ni M$, and $M \setminus \{e\}$ is a matching on $G - \{u,v\}$. As a result,
-			\[ m_k(G) = m_k(G- \{v\}) + \sum_{u : u \leftrightarrow v} m_{k-1}(G-\{u,v\}). \]
+			\[ m_k(G) = m_k(G- \{v\}) + \sum_{u : u \adj v} m_{k-1}(G-\{u,v\}). \]
 			Multiplying with $(-1)^k x^{n-2k}$ and summing over $k$,
 			\begin{align*}
-				\Match_G(x) &= \sum_k (-1)^k x \cdot x^{(n-1)-2k} m_k(G - \{v\}) - \sum_{u : u \leftrightarrow v} (-1)^{k-1} x^{(n-2)-2(k-1)} m_k(G - \{u,v\}) \\
-					&= x\Match_{G-\{v\}} - \sum_{u : u \leftrightarrow v} \Match_{G - \{u,v\}} (x).
+				\Match_G(x) &= \sum_k (-1)^k x \cdot x^{(n-1)-2k} m_k(G - \{v\}) - \sum_{u : u \adj v} (-1)^{k-1} x^{(n-2)-2(k-1)} m_k(G - \{u,v\}) \\
+					&= x\Match_{G-\{v\}} - \sum_{u : u \adj v} \Match_{G - \{u,v\}} (x).
 			\end{align*}
 			\item[(c)] Similar to (b), let $M$ be a matching of size $k$ on $G$. If $M$ does not have $e$, it is a matching of size $k$ on $G - e$. Otherwise, $M \setminus \{e\}$ is a matching on $G - \{u,v\}$. So,
 			\[ m_k(G) = m_k(G - e) + m_{k-1}(G - \{u,v\}). \]
@@ -532,29 +532,45 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		To define $T_a$, we need paths starting at $a$ in $G$ without repeated vertices. These paths are the vertices of $T_a(G)$. There is an edge between two paths if one is an extension of another by a single vertex -- for example, the paths $abdc$ and $abdce$ would have an edge between them.\\
 		It is straightforward to see that $G$ is isomorphic to $T_a(G)$ for any vertex $a \in G$ if $G$ is a tree. Indeed, there is precisely one path from $a$ to any vertex $b$ in the tree.
 		% possibly insert diagram of the graph given at http://www.math.iitb.ac.in/~krishnan/phd-2022/matching-poly.pdf
-		The heart of the argument is the fact that for any $a\in G$ and $b \in T_a(G)$
-		\[ \frac{\Match_{G - a}(x)}{\Match_G(x)} = \frac{\Match_{T_a(G)- b}(x)}{\Match_{T_a(g)}(x)}. \]
+		The heart of the argument is the fact that for any $a\in G$,
+		\begin{equation}
+			\frac{\Match_{G - a}(x)}{\Match_G(x)} = \frac{\Match_{T_a(G)-a}(x)}{\Match_{T_a(g)}(x)}. \label{eqnmatch1}
+		\end{equation}
 		To prove this, we use induction on the number of vertices $n$. The base case is $n=2$, which forces $G$ to be a tree. Now,
 		\begin{align*}
-			\frac{\Match_G(x)}{\Match_{G-a}(x)} &= \frac{x\Match_{G-a}(x) - \sum_{b\Leftrightarrow a} \Match_{G-a-b}(x)}{\Match_{G-a}(x)} \\
-				&= x - \sum_{b \Leftrightarrow a} \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)}.
+			\frac{\Match_G(x)}{\Match_{G-a}(x)} &= \frac{x\Match_{G-a}(x) - \sum_{b\adj a} \Match_{G-a-b}(x)}{\Match_{G-a}(x)} \\
+				&= x - \sum_{b \adj a} \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)}.
 		\end{align*}
 		By the inductive hypothesis,
-		\[ \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)} =  \frac{\Match_{T_b(G-a)-b}(x)}{\Match_{T_b(G-a)}(x)}. \]
+		\begin{equation}
+			\frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)} =  \frac{\Match_{T_b(G-a)-b}(x)}{\Match_{T_b(G-a)}(x)}. \label{eqnmatch2}
+		\end{equation}
 		Now, very carefully observe that
 		\begin{align*}
-			T_b(G-a)-b &= \bigcup_{\substack{c \leftrightarrow b \\ c \ne a}} T_c(G-a) \\
-			T_a(G)-a &= \bigcup_{c\leftrightarrow a} T_c(G-a) \\
-			T_a(G)-a-ab &= \left(\bigcup_{\substack{c\leftrightarrow a \\ a \ne b}} T_c(G-a)\right) \cup \left(\bigcup_{\substack{c\leftrightarrow b \\ c \ne a}} T_c(G-a-b)\right) = \left(\bigcup_{\substack{c\leftrightarrow a \\ a \ne b}} T_c(G-a)\right) \cup \left(T_b(G-a)-b\right)
+			T_b(G-a)-b &= \bigcup_{\substack{c \adj b \\ c \ne a}} T_c(G-a) \\
+			T_a(G)-a &= \bigcup_{c\adj a} T_c(G-a) \\
+			T_a(G)-a-ab &= \left(\bigcup_{\substack{c\adj a \\ a \ne b}} T_c(G-a)\right) \cup \left(\bigcup_{\substack{c\adj b \\ c \ne a}} T_c(G-a-b)\right) = \left(\bigcup_{\substack{c\adj a \\ a \ne b}} T_c(G-a)\right) \cup \left(T_b(G-a)-b\right)
 		\end{align*}
 
 		We can then use \Cref{lem: matching polynomial basic results}(a) to get that
 		\begin{align*}
-			\Match_{T_a(G)-a}(x) &= \prod_{c\Leftrightarrow a} \Match_{T_c(G-a)}(x). \\
-			\Match_{T_a(G)-a-ab}(x) &= \prod_{\substack{c \leftrightarrow a \\ c \ne b}} \Match_{T_c(G-a)}(x) \times \Match_{T_b(G-a)-b}(x).		
+			\Match_{T_a(G)-a}(x) &= \prod_{c\adj a} \Match_{T_c(G-a)}(x). \\
+			\Match_{T_a(G)-a-ab}(x) &= \prod_{\substack{c \adj a \\ c \ne b}} \Match_{T_c(G-a)}(x) \times \Match_{T_b(G-a)-b}(x).		
 		\end{align*}
 		Dividing the two,
-		\[ \frac{\Match_{T_a(G)-a-b}(x)}{\Match_{T_a(G)-a}(x)} = \frac{\Match_{T_b(G-a)-b}(x)}{\Match} \]
+		\begin{equation}
+			\frac{\Match_{T_a(G)-a-ab}(x)}{\Match_{T_a(G)-a}(x)} = \frac{\Match_{T_b(G-a)-b}(x)}{\Match_{T_b(G-a)}}. \label{eqnmatch3}
+		\end{equation}
+		Combining \Cref{eqnmatch2,eqnmatch3},
+		\[ \frac{\Match_{G-a-b}(x)}{\Match_{G-a}(x)} = \frac{\Match_{T_a(G)-a}(x)}{\Match_{T_a(G)-a-ab}(x)} \]
+		and
+		\begin{align*}
+			\frac{\Match_G(x)}{\Match_{G-a}(x)} &= x - \sum_{b\adj a} \frac{\Match_{T_a(G)-a-ab}(x)}{\Match_{T_a(G)-a}}(x) \\
+				&= \frac{ x\Match_{T_a(G)-a}(x) - \sum_{b \adj a} \Match_{T_a(G)-a-ab}(x) }{\Match_{T_a(G)-a}(x)} \\
+				&= \frac{\Match_{T_a(G)}(x)}{\Match_{T_a(G)-a}(x)}. & \text{(by \Cref{lem: matching polynomial basic results}(b))}
+		\end{align*}
+
+		Now, to complete the proof, we shall show that $\Match_{T_a(G)}(x)$ divides $\Match_{G}(x)$. We do so by induction. To do this, by \Cref{eqnmatch1}, it suffices to show that $\Match_{G-a}(x)$ divides $\Match_{T_a(G)-a}(x)$. Recalling that $T_a(G)-a = \bigcup_{b \adj a} T_b(G-a)$, the inductive hypothesis implies that $\Match_{G-a}(x)$ divides each $\Match_{T_b(G-a)}(x)$, so divides their product $\Match_{T_a(G)-a}(x)$ as well, completing the proof.
 	\end{proof}
 
 	% QUIZ 1 ON 1 SEP (THURSDAY)
@@ -601,7 +617,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 \subsection{Colorings}
 
 	\begin{fdef}
-		Given a graph $G=(V,E)$, a $k$-\emph{coloring} (sometimes called \emph{proper coloring}) is a function $c:V(G)\to[k]$ such that if $u\Leftrightarrow v$, $c(u) \ne c(v)$.\\
+		Given a graph $G=(V,E)$, a $k$-\emph{coloring} (sometimes called \emph{proper coloring}) is a function $c:V(G)\to[k]$ such that if $u\adj v$, $c(u) \ne c(v)$.\\
 		The \emph{chromatic number} $\chi(G)$ of a graph is the minimum number of colours required to colour it.
 		We denote by $c_k(G)$ the number of $k$-colorings of $G$.
 	\end{fdef}

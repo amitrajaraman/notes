@@ -245,3 +245,55 @@
 			We claim that $u$ is the only stationary distribution of the walk (this assumes that $G$ is connected -- why?).
 
 			% next class, convergence theorem
+
+		\subsubsection{Lecture 8}
+
+			% oops didn't make very good notes this lec
+
+			Denote by $p^{(t)}$ the probability vector at time $t$, and $p_i^{(t)}$ the probability that we are at vertex $i$ at times $t$. By definition,
+			\[ p_i^{(t)} = \frac{1}{d} \sum_{j \leftrightarrow i} p_j^{(t-1)}. \]
+			Now, we wish to analyze $M^t$ to show that $p^{(t)}$ is close to the stationary distribution for somewhat large $t$.\\
+			Because $M$ is symmetric, we can write $M = UDU^\top$, where $U$ is an orthogonal matrix of eigenvectors and $D$ is a diagonal matrix of the real eigenvalues.
+			% Also, $M$ has all real eigenvalues, and if there are distinct eigenvalues $\lambda_i,\lambda_j$, the corresponding eigenvectors $u_j,u_j$ are orthogonal.
+			As a result,
+			\[ p^{(t+1)} = (UDU^\top)^t p^{(0)} = UD^tU^\top p^{(0)}. \]
+			Therefore, what matters is $D^t$. Let the eigenvalues of $M$ be $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_n$. \\
+			We trivially have that $\lambda_1 = 1$ is an eigenvalue of $M$ with eigenvector being the stationary distribution $u_1$ that we saw last lecture. Observe that $1$ is the largest eigenvalue (in absolute value) of $M$ because for any vector $x$, $\lambda \max_i x_i = \max_i (Mx)_i \le \max_i x_i$.\\
+			If $|\lambda_j| < 1$ for $j > 1$, then $\lim_{t \to \infty} p^{(t)} = u_1$ (all the other entries of $D^t$ decay to $0$).\\
+			To show fast convergence, we would like to show that the other eigenvalues are bounded away from $1$.
+
+			\begin{fdef}
+				Given a graph $G$, $\lambda(G) = \max\{|\lambda_2(G)|,|\lambda_n(G)|\}$. Equivalently,
+				\[ \lambda(G) = \max_{x : \langle x,u_1\rangle = 0} \frac{\norm{Mx}}{\norm{x}}. \]
+				If $G$ is obvious, we denote this as merely $\lambda$.
+			\end{fdef}
+			 $(1-\lambda)$ is referred to as the \emph{spectral gap} of the graph. We would like to show that the spectral gap of the graph is ``large''.
+
+			We have
+			\[ \norm{p^{(t)} - u_1} = \norm{M^t (p^{(0)} - u_1)} \]
+			Observe that because $p^{(0)}$ is a probability distribution, $\langle p^{(0)} , u_1 \rangle = 1/n = \langle u_1,u_1 \rangle$, so $p^{(0)}-u_1$ is orthogonal to $u_1$. As a result,
+			\[ \norm{p^{(t)} - u_1} \le \lambda^t \norm{p^{(0)} - u_1}. \]
+			Suppose we want $\norm{p^{(t)} - u_1} \le \epsilon \coloneqq 1/n^2$. For our specific choice of $p^{(0)}$ concentrated on a single point, it is easily verified that $\norm{p^{(0)} - u_1} \le 1$. Therefore, for $t > \log_{\lambda} \epsilon$, $\norm{p^{(t)} - u_1} \le \epsilon$.\\
+			We have that the convergence time is
+			\[ \log_\lambda \epsilon = O\left( \frac{1}{1-\lambda} \log \epsilon \right). \]
+			We would like to bound the spectral gap from below, perhaps by an inverse polynomial.\\
+
+			It is true that
+			\[ \lambda_2 = \max_{\substack{x \perp u_1 \\ \norm{x} = 1}} x^\top M x \]
+			Indeed, if $x = \alpha_2 u_2 + \cdots + \alpha_n u_n$ with $\sum \alpha_i^2 = 1$,
+			\[ x^\top M x = \lambda_2 \alpha_2^2 + \cdots + \lambda_n \alpha_n^2 \le \lambda_2. \]
+			We shall bound $\lambda_2$ for every graph, and use it for $H = G^2$, the multigraph with an edge from $i$ to $j$ if there was a length $2$ walk from $i$ to $j$. The random walk matrix on $H$ is just $M^2$, so $\lambda_2(H) = \lambda(G)^2$. Now,
+			\begin{align*}
+				x^\top M x &= \sum_i x_i \sum_{j \in \Gamma(i)} \frac{1}{d} x_j \\
+					&= \sum_{(i,i) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{2x_ix_j}{d} \\
+					&= \sum_{(i,i) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{x_i^2 + x_j^2 - (x_i - x_j)^2}{d} \\
+					&= \sum_{(i,j) \in E} \frac{x_i^2}{d} + \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d} \\
+					&= \underbrace{\sum_i x_i^2}_{1} - \sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d}.
+			\end{align*}
+			We want to bound the second expression from below. Because $\langle x,u_1\rangle = 0$, there exist coordinates of both positive and negative sign. Further, by the pigeonhole principle, there exists some coordinate $i_1$ such that $x_{i_1}$ is of absolute value at least $1/\sqrt{n}$. Assume that the sign of this coordinate is positive. Let $i_k$ be a coordinate of negative sign, and $i_1 i_2 \cdots i_k$ a path from $i_1$ to $i_k$. Then,
+
+			\begin{align*}
+				\sum_{\substack{(i,j) \in E \\ i \ne j}} \frac{(x_i-x_j)^2}{d} &= \sum_{1 \le j \le (n-1)} (x_{i_{j+1}} - x_{i_{j}})^2 \\
+					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} |x_{i_{j+1}} - x_{i_j}|\right)^2 \\
+					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} x_{i_{j+1}} - x_{i_j}\right)^2 \ge \frac{1}{n^2}.
+			\end{align*}
