@@ -281,4 +281,27 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		In an IIEFG, if $i$ is a player with perfect recall, then for any mixed strategy of $i$, there exists an equivalent behavioral strategy.
 	\end{ftheo}
 	% msz theo 6.15
-	The proof is constructive in nature, with the construction using perfect recall.
+	The proof is constructive in nature, with the construction using perfect recall.\\
+
+	\textcolor{red}{Henceforth, we only discuss IIEFGs with perfect recall.}
+	
+	What are some notions of equilibria in IIEFGs? We could extend the subgame perfection in PIEFGs, but because the histories are uncertain, we are forced to extend to mixed strategies. Due to the information sets, a best response cannot be defined without the ``belief'' of each player.
+
+	\begin{definition}
+		\emph{Belief} is a conditional probability distribution over the histories in an information set, where the conditioning is done over reaching the information set.
+	\end{definition}
+
+	To determine if a given mixed strategy is an equilibrium, there are a few conditions we must look at.
+	\begin{itemize}
+		\item Are the Bayesian beliefs consistent with $P_\sigma$? That is, is the probability that we visit 
+		\item 
+	\end{itemize}
+
+	At each information set, the player chooses that action which maximizes expected utility. This is referred to as \emph{sequential rationality}.
+	% example from module 27?
+
+	\begin{fdef}
+		Let the information sets of player $i$ be $I_i = \{ I_i^k \}_{k=1}^{k(i)}$. The \emph{belief} of player $i$ is a probability distribution $\mu_i^j$ over $I_i^j$.\\
+		A belief $\mu_i = \{\mu_i^j\}_{j=1}^{k(i)}$ of player $i$ is said to be a Bayesian belief with the behavorial strategy $\sigma$ if it is derived from $\sigma$ using Bayes' rule. That is,
+		\[ \mu_i^j() \]
+	\end{fdef}

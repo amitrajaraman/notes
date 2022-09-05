@@ -707,8 +707,15 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{proof}
 
 	This idea of plugging negative values into polynomials of interest has led to the fascinating subject of combinatorial reciprocity. This includes the idea of ``running recurrences backward''. For example, we have the Fibonacci numbers defined by $f_0 = 0, f_1 = 1$, and $f_{n+1} = f_n + f_{n-1}$. Can we extend this to negative numbers such that $f_{m-1} = f_{m+1} - f_{m}$, where $m-1$ is negative. This leads to a signed version of the Fibonacci numbers, with $f_{-n} = (-1)^{n+1} f_n$ for $n > 0$.\\
-	The interested reader may look at \cite{crt} for more details.\\
-	We continue the discussion of this in \Cref{reciprocity theorems}.
+	
+	We encourage the reader to try \Cref{binomial recurrence backwards} to get that on running the binomial recurrence backwards (for negative $n$), one gets
+	\[ \binom{-(n+1)}{k} = (-1)^k \binom{n+k}{k}. \]
+
+	\begin{exercise}
+		Run the recurrence of $S_{n,k}$ backwards (to negative $n,k$).
+	\end{exercise}
+
+	The interested reader may refer to \cite{crt} for more details on reciprocity theorems.
 
 \subsection{Increasing spanning forests}
 
@@ -747,12 +754,104 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	It has been observed that for certain classes of graphs and orderings, this is equal to the chromatic polynomial -- the interested reader may look at \cite{sagan} for more details.
 	% combinatorics: the art of counting -- bruce sagan(?)
 
-\subsection{Reciprocity Theorems}
-\label{reciprocity theorems}
+\subsection{Linear recurrences and rational generating functions}
 
-	We encourage the reader to try \Cref{binomial recurrence backwards} to get that on running the binomial recurrence backwards (for negative $n$), one gets
-	\[ \binom{-(n+1)}{k} = (-1)^k \binom{n+k}{k}. \]
+	Consider sequences $(a_n)$ such that
+	\[ A(x) = \sum a_n x^n = \frac{p(x)}{q(x)}, \]
+	where $q$ is a polynomial of degree $d$ and $p$ is a polynomial of degree $<d$.	
+	\begin{fdef}
+		A sequence $(a_n)_{n \ge 0}$ of reals is said to satisfy a \emph{linear constant term recurrence} (of length $d$) if there exist complex numbers $c_1,\ldots,c_d$ with $c_d \ne 0$ such that
+		\[ a_{n+d} + c_1 a_{n+d-1} + \cdots + c_d a_n = 0 \]
+		for all $n \ge 0$.
+	\end{fdef}
 
-	\begin{exercise}
-		Run the recurrence of $S_{n,k}$ backwards (to negative $n,k$).
-	\end{exercise}
+	A simple example of this is the recurrence satisfied by the Fibonacci numbers. Given $f_{n+2} - f_{n+1} - f_n = 0$, the recurrence is
+	\[ F(x) = \frac{p(x)}{1-x-x^2}, \]
+	where $p$ depends on the initial values. Observe that the coefficients $1,-1,-1$ in the denominator match those in the recurrence!
+
+	\begin{ftheo}
+		\label{theo: linear const term recurrence}
+		Let $(a_n)_{n\ge 0}$ be a sequence with generating function $A$. The following are equivalent.
+		\begin{enumerate}[label=(\alph*)]
+			\item $(a_n)_{n \ge 0}$ satisfies a linear constant term recurrence of length $d$ with constants $c_1,\ldots,c_d$.
+			\item There exist 
+			\[ A(x) = \sum a_n x^n = \frac{p(x)}{q(x)}, \]
+			where $q(x) = 1 + c_1x + \cdots + c_dx^d$ and $\deg(p) < d$.
+			\item If the roots of the polynomial $q$ in (b) are $(1/r_i)_{i=1}^k$, with $(1/r_i)$ having multiplicity $d_i$, then there are polynomials $(p_i)_{i=1}^k$ of degree $<d_i$ such that
+			\[ a_n = \sum_{i=1}^k p_i(n) \alpha_i^n \]
+			for all $n \ge 0$.
+		\end{enumerate}
+	\end{ftheo}
+	\begin{proof}
+		\phantom{pain}
+		\begin{itemize}
+			\item[(a)$\Rightarrow $(b)] Multiply the linear constant term recurrence by $x^{n+d}$ and sum over all $n \ge 0$. Setting $c_0 = 1$, we get
+			\[ 0 = \sum_{t=0}^{d} c_t x^t \left( A(x) - \sum_{i=1}^{d-t-1} a_i x^i \right), \]
+			so
+			\[ A(x) = \frac{\sum_{t=0}^d c_t x^t \left( \sum_{i=1}^{d-t-1} a_i x^i \right) }{\sum_{t=0}^d c_t x^t} = \frac{p(x)}{q(x)}, \]
+			where $\deg(p) < d$.
+
+			\item[(b)$\Rightarrow$(a)] We have $q(x) A(x) = p(x)$. Because $\deg(p) < d$, the coefficient of $x^{n+d}$ on the right hand side is zero. On the left, this coefficient is precisely equal to the left hand side of the desired recurrence.
+
+			\item[(b)$\Leftrightarrow$(c)] Let us check that (b) implies (c) first. We have
+			\[ A(x) = \frac{p(x)}{\prod_{i=1}^k (1-r_ix)^{d_i}}. \]
+			Checking that (c) holds true amounts to expanding the denominator to the numerator and matching coefficients. The argument is reversible as well, so (c) implies (b).
+		\end{itemize}
+	\end{proof}
+
+	Also observe that running a linear constant term recurrence backwards (extending it to negative $n$) gives another linear constant term recurrence!
+
+	\begin{ftheo}
+	 	Let $(a_n)_{n \ge 0}$ be a sequence satisfying a linear constant term recurrence. Obtain $a(-n)$ by running the recurrence backwards, and set
+	 	\[ A^\mathsf{rev}(x) = \sum_{n \ge 1} a(-n) x^n. \]
+	 	Then,
+	 	\[ A^\mathsf{rev}(x) = -A\left( \frac{1}{x} \right). \]
+	 \end{ftheo}
+	 % proof in next class (this has been written 05-09-2022)
+	 \begin{proof}
+	 	
+	 \end{proof}
+
+	 There are numerous multivariate extensions of this done by Stanley.
+
+\subsection{Exponential Generating Functions}
+
+	\begin{fdef}
+		Given a sequence $(a_n)_{n \ge 0}$, its \emph{exponential generating function} (egf) is defined by
+		\[ A(x) = \sum_{n\ge 0} \frac{a_n x^n}{n!}. \]
+	\end{fdef}
+
+	\begin{flem}
+		\label{lem: product of egfs}
+		If $A(x)$ and $B(x)$ are the egfs of $(a_n)$ and $(b_n)$ respectively, then $A(x)B(x)$ is the egf of $(c_n)_{n \ge 0}$ defined by
+		\[ c_n = \sum_{k=0}^n \binom{n}{k} a_k b_{n-k}. \]
+	\end{flem}
+	The above is very simple to prove, and we omit the proof.
+
+	Let us use the above to determine the egf for $d_n$, the number of derangements in $\mathfrak{S}_n$. Take by convention that $d_0 = 1$.
+	\begin{prop}
+		It is true that
+		\[ \sum_{k=0}^n \binom{n}{k} d_{n-k} = n!. \]
+	\end{prop}
+	\begin{proof}
+		Given a bijection $\pi \in \mathfrak{S}_n$, let $S \subseteq [n]$ be the set of fixed points $\{ i : \pi_i = i \}$ of the permutation. This results in a derangement of $[n] \setminus S$, and this idea results in a bijection between
+		\[ \mathfrak{S}_n \text{ and } \{ (S,\sigma) : S \subseteq [n], \sigma\text{ is a derangement of $[n] \setminus S$} \}. \]
+	\end{proof}
+
+	\begin{fcor}
+		The egf of $(d_n)_{n \ge 0}$ is equal to 
+		\[ D(x) = \frac{1}{e^x(1-x)}. \]
+	\end{fcor}
+	\begin{proof}
+		By the previous proposition,
+		\[ n! = \sum_{k = 0} \binom{n}{k} \cdot d_{n-k} \cdot 1. \]
+		The egf of the constant sequence $1$ is $e^x$ and the egf of $(n!)$ is $1/(1-x)$. By \Cref{lem: product of egfs}, $D(x) e^x = 1/(1-x)$, completing the proof.
+	\end{proof}
+
+
+	\begin{prop}
+		If $(a_n)_{n \ge 0}$ has egf $A(x)$, then
+		\[ A'(x) = \sum_{n \ge 0} a_n \frac{x^{n-1}}{(n-1)!}. \]
+	\end{prop}
+
+	We now encourage the reader to do \Cref{prob: euler numbers}.
