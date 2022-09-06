@@ -70,8 +70,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{proof}
 
 	\begin{definition}[Descent]
+		\label{def: descent}
 		For $\pi \in \mathfrak{S}_n$, define the \emph{descents} $\DES(\pi) = \{i \in [n-1] : \pi_i > \pi_{i+1}\}$, $\des(\pi) = |\DES(\pi)|$, and $\maj(\pi) = \sum_{i \in \DES(\pi)} i$. 
 	\end{definition}
+	Some books define the number of descents as $\des(\pi)+1$ instead.\\
 	There are central limit theorems for many of these parameters, which we shall not study.\\
 	A permutation $\pi$ has $\des(\pi) + 1$ many ``increasing runs''.
 
@@ -854,4 +856,63 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ A'(x) = \sum_{n \ge 0} a_n \frac{x^{n-1}}{(n-1)!}. \]
 	\end{prop}
 
-	We now encourage the reader to do \Cref{prob: euler numbers}.
+	We now encourage the reader to do \Cref{prob: euler numbers}.\\
+
+\subsection{Another pair of parameters with equal statistics}
+
+	Recall how we had seen in \Cref{prop: maj n} a pair of parameters that have the same distribution. Now, we shall look at another such pair of parameters.\\
+	Recall descents in $\mathfrak{S}_n$ from \Cref{def: descent}.\\
+	\begin{fdef}[Eulerian polynomial]
+		\label{def: eulerian poly}
+		Define the \emph{Eulerian polynomial}
+		\begin{equation}
+			A_n(t) = \sum_{\pi \in \mathfrak{S}_n} t^{\des(\pi)}. \label{eulerian polynomial}
+		\end{equation}
+	\end{fdef}
+	For example, $A_3(t) = 1+4t+t^2$. Let $A_{n,k}$ be the coefficient of $x^k$ in $A_n$ -- this is the number of $\pi \in \mathfrak{S}_n$ with $\des(\pi) = k$. One gets the recurrence
+	\[ A_{n,k} = (k+1)A_{n-1,k} + (n-k)A_{n-1,k-1} \]
+	for $n \ge 1$ with $A_{0,0} = 1$. This may be proved by the (hopefully) now standard trick of seeing how the number of descents changes on inserting $n+1$ at various positions in $\pi \in \mathfrak{S}_n$.\\
+
+	\begin{exercise}
+		Prove the above.
+	\end{exercise}
+	Also observe that on reversing a permutation, we have $\des(\pi^\mathsf{rev}) = (n-1) - \des(\pi)$. This means that the coefficients of $A_n$ are palindromic. Further, descents and ``ascents'' are equidistributed.
+
+	\begin{fdef}[Excedances]
+		Given $\pi \in \mathfrak{S}_n$, define the set of \emph{excedances}
+		\[ \EXC(\pi) = \{ i \in [n] : \pi_i > i \} \]
+		and the number of excedances $\exc(\pi) = |\EXC(\pi)|$.
+	\end{fdef}
+
+	Excedances are something of a cyclic counterpart of descents. % how do I frame this lol
+
+	\begin{ftheo}
+		Descents and excedances are equidistributed.
+	\end{ftheo}
+	\begin{proof}
+		% Note that one can cyclically permute elements of $c_i$ and write the $c_i$s in any order
+		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. ALso assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as
+		\[ ( (c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} ) \cdots ( (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k} ). \]
+		Observe that the parenthesising is redundant! Reading the string $(c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} \cdots (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k}$ from left to right, we can recover the cycles (how?). This gives an explicit bijection between canonical cycle representations and $\mathfrak{S}_n$.
+	\end{proof}
+
+	Consider a \emph{palindromic polynomial}
+	\[ f(t) = f_0 + f_1 t + \cdots + f_dt^d, \]
+	where $f_r = f_{d-r}$. Let $k$ be the ``center of palindromicity'' which is roughly $d/2$. For a fixed $d$, observe that the sum of palindromic polynomials is palindromic, and the scalar multiple of a palindromic polynomial is palindromic as well. That is, the set of palindromic polynomials form a vector space.\\
+	One obvious basis of this vector space is
+	\[ \{ t^r + t^{d-r} : 0 \le r \le k \}. \]
+	Another (less obvious) basis of this space is
+	\[ \span\left\{ t^j (1+t)^{d-2j} : 0 \le j \le k \right\}. \]
+	This is referred to as the \emph{Gamma basis} -- why is it a basis?
+
+	\begin{ftheo}[\cite{eulerian-gamme-pos}]
+		The Eulerian polynomial is $\gamma$-positive.
+	\end{ftheo}
+	That is, when the Eulerian polynomial is represented as a linear combination of the elements of the Gamma basis, all coefficients are positive. For example,
+	\[ A_5(t) = 1+26t+66t^2+26t^3+t^4 = (1+t)^4 + 22t(1+t)^2 + 16t^2. \]
+	We do not prove the above.
+
+	Similar to excedances, consider non-excedances -- points where $\pi_i < i$.
+	\begin{exercise}
+		Show that $\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
+	\end{exercise}
