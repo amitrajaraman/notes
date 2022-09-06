@@ -4,6 +4,7 @@
 	\subsection{Lectures 6--7: Magical graphs and two applications}
 	
 		\subsubsection{Lecture 6}
+			\label{lec 6}
 
 			% reference material: Chapter 1 of Hoory, Linial, Wigderson: ``Expander Graphs and Applications''
 
@@ -134,7 +135,7 @@
 
 			We claim that $d_H(C) > n/10d$, so the relative distance is at least $1/10d$. Suppose instead that there is some $x \in \mathcal{C}$ such that $\wt(x) \le n/10d$. Let $S \subseteq [n]$ be the subset of $L$ such that $v \in S$ iff $x_v \ne 0$. By \Cref{exists vert with unique neighbour}, there exists some $u \in R$ such that $M_{uv} = 1$ for precisely one $v \in S$. However, this implies that $(Mx)_u = \sum_v M_{uv} x_{v} = 1$.
 
-	\subsection{Lectures 7--8: Testing connectivity of undirected graphs}
+	\subsection{Lectures 7--9: Testing connectivity of undirected graphs}
 
 		\subsubsection{Lecture 7 (continued)}
 
@@ -295,4 +296,118 @@
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} |x_{i_{j+1}} - x_{i_j}|\right)^2 \\
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} x_{i_{j+1}} - x_{i_j}\right)^2 \ge \frac{1}{n^2}.
 			\end{align*}
-			Therefore, the convergence time is $O\left( n^2d\log n \right) = O(n^3\log n)$.
+			Therefore, the mixing time is $O\left(n^2 d \log n \right)$.
+
+	\subsection{Lecture 9: Expander graphs}
+
+		\subsubsection{Lecture 9}
+
+			\begin{fdef}
+				A graph $G$ is said to be an \emph{$(n,d,\lambda)$-expander} if $|V(G)| = n$, $G$ is $d$-regular, and $\lambda$ is the second largest eigenvalue $\lambda(G)$ of $G$ in absolute value.
+			\end{fdef}
+
+			\begin{fdef}[Spectral expanders]
+				A sequence $\{G_n\}_{n \ge 0}$ of $d$-regular graphs %(where the size of the graphs increases with $n$)
+				is said to be a \emph{spectral expander family} if for some $\lambda < 1$, $\lambda(G_i) \le \lambda$ for all $i$.
+			\end{fdef}
+
+			We saw last lecture that random walks on expander graphs converge to the uniform distribution in $O(\log n)$ steps.\\
+			This means that there are only $d^{O(\log n)} = \poly(n)$ paths to explore. Therefore, there is a \emph{deterministic} polynomial time algorithm to determine connectivity of expander graphs.
+
+			\begin{fdef}[Sparsity]
+				Given a $d$-regular graph $G$, define the \emph{sparsity}
+				\[ h(G) = \min_{\substack{S \subseteq V \\ |S| \le (n/2)}} \frac{|E(S,\overline{S})|}{d|S|}. \]
+			\end{fdef}
+			Some definitions use $|E(S,\overline{S})|/|S|$ instead.\\
+			It is natural to see that $h(G)$ measures (in some sense) how well-connected a graph is. If it is low, there is some ``bottleneck'' in the graph where the random walk can get stuck -- a set of high measure with very few outgoing edges.\\
+			It is clear that $h(G) \le 1$.
+
+			\begin{fdef}[Combinatorial expanders]
+				A sequence $\{G_n\}_{n \ge 0}$ of $d$-regular graphs %(where the size of the graphs increases with $n$)
+				is said to be a \emph{combinatorial expander family} if for some $h > 0$, $h(G_i) \ge h$ for all $i$.
+			\end{fdef}
+
+			\begin{ftheo}[Cheeger's Inequality]
+				\label{cheeger inequality}
+				For any graph $G$ with second eigenvalue $\lambda_2$ and sparsity $h$,
+				\[ \frac{1-\lambda_2}{2} \le h \le \sqrt{2(1-\lambda_2)}. \]
+				In particular, spectral expanders are combinatorial expanders and vice-versa.
+			\end{ftheo}
+			We prove this later.\\
+
+			\emph{Markov chain Monte Carlo} methods find many uses nowadays in problems such as sampling random spanning trees, random independent sets etcetera. The idea in these is that we start with an arbitrary spanning tree (say), and then randomly move to a ``neighbouring'' spanning tree -- add a random edge not in the spanning tree and remove a random edge from the cycle thus formed. After sufficiently many steps, we are at a(n almost) uniformly random spanning tree. This massive graph composed of spanning trees as vertices ends up being an expander! Because the graph of spanning trees has only exponentially many vertices, we get a polynomial time algorithm to randomly sample spanning trees.
+
+			\begin{fex}
+				The $n$-cycle $C_n$ has sparsity $h(C_n) = 2/n$, and $\lambda(C_n) = \cos(2\pi/n) \approx 1 - (2\pi/n)^2$.\\
+				The hypercube graph $H_n \coloneqq P_2^{\otimes n}$. We have $h(H_n) = 1/n$ and $\lambda(H_n) = 1 - \frac{1}{k}$.\\
+				Each of these give a case where the appropriately inequality in \nameref{cheeger inequality} is (asymptotically) tight.
+			\end{fex}
+
+			What guarantee do we even have that expanders exist? It turns out that a random $d$-regular graph is a (combinatorial) expander with high probability!\\
+			
+			However, how do we construct expander graphs? Our goal is to use expander graphs to reduce randomness in algorithms, so it does not make sense to construct them using the above random argument. We also want the algorithm itself to run in polylog time -- this requirement makes sense in light of our remarks towards the end of \nameref{lec 6}.
+
+			\begin{fex}
+				Let $p$ be a prime and consider the $3$-regular graph over $\F_p^*$, where each $x$ is adjacent to $x+1,x-1,x^{-1}$. This graph is an expander, but the proof of this is not very straightforward.
+			\end{fex}
+
+			\begin{ftheo}[Expander Mixing Lemma]
+				Let $G$ be a $(n,d,\lambda)$-expander. Then, for any $S,T \subseteq V$,
+				\[ \left| E(S,T) - \frac{d}{n}|S||T| \right| \le d\lambda \sqrt{|S||T|}. \]
+			\end{ftheo}
+			If $G$ were a random graph, then the expected number of edges between $S,T$ is precisely $(d/n)|S||T|$ -- of the $d|S|$ edges out of $S$, we expect a $|T|/n$ fraction to be incident on $T$.\\
+			% This can be used to save randomness -- $E(S,T)/dn - (|S|/n)(|T|/n)$.
+			\begin{proof}
+				Let $M$ be the transition matrix of the random walk on $G$; it is equal to $(1/d)$ times the adjacency matrix of $G$. For any set $X$, let $\indic_X$ be the indicator vector of $X$ with $1$s at vertices in $X$ and $0$ elsewhere.\\
+				Observe that
+				\[ \frac{1}{d}E(S,T) = \indic_S^\top M \indic_T. \]
+				Now, we have $M = \sum_i \lambda_i u_i u_i^\top$ using the spectral theorem, where $(u_i)$ are orthonormal eigenvectors of $M$ with corresponding real eigenvalues $(\lambda_i)$. Note in particular that $\lambda_1 = 1$ and $u_i$ is the vector with all coordinates having value $1/\sqrt{n}$.\\
+				Let $\indic_S = \sum_i \alpha_i u_i$ and $\indic_T = \sum_i \beta_i u_i$. Note in particular that $\alpha_1 = \langle\indic_S,u_1\rangle = |S|/\sqrt{n}$ and $\beta_1 = |T|/\sqrt{n}$. \\
+				Using orthonormality,
+				\begin{align*}
+					\frac{1}{d}E(S,T) &= \left( \sum_i \alpha_i u_i \right) \left( \sum_i \lambda_i u_iu_i^\top \right) \left( \sum_i \beta_i u_i \right) \\
+						&= \sum_i \alpha_i \beta_i \lambda_i \\
+						&= \alpha_1\beta_1 + \sum_{i=2}^n \alpha_i\beta_i \lambda_i \\
+						&= \frac{|S||T|}{n} + \sum_{i=2}^n \alpha_i \beta_i \lambda_i.
+				\end{align*}
+				Therefore,
+				\begin{align*}
+					\left| E(S,T) - \frac{d}{n} |S||T| \right| &= \left|\sum_{i=2}^n \alpha_i \beta_i \lambda_i \right| \\
+						&\le d\lambda \sum_{i=2}^n \left|\alpha_i \beta_i \right| \\
+						&\le d\lambda \sqrt{ \left( \sum_{i=2}^n \alpha_i^2 \right) \left( \sum_{i=2}^n \beta_i^2 \right) } \\
+						&\le d\lambda \sqrt{\norm{\indic_S}\norm{\indic_T}} = d\lambda\sqrt{|S||T|}.
+				\end{align*}
+
+				% Letting $J$  be the all $1$s matrix of appropriate size,
+				% \begin{align*}
+				% 	\left| e(X,Y) - \frac{d}{n}|X||Y| \right| &= \left| \indic_X^\top A \indic_Y - \frac{d}{n} \indic_X J \indic_Y \right| \\
+				% 		&= \left| \indic_X^\top \left( A - \frac{d}{n} J \right) \indic_Y \right| \\
+				% 		&\le \norm{\indic_X^\top} \norm{A - \frac{d}{n} J} \norm{\indic_Y}.
+				% \end{align*}
+				% We claim that $\norm{A - (d/n)J} \le \lambda$. Since $A$ is symmetric with all row sums as $d$, it commutes with $J$, and so they can be simultaneously diagonalized. Further, $n$ is an eigenvalue of $J$ and $d$ is an eigenvalue of $A$ with eigenvector $\mathbf{1}$.
+			\end{proof}
+
+			We now see how to save randomness using expanders.\\
+			Let $\mathcal{A}$ be an algorithm that uses $k$ independent random bits. Let $G$ be a $(2^k,d,\lambda)$-expander. Starting at an arbitrary vertex $v_1$, perform a random walk for $\ell$ steps through vertices $v_1,v_2,\ldots,v_{\ell}$. Run the algorithm on each of these inputs $v_1,\ldots,v_{\ell}$ (interpreting the $2^k$ elements of $V(G)$ as length $k$ bit strings.\\
+			Recall that if $\mathcal{A}$ once (using $k$ bits) has error probability $\beta$, running the algorithm $\ell$ times (using $k\ell$ bits) reduces this to error probability $\beta^\ell$. It turns out that running the algorithm $\ell$ times as described above (using $k+\ell\log d$ bits) reduces the error probability to $(\beta+\lambda)^{\ell}$!\\
+			In purely graph theoretic terms, this says the following.
+
+			\begin{ftheo}
+				Let $G$ be a $(n,d,\lambda)$-expander, and let $B \subseteq V$ be of size $\beta n$. Starting at a random vertex $v_1$, consider $\ell$ steps of the random walk going through vertices $v_1,v_2,\ldots,v_{\ell}$. Then,
+				\[ \Pr \left[ \text{all $v_i$ are in $B$} \right] \le (\beta+\lambda)^\ell. \]
+			\end{ftheo}
+			\begin{proof}[Proof sketch]
+				Consider the diagonal matrix $D$ with $1$s at vertices in $B$ and $0$ elsewhere. Let $p^{(0)}$ be the initial (uniform) distribution of $v_0$. Observe that the $\ell_1$ norm of $(BM)^{i} p^{(0)}$ is precisely the probability that $v_i$ is in $B$. To bound this, we split a given vector into its component along and orthogonal to the uniform distribution. The norm of the second part decreases by $\lambda$ at every step.
+			\end{proof}
+
+			\begin{ftheo}[Alon-Boppana bound]
+				For any $(n,d,\lambda)$-expander,
+				\[ \lambda = \frac{2\sqrt{d-1}}{d}(1 - o(1)). \]
+			\end{ftheo}
+
+			\begin{fdef}[Ramanujan Graph]
+				A $(n,d,\lambda)$-expander is said to be a \emph{Ramanujan graph} if
+				\[ \lambda \le \frac{2\sqrt{d-1}}{d}. \]
+			\end{fdef}
+
+			It was proved in 2014 by Adam Marcus, Daniel Spielman, and Nikhil Srivastava that there exist infinite families of bipartite Ramanujan graphs of every degree greater than $2$.
