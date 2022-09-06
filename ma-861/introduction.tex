@@ -874,7 +874,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	for $n \ge 1$ with $A_{0,0} = 1$. This may be proved by the (hopefully) now standard trick of seeing how the number of descents changes on inserting $n+1$ at various positions in $\pi \in \mathfrak{S}_n$.\\
 
 	\begin{exercise}
-		Prove the above.
+		Prove the above recurrence.
 	\end{exercise}
 	Also observe that on reversing a permutation, we have $\des(\pi^\mathsf{rev}) = (n-1) - \des(\pi)$. This means that the coefficients of $A_n$ are palindromic. Further, descents and ``ascents'' are equidistributed.
 
@@ -902,10 +902,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	One obvious basis of this vector space is
 	\[ \{ t^r + t^{d-r} : 0 \le r \le k \}. \]
 	Another (less obvious) basis of this space is
-	\[ \span\left\{ t^j (1+t)^{d-2j} : 0 \le j \le k \right\}. \]
+	\[ \Span\left\{ t^j (1+t)^{d-2j} : 0 \le j \le k \right\}. \]
 	This is referred to as the \emph{Gamma basis} -- why is it a basis?
 
-	\begin{ftheo}[\cite{eulerian-gamme-pos}]
+	\begin{ftheo}[\cite{eulerian-gamma-pos}]
 		The Eulerian polynomial is $\gamma$-positive.
 	\end{ftheo}
 	That is, when the Eulerian polynomial is represented as a linear combination of the elements of the Gamma basis, all coefficients are positive. For example,
