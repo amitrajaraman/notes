@@ -887,13 +887,30 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Excedances are something of a cyclic counterpart of descents. % how do I frame this lol
 
 	\begin{ftheo}
-		Descents and excedances are equidistributed.
+		\label{theo: desc and exc}
+		Descents and excedances are equidistributed. Equivalently,
+		\[ A_n(t) = \sum_{\pi \in \mathfrak{S}_n} t^{\exc(\pi)}. \]
 	\end{ftheo}
-	\begin{proof}
+	Similar to excedances, consider non-excedances -- points where $\pi_i < i$.
+	\begin{exercise}
+		Show that $\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
+	\end{exercise}
+	\begin{proof}[Proof of \Cref{theo: desc and exc}]
 		% Note that one can cyclically permute elements of $c_i$ and write the $c_i$s in any order
 		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. ALso assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as
 		\[ ( (c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} ) \cdots ( (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k} ). \]
-		Observe that the parenthesising is redundant! Reading the string $(c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} \cdots (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k}$ from left to right, we can recover the cycles (how?). This gives an explicit bijection between canonical cycle representations and $\mathfrak{S}_n$.
+		Observe that the parenthesising is redundant! Reading the string $(c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} \cdots (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k}$ from left to right, we can recover the cycles -- a certain position is the beginning of a cycle iff it is greater than all the elements before it. This gives a bijection between canonical cycle representations and $\mathfrak{S}_n$ (which is not the obvious one). Therefore, composing the two maps, let $\Phi : \mathfrak{S}_n \to \mathfrak{S}_n$ be the map that given a permutation, reads it from left to right to get a canonical cycle decomposition, and yields as output the permutation corresponding to this cycle decomposition.\\
+		% For example, if $\pi = 3,5,1,4,6,2 \in \mathfrak{S}_n$
+		This map gives some sort of conversion from a linear form to a cyclic form. Recall how excedances were something of the cyclic analogue of the linear phenomenon of descents.\\
+
+		We claim that $\nonexc(\Phi(\pi)) = \des(\pi)$ for any $\pi \in \mathfrak{S}_n$.\\
+		Let $\pi \in \mathfrak{S}_n$ and $\sigma = \Phi(\pi)$. Let $i \in \DES(\pi)$. That is, $\pi_i > \pi_{i+1}$. Observe that $\pi_i,\pi_{i+1}$ are forced to be in the same cycle in $\sigma$ (due to the ``left to right maxima'' conversion). That is, $\sigma(\pi_i) = \pi_{i+1}$. Because this is less than $\pi_i$, any descent in $\pi$ map to a non-excedance in $\sigma$.\\
+		It remains to show that ascents do not map to non-excedances. If $\pi_{i} < \pi_{i+1}$, then $\pi_i,\pi_{i+1}$ are either
+		\begin{itemize}
+			\item in different cycles of $\sigma$, in which case it is either an excedance if the size of the cycle is $>1$ (because it maps to the first element of the cycle, which is the maximum) or a fixed point otherwise, or
+			\item within a cycle, in which case they contribute to $\exc(\sigma)$ (and so definitely not $\nonexc(\sigma)$),
+		\end{itemize}
+		completing the proof.
 	\end{proof}
 
 	Consider a \emph{palindromic polynomial}
@@ -912,7 +929,44 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\[ A_5(t) = 1+26t+66t^2+26t^3+t^4 = (1+t)^4 + 22t(1+t)^2 + 16t^2. \]
 	We do not prove the above.
 
-	Similar to excedances, consider non-excedances -- points where $\pi_i < i$.
-	\begin{exercise}
-		Show that $\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
-	\end{exercise}
+\subsection{Carlitz' identity}
+
+	Consider the generating function
+	\[ P_n(t) = \sum_{j \ge 0} j^n t^j \]
+
+	\begin{ftheo}[Carlitz' Identity]
+		It is true that
+		\[ P(t) = \frac{tA_n(t)}{(1-t)^{n+1}}. \]
+		Equivalently,
+		\[ \frac{A_n(t)}{(1-t)^{n+1}} = \sum_{j \ge 0} (j+1)^n t^j. \]
+	\end{ftheo}
+
+	\begin{proof}
+		Define a \emph{barred permutation} to be a permutation of length $n$ with ``vertical bars'' between elements such that there is a bar between $\pi_i,\pi_{i+1}$ if $i \in \DES(\pi)$. There are allowed to be more than one bar between any elements of the permutation, the only constraint is that there must be at least one bar at positions of descent. Given a barred permutation, let $\bars(\pi)$ be the number of bars in it. We shall look at
+		\begin{equation}
+			\label{eqn: counting to carlitz identity}
+			\sum_{\overline{\pi} \text{ is a barred permutation of length $n$}} t^{\bars(\overline{\pi})}.
+		\end{equation}
+		Also denote $\mbinom{n}{k} = \binom{n+k-1}{k}$ to be the number of $k$-sized multisets of $[n]$. So,
+		\[ \frac{1}{(1-t)^{n+1}} = \sum_{k \ge 0} \mbinom{n+1}{k} t^k. \]
+		Observe that $t^{\des(\pi)}/(1-t)^{n+1}$ for some permutation $\pi$ is precisely the contribution of $\pi$ to \Cref{eqn: counting to carlitz identity}! The coefficient of $t^k$ in $1/(1-t)^{n+1}$ is precisely the number of ways to insert $k$ bars in the $n$ positions. Therefore,
+		\[ \sum_{\overline{\pi} \text{ is a barred permutation of length $n$}} t^{\bars(\overline{\pi})} = \sum_{\pi \in \mathfrak{S}_n} \frac{t^{\des(\pi)}}{(1-t)^{n+1}} = \frac{A_n(t)}{(1-t)^{n+1}}. \]
+
+		Let us now count this expression in another way, looking at the coefficient of $t^k$. This amounts to just putting $n$ ``distinct balls'' in $k+1$ ``distinct bins''. 
+	\end{proof}
+
+	\begin{proof}[Proof due to class]
+		Observe that
+		\[ P_{n+1}(t) = \sum_{j \ge 0} j^{n+1} t^j = t \sum_{j \ge 0} j^n (jt^j) = t P_n'(t). \]
+		It is also seen that
+		\[ P_0(t) = \sum_{j \ge 0} t^j = \frac{1}{1-t}. \]
+		The two equations above are seen to imply that $P_n(t)$ is a rational function for any $n$. Further, the denominator of any $P_n$ is some exponent of $(1-t)$. \\
+		In general, suppose $P_k(t) = p_k(t)/(1-t)^{r_k}$ for a polynomial $p_k$ such that $p_k(1) \ne 0$. Then,
+		\begin{align*}
+			tP_k'(t) &= \frac{t \left( p_k'(t) (1-t)^{r_k} - r_k (1-t)^{r_k - 1} p_k(t) \right)}{(1-t)^{2r_k}} \\
+				&= \frac{ t(1-t)p_k'(t) - r_k t p_k(t) }{(1-t)^{r_k+1}}.
+		\end{align*}
+		Observe that the numerator is nonzero at $1$, so $r_{k+1} = r_k + 1$. Since $r_0 = 1$, $r_k$ is just $k+1$. We also have
+		\[ p_{k+1}(t) = t (1-t) p_k'(t) - (k+1) t p_k(t). \]
+		It is seen that this recurrence is satisfied by $tA_n(t)$ and $p_1(t) = tA_1(t)$, completing the proof.
+	\end{proof}
