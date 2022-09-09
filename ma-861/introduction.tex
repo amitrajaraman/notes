@@ -281,7 +281,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	Given a tiling $T$, let $S(T)$ and $D(T)$ be the number of squares and dimers in the tiling respectively.
 	In general, define
-	\[ F_n(s,t) = \sum_{\text{tilings $T$ of $B_n$}} s^{S(T)} t^{D(T)}. \]
+	\begin{equation}
+		\label{eqn: board tiling polynomial}
+		F_n(s,t) = \sum_{\text{tilings $T$ of $B_n$}} s^{S(T)} t^{D(T)}.
+	\end{equation}
 
 	Then,
 	\begin{align*}
@@ -935,6 +938,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\[ P_n(t) = \sum_{j \ge 0} j^n t^j \]
 
 	\begin{ftheo}[Carlitz' Identity]
+		\label{theo: carlitz identity}
 		It is true that
 		\[ P(t) = \frac{tA_n(t)}{(1-t)^{n+1}}. \]
 		Equivalently,
@@ -952,7 +956,8 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Observe that $t^{\des(\pi)}/(1-t)^{n+1}$ for some permutation $\pi$ is precisely the contribution of $\pi$ to \Cref{eqn: counting to carlitz identity}! The coefficient of $t^k$ in $1/(1-t)^{n+1}$ is precisely the number of ways to insert $k$ bars in the $n$ positions. Therefore,
 		\[ \sum_{\overline{\pi} \text{ is a barred permutation of length $n$}} t^{\bars(\overline{\pi})} = \sum_{\pi \in \mathfrak{S}_n} \frac{t^{\des(\pi)}}{(1-t)^{n+1}} = \frac{A_n(t)}{(1-t)^{n+1}}. \]
 
-		Let us now count this expression in another way, looking at the coefficient of $t^k$. This amounts to just putting $n$ ``distinct balls'' in $k+1$ ``distinct bins''. 
+		Let us now count this expression in another way, looking at the coefficient of $t^k$. This amounts to just putting $n$ ``distinct balls'' in $k+1$ ``distinct bins'', which is $(k+1)^n$. Therefore,
+		\[ \frac{A_n(t)}{(1-t)^{n+1}} = \sum_{k \ge 0} (k+1)^n t^k. \] 
 	\end{proof}
 
 	\begin{proof}[Proof due to class]
@@ -970,3 +975,73 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ p_{k+1}(t) = t (1-t) p_k'(t) - (k+1) t p_k(t). \]
 		It is seen that this recurrence is satisfied by $tA_n(t)$ and $p_1(t) = tA_1(t)$, completing the proof.
 	\end{proof}
+
+	Now, consider the egf
+	\[ S(t,u) = \sum_{n \ge 0} A_n(t) \frac{u^n}{n!}. \]
+	We have by \Cref{theo: carlitz identity} that
+	\begin{align*}
+		\frac{S(t,u)}{1-t} &= \sum_{n,m \ge 0} (m+1)^n t^m \frac{\left(u(1-t)\right)^n}{n!} \\
+			&= \sum_{m \ge 0} t^m \sum_{n \ge 0} \frac{\left(u(m+1)(1-t)\right)}{n!} \\
+			&= \sum_{m \ge 0} t^m \exp(u(m+1)(1-t)) \\
+			&= \exp(u(1-t)) \sum_{m \ge 0} \left( t \exp(u(1-t)) \right)^m \\
+			&= \frac{e^{u(1-t)}}{1 - te^{u(1-t)}} \\
+			&= \frac{1}{e^{u(t-1)} - t} \\
+		S(t,u) &= \frac{1-t}{e^{u(t-1)}-t}.
+	\end{align*}
+	Despite not having anything explicit for the Eulerian polynomial itself, we do get an explicit egf for it!\\
+
+	Recall $\gamma$-positivity of palindromic polynomials.
+
+	\begin{definition}
+		If $f(t) = \sum_{k=r}^n a_kt^k$ with $a_r,a_n \ne 0$ then $f$ is said to be \emph{palindromic} if $t^{n+r} f(1/t) = f(t)$.
+	\end{definition}
+	Typically, we discuss palindromic polynomials for a fixed $r$.\\
+	The center of symmetry of the polynomial is roughly $(n+r)/2$, and the set of palindromic polynomials for a fixed $r$ form a vector space of dimension roughly $(n-r)/2$.\\
+	Some bases of this space are
+	\begin{align*}
+		B_1 &= \left\{ t^\ell + t^{n+r-\ell} : k = r,\ldots,(n-r)/2 \right\} \\
+		B_2 &= \Gamma_{(n-r)/2} = \left\{ t^{r+\ell} (1+t)^{n-r-2\ell} : \ell = r,\ldots,(n-r)/2 \right\}	\\
+		B_3 &= G_{(n-r)/2} = \left\{ [b+1-\ell]_t - [r+\ell]_t : \ell = 0,\ldots,(n-r)/2 \right\}.
+	\end{align*}
+	
+	\begin{fex}
+		It is true that
+		\phantom{pain}
+		\begin{align*}
+			[5]_q &= 1+q+q^2+q^3+q^4 \\
+				&= (1)(1+4q+6q^2+4q^3+q^4) + (-3)(q+2q^2+q^3) + q^2.
+		\end{align*}
+	\end{fex}
+
+	Let us string the coefficients that appear above as a polynomial. For example,
+	\begin{equation}
+		\label{eqn: gamma example}
+		\gamma_{[5]_q}(t) = 1-3t+t^2 \text{ and } \gamma_{[4]_q}(t) = 1-2t.
+	\end{equation}
+	Do the $\gamma$-coefficients of $[n]_q$ alternate in sign?
+
+	Recall the $1 \times n$ board $B_n$, which we saw how to tile with squares and dimers. Also recall \Cref{eqn: board tiling polynomial} and the recurrence thereafter. It is easily verified that
+	\begin{align*}
+		F_3(s,t) &= s^3 + 2st \\
+		F_4(s,t) &= s^4 + 3s^2t + t^2.
+	\end{align*}
+	Observe that these coefficients match (up to sign) the coefficients in \Cref{eqn: gamma example}!
+
+	\begin{exercise}
+		Show that
+		\[ F_n(1+q,-q) = [n+1]_q. \]
+	\end{exercise}
+
+	Let
+	\[ [n]_q = F_{n-1}(1+q,-q) = \sum_{k = 0}^{n-1} f_{n-1,k} (1+q)^{n-1-2k}(-q)^k. \]
+	What are these $f_{n-1,k}$?\\
+
+	Given a graph $G$ of size $n$, consider the bivariate polynomial
+	\[ \Match_G(s,t) = \sum_{\substack{\text{$\mathcal{M}$ matching in $G$} \\ |\mathcal{M}| = k}} s^{n-2k} t^k = \sum_{k \ge 0} m_k(G) s^{n-2k} t^k . \]
+	There is an straightforward correspondence between matchings on $P_n$ and tilings $F_n$. For each edge $\{i,i+1\}$ in a matching, consider the tiling on $B_n$ with dimers precisely at positions $\{i,i+1\}$. This is sensible because the edges form a matching.\\
+	As a result,
+	\[ F_n(s,t) = \Match_{P_n}(s,t) = \sum_{k \ge 0} \binom{n-k}{k} s^{n-2k} t^k \]
+	and $f_{n,k} = \binom{n-k}{k}$. Consequently,
+
+	\[ [n]_q = \sum_{k \ge 0} (-1)^k \binom{n-1-k}{k} \underbrace{(1+q)^{n-1-2k} q^k}_{\text{element of the $\Gamma$-basis!}}. \]
+	The $\gamma$-coefficients of $[n]_q$ do alternate in sign.
