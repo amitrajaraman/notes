@@ -383,17 +383,30 @@
 			\end{align*}
 			Consequently, $\gamma$ increases from $1/\poly(n)$ to a constant in $O(\log n)$ steps!
 
-			% The only thing that remains is to prove \Cref{lem: zigzag spectral gap}.
+			The only thing that remains is to prove \Cref{lem: zigzag spectral gap}.
+
+			\begin{lemma}
+				\label{lem: error of walk from complete}
+				Let $C$ be a random walk matrix with eigenvalue $\lambda$. Then, it is possible to write $C = (1-\lambda)J + \lambda E$ for some matrix $E$ with spectral norm%\footnote{the largest absolute value of an eigenvalue}
+				equal to $1$.
+			\end{lemma}
+			\begin{proof}
+				Let $v$ be a vector, and let $v_1,v_2$ be its components along and orthogonal to the all ones vector. Observe that all eigenvalues of $J$ other than the first are equal to $0$. As a result,
+				\begin{align*}
+					\norm{Ev} &= \frac{1}{\lambda} \norm{Cv - (1-\lambda)Jv} \\
+						&= \frac{1}{\lambda} \norm{v_1 + Cv_2 - (1-\lambda)v_1} \\
+						&= \frac{1}{\lambda} \norm{\lambda v_1 + Cv_2} \\
+						&= \frac{1}{\lambda} \sqrt{\lambda^2 \norm{v_1}^2 + \norm{Cv_2}^2} \\
+						&\le  \frac{1}{\lambda} \sqrt{\lambda^2 \norm{v_1}^2 + \lambda^2 \norm{v_2}^2} = \norm{v}.
+				\end{align*}
+				The above inequality is tight on setting $v_2$ as the second eigenvector of $C$, so the spectral norm is precisely $1$.
+			\end{proof}
 
 			\begin{proof}[Proof of \Cref{lem: zigzag spectral gap}]
 				Let $B$ be the random walk matrix of $H$, and let $\tilde{B} = I_n \otimes B$.\footnote{this is a $nD \times nD$ matrix, with $n$ blocks on the diagonal that are all $B$s.} Let $\tilde{A}$ be the matrix that encodes the second edge (using $G$-edges) traversed in the construction of the zigzag product. Then, the transition matrix $M$ of $G \zigzag H$ is just $\tilde{B} \tilde{A} \tilde{B}$!\\
 				Now, denote by $J$ the matrix that has all elements $1/n$. 
 
-				\textbf{Claim.} Let $C$ be a random walk matrix with eigenvalue $\lambda$. Then, it is possible to write $C = (1-\lambda)J + \lambda E$ for some matrix $E$ with spectral norm\footnote{the largest absolute value of an eigenvalue} bounded from above by $1$.\\
-				Indeed,
-				\[ \norm{E} = \frac{1}{\lambda} \norm{C - (1-\lambda) J} \ge \frac{1}{\lambda} \left( \norm{C} - (1-\lambda)\norm{J} \right) = 1. \]
-
-				Given this,
+				Now, use \Cref{lem: error of walk from complete} on $\tilde{B}$.
 				\begin{align*}
 					M &= \tilde{B} \tilde{A} \tilde{B} \\
 						&= \left( \gamma_2 \tilde{J} + \lambda_2 \tilde{E} \right) \tilde{A} \left( \gamma_2 \tilde{J} + \lambda_2 \tilde{E} \right) \\
@@ -401,7 +414,7 @@
 						&= \gamma_2^2 \tilde{J} \tilde{A} \tilde{J} + (1-\gamma_2^2) X,
 				\end{align*}
 				for some matrix $X$. Observe that the spectral norm of $X$ is at most $1$ because $\tilde{E},\tilde{A},\tilde{J}$ all have spectral norms at most $1$, and so by submultiplicativity of the spectral norm,\footnote{$\norm{AB} \le \norm{A}\norm{B}$. This is obvious because $\norm{ABx} \le \norm{A}\norm{Bx} \le \norm{A}\norm{B}\norm{x}$.} $\tilde{E}\tilde{A}\tilde{J}$, $\tilde{J}\tilde{A}\tilde{E}$, and $\tilde{E}\tilde{A}\tilde{E}$ all have spectral norms at most $1$.\\
-				Now, we wish to bound the second eigenvalue of $M$. Note that $\tilde{J}\tilde{A}\tilde{J}$ is precisely the random walk matrix of $G \otimes K_n$, which has second eigenvalue equal to that of $G$. Recalling very carefully that this is attained for some vector $v$ orthogonal to $\textbf{1}$, we have
+				Now, we wish to bound the second eigenvalue of $M$. Note that $\tilde{J}\tilde{A}\tilde{J}$ is precisely the random walk matrix of $G \otimes K_n$, which has second eigenvalue equal to that of $G$. Recalling very carefully that the second eigenvector of $M$ is some vector $v$ orthogonal to $\textbf{1}$, we have
 				\begin{align*}
 					\norm{Mv}_2 &= \norm{\gamma_2^2 \tilde{J} \tilde{A} \tilde{J} x} + \norm{(1-\gamma_2^2)X x} \\
 						&\le \left(\gamma_2^2 \lambda_1 + (1-\gamma_2^2)\right) \norm{v} = (1-\gamma_2^2\gamma_1) \norm{v},
