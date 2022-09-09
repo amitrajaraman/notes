@@ -326,16 +326,27 @@
 				\end{enumerate}
 			\end{itemize}
 
+			\begin{lemma}
+				Suppose that $H$ is a non-bipartite graph, and let $w_H,w_H'$ be any vertices in $H$. Then, $s,t$ are connected in $G$ iff $(s,w_H)$ and $(t,w_H')$ are connected in $G \zigzag H$.
+			\end{lemma}
+			\begin{proof}
+				It suffices to show that for any $v \in V(G)$, the ``cloud'' $v \times V(H)$ is connected. Indeed, the connectivity of clouds is identical to the connectivity of $G$. Consider some arbitrary $a_H,b_H$ with a $2$-walk $a_Hv_Hb_H$ in $H$ between them. Due to the non-bipartiteness of $H$, we are done if we show that there is a path between $(v,a_H)$ and $(v,b_H)$. Indeed, considering some neighbour $(w,c_H)$ of $(v,a_H)$ in $G\zigzag H$ such that $w$ is the $v_H$th neighbour of $v$, it is seen that both $(v,a_H)$ and $(v,b_H)$ are adjacent to $(w,c_H)$ in $G \zigzag H$, so we are done.
+			\end{proof}
+
 			% preserves connectivity -- why?
 			% (s,t) just check any vertex in the s cloud and t cloud -- why is each cloud connected??? CHECK!!!
 
 			What happens to the eigenvalue of $G\zigzag H$? For the sake of simplicity, let $\gamma_1 = 1-\lambda_1$ and $\gamma_2 = 1-\lambda_2$ be the corresponding spectral gaps. We claim that
-			\begin{equation}
-				\label{eqn: zigzag spectral gap}
-				\gamma(G\zigzag H) \ge \gamma_1 \gamma_2^2.
-			\end{equation}
+			\begin{flem}
+				\label{lem: zigzag spectral gap}
+				It is true that
+				% \begin{equation}
+				\[ \gamma(G\zigzag H) \ge \gamma_1 \gamma_2^2. \]
+				% \end{equation}
+			\end{flem}
+			We prove the above shortly, and first describe how this results in a conversion of our graph to an expander graph.\\
 		
-			Now, how do we construct the expander graph $H$?\\
+			First of all, how do we construct the $(D,d,\lambda_2)$ graph $H$?\\
 			There exists a simple method to construct a $(D^4,D,1/8)$ graph $H$ that we do not describe.\\
 			To generate a larger graph with bounded spectral value, we can do the following.
 			\begin{enumerate}
@@ -344,9 +355,9 @@
 			\end{enumerate}
 			We claim that $G_k$ is a $(D^{4k},D^2,1/2)$ graph (by $1/2$ we mean that the eigenvalue is at most $1/2$).\\
 			The first two parameters are easily verified.
-			It may be shown using \Cref{eqn: zigzag spectral gap} without much trouble that $\lambda(G \zigzag H) \le \lambda_1 + 2\lambda_2$.\\
+			It may be shown using \Cref{lem: zigzag spectral gap} without much trouble that $\lambda(G \zigzag H) \le \lambda_1 + 2\lambda_2$.\\
 			Then, an inductive argument yields the eigenvalue bound for $G_k$. Indeed, $\lambda(G_1) \le 1/2$ and $\lambda(G_{k+1}) \le \lambda(G_k)^2 + 2 \lambda(H) \le (1/2)^2 + 2/8 = 1/2$.
-			Before coming to the proof of \Cref{eqn: zigzag spectral gap}, we describe the construction used to convert $G$ to a graph $G'$ satisfying the conditions described earlier.\\
+			Before coming to the proof of \Cref{lem: zigzag spectral gap}, we describe the construction used to convert $G$ to a graph $G'$ satisfying the conditions described earlier.\\
 			\begin{algorithm}[H]
 				\DontPrintSemicolon
 				\SetNoFillComment
@@ -372,9 +383,9 @@
 			\end{align*}
 			Consequently, $\gamma$ increases from $1/\poly(n)$ to a constant in $O(\log n)$ steps!
 
-			% The only thing that remains is to prove \Cref{eqn: zigzag spectral gap}.
+			% The only thing that remains is to prove \Cref{lem: zigzag spectral gap}.
 
-			\begin{proof}[Proof of \Cref{eqn: zigzag spectral gap}]
+			\begin{proof}[Proof of \Cref{lem: zigzag spectral gap}]
 				Let $B$ be the random walk matrix of $H$, and let $\tilde{B} = I_n \otimes B$.\footnote{this is a $nD \times nD$ matrix, with $n$ blocks on the diagonal that are all $B$s.} Let $\tilde{A}$ be the matrix that encodes the second edge (using $G$-edges) traversed in the construction of the zigzag product. Then, the transition matrix $M$ of $G \zigzag H$ is just $\tilde{B} \tilde{A} \tilde{B}$!\\
 				Now, denote by $J$ the matrix that has all elements $1/n$. 
 
@@ -392,7 +403,7 @@
 				for some matrix $X$. Observe that the spectral norm of $X$ is at most $1$ because $\tilde{E},\tilde{A},\tilde{J}$ all have spectral norms at most $1$, and so by submultiplicativity of the spectral norm,\footnote{$\norm{AB} \le \norm{A}\norm{B}$. This is obvious because $\norm{ABx} \le \norm{A}\norm{Bx} \le \norm{A}\norm{B}\norm{x}$.} $\tilde{E}\tilde{A}\tilde{J}$, $\tilde{J}\tilde{A}\tilde{E}$, and $\tilde{E}\tilde{A}\tilde{E}$ all have spectral norms at most $1$.\\
 				Now, we wish to bound the second eigenvalue of $M$. Note that $\tilde{J}\tilde{A}\tilde{J}$ is precisely the random walk matrix of $G \otimes K_n$, which has second eigenvalue equal to that of $G$. Recalling very carefully that this is attained for some vector $v$ orthogonal to $\textbf{1}$, we have
 				\begin{align*}
-					\norm{Mv}_2 &= \norm{\gamma_2^2 \tilde{J} \tilde{A} \tilde{J} x} + \norm{(1-\gamma_2^2) x} \\
+					\norm{Mv}_2 &= \norm{\gamma_2^2 \tilde{J} \tilde{A} \tilde{J} x} + \norm{(1-\gamma_2^2)X x} \\
 						&\le \left(\gamma_2^2 \lambda_1 + (1-\gamma_2^2)\right) \norm{v} = (1-\gamma_2^2\gamma_1) \norm{v},
 				\end{align*}
 				completing the proof.
