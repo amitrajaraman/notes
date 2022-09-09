@@ -1,6 +1,5 @@
 \section{Expander graphs and applications}
 
-
 	\subsection{Lectures 6--7: Magical graphs and two applications}
 	
 		\subsubsection{Lecture 6}
@@ -135,7 +134,7 @@
 
 			We claim that $d_H(C) > n/10d$, so the relative distance is at least $1/10d$. Suppose instead that there is some $x \in \mathcal{C}$ such that $\wt(x) \le n/10d$. Let $S \subseteq [n]$ be the subset of $L$ such that $v \in S$ iff $x_v \ne 0$. By \Cref{exists vert with unique neighbour}, there exists some $u \in R$ such that $M_{uv} = 1$ for precisely one $v \in S$. However, this implies that $(Mx)_u = \sum_v M_{uv} x_{v} = 1$.
 
-	\subsection{Lectures 7--9: Testing connectivity of undirected graphs}
+	\subsection{Lectures 7, 8, 10: Testing connectivity of undirected graphs}
 
 		\subsubsection{Lecture 7 (continued)}
 
@@ -296,8 +295,109 @@
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} |x_{i_{j+1}} - x_{i_j}|\right)^2 \\
 					&\ge \frac{1}{n} \left(\sum_{1 \le j \le (n-1)} x_{i_{j+1}} - x_{i_j}\right)^2 \ge \frac{1}{n^2}.
 			\end{align*}
-			Therefore, the mixing time is $O\left(n^2 d \log n \right)$.
+			Therefore, the largest eigenvalue of any graph is at most $1 - 1/nd^2$.
 
+		\subsubsection{Lecture 10}
+
+			By arguments discussed in Lecture $8$, we know that the random walk on an expander graph mixes in $O(\log n)$ time. This leads to a \emph{deterministic} polynomial time algorithm to determine $s,t$ connectivity in log-space -- merely iterate over all paths of length $\log n$. That is, we iterate over all elements of $[d]^{\log n}$ and for each such element, we follow the corresponding path and check if we see $t$ anywhere.\\
+
+			How do we extend this to arbitrary graphs? Given a graph $G$, we would like to get a graph $G'$ such that
+			\begin{itemize}
+				\item $G'$ has polynomially many vertices,
+				\item $G'$ has ``constant'' degree (independent of $n$),
+				\item $G'$ preserves connectivity ($s,t$ are connected in $G$ iff some $s',t'$ are connected in $G'$), and
+				\item each component of $G'$ is an expander.
+			\end{itemize}
+
+			Let us look at a couple of operations one can do on a $(n,d,\lambda)$-expander $G$.
+
+			\paragraph{Squaring ($G^2$)} the vertex set is the same as that of $G$, and there is an edge between $u,v$ for each length $2$ walk between $u,v \in G$. This is a multigraph with self-loops. $G^2$ is a $(n,d^2,\lambda^2)$-expander; the random walk matrix on $G^2$ is just $M^2$, where $M$ is the random walk matrix on $G$. Because the second eigenvalue has gone down, connectivity has improved. However, the degree has increased.
+
+			\paragraph{Zig-zag product ($G \zigzag H$)} Let $G$ be a $(n,D,\lambda_1)$-expander and $H$ a $(D,d,\lambda_2)$-expander. Note that the degree of the first graph is the number of vertices in the second! The goal of this product is to decrease the degree, without changing expansion too much. \\
+			The idea is very similar to that we saw in Lecture 9 to derandomize algorithms, and we shall ``derandomize the random walk in $G$ using $H$'' -- instead of going to a random neighbour in $G$, we determine which vertex to travel to using $H$.\\
+			$G \zigzag H$ has $nD$ vertices and is $d^2$-regular. Suppose that the edges at each vertex in $G$ are put in bijection with $V(H)$ in some arbitrary manner.
+			\begin{itemize}
+				\item The vertex set of $G\zigzag H$ is $V(G) \times V(H)$; we shall replace each vertex of $G$ with the vertices of $H$.
+				\item Let $v = (a_G,a_H) \in V(G\zigzag H)$ and $(i,j) \in [d]^2$. The $(i,j)$th neighbour $(b_G,b_H)$ of $(a_G,a_H)$ is as follows.
+				\begin{enumerate}
+					\item Let $a_H'$ be the $i$th neighbour of $a_H$ in $H$.
+					\item Let $(b_G,b_H')$ be the $a_H'$th neighbour of $a_H$ in $G$ (recall that we had put the neighbours of a given vertex in bijection with $V(H)$). That is, $b_G$ is the $a_H'$th neighbour of $a_G$ and $a_G$ is the $b_H'$th neighbour of $b_G$.
+					\item Let $b_H$ be the $j$th neighbour of $b_H'$.
+				\end{enumerate}
+			\end{itemize}
+
+			% preserves connectivity -- why?
+			% (s,t) just check any vertex in the s cloud and t cloud -- why is each cloud connected??? CHECK!!!
+
+			What happens to the eigenvalue of $G\zigzag H$? For the sake of simplicity, let $\gamma_1 = 1-\lambda_1$ and $\gamma_2 = 1-\lambda_2$ be the corresponding spectral gaps. We claim that
+			\begin{equation}
+				\label{eqn: zigzag spectral gap}
+				\gamma(G\zigzag H) \ge \gamma_1 \gamma_2^2.
+			\end{equation}
+		
+			Now, how do we construct the expander graph $H$?\\
+			There exists a simple method to construct a $(D^4,D,1/8)$ graph $H$ that we do not describe.\\
+			To generate a larger graph with bounded spectral value, we can do the following.
+			\begin{enumerate}
+				\item Set $G_1$ as $H^2$.
+				\item For each $k$, set $G_{k+1}$ as $G_k^2 \zigzag H$.
+			\end{enumerate}
+			We claim that $G_k$ is a $(D^{4k},D^2,1/2)$ graph (by $1/2$ we mean that the eigenvalue is at most $1/2$).\\
+			The first two parameters are easily verified.
+			It may be shown using \Cref{eqn: zigzag spectral gap} without much trouble that $\lambda(G \zigzag H) \le \lambda_1 + 2\lambda_2$.\\
+			Then, an inductive argument yields the eigenvalue bound for $G_k$. Indeed, $\lambda(G_1) \le 1/2$ and $\lambda(G_{k+1}) \le \lambda(G_k)^2 + 2 \lambda(H) \le (1/2)^2 + 2/8 = 1/2$.
+			Before coming to the proof of \Cref{eqn: zigzag spectral gap}, we describe the construction used to convert $G$ to a graph $G'$ satisfying the conditions described earlier.\\
+			\begin{algorithm}[H]
+				\DontPrintSemicolon
+				\SetNoFillComment
+				\SetKwProg{Fn}{}{}{}
+				\SetKwFunction{regularize}{{regularize}}
+				% \Fn{\isPath{$s,t,k=2^{\ell}$}} {
+				\KwIn{An graph $G$}
+				\KwOut{A graph $G'$ each of whose components is an expander}
+				$G_0 \gets \regularize(G)$\;
+				\For{$1 \le k \le O(\log n)$} {
+					$G_{k+1} \gets G_k^2 \zigzag H$
+				}
+				\caption{Converting an arbitrary graph to an expander}
+			\end{algorithm}
+			First, make $G$ a regular graph. % that weird 3-regular thing prof describes
+			$G_0$ is an $(n,D^2,1-\frac{1}{\poly(n)})$ graph.
+			We claim that $G_k$ is an $(nD^{4k},D^2,17/18)$.\\
+			The first two parameters are straightforward. Let $\gamma_k = 1 - \lambda(G_k)$. Assume that for some $k$ $\gamma_{k-1} \le 1/18$. Then,
+			\begin{align*}
+				\gamma_{k+1} &\ge \left(1 - \left(1 - \gamma_k\right)^2\right) \left( \frac{7}{8} \right)^2 \\
+					&= (2\gamma_k - \gamma_k^2) \frac{49}{64} \\
+					&\ge \left( \frac{35}{18} \gamma_k \right) \frac{49}{64} \ge \frac{5}{4} \gamma_k.
+			\end{align*}
+			Consequently, $\gamma$ increases from $1/\poly(n)$ to a constant in $O(\log n)$ steps!
+
+			% The only thing that remains is to prove \Cref{eqn: zigzag spectral gap}.
+
+			\begin{proof}[Proof of \Cref{eqn: zigzag spectral gap}]
+				Let $B$ be the random walk matrix of $H$, and let $\tilde{B} = I_n \otimes B$.\footnote{this is a $nD \times nD$ matrix, with $n$ blocks on the diagonal that are all $B$s.} Let $\tilde{A}$ be the matrix that encodes the second edge (using $G$-edges) traversed in the construction of the zigzag product. Then, the transition matrix $M$ of $G \zigzag H$ is just $\tilde{B} \tilde{A} \tilde{B}$!\\
+				Now, denote by $J$ the matrix that has all elements $1/n$. 
+
+				\textbf{Claim.} Let $C$ be a random walk matrix with eigenvalue $\lambda$. Then, it is possible to write $C = (1-\lambda)J + \lambda E$ for some matrix $E$ with spectral norm\footnote{the largest absolute value of an eigenvalue} bounded from above by $1$.\\
+				Indeed,
+				\[ \norm{E} = \frac{1}{\lambda} \norm{C - (1-\lambda) J} \ge \frac{1}{\lambda} \left( \norm{C} - (1-\lambda)\norm{J} \right) = 1. \]
+
+				Given this,
+				\begin{align*}
+					M &= \tilde{B} \tilde{A} \tilde{B} \\
+						&= \left( \gamma_2 \tilde{J} + \lambda_2 \tilde{E} \right) \tilde{A} \left( \gamma_2 \tilde{J} + \lambda_2 \tilde{E} \right) \\
+						&= \gamma_2^2 \tilde{J} \tilde{A} \tilde{J} + \gamma_2(1-\gamma_2) \left( \tilde{E}\tilde{A}\tilde{J} + \tilde{J}\tilde{A}\tilde{E} \right) + (1-\gamma_2)^2 \tilde{E}\tilde{A}\tilde{E} \\
+						&= \gamma_2^2 \tilde{J} \tilde{A} \tilde{J} + (1-\gamma_2^2) X,
+				\end{align*}
+				for some matrix $X$. Observe that the spectral norm of $X$ is at most $1$ because $\tilde{E},\tilde{A},\tilde{J}$ all have spectral norms at most $1$, and so by submultiplicativity of the spectral norm,\footnote{$\norm{AB} \le \norm{A}\norm{B}$. This is obvious because $\norm{ABx} \le \norm{A}\norm{Bx} \le \norm{A}\norm{B}\norm{x}$.} $\tilde{E}\tilde{A}\tilde{J}$, $\tilde{J}\tilde{A}\tilde{E}$, and $\tilde{E}\tilde{A}\tilde{E}$ all have spectral norms at most $1$.\\
+				Now, we wish to bound the second eigenvalue of $M$. Note that $\tilde{J}\tilde{A}\tilde{J}$ is precisely the random walk matrix of $G \otimes K_n$, which has second eigenvalue equal to that of $G$. Recalling very carefully that this is attained for some vector $v$ orthogonal to $\textbf{1}$, we have
+				\begin{align*}
+					\norm{Mv}_2 &= \norm{\gamma_2^2 \tilde{J} \tilde{A} \tilde{J} x} + \norm{(1-\gamma_2^2) x} \\
+						&\le \left(\gamma_2^2 \lambda_1 + (1-\gamma_2^2)\right) \norm{v} = (1-\gamma_2^2\gamma_1) \norm{v},
+				\end{align*}
+				completing the proof.
+			\end{proof}
+			
 	\subsection{Lecture 9: Expander graphs}
 
 		\subsubsection{Lecture 9}
