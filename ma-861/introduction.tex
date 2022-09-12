@@ -1045,3 +1045,41 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\[ [n]_q = \sum_{k \ge 0} (-1)^k \binom{n-1-k}{k} \underbrace{(1+q)^{n-1-2k} q^k}_{\text{element of the $\Gamma$-basis!}}. \]
 	The $\gamma$-coefficients of $[n]_q$ do alternate in sign.
+
+\subsection{Symmetric functions}
+
+	Let $G = \{x_1,x_2,\ldots,\}$ be a countably infinite abelian group.\\ 
+	Consider the group action induced by the set of permutations of $\N$ on the set of monomials $x_{i_1}^{\alpha_{i_1}}\cdots x_{i_k}^{\alpha_{i_k}}$. For example,
+	if $\sigma = (1,2)$ and $m = x_1^2x_2x_4^3$, then $\sigma(m) = x_1x_2^2x_4^3$.
+	$\sigma$ thus acts on $\Q[x_1,\ldots,]$ by extending this linearly. A function $f$ is said to be symmetric if $\sigma(f) = f$ for all $\sigma$. The collection of homogeneous degree $d$ symmetric functions (with the zero polynomial) is a vector space over $\Q$.\\
+
+	\begin{fex}
+		The unique symmetric function (up to scaling) of degree $1$ is $f = \sum_{i \ge 1} x_i$.\\
+		For $d=2$, we get $\sum_{i<j} x_ix_j$ and $\sum_i x_i^2$ as a basis.
+	\end{fex}
+
+	Denote the vector space of $\Lambda_\Q^d$. It is not too difficult to show that $\dim(\Lambda_\Q^d) = p(d)$, the number of number-partitions of $d$.\\
+	The basis of $\Lambda_\Q^d$ suggested by the above example is as follows. Let $\lambda = (\lambda_1,\ldots,\lambda_{\ell(\lambda)})$ be a partition of $d$ (denoted $\lambda \vdash d$). Define the monomial symmetric function
+	\[ m_\lambda = \sum_{\text{symmetric}} x_1^{\lambda_1} x_2^{\lambda_2} \cdots x_k^{\lambda_k} = \sum \textbf{x}^\lambda. \]
+	The ``symmetric'' means that we sum over all distinct ways to permute the exponents $\lambda_1,\ldots,\lambda_k$. The summation above is slightly strange, because we want to ensure that every monomial in $m_\lambda$ appears with coefficient $1$. $\{m_\lambda\}_{\lambda \vdash d}$ is a basis of $\Lambda_\Q^d$.
+
+	\begin{question*}
+		\label{question: rowsum colsum}
+		Given a matrix $M_{r \times k}$, on summing each row of $M$, we get a vector $\rowsum(M) = (r_1,\ldots,r_\ell)$ and on summing the columns we get a vector $\colsum(M) = (c_1,\ldots,c_k)$. When does there exist a 0-1 matrix $M$ such that $\rowsum(M)$ and $\colsum(M)$ are each equal to given vectors $(r_1,\ldots,r_\ell)$ and $(c_1,\ldots,c_k)$?
+	\end{question*}
+
+	For starters, we clearly require $\sum r_i = \sum c_j \eqqcolon S$. Assume without loss of generality that $r_1 \ge \cdots \ge r_\ell$ and $c_1 \ge \cdots \ge c_k$ -- if a matrix for this exists, we can first reorder the rows to ensure the correct order of row sums, then reorder the columns. That is, we have two number partitions $\lambda = (r_1,\ldots,r_\ell)$ and $\mu = (c_1,\ldots,c_k)$ of $S$.\\
+	We return to the problem later.\\
+
+
+	Now, we define some partial orders on the set of number partitions.\\
+	First, we consider an order that allows the comparison of number partitions of different numbers.
+	\begin{fdef}[Young's order]
+		Under \emph{Young's order}, given two number partitions $\lambda,\mu$, $\lambda \le \mu$ iff the Ferrer diagram of $\lambda$ is contained in that of $\mu$.
+	\end{fdef}
+	Observe that under this order, two number partitions of the same number are \emph{not} comparable.\\
+
+	Next, we define a total order over number partitions of a given number.
+	\begin{fdef}[Lexicographic order]
+		Fix some $d$ and two partitions $\lambda = (\lambda_1,\ldots,\lambda_k),\mu = (\mu_1,\ldots,\mu_\ell)$ of $d$. Under the \emph{lexicographic order}, we have $\lambda \le \mu$ iff for some $r \le k$, $\lambda_r < \mu_r$ and $\lambda_i = \mu_i$ for all $i < r$.
+	\end{fdef}
