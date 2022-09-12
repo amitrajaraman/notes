@@ -459,7 +459,7 @@
 			\end{ftheo}
 			We prove this later.\\
 
-			\emph{Markov chain Monte Carlo} methods find many uses nowadays in problems such as sampling random spanning trees, random independent sets etcetera. The idea in these is that we start with an arbitrary spanning tree (say), and then randomly move to a ``neighbouring'' spanning tree -- add a random edge not in the spanning tree and remove a random edge from the cycle thus formed. After sufficiently many steps, we are at a(n almost) uniformly random spanning tree. This massive graph composed of spanning trees as vertices ends up being an expander! Because the graph of spanning trees has only exponentially many vertices, we get a polynomial time algorithm to randomly sample spanning trees.
+			\emph{Markov chain Monte Carlo} methods find many uses nowadays in problems such as sampling random spanning trees, random independent sets etc. The idea in these is that we start with an arbitrary spanning tree (say), and then randomly move to a ``neighbouring'' spanning tree -- add a random edge not in the spanning tree and remove a random edge from the cycle thus formed. After sufficiently many steps, we are at a(n almost) uniformly random spanning tree. This massive graph composed of spanning trees as vertices ends up being an expander! Because the graph of spanning trees has only exponentially many vertices, we get a polynomial time algorithm to randomly sample spanning trees.
 
 			\begin{fex}
 				The $n$-cycle $C_n$ has sparsity $h(C_n) = 2/n$, and $\lambda(C_n) = \cos(2\pi/n) \approx 1 - (2\pi/n)^2$.\\
@@ -566,7 +566,7 @@
 			\begin{ftheo}%[Singleton]
 				Reed-Solomon codes match the singleton bound.
 			\end{ftheo}
-			This says that over large fields, they essentially match the best possible rate-distance tradeoff.
+			This says that over large fields, they essentially match the best possible rate-distance trade-off.
 
 			The matrix multiplication scheme above describes a simple way to encode RS codes. How do we decode them? That is, if $r = (r_1,\ldots,r_n) \in \F^n$, what do we decode it to? This asks to find the RS codeword $c$ closest to $r$; find \emph{the} RS codeword $c$ such that $d_H(c,r) < (n-k+1)/2$ (if no such codeword exists, say no). \\ %sometimes called unique decoding regime
 
@@ -591,12 +591,12 @@
 			\[ Q(x,y) = A_0 + A_1 x + \cdots + A_{D-1} x^{D-1} + B_0y + B_1xy + \cdots + B_{d-1} x^{d-1}. \]
 			Then, we wish to determine coefficients $(A_i)$ and $(B_i)$ such that for all $i$
 			\[ Q(x,y) = A_0 + A_1 \alpha_i + \cdots + A_{D-1} \alpha_i^{D-1} + B_0 r_i + B_1 r_i\alpha_i + \cdots + B_{d-1} r_i\alpha_i^{n-1} = 0. \]
-			This is just a linear systme of $n$ equations. If $D+d > n$, which is indeed true, we may solve it for a non-trivial solution.\\
+			This is just a linear system of $n$ equations. If $D+d > n$, which is indeed true, we may solve it for a non-trivial solution.\\
 			To compute $g$ using $A,B$, we just have to do polynomial long division from high school (there are better methods to do this).\\
 			All that remains is to check correctness.
 
 			\begin{ftheo}
-				If there exists a polynomial $h \in \F[x]$ of degree at most $k-1$ such that $d_H(\Enc(h),r) < (n-k+1)/2$, the Welsh-Berlekamp algorithms outputs it.
+				If there exists a polynomial $h \in \F[x]$ of degree at most $k-1$ such that $d_H(\Enc(h),r) < (n-k+1)/2$, the Welch-Berlekamp algorithms outputs it.
 			\end{ftheo}
 			\begin{proof}
 				Let $Q(x,y) = A(x) + yB(x)$ with $\deg(A) < D$, $\deg(B) < d$, and $Q(\alpha_i,r_i) = 0$ for all $i$ be the polynomial output in the first step of the algorithm.\\
