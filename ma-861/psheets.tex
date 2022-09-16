@@ -284,7 +284,7 @@
 			For negative coefficients, we have
 			\[ \binom{-(n+1)}{k} = \binom{-n}{k} - \binom{-(n+1)}{k-1}. \]
 			We have $\binom{0}{k} = 1$ if $k = 0$ and $0$ otherwise, and also that $\binom{-n}{0} = 1$.
-			For $n\ge 0$, let $f_n(x) = \sum_{k \ge 0} \binom{-n}{k}$. Then,
+			For $n\ge 0$, let $f_n(x) = \sum_{k \ge 0} \binom{-n}{k} x^k$. Then,
 			\begin{align*}
 				\sum_{k \ge 1} \binom{-(n+1)}{k} x^k &= \sum_{k \ge 1} \binom{-n}{k} x^k - x \sum_{k \ge 1} \binom{-(n+1)}{k-1} x^{k-1} \\
 				f_{n+1}(x)-1 &= f_n(x)-1 - xf_{n+1}(x) \\

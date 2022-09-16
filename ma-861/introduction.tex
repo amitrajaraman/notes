@@ -133,14 +133,14 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{ftheo}[Exponential Formula]
 		\label{ec2: egf sum over partitions}
-		Let $\{f_n\}$ be a sequence with exponential generating function
-		\[ F(x) = \sum_{n \ge 1} f_n \frac{x^n}{n!}. \]
+		Let $\{f_n\},\{g_n\}$ be a sequence with exponential generating functions
+		\[ F(x) = \sum_{n \ge 1} f_n \frac{x^n}{n!} \text{ and } G(n) = \sum_{n \ge 0} g_n \frac{x^n}{n!} . \]
 		Define the sequence $h_n$ by
-		\[ h_n = \sum_{\substack{\pi \in \operatorname{SetPartn}([n]) \\ \pi = \{S_1,\ldots,S_k\}}} f_{|S_1|} f_{|S_2|} \cdots f_{|S_k|}  \]
+		\[ h_n = \sum_{\substack{\pi \in \operatorname{SetPartn}([n]) \\ \pi = \{S_1,\ldots,S_k\}}} f_{|S_1|} f_{|S_2|} \cdots f_{|S_k|} g(k)  \]
 		and $h_0 = 1$, and let
 		\[ H(x) = \sum_{n \ge 0} h_n \frac{x^n}{n!}. \]
 		Then,
-		\[ H(x) = \exp(F(x)) \]
+		\[ H(x) = G(F(x)) \]
 	\end{ftheo}
 	Note that the summation of $F$ is for $n \ge 1$, because we may assume that $f_0 = 0$ since $f_0$ does not appear in the expression of any $h_n$.\\
 
@@ -325,7 +325,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		$\binom{n}{k}_q$ is a polynomial in $q$ with non-negative coefficients.
 	\end{fcor}
 	It turns out that the coefficients of the polynomial are unimodal and symmetric! We do not prove this, the reader can see \_ for more details.
-	% zeinberger, AMM (katyohara?)
+	% zeinberger, AMM (katyohara?) !!!*** ADD CITATION ***!!!
 
 	% sperner's theorem(?) : maximal UNIQUE antichain is the binom(n)(n/2) in the middle of the poset
 
@@ -338,10 +338,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% \prod q^{(x_{i+1}-x_i-1)}
 	% number partitions -- ``ferrer's diagram''
 	Consider the portion of the box above $P$. This can be viewed as the Ferrer diagram of some number partition $\lambda(P)$. $\lambda(P)$ has at most $k$ parts, and no part is of size more than $n-k$. In fact, \emph{all} such partitions correspond to some path!\\
-	What number is $\lambda(P)$ a number partition of? Denote this number as $|\lambda(P)|$. Let $S_{n,k}$ be the set of all paths of the mentioned form. 
+	What number is $\lambda(P)$ a number partition of? Denote this number as $|\lambda(P)|$. Let $\mathcal{S}_{n,k}$ be the set of all paths of the mentioned form. 
 
 	\begin{ftheo}
-		\[ \sum_{P \in S_{n,k}} q^{|\lambda(P)|} = \binom{n}{k}_q. \]
+		\[ \sum_{P \in \mathcal{S}_{n,k}} q^{|\lambda(P)|} = \binom{n}{k}_q. \]
 	\end{ftheo}
 	Perhaps surprisingly, the proof of the above is near-straightforward using the $q$-Pascal recurrence -- merely consider two cases depending on whether the first step of the path is right or upwards.
 
@@ -814,7 +814,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 			\item There exist 
 			\[ A(x) = \sum a_n x^n = \frac{p(x)}{q(x)}, \]
 			where $q(x) = 1 + c_1x + \cdots + c_dx^d$ and $\deg(p) < d$.
-			\item If the roots of the polynomial $q$ in (b) are $(1/r_i)_{i=1}^k$, with $(1/r_i)$ having multiplicity $d_i$, then there are polynomials $(p_i)_{i=1}^k$ of degree $<d_i$ such that
+			\item If the roots of the polynomial $q$ in (b) are $(1/r_i)_{i=1}^k$, with $(1/r_i)$ having multiplicity $d_i$, then there are polynomials $(p_i)_{i=1}^k$ of degree $<d_i$ such that for some $(\alpha_i)_{i=1}^k$,
 			\[ a_n = \sum_{i=1}^k p_i(n) \alpha_i^n \]
 			for all $n \ge 0$.
 		\end{enumerate}
@@ -832,7 +832,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 			\item[(b)$\Leftrightarrow$(c)] Let us check that (b) implies (c) first. We have
 			\[ A(x) = \frac{p(x)}{\prod_{i=1}^k (1-r_ix)^{d_i}}. \]
-			Checking that (c) holds true amounts to expanding the denominator to the numerator and matching coefficients. The argument is reversible as well, so (c) implies (b).
+			Checking that (c) holds true amounts to expanding the denominator to the numerator and matching coefficients. The argument is reversible as well, so (c) implies (b). \qedhere
 		\end{itemize}
 	\end{proof}
 
@@ -849,7 +849,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	 	
 	 \end{proof}
 
-	 There are numerous multivariate extensions of this done by Stanley.
+	 There are numerous multivariate extensions of this proved by Stanley.
 
 \subsection{Exponential Generating Functions}
 
@@ -893,7 +893,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	We now encourage the reader to do \Cref{prob: euler numbers}.\\
 
-\subsection{Another pair of parameters with equal statistics}
+\subsection{Another equidistributed pair of parameters}
 
 	Recall how we had seen in \Cref{prop: maj n} a pair of parameters that have the same distribution. Now, we shall look at another such pair of parameters.\\
 	Recall descents in $\mathfrak{S}_n$ from \Cref{def: descent}.\\
@@ -1006,7 +1006,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 			tP_k'(t) &= \frac{t \left( p_k'(t) (1-t)^{r_k} - r_k (1-t)^{r_k - 1} p_k(t) \right)}{(1-t)^{2r_k}} \\
 				&= \frac{ t(1-t)p_k'(t) - r_k t p_k(t) }{(1-t)^{r_k+1}}.
 		\end{align*}
-		Observe that the numerator is nonzero at $1$, so $r_{k+1} = r_k + 1$. Since $r_0 = 1$, $r_k$ is just $k+1$. We also have
+		The numerator is nonzero at $1$, so $r_{k+1} = r_k + 1$. Since $r_0 = 1$, $r_k$ is just $k+1$. We also have
 		\[ p_{k+1}(t) = t (1-t) p_k'(t) - (k+1) t p_k(t). \]
 		It is seen that this recurrence is satisfied by $tA_n(t)$ and $p_1(t) = tA_1(t)$, completing the proof.
 	\end{proof}
@@ -1067,7 +1067,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% 	\[ F_n(1+q,-q) = [n+1]_q. \]
 	% \end{exerc}
 	\begin{flem}
-		It is true that
+		% It is true that
 		\[ F_n(1+q,-q) = [n+1]_q. \]
 	\end{flem}
 	\begin{proof}
