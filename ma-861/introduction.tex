@@ -99,7 +99,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{definition}
 		A parameter $f : \mathfrak{S}_n \to \R$ of permutations such that
-		\[ \sum_{\pi \in \mathfrak{S}_n} q^{f(\pi)} = \prod_{1 \le m \le n} [m]_q \]
+		\[ \sum_{\pi \in \mathfrak{S}_n} q^{f(\pi)} = [n]_q! = \prod_{1 \le m \le n} [m]_q \]
 		is said to be \emph{Mahonian}.
 	\end{definition}
 
@@ -303,11 +303,23 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Recall that
 	\[ \binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}. \]
 
-	\begin{exercise}
-		Show that
+
+	% \begin{exerc}
+	% 	Show that
+	% 	\[ \binom{n}{k}_q = q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q = \binom{n-1}{k}_q + q^{n-k} \binom{n-1}{k-1}_q . \]
+	% \end{exerc}
+	\begin{fprop}[$q$-Pascal's recurrences]
+		It holds that
 		\[ \binom{n}{k}_q = q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q = \binom{n-1}{k}_q + q^{n-k} \binom{n-1}{k-1}_q . \]
-	\end{exercise}
-	These are called the $q$-Pascal's recurrences.
+	\end{fprop}
+	\begin{proof}
+		We show only the first recurrence. The second follows similarly.
+		\begin{align*}
+			q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q &= q^k \frac{[n-1]_q!}{[k]_q! [n-k-1]_q!} + \frac{[n-1]_q!}{[k-1]_q![n-k]_q!} \\
+				&=  q^k \binom{n}{k}_q \frac{[n-k]_q}{[n]_q} + \binom{n}{k}_q \frac{[k]_q}{[n]_q} \\
+				&= \binom{n}{k}_q \left( \frac{q^k[n-k]_q + [k]_q}{[n]_q} \right) = \binom{n}{k}_q. 
+		\end{align*}
+	\end{proof}
 
 	\begin{fcor}
 		$\binom{n}{k}_q$ is a polynomial in $q$ with non-negative coefficients.
@@ -366,13 +378,19 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	Let $y = f(x)$. If $Dy = p(f(x))$ for some polynomial $p$, then $D^ny$ is a polynomial of $f$ as well.\\
 	Suppose that $D^ny = p_n(y)$ for some sequence of polynomials $(p_n)$.
-	\begin{exercise}
-		Show that
-		\begin{align*}
-			p_0(y) &= y \\
-			p_n(y) &= \begin{cases} y & n=0 \\ p_{n-1}(y) \cdot p_1(y) & n \ge 1. \end{cases}
-		\end{align*}
-	\end{exercise}
+	% \begin{exerc}
+	% 	Show that
+	% 	\begin{align*}
+	% 		p_0(y) &= y \\
+	% 		p_n(y) &= \begin{cases} y & n=0 \\ p_{n-1}(y) \cdot p_1(y) & n \ge 1. \end{cases}
+	% 	\end{align*}
+	% \end{exerc}
+	It is straightforward to see that
+	\begin{align*}
+		p_0(y) &= y \\
+		p_n(y) &= \begin{cases} y & n=0 \\ p_{n-1}(y) \cdot p_1(y) & n \ge 1. \end{cases}
+	\end{align*}
+
 
 	For the remainder of this section, set $y = \tan x$ and $z = \sec x$. Then, $Dy = 1+y^2 = z^2$ and $Dz = yz$. It is not difficult to see that
 	\begin{align*}
@@ -393,10 +411,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		We can write $D^ny = \sum_{k=0}^{\lfloor (n-1)/2 \rfloor} W_{n,k} z^{2k+2} y^{n-2k-1}$.
 	\end{fcor}
 
-	\begin{exercise}
-		Prove or disprove that
-		\[ \sum W_{n,k} = n!. \]
-	\end{exercise}
+	% \begin{exerc}
+	% 	Prove or disprove that
+	% 	\[ \sum W_{n,k} = n!. \]
+	% \end{exerc}
 	Again, we ask the question: is there some parameter on $\pi \in \mathfrak{S}_n$ such that
 	\[ W_n(x) = \sum_{k = 0}^{\lfloor (n-1)/2 \rfloor} W_{n,k} x^k = \sum_{\pi \in \mathfrak{S}_n} x^{\operatorname{parameter}(\pi)}? \]
 
@@ -425,13 +443,18 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{proof}
 		Let $Y_n$ be the polynomial on the right, and let $Y_{n,k}$ be its coefficients. It is easily checked that $Y_{n,k}$ and $W_{n,k}$ are equal for $n=0$ or $k=0$. To prove the statement, we shall merely show that $Y_{n,k}$ satisfies the recurrence of \Cref{lem: Wnk recurrence} too.\\
 		Similar to what we did in earlier proofs such as those of \Cref{prop: inv n,prop: maj n}, let $\sigma$ be a permutation in $\mathfrak{S}_{n-1}$.\\ We shall use it to get a permutation $\pi \in \mathfrak{S}_n$ by ``inserting'' $n$ at one of the $n$ possible positions. If we insert it at the position of a non-peak of $\sigma$, the number of peaks increases by one. If we insert it before or after the position of a peak, the number of peaks stays the same. Since peaks cannot occur immediately after each other, we can insert it at precisely $2k+2$ positions while ensuring that the number of peaks does not increase (the extra $2$ is for the extreme positions), and so at $n-2k-2$ positions which increases the number of peaks by one. Therefore,
-		\[ Y_{n,k} = (2k+2)Y_{n-1,k} + (n-2(k-1)-2)Y_{n-1,k-1} = (2k+2) Y_{n-1,k} + (n-2k)Y_{n-1,k-1}. \]
+		\[ Y_{n,k} = (2k+2)Y_{n-1,k} + (n-2(k-1)-2)Y_{n-1,k-1} = (2k+2) Y_{n-1,k} + (n-2k)Y_{n-1,k-1}. \qedhere \]
 	\end{proof}
 
-	% \begin{exercise}
+	\begin{fcor}
+		It is true that
+		\[ \sum_k W_{n,k} = n!. \]
+	\end{fcor}
+
+	% \begin{exerc}
 	% 		\item Show that
 	% 		\[ W_{n,k} = \_ W_{n-1,k} + \_ W_{n-1,k-1}. \]
-	% \end{exercise}
+	% \end{exerc}
 
 	% z = sec x, Dz = yz.
 
@@ -505,19 +528,19 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\end{enumerate}
 	\end{proof}
 
-	% \begin{exercise}
+	% \begin{exerc}
 	% 	Show that
 	% 	\begin{enumerate}
 	% 		\item $m_k(C_n) = n/(n-k) \binom{n-k}{k}$.
 	% 		\item $m_k(K_n) = \binom{n}{2k} \cdot (2k!)/(2^k k!)$.
 	% 		\item $m_k(K_{n,n}) = \binom{n}{k} k!$.
 	% 	\end{enumerate}
-	% \end{exercise}
+	% \end{exerc}
 
-	% \begin{exercise}
+	% \begin{exerc}
 	% 	Given a graph $G$ and edge $e \in G$,
 	% 	\[ \Match_G(x) = ? \]
-	% \end{exercise}
+	% \end{exerc}
 
 	\begin{ftheo}
 		\label{theo: roots of matching polynomial real}
@@ -586,10 +609,14 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		A sequence $(a_n)_{n\ge0}$ is said to be \emph{log-concave} if $a_n^2 \ge a_{n-1} a_{n+1}$ for all $n$.
 	\end{fdef}
 
+	\begin{fex}
+		For a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave. Indeed,
+		\[ \binom{n}{k}^2 = \frac{(n!)^2}{(k!)!((n-k)!)^2} \ge \frac{(n!)^2}{(k-1)!(k+1)! \cdot (n-k-1)! (n-k+1)!} = \binom{n}{k-1} \binom{n}{k+1}. \]
+	\end{fex}
 
-	\begin{exercise}
-		Show that for a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave.
-	\end{exercise}
+	% \begin{exerc}
+	% 	Show that for a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave.
+	% \end{exerc}
 
 	The Stirling numbers of the first and second kind are also log-concave.
 
@@ -719,6 +746,11 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{exercise}
 		Run the recurrence of $S_{n,k}$ backwards (to negative $n,k$).
 	\end{exercise}
+	\begin{proof}
+		We have $S_{n,k} = S_{n-1,k-1} + k S_{n-1,k}$. For negative $n$,
+		\[ S_{-(n+1),k} = S_{-n,k+1} - (k+1) S_{-(n+1),k+1}. \]
+		For $k=-1$, we get $S_{-(n+1),-1} = S_{-n,0}$. In particular, $S_{-1,-1} = 1$.
+	\end{proof}
 
 	The interested reader may refer to \cite{crt} for more details on reciprocity theorems.
 
@@ -876,9 +908,9 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\[ A_{n,k} = (k+1)A_{n-1,k} + (n-k)A_{n-1,k-1} \]
 	for $n \ge 1$ with $A_{0,0} = 1$. This may be proved by the (hopefully) now standard trick of seeing how the number of descents changes on inserting $n+1$ at various positions in $\pi \in \mathfrak{S}_n$.\\
 
-	\begin{exercise}
-		Prove the above recurrence.
-	\end{exercise}
+	% \begin{exerc}
+	% 	Prove the above recurrence.
+	% \end{exerc}
 	Also observe that on reversing a permutation, we have $\des(\pi^\mathsf{rev}) = (n-1) - \des(\pi)$. This means that the coefficients of $A_n$ are palindromic. Further, descents and ``ascents'' are equidistributed.
 
 	\begin{fdef}[Excedances]
@@ -898,6 +930,9 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\begin{exercise}
 		Show that $\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
 	\end{exercise}
+	\begin{proof}
+		
+	\end{proof}
 	\begin{proof}[Proof of \Cref{theo: desc and exc}]
 		% Note that one can cyclically permute elements of $c_i$ and write the $c_i$s in any order
 		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. ALso assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as
@@ -1027,10 +1062,22 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{align*}
 	Observe that these coefficients match (up to sign) the coefficients in \Cref{eqn: gamma example}!
 
-	\begin{exercise}
-		Show that
+	% \begin{exerc}
+	% 	Show that
+	% 	\[ F_n(1+q,-q) = [n+1]_q. \]
+	% \end{exerc}
+	\begin{flem}
+		It is true that
 		\[ F_n(1+q,-q) = [n+1]_q. \]
-	\end{exercise}
+	\end{flem}
+	\begin{proof}
+		We prove this inductively. The base cases $n=1,2$ are trivially true as $F_1(1+q,-q) = 1+q = [2]_q$ and $F_2(1+q,-q) = (1+q)^2 + (-q) = [3]_q$. In general, using the inductive hypothesis,
+		\begin{align*}
+			F_n(1+q,-q) &= (1+q)F_{n-1}(1+q,-q) - qF_{n-2}(1+q,-q) \\
+				&= (1+q)[n]_q - q[n-1]_q \\
+				&= \left(1 + 2\sum_{1 \le i \le n-1} q^i + q^n\right) - \sum_{1 \le i \le n-1} q^i = [n+1]_q.
+		\end{align*}
+	\end{proof}
 
 	Let
 	\[ [n]_q = F_{n-1}(1+q,-q) = \sum_{k = 0}^{n-1} f_{n-1,k} (1+q)^{n-1-2k}(-q)^k. \]
