@@ -158,17 +158,14 @@
 
 	\begin{fex}[Sealed bid auctions II: equilibria in first price auctions]
 		This is a continuation of \Cref{ex: sealed bid auction}.\\
-		In that example, we looked at \emph{first price auctions}. Suppose that $b_i = s_i(\theta_i) = \alpha_i\theta_i$ for some $\alpha_i > 0$. Let us restrict ourselves to the case where $\alpha_i$ is some constant independent of $\theta_i$.\\
-		To find a Bayesian equilibrium, we must determine a $s_i^*$ (or $\alpha_i^*$) that maximizes the ex-interim utility of player $i$, that is,
-		\[ \argmax_{\sigma_i} u_i(\sigma_i,\sigma_{-i}^* \mid \theta_i). \]
-		For player $1$, this expected utility reduces to
+		In that example, we looked at \emph{first price auctions}. We claim that the pure strategy profile defined by $b_1^* = \theta_1, b_2^* = \theta_2$ is a Bayesian equilibrium.
+		For player $1$, for a given $\theta_1$, the utility under a unilateral deviation of $b_1$ is
 		\begin{align*}
-			u_1(b_1^*,b_2^* \mid \theta_1) &= \max_{b_1 \in [0,\alpha_2]} \int_0^1 f_P(\theta_2 \mid \theta_1) (\theta_1 - b_1) \indic_{b_1 \ge \alpha_2 \theta_2} \dif \theta_2 \\
-				&= \max_{b_1 \in [0,\alpha_2]} (\theta_1 - b_1) \int_0^1 \indic_{b_1 \ge \alpha_2 \theta_2} \dif \theta_2 & \text{($P$ is uniform)} \\
-				&= \max_{b_1 \in [0,\alpha_2]} (\theta_1 - b_1)\frac{b_1}{\alpha_2}.
+			u_1(b_1,b_2^* \mid \theta_1) &= \int_0^1 f(\theta_2 \mid \theta_1) (\theta_1 - b_1) \indic_{b_1 \ge \theta_2/2} \dif \theta_2 \\
+				&= (\theta_1 - b_1) \int_0^1 \indic_{\theta_2 \le 2b_1} \dif \theta_2. & \text{($P$ is uniform)}
 		\end{align*}
-		This is maximized for $b_1^* = \min\{\alpha_2,\theta_1/2\}$. Similarly, $b_2^* = \min\{\alpha_1,\theta_2/2\}$.\\
-		Therefore, the situation $\alpha_1 = \alpha_2 = 1/2$ gives the Bayesian equilibrium $\left( \theta_1/2 , \theta/2 \right)$.\\
+		If $b_1 \le 1/2$, this is equal to $(\theta_1 - b_1)2b_1$, which is maximized for $b_1 = b_1^* = \theta_1/2$ as desired. When $b_1 > 1/2$, this is equal to $(\theta_1 - b_1) \le (\theta_1 - 1/2) \le \theta_1^2/2$.\\
+		Therefore, the payoff is indeed maximized for $b_1 = b_1^* = \theta_1/2$. Unilateral deviation for player $2$ is similar, and the profile is a Bayesian equilibrium as claimed.
 	\end{fex}
 
 	\begin{fex}[Sealed bid auctions III: second price auctions]
@@ -177,16 +174,15 @@
 			u_1(b_1,b_2;\theta_1,\theta_2) &= (\theta_1 - b_2) \indic_{b_1 \ge b_2} \\
 			u_2(b_1,b_2;\theta_1,\theta_2) &= (\theta_2 - b_1) \indic_{b_1 < b_2}.
 		\end{align*}
-		Similar to earlier, player $1$'s bidding is to maximize
-		\[ \int_0^1 (\theta_1 - \alpha_2 \theta_2) \indic_{b_1 \ge \alpha_2\theta_2} \dif \theta_2 = \frac{1}{\alpha_2} \left( b_1\theta_1 - \frac{\theta_1^2}{2} \right).  \]
-		This is maximized when $b_1 = \theta_1$ (independent of $\alpha_2$!) and similarly, the Bayesian equilibrium has $b_2 = \theta_2$.\\
+		Here, we claim that $b_1^* = \theta_1, b_2^* = \theta_2$ is a Bayesian equilibrium.\\
+		Similar to earlier, player $1$'s payoff under unilateral deviation is
+		\[ \int_0^1 (\theta_1 - \theta_2) \indic_{b_1 \ge \theta_2} \dif \theta_2 = \left( b_1\theta_1 - \frac{\theta_1^2}{2} \right).  \]
+		This is maximized when $b_1 = b_1^* = \theta_1$. Unilateral deviation for player $2$ is similar. \\
 
-		In the situation where the distributions of $\theta_1,\theta_2$ were arbitrary but still independent, we would have the maximization problem
-		\[ \int_{0}^{b_1/\alpha_2} f(\theta_2) (\theta_1 - \alpha_2\theta_2) = \theta_1 F\left( \frac{b_1}{\alpha_2} \right) - \alpha_2 \int_0^1 \theta_2 f(\theta_2). \]
-		Differentiating with respect to $b_1$ and setting the derivative to $0$, we get
-		\[ \theta_1 \frac{1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right) - \alpha_2 \frac{b_1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right) \frac{1}{\alpha_2} = 0, \]
-		so
-		\[ \frac{1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right)(b_1 - \theta_1) = 0 \]
-		and so $b_1 = \theta_1$ (if $b$) exactly as earlier!\\
+		It turns out that even in the situation where the distributions of $\theta_1,\theta_2$ are arbitrary but still independent, $b_1^* = \theta_1$, $b_2^* = \theta_2$ is a Bayesian equilibrium. Indeed, for unilateral deviation of player $1$,
+		\[ \int_{0}^{b_1} f(\theta_2) (\theta_1 - \theta_2) = \theta_1 F\left( b_1 \right) - \int_0^1 \theta_2 f(\theta_2). \]
+		Differentiating with respect to $b_1$ and setting the derivative to $0$ to maximize it, we get
+		\[ \theta_1 f\left( b_1 \right) - b_1 f\left( b_1 \right) = 0, \]
+		so the payoff is maximum when $b_1 = b_1^* = \theta_1$ (assuming the density is positive everywhere).\\
 		For any independent positive prior, bidding the true type is a Bayesian equilibrium of the induced Bayesian game in second price auctions.
 	\end{fex}
