@@ -1,0 +1,192 @@
+
+\section{Bayesian Games}
+
+	Thus far, we have only discussed non-cooperative games with complete information, where players only aim to maximize their own utilities (as opposed to cooperative games where players form coalitions and utilities are defined over coalitions, and incomplete information games where players do not deterministically know what game they are playing). There are various other types of games, such as repeated games, stochastic games etc. \\
+	We shall not discuss cooperative games in this course, but we shall now discuss incomplete information games. In such games, players receive private signals, known as \emph{types}. We shall focus specifically on Bayesian games \cite{bayesian-games}.
+
+	\begin{fex}
+		Suppose we have a soccer game with two competing teams. Each can choose a game plan, where they either aim to win, or to draw. These two plans are the two possible types, which are private signals caused by external factories such as possibly weather, player injuries etc.\\
+		There are four possible type profiles in this example, $\mathsf{WW},\mathsf{WD},\mathsf{DW},\mathsf{DD}$. Given this, we get four possible game matrices ($\mathsf{DW}$ is just the opposite of $\mathsf{WD}$).
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			\textsf{WW} & \textsf{Attack} & \textsf{Defend} \\
+			\hline\hline
+			\textsf{Attack} & $1,1$ & $2,0$ \\
+			\hline
+			\textsf{Defend} & $0,2$ & $0,0$ \\
+			\hline 
+		\end{tabular} 
+		\begin{tabular}{|c||c|c|}
+			\hline
+			\textsf{WD} & \textsf{Attack} & \textsf{Defend} \\
+			\hline\hline
+			\textsf{Attack} & $2,0$ & $2,1$ \\
+			\hline
+			\textsf{Defend} & $0,1$ & $1,0$ \\
+			\hline 
+		\end{tabular}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			\textsf{WW} & \textsf{Attack} & \textsf{Defend} \\
+			\hline\hline
+			\textsf{Attack} & $0,0$ & $1,0$ \\
+			\hline
+			\textsf{Defend} & $0,1$ & $-1,-1$ \\
+			\hline 
+		\end{tabular}
+		\end{center}
+
+		The probabilities of choosing each of the four profiles come from a common prior distribution, which is common knowledge.
+	\end{fex}
+
+	\begin{fdef}
+		A \emph{Bayesian game} is represented by $\langle N , (\theta_i)_{i \in N} , P , (\Gamma_\theta)_{\theta \in \bigtimes_{i \in N} \Theta_i} \rangle$, where
+		\begin{enumerate}
+			\item $N$ is the set of players,
+			\item $\Theta_i$ is the set of types of player $i$,
+			\item $P$ is the common prior distribution over $\Theta \coloneqq \bigtimes_{i \in N} \Theta_i$, with the restriction that
+			\[ \sum_{\theta_{-i} \in \Theta_{-i}} P(\theta_i,\theta_{-i}) > 0 \]
+			for all $\theta_i \in \Theta_i$ for all $i \in N$. That is, the marginals for every type is positive (because otherwise we can eliminate $\theta_i$ and prune the type set), and
+			\item $\Gamma_\theta$ is an NFG $\langle N , (A_i(\theta))_{i \in N} , (u_i(\theta))_{i \in N} \rangle$ for the type profile $\theta \in \Theta$. We typically assume that $A_i (\theta) = A_i$ for all $\theta$, and set $A \coloneqq \bigtimes_{i \in N} A_i$. As a result, $u$ is a function $A \times \Theta \to \R$.
+		\end{enumerate}
+	\end{fdef}
+
+	A Bayesian game is played as follows.
+	\begin{enumerate}
+		\item First, a profile $\theta$ is randomly drawn according to $P$.
+		\item Each player observes (only) their own type $\theta_i$.
+		\item Player $i$ picks an action $a_i \in A_i$ for all $i \in N$.
+		\item Player $i$ gets payoff $u_i((a_i,a_{-i}),\theta)$.
+	\end{enumerate}
+
+	Now, let us look at strategies in Bayesian games.
+
+	\begin{fdef}
+		A (pure) \emph{strategy} in a Bayesian game is a map $s_i : \Theta_i \to A_i$ for each $i$.
+	\end{fdef}
+
+	Similarly, a mixed strategy is a map $\sigma_i : \Theta_i \to \Delta A_i$.
+
+	\begin{fdef}
+		\begin{enumerate}
+			\item Let $\sigma$ be a mixed strategy profile of a Bayesian game. The \emph{ex-ante} utility of $\sigma$ is the expected utility before observing one's own type. It is given by
+			\[ u_i(\sigma) = \sum_{\theta \in \Theta} P(\theta) u_i(\sigma(\theta) ; \theta) \]
+			\item After observing the type $\theta_i$, we can reevaluate the probabilities of the other players' profiles as
+			\[ P(\theta_{-i} \mid \theta_i) = \frac{P(\theta_i,\theta_{-i})}{\sum_{\tilde{\theta}_{-i} \in \Theta_{-i}} P(\theta_i,\tilde{\theta}_{-i})}. \]
+			The \emph{ex-interim} utility is the expected utility  after observing one's own type $\theta_i$ is
+			\[ u_i(\sigma \mid \theta_i) = \sum_{\theta_{-i} \in \Theta_{-i}} P(\theta_{-i} \mid \theta_i) u_i(\sigma(\theta) ; \theta). \]
+		\end{enumerate}
+	\end{fdef}
+
+	More explicitly, we have
+	\[ u_i(\sigma) = \sum_{\substack{\theta \in \Theta \\ (a_1,\ldots,a_n) \in A}} P(\theta) \prod_{j \in N} \sigma_j(\theta_j)(a_j) u_i(a_1,\ldots,a_n ; \theta_1,\ldots,\theta_n). \]
+	Observe that when the types are independent, both utilities are the same.\\
+
+	Bayes' rule immediately yields that
+	\[ u_i(\sigma) = \sum_{\theta_i \in \Theta_i} P(\theta_i) u_i(\sigma \mid \theta_i). \]
+
+	\begin{fex}
+		Suppose we have a buyer and a seller trying to buy/sell an item. Let their type sets be $\Theta_1 = \Theta_2 = [100]$ and action sets $A_1 = A_2 = [100]$.\\
+		If the bid of the seller is less than or equal to that of the buyer, the trade goes through at the average of the two bids. Otherwise, the trade does not happen.\\
+		Suppose that type generation occurs independently and uniformly over $\Theta_1,\Theta_2$. Then, for all $\theta_1,\theta_2$,
+		\[ P(\theta_2 \mid \theta_1) = P(\theta_1 \mid \theta_2) = \frac{1}{100}. \]
+		We also have
+		\[ u_1(a_1,a_2;\theta_1,\theta_2) = \begin{cases} \frac{a_1+a_2}{2} - \theta_1, & a_2 \ge a_1 \\ 0, & \text{otherwise} \end{cases} \]
+		and
+		\[ u_1(a_1,a_2;\theta_1,\theta_2) = \begin{cases} \theta_2 - \frac{a_1+a_2}{2} & a_2 \ge a_1 \\ 0, & \text{otherwise.} \end{cases} \]
+	\end{fex}
+
+
+	\begin{fex}[Sealed bid auctions I: first price auctions]
+		\label{ex: sealed bid auction}
+		Suppose we have two players, both willing to buy an object. Their values $\theta_i$ and bids $b_i$ lie in $[0,1]$. The allocation functions that indicate the winner are
+		\[ o_1(b_1,b_2) = \indic_{b_1 \ge b_2} = \begin{cases} 1, & b_1 \ge b_2, \\ 0, & \text{otherwise} \end{cases} \text{ and } o_2(b_1,b_2) = 1 - o_1(b_1,b_2). \]
+		Again, suppose that the prior distribution is uniform over $[0,1]^2$. Then,
+		\[ u_i(b_1,b_2;\theta_1,\theta_2) = o_i(b_1,b_2)(\theta_i - b_i). \]
+		Such a game where we pay the bid in the beginning is called a \emph{first price auction}.
+	\end{fex}
+
+\subsection{Equilibria}
+
+	As discussed, there are two stages to the game, ex-ante before observing the type, and ex-interm after observing the type.\\
+	Of course, we have a Nash equilibrium in the ex-ante stage, where $\sigma^*$ is an equilibrium if
+	\[ u_i(\sigma_i^*,\sigma_{-i}^*) \ge u_i(\sigma_i',\sigma_{-i}^*) \]
+	for all $\sigma_i',i \in N$.\\
+	In the ex-interim stage, we have the \emph{Bayesian equilibrium}:
+	\[ u_i(\sigma_i^*(\theta_i) , \sigma_{-i}^* \mid \theta_i) \ge u_i(\sigma_i'(\theta_i),\sigma_{-i}^* \mid \theta_i) \]
+	for all $\sigma_i',\theta_i \in \Theta_i, i \in N$.\\
+
+	For exactly the same reason as in \Cref{theo: for msne suffices to check pure deviations}, it suffices to check the right-hand-side for pure strategies $a_i$.
+
+	\begin{ftheo}
+		In finite Bayesian games, a strategy profile is a Bayesian equilibrium iff it is a Nash equilibrium.
+	\end{ftheo}
+	\begin{proof}
+		\phantom{pain}
+		\begin{itemize}
+			\item[$\Rightarrow$] Suppose that $(\sigma^*,P)$ is a Bayesian equilibrium. Then,
+			\begin{align*}
+				u_i(\sigma_i',\sigma_{-i}^*) &= \sum_{\theta_i \in \Theta_i} P(\theta_i) u_i(\sigma_i'(\theta_i),\sigma_{-i}^* \mid \theta_i) \\
+					&\le \sum_{\theta_i \in \Theta_i} P(\theta_i) u_i(\sigma_i^*(\theta_i),\sigma_{-i}^* \mid \theta_i) = u_i(\sigma_i^*,\sigma_{-i}^*).
+			\end{align*}
+			\item[$\Leftarrow$] Suppose instead that $(\sigma^*,P)$ is not a Bayesian equilibrium. That is, there exists some $i\in N,\theta_i \in \Theta_i,a_i \in A_i$ such that
+			\[ u_i(a_i,\sigma_{-i}^* \mid \theta_i) > u_i(\sigma_i^*(\theta_i),\sigma_{-i}^* \mid \theta_i). \]
+			Consider the strategy $\widehat{\sigma}_i$ defined by
+			\begin{itemize}
+				\item $\widehat{\sigma}_i(\theta_i') = \sigma_i^*(\theta_i')$ for $\theta_i' \in \Theta_i \setminus \{\theta_i\}$,
+				\item $\widehat{\sigma}_i(\theta_i)(a_i) = 1$, and
+				\item $\widehat{\sigma}_i(\theta_i)(b_i) = 1$ for $b_i \in A_i \setminus \{a_i\}$.
+			\end{itemize}
+			Then,
+			\begin{align*}
+				u_i(\widehat{\sigma}_i,\sigma_{-i}^*) &= \sum_{\tilde{\theta_i} \in \Theta_i} P(\tilde{\theta_i}) u_i(\widehat{\sigma}_i(\tilde{\theta}_i),\sigma_{-i}^* \mid \tilde{\theta}_i) \\
+					&= \sum_{\tilde{\theta_i} \in \Theta_i \setminus \{\theta_i\}} P(\tilde{\theta_i}) u_i(\widehat{\sigma}_i(\tilde{\theta}_i),\sigma_{-i}^* \mid \tilde{\theta}_i) + P(\theta_i) u_i(\widehat{\sigma}_i(\theta_i),\sigma_{-i}^* \mid \theta_i) \\
+					&= \sum_{\tilde{\theta_i} \in \Theta_i \setminus \{\theta_i\}} P(\tilde{\theta_i}) u_i(\sigma^*_i(\tilde{\theta}_i),\sigma_{-i}^* \mid \tilde{\theta}_i) + P(\theta_i) u_i(a_i,\sigma_{-i}^* \mid \theta_i) \\
+					&> \sum_{\tilde{\theta_i} \in \Theta_i \setminus \{\theta_i\}} P(\tilde{\theta_i}) u_i(\sigma^*_i(\tilde{\theta}_i),\sigma_{-i}^* \mid \tilde{\theta}_i) + P(\theta_i) u_i(\sigma_i^*(\theta_i),\sigma_{-i}^* \mid \theta_i) \\
+					&= u_i(\sigma_i^*,\sigma_{-i}^*),
+			\end{align*}
+			a contradiction.
+		\end{itemize}
+	\end{proof}
+
+	\begin{ftheo}
+		Every finite Bayesian game has a Bayesian equilibrium.
+	\end{ftheo}
+	A finite Bayesian game is one where the set of players, action set, and type set are finite.\\
+	The idea of the proof is that we transform the game to a complete information game treating each type as a player, then we invoke \hyperref[theo: msne exists]{Nash}.
+
+	\begin{fex}[Sealed bid auctions II: equilibria in first price auctions]
+		This is a continuation of \Cref{ex: sealed bid auction}.\\
+		In that example, we looked at \emph{first price auctions}. Suppose that $b_i = s_i(\theta_i) = \alpha_i\theta_i$ for some $\alpha_i > 0$. Let us restrict ourselves to the case where $\alpha_i$ is some constant independent of $\theta_i$.\\
+		To find a Bayesian equilibrium, we must determine a $s_i^*$ (or $\alpha_i^*$) that maximizes the ex-interim utility of player $i$, that is,
+		\[ \argmax_{\sigma_i} u_i(\sigma_i,\sigma_{-i}^* \mid \theta_i). \]
+		For player $1$, this expected utility reduces to
+		\begin{align*}
+			u_1(b_1^*,b_2^* \mid \theta_1) &= \max_{b_1 \in [0,\alpha_2]} \int_0^1 f_P(\theta_2 \mid \theta_1) (\theta_1 - b_1) \indic_{b_1 \ge \alpha_2 \theta_2} \dif \theta_2 \\
+				&= \max_{b_1 \in [0,\alpha_2]} (\theta_1 - b_1) \int_0^1 \indic_{b_1 \ge \alpha_2 \theta_2} \dif \theta_2 & \text{($P$ is uniform)} \\
+				&= \max_{b_1 \in [0,\alpha_2]} (\theta_1 - b_1)\frac{b_1}{\alpha_2}.
+		\end{align*}
+		This is maximized for $b_1^* = \min\{\alpha_2,\theta_1/2\}$. Similarly, $b_2^* = \min\{\alpha_1,\theta_2/2\}$.\\
+		Therefore, the situation $\alpha_1 = \alpha_2 = 1/2$ gives the Bayesian equilibrium $\left( \theta_1/2 , \theta/2 \right)$.\\
+	\end{fex}
+
+	\begin{fex}[Sealed bid auctions III: second price auctions]
+		Next, let us look at \emph{second price auctions}. The highest bidder wins as before, but the amount he pays is the second highest bid. Then,
+		\begin{align*}
+			u_1(b_1,b_2;\theta_1,\theta_2) &= (\theta_1 - b_2) \indic_{b_1 \ge b_2} \\
+			u_2(b_1,b_2;\theta_1,\theta_2) &= (\theta_2 - b_1) \indic_{b_1 < b_2}.
+		\end{align*}
+		Similar to earlier, player $1$'s bidding is to maximize
+		\[ \int_0^1 (\theta_1 - \alpha_2 \theta_2) \indic_{b_1 \ge \alpha_2\theta_2} \dif \theta_2 = \frac{1}{\alpha_2} \left( b_1\theta_1 - \frac{\theta_1^2}{2} \right).  \]
+		This is maximized when $b_1 = \theta_1$ (independent of $\alpha_2$!) and similarly, the Bayesian equilibrium has $b_2 = \theta_2$.\\
+
+		In the situation where the distributions of $\theta_1,\theta_2$ were arbitrary but still independent, we would have the maximization problem
+		\[ \int_{0}^{b_1/\alpha_2} f(\theta_2) (\theta_1 - \alpha_2\theta_2) = \theta_1 F\left( \frac{b_1}{\alpha_2} \right) - \alpha_2 \int_0^1 \theta_2 f(\theta_2). \]
+		Differentiating with respect to $b_1$ and setting the derivative to $0$, we get
+		\[ \theta_1 \frac{1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right) - \alpha_2 \frac{b_1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right) \frac{1}{\alpha_2} = 0, \]
+		so
+		\[ \frac{1}{\alpha_2} f\left( \frac{b_1}{\alpha_2} \right)(b_1 - \theta_1) = 0 \]
+		and so $b_1 = \theta_1$ (if $b$) exactly as earlier!\\
+		For any independent positive prior, bidding the true type is a Bayesian equilibrium of the induced Bayesian game in second price auctions.
+	\end{fex}
