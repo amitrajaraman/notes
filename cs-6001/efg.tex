@@ -388,7 +388,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 
 		\begin{fdef}
 			Let the information sets of player $i$ be $I_i = \{ I_i^k \}_{k=1}^{k(i)}$. The \emph{belief} of player $i$ is a probability distribution $\mu_i^j$ over $I_i^j$.\\
-			A belief $\mu_i = \{\mu_i^j\}_{j=1}^{k(i)}$ of player $i$ is said to be a \emph{Bayesian belief} wrt the behavorial strategy $\sigma$ if it is derived from $\sigma$ using Bayes' rule. That is,
+			A belief $\mu_i = \{\mu_i^j\}_{j=1}^{k(i)}$ of player $i$ is said to be a \emph{Bayesian belief} wrt the behavorial strategy $\sigma$ if it is derived from $\sigma$ using Bayes' rule. That is, for each $I_i^j$ such that there exists some $y \in I_i^j$ with $P_\sigma(y) \ne 0$,
 			\[ \mu_i^j(x) = \frac{P_\sigma(x)}{\sum_{y \in I_i^j} P_\sigma(y)} \]
 			for all $x \in I_i^j$ and $j = 1,2,\ldots,k(i)$.\\
 			A strategy $\sigma_i$ of player $i$ at information set $I_i^j$ is said to be \emph{sequentially rational} given $\sigma_{-i}$ and partial beliefs $\mu_i^j$ if
@@ -411,6 +411,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 				\item $\sigma_i$ is sequentially rational given $\sigma_{-i}$ and $\mu_i$.
 			\end{enumerate}
 		\end{fdef}
+		Note that the belief $\mu_i$ is allowed to be arbitrary on information sets that are never reached.
 		This is often represented with only $\sigma$, because $\mu$ is obtained from $\sigma$.
 
 	\subsubsection{Example: peer-to-peer file sharing}
@@ -462,18 +463,18 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		This is forcing a repeated game by fragmenting files. The ``leecher-seeder'' (downloader-uploader) game is a repeated version of the neighbouring kingdoms dilemma, and the strategy of the seeder is just tit-for-tat -- it cooperates as long as the leecher does as well.\\
 		The reader may find a simulation of the algorithm \href{http://mg8.org/processing/bt.html}{here}.\\
 
-		There are a couple of strategic behaviors.
-		\begin{enumerate}
+		There are various implementation-related questions and things to consider.
+		\begin{itemize}
 			\item How often should one contact the tracker?
 			\item Which fragments of the file should be revealed?
 			\item How many upload slots and which peers should be unchoked and at what speed?
 			\item What data should others be allowed to download?
 			\item Possible goals might be to minimize upload speed, maximize download speed, or perhaps some sort of balance.
-		\end{enumerate}
+		\end{itemize}
 
 		There are numerous attacks on BitTorrent as well, such as
-		\begin{enumerate}
+		\begin{itemize}
 			\item BitThief \cite{bitthief}. The goal is to download files without uploading. It asks for peers from the tracker very frequently to grow its neighbourhood rapidly. It exploits optimistic unchoking, so never needs to upload.\\
 			This can be fixed by modifying the tracker to block the IP address.
 			\item Strategic Piece Revealer \cite{strategic-piece-revealer}. The reference client tells neighbours about new pieces, and requests the ``rarest'' piece first. It then tries to set up a monopoly while keeping others interested. Because we have established a monopoly over rare pieces, we can get any piece we desire. % if all adopt this, download time increases by 12%
-		\end{enumerate}
+		\end{itemize}
