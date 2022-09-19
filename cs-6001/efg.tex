@@ -188,7 +188,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		It turns out that behavioral strategies and mixed strategies have incomparable power, as the following two examples demonstrate. 
 
 		\begin{fex}[There exist mixed strategies without equivalent behavioral strategies]
-			\label{mixed without equiv behavioral}
+			\label{ex: mixed without equiv behavioral}
 			Consider the following game tree with a single player.
 			\begin{center}
 			\begin{tikzpicture}
@@ -213,7 +213,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\end{fex}
 
 		\begin{fex}[There exist behavioral strategies without equivalent mixed strategies]
-			\label{ex: behav without equiv mixed}
+			\label{ex: behavioral without equiv mixed}
 			Consider the following game tree with a single player.
 			\begin{center}
 			\begin{tikzpicture}
@@ -247,7 +247,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		% add proof after reading msz
 
 		When does a mixed strategy not have an equivalent mixed strategy?\\
-		We need to figure out some way of formalizing the forgetfulness in \Cref{mixed without equiv behavioral}.\\
+		We need to figure out some way of formalizing the forgetfulness in \Cref{ex: mixed without equiv behavioral}.\\
 		Let $X = (x_0,x_1,\ldots,x_K)$ and $\hat{X} = (x_0,\hat{x}_1,\ldots,\hat{x}_L)$ be two paths in the game tree and $I_i^j$ an information set of player $i$ that intersects the two paths are precisely one vertex, say $x_k$ and $\hat{x}_\ell$ respectively where $k<K$, $\ell<L$. Then, the two paths choose the same action at $I_i^j$ if the two actions at these vertices are identical, that is,
 		\[  a_i(x_k \to x_{k+1}) = a_i(\hat{x}_\ell \to \hat{x}_{\ell+1}). \]
 		In general, we also consider $a_i(x \to y)$ (where $y$ is a descendant but not necessarily a child of $x$), defined by the action $a_i(x \to x')$, where $x'$ is the child of $x$ on the path from $x$ to $y$.
@@ -286,7 +286,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\end{ftheo}
 		% msz theo 6.15
 		The proof is constructive in nature, with the construction using perfect recall.\\
-		We remark that the converse of this theorem is \emph{not} true, as seen in \Cref{mixed without equiv behavioral}.
+		We remark that the converse of this theorem is \emph{not} true, as seen in \Cref{ex: behavioral without equiv mixed}.
 
 	\subsubsection{Bayesian equilibria}
 
