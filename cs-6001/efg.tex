@@ -374,9 +374,9 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 			Is the behavioral strategy described an equilibrium? Let us check this in the recursive method we did for usual SPNEs.\\
 			First of all, as mentioned, we require $p \ge 5/7$.\\
 			On the left subtree, the choice of $R_1$ is vacuously rational because we can never reach that subtree.\\
-			Now, let the belief of player $2$ for the nodes $x_2,x_3$ be $q,1-q$ respectively. If it players $\ell$, it gets a utility of $1$ with probability $q$ and $2$ with probability $1-q$. If it chose $m$ instead, it would get $0$ with probability $q$ and $-1$ with probability $1-q$. Finally, if it chose $r$, it would get $0$ with probability $q$ and $2$ with probability $1-q$. It is seen that the expected utility for the choice of $\ell$ is always highest. In general, we need to compare it to the expected utilities for other choices. In this case, by nature of the behavioral strategy, the belief corresponds to $q = 5/9$.\\
+			Now, let the belief of player $2$ for the nodes $x_2,x_3$ be $q,1-q$ respectively. If it plays $\ell$, it gets a utility of $1$ with probability $q$ and $2$ with probability $1-q$. If it chose $m$ instead, it would get $0$ with probability $q$ and $-1$ with probability $1-q$. Finally, if it chose $r$, it would get $0$ with probability $q$ and $2$ with probability $1-q$. It is seen that the expected utility for the choice of $\ell$ is always highest. In general, we need to compare it to the expected utilities for other choices. In this case, by nature of the behavioral strategy, the belief corresponds to $q = 5/9$.\\
 			Therefore, this behavioral strategy is indeed an equilibrium.\\
-			This is not a unique equilibrium however. As an exercise, check whether $(MR_1R_2,m)$ is an equilibrium as well.
+			This is not a unique equilibrium however. As an exercise, check whether $(MR_1R_2,m)$ is an equilibrium.
 		\end{fex*}
 		
 		% To determine if a given mixed strategy is an equilibrium, there are a few conditions we must look at.
@@ -388,7 +388,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\begin{fdef}
 			Let the information sets of player $i$ be $I_i = \{ I_i^k \}_{k=1}^{k(i)}$. The \emph{belief} of player $i$ is a probability distribution $\mu_i^j$ over $I_i^j$.\\
 			A belief $\mu_i = \{\mu_i^j\}_{j=1}^{k(i)}$ of player $i$ is said to be a \emph{Bayesian belief} wrt the behavorial strategy $\sigma$ if it is derived from $\sigma$ using Bayes' rule. That is,
-			\[ \mu_i^j(x) = \frac{P_\sigma(x)}{\sum_{y \in I_i^j P_\sigma(y)}} \]
+			\[ \mu_i^j(x) = \frac{P_\sigma(x)}{\sum_{y \in I_i^j} P_\sigma(y)} \]
 			for all $x \in I_i^j$ and $j = 1,2,\ldots,k(i)$.\\
 			A strategy $\sigma_i$ of player $i$ at information set $I_i^j$ is said to be \emph{sequentially rational} given $\sigma_{-i}$ and partial beliefs $\mu_i^j$ if
 			\[ \sum_{x \in I_i^j} \mu_i^j(x) u_i(\sigma_i,\sigma_{-i} \mid x) \ge \sum_{x \in I_i^j} \mu_i^j(x) u_i(\sigma_i',\sigma_{-i} \mid x). \]
@@ -474,5 +474,5 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\begin{enumerate}
 			\item BitThief \cite{bitthief}. The goal is to download files without uploading. It asks for peers from the tracker very frequently to grow its neighbourhood rapidly. It exploits optimistic unchoking, so never needs to upload.\\
 			This can be fixed by modifying the tracker to block the IP address.
-			\item Strategic Piece Revealer \cite{strategic-piece-revealer}. The reference client tells neighbours about new pieces, and requests the ``rarest'' piece first. This reveals the most common piece that the reciprocating does not have. It then tries to protect a monopoly while keeping others itnerested. Because we have established a monopoly over rare pieces, we can get any piece we desire. % if all adopt this, download time increases by 12%
+			\item Strategic Piece Revealer \cite{strategic-piece-revealer}. The reference client tells neighbours about new pieces, and requests the ``rarest'' piece first. It then tries to set up a monopoly while keeping others interested. Because we have established a monopoly over rare pieces, we can get any piece we desire. % if all adopt this, download time increases by 12%
 		\end{enumerate}

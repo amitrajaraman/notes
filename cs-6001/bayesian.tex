@@ -57,7 +57,7 @@
 		\item First, a profile $\theta$ is randomly drawn according to $P$.
 		\item Each player observes (only) their own type $\theta_i$.
 		\item Player $i$ picks an action $a_i \in A_i$ for all $i \in N$.
-		\item Player $i$ gets payoff $u_i((a_i,a_{-i}),\theta)$.
+		\item Player $i$ gets payoff $u_i(a_i,a_{-i};\theta)$.
 	\end{enumerate}
 
 	Now, let us look at strategies in Bayesian games.
@@ -69,9 +69,10 @@
 	Similarly, a mixed strategy is a map $\sigma_i : \Theta_i \to \Delta A_i$.
 
 	\begin{fdef}
+		\phantom{pain}
 		\begin{enumerate}
 			\item Let $\sigma$ be a mixed strategy profile of a Bayesian game. The \emph{ex-ante} utility of $\sigma$ is the expected utility before observing one's own type. It is given by
-			\[ u_i(\sigma) = \sum_{\theta \in \Theta} P(\theta) u_i(\sigma(\theta) ; \theta) \]
+			\[ u_i(\sigma) = \sum_{\theta \in \Theta} P(\theta) u_i(\sigma(\theta) ; \theta). \]
 			\item After observing the type $\theta_i$, we can reevaluate the probabilities of the other players' profiles as
 			\[ P(\theta_{-i} \mid \theta_i) = \frac{P(\theta_i,\theta_{-i})}{\sum_{\tilde{\theta}_{-i} \in \Theta_{-i}} P(\theta_i,\tilde{\theta}_{-i})}. \]
 			The \emph{ex-interim} utility is the expected utility  after observing one's own type $\theta_i$ is
@@ -80,7 +81,7 @@
 	\end{fdef}
 
 	More explicitly, we have
-	\[ u_i(\sigma) = \sum_{\substack{\theta \in \Theta \\ (a_1,\ldots,a_n) \in A}} P(\theta) \prod_{j \in N} \sigma_j(\theta_j)(a_j) u_i(a_1,\ldots,a_n ; \theta_1,\ldots,\theta_n). \]
+	\[ u_i(\sigma) = \sum_{\substack{\theta \in \Theta \\ (a_1,\ldots,a_n) \in A}} P(\theta) \left(\prod_{j \in N} \sigma_j(\theta_j)(a_j)\right) u_i(a_1,\ldots,a_n ; \theta_1,\ldots,\theta_n). \]
 	Observe that when the types are independent, both utilities are the same.\\
 
 	Bayes' rule immediately yields that
@@ -109,7 +110,7 @@
 
 \subsection{Equilibria}
 
-	As discussed, there are two stages to the game, ex-ante before observing the type, and ex-interm after observing the type.\\
+	As discussed, there are two stages to the game, ex-ante before observing the type, and ex-interim after observing the type.\\
 	Of course, we have a Nash equilibrium in the ex-ante stage, where $\sigma^*$ is an equilibrium if
 	\[ u_i(\sigma_i^*,\sigma_{-i}^*) \ge u_i(\sigma_i',\sigma_{-i}^*) \]
 	for all $\sigma_i',i \in N$.\\
@@ -136,7 +137,7 @@
 			\begin{itemize}
 				\item $\widehat{\sigma}_i(\theta_i') = \sigma_i^*(\theta_i')$ for $\theta_i' \in \Theta_i \setminus \{\theta_i\}$,
 				\item $\widehat{\sigma}_i(\theta_i)(a_i) = 1$, and
-				\item $\widehat{\sigma}_i(\theta_i)(b_i) = 1$ for $b_i \in A_i \setminus \{a_i\}$.
+				\item $\widehat{\sigma}_i(\theta_i)(b_i) = 0$ for $b_i \in A_i \setminus \{a_i\}$.
 			\end{itemize}
 			Then,
 			\begin{align*}
@@ -146,7 +147,7 @@
 					&> \sum_{\tilde{\theta_i} \in \Theta_i \setminus \{\theta_i\}} P(\tilde{\theta_i}) u_i(\sigma^*_i(\tilde{\theta}_i),\sigma_{-i}^* \mid \tilde{\theta}_i) + P(\theta_i) u_i(\sigma_i^*(\theta_i),\sigma_{-i}^* \mid \theta_i) \\
 					&= u_i(\sigma_i^*,\sigma_{-i}^*),
 			\end{align*}
-			a contradiction.
+			a contradiction. \qedhere
 		\end{itemize}
 	\end{proof}
 
@@ -158,7 +159,7 @@
 
 	\begin{fex}[Sealed bid auctions II: equilibria in first price auctions]
 		This is a continuation of \Cref{ex: sealed bid auction}.\\
-		In that example, we looked at \emph{first price auctions}. We claim that the pure strategy profile defined by $b_1^* = \theta_1, b_2^* = \theta_2$ is a Bayesian equilibrium.
+		In that example, we looked at \emph{first price auctions}. We claim that the pure strategy profile defined by $b_1^* = \theta_1/2, b_2^* = \theta_2/2$ is a Bayesian equilibrium.
 		For player $1$, for a given $\theta_1$, the utility under a unilateral deviation of $b_1$ is
 		\begin{align*}
 			u_1(b_1,b_2^* \mid \theta_1) &= \int_0^1 f(\theta_2 \mid \theta_1) (\theta_1 - b_1) \indic_{b_1 \ge \theta_2/2} \dif \theta_2 \\
