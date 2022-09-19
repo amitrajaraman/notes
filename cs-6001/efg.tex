@@ -291,12 +291,12 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 
 	\subsubsection{Bayesian equilibria}
 
-		\textcolor{red}{Henceforth, we only discuss IIEFGs with perfect recall.}
+		% \textcolor{red}{Henceforth, we only discuss IIEFGs with perfect recall.}
 		
 		What are some notions of equilibria in IIEFGs? We could extend the subgame perfection in PIEFGs, but because the histories are uncertain, we are forced to use mixed strategies. Due to the information sets, a best response cannot be defined without the ``belief'' of each player.\\
 		Belief is a conditional probability distribution over the histories in an information set (where the conditioning is done over reaching the information set).
 
-		\begin{fex*}
+		\begin{fex}
 			Consider the following IIEFG, and the behavioral strategy described therein (by thick lines) -- in the first round, player $1$ plays $L,M,R$ with probabilities $5/12,4/12,3/12$ respectively.
 			\begin{center}
 			\begin{tikzpicture}
@@ -378,7 +378,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 			Now, let the belief of player $2$ for the nodes $x_2,x_3$ be $q,1-q$ respectively. If it plays $\ell$, it gets a utility of $1$ with probability $q$ and $2$ with probability $1-q$. If it chose $m$ instead, it would get $0$ with probability $q$ and $-1$ with probability $1-q$. Finally, if it chose $r$, it would get $0$ with probability $q$ and $2$ with probability $1-q$. It is seen that the expected utility for the choice of $\ell$ is always highest. In general, we need to compare it to the expected utilities for other choices. In this case, by nature of the behavioral strategy, the belief corresponds to $q = 5/9$.\\
 			Therefore, this behavioral strategy is indeed an equilibrium.\\
 			This is not a unique equilibrium however. As an exercise, check whether $(MR_1R_2,m)$ is an equilibrium.
-		\end{fex*}
+		\end{fex}
 		
 		% To determine if a given mixed strategy is an equilibrium, there are a few conditions we must look at.
 		% \begin{itemize}
