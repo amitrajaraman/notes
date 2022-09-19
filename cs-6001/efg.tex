@@ -144,7 +144,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\end{itemize}
 	\end{fdef}
 
-	At a given information set, the player and all their available actions ar ethe same. The player is not certain which history in the information set the game is at.\\
+	At a given information set, the player and all their available actions are the same. The player is not certain which history in the information set the game is at.\\
 	Since the actions now depend on the information sets and not the histories, we denote $\mathcal{X}(I_i^j) \coloneqq \mathcal{X}(h)$ for any $h \in I_i^j$.\\
 	Strategies are also defined over information sets. The strategy set of player $i \in N$ is defined by
 	\[ S_i = \bigtimes_{\tilde{I} \in I_i} \mathcal{X}(\tilde{I}). \]
@@ -261,7 +261,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		Let us state this more formally.
 
 		\begin{fdef}[Perfect recall]
-			Player $i$ is said to have \emph{perfect recall} if for every $I_i^j$ and pair of vertices $x,\hat{x} \in I_i^j$, if the decision vertices of $i$ are $x_i^1,x_i^2,\ldots,x_i^L = x$ and $\hat{x}_i^1,\hat{x}_i^2,\ldots,\hat{x}_i^{\hat{L}}$ respectively for the two paths from the root to $x$ and $\hat{x}$, then
+			Player $i$ is said to have \emph{perfect recall} if for every $I_i^j$ and pair of vertices $x,\hat{x} \in I_i^j$, if the decision vertices of $i$ are $x_i^1,x_i^2,\ldots,x_i^L = x$ and $\hat{x}_i^1,\hat{x}_i^2,\ldots,\hat{x}_i^{\hat{L}} = \hat{x}$ respectively for the two paths from the root to $x$ and $\hat{x}$, then
 			\begin{enumerate}
 				\item $L = \hat{L}$,
 				\item for any $1 \le \ell \le L$, $x_i^\ell,\hat{x}_i^\ell \in I_i^k$ for some $k$, and
@@ -269,6 +269,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 			\end{enumerate}
 			A game is said to be of perfect recall if every player has perfect recall.
 		\end{fdef}
+		Why is the game in \Cref{ex: mixed without equiv behavioral} not of perfect recall?
 
 		Observe that perfect recall subsumes the condition in \Cref{theo: behavioral has equivalent mixed}.\\
 		This effectively says that ``every player remembers their choices, as well as whatever they remembered in the past''.
@@ -369,7 +370,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 				\draw[dashed](0-2-2)to(0-2-3);
 			\end{tikzpicture}
 			\end{center}
-			Now, suppose that player $2$ believes that they are at $x_6,x_7$ with probabilities $p,1-p$ respectively. If it is at $x_6$, it makes sense to choose $L_2$, and if at $x_7$, it makes sense to choose $x_7$. So, if the belief was $>2/7$ ($1-p > 2/7$), then the player chooses $R_2$. Such an action that maximizes expected utility at each information set is called \emph{sequential rationality}.\\
+			Now, suppose that player $2$ believes that they are at $x_6,x_7$ with probabilities $p,1-p$ respectively. If it is at $x_6$, it makes sense to choose $L_2$, and if at $x_7$, it makes sense to choose $R_2$. So, if the belief was $>2/7$ ($1-p > 2/7$), then the player chooses $R_2$. Such an action that maximizes expected utility at each information set is called \emph{sequential rationality}.\\
 			
 			Is the behavioral strategy described an equilibrium? Let us check this in the recursive method we did for usual SPNEs.\\
 			First of all, as mentioned, we require $p \ge 5/7$.\\
@@ -401,7 +402,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\begin{fprop}
 			In a PIEFG, a behavioral strategy profile $\sigma$ is an SPNE iff the tuple $(\sigma,\hat{\mu})$ is sequentially rational.
 		\end{fprop}
-		This follows quite trivially from the fact that each information set is a singleton in a PIEFG, so the $\mu$ is just a degenerate distribution on the corresponding nodes.
+		Above, $\hat{\mu}$ assigns a degenerate distribution to every node.
 
 		\begin{fdef}
 			An assessment $(\sigma,\mu)$ is a \emph{perfect Bayesian equilibrium} (PBE) if for every player $i \in N$,
