@@ -5,7 +5,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 \subsection{Perfect information extensive form games}
 
 	\begin{fdef}[Perfect Information Extensive Form Game]
-		A perfect information extensive form game (PIEFG/EFG) is a $7$-tuple $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N}\rangle$ where
+		A perfect information extensive form game (PIEFG/EFG) is a $7$-tuple $\langle N,A,\mathcal{H},\mathcal{X},P,(u_i)_{i\in N}\rangle$ where
 		\begin{itemize}
 			\item $N$ is the set of players,
 			\item $A$ is the set of all possible actions (of all players)
@@ -14,7 +14,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 				\item $\emptyset \in \mathcal{H}$ and
 				\item if $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$, any subsequence $h' = (a^{(0)},a^{(1)},\ldots,a^{(t)})$ of $h$ (for $t \le \tau$) starting at the root is in $\mathcal{H}$,
 			\end{itemize}
-			\item $Z \subseteq \mathcal{H}$ is the set of all \emph{terminal histories}, where a history $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau-1)})$ is terminal if there exists no $a^{(\tau)} \in A$ with $(a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$,
+			\item $Z \subseteq \mathcal{H}$ is called the set of all \emph{terminal histories}, where a history $h = (a^{(0)},a^{(1)},\ldots,a^{(\tau-1)})$ is terminal if there exists no $a^{(\tau)} \in A$ with $(a^{(0)},a^{(1)},\ldots,a^{(\tau)}) \in \mathcal{H}$,
 			\item $\mathcal{X} : \mathcal{H} \setminus Z \to 2^A$, called the \emph{action set selection function}, gives the set of all valid actions given a non-terminal history,
 			\item $P : \mathcal{H}\setminus Z \to N$ is the \emph{player function} which gives the player who plays at a given non-terminal history, and
 			\item $u_i : Z \to \R$ is the utility of player $i$.
@@ -30,7 +30,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		\[ S_i = \bigtimes_{h \in \mathcal{H} : P(h) = i} \mathcal{X}(h). \]
 	\end{fdef}
 
-	It turns out that we can transform EFGs to NFGs! Indeed, the above definition explicitly describes the strategy set of each player, and associated to any tuple of strategies for all the players, we can determine the payoff.\\
+	We can transform EFGs to NFGs! Indeed, the above definition explicitly describes the strategy set of each player, and associated to any tuple of strategies for all the players, we can determine the payoff.\\
 	This conversion has a massive explosion in size however, and equilibria in the converted NFG do not necessarily make sense in the context of the original EFG.
 	% example at start of module 21
 
@@ -87,7 +87,7 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		A \emph{subgame perfect nash equilibrium} (SPNE) of an EFG $G$ is a strategy profile $s \in S$ such that for any subgame $G'$ of $G$, the restriction of $s$ to $G'$ is a PSNE of $G'$.
 	\end{fdef}
 
-	Similar to PSNEs, SPNEs are guaranteed to exist in finite PIEFGs.
+	Similar to MSNEs, SPNEs are guaranteed to exist in finite PIEFGs.
 	Observe that any SPNE is a PSNE. As we shall now see, the algorithm to find an SPNE is quite simple.\\
 
 	\begin{algorithm}[H]
@@ -137,9 +137,9 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 	This can be modeled as a sequential game, where the second player does not known for certain which history the game is in. This is called an \emph{information set}. Such games where players deal with information sets instead of particular histories are called imperfect information extensive form games. When the information sets are singletons, we get back PIEFGs.
 
 	\begin{fdef}
-		An \emph{imperfect information extensive form games} (IIEFG) is an $8$-tuple $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N},(I_i)_{i \in N}\rangle$ where
+		An \emph{imperfect information extensive form games} (IIEFG) is an $7$-tuple $\langle N,A,\mathcal{H},\mathcal{X},P,(u_i)_{i\in N},(I_i)_{i \in N}\rangle$ where
 		\begin{itemize}
-			\item $\langle N,A,\mathcal{H},Z,\mathcal{X},P,(u_i)_{i\in N}\rangle$ is a PIEFG,
+			\item $\langle N,A,\mathcal{H},\mathcal{X},P,(u_i)_{i\in N}\rangle$ is a PIEFG,
 			\item for every $i \in N$, $I_i = (I_i^1,I_i^2,\ldots,I_i^{k(i)})$ is a partition of $\{ h \in \mathcal{H} \setminus Z : P(h) = i \}$ with the property that $\mathcal{X}(h) = \mathcal{X}(h')$ and $P(h) = P(h') = i$ whenever there exists some $j$ such that $h,h' \in I_i^j$. The $I_i^j$s are called the \emph{information sets} of player $i$, and $I_i$ the collection of information sets of $i$.
 		\end{itemize}
 	\end{fdef}
@@ -164,17 +164,17 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 
 		A couple of questions come to mind seeing this: can a player attain a higher payoff using one type of strategy? Is there any sort of equivalence between mixed and behavioral strategies.
 
-		Given a node $x$, mixed/behavioral strategy $\sigma_i$, and a mixed/behavioral strategy vector $\xi_{-i}$, denote by $\rho(x;\sigma_i,\chi_{-i})$ the probability of going to the node $x$ in a game.
+		Given a node $x$, mixed/behavioral strategy $\sigma_i$, and a mixed/behavioral strategy vector $\xi_{-i}$, denote by $p(x;\sigma_i,\chi_{-i})$ the probability of going to the node $x$ in a game.
 		\begin{fdef}[Equivalence of mixed and behavioral strategies]
 			A mixed strategy $\sigma_i$ and a behavioral strategy $b_i$ of a player $i$ in an IIEFG are \emph{equivalent} if for every mixed/behavioral strategy vector $\xi_{-i}$ of the other players and every vertex $x$ in the game tree,
-			\[ \rho(x;\sigma_i,\xi_{-i}) = \rho(x;b_i,\xi_{-i}). \]
+			\[ p(x;\sigma_i,\xi_{-i}) = p(x;b_i,\xi_{-i}). \]
 		\end{fdef}
 
 		% add example from module 24 
 
 		Now, by definition, equivalence implies that the above equality holds at leaf nodes.\\
 		In fact, it suffices to check that it holds at leaf nodes! Given an arbitrary non-leaf nodes, the probability of reaching that node is equal to the sum of the probabilities of reaching the leaf nodes in the subtree, so equality at the leaves implies equality at non-leaves.\\
-		In fact, we get the following more generally.
+		As a result, we get the following.
 
 		\begin{ftheo}[Utility Equivalence]
 			If $\sigma_i,b_i$ are equivalent, then for every mixed/behavioral strategy vector of the other players $\xi_{-i}$ and every $j \in N$,
@@ -208,11 +208,12 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 				\draw[dashed](0-1)to(0-2);
 			\end{tikzpicture}
 			\end{center}
-			Observe that there does not exist any behavioral strategy $b$ for the player such that $\rho(b;L_1R_2) = \rho(b;R_1L_2) = 0$. Indeed, this would require $b_1(L_2) = b_1(R_2) = 0$.\\
+			Observe that there does not exist any behavioral strategy $b$ for the player such that $p(b;L_1R_2) = p(b;R_1L_2) = 0$. Indeed, this would require $b_1(L_2) = b_1(R_2) = 0$.\\
 			On the other hand, there does exist a mixed strategy $\sigma$ that sets $\sigma(L_1R_2) = \sigma(R_1L_2) = 0$. This is easily seen on realizing that $S_1 = \{L_1,L_2\} \times \{R_1,R_2\}$, so we have complete freedom in assigning probabilities to all four leaf ndoes.
 		\end{fex}
 
 		\begin{fex}[There exist behavioral strategies without equivalent mixed strategies]
+			\label{ex: behav without equiv mixed}
 			Consider the following game tree with a single player.
 			\begin{center}
 			\begin{tikzpicture}
@@ -269,7 +270,8 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 			A game is said to be of perfect recall if every player has perfect recall.
 		\end{fdef}
 
-		Observe that perfect recall subsumes the condition in \Cref{theo: behavioral has equivalent mixed}.
+		Observe that perfect recall subsumes the condition in \Cref{theo: behavioral has equivalent mixed}.\\
+		This effectively says that ``every player remembers their choices, as well as whatever they remembered in the past''.
 
 		Let us look at some consequences of perfect recall.\\
 		Given a node $x$, let $S_i^*(x)$ be the set of pure strategies of player $i$ at which he chooses the actions leading to $x$. This is the intersections of members of $S_i$ with the paths from the root to $x$.
@@ -280,10 +282,11 @@ Thus far, we have only looked at ``single-step'' games in NFGs. Not all games ca
 		The above conclusion follows because the same information sets are seen and we take the same actions at these sets.
 
 		\begin{ftheo}[Kuhn]
-			In an IIEFG, if $i$ is a player with perfect recall, then for any mixed strategy of $i$, there exists an equivalent behavioral strategy.
+			In an IIEFG, if $i$ is a player with perfect recall, then for any mixed strategy of $i$, there exists an equivalent behavioral strategy (and vice-versa).
 		\end{ftheo}
 		% msz theo 6.15
 		The proof is constructive in nature, with the construction using perfect recall.\\
+		We remark that the converse of this theorem is \emph{not} true, as seen in \Cref{mixed without equiv behavioral}.
 
 	\subsubsection{Bayesian equilibria}
 

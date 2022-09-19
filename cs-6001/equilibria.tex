@@ -1,16 +1,89 @@
-\section{Equilibria in NFGs}
+\section{Normal form games}
 
-	In this section, we look at various types of ``equilibria'' -- strategies which make sense to be played by rational players.
+\subsection{Definitions}
+
+	Normal form is a representation technique for games.
+	\begin{fdef}[Normal form game]
+		A \emph{normal form game} is a $3$-tuple $\langle N , (S_i)_{i \in N} , (u_i)_{i \in N} \rangle$, where
+		\begin{enumerate}
+			\item $N = \{1,\ldots,n\}$ is the set of players.
+			\item $S_i$ is the set of \emph{strategies} of player $i$. A particular strategy is denoted $s_i \in S_i$ and the set of \emph{strategy profiles} is $S \coloneqq \bigtimes_{i \in N} S_i$, with specific elements $s = (s_1,\ldots,s_n) \in S$. A strategy profile without $i$ is $s_{-i} = (s_1,\ldots,s_{i-1},s_{i+1},\ldots,s_n)$.
+			\item $u_i : S \to \R$ is the \emph{utility function} of player $i$.
+		\end{enumerate}
+	\end{fdef}
+
+	If $S_i$ is finite for all $i \in N$, the game is said to be a \emph{finite} game.\\
+
+	As mentioned earlier, a player is rational if they pick actions that maximize their utility. A player is intelligent if they know the rules of the game perfectly, and pick actions assuming that all other players are rational and intelligent.\\
+
+	A fact is said to be \emph{common knowledge} if
+	\begin{enumerate}
+		\item all players know the fact,
+		\item the fact that ``all players know the fact'' is also common knowledge.
+	\end{enumerate}
+
+	\begin{fex}[Propagation of common knowledge]
+		There is an isolated island (with a hundred people, say) where all inhabitants have eye color either blue or black. There is no reflecting surface on the island (people cannot figure out their own eye color) and nobody can communicate with each other.\\
+		One day, a truth-telling god comes to the island and declares that all blue-eyed people are bad for the island and must leave as soon as possible. He also says that there is at least one blue-eyed person on the island. The inhabitants, being deeply devout, do listen to him and leave at the end of the day if they discover that their eyes are blue. In this setting, the fact that there is at least one blue-eyed person on the island is common knowledge. \\
+
+		If there was only one blue-eyed person, he would see that all other people have black eyes. Because the god said that there is a blue-eyed person, he infers that he must be the only blue-eyed person and leaves at the end of the first day.\\
+		If there were two, then on the second day everyone would notice that all people remain on the island, so they would infer that there are at least two blue-eyed people on the island. If one of the inhabitants sees that exactly one of the other four people is blue-eyed, then he, along with the other blue-eyed person, leaves on the second day.\\
+		This goes on, and it is seen that if there are exactly $n$ blue-eyed people, then all of these $n$ people leave at the end of the $n$th day.\\
+	\end{fex}
+
+	Now, we discuss the concept of \emph{domination} in NFGs. Consider the following game matrix:
+
+	\begin{center}
+	\begin{tabular}{|c||c|c|c|}
+		\hline
+		$1, 2$ & \textsf{L} & \textsf{M} & \textsf{R} \\
+		\hline \hline
+		\textsf{U} & $1, 0$ & $1,3$ & $3,2$ \\
+		\hline
+		\textsf{D} & $-1,6$ & $0,5$ & $3,3$ \\
+		\hline
+	\end{tabular}
+	\end{center}
+
+	Observe that player \textsf{2} has no reason to ever play \textsf{R}. Indeed, no matter what player $1$ chooses, they can increase their payoff by switching to \textsf{M} instead. In such a scenario, we say that \textsf{R} is dominated by \textsf{M}.\\
+
+	\begin{fdef}
+		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{strictly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
+		\[ u_i(s_i,s_{-i}) > u_i(s_i',s_{-i}). \]
+
+		A strategy $s_i' \in S_i$ of player $i$ is said to be \emph{weakly dominated} if there exists another strategy $s_i \in S_i$ such that for every strategy profile $s_{-i} \in S_{-i}$,
+		\[ u_i(s_i,s_{-i}) \ge u_i(s_i',s_{-i}) \]
+		and in addition, there exists some $\tilde{s}_{-i} \in S_{-i}$ such that
+		\[ u_i(s_i,\tilde{s}_{-i}) > u_i(s_i',\tilde{s}_{-i}). \]
+	\end{fdef}
+	So, in the earlier example \textsf{R} is strictly dominated and \textsf{D} is weakly dominated.\\
+	There is no reason for a rational player to ever play a (weakly or strictly) dominated strategy.
+
+	\begin{fdef}
+		A strategy $s_i \in S_i$ is \emph{strictly (weakly) dominant} if it strictly (weakly) dominates all $s_i' \in S_i \setminus \{s_i\}$.
+	\end{fdef}
+
+	Recall \Cref{ex: neighbouring kingdom dilemma}. In this, warfare strictly dominates agriculture, which is precisely what we said there, albeit in more explicit terms.\\
+
+	Let us give another example of this.
+
+	\begin{fex}[Second price auctions]
+		Suppose there are two players having ``values'' $v_1,v_2$ respectively. Each player can choose a number in $[0,M]$, where $M \gg v_1,v_2$. The player who quotes the larger number wins the object (with ties being broken in favour of player $1$, say), and pays the losing player's chosen number. The utility of the winning player is their value $v_i$ minus their payment (the amount bid by the other player), and the utility of the losing player is $0$.\\
+		As a NFG representation, $N = \{1,2\}$, $S_1 = S_2 = [0,M]$, and
+		\[ u_1(s_1,s_2) = \begin{cases} v_1 - s_2, & s_1 \ge s_2, \\ 0, & \text{otherwise,} \end{cases} \text{ and } u_1(s_1,s_2) = \begin{cases} v_2 - s_1, & s_1 < s_2, \\ 0, & \text{otherwise,} \end{cases} \]
+		It turns out that the strategy $s_i$ where player $i$ chooses $v_i$ is a weakly dominant strategy! Let us check this for player $1$.\\
+		Suppose that $s_1' > v_1$ is in $S_1$ and $s_2 \in S_2$. We would like to show that $u_1(s_1,s_2) \ge u_1(s_1',s_2)$. If $s_2 > s_1'$, both payoffs are zero. If $s_2 \le s_1 < s_1'$, then both payoffs are equal to the same value. The remaining case is when $s_1 \le s_2 \le s_1'$. The payoff for $s_1$ is zero, but the payoff for $s_1'$ is non-positive since we are paying more than we value the item.
+	\end{fex}
 
 \subsection{Some types of equilibria}
 
 	\begin{fdef}
-		A strategy profile $(s_1^*,s_2^*,\ldots,s_n^*)$ is a \emph{strictly (weakly) dominant strategy equilibrium} if each $s_i^*$ is a strictly (weakly) dominant strategy for each $i$.
+		A strategy profile $(s_1^*,s_2^*,\ldots,s_n^*)$ is a \emph{strictly (weakly) dominant strategy equilibrium} if each $s_i^*$ is a strictly (weakly) dominant strategy.
 	\end{fdef}
 	We abbreviate the above as SDSE or WDSE.
 
 	No rational player would play dominated strategies, so we can eliminate dominated strategies one-by-one. A point of note here is that after eliminating a strategy, we get a reduced game with fewer strategies, and this game may have dominated strategies that were not there earlier.\\
-	For strictly dominated strategies, the order of elimination does not matter. For weakly dominated strategies however, some reasonably outcomes may be eliminated (since this effectively says how we break ties).
+	For strictly dominated strategies, the order of elimination does not matter. For weakly dominated strategies however, some reasonable outcomes may be eliminated; this is because eliminating one player's weakly dominated strategies may introduce new dominated strategies for another.
 
 	\begin{fex}[Order of eliminating weakly dominated strategies matters]
 		\label{example: order of eliminating dominated strategies}
@@ -34,20 +107,22 @@
 		On the other hand, if we eliminate strategies in the order of \textsf{B}, \textsf{L}, \textsf{C}, \textsf{T}, then the final remaining strategies are $(\mathsf{M},\mathsf{R})$, which gives a payoff of $3,2$, which is not the same as the previous $2,2$!
 	\end{fex}
 
+	Dominant strategies (and dominant strategy equilibria) need not exist in games in general.
+	\begin{fex}[Dominated strategies need not exist]
+		Consider the following game.
+		\begin{center}
+		\begin{tabular}{|c||c|c|}
+			\hline
+			& \textsf{L} & \textsf{R} \\
+			\hline\hline
+			\textsf{L} & $1, 1$ & $0,0$ \\
+			\hline
+			\textsf{R} & $0,0$ & $1,1$ \\
+			\hline 
+		\end{tabular}
+		\end{center}
+	\end{fex}
 
-	Dominant strategies (and dominant strategy equilibria) need not exist in games in general, as can be seen in the following game.
-
-	\begin{center}
-	\begin{tabular}{|c||c|c|}
-		\hline
-		& \textsf{L} & \textsf{R} \\
-		\hline\hline
-		\textsf{L} & $1, 1$ & $0,0$ \\
-		\hline
-		\textsf{R} & $0,0$ & $1,1$ \\
-		\hline 
-	\end{tabular}
-	\end{center}
 
 	As a result, dominance is not enough to give a reasonable outcome, so we must give a more refined notion.
 
@@ -56,7 +131,7 @@
 		\[ u_i(s_i^*, s_{-i}^*) \ge u_i(s_i,s_{-i}^*). \]
 	\end{fdef}
 
-	That is, fixing the remaining players' strategies, no player can increase their payoff by moving to another strategy. Unilateral deviation is not beneficial. \\
+	That is, fixing the remaining players' strategies, no player can increase their payoff by moving to another strategy. More succinctly, unilateral deviation is not beneficial. \\
 	In the above example, $(\mathsf{L},\mathsf{L})$ and $(\mathsf{R},\mathsf{R})$ are both PSNEs.\\
 	PSNEs need not exist either!
 
@@ -250,7 +325,7 @@
 		
 		Suppose that $(s_1^*,s_2^*)$ is a saddle point. Then,
 		\[ u(s_1^*,s_2^*) \ge \max_{s_1 \in S_1} u(s_1,s_2^*) \ge \min_{s_2 \in S_2} \max_{s_1 \in S_1} u(s_1,s_2) = \overline{v}. \]
-		An identical argument for player $2$ (keeping in mind that $u_2 \equiv -u$!) yields that $\underline{u} \ge u(s_1^*,s_2^*)$.\\
+		An identical argument for player $2$ (keeping in mind that $u_2 \equiv -u$!) yields that $\underline{v} \ge u(s_1^*,s_2^*)$.\\
 		Combining the two,
 		\[ \underline{v} \ge u(s_1^*,s_2^*) \ge \overline{v}. \]
 		Recalling \Cref{lemma: minmax ge maxmin}, we must have that $\overline{v} = \underline{v}$.\\
@@ -351,7 +426,7 @@
 		It is possible for the maximum and weighted average to be equal iff all the utilities are the same, so (a) is proved.\\
 		Now, suppose that there is some $s_i \in \delta(\sigma_i^*), s_i' \not\in \delta(\sigma_i^*)$ such that
 		\[ u_i(s_i,\sigma_{-i}^*) < u_i(s_i',\sigma_{-i}^*). \]
-		Considering the mixed strategy that is identical to $\sigma_i^*$ except that the weight that was on $s_i$ is shifted to $s_i'$. This gives a strictly larger utility, contradicting the fact that we have an MSNE and proving (b).\\
+		Consider the mixed strategy that is identical to $\sigma_i^*$ except that the weight that was on $s_i$ is shifted to $s_i'$. This gives a strictly larger utility, contradicting the fact that we have an MSNE and proving (b).\\
 
 		Now, let us prove the backward direction. Let $u_i(s_i,\sigma_{-i}^*) = m_i(\sigma_{-i}^*)$ for all $s_i \in \delta(\sigma_i^*)$ (using (a)). Using (b), we have $m_i(\sigma_{-i}^*) = \max_{s_i \in S_i} u_i(s_i,\sigma_{-i}^*)$. Then,
 		\begin{align*}
@@ -399,7 +474,7 @@
 			\textsf{Go} & $2,1$ & $-10,-10$ \\ \hline
 		\end{tabular}
 		\end{center}
-		It is clear that both $\mathsf{Wait},\mathsf{Go}$ and $\mathsf{Go},\mathsf{Wait}$ are PSNEs. It can also be seen however that a MSNE assigns some nonzero probability to the event where both players choose $\mathsf{Go}$. In practice, a traffic light guides the players. This trusted third party is called the \emph{mediator}. It randomizes over the strategy \emph{profiles} (and not just strategies like earlier) and suggests the corresponding strategies to the players. If the startegies are enforceable, then it is an equilibrium. 
+		It is clear that both $\mathsf{Wait},\mathsf{Go}$ and $\mathsf{Go},\mathsf{Wait}$ are PSNEs. It can also be seen however that a MSNE can assign some nonzero probability to the event where both players choose $\mathsf{Go}$. In practice, a traffic light guides the players. This trusted third party is called the \emph{mediator}. It randomizes over the strategy \emph{profiles} (and not just strategies like earlier) and suggests the corresponding strategies to the players. If the startegies are enforceable, then it is an equilibrium. 
 	\end{fex}
 
 	\begin{fdef}
@@ -419,7 +494,7 @@
 	\begin{align*}
 		\sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i,s_{-i}) &\ge \sum_{s_{-i} \in S_{-i}} \pi(s_i,s_{-i}) u_i(s_i',s_{-i}) \text{ for all $s_i,s_i' \in S_i$ and $i \in N$} \\
 		\pi(s) &\ge 0 \text{ for all $s \in S$} \\
-		\sum_{s \in S} \pi(S) &= 1.
+		\sum_{s \in S} \pi(s) &= 1.
 	\end{align*}
 	If $|S_i| = m$ for all $i$, this gives $O(nm^2)$ inequalities in the first part and $O(m^n)$ inequalities for the second.\\
 	All together, they represent a feasibility linear program.\\
