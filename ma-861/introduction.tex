@@ -1110,10 +1110,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\[ m_\lambda = \sum_{\text{symmetric}} x_1^{\lambda_1} x_2^{\lambda_2} \cdots x_k^{\lambda_k} = \sum \textbf{x}^\lambda. \]
 	The ``symmetric'' means that we sum over all distinct ways to permute the exponents $\lambda_1,\ldots,\lambda_k$. The summation above is slightly strange, because we want to ensure that every monomial in $m_\lambda$ appears with coefficient $1$. $\{m_\lambda\}_{\lambda \vdash d}$ is a basis of $\Lambda_\Q^d$.
 
-	\begin{question*}
+	\begin{question}
 		\label{question: rowsum colsum}
 		Given a matrix $M_{r \times k}$, on summing each row of $M$, we get a vector $\rowsum(M) = (r_1,\ldots,r_\ell)$ and on summing the columns we get a vector $\colsum(M) = (c_1,\ldots,c_k)$. When does there exist a 0-1 matrix $M$ such that $\rowsum(M)$ and $\colsum(M)$ are each equal to given vectors $(r_1,\ldots,r_\ell)$ and $(c_1,\ldots,c_k)$?
-	\end{question*}
+	\end{question}
 
 	For starters, we clearly require $\sum r_i = \sum c_j \eqqcolon S$. Assume without loss of generality that $r_1 \ge \cdots \ge r_\ell$ and $c_1 \ge \cdots \ge c_k$ -- if a matrix for this exists, we can first reorder the rows to ensure the correct order of row sums, then reorder the columns. That is, we have two number partitions $\lambda = (r_1,\ldots,r_\ell)$ and $\mu = (c_1,\ldots,c_k)$ of $S$.\\
 	We return to the problem later.\\
@@ -1122,7 +1122,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Now, we define some partial orders on the set of number partitions.\\
 	First, we consider an order that allows the comparison of number partitions of different numbers.
 	\begin{fdef}[Young's order]
-		Under \emph{Young's order}, given two number partitions $\lambda,\mu$, $\lambda \le \mu$ iff the Ferrer diagram of $\lambda$ is contained in that of $\mu$.
+		Under \emph{Young's order}, given two number partitions $\lambda,\mu$, $\lambda \ple \mu$ iff the Ferrer diagram of $\lambda$ is contained in that of $\mu$.
 	\end{fdef}
 	Observe that under this order, two number partitions of the same number are \emph{not} comparable.\\
 
@@ -1135,7 +1135,8 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	Finally, we define another total order over number partitions of a fixed number.
 	\begin{fdef}[Dominance/Majorisation Order]
-		Fix some $d$ and two partitions $\lambda = (\lambda_1,\ldots,\lambda_{\ell(\lambda)}),\mu = (\mu_1,\ldots,\mu_{\ell(\mu)})$ of $d$. Padding zeros at the end of one of the partitions, assume that $\ell(\lambda) = \ell(\mu) \eqqcolon p$. Under the \emph{majorisation order}, we have $\lambda \le \mu$ iff for $1 \le j \le p$,
+		\label{def: majorisation order}
+		Fix some $d$ and two partitions $\lambda = (\lambda_1,\ldots,\lambda_{\ell(\lambda)}),\mu = (\mu_1,\ldots,\mu_{\ell(\mu)})$ of $d$. Padding zeros at the end of one of the partitions, assume that $\ell(\lambda) = \ell(\mu) \eqqcolon p$. Under the \emph{majorisation order}, we have $\lambda \ple \mu$ iff for $1 \le j \le p$,
 		\[ \sum_{i=1}^j \lambda_i \le \sum_{i=1}^j \mu_i. \]
 	\end{fdef}
 
@@ -1151,7 +1152,60 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\[ e_\lambda = \prod_{i=1}^\ell e_{\lambda_i}. \]
 	For example,
 	\begin{align*}
-		e_3 &= m_{1^3} = \sum_{i < j < k} x_i x_j x_k \]
-		e_{2,1} &= e_2e_1 = \left(\sum_{i < j} x_i x_j\right) \left(\sum_k x_k\right) = 3m_{1,1,1} + m_{2,1}
+		e_3 &= m_{1^3} = \sum_{i < j < k} x_i x_j x_k \text{ and} \\
+		e_{2,1} &= e_2e_1 = \left(\sum_{i < j} x_i x_j\right) \left(\sum_k x_k\right) = 3m_{1,1,1} + m_{2,1}.
 	\end{align*}
-	We claim that $\{e_\lambda : \lambda \vdash d\}$ is a basis of the set of symmetric functions.
+	We claim that $\{e_\lambda : \lambda \vdash d\}$ is a basis of the set of symmetric functions.\\
+	In the case of $d = 4$, we have
+	\begin{align*}
+		e_4 &= 1 m_{1^4} \\
+		e_{3,1} &= 4m_{1^4} + 1m_{2,1,1} \\
+		e_{2,2} &= 6m_{1^4} + 2m_{2,1,1} + 1m_{2,2} \\
+		e_{2,1,1} &= 12m_{1^4} + 5m_{2,1,1} + 2m_{2,2} + 1m_{3,1} \\
+		e_{1^4} &= 24m_{1^4} + 12m_{2,1,1} + 6m_{2,2} + 4m_{3,1} + 1m_{4}.
+	\end{align*}
+
+	As the coefficients seem to be non-negative and integral, one can ask for a combinatorial interpretation. If
+	\[ e_\lambda = \sum_{\mu \vdash d} M_{\lambda\mu} m_\mu, \]
+	what is $M_{\lambda\mu}$?
+
+	\begin{ftheo}
+		\label{theo: sol to rowsum colsum}
+		Let $\lambda,\mu \vdash d$. Then, $M_{\lambda\mu}$ is the number of $\ell(\lambda) \times \ell(\mu)$ $0,1$-matrices $A$ with $\rowsum(A) = \lambda$ and $\colsum(A) = \mu$.
+	\end{ftheo}
+	Recall \Cref{question: rowsum colsum}.
+	\begin{proof}
+		Let $\ell(\lambda) = r, \ell(\mu) = k$.\\
+		Consider the $r \times k$ matrix
+		\[ \begin{bmatrix} x_1 & x_2 & \cdots \\ x_1 & x_2 & \cdots \\ \vdots & \vdots & \ddots \end{bmatrix}. \]
+		Choose a $0,1$ vector with $\lambda_i$ $1$s and paste it in in $M$ at the $i$th row. The coefficient of $x_1^{\mu_1} x_2^{\mu_2} \cdots x_k^{\mu_k}$ in $\prod_i e_{\lambda_i}$ is given by choosing for each $i \in [r]$ a set of indices in $[k]$ such that
+	\end{proof}
+	
+	Consider the $p(d) \times p(d)$ matrix $M_d$ with $(M_d)_{\lambda\mu}$ equal to the $M_{\lambda\mu}$ that we defined earlier.
+	
+	\begin{fcor}
+		$M_d$ is symmetric.
+	\end{fcor}
+	This follows immediately from \Cref{theo: sol to rowsum colsum} upon taking the transpose of any matrix.
+
+	\begin{ftheo}[Gale-Ryser]
+		Let $\lambda,\mu \vdash d$. There exists a $0,1$-matrix $A$ with $\rowsum(A) = \lambda,\colsum(A) = \mu$ iff $\lambda \ple \mu^*$ under the \hyperref[def: majorisation order]{majorisation order}.
+	\end{ftheo}
+
+	Here, $\lambda^*$ is the \emph{conjugate} partition of $\lambda$, which is such that its Ferrer diagram is the transpose of that of $\lambda$. More precisely,
+	\[ (\lambda^*)_i = \left| \left\{ j : \lambda_j \ge i \right\} \right|. \]
+	For a proof of the above, one can see \href{http://www.math.iitb.ac.in/~krishnan/phd-2022/krause_gale_ryser.pdf}{this link}. Note that the notation used here swaps our definitions of row sum and column sum. % someone told Manfred Krause the problem and in a week, he had a simple solution!
+	% the proof strategy is to start with \lambda^* and perturb it slightly until we get to \mu, and build a 0-1 matrix on the way.
+
+	\begin{exercise}
+		Show that $\lambda \ple \mu^*$ iff $\mu \ple \lambda^*$.
+	\end{exercise}
+	
+	Let us now return to the question of whether the $e_\lambda$ form a basis of $\Lambda_{\Q}^d$. Fix $d$ and set $M = M_d$. We would like to show that $M$ is invertible.\\
+	To show this, we will rearrange the rows and columns of $M$ by pre/postmultiplying with permutation matrices.
+
+	\begin{enumerate}
+		\item First, suppose that the partitions that index the rows reverse lexicographically, starting with the partition $n$ and ending with $1^n$, and the columns lexicographically, starting with the partition $1^n$ and ending with $n$.
+		\item Show that this new matrix is lower triangular (possibly upper triangular). To prove this, show that the lexicographic order is a topological sorting of the majorisation partial order.
+		\item Argue that all the diagonal elements of this matrix are nonzero (in fact, they are $1$). This amounts to showing that the diagonal elements correspond to partition pairs of the form $(\lambda,\lambda^*)$.
+	\end{enumerate}
