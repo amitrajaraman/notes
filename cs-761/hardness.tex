@@ -1,0 +1,80 @@
+\section{Hardness v. Randomness}
+
+	\subsection{Lecture 13: Hardness}
+
+		A general question one can ask is this: for any polynomial-time randomized algorithm, is it possible to derandomize it (possibly using more space) to get a polynomial-time deterministic algorithm doing the same job?\\
+		It has been shown that given a ``hard'' function, one can construct very good pseudorandom bits. However, no explicit hard functions are known.\\
+
+		Consider the notion of \emph{worst case hardness}. For example, if we can show for some language that no algorithm that runs in $O(n^{10})$ can compute the output correctly on all inputs, then the language is hard in some sense.\\
+		We also have the notion of \emph{average case hardness}. Here, if we can show for some language that no algorithm that runs in $O(n^{10})$ can compute the output correctly on more than $3/4$ of the inputs, then the language is hard in some sense.\\
+		It is not too difficult to see that average case hardness is a stronger notion than worst case hardness.\\
+
+		Problems that are average case hard yield good pseudorandom generators. Another question of concern is converting worst case hardness to average case hardness, which is done through error correcting codes.\\
+		The rough idea behind the second question is the following. Error-correcting codes, when given two words as input that are close, make them far apart.
+
+		\begin{fdef}[$\RP$]
+			A language $L$ is said to be in $\RP$ if there is a randomized algorithm $\mathcal{A}$ running in time $O(n^c)$ for some constant $c$ such that
+			\begin{enumerate}
+				\item for $x \in L$,
+				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \ge \frac{1}{2}. \]
+				\item for $x \not\in L$,
+				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \ge 0. \]
+			\end{enumerate}
+		\end{fdef}
+		% explain x, r?
+		Here, we mean that $r$ is a random
+
+		For example, the algorithm we saw in \Cref{subsec: connectivity} was in $\mathsf{RP}$.
+
+		\begin{fdef}[$\BPP$]
+			A language $L$ is said to be in $\BPP$ if there is a randomized algorithm $\mathcal{A}$ running in time $O(n^c)$ for some constant $c$ such that
+			\begin{enumerate}
+				\item for $x \in L$,
+				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \ge \frac{2}{3}. \]
+				\item for $x \not\in L$,
+				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \le \frac{1}{3}. \]
+			\end{enumerate}
+		\end{fdef}
+		
+		Here, by randomized algorithms, we mean probabilistic turing machines.\\
+
+		Next, let us look at pseudorandom distributions. The goal of these is to find some universal set of random bits which we can substitute in place of the (ideally) uniformly random bits. \\
+		Denote by $U_m$ the uniform distribution on $\{0,1\}^m$.\\
+		The idea of this is that a distribution $D$ is pseudorandom (with respect to $\mathcal{A}$) if for the given algorithm $\mathcal{A}$, for all inputs $x$,
+		\[ \left| \Pr_{r \sim U_m}[ B(x,r) = \mathsf{yes}] - \Pr_{r \sim D}[ B(x,r) = \mathsf{yes} ] \right| \le \epsilon. \]
+
+		One neat way to think about algorithms \emph{with input} is \href{https://en.wikipedia.org/wiki/Boolean_circuit}{circuits}.\\
+		In fact, any deterministic algorithm can be viewed as a family $(C_n)_{n \ge 1}$ of circuits, with $C_n$ computing the output correctly if the input is of size $n$. We can view a randomized algorithm as a deterministic one with two inputs, $x$ and $r$. The circuit then has $n+m$ input leaves, where $n$ is the size of the input $x$ and $m$ is the number of random bits $r$. If we fix the $x$ part of the input, we get a circuit in the remaining input, namely $r_1,\ldots,r_m$.
+
+		\begin{fdef}[Pseudorandom distribution]
+			A distribution $D$ on $\{0,1\}^m$ is called \emph{$(S,\epsilon)$-pseudorandom} if for any circuit $C$ on $m$ input gates and size at most $S$,
+			\[ \left| \Pr_{r \sim U_m} [ C(r) = 1 ] - \Pr_{r \sim D} [C(r) = 1] \right| \le \epsilon. \]
+		\end{fdef}
+
+		% maybe change this to have G itself as the function.
+		\begin{fdef}[Pseudorandom generator]
+			Let $G = (G_\ell)_{\ell \in \N}$ be a family of functions, where $G_\ell : \{0,1\}^{\ell} \to \{0,1\}^{m(\ell)}$ (for some appropriate increasing function $m$). $G$ is said to be a \emph{pseudorandom generator} if for each $\ell$,
+			\begin{enumerate}[label=(\alph*)]
+				\item $G_\ell$ can be computed in $O(2^\ell)$ time, and
+				\item the distribution over $\{0,1\}^{m(\ell)}$ which takes a uniformly random element $s$ of $\{0,1\}^\ell$ and takes value $G(s)$ is $(m(\ell)^3 , 1/10)$-pseudorandom.
+			\end{enumerate}
+		\end{fdef}
+		The existence of the above would imply that any randomized algorithm in $\mathsf{BPP}$ using $m$  random bits and running time $m^3$ can be simulated by a deterministic algorithm with running time $O(2^{2\ell}m^3)$. We merely run the algorithm on $G(r)$ for all $r \in \{0,1\}^\ell$, and output whatever answer (\textsf{yes} or \textsf{no}) occurs more. \\
+		If we want to completely derandomize our randomized polynomial-time algorithm to get a deterministic polynomial time algorithm, we want that $m = 2^\ell$. In particular, if a pseudorandom generator with $\ell = \log m$ exists, then $\mathsf{BPP} = \mathsf{P}$. When this is true, let us say that the PRG has ``exponential stretch''. % if we have m^9 algo for instance, pad the input to make it m^3 size. \ell only increases by a constant factor, so its fine.
+		% We don't know how to go from \ell to \ell+1, forget 2^{\ell}.
+
+		Our goal in the next few lectures will be to show that ``circuit lower bounds'' imply the existence of pseudorandom generators.
+
+		\begin{ftheo}
+			There exists a ``PRG'' with exponential stretch which satisfies only $(b)$ in the definition.
+		\end{ftheo}
+		\begin{proof}
+			Choose a random $G$ -- for each $s \in \{0,1\}^\ell$, set $G(s)$ to be a uniformly random string in $\{0,1\}^{m}$.\\
+			Fix a circuit $C$ of size at most $m^3$. Suppose that $\Pr_{r \sim U_m}[C(r) = 1] = p$, and let
+			\[ B \coloneqq \{ r \in \{0,1\}^m : C(r) = 1 \}. \]
+			Note that the random variable
+			\[ X \coloneqq \left| s \in \{0,1\}^\ell : G(s) \in B \right| \right] \]
+			is the sum of $2^{\ell}$ Bernoulli random variables equal to $1$ with probability $p$. Now, by the Chernoff bound
+			\[ \Pr\left[ |X - \E[X]| > \epsilon 2^m \right] \le 2e^{-(\epsilon 2^m)^2/3\E[X]} = 2e^{-(\epsilon 2^m)^2 /(3p \cdot 2^{m})} \ge 2e^{-\epsilon^2 2^{m} / 3}. \]
+
+		\end{proof}

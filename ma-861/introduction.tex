@@ -1181,14 +1181,15 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Choose a $0,1$ vector with $\lambda_i$ $1$s and paste it in in $M$ at the $i$th row. The coefficient of $x_1^{\mu_1} x_2^{\mu_2} \cdots x_k^{\mu_k}$ in $\prod_i e_{\lambda_i}$ is given by choosing for each $i \in [r]$ a set of indices in $[k]$ such that
 	\end{proof}
 	
-	Consider the $p(d) \times p(d)$ matrix $M_d$ with $(M_d)_{\lambda\mu}$ equal to the $M_{\lambda\mu}$ that we defined earlier.
+	Consider the $p(d) \times p(d)$ matrix $M$ with the ${\lambda,\mu}$th entry equal to the $M_{\lambda\mu}$ that we defined earlier.
 	
 	\begin{fcor}
-		$M_d$ is symmetric.
+		$M$ is symmetric.
 	\end{fcor}
 	This follows immediately from \Cref{theo: sol to rowsum colsum} upon taking the transpose of any matrix.
 
 	\begin{ftheo}[Gale-Ryser]
+		\label{gale-ryser}
 		Let $\lambda,\mu \vdash d$. There exists a $0,1$-matrix $A$ with $\rowsum(A) = \lambda,\colsum(A) = \mu$ iff $\lambda \ple \mu^*$ under the \hyperref[def: majorisation order]{majorisation order}.
 	\end{ftheo}
 
@@ -1201,11 +1202,64 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Show that $\lambda \ple \mu^*$ iff $\mu \ple \lambda^*$.
 	\end{exercise}
 	
-	Let us now return to the question of whether the $e_\lambda$ form a basis of $\Lambda_{\Q}^d$. Fix $d$ and set $M = M_d$. We would like to show that $M$ is invertible.\\
-	To show this, we will rearrange the rows and columns of $M$ by pre/postmultiplying with permutation matrices.
+	Let us now return to the question of whether the $e_\lambda$ form a basis of $\Lambda_{\Q}^d$. We would like to show that $M$ is invertible.
 
 	\begin{enumerate}
-		\item First, suppose that the partitions that index the rows reverse lexicographically, starting with the partition $n$ and ending with $1^n$, and the columns lexicographically, starting with the partition $1^n$ and ending with $n$.
-		\item Show that this new matrix is lower triangular (possibly upper triangular). To prove this, show that the lexicographic order is a topological sorting of the majorisation partial order.
+		\item First, suppose that the partitions that index the columns reverse lexicographically, starting with the partition $n$ and ending with $1^n$, and the rows lexicographically, starting with the partition $1^n$ and ending with $n$.
+		\item Show that this new matrix is upper triangular. To prove this, show that the lexicographic order is a topological sorting of the majorisation partial order.
 		\item Argue that all the diagonal elements of this matrix are nonzero (in fact, they are $1$). This amounts to showing that the diagonal elements correspond to partition pairs of the form $(\lambda,\lambda^*)$.
 	\end{enumerate}
+
+	\begin{prop}
+		\label{lem: invertible M 1}
+		In the lexicographic order, the $k$th partition is the conjugate of the $(p(d)-k)$th partition.
+	\end{prop}
+
+	\begin{prop}
+		\label{lem: invertible M 2}
+		The lexicographic order is a topological sorting of the majorisation partial order.
+	\end{prop}
+	% \begin{exercise}
+	% 	Prove the above.
+	% \end{exercise}
+	\begin{proof}
+		This amounts to showing that if $\lambda \pge \mu$, then $\lambda \ge_{\text{lex}} \mu$. 
+	\end{proof}
+
+	\begin{fcor}
+		\label{theo: eL form basis}
+		$M$ is invertible and has an integral inverse. Consequently, $\{e_\lambda\}_{\lambda \vdash d}$ is a basis of $\Lambda_\Q^d$.
+	\end{fcor}
+	\begin{proof}
+		By \Cref{lem: invertible M 1}, the diagonal elements of $M$ are all equal to $1$. By \Cref{lem: invertible M 2,gale-ryser}, $M$ is upper triangular. Therefore, $M$ is invertible. As it has determinant $1$, it has an integral inverse.
+	\end{proof}
+
+	\begin{fdef}[Algebraic independence over $\R$]
+		Let $\A$ be an algebra. $\alpha_1,\alpha_2,\ldots\in \A$ are said to be \emph{algebraically independent} over $\R$ if there exists no polynomial $f$ with coefficents in $\R$ such that $\restr{f(y_1,\ldots)}{y_i = \alpha_i} = 0$.
+	\end{fdef}
+
+	Recall that $\Lambda_\Q^d$ is an algebra over $\R$.
+
+	\begin{fcor}
+		$\{e_n\}_{n \ge 1}$ are algebraically independent.
+	\end{fcor}
+	\begin{proof}
+		Suppose instead that there exists a polynomial $f(y_1,\ldots)$ such that $\restr{f(y_1,\ldots)}{y_i = e_i} = 0$.\\
+		If $f$ has two monomials $m_1,m_2$ such that $\deg(\restr{m_1}{y_i = e_i}) \ne \deg(\restr{m_1}{y_i = e_i})$, we immediately have a contradiction. Therefore, the monomials of $f$ are such that $\deg(\restr{m_j}{y_i = e_i}) = d$ for all $j$ for some $d$. Therefore,
+		\[ \restr{f(y_1,\ldots)}{y_i = e_i} = \sum_{\lambda \vdash d} c_\lambda e_\lambda \]
+		where some $c_\lambda \ne 0$. This immediately contradicts \Cref{theo: eL form basis}, which says that the $\{e_\lambda\}_{\lambda \vdash d}$ are linearly independent.
+	\end{proof}
+
+	Linear independence implies algebraically independence!\\
+
+	Now,
+	\begin{align*}
+		\prod_{i,j \ge 1} \left( 1 + x_iy_j \right) &= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda \mu} m_\lambda(x) m_\mu(y) \\
+			&= \sum_d \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y).
+	\end{align*}
+	The LHS gives meaningful terms when we choose finitely many terms of the form $x_iy_j$ and zero from the rest. Now, any such choice can be though of as an $r \times s$ $0,1$-matrix $A$, where $A_{ij} = 1$ if we choose $x_i y_j$ and $0$ otherwise. The contribution of this matrix $A$ is just $x^{\rowsum(A)} y^{\colsum(A)}$! Therefore,
+	\begin{align*}
+		\prod_{i,j \ge 1} \left( 1 + x_i y_j \right) &= \sum_{\text{$A$ finite $0,1$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \\
+			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda\mu} x^\lambda y^\mu \\
+			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} m_\lambda(x) m_\mu(y). 
+	\end{align*}
