@@ -1205,15 +1205,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	Let us now return to the question of whether the $e_\lambda$ form a basis of $\Lambda_{\Q}^d$. We would like to show that $M$ is invertible.
 
 	\begin{enumerate}
-		\item First, suppose that the partitions that index the columns reverse lexicographically, starting with the partition $n$ and ending with $1^n$, and the rows lexicographically, starting with the partition $1^n$ and ending with $n$.
+		\item First, suppose that the partitions that index the and the rows lexicographically, starting with the partition $1^n$ and ending with $n$. Totally order the columns as $\lambda^{(1)},\lambda^{(2)},\ldots,\lambda^{(p(d))}$ such that it is compatible with majorisation -- if $\mu \pge \theta$, then $\mu \ge \theta$ (in our new order), and the reverse conjugate order is also compatible with majorisation. It turns out that the reverse lexicographic order satisfies this. 
 		\item Show that this new matrix is upper triangular. To prove this, show that the lexicographic order is a topological sorting of the majorisation partial order.
 		\item Argue that all the diagonal elements of this matrix are nonzero (in fact, they are $1$). This amounts to showing that the diagonal elements correspond to partition pairs of the form $(\lambda,\lambda^*)$.
 	\end{enumerate}
-
-	\begin{prop}
-		\label{lem: invertible M 1}
-		In the lexicographic order, the $k$th partition is the conjugate of the $(p(d)-k)$th partition.
-	\end{prop}
 
 	\begin{prop}
 		\label{lem: invertible M 2}
@@ -1224,6 +1219,13 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	% \end{exercise}
 	\begin{proof}
 		This amounts to showing that if $\lambda \pge \mu$, then $\lambda \ge_{\text{lex}} \mu$. 
+	\end{proof}
+
+	\begin{corollary}
+		The lexicographic order is compatible with majorisation, and so is its reverse conjugate.
+	\end{corollary}
+	\begin{proof}
+		The first part is precisely what we showed in the previous proposition. For the second part, we have that if $\lambda \pge \mu$, then $\mu^* \pge \lambda^*$, so $\lambda^* \ge_{\text{revlex}} \mu^*$.
 	\end{proof}
 
 	\begin{fcor}
@@ -1252,14 +1254,70 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	Linear independence implies algebraically independence!\\
 
-	Now,
+	Consider the following, where we look at the products of finitely many terms on the left.
+	\[ \prod_{i,j \ge 1} \left( 1 + x_iy_j \right). \]
+	This gives meaningful terms when we choose finitely many terms of the form $x_iy_j$ and $1$ from the rest. Now, any such choice can be though of as an $r \times s$ $0,1$-matrix $A$, where $A_{ij} = 1$ if we choose $x_i y_j$ and $0$ otherwise. The contribution of this matrix $A$ is just $x^{\rowsum(A)} y^{\colsum(A)}$! Therefore,
+	\begin{align}
+		\prod_{i,j \ge 1} \left( 1 + x_i y_j \right) &= \sum_{\text{$A$ finite $0,1$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \nonumber \\
+			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda\mu} m_\lambda(x) m_\mu(y) \nonumber \\
+		\prod_{i,j \ge 1} \left(1 + x_iy_j\right)  &= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} m_\lambda(x) e_\mu(y). \label{eqn: prod 1 p xi yj}
+	\end{align}
+
+	Define a new class of symmetric functions by
+	\[ h_n = \sum_{\mu \vdash n} m_\mu \]
+	and for $\lambda = (\lambda_1,\ldots,\lambda_\ell) \vdash d$,
+	\[ h_\lambda = \prod_{i=1}^{\ell} h_{\lambda_i}. \]
+	For example,
 	\begin{align*}
-		\prod_{i,j \ge 1} \left( 1 + x_iy_j \right) &= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda \mu} m_\lambda(x) m_\mu(y) \\
-			&= \sum_d \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y).
+		h_2 &= m_2 + m_{1,1} \\
+		h_{1,1} &= (m_1)^2 = m_2 + 2m_{1,1} \\
+		h_3 &= m_3 + m_{2,1} + m_{1,1,1} \\
+		h_{2,1} &= (m_2 + m_{1,1}) m_1 = m_3 + 2m_{2,1} + 3m_{1,1,1} \\
+		h_{1,1,1} &= m_1^3 = m_3 + 3m_{2,1} + 6m_{1,1,1}.
 	\end{align*}
-	The LHS gives meaningful terms when we choose finitely many terms of the form $x_iy_j$ and zero from the rest. Now, any such choice can be though of as an $r \times s$ $0,1$-matrix $A$, where $A_{ij} = 1$ if we choose $x_i y_j$ and $0$ otherwise. The contribution of this matrix $A$ is just $x^{\rowsum(A)} y^{\colsum(A)}$! Therefore,
-	\begin{align*}
-		\prod_{i,j \ge 1} \left( 1 + x_i y_j \right) &= \sum_{\text{$A$ finite $0,1$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \\
-			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda\mu} x^\lambda y^\mu \\
-			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} m_\lambda(x) m_\mu(y). 
-	\end{align*}
+
+	As in the $e_\lambda$, is it true that $h_\lambda$ is a non-negative integer combination of the $m_\mu$?
+	\begin{flem}
+		Let $\lambda \vdash d$. If
+		\[ h_\lambda = \sum_{\mu \vdash d} N_{\lambda\mu} m_\mu, \]
+		then $N_{\lambda\mu}$ is the number of $\N$-matrices $A$ with $\rowsum(A) = \lambda, \colsum(A) = \mu$.
+		\[ N_{\lambda\mu} =  \]
+	\end{flem}
+	\begin{proof}
+		As before, we shall establish a bijection between the set of described matrices and the terms in the product that contribute to $m_\mu$ (each way of taking products).\\
+		Let $\lambda = \lambda_1,\ldots,\lambda_\ell$ and $\mu = \mu_1,\ldots,\mu_k$. Given a way of taking products, taking $m_{\theta_i} = \sum x^{\theta_i}$ from $h_{\lambda_i}$, consider the $\ell \times k$ matrix that assigns the power of $x_r$ to the $(r,i)$th entry.\\ 
+		Because $h_n = \sum_{\theta \vdash n} m_\theta$, we now have the advantage of choosing any entries in the $r$th row, as long as the sum is $\lambda_r$.
+	\end{proof}
+
+	% The counterpart of the Gale-Ryser Theorem here is as follows.
+
+	\begin{exercise}
+		Prove that $N_{\lambda\mu} \ne 0$ for any $\lambda,\mu \vdash d$. That is, show that there always exists an $\N$-matrix $A$ such that $\rowsum(A) = \lambda,\colsum(A) = \mu$.\\
+		Try to write a program that takes $\lambda,\mu$ as input and outputs such a matrix.
+	\end{exercise}
+
+	It turns out, however, that the problem of determining $N_{\lambda\mu}$ is $\#\mathsf{P}$-complete.\\ % prof wasn't sure though.
+	The next natural question to ask is: are the $(h_\lambda)$ a basis as well?\\
+	Before moving to this, let us quickly look at analogues of \Cref{eqn: prod 1 p xi yj}. We jave
+	\begin{align}
+		\prod_{i,j \ge 1} \frac{1}{1-x_iy_j} &= \prod_{i,j \ge 1} \left(1 + (x_iy_j) + (x_iy_j)^2 + \cdots\right) \\
+			&= \sum_{\text{$A$ finite $\N$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \\
+			&= \sum_d \sum_{\lambda,\mu \vdash d} N_{\lambda\mu} m_\lambda(x) m_\mu(y) \\
+		\prod_{i,j \ge 1} \frac{1}{1-x_iy_j} &= \sum_d \sum_{\lambda \vdash d} m_\lambda(x) h_\mu(y). \label{eqn: prod 1 m xi yj}
+	\end{align}
+
+	Recall that $\Lambda_{\Q}$ is generated by $\{e_n\}_{n \ge 1}$.\\
+
+	\begin{ftheo}
+		Define the algebra homomorphism $\omega : \Lambda_\Q \to \Lambda_\Q$ by $\omega(e_n) = h_n$ for all $n$, so $\omega(e_\lambda) = h_\lambda$. $\omega$ is an involution. In particular, the $(h_\lambda)$ form a basis of $\Lambda_\Q^d$.
+	\end{ftheo}
+	\begin{proof}
+		Let $E_n(t) = \sum_{n \ge 0} e_n t^n$ be the ogf of the $e_i$, and similarly $H_n(t) = \sum_{n \ge 0} h_n t^n$. By \Cref{eqn: prod 1 m xi yj,eqn: prod 1 p xi yj}, we have that
+		\begin{align*}
+			E_n(t) &= \prod_{i \ge 1} (1+x_it) \\
+			H_n(t) &= \prod_{i \ge 1} \frac{1}{(1-x_it)}.
+		\end{align*}
+		% \begin{exercise}
+		% 	Prove the above.
+		% \end{exercise}
+	\end{proof}
