@@ -13,7 +13,7 @@
 		The rough idea behind the second question is the following. Error-correcting codes, when given two words as input that are close, make them far apart.
 
 		\begin{fdef}[$\RP$]
-			A language $L$ is said to be in $\RP$ if there is a randomized algorithm $\mathcal{A}$ running in time $O(n^c)$ for some constant $c$ such that
+			A language $L$ is said to be in $\RP$ if there is a randomized algorithm $\mathcal{A}$ running in polynomial time such that
 			\begin{enumerate}
 				\item for $x \in L$,
 				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \ge \frac{1}{2}. \]
@@ -22,12 +22,11 @@
 			\end{enumerate}
 		\end{fdef}
 		% explain x, r?
-		Here, we mean that $r$ is a random
 
 		For example, the algorithm we saw in \Cref{subsec: connectivity} was in $\mathsf{RP}$.
 
 		\begin{fdef}[$\BPP$]
-			A language $L$ is said to be in $\BPP$ if there is a randomized algorithm $\mathcal{A}$ running in time $O(n^c)$ for some constant $c$ such that
+			A language $L$ is said to be in $\BPP$ if there is a randomized algorithm $\mathcal{A}$ running in polynomial time such that
 			\begin{enumerate}
 				\item for $x \in L$,
 				\[ \Pr_{r} \left[\mathcal{A}(x,r) = \mathsf{yes}\right] \ge \frac{2}{3}. \]
@@ -66,15 +65,17 @@
 		Our goal in the next few lectures will be to show that ``circuit lower bounds'' imply the existence of pseudorandom generators.
 
 		\begin{ftheo}
-			There exists a ``PRG'' with exponential stretch which satisfies only $(b)$ in the definition.
+			There exists a ``PRG'' with exponential stretch which satisfies only (b) in the definition.
 		\end{ftheo}
 		\begin{proof}
 			Choose a random $G$ -- for each $s \in \{0,1\}^\ell$, set $G(s)$ to be a uniformly random string in $\{0,1\}^{m}$.\\
 			Fix a circuit $C$ of size at most $m^3$. Suppose that $\Pr_{r \sim U_m}[C(r) = 1] = p$, and let
-			\[ B \coloneqq \{ r \in \{0,1\}^m : C(r) = 1 \}. \]
+			\[ B_C \coloneqq \{ r \in \{0,1\}^m : C(r) = 1 \}. \]
 			Note that the random variable
-			\[ X \coloneqq \left| s \in \{0,1\}^\ell : G(s) \in B \right| \right] \]
-			is the sum of $2^{\ell}$ Bernoulli random variables equal to $1$ with probability $p$. Now, by the Chernoff bound
-			\[ \Pr\left[ |X - \E[X]| > \epsilon 2^m \right] \le 2e^{-(\epsilon 2^m)^2/3\E[X]} = 2e^{-(\epsilon 2^m)^2 /(3p \cdot 2^{m})} \ge 2e^{-\epsilon^2 2^{m} / 3}. \]
-
+			\[ X_C \coloneqq \left| \left\{ s \in \{0,1\}^\ell : G(s) \in B_C \right\} \right| \]
+			is the sum of $2^{\ell}$ Bernoulli random variables equal to $1$ with probability $p$. By the Chernoff bound,
+			\[ \Pr_G\left[ |X_C - \E[X_C]| > \epsilon 2^\ell \right] \le 2e^{-(\epsilon 2^\ell)^2/3\E[X_C]} = 2e^{-(\epsilon 2^\ell)^2 /(3p \cdot 2^{\ell})} \le 2e^{-\epsilon^2 2^{\ell} / 3}. \]
+			Now, the number of circuits with size at most $m^3$ is bounded from above by $2^{3m^3}$. An application of the union bound yields that
+			\[ \Pr_G[ \text{for some $C$ of size at most $m^3$, } |X_C - \E[X_C| > \epsilon 2^\ell ] \le e^{-(\epsilon^2 2^\ell/3) + (\ln 2)(3m^3 + 1)}. \]
+			For $\epsilon = 1/10$, $\ell = 4\log m$, and sufficiently large $m$, the RHS is less than $1$, so there exists some $G$ that satisfies (b) in the definition of a PRG.
 		\end{proof}

@@ -1,172 +1,252 @@
 \section{Reed-Solomon Codes}
 	% guest lecturer: prof mrinal
 
-	\subsection{Lecture 11: Introduction}
+\subsection{Lecture 11: Introduction}
 
-		\subsubsection{Lecture 11}
+	\subsubsection{Lecture 11}
 
-			Randomly choosing strings from $\{0,1\}^n$ tends to yield a good code, with high distance between points with high probability. This is true even for exponentially many points, say $2^{0.1n}$. At the heart of getting good codes is derandomizing this process to get good explicit codes.\\
-			In some sense, good codes, expander graphs, and extractors are equivalent. In fact, some of the best known expander constructions today come from coding theoretic constructions.\\
-			The subject of coding theory lies at the intersection of numerous disparate fields, such as (theoretical) computer science, electrical engineering, and math. Interestingly, the same objects are studied in all the disciplines, merely from different perspectives.\\
+		Randomly choosing strings from $\{0,1\}^n$ tends to yield a good code, with high distance between points with high probability. This is true even for exponentially many points, say $2^{0.1n}$. At the heart of getting good codes is derandomizing this process to get good explicit codes.\\
+		In some sense, good codes, expander graphs, and extractors are equivalent. In fact, some of the best known expander constructions today come from coding theoretic constructions.\\
+		The subject of coding theory lies at the intersection of numerous disparate fields, such as (theoretical) computer science, electrical engineering, and math. Interestingly, the same objects are studied in all the disciplines, merely from different perspectives.\\
 
-			\begin{fdef}[Reed-Solomon Code]
-				Let $\F$ be a finite field, and $k,n \in \N$ with $n \ge k,|\F|$. Also fix some distinct $\alpha_1,\ldots,\alpha_n$. The message space of the \emph{Reed Solomon code} $\RS(k,n)$ is
-				\[ \{ g(x) \in \F[x] : \deg(g) \le k-1 \}. \]
-				That is, we identify $k$-dimensional vectors in $\F^k$ with corresponding polynomials.
-				A polynomial $g$ is encoded as
-				\[ \Enc(g) = ( g(\alpha_1),\ldots,g(\alpha_n) ). \]
-			\end{fdef}
-			Note that the number of possible messages if $|\F|^k$. Let us look at some basic properties of this code.
+		\begin{fdef}[Reed-Solomon Code]
+			Let $\F$ be a finite field, and $k,n \in \N$ with $n \ge k,|\F|$. Also fix some distinct $\alpha_1,\ldots,\alpha_n$. The message space of the \emph{Reed Solomon code} $\RS(k,n)$ is
+			\[ \{ g(x) \in \F[x] : \deg(g) \le k-1 \}. \]
+			That is, we identify $k$-dimensional vectors in $\F^k$ with corresponding polynomials.
+			A polynomial $g$ is encoded as
+			\[ \Enc(g) = ( g(\alpha_1),\ldots,g(\alpha_n) ). \]
+		\end{fdef}
+		Note that the number of possible messages if $|\F|^k$. Let us look at some basic properties of this code.
+		\begin{enumerate}
+			\item A Reed-Solomon code is a linear code. This follows immediately from the fact that $(\alpha g+h)(\alpha_i) = \alpha g(\alpha_i) + h(\alpha_i)$, and if $g,h$ are of degree at most $k-1$ then so is $\alpha g + h$.
+			\item The code has rate $k/n$.
+			\item The distance of the code is $n-k+1$. Indeed, by the Fundamental Theorem of Algebra, two polynomials can coincide in value at at most $k-1$ points (otherwise their difference, a nonzero polynomial of degree at most $k-1$, would have more than $k-1$ roots).
+		\end{enumerate}
+		Observe that given a vector $(g_1,\ldots,g_k) \in \F^k$, we encode it as
+		\[ \begin{pmatrix} 1 & \alpha_1 & \alpha_1^2 & \cdots & \alpha_1^{k-1} \\ 1 & \alpha_2 & \alpha_2^2 & \cdots & \alpha_2^{k-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & \alpha_n & \alpha_n^2 & \cdots & \alpha_n^{k-1} \end{pmatrix} \begin{pmatrix} g_1 & g_2 & \vdots & g_k \end{pmatrix}. \]
+		Also note that the above properties do not depend on our choice of $(\alpha_i)$.\\
+
+		It turns out that Reed-Solomon codes are optimal in some sense.
+		\begin{ftheo}%[Singleton]
+			Reed-Solomon codes match the singleton bound.
+		\end{ftheo}
+		This says that over large fields, they essentially match the best possible rate-distance trade-off.
+
+\subsection{Lecture 11-12: Decoding}
+
+	\subsubsection{Lecture 11 (continued)}
+
+		The matrix multiplication scheme above describes a simple way to encode RS codes. How do we decode them? That is, if $r = (r_1,\ldots,r_n) \in \F^n$, what do we decode it to? This asks to find the RS codeword $c$ closest to $r$; find \emph{the} RS codeword $c$ such that $d_H(c,r) < (n-k+1)/2$ (if no such codeword exists, say no). \\ %sometimes called unique decoding regime
+
+		In the 60s, numerous decoding algorithms such as those of Peterson, Sugiyama, and Berlekamp-Massey were proposed. Despite being elementary, these are all very clever. In practice, Berlekamp-Massey is typically used (it is nearly linear in the input size).\\
+		We shall look at the Welch-Berlekamp algorithm, which was proposed in the 80s. Amusingly, this was not originally published in a paper but in a patent. Some time later, Madhu Sudan et al. decoded\footnote{Pardon the pun.} the patent. The algorithm has had surprisingly pervasive effects in computer science, and the methods have helped resolve several open problems in math as well. Interested readers can see the ``polynomial method'' for more details; while it has been used in the past in math, this introduced it to mainstream theoretical computer science. \\
+		The algorithm is as follows.
+		% The question is just \emph{noisy} polynomial interpolation.
+
+		\begin{enumerate}
+			\item Find a nonzero polynomial $Q(x,y) = A(x) + yB(x)$ such that
 			\begin{enumerate}
-				\item A Reed-Solomon code is a linear code. This follows immediately from the fact that $(\alpha g+h)(\alpha_i) = \alpha g(\alpha_i) + h(\alpha_i)$, and if $g,h$ are of degree at most $k-1$ then so is $\alpha g + h$.
-				\item The code has rate $k/n$.
-				\item The distance of the code is $n-k+1$. Indeed, by the Fundamental Theorem of Algebra, two polynomials can coincide in value at at most $k-1$ points (otherwise their difference, a nonzero polynomial of degree at most $k-1$, would have more than $k-1$ roots).
+				\item $\deg(B) < \left\lceil (n-k+1)/2 \right\rceil \eqqcolon d$,
+				\item $\deg(A) < d + (k-1) \eqqcolon D$, and
+				\item for all $i$, $Q(\alpha_i,r_i) = 0$.
 			\end{enumerate}
-			Observe that given a vector $(g_1,\ldots,g_k) \in \F^k$, we encode it as
-			\[ \begin{pmatrix} 1 & \alpha_1 & \alpha_1^2 & \cdots & \alpha_1^{k-1} \\ 1 & \alpha_2 & \alpha_2^2 & \cdots & \alpha_2^{k-1} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & \alpha_n & \alpha_n^2 & \cdots & \alpha_n^{k-1} \end{pmatrix} \begin{pmatrix} g_1 & g_2 & \vdots & g_k \end{pmatrix}. \]
-			Also note that the above properties do not depend on our choice of $(\alpha_i)$.\\
+			\item Set $g(x) = -A(x)/B(x)$. If $g$ is a polynomial and $d_H(\Enc(g),r) < (n-k)/2$ and $\deg(g) \le k-1$, output $g$. Otherwise, say that no codeword exists.
+		\end{enumerate}
 
-			It turns out that Reed-Solomon codes are optimal in some sense.
-			\begin{ftheo}%[Singleton]
-				Reed-Solomon codes match the singleton bound.
-			\end{ftheo}
-			This says that over large fields, they essentially match the best possible rate-distance trade-off.
+		Observe that if $g$ is a polynomial, the polynomial is certainly correct.\\
+		We must prove that if $g$ is not a polynomial, then no codeword exists. First, however, let us describe how to determine the bivariate polynomial $Q$.\\
+		Set $D = (n+k)/2$ and $d = (n-k)/2$. The desired $Q$ is of the form
+		\[ Q(x,y) = A_0 + A_1 x + \cdots + A_{D-1} x^{D-1} + B_0y + B_1xy + \cdots + B_{d-1} x^{d-1}. \]
+		Then, we wish to determine coefficients $(A_i)$ and $(B_i)$ such that for all $i$
+		\[ Q(x,y) = A_0 + A_1 \alpha_i + \cdots + A_{D-1} \alpha_i^{D-1} + B_0 r_i + B_1 r_i\alpha_i + \cdots + B_{d-1} r_i\alpha_i^{n-1} = 0. \]
+		This is just a linear system of $n$ equations. If $D+d > n$, which is indeed true, we may solve it for a non-trivial solution.\\
+		To compute $g$ using $A,B$, we just have to do polynomial long division from high school (there are better methods to do this).\\
+		All that remains is to check correctness.
 
-	\subsection{Lecture 11-12: Decoding}
+		\begin{ftheo}
+			If there exists a polynomial $h \in \F[x]$ of degree at most $k-1$ such that $d_H(\Enc(h),r) < (n-k+1)/2$, the Welch-Berlekamp algorithms outputs it.
+		\end{ftheo}
+		\begin{proof}
+			Let $Q(x,y) = A(x) + yB(x)$ with $\deg(A) < D$, $\deg(B) < d$, and $Q(\alpha_i,r_i) = 0$ for all $i$ be the polynomial output in the first step of the algorithm.\\
 
-		\subsubsection{Lecture 11 (continued)}
+			Consider $U(x) = Q(x,h(x))$. This is $A(x) + h(x) B(x)$. For starters, the degree of $U$ is at most $D-1 < (n+k-1)/2$. If $h(\alpha_i) = r_i$, then $U(\alpha_i) = 0$. Consequently, the number of zeroes of $U$ on $\{\alpha_1,\ldots,\alpha_n\}$ is at least the number of agreements between $\Enc(h)$ and $r$. Due to the distance contraint on $h$, there are at least $(n+k-1)/2$ such agreements.\\
+			Therefore, $U$ has more zeros than degree, so $U$ must be the zero polynomial (!) and therefore $g$ is indeed a polynomial and equal to $h$.
+		\end{proof}
+		The idea of the construction is just that the first step forces us to have a $Q$ of large degree, while the second (assuming a valid $h$ exists) forces $Q$ to have small degree. The sweet spot in the middle is precisely where we lie.\\
 
-			The matrix multiplication scheme above describes a simple way to encode RS codes. How do we decode them? That is, if $r = (r_1,\ldots,r_n) \in \F^n$, what do we decode it to? This asks to find the RS codeword $c$ closest to $r$; find \emph{the} RS codeword $c$ such that $d_H(c,r) < (n-k+1)/2$ (if no such codeword exists, say no). \\ %sometimes called unique decoding regime
+		Next class, we shall look at decoding Reed-Solomon codes beyond the error limit of half the minimum distance. One option is to output any codeword in the given radius. The more useful (albeit more stringent) notion is to output all these codewords. Such algorithms are called ``list decoding algorithms''.
+		We must ensure that the amount we go beyond $(n-k+1)/2$ is not so high that the list becomes exponentially large. This is guaranteed by the following.
 
-			In the 60s, numerous decoding algorithms such as those of Peterson, Sugiyama, and Berlekamp-Massey were proposed. Despite being elementary, these are all very clever. In practice, Berlekamp-Massey is typically used (it is nearly linear in the input size).\\
-			We shall look at the Welch-Berlekamp algorithm, which was proposed in the 80s. Amusingly, this was not originally published in a paper but in a patent. Some time later, Madhu Sudan et al. decoded\footnote{Pardon the pun.} the patent. The algorithm has had surprisingly pervasive effects in computer science, and the methods have helped resolve several open problems in math as well. Interested readers can see the ``polynomial method'' for more details; while it has been used in the past in math, this introduced it to mainstream theoretical computer science. \\
-			The algorithm is as follows.
-			% The question is just \emph{noisy} polynomial interpolation.
+		\begin{ftheo}[Johnson]
+			\label{johnson bound}
+			Let $\mathcal{C}$ be a code of block length $n$ with distance $\Delta$. Then, for all $r \in \F^n$, the number of codewords in $\mathcal{C}$ within distance $n - \sqrt{n(n-\Delta)}$ (the ``Johnson radius'') of $r$ is $\poly(q,n,\Delta)$.
+		\end{ftheo}
 
-			\begin{enumerate}
-				\item Find a nonzero polynomial $Q(x,y) = A(x) + yB(x)$ such that
-				\begin{enumerate}
-					\item $\deg(B) < \left\lceil (n-k+1)/2 \right\rceil \eqqcolon d$,
-					\item $\deg(A) < d + (k-1) \eqqcolon D$, and
-					\item for all $i$, $Q(\alpha_i,r_i) = 0$.
-				\end{enumerate}
-				\item Set $g(x) = -A(x)/B(x)$. If $g$ is a polynomial and $d_H(\Enc(g),r) < (n-k)/2$ and $\deg(g) \le k-1$, output $g$. Otherwise, say that no codeword exists.
-			\end{enumerate}
+		For Reed-Solomon codes, this value is equal to
+		\[ n - \sqrt{n\left( n - (n-k+1) \right)} \approx n-\sqrt{nk}. \]
+		This is \emph{far} larger than the minimum distance. If $k = 0.01n$, say, then the minimum distance is about $0.49n$, but the Johnson radius is about $0.9n$! Next class, we shall describe how to output all the codewords within the prescribed radius.\\
+		We also remark that there exist Reed-Solomon codes where we go beyond the Johnson radius while still having polynomially many codewords in the given radius. Such codes are not \emph{explicitly} known, however, and are obtained by taking a sufficiently large field and choosing random evaluatin points $\alpha_i$. % past year, recent ersult, add citation
+		The question of when in general the Johnson bound is not tight does not have many satisfactory answers to date. In particular, we do not know if the Johnson bound is non-tight for \emph{all} Reed-Solomon codes.
 
-			Observe that if $g$ is a polynomial, the polynomial is certainly correct.\\
-			We must prove that if $g$ is not a polynomial, then no codeword exists. First, however, let us describe how to determine the bivariate polynomial $Q$.\\
-			Set $D = (n+k)/2$ and $d = (n-k)/2$. The desired $Q$ is of the form
-			\[ Q(x,y) = A_0 + A_1 x + \cdots + A_{D-1} x^{D-1} + B_0y + B_1xy + \cdots + B_{d-1} x^{d-1}. \]
-			Then, we wish to determine coefficients $(A_i)$ and $(B_i)$ such that for all $i$
-			\[ Q(x,y) = A_0 + A_1 \alpha_i + \cdots + A_{D-1} \alpha_i^{D-1} + B_0 r_i + B_1 r_i\alpha_i + \cdots + B_{d-1} r_i\alpha_i^{n-1} = 0. \]
-			This is just a linear system of $n$ equations. If $D+d > n$, which is indeed true, we may solve it for a non-trivial solution.\\
-			To compute $g$ using $A,B$, we just have to do polynomial long division from high school (there are better methods to do this).\\
-			All that remains is to check correctness.
+	\subsubsection{Lecture 12}
 
-			\begin{ftheo}
-				If there exists a polynomial $h \in \F[x]$ of degree at most $k-1$ such that $d_H(\Enc(h),r) < (n-k+1)/2$, the Welch-Berlekamp algorithms outputs it.
-			\end{ftheo}
-			\begin{proof}
-				Let $Q(x,y) = A(x) + yB(x)$ with $\deg(A) < D$, $\deg(B) < d$, and $Q(\alpha_i,r_i) = 0$ for all $i$ be the polynomial output in the first step of the algorithm.\\
+		Given $\mathcal{S} = \{(\alpha_i,\beta_i)\}_{i=1}^n$, we aim to find \emph{all} polynomials $f \in \F_q[x]$, $\deg f < k$, such that
+		\[ \agr(f,\mathcal{S}) \coloneqq \left|\left\{ u \in [n] : f(\alpha_i) = \beta_i \right\}\right| \ge t. \]
+		Last lecture, we saw the setting where $t \ge (n+k-1)/2$.\\
+		Due to \nameref{johnson bound}, the setting where $t \ge \sqrt{nk}$ enters consideration. We shall now look at how to decode Reed-Solomon codes up to the Johnson radius. \\ % two in 96, one in 98
 
-				Consider $U(x) = Q(x,h(x))$. This is $A(x) + h(x) B(x)$. For starters, the degree of $U$ is at most $D-1 < (n+k-1)/2$. If $h(\alpha_i) = r_i$, then $U(\alpha_i) = 0$. Consequently, the number of zeroes of $U$ on $\{\alpha_1,\ldots,\alpha_n\}$ is at least the number of agreements between $\Enc(h)$ and $r$. Due to the distance contraint on $h$, there are at least $(n+k-1)/2$ such agreements.\\
-				Therefore, $U$ has more zeros than degree, so $U$ must be the zero polynomial (!) and therefore $g$ is indeed a polynomial and equal to $h$.
-			\end{proof}
-			The idea of the construction is just that the first step forces us to have a $Q$ of large degree, while the second (assuming a valid $h$ exists) forces $Q$ to have small degree. The sweet spot in the middle is precisely where we lie.\\
+		First, we shall look at the case where $t \ge 2\sqrt{nk}$. % Sudan 96, Sudan 96, Guruswami-Sudan
+		The basic idea is that we take the Welsh-Berlekamp algorithm, but look at polynomials that are higher degree in $y$.
 
-			Next class, we shall look at decoding Reed-Solomon codes beyond the error limit of half the minimum distance. One option is to output any codeword in the given radius. The more useful (albeit more stringent) notion is to output all these codewords. Such algorithms are called ``list decoding algorithms''.
-			We must ensure that the amount we go beyond $(n-k+1)/2$ is not so high that the list becomes exponentially large. This is guaranteed by the following.
+		\begin{enumerate}
+			\item Set $\ell \approx \sqrt{n/(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^\ell A_\ell(x)$ such that $\deg(A_i) \le n/\ell$ for each $i$, and $Q(\alpha_i,\beta_i) = 0$ for each $i$.
+			\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
+		\end{enumerate}
+		This is very similar in spirit to the earlier algorithm. Indeed, $Q(x,f(x)) = 0$ just says that $(y-f(x))$ divides $Q(x,y)$. \\
+		The first step of the algorithm is exactly as earlier and amounts to solving a system of linear equations. There is an algorithm, that factors polynomials of $\deg d$ on $\F_q$ in time $\poly(d,\log q)$.\footnote{This algorithm is randomized, and no such deterministic algorithm is known} This is rather interesting, as it means we are able to factorize elements of the polynomial ring. Compare this to the integer ring, where we cannot factorize elements efficiently. We do not describe this algorithm.
 
-			\begin{ftheo}[Johnson]
-				\label{johnson bound}
-				Let $\mathcal{C}$ be a code of block length $n$ with distance $\Delta$. Then, for all $r \in \F^n$, the number of codewords in $\mathcal{C}$ within distance $n - \sqrt{n(n-\Delta)}$ (the ``Johnson radius'') of $r$ is $\poly(q,n,\Delta)$.
-			\end{ftheo}
+		\begin{proof}[Proof of correctness]
+			The number of variables in the system of linear equations in the first step is $(\ell+1)\left(\frac{n}{\ell}+1\right) > n$, which is more than the number of datapoints, so such a $Q$ exists.\\
+			Let $f \in \F[x]$ be of degree $<k$ and agree with $\mathcal{S}$ at more than $2\sqrt{nk}$ points. Then, we wish to show that $R(x) \coloneqq Q(x,f(x)) \equiv 0$. We have $\deg (R)\le (k-1)\ell + n\ell$. On the other hand, as before, if $f(\alpha_i) = \beta_i$, $R(\alpha_i) = Q(\alpha_i,\beta_i) = 0$. If the number of agreements is more than $\deg(R)$, we are done. That is,
+			\[ t > \frac{n}{\ell} + (k-1)\ell. \]
+			The quantity on the right is minimized for $2\sqrt{n(k-1)}$ and the corresponding $\ell$ is approximately $\sqrt{n/(k-1)}$.
+		\end{proof}
 
-			For Reed-Solomon codes, this value is equal to
-			\[ n - \sqrt{n\left( n - (n-k+1) \right)} \approx n-\sqrt{nk}. \]
-			This is \emph{far} larger than the minimum distance. If $k = 0.01n$, say, then the minimum distance is about $0.49n$, but the Johnson radius is about $0.9n$! Next class, we shall describe how to output all the codewords within the prescribed radius.\\
-			We also remark that there exist Reed-Solomon codes where we go beyond the Johnson radius while still having polynomially many codewords in the given radius. Such codes are not \emph{explicitly} known, however, and are obtained by taking a sufficiently large field and choosing random evaluatin points $\alpha_i$. % past year, recent ersult, add citation
-			The question of when in general the Johnson bound is not tight does not have many satisfactory answers to date. In particular, we do not know if the Johnson bound is non-tight for \emph{all} Reed-Solomon codes.
+		Now, let us modify the algorithm slightly to $\sqrt{2nk}$.
+		\begin{enumerate}
+			\item Set $D \approx \sqrt{2n(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^{D/(k-1)} A_{D/(k-1)}(x)$ such that $\deg(A_i) \le D - (k-1)i$ for each $i$, and $Q(\alpha_i,\beta_i) = 0$ for each $i$.
+			\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
+		\end{enumerate}
 
-		\subsubsection{Lecture 12}
+		\begin{proof}[Proof of correctness]
+			The key observation is that in the above argument, we can push the degree of most $A_i$ higher, without affecting the bound on the overall degree. Let $\deg A_i = D_i$, so the degree of $f^i A_i$ is at most $i(k-1) + D_i$. If we want the overall degree to be $D$, then we get $\deg(A_i) \le D - (k-1)i$.\\
+			The new number of variables is approximately
+			\[ \sum_{i=0}^{D/(k-1)} D - (k-1)i \approx \frac{D^2}{k-1} - \frac{D^2}{2(k-1)} = \frac{D^2}{2(k-1)}. \]
+			So, we want a $D$ such that the above is greater than $D$.\\
+			For the second part of the argument, we have $\deg(R) \le D$ by definition, so we are fine if $t > D$.\\
+			Overall, this gives a bound of around $\sqrt{2n(k-1)}$.\\
+		\end{proof}
 
-			Given $\mathcal{S} = \{(\alpha_i,\beta_i)\}_{i=1}^n$, we aim to find \emph{all} polynomials $f \in \F_q[x]$, $\deg f < k$, such that
-			\[ \agr(f,\mathcal{S}) \coloneqq \left|\left\{ u \in [n] : f(\alpha_i) = \beta_i \right\}\right| \ge t. \]
-			Last lecture, we saw the setting where $t \ge (n+k-1)/2$.\\
-			Due to \nameref{johnson bound}, the setting where $t \ge \sqrt{nk}$ enters consideration. We shall now look at how to decode Reed-Solomon codes up to the Johnson radius. \\ % two in 96, one in 98
+		Finally, let us look at how to get a bound of $t \ge \sqrt{nk}$. This argument is slightly more involved than the short jump it took to get from $2\sqrt{nk}$ to $\sqrt{2nk}$.\\
+		We shall begin with a brief discussion of the \emph{method of multiplicities}, which is something like the polynomial method on steroids.
 
-			First, we shall look at the case where $t \ge 2\sqrt{nk}$. % Sudan 96, Sudan 96, Guruswami-Sudan
-			The basic idea is that we take the Welsh-Berlekamp algorithm, but look at polynomials that are higher degree in $y$.
+		\begin{fdef}
+			A polynomial $Q(x,y)$ is said to have a zero of multiplicity $\ge r$ at $(\alpha,\beta)$ if for all $i,j$ such that $i+j<r$,
+			\[ \frac{\partial Q}{\partial x^i y^j} (\alpha,\beta) = 0. \]
+		\end{fdef}
 
-			\begin{enumerate}
-				\item Set $\ell \approx \sqrt{n/(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^\ell A_\ell(x)$ such that $\deg(A_i) \le n/\ell$ for each $i$, and $Q(\alpha_i,\beta_i) = 0$ for each $i$.
-				\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
-			\end{enumerate}
-			This is very similar in spirit to the earlier algorithm. Indeed, $Q(x,f(x)) = 0$ just says that $(y-f(x))$ divides $Q(x,y)$. \\
-			The first step of the algorithm is exactly as earlier and amounts to solving a system of linear equations. There is an algorithm, that factors polynomials of $\deg d$ on $\F_q$ in time $\poly(d,\log q)$.\footnote{This algorithm is randomized, and no such deterministic algorithm is known} This is rather interesting, as it means we are able to factorize elements of the polynomial ring. Compare this to the integer ring, where we cannot factorize elements efficiently. We do not describe this algorithm.
-
-			\begin{proof}[Proof of correctness]
-				The number of variables in the system of linear equations in the first step is $(\ell+1)\left(\frac{n}{\ell}+1\right) > n$, which is more than the number of datapoints, so such a $Q$ exists.\\
-				Let $f \in \F[x]$ be of degree $<k$ and agree with $\mathcal{S}$ at more than $2\sqrt{nk}$ points. Then, we wish to show that $R(x) \coloneqq Q(x,f(x)) \equiv 0$. We have $\deg (R)\le (k-1)\ell + n\ell$. On the other hand, as before, if $f(\alpha_i) = \beta_i$, $R(\alpha_i) = Q(\alpha_i,\beta_i) = 0$. If the number of agreements is more than $\deg(R)$, we are done. That is,
-				\[ t > \frac{n}{\ell} + (k-1)\ell. \]
-				The quantity on the right is minimized for $2\sqrt{n(k-1)}$ and the corresponding $\ell$ is approximately $\sqrt{n/(k-1)}$.
-			\end{proof}
-
-			Now, let us modify the algorithm slightly to $\sqrt{2nk}$.
-			\begin{enumerate}
-				\item Set $D \approx \sqrt{2n(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^{D/(k-1)} A_{D/(k-1)}(x)$ such that $\deg(A_i) \le D - (k-1)i$ for each $i$, and $Q(\alpha_i,\beta_i) = 0$ for each $i$.
-				\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
-			\end{enumerate}
-
-			\begin{proof}[Proof of correctness]
-				The key observation is that in the above argument, we can push the degree of most $A_i$ higher, without affecting the bound on the overall degree. Let $\deg A_i = D_i$, so the degree of $f^i A_i$ is at most $i(k-1) + D_i$. If we want the overall degree to be $D$, then we get $\deg(A_i) \le D - (k-1)i$.\\
-				The new number of variables is approximately
-				\[ \sum_{i=0}^{D/(k-1)} D - (k-1)i \approx \frac{D^2}{k-1} - \frac{D^2}{2(k-1)} = \frac{D^2}{2(k-1)}. \]
-				So, we want a $D$ such that the above is greater than $D$.\\
-				For the second part of the argument, we have $\deg(R) \le D$ by definition, so we are fine if $t > D$.\\
-				Overall, this gives a bound of around $\sqrt{2n(k-1)}$.\\
-			\end{proof}
-
-			Finally, let us look at how to get a bound of $t \ge \sqrt{nk}$. This argument is slightly more involved than the short jump it took to get from $2\sqrt{nk}$ to $\sqrt{2nk}$.\\
-			We shall begin with a brief discussion of the \emph{method of multiplicities}, which is something like the polynomial method on steroids.
-
-			\begin{fdef}
-				A polynomial $Q(x,y)$ is said to have a zero of multiplicity $\ge r$ at $(\alpha,\beta)$ if for all $i,j$ such that $i+j<r$,
-				\[ \frac{\partial Q}{\partial x^i y^j} (\alpha,\beta) = 0. \]
-			\end{fdef}
-
-			\begin{enumerate}
-				\item Set $D,r$ such that $D/r \approx \sqrt{n(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^{D/(k-1)} A_{D/(k-1)}(x)$ such that $\deg(A_i) \le D - (k-1)i$ for each $i$, and $Q$ passes through $(\alpha_i,\beta_i)$ with multiplicity $r$.
-				\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
-			\end{enumerate}
-			
-			\begin{proof}[Proof of Correctness]
-				The number of variables now remains $\frac{D^2}{2(k-1)}$, but the number of constraints has increased to about $\binom{r+1}{2}n$. So, we require
-				\[ \frac{D^2}{2(k-1)} \ge \binom{r+1}{2} n. \]
-				Approximately, this requires.
-				\[ \frac{D^2}{r^2} \ge n(k-1). \]
-				Now, due to our additional multiplicity constraints, if $f(\alpha_i) = \beta_i$, then $R(x) = Q(x,f(x))$ vanishes with multiplicity at least $r$ at $\alpha_i$. % maybe add argument for this
-				Now, we have that there are at most $D/r$ such distinct $f$. The observation is that each point of agreement gives us $r$ zeros, not just one.\\
-				We require
-				\[ t \ge \frac{D}{r}. \]
-				In all, this gives us the required bound $\sqrt{n(k-1)}$!
-			\end{proof}
-			% brushing under rug of derivative details
+		\begin{enumerate}
+			\item Set $D,r$ such that $D/r \approx \sqrt{n(k-1)}$. Find nonzero $Q(x,y) = A_0(x) + A_1(x) + y^2 A_2(x) + \cdots y^{D/(k-1)} A_{D/(k-1)}(x)$ such that $\deg(A_i) \le D - (k-1)i$ for each $i$, and $Q$ passes through $(\alpha_i,\beta_i)$ with multiplicity $r$.
+			\item Find all factors of $Q(x,y)$ of the form $(y - h(x))$, where $\deg(h) < k$ and $\agr(h,\mathcal{S}) \ge t$. Output all such $h$.
+		\end{enumerate}
+		
+		\begin{proof}[Proof of Correctness]
+			The number of variables now remains $\frac{D^2}{2(k-1)}$, but the number of constraints has increased to about $\binom{r+1}{2}n$. So, we require
+			\[ \frac{D^2}{2(k-1)} \ge \binom{r+1}{2} n. \]
+			Approximately, this requires.
+			\[ \frac{D^2}{r^2} \ge n(k-1). \]
+			Now, due to our additional multiplicity constraints, if $f(\alpha_i) = \beta_i$, then $R(x) = Q(x,f(x))$ vanishes with multiplicity at least $r$ at $\alpha_i$. % maybe add argument for this
+			Now, we have that there are at most $D/r$ such distinct $f$. The observation is that each point of agreement gives us $r$ zeros, not just one.\\
+			We require
+			\[ t \ge \frac{D}{r}. \]
+			In all, this gives us the required bound $\sqrt{n(k-1)}$!
+		\end{proof}
+		% brushing under rug of derivative details
 
 
-			We again draw attention to the part where we used the fact that a nonzero degree $d$ univariate polynomials has at most $d/r$ distinct zeros of multiplicity $\ge r$.
-			% the PRECISE 2\sqrt{nk}, \sqrt{2nk}, \sqrt{nk} sequence frequently appears in all sorts of places (ex: approximating algebraic irrationals by rationals), and we have no idea why!
-			Using this fact, we can consider another code.
+		We again draw attention to the part where we used the fact that a nonzero degree $d$ univariate polynomials has at most $d/r$ distinct zeros of multiplicity $\ge r$.
+		% the PRECISE 2\sqrt{nk}, \sqrt{2nk}, \sqrt{nk} sequence frequently appears in all sorts of places (ex: approximating algebraic irrationals by rationals), and we have no idea why!
+		Using this fact, we can consider another code.
 
-			\begin{fdef}[Multiplicity code]
-				Let $\F$ be a finite field of size at least $n$, $\alpha_1,\ldots,\alpha_n \in \F$. The message set is $\{f \in \F[x], \deg f < k\}$. We map $f$ to the $n$-dimensional vector $M$ over $\F^r$, where
-				\[ (M_{i})_j = \frac{\partial^{j-1} f}{\partial x^{j-1}}(\alpha_i). \]
-			\end{fdef}
-			% Neilson in early 2000s. claim to fame is that multivariate analogue of multiplicity code has amazing local properties. what if we don't want to correct the whole thing and just want to know what is there at a single point? really efficient local decoding (don't even need to see the whole string)! Reed-Muller codes are multivariate Reed-Solomon. nearly linear rate, sublinear query complexity!
-			% list-decodable WAY beyond Johnson-bound.
+\subsection{Lecture 14: Multiplicity codes}
 
-			The rate of this code is approximately $k/nr$, which is worse than before. The distance however, jumps up to $n - \frac{k-1}{r}$!\\
-			A unique decoding algorithm for the multiplicity is very similar to Berlekamp-Welch, and we omit the details.\\
-			Next class, we shall prove incredible list decoding results, namely that for any $\epsilon > 0$, for sufficiently large $r$, multiplicity codes can be efficiently decoded for agreement $(1+\epsilon)\frac{k}{r}$. We can get arbitrarily close to the (hard) bound!\\ % achieved decoding capacity!
-			% not only can you decode, list size depends on constant!!! (only depends on epsilon)
-			Recent state-of-the-art expander graphs are constructed using multiplicity codes! % but not reed-solomon codes
+	\subsubsection{Lecture 12 (continued)}
+
+		\begin{fdef}[Univariate Multiplicity code]
+			Let $\F$ be a finite field of size at least $n$, $\alpha_1,\ldots,\alpha_n \in \F$. The message set is $\{f \in \F[x], \deg f < k\}$. We map $f$ to the $n$-dimensional vector $M$ over $\F^s$, where
+			\[ (M_{i})_j = f^{(j)}(\alpha_i) = \frac{\partial^{j-1} f}{\partial x^{j-1}}(\alpha_i). \]
+		\end{fdef}
+		% Neilson in early 2000s. claim to fame is that multivariate analogue of multiplicity code has amazing local properties. what if we don't want to correct the whole thing and just want to know what is there at a single point? really efficient local decoding (don't even need to see the whole string)! Reed-Muller codes are multivariate Reed-Solomon. nearly linear rate, sublinear query complexity.
+		% list-decodable WAY beyond Johnson-bound.
+		Note that the messages are encoded in $\F^s$, so errors mean errors in the entire vector, not specific derivatives.
+
+		The rate of this code is approximately $k/ns$, which is worse than before. The distance however, jumps up to $n - \frac{k-1}{s}$!\\
+		A unique decoding algorithm for the multiplicity is very similar to Berlekamp-Welch, and we omit the details.\\
+		Next class, we shall prove incredible list decoding results, namely that for any $\epsilon > 0$, for sufficiently large $s$, multiplicity codes can be efficiently decoded from fractional agreement $\frac{k}{ns} + \epsilon$. We can get arbitrarily close to the (hard) bound -- we cannot hope to get a degree $k$ polynomial with fewer than $k$ datapoints!\\ % achieved decoding capacity!
+		% not only can you decode, list size depends on constant!!! (only depends on epsilon)
+		Recent state-of-the-art expander graphs are constructed using multiplicity codes! % but not reed-solomon codes
+	
+	\subsubsection{Lecture 14}
+
+		When talking about the derivative, we mean the \emph{syntactic} derivative, which evaluates (on exponents of $x$) exactly the same as ordinary derivatives.\\
+		Note that in contrast to Reed-Solomon codes, we can allow the degree of the polynomial to be more than $n$.\\
+
+		\begin{ftheo}[Neilsen '01, Kopparty '13, Guruswami-Wang 14]
+			For every $\epsilon > 0$, for sufficiently large $s$, univariate multiplicity codes are efficiently list decodable from fractional agreement $\frac{k}{ns} + \epsilon$.
+		\end{ftheo}
+		We can get arbitrarily close to the (hard) bound (!) -- we cannot hope to get a degree $k$ polynomial with fewer than $k$ datapoints. Further, this can be done with a constant list size, with the constant depending on $\epsilon$ -- this was shown by Kopparty-Saraf-RonZewi-Wooffer '17. \\
+		The fraction of agreement here is $(1+\epsilon)\frac{k}{sn} = (1+\epsilon) \cdot (\text{Rate})$. Compare this to what we had studied about Reed-Solomon codes, where we only had $\sqrt{\text{Rate}}$.\\
+
+		The remainder of this section is dedicated to the proof of this theorem; we shall look at the proof/algorithm of this due to Guruswami-Wang.\\
+
+		The input to the algorithm is an $s \times n$ matrix $Y$. We wish to find all polynomials $p$ of degree at most $k$ whose encoding has ``large'' agreement with $Y$. More precisely, there is a set $T \subseteq [n]$ of size greater than $t$ such that for all $i \in T$ and $j \in [s]$,
+		\[ p^{(j)}(\alpha_{i}) = Y_{ji}. \]
+		Call this set of all polynomials as $\mathcal{L}$.
+		We want $t$ to be as small as possible.\\
+		Sticking with the Welch-Berlekamp idea, the proof (and algorithm) goes as follows.
+		\begin{enumerate}
+			\item Find a nonzero $(m+2)$-variate polynomial
+			\[ Q(x,z_0,z_1,\ldots,z_m) = z_0 A_0(x) + z_1 A_1(x) + \cdots + z_m A_m(x) \]
+			such that
+			\begin{itemize}
+				\item $\deg(A_i) < D$ for some $D$ we shall fix later,
+				\item multiplicity constraints which we shall come up with later, and
+				\item $Q$ ``explains'' the given data: for every $j \in [n]$, $Q(\alpha_i,Y_{0,i},Y_{0,i},\ldots,Y_{m,i}) = 0$. We want it to explain the top $m$ rows of the matrix,
+			\end{itemize}
+			\item Show that for all $p \in \mathcal{L}$,
+			\begin{equation}
+				\label{eqn: guruswami-wang}
+				Q(x,p(x),p^{(1)}(x),\ldots,p^{(m)}(x)) \equiv 0.
+			\end{equation}
+			\item Find all low degree solutions to $Q$ satisfying \Cref{eqn: guruswami-wang}. Note that we cannot rely on factoring for this, and it is more complicated.
+		\end{enumerate}
+
+		Set $R(x)$ equal to the LHS of \Cref{eqn: guruswami-wang} for some polynomial $p$, so it is
+		\[ R(x) = A_0p + A_1p^{(1)} + \cdots + A_m p^{(m)}. \]
+		If $Y$ and the encoding of $p$ agree at $\alpha_i$, then $R(\alpha_i) = 0$.\footnote{Stopping here would lead to unique decoding, by setting $m$ as $s$ or $s-1$ or so.} The multiplicity constraint means that we also want the derivative of $R$ to be zero at $\alpha_i$. We have
+		\[ \frac{\dif R}{\dif x} = A_0^{(1)}p + A_0p^{(1)} + A_1^{(1)}p^{(1)} + A_1p^{(2)} + \cdots + A_m^{(1)}p^{(m)} + A_mp^{(m+1)}, \]
+		so if $m < s$,
+		\[ 0 = \restr{\frac{\dif R}{\dif x}}{\alpha_i} = A_0^{(1)}(\alpha_i)Y_{0,i} + A_0(\alpha_i)Y_{1,i} + A_1^{(1)}(\alpha_i)Y_{1,i} + A_1(\alpha_i)Y_{2,i} + \cdots + A_m^{(1)}(\alpha_i)Y_{m,i} + A_m(\alpha_i) Y_{(m+1),i}. \]
+		So, at each $i$, the aforementioned multiplicity constraints correspond to about $s-m-1$ additional constraints of the above form.\\
+
+		Now, we would like to set $D$ in the first step such that it has a solution. There are $Dm$ variables and $n(s-m-1)$ constraints. % possibly (s-m) instead.
+		So, we require $Dm \ge n(s-m-1)$. Set
+		\[ D = \frac{n}{m}(s-m). \]
+		Let us now look at step $2$. For a given polynomial in $\mathcal{L}$, the degree of $R$ is at most $D+k-1$. To ensure that $R$ is identically zero, we need that $t(s-m-1) \ge D+k$, since each point of agreement gives $(s-m-1)$ equations. That is, we need
+		\begin{align*}
+			t &> \frac{1}{s-m} (D+k) \\
+				&\approx \frac{n}{m} + \frac{k}{s-m} \\
+			\frac{t}{n} &> \frac{k}{n(s-m)} + \frac{1}{m}.
+		\end{align*}
+		Setting $m$ as around $1/\epsilon$ and $s > 1/\epsilon^2$ does the job!\\
+
+		Finally, it remains to see if it is possible to find all low degree solutions $p$ to $Q(x,p,p^{(1)},\ldots,p^{(m)}(x)) \equiv 0$. Let us look at just the trivariate case, with $Q(x,p,p') \equiv 0$. That is, we wish to solve
+		\[ A_0(x) p(x) + A_1(x) p^{(1)}(x) + A_2(x) p^{(2)}(x) \equiv 0. \]
+		Note that the space of all $p$ satisfying this is a subspace of the space of all polynomials of degree $<k$. We may assume wlog that two of the $A_i$ are nonzero, as the problem is not very interesting otherwise. Suppose that $A_2 \not\equiv 0$. This means that there exists some $\beta \in \F$ such that $A_2(\beta) \ne 0$. We can assume wlog that $\beta = 0$ by ``shifting'' the axis by $\beta$ otherwise. Dividing by a constant, we can also assume that the constant term in $A_2$ is $1$, so
+		\[ A_0p + A_1p^{(1)} + (1 + \tilde{A}_2)p^{(2)} \equiv 0, \]
+		where $\tilde{A}_2$ has no constant term.\\
+		The $p$ we wish to find is of the form
+		\[ p(x) = p_0 + p_1x + p_2x^2 + \cdots p_{k-1}x^{k-1}. \]
+		Plugging this into the previous equation, we have
+		\[ A_0(p_0 + p_1 + \cdots) + A_1(p_1 + 2p_2x + \cdots) + (1+\tilde{A}_2)(2p_2 + 3\cdot 2p_3 + \cdots) \equiv 0. \]
+		This means that all the coefficients of the resulting polynomial is zero. This is just a linear system of equations, so we can solve it. It remains to argue that the number of solutions (the list size) is not too large.\\
+		The coefficient for the degree $0$ coefficient is
+		\[ A_{00} p_0 + A_{10} p_1 + 2p_2 = 0, \]
+		In fact, note that the equation for the coefficient of degree $k$ being $0$ involves only the first $k+2$ coefficients of $p$! Consequently, the solution space lives in a $3$-dimensional subspace, so it is solvable. In general, it lives in an $(m+1)$-dimensional subspace.
+
+		% is it possible to use multivariate decoding in reed-solomon somehow, cleverly interpreting low-dimensional data as high-dimensional data somehow?
+		% random evaluation points takes us up to capacity (in RS)! however, there exist choices of eval points for which we cannot go much further than the Johnson bound.
+
+		These constructions give the best bipartite expanders, condensers, and extractors that we know. % GUV? Guruswami-?-Vadhan
+
+		\clearpage
