@@ -1,0 +1,139 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{relsize}
+\newcounter{lecnum}
+\usepackage{graphicx}
+\graphicspath{./}
+\usepackage{caption}
+\usepackage{subcaption}
+\newcommand{\abs}[1]{\lvert #1 \rvert}
+\newcommand{\lecture}[4]{
+   \newpage
+   \setcounter{lecnum}{#1}
+   \noindent
+
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 16cm { {\bf CS761 Derandomization and Pseudorandomness
+                        \hfill 2022-23 Sem I} }
+       \vspace{4mm}
+       \hbox to 16cm { {\Large \hfill Lecture #1: #2  \hfill} }
+       \vspace{2mm}
+       \hbox to 16cm { {\it Scribe: #4  \hfill  Lecturer: #3} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+
+% custom
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{commath}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\restr}[2]{\ensuremath{\left.#1\right|_{#2}}}
+
+\begin{document}
+
+\lecture{14}{29-09-2022}{Rohit Gurjar}{Amit Rajaraman}
+	
+	\begin{definition}[Multiplicity code]
+		Let $\F$ be a finite field of size at least $n$, $\alpha_1,\ldots,\alpha_n \in \F$. The message set is $\{f \in \F[x], \deg f < k\}$. We map $f$ to the $n$-dimensional vector $M$ over $\F^s$, where
+		\[ (M_{i})_j = f^{(j)}(\alpha_i) = \frac{\partial^{j-1} f}{\partial x^{j-1}}(\alpha_i). \]
+	\end{definition}
+	% Neilson in early 2000s. claim to fame is that multivariate analogue of multiplicity code has amazing local properties. what if we don't want to correct the whole thing and just want to know what is there at a single point? really efficient local decoding (don't even need to see the whole string)! Reed-Muller codes are multivariate Reed-Solomon. nearly linear rate, sublinear query complexity.
+	% list-decodable WAY beyond Johnson-bound.
+	When talking about the derivative, we mean the \emph{syntactic} derivative, which evaluates (on exponents of $x$) exactly the same as ordinary derivatives in functions over $\R$.\\
+	Note that the messages are encoded in $\F^s$, so errors mean errors anywhere in an entire vector of derivatives.\\
+
+	The rate of this code is approximately $k/ns$, which is worse than in Reed-Solomon codes. The distance however, jumps up to $n - \frac{k-1}{s}$!\\
+	A unique decoding algorithm for the multiplicity is very similar to Berlekamp-Welch, and we omit the details.\\
+	% Next class, we shall prove incredible list decoding results, namely that for any $\epsilon > 0$, for sufficiently large $s$, multiplicity codes can be efficiently decoded from fractional agreement $\frac{k}{ns} + \epsilon$. We can get arbitrarily close to the (hard) bound -- we cannot hope to get a degree $k$ polynomial with fewer than $k$ datapoints!\\
+	% achieved decoding capacity!
+	% not only can you decode, list size depends on constant!!! (only depends on epsilon)
+	% Recent state-of-the-art expander graphs are constructed using multiplicity codes! % but not reed-solomon codes
+	
+	Note that in contrast to Reed-Solomon codes, we can allow the degree of the polynomial to be more than $n$.\\
+
+	\begin{theorem}[Neilsen '01, Kopparty '13, Guruswami-Wang '14]
+		For every $\epsilon > 0$, for sufficiently large $s$, univariate multiplicity codes are efficiently list decodable from fractional agreement $\frac{k}{ns} + \epsilon$.
+	\end{theorem}
+	We can get arbitrarily close to the (hard) bound (!) -- we cannot hope to get a degree $k$ polynomial with fewer than $k$ datapoints. Further, this can be done with a constant list size, with the constant depending on $\epsilon$. This was shown by Kopparty, Saraf, Ron-Zewi, and Wootters in 2018. \\
+	The fraction of agreement here is $\frac{k}{sn} + \epsilon = \text{Rate} + \epsilon$. Compare this to what we had studied about Reed-Solomon codes, where we only had $\sqrt{\text{Rate}}$.\\
+
+	The remainder of this section is dedicated to the proof of this theorem; we shall look at the version due to Guruswami-Wang.\\
+
+	The input to the algorithm is an $s \times n$ matrix $Y$. We wish to find all polynomials $p$ of degree at most $k$ whose encoding has ``large'' agreement with $Y$. More precisely, there is a set $T \subseteq [n]$ of size greater than $t$ such that for all $i \in T$ and $j \in [s]$,
+	\[ p^{(j)}(\alpha_{i}) = Y_{ji}. \]
+	Denote by $\mathcal{L}$ the set of polynomials $p$ such that the above is true.
+	We want $t$ to be as small as possible.\\
+	Sticking with the Welch-Berlekamp idea, the proof/algorithm go as follows.
+	\begin{enumerate}
+		\item Find a nonzero $(m+2)$-variate polynomial
+		\[ Q(x,z_0,z_1,\ldots,z_m) = z_0 A_0(x) + z_1 A_1(x) + \cdots + z_m A_m(x) \]
+		such that
+		\begin{itemize}
+			\item $\deg(A_i) < D$ for some $D$ we shall fix later,
+			\item certain multiplicity constraints are satisfied, which we shall come up with later, and
+			\item $Q$ ``explains'' the given data: for every $j \in [n]$, $Q(\alpha_i,Y_{0,i},Y_{0,i},\ldots,Y_{m,i}) = 0$; we want it to explain the top $m$ rows of the matrix.
+		\end{itemize}
+		\item Show that for all $p \in \mathcal{L}$,
+		\begin{equation}
+			\label{eqn: guruswami-wang}
+			Q(x,p(x),p^{(1)}(x),\ldots,p^{(m)}(x)) \equiv 0.
+		\end{equation}
+		\item Find all low degree solutions to $Q$ satisfying \Cref{eqn: guruswami-wang}. Note that we cannot rely on factoring for this, and it is more complicated.
+	\end{enumerate}
+
+	Set $R(x)$ equal to the LHS of \Cref{eqn: guruswami-wang} for some polynomial $p$, so it is
+	\[ R(x) = A_0p + A_1p^{(1)} + \cdots + A_m p^{(m)}. \]
+	If $Y$ and the encoding of $p$ agree at $\alpha_i$, then $R(\alpha_i) = 0$.\footnote{Stopping here would lead to unique decoding, by setting $m$ as $s$ or $s-1$ or so.} The multiplicity constraint means that we also want the derivative of $R$ to be zero at $\alpha_i$. We have
+	\[ \frac{\dif R}{\dif x} = A_0^{(1)}p + A_0p^{(1)} + A_1^{(1)}p^{(1)} + A_1p^{(2)} + \cdots + A_m^{(1)}p^{(m)} + A_mp^{(m+1)}, \]
+	so if $m < s$,
+	\[ 0 = \restr{\frac{\dif R}{\dif x}}{\alpha_i} = A_0^{(1)}(\alpha_i)Y_{0,i} + A_0(\alpha_i)Y_{1,i} + A_1^{(1)}(\alpha_i)Y_{1,i} + A_1(\alpha_i)Y_{2,i} + \cdots + A_m^{(1)}(\alpha_i)Y_{m,i} + A_m(\alpha_i) Y_{(m+1),i}. \]
+	So, at each $i$, the aforementioned multiplicity constraints correspond to about $s-m-1$ additional constraints of the above form.\\
+
+	Now, we would like to set $D$ in the first step such that it has a solution. There are $Dm$ variables and $n(s-m-1)$ constraints. % possibly (s-m) instead.
+	So, we require $Dm \ge n(s-m-1)$. Set
+	\[ D = \frac{n}{m}(s-m). \]
+	Let us now look at step $2$. For a given polynomial in $\mathcal{L}$, the degree of $R$ is at most $D+k-1$. To ensure that $R$ is identically zero, we need that $t(s-m-1) \ge D+k$, since each point of agreement gives $(s-m-1)$ equations. That is, we need
+	\begin{align*}
+		t &> \frac{1}{s-m} (D+k) \\
+			&= \frac{n}{m} + \frac{k}{s-m} \\
+		\frac{t}{n} &> \frac{k}{n(s-m)} + \frac{1}{m}.
+	\end{align*}
+	Setting $m$ as around $1/\epsilon$ and $s > 1/\epsilon^2$ does the job!\\
+
+	Finally, it remains to see if it is possible to find all low degree solutions $p$ to $Q(x,p,p^{(1)},\ldots,p^{(m)}(x)) \equiv 0$. Let us look at just the trivariate case, with $Q(x,p,p') \equiv 0$. That is, we wish to solve
+	\[ A_0(x) p(x) + A_1(x) p^{(1)}(x) + A_2(x) p^{(2)}(x) \equiv 0. \]
+	Note that the space of all $p$ satisfying this is a subspace of the space of all polynomials of degree $<k$. We may assume wlog that two of the $A_i$ are nonzero, as the problem is not very interesting otherwise. Suppose that $A_2 \not\equiv 0$. This means that there exists some $\beta \in \F$ such that $A_2(\beta) \ne 0$. We can assume wlog that $\beta = 0$ by ``shifting'' the axis by $\beta$ otherwise. Dividing by a constant, we can also assume that the constant term in $A_2$ is $1$, so
+	\[ A_0p + A_1p^{(1)} + (1 + \tilde{A}_2)p^{(2)} \equiv 0, \]
+	where $\tilde{A}_2$ has no constant term.\\
+	The $p$ we wish to find is of the form
+	\[ p(x) = p_0 + p_1x + p_2x^2 + \cdots p_{k-1}x^{k-1}. \]
+	Plugging this into the previous equation, we have
+	\[ A_0(p_0 + p_1 + \cdots) + A_1(p_1 + 2p_2x + \cdots) + (1+\tilde{A}_2)(2p_2 + 3\cdot 2p_3 + \cdots) \equiv 0. \]
+	This means that all the coefficients of the resulting polynomial is zero. This is just a linear system of equations, so we can solve it. It remains to argue that the number of solutions (the list size) is not too large.\\
+	% The coefficient for the degree $0$ coefficient is
+	% \[ A_{00} p_0 + A_{10} p_1 + 2p_2 = 0, \]
+	Note that the equation for the coefficient of degree $k$ being $0$ involves only the first $k+2$ coefficients of $p$! Consequently, the solution space lives in a $3$-dimensional subspace, so it is small. In general, it lives in an $(m+1)$-dimensional subspace. Because $m$ depends on $\epsilon$, we only need to check the elements of the subspace, which numbers about $|\F|^{1/\epsilon}$.
+
+	% is it possible to use multivariate decoding in reed-solomon somehow, cleverly interpreting low-dimensional data as high-dimensional data somehow?
+	% random evaluation points takes us up to capacity (in RS)! however, there exist choices of eval points for which we cannot go much further than the Johnson bound.
+
+	% These constructions give the best bipartite expanders, condensers, and extractors that we know. % GUV? Guruswami-?-Vadhan
+
+\end{document}
