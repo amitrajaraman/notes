@@ -1,6 +1,8 @@
 \section{Hardness v. Randomness}
 
-	\subsection{Lecture 13: Hardness}
+\subsection{Lecture 13, 15: Hardness}
+
+	\subsubsection{Lecture 13}
 
 		A general question one can ask is this: for any polynomial-time randomized algorithm, is it possible to derandomize it (possibly using more space) to get a polynomial-time deterministic algorithm doing the same job?\\
 		It has been shown that given a ``hard'' function, one can construct very good pseudorandom bits. However, no explicit hard functions are known.\\
@@ -49,23 +51,25 @@
 			A distribution $D$ on $\{0,1\}^m$ is called \emph{$(S,\epsilon)$-pseudorandom} if for any circuit $C$ on $m$ input gates and size at most $S$,
 			\[ \left| \Pr_{r \sim U_m} [ C(r) = 1 ] - \Pr_{r \sim D} [C(r) = 1] \right| \le \epsilon. \]
 		\end{fdef}
+		When the above happens, we say that $D$ ``fools'' all circuits of size at most $S$. % An algorithm running in time $S_n$ can be viewed as a family of circuits $(C_n)$ of size $(S_n)$.
 
 		% maybe change this to have G itself as the function.
 		\begin{fdef}[Pseudorandom generator]
-			Let $G = (G_\ell)_{\ell \in \N}$ be a family of functions, where $G_\ell : \{0,1\}^{\ell} \to \{0,1\}^{m(\ell)}$ (for some appropriate increasing function $m$). $G$ is said to be a \emph{pseudorandom generator} if for each $\ell$,
+			A function $G : \{0,1\}^* \to \{0,1\}^*$ is said to be a \emph{$m(\ell)$-pseudorandom generator} if for $r \in \{0,1\}^\ell$,
 			\begin{enumerate}[label=(\alph*)]
-				\item $G_\ell$ can be computed in $O(2^\ell)$ time, and
+				\item $G(r) \in \{0,1\}^{m(\ell)}$,
+				\item $G(r)$ can be computed in $2^{O(\ell)}$ time, and
 				\item the distribution over $\{0,1\}^{m(\ell)}$ which takes a uniformly random element $s$ of $\{0,1\}^\ell$ and takes value $G(s)$ is $(m(\ell)^3 , 1/10)$-pseudorandom.
 			\end{enumerate}
 		\end{fdef}
-		The existence of the above would imply that any randomized algorithm in $\mathsf{BPP}$ using $m$  random bits and running time $m^3$ can be simulated by a deterministic algorithm with running time $O(2^{2\ell}m^3)$. We merely run the algorithm on $G(r)$ for all $r \in \{0,1\}^\ell$, and output whatever answer (\textsf{yes} or \textsf{no}) occurs more. \\
-		If we want to completely derandomize our randomized polynomial-time algorithm to get a deterministic polynomial time algorithm, we want that $m = 2^\ell$. In particular, if a pseudorandom generator with $\ell = \log m$ exists, then $\mathsf{BPP} = \mathsf{P}$. When this is true, let us say that the PRG has ``exponential stretch''. % if we have m^9 algo for instance, pad the input to make it m^3 size. \ell only increases by a constant factor, so its fine.
+		The existence of the above would imply that any randomized algorithm in $\mathsf{BPP}$ using $m$  random bits and running time $m^3$ can be simulated by a deterministic algorithm with running time $O(2^{O(\ell)}m^3)$. We merely run the algorithm on $G(r)$ for all $r \in \{0,1\}^\ell$, and output whatever answer (\textsf{yes} or \textsf{no}) occurs more. \\
+		If we want to completely derandomize our randomized polynomial-time algorithm to get a deterministic polynomial time algorithm, we want that $m = 2^{\Omega(\ell)}$. In particular, if a pseudorandom generator with $\ell = O(\log m)$ exists, then $\mathsf{BPP} = \mathsf{P}$. When this is true, we say that the PRG has ``exponential stretch''. % if we have m^9 algo for instance, pad the input to make it m^3 size. \ell only increases by a constant factor, so its fine.
 		% We don't know how to go from \ell to \ell+1, forget 2^{\ell}.
 
 		Our goal in the next few lectures will be to show that ``circuit lower bounds'' imply the existence of pseudorandom generators.
 
 		\begin{ftheo}
-			There exists a ``PRG'' with exponential stretch which satisfies only (b) in the definition.
+			There exists a ``PRG'' with exponential stretch which satisfies only (a) and (c) in the definition.
 		\end{ftheo}
 		\begin{proof}
 			Choose a random $G$ -- for each $s \in \{0,1\}^\ell$, set $G(s)$ to be a uniformly random string in $\{0,1\}^{m}$.\\
@@ -77,5 +81,64 @@
 			\[ \Pr_G\left[ |X_C - \E[X_C]| > \epsilon 2^\ell \right] \le 2e^{-(\epsilon 2^\ell)^2/3\E[X_C]} = 2e^{-(\epsilon 2^\ell)^2 /(3p \cdot 2^{\ell})} \le 2e^{-\epsilon^2 2^{\ell} / 3}. \]
 			Now, the number of circuits with size at most $m^3$ is bounded from above by $2^{3m^3}$. An application of the union bound yields that
 			\[ \Pr_G[ \text{for some $C$ of size at most $m^3$, } |X_C - \E[X_C| > \epsilon 2^\ell ] \le e^{-(\epsilon^2 2^\ell/3) + (\ln 2)(3m^3 + 1)}. \]
-			For $\epsilon = 1/10$, $\ell = 4\log m$, and sufficiently large $m$, the RHS is less than $1$, so there exists some $G$ that satisfies (b) in the definition of a PRG.
+			For $\epsilon = 1/10$, $\ell = 4\log m$, and sufficiently large $m$, the RHS is less than $1$, so there exists some $G$ that satisfies (a) and (c) in the definition of a PRG.
 		\end{proof}
+
+	\subsubsection{Lecture 15}
+
+		In the previous lecture, we had said the following (after defining what a PRG is).
+
+		\begin{ftheo}
+			If a $2^{\Omega(\ell)}$-PRG exists, $\BPP = \PP$.
+		\end{ftheo}
+		
+		Note that a $2^\ell$-PRG does not exist. Indeed, if it did, we could design a circuit that is $1$ precisely at each point in $\{0,1\}^{2^\ell}$ that is mapped to by the PRG, and is $0$ everywhere else.\\
+		While no PRGs are known that fool \emph{all} circuits of size bounded by $m(\ell)^3$, there are PRGs known under more specific conditions on the circuit. For example, we can get a PRG that fools any randomized algorithm that is log-space.\footnote{This does not make sense in our current framework, but it is possible to modify the definition of PRGs appropriately. In this setting, we do not have exponential stretch, but we can go from $\Omega(\log^2 m)$ to $m$. The question of whether $\mathsf{RL} = \mathsf{L}$ is a huge open question.} It is also known that there exist (non-trivial) PRGs which fool constant-depth circuits. \\ % slightly better in fact, log depth or something.
+
+		Now, what are \emph{circuit lower bounds}? We had remarked in the previous lecture that they imply the existence of PRGs.
+
+		\begin{fdef}[Worst-case hardness]
+			For $f : \{0,1\}^n \to \{0,1\}$, its \emph{worst-case hardness} $H_\text{worst}(f)$ is the largest number $S$ such that for any circuit of size at most $S$, there exists some $x \in \{0,1\}^n$ such that $C(x) \ne f(x)$. 
+		\end{fdef}
+		We cannot compute the function using a circuit of size any smaller than its worst-case hardness. The implementation of the truth table yields that the worst-case hardness of any function is at most about $O(2^n)$. \\
+		
+		Does there exist any function which is actually this hard? There are $2^{2^n}$ functions from $\{0,1\}^n \to \{0,1\}$, and there are (about) $2^S$ circuits of size at most $S$. Consequently, some functions do require an $S$ of at least about $2^n/n$.\\
+		However, no such function is explicitly known -- this is another huge open question! In fact, the hardest explicit function we know has worst-case hardness just $3n - o(n)$. % One could of course guess that NP-hard questions (or exp-time questions) are this hard, but we do not know how to prove it.
+		As mentioned at the beginning of this section, we can use (worst-case) hard functions to design good pseudorandom generators.
+
+		\begin{fdef}[Average-case hardness]
+			For $f : \{0,1\}^n \to \{0,1\}$, its \emph{average-case hardness} $H_\text{avg}(f)$ is the largest number $S$ such that for any circuit of size $S$,
+			\[ \Pr_{x \sim U_n} \left[ C(x) \ne f(x) \right] < \frac{1}{2} + \frac{1}{2^{n/10}}. \]
+			% amended from 1/S to 1/2^{n/10}.
+		\end{fdef}
+		Note that we can trivially get a circuit that is equal to $f$ with probability $\ge 1/2$, either set it as the constant $0$ or the constant $1$ (depending on which value $f$ takes more often).\\
+		Clearly, the average-case hardness of any function is at least the worst-case hardness.
+
+		\begin{ftheo}
+			If (for sufficiently large $n$) there exists a function computable in time $2^{O(n)}$ with $H_\avg(f) \ge 2^{2n/3}$, then there exists a $(2^{\ell/45})$-PRG and in particular, $\BPP = \PP$.
+		\end{ftheo}
+		% there are also things called ``algorithm lower bounds'', but they are not as interesting.
+		This links the worlds of algorithms (in the time complexity of $f$), circuits, and derandomization.\\
+
+		Before moving to the proof of the above, let us try to go from $\ell$ to $\ell+1$.
+
+		\begin{prop}
+			Let $f : \{0,1\}^\ell \to \{0,1\}$ be such that $H_\avg(f) \ge \ell^4$. Then, $G$ defined by
+			\[ G(r) = (r_1,\ldots,r_\ell,f(r)) = (r,f(r)) \]
+			is a PRG.
+		\end{prop}
+		That is, we would like to say that the output of the function cannot be predicted for a given input. The above merely says that unpredictability implies indistinguishability.
+		% \begin{proof}
+		% 	We would like to show for any circuit of size $(\ell+1)^3$,
+		% 	\[ \left| \Pr_{r \sim U_{\ell}} [C(r,f(r)) = 1] - \Pr_{r \sim U_{\ell+1}}[C(s) = 1] \right| \le \frac{1}{10}. \]
+
+		% \end{proof}
+
+		% take a bunch of subsets of size n/10 of [n] with low intersections, apply a func \{0,1\}^{n/10} \to \{0,1\} on each of them to add a few more bits.
+
+		\begin{ftheo}
+			Let $D$ be a distribution on $\{0,1\}^m$. Suppose that for any $i$ and any circuit of size $2S$,
+			\[ \Pr_{y \sim D} [C(y_1,\ldots,y_i) = y_{i+1}] < \frac{1}{2} + \epsilon. \]
+			Then, for any circuit $B$ of size $S$,
+			\[ \left| \Pr_{y \sim D} [B(y) = 1] - \Pr_{y \sim U_m}[B(y) = 1] \right| < m\epsilon. \]
+		\end{ftheo}
