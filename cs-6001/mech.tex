@@ -1,0 +1,102 @@
+\section{Social Choice}
+
+Mechanism design is something of an inverse of game theory, given the desired objects/outcomes, our task is to set the rules of the game.\\
+Some common examples of this are elections, resource allocation, matching students to universities, etc.
+
+Let $N$ be a set of players, $X$ a set of outcomes, and $\Theta_i$ a set of private information of each agent $i$. Each element $\theta_i \in \Theta_i$ is called a \emph{type}.\\
+
+The type manifests in the preferences over the outcomes. We shall look at two ways this can happen.
+\begin{enumerate}
+ 	\item \emph{Ordinal}: $\theta_i$ defines an ordering over the outcomes, which describes a preference order. It does not describe how much something is preferred, however.
+ 	\item \emph{Cardinal}: A utility function $u_i$ maps an outcome/type pair to real numbers. In the \emph{private value model}, $u_i$ is a map $X \times \Theta_i \to \R$. In the \emph{interdependent value model}, $u_i$ is a map $X \times \Theta \to \R$.
+\end{enumerate}
+
+\begin{fex}
+	Let us look at the example of voting. Here, $X$ is the set of candidates, and each $\theta_i$ is a ranking over the candidates. For example, $(a,b,c)$ means that the voter prefers $a$ over $b$ over $c$. \\
+	Another example is single object allocation. Each outcome is $x = (a,p) \in X$, where $a = (a_1,\ldots,a_n)$, where each $a_i \in \{0,1\}$, and at most one of the $a_i$s is $1$ and $p = (p_1,\ldots,p_n)$, where $p_i$ is the payment charged to $i$. $\theta_i$ is the amount $i$ values the object. The utility is given by $u_i(x,\theta_i) = a_i\theta_i - p_i$.
+\end{fex}
+
+Now, the designer has a certain objective, captured by a \emph{social choice function} (SCF) $f : \Theta_1 \times \cdots \times \Theta_n \to X$. For example, in voting, if there is a candidate who beats everyone else in pairwise contests, we would like him to be chosen as the winner. In public project choice, where $\theta_i : X \to \R$ is the value of each project, we should pick $f(\theta) = \argmax_{x \in X} \sum_{i \in N} \theta_i(x)$.\\
+To create a game where $f(\theta)$ emerges as the outcome as an equilibrium, we require mechanism design.
+
+\begin{fdef}
+	A(n indirect) mechanism is a collection of message spaces and a decision rule $\langle M_1,\ldots,M_n,g\rangle$, where $M_i$ is the message space of agent $i$, and $g : M_1 \times \cdots \times M_n \to X$. A direct mechanism is the specific case where $M_i = \Theta_i$ and $g \equiv f$.
+\end{fdef}
+
+We shall see soon that it suffices to look at direct mechanisms.\\
+All subsequent definitions assume cardinal preferences, but they can be replaced with ordinal preferences quite simply.
+
+\begin{fdef}
+	In a mechanism $\langle M_1,\ldots,M_n,g\rangle$, a message $m_i$ is \emph{weakly dominant} for player $i$ at $\theta_i$ if
+	\begin{equation}
+		\label{eqn: weakly dominant}
+		u_i(g(m_i,\widetilde{m}_{-i}),\theta_i) \ge u_i(g(m_i',\widetilde{m}_{-i}),\theta_i)
+	\end{equation}
+	for all $\widetilde{m}_{-i},m_i'$.
+\end{fdef}
+
+\begin{fdef}[Dominant strategy implementability]
+	 An SCF $f : \Theta \to X$ is \emph{implemented} in dominant strategies by $\langle M_1,\ldots,M_n,g\rangle$ if
+	 \begin{enumerate}
+	 	\item there exists a message mapping $s_i : \Theta_i \to M_i$ such that $s_i(\theta_i)$ is a dominant strategy for agent $i$ at $\theta_i$, and
+	 	\item $g(s_1(\theta_1),\ldots,s_n(\theta_n)) = f(\theta)$ for all $\theta \in \Theta$.
+	 \end{enumerate}
+	We say that SCF $f$ is \emph{dominant strategy implementable} (DSI) by $\langle M_1,\ldots,M_n,g\rangle$.
+\end{fdef}
+
+\begin{fdef}[Dominant strategy incentive compatibility]
+	\label{def: dsic}
+	A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{dominant strategy incentive compatible} (DSIC) if
+	\begin{equation}
+		\label{eqn: dsic}
+		u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \ge u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i)
+	\end{equation}
+	for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
+\end{fdef}
+
+To determine if an SCF $f$ is DSI, it seems that we must search over all possible indirect mechanisms.
+
+\begin{ftheo}[Revelation principle]
+	If there exists an indirect mechanism that implements $f$ in dominant strategies, then $f$ is DSIC.
+\end{ftheo}
+This means that we can focus on DSIC mechanisms without loss of generality.
+\begin{proof}
+	Let $f$ be implemented by $\langle M_1,\ldots,M_n,g\rangle$, and fix $s_i : \Theta_i \to M_i$ as in the definition. Set $m_i' = s_i(\theta_i'), \widetilde{m}_{-i} = s_{-i}(\widetilde{\theta}_{-i})$ in \Cref{eqn: weakly dominant}, to get
+	\[ u_i(\underbrace{g(s_i(\theta_i),s_{-i}(\widetilde{\theta}_{-i}))}_{f(\theta_i,\widetilde\theta_{-i})},\theta_i) \ge u_i(\underbrace{g(s_i(\theta_i'),s_{-i}(\widetilde\theta_{-i}))}_{f(\theta_i',\widetilde\theta_{-i})},\theta_i), \]
+	so $f$ is DSIC.
+\end{proof}
+
+Now, let us look at a Bayesian extension, where agents may have probabilistic information about others' types. Recall \hyperref[def: bayesian game]{bayesian games}.\\
+
+\begin{fdef}[Bayesian implementability]
+	A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
+	\begin{enumerate}
+		\item there exists a message mapping profile $(s_1,\ldots,s_n)$ such that $s_i(\theta_i)$ maximizes the ex-interim utility of agent $i$, that is,
+		\[ \E_{\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
+		for all $m_i',\theta_i,i\in N$, and
+		\item $g(s_i(\theta_i),s_{-i}(\theta_{-i})) = f(\theta_i,\theta_{-i})$ for all $i \in N$.
+	\end{enumerate}	
+	We say that $f$ is Bayesian implementable via $\langle M_1,\ldots,M_n,g\rangle$ under the prior $P$.
+\end{fdef}
+
+\begin{fprop}
+	If an SCF $f$ is dominant strategy implementable, it is Bayesian implementable.
+\end{fprop}
+
+Similar to \hyperref[def: dsic]{dominant strategy incentive compatibility}, we have the following.
+
+\begin{fdef}[Bayesian incentive compatibility]
+	\label{def: bic}
+	A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{Bayesian incentive compatible} (BIC) if
+	\begin{equation}
+		\label{eqn: dsic}
+		\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right].
+	\end{equation}
+	for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
+\end{fdef}
+
+\begin{ftheo}[Revelation principle II]
+	If an SCF $f$ is implementable in Bayesian equilibrium, it is BIC.
+\end{ftheo}
+
+The proof is near-identical to that of the first revelation principle.

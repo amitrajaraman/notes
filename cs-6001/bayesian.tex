@@ -1,4 +1,3 @@
-
 \section{Bayesian Games}
 
 	Thus far, we have only discussed non-cooperative games with complete information, where players only aim to maximize their own utilities (as opposed to cooperative games where players form coalitions and utilities are defined over coalitions, and incomplete information games where players do not deterministically know what game they are playing). There are various other types of games, such as repeated games, stochastic games etc. \\
@@ -41,6 +40,7 @@
 	\end{fex}
 
 	\begin{fdef}
+		\label{def: bayesian game}
 		A \emph{Bayesian game} is represented by $\langle N , (\theta_i)_{i \in N} , P , (\Gamma_\theta)_{\theta \in \bigtimes_{i \in N} \Theta_i} \rangle$, where
 		\begin{enumerate}
 			\item $N$ is the set of players,
@@ -187,3 +187,5 @@
 		so the payoff is maximum when $b_1 = b_1^* = \theta_1$ (assuming the density is positive everywhere).\\
 		For any independent positive prior, bidding the true type is a Bayesian equilibrium of the induced Bayesian game in second price auctions.
 	\end{fex}
+
+\clearpage
