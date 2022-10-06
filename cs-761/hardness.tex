@@ -108,13 +108,14 @@
 
 		\begin{fdef}[Average-case hardness]
 			For $f : \{0,1\}^n \to \{0,1\}$, its \emph{average-case hardness} $H_\text{avg}(f)$ is the largest number $S$ such that for any circuit of size $S$,
-			\[ \Pr_{x \sim U_n} \left[ C(x) \ne f(x) \right] < \frac{1}{2} + \frac{1}{2^{n/10}}. \]
+			\[ \Pr_{x \sim U_n} \left[ C(x) \ne f(x) \right] > \frac{1}{2} + \frac{1}{S}. \]
 			% amended from 1/S to 1/2^{n/10}.
 		\end{fdef}
 		Note that we can trivially get a circuit that is equal to $f$ with probability $\ge 1/2$, either set it as the constant $0$ or the constant $1$ (depending on which value $f$ takes more often).\\
 		Clearly, the average-case hardness of any function is at least the worst-case hardness.
 
-		\begin{ftheo}
+		\begin{ftheo}[Nisan-Wigderson]
+			\label{theo: hard to prg}
 			If (for sufficiently large $n$) there exists a function computable in time $2^{O(n)}$ with $H_\avg(f) \ge 2^{2n/3}$, then there exists a $(2^{\ell/45})$-PRG and in particular, $\BPP = \PP$.
 		\end{ftheo}
 		% there are also things called ``algorithm lower bounds'', but they are not as interesting.
@@ -136,9 +137,60 @@
 
 		% take a bunch of subsets of size n/10 of [n] with low intersections, apply a func \{0,1\}^{n/10} \to \{0,1\} on each of them to add a few more bits.
 
-		\begin{ftheo}
+		\begin{ftheo}[Yao's Theorem]
+			\label{yao}
 			Let $D$ be a distribution on $\{0,1\}^m$. Suppose that for any $i$ and any circuit of size $2S$,
 			\[ \Pr_{y \sim D} [C(y_1,\ldots,y_i) = y_{i+1}] < \frac{1}{2} + \epsilon. \]
 			Then, for any circuit $B$ of size $S$,
 			\[ \left| \Pr_{y \sim D} [B(y) = 1] - \Pr_{y \sim U_m}[B(y) = 1] \right| < m\epsilon. \]
 		\end{ftheo}
+
+	\subsubsection{Lecture 16}
+
+		\begin{proof}[Proof of \nameref{yao}]
+			We shall show the contrapositive of the statement. Let $B$ be a circuit of size $S$ such that
+			\[ \Pr_{y \sim D} [B(y) = 1] - \Pr_{y \sim U_m}[B(y) = 1] \ge m\epsilon. \]
+			We remove the modulus because we can consider the probability that it is $0$ otherwise. Define a sequence of distributions $D_0,D_1,\ldots,D_m$ as follows, where $D_i$ is obtained by drawing $x$ from $D$, and then replacing the first $i$ coordinates with draws from $U_m$. That is, a draw is $(y_1,\ldots,y_i,z_{i+1},\ldots,z_m)$, where $y \sim D$ and $z \sim U_m$. Note that $D_0 = U_m$ and $D_m = D$. Let
+			\[ P_i = \Pr_{r \sim D_i} [B(r) = 1]. \]
+			Because $P_m - P_0 \ge m\epsilon$, there is some $i$ such that $P_i - P_{i-1} \ge \epsilon$. % That is,
+			% \[ \Pr_{\substack{y \sim D \\ z \sim U_m}} \left[B(y_1,\ldots,y_i,z_{i+1},\ldots,z_m) = 1\right] - \Pr_{\substack{y \sim D \\ z \sim U_m}} \left[B(y_1,\ldots,y_{i-1},z_{i},\ldots,z_m) = 1\right] \ge \epsilon. \]
+			Note that $D_i$ and $D_{i-1}$ differ only at the $i$th bit.\\
+			% We shall try to synthesise a circuit that takes $y_1,\ldots,y_{i-1}$ and predicts $y_i$ with some decent probability.\\
+			% Now, we have
+			% \[ \E_{z \sim U_m} \left[ \Pr_{\substack{y \sim D \\ z \sim U_m}} \left[B(y_1,\ldots,y_i,z_{i+1},\ldots,z_m) = 1\right] - \Pr_{\substack{y \sim D \\ z_i \sim U_1}} \left[B(y_1,\ldots,y_{i-1},z_{i},\ldots,z_m) = 1\right] \right] \ge \epsilon. \]
+			% Therefore, there exists some choice of $z_{i+1},\ldots,z_{m}$ such that the inner difference of probabilities is at least $\epsilon$ -- fix these to get a reduced circuit $B'$. We then have
+			% \[ \Pr_{y \sim D} \left[B'(y_1,\ldots,y_i) = 1\right] - \Pr_{\substack{y \sim D \\ z_i \sim U_1}} \left[B'(y_1,\ldots,y_{i-1},z_{i}) = 1 \right] \ge \epsilon. \]
+			We shall give an algorithm to predict $y_i$ given $y_1,\ldots,y_{i-1}$ for $y \sim D$ and a random choice of $z \sim U_m$. If $B(y_1,\ldots,y_{i-1},z_{i},\ldots,z_m)$, then output $z_i$, and if it is $0$ then output $1-z_i$. For the sake of succinctness, let $x = (y_1,\ldots,y_{i-1},z_i,\ldots,z_m)$. Now, the probability of success is
+			\[ \frac{1}{2} \left( \underbrace{\Pr[B(x) = 1 \mid y_i = z_i]}_{P_i} + \underbrace{\Pr[B(x) = 0 \mid y_i = 1-z_i]}_{(1-\alpha)\text{, say}} \right) \]
+			We have
+			\[ P_{i-1} = \Pr[B(x) = 1] = \frac{1}{2} \left( \Pr[B(x) = 1 \mid y_i = z_i] + \Pr[B(x) = 1 \mid y_i = 1-z_i] \right) = \frac{1}{2} (P_i + \alpha). \]
+			Therefore,
+			\[ \text{probability of success} = \frac{1}{2}(P_i + 1-\alpha) = \frac{1}{2} + P_i - P_{i-1} \ge \frac{1}{2} + \epsilon. \]
+			To get the final circuit $C$, note that on a random choice of $z \sim U_m$ in our ``algorithm'', we succeed with probability at least $(1/2)+\epsilon$. Therefore, there exists some specific choice which gives a probability of success at least $(1/2)+\epsilon$, which is precisely what we want.
+		\end{proof}
+
+
+		Let us now come to the proof of \Cref{theo: hard to prg}. The idea is as follows. We would like to consider a bunch of subsets of $[\ell]$, and apply a hard function $f$ to each of them to get one extra bit to append. In all, the number of bits we append is the number of subsets we choose. If we choose all subsets to be disjoint, then the resulting new bits are completely independent of each other, but we do not get exponentially many new bits. Therefore, we allow some small amount of intersection of the subsets, and thus some small amount of correlation, without compromising the uncorrelation of the new bits by too much.
+
+		\begin{fdef}
+			An \emph{$(l,k,d)$-combinatorial design} is a collection $I_1,\ldots,I_r$ of size $k$ subsets such that for distinct $i,j \in [r]$, $|I_i \cap I_j| \le d$.
+		\end{fdef}
+
+		\begin{fprop}
+			For $k=\ell/30, d=k/3$, there exists an $(l,k,d)$-design of size at least $2^{d/10} \ge 2^{\ell/900}$.
+		\end{fprop}
+		We do not prove this.
+
+		\begin{proof}[Proof of \nameref{theo: hard to prg}]
+			Set $\ell = 900 \log n$, and $k$ as from the above.\\
+			Fix some combinatorial design $\mathcal{I} = \{I_1,\ldots,I_n\}$ guaranteed by the above, and let $f : \{0,1\}^k \to \{0,1\}$ be a hard function. Then, the final pseudorandom bits we output are $f(z_{I_r})$ for each $r \in [n]$. For simplicity, denote $f(I_r) = f(z_{I_r})$. \\
+			Let $f$ be computable in time $2^{O(k)}$ and $H_\avg(f) \ge 2^{2k/3}$. Denote the resulting PRG by $\NW_{\mathcal{I}}^f$. We shall show that $\NW_{\mathcal{I}}^f(U_\ell)$ is $(2^{2k/3}/2 , 1/10)$-pseudorandom, which is $(n^{20}/2, 1/10)$-pseudorandom. \\
+			Now, we shall use \nameref{yao}, by showing unpredictability instead. That is, we are done if we show that for any circuit $C$ of size at most $n^{20}$,
+			\[ \Pr_{z \sim U_\ell}\left[ C(f(z_{I_1}),\ldots,f(z_{I_{i-1}})) = f(z_{I_i}) \right] \le \frac{1}{2} + \frac{\epsilon}{n}. \]
+			Let $f_j(z) = f(z_{I_j})$ for each $j$.\\
+			Suppose otherwise. Let $z' = z_{[\ell] \setminus I_i}$, and $z'' = z_{I_i}$, so
+			\[ \Pr_{z \sim U_\ell}\left[ C(f_1(z',z''),\ldots,f_{i-1}(z',z'')) = f(z'') \right] > \frac{1}{2} + \frac{\epsilon}{n}. \]
+			Ignore $z'$ for now, fixing their values as something (this will be done in precisely the same way as in Yao's Theorem), abuse notation to denote the new functions by $f_j$ as well. Then,
+			\[ \Pr_{z \sim U_\ell}\left[ C(f_1(z''),\ldots,f_{i-1}(z'')) = f(z'') \right] > \frac{1}{2} + \frac{\epsilon}{n}. \]
+			using this, we get a circuit for $f$ that succeeds with probability at least $(1/2)+\frac{\epsilon}{n}$. Note that each $f_{j}(z'')$ uses at most $d$ bits. By taking $(i-1)$ trivial circuits of $f$, which are each of size at most about $d 2^d$, we get a circuit for $f$ of size $d 2^d 2^{d/10} + 2^{2d}/2 \le 2^{2d}$, contradicting the hardness of $f$.
+		\end{proof}
