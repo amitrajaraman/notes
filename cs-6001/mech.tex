@@ -1,102 +1,348 @@
 \section{Social Choice}
 
-Mechanism design is something of an inverse of game theory, given the desired objects/outcomes, our task is to set the rules of the game.\\
-Some common examples of this are elections, resource allocation, matching students to universities, etc.
+\subsection{Introduction}
 
-Let $N$ be a set of players, $X$ a set of outcomes, and $\Theta_i$ a set of private information of each agent $i$. Each element $\theta_i \in \Theta_i$ is called a \emph{type}.\\
+	Mechanism design is something of an inverse of game theory, given the desired objects/outcomes, our task is to set the rules of the game.\\
+	Some common examples of this are elections, resource allocation, matching students to universities, etc.
 
-The type manifests in the preferences over the outcomes. We shall look at two ways this can happen.
-\begin{enumerate}
- 	\item \emph{Ordinal}: $\theta_i$ defines an ordering over the outcomes, which describes a preference order. It does not describe how much something is preferred, however.
- 	\item \emph{Cardinal}: A utility function $u_i$ maps an outcome/type pair to real numbers. In the \emph{private value model}, $u_i$ is a map $X \times \Theta_i \to \R$. In the \emph{interdependent value model}, $u_i$ is a map $X \times \Theta \to \R$.
-\end{enumerate}
+	Let $N$ be a set of players, $X$ a set of outcomes, and $\Theta_i$ a set of private information of each agent $i$. Each element $\theta_i \in \Theta_i$ is called a \emph{type}.\\
 
-\begin{fex}
-	Let us look at the example of voting. Here, $X$ is the set of candidates, and each $\theta_i$ is a ranking over the candidates. For example, $(a,b,c)$ means that the voter prefers $a$ over $b$ over $c$. \\
-	Another example is single object allocation. Each outcome is $x = (a,p) \in X$, where $a = (a_1,\ldots,a_n)$, where each $a_i \in \{0,1\}$, and at most one of the $a_i$s is $1$ and $p = (p_1,\ldots,p_n)$, where $p_i$ is the payment charged to $i$. $\theta_i$ is the amount $i$ values the object. The utility is given by $u_i(x,\theta_i) = a_i\theta_i - p_i$.
-\end{fex}
-
-Now, the designer has a certain objective, captured by a \emph{social choice function} (SCF) $f : \Theta_1 \times \cdots \times \Theta_n \to X$. For example, in voting, if there is a candidate who beats everyone else in pairwise contests, we would like him to be chosen as the winner. In public project choice, where $\theta_i : X \to \R$ is the value of each project, we should pick $f(\theta) = \argmax_{x \in X} \sum_{i \in N} \theta_i(x)$.\\
-To create a game where $f(\theta)$ emerges as the outcome as an equilibrium, we require mechanism design.
-
-\begin{fdef}
-	A(n indirect) mechanism is a collection of message spaces and a decision rule $\langle M_1,\ldots,M_n,g\rangle$, where $M_i$ is the message space of agent $i$, and $g : M_1 \times \cdots \times M_n \to X$. A direct mechanism is the specific case where $M_i = \Theta_i$ and $g \equiv f$.
-\end{fdef}
-
-We shall see soon that it suffices to look at direct mechanisms.\\
-All subsequent definitions assume cardinal preferences, but they can be replaced with ordinal preferences quite simply.
-
-\begin{fdef}
-	In a mechanism $\langle M_1,\ldots,M_n,g\rangle$, a message $m_i$ is \emph{weakly dominant} for player $i$ at $\theta_i$ if
-	\begin{equation}
-		\label{eqn: weakly dominant}
-		u_i(g(m_i,\widetilde{m}_{-i}),\theta_i) \ge u_i(g(m_i',\widetilde{m}_{-i}),\theta_i)
-	\end{equation}
-	for all $\widetilde{m}_{-i},m_i'$.
-\end{fdef}
-
-\begin{fdef}[Dominant strategy implementability]
-	 An SCF $f : \Theta \to X$ is \emph{implemented} in dominant strategies by $\langle M_1,\ldots,M_n,g\rangle$ if
-	 \begin{enumerate}
-	 	\item there exists a message mapping $s_i : \Theta_i \to M_i$ such that $s_i(\theta_i)$ is a dominant strategy for agent $i$ at $\theta_i$, and
-	 	\item $g(s_1(\theta_1),\ldots,s_n(\theta_n)) = f(\theta)$ for all $\theta \in \Theta$.
-	 \end{enumerate}
-	We say that SCF $f$ is \emph{dominant strategy implementable} (DSI) by $\langle M_1,\ldots,M_n,g\rangle$.
-\end{fdef}
-
-\begin{fdef}[Dominant strategy incentive compatibility]
-	\label{def: dsic}
-	A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{dominant strategy incentive compatible} (DSIC) if
-	\begin{equation}
-		\label{eqn: dsic}
-		u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \ge u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i)
-	\end{equation}
-	for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
-\end{fdef}
-
-To determine if an SCF $f$ is DSI, it seems that we must search over all possible indirect mechanisms.
-
-\begin{ftheo}[Revelation principle]
-	If there exists an indirect mechanism that implements $f$ in dominant strategies, then $f$ is DSIC.
-\end{ftheo}
-This means that we can focus on DSIC mechanisms without loss of generality.
-\begin{proof}
-	Let $f$ be implemented by $\langle M_1,\ldots,M_n,g\rangle$, and fix $s_i : \Theta_i \to M_i$ as in the definition. Set $m_i' = s_i(\theta_i'), \widetilde{m}_{-i} = s_{-i}(\widetilde{\theta}_{-i})$ in \Cref{eqn: weakly dominant}, to get
-	\[ u_i(\underbrace{g(s_i(\theta_i),s_{-i}(\widetilde{\theta}_{-i}))}_{f(\theta_i,\widetilde\theta_{-i})},\theta_i) \ge u_i(\underbrace{g(s_i(\theta_i'),s_{-i}(\widetilde\theta_{-i}))}_{f(\theta_i',\widetilde\theta_{-i})},\theta_i), \]
-	so $f$ is DSIC.
-\end{proof}
-
-Now, let us look at a Bayesian extension, where agents may have probabilistic information about others' types. Recall \hyperref[def: bayesian game]{bayesian games}.\\
-
-\begin{fdef}[Bayesian implementability]
-	A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
+	The type manifests in the preferences over the outcomes. We shall look at two ways this can happen.
 	\begin{enumerate}
-		\item there exists a message mapping profile $(s_1,\ldots,s_n)$ such that $s_i(\theta_i)$ maximizes the ex-interim utility of agent $i$, that is,
-		\[ \E_{\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
-		for all $m_i',\theta_i,i\in N$, and
-		\item $g(s_i(\theta_i),s_{-i}(\theta_{-i})) = f(\theta_i,\theta_{-i})$ for all $i \in N$.
-	\end{enumerate}	
-	We say that $f$ is Bayesian implementable via $\langle M_1,\ldots,M_n,g\rangle$ under the prior $P$.
-\end{fdef}
+	 	\item \emph{Ordinal}: $\theta_i$ defines an ordering over the outcomes, which describes a preference order. It does not describe how much something is preferred, however.
+	 	\item \emph{Cardinal}: A utility function $u_i$ maps an outcome/type pair to real numbers. In the \emph{private value model}, $u_i$ is a map $X \times \Theta_i \to \R$. In the \emph{interdependent value model}, $u_i$ is a map $X \times \Theta \to \R$.
+	\end{enumerate}
 
-\begin{fprop}
-	If an SCF $f$ is dominant strategy implementable, it is Bayesian implementable.
-\end{fprop}
+	\begin{fex}
+		Let us look at the example of voting. Here, $X$ is the set of candidates, and each $\theta_i$ is a ranking over the candidates. For example, $(a,b,c)$ means that the voter prefers $a$ over $b$ over $c$. \\
+		Another example is single object allocation. Each outcome is $x = (a,p) \in X$, where $a = (a_1,\ldots,a_n)$, where each $a_i \in \{0,1\}$, and at most one of the $a_i$s is $1$ and $p = (p_1,\ldots,p_n)$, where $p_i$ is the payment charged to $i$. $\theta_i$ is the amount $i$ values the object. The utility is given by $u_i(x,\theta_i) = a_i\theta_i - p_i$.
+	\end{fex}
 
-Similar to \hyperref[def: dsic]{dominant strategy incentive compatibility}, we have the following.
+	Now, the designer has a certain objective, captured by a \emph{social choice function} (SCF) $f : \Theta_1 \times \cdots \times \Theta_n \to X$. For example, in voting, if there is a candidate who beats everyone else in pairwise contests, we would like him to be chosen as the winner. In public project choice, where $\theta_i : X \to \R$ is the value of each project, we should pick $f(\theta) = \argmax_{x \in X} \sum_{i \in N} \theta_i(x)$.\\
+	To create a game where $f(\theta)$ emerges as the outcome as an equilibrium, we require mechanism design.
 
-\begin{fdef}[Bayesian incentive compatibility]
-	\label{def: bic}
-	A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{Bayesian incentive compatible} (BIC) if
-	\begin{equation}
-		\label{eqn: dsic}
-		\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right].
-	\end{equation}
-	for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
-\end{fdef}
+	\begin{fdef}
+		A(n indirect) mechanism is a collection of message spaces and a decision rule $\langle M_1,\ldots,M_n,g\rangle$, where $M_i$ is the message space of agent $i$, and $g : M_1 \times \cdots \times M_n \to X$. A direct mechanism is the specific case where $M_i = \Theta_i$ and $g \equiv f$.
+	\end{fdef}
 
-\begin{ftheo}[Revelation principle II]
-	If an SCF $f$ is implementable in Bayesian equilibrium, it is BIC.
-\end{ftheo}
+	We shall see soon that it suffices to look at direct mechanisms.\\
+	All subsequent definitions assume cardinal preferences, but they can be replaced with ordinal preferences quite simply.
 
-The proof is near-identical to that of the first revelation principle.
+	\begin{fdef}
+		In a mechanism $\langle M_1,\ldots,M_n,g\rangle$, a message $m_i$ is \emph{weakly dominant} for player $i$ at $\theta_i$ if
+		\begin{equation}
+			\label{eqn: weakly dominant}
+			u_i(g(m_i,\widetilde{m}_{-i}),\theta_i) \ge u_i(g(m_i',\widetilde{m}_{-i}),\theta_i)
+		\end{equation}
+		for all $\widetilde{m}_{-i},m_i'$.
+	\end{fdef}
+
+	\begin{fdef}[Dominant strategy implementability]
+		 An SCF $f : \Theta \to X$ is \emph{implemented} in dominant strategies by $\langle M_1,\ldots,M_n,g\rangle$ if
+		 \begin{enumerate}
+		 	\item there exists a message mapping $s_i : \Theta_i \to M_i$ such that $s_i(\theta_i)$ is a dominant strategy for agent $i$ at $\theta_i$, and
+		 	\item $g(s_1(\theta_1),\ldots,s_n(\theta_n)) = f(\theta)$ for all $\theta \in \Theta$.
+		 \end{enumerate}
+		We say that SCF $f$ is \emph{dominant strategy implementable} (DSI) by $\langle M_1,\ldots,M_n,g\rangle$.
+	\end{fdef}
+
+	\begin{fdef}[Dominant strategy incentive compatibility]
+		\label{def: dsic}
+		A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{dominant strategy incentive compatible} (DSIC) if
+		\begin{equation}
+			\label{eqn: dsic}
+			u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \ge u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i)
+		\end{equation}
+		for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
+	\end{fdef}
+
+	To determine if an SCF $f$ is DSI, it seems that we must search over all possible indirect mechanisms.
+
+	\begin{ftheo}[Revelation principle]
+		If there exists an indirect mechanism that implements $f$ in dominant strategies, then $f$ is DSIC.
+	\end{ftheo}
+	This means that we can focus on DSIC mechanisms without loss of generality.
+	\begin{proof}
+		Let $f$ be implemented by $\langle M_1,\ldots,M_n,g\rangle$, and fix $s_i : \Theta_i \to M_i$ as in the definition. Set $m_i' = s_i(\theta_i'), \widetilde{m}_{-i} = s_{-i}(\widetilde{\theta}_{-i})$ in \Cref{eqn: weakly dominant}, to get
+		\[ u_i(\underbrace{g(s_i(\theta_i),s_{-i}(\widetilde{\theta}_{-i}))}_{f(\theta_i,\widetilde\theta_{-i})},\theta_i) \ge u_i(\underbrace{g(s_i(\theta_i'),s_{-i}(\widetilde\theta_{-i}))}_{f(\theta_i',\widetilde\theta_{-i})},\theta_i), \]
+		so $f$ is DSIC.
+	\end{proof}
+
+	Now, let us look at a Bayesian extension, where agents may have probabilistic information about others' types. Recall \hyperref[def: bayesian game]{bayesian games}.\\
+
+	\begin{fdef}[Bayesian implementability]
+		A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
+		\begin{enumerate}
+			\item there exists a message mapping profile $(s_1,\ldots,s_n)$ such that $s_i(\theta_i)$ maximizes the ex-interim utility of agent $i$, that is,
+			\[ \E_{\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
+			for all $m_i',\theta_i,i\in N$, and
+			\item $g(s_i(\theta_i),s_{-i}(\theta_{-i})) = f(\theta_i,\theta_{-i})$ for all $i \in N$.
+		\end{enumerate}	
+		We say that $f$ is Bayesian implementable via $\langle M_1,\ldots,M_n,g\rangle$ under the prior $P$.
+	\end{fdef}
+
+	\begin{fprop}
+		If an SCF $f$ is dominant strategy implementable, it is Bayesian implementable.
+	\end{fprop}
+
+	Similar to \hyperref[def: dsic]{dominant strategy incentive compatibility}, we have the following.
+
+	\begin{fdef}[Bayesian incentive compatibility]
+		\label{def: bic}
+		A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{Bayesian incentive compatible} (BIC) if
+		\begin{equation}
+			\label{eqn: dsic}
+			\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right].
+		\end{equation}
+		for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
+	\end{fdef}
+
+	\begin{ftheo}[Revelation principle II]
+		If an SCF $f$ is implementable in Bayesian equilibrium, it is BIC.
+	\end{ftheo}
+
+	The proof is near-identical to that of the first revelation principle.
+
+\subsection{Arrow's Impossibility Theorem}
+
+	Consider the setting where we have finite sets $A = \{a_1,\ldots,a_m\}$ of alternatives and $N = \{1,\ldots,n\}$ of players. Each player has a preference order $R_i$ over $a$ (a binary relation over $A$) such that
+	\begin{enumerate}
+		\item Completeness: for every $a,b \in A$, $a R_i b$ or $b R_i a$ or both,
+		\item Reflexivity: for all $a \in A$, $a R_i a$, and
+		\item Transitivity: for $a,b,c \in A$, if $a R_i b$ and $b R_i c$, then $a R_i c$
+	\end{enumerate}
+	The set of all such preference orders is denote $\mathcal{R}$. An ordering is linear if for $a,b \in A$, if $aR_i b$ and $bR_i a$, then $a = b$. The set of all such linear orderings is denoted $\mathcal{P}$.\\
+
+	Given any ordering $R_i$, we can decompose it into an \emph{asymmetric part} $P_i$ and \emph{symmetric part} $I_i$.
+
+	\begin{fdef}[Arrovian Social Welfare Function]
+		An Arrovian Social Welfare Function (ASWF) is a function $F : \mathcal{R}^n \to \mathcal{R}$.
+	\end{fdef}
+	That is, given the preference orders of multiple people, we try to consolidate them into a single preference order.\\
+	Let $\hat{F}(R)$ and $\overline{F}(R)$ be the asymmetric and symmetric parts of $F(R)$ respectively.
+
+	\begin{fdef}[Pareto]
+		An ASWF $F$ is said to be \emph{weak Pareto} if for $a,b \in A$, if $a P_i b$ for all $i \in N$, then $a \hat{F}(R) b$ for all $i \in N$.\\ % he says a P_i b, what does that mean
+		An ASWF $F$ is said to be \emph{strong Pareto} if for $a,b \in A$, if $a R_i b$ for all $i \in N$ and for some $j$, $a P_j b$, then $a \hat{F}(R) b$.
+	\end{fdef}
+
+	It is not too difficult to see that strong Pareto ASWFs are weak Pareto.\\
+	We say that $R_i,R_i'\in\mathcal{R}$ \emph{agree} on $\{a,b\}$ if for agent $i$, $a P_i b$ iff $a P_i' b$, $b P_i a$ iff $b P_i' a$, and $a I_i b$ iff $b I_i a$. We use the shorthand $\restr{R_i}{a,b} = \restr{R_i'}{a,b}$ to denote this. If it holds for every agent $i$, we write $\restr{R}{a,b} = \restr{R'}{a,b}$.
+
+	\begin{fdef}[Independence of irrelevant alternatives]
+		An ASFW $F$ is said to satisfy \emph{independence of irrelevant alternatives} (IIA) if for all $a,b \in A$, if $\restr{R}{a,b} = \restr{R'}{a,b}$, then $\restr{F(R)}{a,b} = \restr{F(R')}{a,b}$.
+	\end{fdef}
+	That is, if everyone prefers one option to another, then the final preference order also prefers this option to the other.\\
+	Note that the dictatorship ASWF, defined by $F(R) = R_i$ for some fixed $i$, is both weak Pareto and IIA.
+
+	\begin{ftheo}[Arrow]
+		\label{arrow}
+		For $|A| \ge 3$, if an ASWF $F$ is weak Pareto and IIA, then it is a dictator.
+	\end{ftheo}
+
+	Over the rest of this section, we prove the above.\\
+	First, we need some notions of ``decisiveness''.
+
+	\begin{fdef}
+		Let $F : \mathcal{R}^n \to \mathcal{R}$ be given, and let $G \subseteq N$ be non-empty.\\
+		$G$ is said to be \emph{almost decisive} over $\{a,b\}$ if if $a P_i b$ for all $i \in G$ and $b P_j a$ for all $j \not\in G$, then $a \hat{F}(R) b$. This is denoted $\overline{D}_G(a,b)$. \\
+		$G$ is \emph{decisive} over $\{a,b\}$ if if $a P_i b$ for all $i \in G$, then $a \hat{F}(R) b$. This is denoted $D_G(a,b)$.
+	\end{fdef}
+	If a group is (almost) decisive over all pairs of coordinates, we say that it is (almost) decisive.
+	% Clearly, any decisive set is almost-decisive. Also note that 
+
+	The proof goes in two parts.
+	\begin{enumerate}
+		\item Field expansion: If a group is almost decisive over a pair of alternatives, then it is decisive over all pairs of alternatives.
+		\item Group contraction: If a group is decisive, a strict subset of that group is also decisive.
+	\end{enumerate}
+
+	\begin{lemma}[Field expansion]
+		\label{lem: arrow field expansion}
+		Let $F$ be WP and IIA. For all $a \ne b$ and $x \ne y$, and $G \subseteq N, G \ne \emptyset$,
+		$\overline{D}_G(a,b)$ implies $D_G(x,y)$.
+	\end{lemma}
+	% That is, both notions of decisiveness are identical
+	\begin{proof}
+		There are $6$ cases to consider.
+		\begin{enumerate}
+			\item Case 1. $x = a$ and $y \ne a,b$. Pick arbitrary $R \in \mathcal{R}^n$ such that $a P_i y$ for all $i \in G$. We wish to show that $a \hat{F}(R) y$.\\
+			Construct another preference $R'$ as follows. For $i \in G$, we have $a P'_i b$ and $b P'_i y$, and on $N \setminus G$, $b P'_i a$ and $b P'_i y$, and between $a,y$ we retain the same ordering as in $R_i$.\\
+			We ensure that $\restr{R_i'}{a,y} = \restr{R_i}{a,y}$ for all $i \in N$. $\overline{D}_G(a,b)$ implies that $a \hat{F}(R') b$. Weak Pareto over $b,y$ implies that $b \hat{F}(R') y$. So, by transitivity, $a \hat{F}(R') y$. Now, use IIA to conclude that $a \hat{F}(R) y$ as well, completing the proof.
+			\item Case 2. $y = b$ and $x \ne a,b$. The idea for this is nearly identical to that in case 1. $R'$ is constructed such that for $i \in G$, $x P_i' a$ and $a P_i' b$, and on $N \setminus G$, $x P_i' a$ and $b P_i' a$, and the ordering of $a,b$ is the same as that in $R$.
+			\item Case 3. $x \ne a,b$ and $y \ne a,b$. We have $\overline{D}_G(a,b)$, so $D_G(a,y)$ by case 1, so $\overline{D}_G(a,y)$ by definition, so $D_G(x,y)$ by case 2.
+			\item Case 4. $x \ne a,b$ and $y = a$. We have $\overline{D}_G(a,b)$, so $D_G(x,b)$ by case 2, so $\overline{D}_G(x,b)$ by definition, so $D_G(x,a)$ by case 1.
+			\item Case 5. $x = b$ and $y \ne a,b$. We have $\overline{D}_G(a,b)$, so $D_G(a,y)$ by case 1, so $\overline{D}_G(a,y)$ by definition, so $D_G(b,y)$ by case 2.
+			\item Case 6. $x = a$ and $y = b$. This is trivial.
+			\item Case 7. $x = b$ and $y = a$. This similarly follows from previous parts.
+		\end{enumerate}
+	\end{proof}
+
+	\begin{lemma}[Group contraction]
+		\label{lem: arrow group contraction}
+		Let $F$ be WP and IIA. Let $G \subseteq N$ with $|G| \ge 2$ be decisive. Then, there exists non-empty $G' \subsetneq G$ which is decisive.
+	\end{lemma}
+	\begin{proof}
+		Let $G_1 \subsetneq G$ and $G_2 = G \setminus G_1$. Let $a,b,c \in R$. Consider an ASWF $R$ which orders $a P_i b P_i c$ for $i \in G_1$, $c P_i a P_i b$ for $i \in G_2$, and $b P_i c P_i a$ for $i \in N \setminus G$. Because $a P_i b$ for all $i \in G$ and $G$ is decisive, $a \hat{F}(R) b$.
+		\begin{enumerate}
+			\item Case 1. $a \hat{F}(R) c$. Observe that $a P_i c$ for all $i \in G_1$ and $c P_i a$ for $i \not\in G_1$. Consider all $R'$ where this condition holds. By IIA, $a \hat{F}(R') c$. Therefore, $G_1$ is almost decisive over $\{a,c\}$. Therefore, by field expansion $G_1$ is decisive.
+			\item Case 2. $c F(R) a$. Recalling that $a \hat{F}(R) b$, we have $c \hat{F}(R) b$. Observe that $c P_i b$ for all $i \in G_2$ and $b P_i c$ for $i \not\in G_2$. Considering all $R'$ where this condition holds again, we get by IIA that $b \hat{F}(R') c$, so $G_2$ is almost decisive over $\{b,c\}$ and by field expansion, $G_2$ is decisive.
+		\end{enumerate}
+	\end{proof}
+
+	To complete the proof of \nameref{arrow}, note that $N$ is decisive, so by \Cref{lem: arrow group contraction}, there is a singleton decisive set and $F$ is a dictator.
+
+\subsection{Social Choice}
+
+	This means the Arrovian social welfare set up is too demanding. It says that achieving a social ordering in a democratic way is impossible. There are two suggestions to mitigate this:
+	\begin{enumerate}
+		\item consider a social choice setting, where we output an alternative instead of an ordering.
+		\item put restrictions on the agents' preferences.
+	\end{enumerate}
+
+	\begin{fdef}
+		A \emph{social choice function} is a function $f : \mathcal{P}^n \to A$.
+	\end{fdef}
+	Note that we assume strict preferences.\\
+	Over the enxt few examples, we shall look at various voting rules
+
+	\begin{fex}[Voting]
+		\phantom{pain}
+		\begin{enumerate}
+		\item Scoring rule. Let $s = (s_1,\ldots,s_m)$ be some common score vector. Each voter's $k$th preferred alternative is given a score of $s_k$. The scores are summed over all candidates, and the candidate with the highest score wins. There are various specific cases depending on $s$.
+		\begin{itemize}
+			\item Plurality. $s = (1,0,0,\ldots,0)$.
+			\item Veto. $s = (1,1,\ldots,1,0)$.
+			\item Bonds. $s = (m-1,m-2,\ldots,1,0)$.
+			\item Harmonic. $s = (1,1/2,\ldots,1/m)$.
+			\item $k$-approval. $s = (1,\ldots,1,0,\ldots,0)$ with exactly $k$ $1$s.
+		\end{itemize}
+
+		\item Plurality with runoff. This has two phases: in the first, the top $2$ highest scoring candidates are retained and everyone else eliminated, and in the second everyone is asked to vote again. This is practiced in the French presidential election.
+		
+		\item Maximin. This chooses the candidate with the largest margin of victory wins.
+
+		\item Copeland. Here we view the set of orderings as a collection of votes for pairwise elections, and choose the candidate who wins the most pairwise elections.
+		\end{enumerate}
+		A \emph{Condorcet} winner is a candidate that beats every other candidate in a pairwise election. It is not guaranteed to exist.\\
+		A voting rule that returns a Condorcet winner, if it exists, as the winner, is called \emph{Condorcet consistent}. Clearly, Copeland is Condorcet consistent. It turns out that \emph{no} scoring rule is Condorcet consistent (!), even seemingly logical strategies such as plurality.
+	\end{fex}
+
+	\begin{fdef}[Pareto efficiency]
+		An alternative $a$ is \emph{Pareto dominated} by $b$ if for all $i \in N$, $b P_i a$.\\
+		An SCF $f$ is \emph{Pareto efficient} if for all preference profiles $P$ and $a \in A$, if $a$ is Pareto dominated, then $f(P) \ne a$.
+	\end{fdef}
+
+	\begin{fdef}[Unanimity]
+		An SCF $f$ is \emph{unanimous} if for a preference profile $P$ with $P_1(1) = P_2(1) = \cdots = P_n(1) = a$ (where $P_i(k)$ is the $k$th preferred alternative of agent $i$), $f(P) = a$.
+	\end{fdef}
+
+	\begin{prop}
+		The set of Pareto efficient SCFs is strictly contained in the set of unanimous SCFs.
+	\end{prop}
+	Indeed, every alternative other than $a$ is Pareto dominated by it. Further, this containment is strict, as can be seen by considering an SCF which picks a dominated alternative when not all the top alternatives are identical.
+
+	\begin{fdef}[Ontoness]
+		An SCF $f$ is \emph{onto} if for all $a \in A$, there exists $P^* \in \mathcal{P}^n$ such that $f(P^*) = a$.
+	\end{fdef}
+
+	\begin{prop}
+		The set of unanimous SCFs is contained in the set of onto SCFs.
+	\end{prop}
+	Indeed, $a$ is chosen by any preference profile which has $a$ at the top spot everywhere.
+
+	\begin{fdef}[Manipulability]
+		An SCF $f$ is \emph{manipulable} if there exists $i \in N$ and a profile $P$ such that
+		\[ f(P_i',P_{-i}) P_i f(P_i,P_{-i}) \]
+		for some $P_i'$.
+	\end{fdef}
+	That is, by falsely reporting a preference, the agent can arrive at an outcome he prefers more.\\
+	Non-manipulability means that on changing the preference you report, the outcome can only become worse.
+
+	\begin{fex}[Manipulability]
+		Consider a voting system with three candidates $a,b,c$ (with ties broken in favour of $a > b > c$). \\
+		First, suppose we are in the the plurality setting, and the three voters have true preference orders $abc, bac, cba$. If the third voter reports $cba$, then the winner is $a$. If he reports $bca$ on the other hand, the winner is $b$, who is preferred to $a$.\\
+		Next, suppose we are in the Copeland setting, and the three voters have true preference orders $abc,bca,cab$. If everyone reports their true preferences, $a$ is the winner. If the second voter instead reports $cba$, then $c$ becomes the Copeland winner. 
+	\end{fex}
+
+	\begin{fdef}[Strategyproofness]
+		An SCF is said to be \emph{strategy-proof} (SP), \emph{truthful}, or \emph{incentive-compatible} if it is not manipulable by any agent at any profile.
+	\end{fdef}
+
+	Let us look at some implications of strategyproofness.
+
+	\begin{fdef}[Dominated set]
+		For $a \in A$ and preference $P_i$, the \emph{dominated set} of $a$ at $P_i$ is
+		\[ D(a,P_i) = \{ b \in A : a P_i b \}. \]
+	\end{fdef}
+
+	\begin{fdef}[Monotonicity]
+		An SCF $f$ is \emph{monotone} (MONO) if for any two profiles $P,P'$ with $f(P) = a$ and $D(a,P_i) \subseteq D(a,P_i')$ for all $i \in N$, then $f(P') = a$.
+	\end{fdef}
+	That is, the relative position of $a$ has weakly improved from $R$ to $R'$.
+
+	\begin{flem}
+		An SCF is strategyproof if and only if it is monotone.
+	\end{flem}
+	% Note the proof technique, which we will see again later.
+	\begin{proof}
+		Let us look at the forward direction first. Let $f$ be SP and $P,P'$ be two profiles with $f(P) = a$ and $D(a,P_i) \subseteq D(a,P_i')$ for all $i \in N$. For $0 \le k \le n$, let $P^{(k)} = (P_1',P_2',\ldots,P_k',P_{k+1},\ldots,P_n)$ -- note that $P^{(0)} = P$ and $P^{(n)} = P'$. We shall show inductively that $f(P^{(k)}) = a$ for each $0 \le k \le n$. The base case $k = 0$ is trivial.\\
+		Suppose that $f(P^{(k-1)}) = a$ but $f(P^{(k)}) = b \ne a$ for some $k \ge 1$.
+		Now, note that it is not possible that $b P_k a$ or $a P_k' b$ as this would violate strategyproofness. This means that $a P_k b$ and $b P_k' a$, but this contradicts $D(a,P_k) \subseteq D(a,P_k')$, so we have a contradiction and are done.\\
+
+		Let us now look at the backward direction. Suppose instead that for some profile $P$, $i \in N$, and $P_i'$, $f(P_i',P_{-i}) P_i f(P)$. Set $P' = (P_i',P_{-i}), f(P) = a, f(P') = b$, so $b P_i a$. Construct a preference ordering $P_i''$ with $P_i''(1) = b$ and $P_i''(2) = a$, and let $P'' = (P_i'',P_{-i})$.\\
+		We clearly have $D(a,P_j) \subseteq D(a,P_j'')$ for all $j \in N$. Monotonicity implies that $f(P'') = f(P) = a$. On the other hand, $D(b,P'_j) \subseteq D(b,P_j'')$ for all $j \in N$, so by monotonicity $f(P'') = f(P') = b$, resulting in a contradiction.
+	\end{proof}
+	We shall repeatedly see the above proof strategy.
+
+	\begin{flem}
+		If an SCF is monotonic and onto, it is Pareto efficient.
+	\end{flem}
+	\begin{proof}
+		Suppose instead that $f$ is monotonic and onto, but not PE -- let $P$ be a preference profile and $a,b \in A$ such that $b P_i a$ for all $i \in N$, but $f(P) = a$.\\
+		Using ontoness, let $P'$ be a profile with $f(P') = b$, and construct a profile $P''$ with $P''_i(1) = b$ and $P''_i(2) = a$ for all $i \in N$. Clearly, $D(b,P') \subseteq D(b,P'')$, so $f(P'') = b$. We also have $D(a,P) \subseteq D(a,P'')$, so $f(P'') = a$, yielding a contradiction.
+	\end{proof}
+
+	\begin{fcor}
+		Let $f$ be an SCF. The following are equivalent.
+		\begin{enumerate}
+			\item $f$ is strategyproof and Pareto efficient.
+			\item $f$ is strategyproof and unanimous.
+			\item $f$ is strategyproof and onto.
+		\end{enumerate}
+	\end{fcor}
+
+	It turns out that even the above requirement is too strict, however.
+
+	\begin{ftheo}[Gibbard-Satterthwaite Theorem]
+		\label{theo: GS}
+		% G73 S75
+		Suppose $|A| \ge 3$. $f$ is strategyproof and onto if and only if it is dictatorial.
+	\end{ftheo}
+	The above is untrue when $|A| = 2$ -- plurality with some fixed tie-breaking rule is strategyproof, onto, and non-dictatorial. It may also break down if we place restrictions on the set of alternatives that a voter can report (we assume it to be $\mathcal{P}$).\\
+	As long as all ordinal ranks are feasible in the cardinal preference setting, this has an extension to that setting.
+	% In general, the result does not hold. We use some specific constructions. If possible, the result holds.
+
+	% The remainder of this section is dedicated to the proof of the Gibbard-Satterthwaite Theorem.\\
+	We shall only prove the result for $n = 2$ (so $N = \{1,2\}$). It is possible to then apply induction on the number of agents to prove it for an arbitrary $n$, but we omit this part -- interested readers may consult \cite{gs-theo-sen} for more details.\\
+
+	\begin{proof}
+		First of all, we claim that for every preference profile $P$, $f(P) \in \{P_1(1),P_2(1)\}$.\\
+		If $P_1(1) = P_2(1)$, unanimity implies that $f(P)$ is this common value.\\
+		Suppose that $P_1(1) = a \ne b = P_2(1)$, and $f(P) = c \ne a,b$. Consider a preference $P_1'$ with $P_1'(1) = a, P_1'(2) = b$, and a preference $P_2'$ with $P_2'(1) = b, P_2'(2) = a$. Note that $f(P_1,P_2') \in \{a,b\}$, because every other alternative is Pareto dominated and $f$ is Pareto efficient. Further, $f(P_1,P_2') \ne b$ because this would mean that $f$ is manipulable (by player $2$). Therefore, $f(P_1,P_2') = a$.  Similarly, we get that $f(P_1',P_2) = b$. Now, due to monotonicity (because $f$ is strategyproof), $D(a,P_1) \subseteq D(a,P_1')$, so $f(P_1',P_2') = a$, but similarly $D(b,P_2) \subseteq D(b,P_2')$ so $f(P_1,P_2') = b$, leading to a contradiction and proving the claim.\\
+
+		Now, let $P,P'$ be two profiles with $P_1(1) = a \ne b = P_2(1)$ and $P_1'(1) = c, P_2'(1) = d$. It suffices to show that $f(P') = c$ if $f(P) = a$ and $f(P') = d$ if $f(P) = b$.\\
+		If $c = d$, this is trivial by unanimity, so assume $c \ne d$. We shall show that if $f(P) = a$, $f(P') = c$; the other side follows symmetrically.\\
+		
+		\begin{enumerate}
+			\item First, consider the case where $(c,d) = (a,b)$. By the claim, $f(P') \in \{a,b\}$. Suppose instead that $f(P') = b$. Let profile $\hat{P}$ with $\hat{P}_1(1) = a, \hat{P}_1(2) = b, \hat{P}_2(1) = b, \hat{P}_2(2) = a$.\\
+			By monotonicity using $P$, we get that $f(\hat{P}) = f(P) = a$, and by monotonicity using $P'$, we get that $f(\hat{P}) = f(P') = b$.
+
+			\item Next, consider the case where $d = b$ but $c \ne a,b$. Again, we have that $f(P') \in \{c,b\}$, and suppose instead that $f(P') = b$. Let $\hat{P}_1$ be a preference order with $\hat{P}_1(1) = c, \hat{P}_1(1) = a$. By case $1$, $f(\hat{P}_1,P_2) = f(P_1',P_2') = b$. Under true preferences $(\hat{P}_1,P_2)$, we see that player $1$ misreporting their preference as $P_1$ would result in a more preferred alternative ($a$ as opposed to $b$), contradicting strategyproofness.
+
+			\item Next, suppose that $c \ne a,b$ and $d \ne b$, and assume that $f(P') = d$. Let $\hat{P}$ be a profile such that $\hat{P}_1(1) = c, \hat{P}_2(1) = b$. By a symmetric version of case 2 applied for $P',\hat{P}$, $f(\hat{P}) = b$. By case 2 applied for $P,\hat{P}$, $f(\hat{P}) = c$, leading to a contradiction.
+		\end{enumerate}
+		All remaining cases follow similar to case 3 using previously shown cases, so we omit the details.
+	\end{proof}
+
+	A reason for a restrictive result like the GS theorem is that the domain of the SCF is too large, a potential manipulator has far too many ways to manipulate.
