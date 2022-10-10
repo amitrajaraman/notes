@@ -16,7 +16,7 @@
 				A \emph{code} $\mathcal{C}$ is a subset of $\{0,1\}^n$. The elements of a code are called \emph{codewords}.\\
 			\end{definition}
 			\begin{definition}
-				Given $x,y \in \{0,1\}^n$, the \emph{Hamming distance} $d_H(x,y)$ between $x$ and $y$ is $|\{i \in [n] : x_i \ne y_i\}|$. The distance $d_H(\mathcal{C})$ of a code $\mathcal{C}$ is $\min_{\substack{x,y \in \mathcal{C} \\ x \ne y}} d_H(x,y)$.
+				Given $x,y \in \{0,1\}^n$, the \emph{Hamming distance} $d_H(x,y)$ between $x$ and $y$ is $|\{i \in [n] : x_i \ne y_i\}|$ and the \emph{relative distance} $\Delta(x,y)$ between $x$ and $y$ is $d_H(x,y)/n$. The distance $d_H(\mathcal{C})$ of a code $\mathcal{C}$ is $\min_{\substack{x,y \in \mathcal{C} \\ x \ne y}} d_H(x,y)$.
 			\end{definition}
 
 			The idea of this is that given a word in $\{0,1\}^k$, we translate it bijectively into a codeword in $\{0,1\}^n$ and transmit it. Upon receiving the message, we decode the received word in some way to get a word.\\

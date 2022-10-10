@@ -114,6 +114,10 @@
 		Note that we can trivially get a circuit that is equal to $f$ with probability $\ge 1/2$, either set it as the constant $0$ or the constant $1$ (depending on which value $f$ takes more often).\\
 		Clearly, the average-case hardness of any function is at least the worst-case hardness.
 
+\subsection{Lectures 15, 16: Average-case hardness to derandomization}
+
+	\subsubsection{Lecture 15 (contd.)}
+
 		\begin{ftheo}[Nisan-Wigderson]
 			\label{theo: hard to prg}
 			If (for sufficiently large $n$) there exists a function computable in time $2^{O(n)}$ with $H_\avg(f) \ge 2^{2n/3}$, then there exists a $(2^{\ell/45})$-PRG and in particular, $\BPP = \PP$.
@@ -194,3 +198,40 @@
 			\[ \Pr_{z \sim U_\ell}\left[ C(f_1(z''),\ldots,f_{i-1}(z'')) = f(z'') \right] > \frac{1}{2} + \frac{\epsilon}{n}. \]
 			using this, we get a circuit for $f$ that succeeds with probability at least $(1/2)+\frac{\epsilon}{n}$. Note that each $f_{j}(z'')$ uses at most $d$ bits. By taking $(i-1)$ trivial circuits of $f$, which are each of size at most about $d 2^d$, we get a circuit for $f$ of size $d 2^d 2^{d/10} + 2^{2d}/2 \le 2^{2d}$, contradicting the hardness of $f$.
 		\end{proof}
+
+\subsection{Lecture 17: Worst-case hardness to average-case hardness}
+
+	\subsubsection{Lecture 17}
+
+		Now, we would like to convert a function that is worst-case hard to some other function that is average-case hard.
+
+		\begin{fdef}
+			Given $0 < \rho < 1$ and a function $f : \{0,1\}^n \to \{0,1\}$, define $H_\avg^\rho(f)$ to be the largest $S$ such that for any circuit $C$ of size $S$,
+			\[ \Pr_{x \sim U_m} [f(x) = C(x)] < \rho. \]
+		\end{fdef}
+
+		In particular, we have $H_\worst(f) = H_\avg^1(f)$.\\
+
+		Given a function $f : \{0,1\}^n \to \{0,1\}$ with worst-case hardness $H_\worst(f)$, we may view it as a string $\ttbl(f)$ in $\{0,1\}^{2^n}$. For any circuit $S$ of size less than $H_\worst(f)$, we have $\ttbl(f) \ne \ttbl(C)$. This idea of using a few inequalities to generate a large number of inequalities is reminiscent of error correcting codes -- maybe we can convert the truth table to an element of $\{0,1\}^{2^{2n}}$, say, using an encoder $E$ of relative distance $1/4$, and our new average-case hard function $f'$ is defined by $\ttbl(f') = E(\ttbl(f))$.\\
+		However, this trick does not allow us to show that \emph{all} circuits differ from $f'$ on a constant fraction! It only does so for circuits whose truth table is equal to some image of the encoding function. \\
+		Can we do something in the backward direction? Given a circuit $B$ on $2n$ inputs of size $S^{1/5}$ (say) that agrees with $f'$ significantly (on a $\frac{1}{2} + \frac{1}{S}$ fraction), is it possible to construct a small circuit $C$ on $n$ inputs of size $S$ that agrees with $f$ everywhere?\\
+
+		Let us do something slightly weaker, and suppose that $B$ agrees with $f'$ on a $0.9$ fraction. This essentially asks us to decode the code. However, the size of the input string to the decoding algorithm is $2^{2n}$, so we need a very fast decoding algorithm.\\
+		In usual decoding, we look at the entire corrupted encoded string, and try to retrieve the entire message. In \emph{local decoding}, we read a small part of the corrupted string to recover some portion of the original message. Indeed, finally, we do not want to know the values of $f$ at \emph{every} point, only at the input point $x$.\\
+		We can compute the value of $B$ at this small part, and use it to recover the specific bit corresponding to $f(x)$.
+		% any algo is a circuit, not converse!
+
+		\begin{fdef}[Local decoding]
+			Let $E : \{0,1\}^N \to \{0,1\}^M$ be a encoder that runs in $\poly(N)$. A \emph{local decoder} for handling $\rho$ errors is an algorithm $D$ such that given random access to a string $y \in \{0,1\}^M$ with $\Delta(y,E(x)) \le \rho$ for some $x \in \{0,1\}^n$ and an index $j \in [N]$, runs in time $\polylog(M)$ and outputs $x_j$ with probability at least $2/3$.
+		\end{fdef}
+
+		\begin{ftheo}
+			Suppose we have an encoder $E$ with a local decoder $D$ for handling $\rho$ errors. Further suppose we have functions $f_n : \{0,1\}^n \to \{0,1\}$ in $\EXP$ that have worst-case hardness $H_\worst(f) \ge S(n)$. Then, there exists $\epsilon > 0$ and $\hat{f}_{m} \in \EXP$ on $m$ bits such that
+			\[ H_\avg^{1-\rho}(\hat{f}_n) \ge (S (2 \epsilon m))^{\epsilon}. \]
+		\end{ftheo}
+		The proof is exactly as in the preceding paragraphs. We have $(\hat{f}(x))_{x \in \{0,1\}^m} = E( (f(x))_{x \in \{0,1\}^n} )$ Let $N = 2^n$ and $M = 2^m$. Suppose instead that $B$ is a circuit of size  $T = (S(\epsilon m))^\epsilon$ such that
+		\[ \Pr_{x \sim U_m}[B(x) = f(x)] \ge 1 - \rho. \]
+		Now, we have that
+		\[ \Delta( ( B(x) )_{x \in \{0,1\}^m} , ( \hat{f}(x) )_{x \in \{0,1\}^m} ) < \rho. \]
+		Fix $x$ to be the string in $\{0,1\}^n$ that we wish to obtain the value of (of $f$). Each time we compute $B(y)$ for some $y$, we incur a time of $T$.\\
+		We still need to eliminate the randomness in the local decoding algorithm. To do this, modify the encoding algorithm by repeating it enough times that the error probability is less than $1/N^2$. Then, for a fixed $f,x$, this implies that there exists some \emph{fixed} set of random bits which outputs $f(x)$ correctly for all $x \in [N]$.
