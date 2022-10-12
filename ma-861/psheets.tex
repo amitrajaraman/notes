@@ -2,315 +2,324 @@
 
 \section{Problem Sheets}
 
-	\subsection{Problem Sheet 1}
+\subsection{Problem Sheet 1}
 
-		\begin{problem}
-			Let $S(n,k)$ and $s(n,k)$ be Stirling numbers of the second and first kind respectively. Show that for all $n,k$, we have $s(n,k) \ge S(n,k)$.
-		\end{problem}
-	
-		\begin{solution*}
-			Let $X_{S(n,k)}$ be the set of partitions of $[n]$ into exactly $k$ parts and $X_{s(n,k)}$ the number of permutations of $[n]$ with exactly $k$ cycles. Recall that by definition, $|X_{S(n,k)}| = S(n,k)$ and $|X_{s(n,k)}| = s(n,k)$. It suffices to demonstrate an injection $f$ from $X_{S(n,k)}$ to $X_{s(n,k)}$. We do so as follows. Let $\{\{x_{1,1},\ldots,x_{1,n_1}\},\ldots,\{x_{k,1},\ldots,x_{1,n_k}\}\}$ be a partition of $[n]$ into exactly $k$ parts, where $x_{i,j_1} < x_{i,j_2}$ for $j_1 < j_2$. Then, we have a corresponding permutation of $[n]$ with exactly $k$ cycles given by $(x_{1,1},\ldots,x_{1,n_1})\cdots(x_{k,1},\ldots,x_{k,n_k})$. This map is clearly an injection, so we are done.
-		\end{solution*}
+	\begin{problem}
+		Let $S(n,k)$ and $s(n,k)$ be Stirling numbers of the second and first kind respectively. Show that for all $n,k$, we have $s(n,k) \ge S(n,k)$.
+	\end{problem}
 
-		\begin{problem}
-			Show that
-			\[ S(n,k) = \sum_{r=1}^k (-1)^{k-r} \frac{r^n}{r!(k-r)!}. \]
-		\end{problem}
-		\begin{solution*}
-			$S(n,k)$ is merely $1/k!$ times the number of surjective functions from $[n]$ to $[k]$ (because the ordering of the partitions does not matter). The set of functions that are \emph{not} surjective is
-			\[ \bigcup_{i \in [n]} \{ f \in [k]^{[n]} : i \not\in \operatorname{Im}(f) \}. \]
-			The size of the above is quite easily determined by the inclusion-exclusion principle to get
-			\[ k^n - k!S(n,k) = \sum_{r=1}^{k-1} (-1)^{r+1} \cdot \underbrace{\binom{k}{r}}_\text{choosing $r$ elements in $[k]$ to ``avoid''} \cdot \underbrace{(k-r)^n}_\text{counting functions that avoid the chosen}, \]
-			and the desideratum immediately follows.
-		\end{solution*}
+	\begin{solution*}
+		Let $X_{S(n,k)}$ be the set of partitions of $[n]$ into exactly $k$ parts and $X_{s(n,k)}$ the number of permutations of $[n]$ with exactly $k$ cycles. Recall that by definition, $|X_{S(n,k)}| = S(n,k)$ and $|X_{s(n,k)}| = s(n,k)$. It suffices to demonstrate an injection $f$ from $X_{S(n,k)}$ to $X_{s(n,k)}$. We do so as follows. Let $\{\{x_{1,1},\ldots,x_{1,n_1}\},\ldots,\{x_{k,1},\ldots,x_{1,n_k}\}\}$ be a partition of $[n]$ into exactly $k$ parts, where $x_{i,j_1} < x_{i,j_2}$ for $j_1 < j_2$. Then, we have a corresponding permutation of $[n]$ with exactly $k$ cycles given by $(x_{1,1},\ldots,x_{1,n_1})\cdots(x_{k,1},\ldots,x_{k,n_k})$. This map is clearly an injection, so we are done.
+	\end{solution*}
 
-		\begin{problem}
-			Let $A_n(y) = \sum_{k} S(n,k) y^k$. Show that $A_n(y) = (y + yD)^n1$ where $D = \od{}{y}$ is the derivative operator.
-		\end{problem}
-		\begin{solution*}
-			First, recall that $S(n+1,k+1) = S(n,k) + (k+1) \cdot S(n,k+1)$ -- the $S(n,k)$ corresponds of those partitions where $n+1$ is in a part of its own, and the $(k+1)S(n,k+1)$ corresponds to those partitions where this is not the case, so we can consider any partition of $[n]$ into $k+1$ parts, then decide which of the $k+1$ parts to place $n+1$ in.\\
-			We have
+	\begin{problem}
+		Show that
+		\[ S(n,k) = \sum_{r=1}^k (-1)^{k-r} \frac{r^n}{r!(k-r)!}. \]
+	\end{problem}
+	\begin{solution*}
+		$S(n,k)$ is merely $1/k!$ times the number of surjective functions from $[n]$ to $[k]$ (because the ordering of the partitions does not matter). The set of functions that are \emph{not} surjective is
+		\[ \bigcup_{i \in [n]} \{ f \in [k]^{[n]} : i \not\in \operatorname{Im}(f) \}. \]
+		The size of the above is quite easily determined by the inclusion-exclusion principle to get
+		\[ k^n - k!S(n,k) = \sum_{r=1}^{k-1} (-1)^{r+1} \cdot \underbrace{\binom{k}{r}}_\text{choosing $r$ elements in $[k]$ to ``avoid''} \cdot \underbrace{(k-r)^n}_\text{counting functions that avoid the chosen}, \]
+		and the desideratum immediately follows.
+	\end{solution*}
+
+	\begin{problem}
+		Let $A_n(y) = \sum_{k} S(n,k) y^k$. Show that $A_n(y) = (y + yD)^n1$ where $D = \od{}{y}$ is the derivative operator.
+	\end{problem}
+	\begin{solution*}
+		First, recall that $S(n+1,k+1) = S(n,k) + (k+1) \cdot S(n,k+1)$ -- the $S(n,k)$ corresponds of those partitions where $n+1$ is in a part of its own, and the $(k+1)S(n,k+1)$ corresponds to those partitions where this is not the case, so we can consider any partition of $[n]$ into $k+1$ parts, then decide which of the $k+1$ parts to place $n+1$ in.\\
+		We have
+		\begin{align*}
+			(y+yD)A_n(y) &= (y+yD) \sum_{k=1}^n S(n,k) y^k \\
+				&= \sum_{k=1}^n S(n,k) (y^{k+1} + ky^k) \\
+				&= S(n,1) y + \sum_{k=2}^{n} y^k (S(n,k-1) + (k-1) S(n,k)) + S(n,n) y^{n+1} \\
+				&= S(n+1,1) y + \sum_{k=2}^n S(n+1,k) y^k + S(n+1,n+1) y^{n+1} = A_{n+1}(y).
+		\end{align*}
+		The required follows inductively.
+	\end{solution*}
+
+	\begin{problem}
+		Let $D_n$ be the number of derangements in $\mathfrak{S}_n$ and let $D(x) = \sum_{n \ge 0} D_n x^n/n!$ be its egf. Determine $D(x)$.
+	\end{problem}
+	\begin{solution*}
+		A permutation $\pi \in \mathfrak{S}_n$ is a derangement iff it has no cycles of length $1$. Define $f : \N \to \N_0$ by
+		\[ f(k) = \begin{cases} 0 , & k = 1, \\ 1 , & \text{otherwise.} \end{cases} \]
+		By the earlier observation, $\pi \in \mathfrak{S}_n$ is a derangement iff $f(|C_1|)\cdots f(|C_k|) = 1$ where $C_1,\ldots,C_k$ are the cycles of $\pi$.
+		Using Corollary 5.1.9 in \cite{ec2}, we get that
+		\[ D(x) = \exp \left(\sum_{n \ge 2} \frac{x^n}{n}\right) = \exp \left( -x - \log(1-x) \right) = \frac{e^{-x}}{1-x} . \]
+	\end{solution*}
+
+	\begin{problem}
+		Let $s(n,2)$ denote the number of $\pi \in \mathfrak{S}_n$ with $2$ cycles in its cyclic decomposition and let $H_n$ denote the $n$th harmonic number. Show that $s(n+1,2) = H_n \times n!$.
+	\end{problem}
+	\begin{solution*}
+		It is easily checkable that the number of cyclic permutations of $[k]$ is $(k-1)!$. We have
+		\begin{align*}
+			s(n+1,2) &= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \binom{n+1}{k} (k-1)! (n+1-k-1)! \\
+				&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{(n+1)!}{k(n+1-k)} \\
+				&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} n! \left( \frac{1}{k} + \frac{1}{n+1-k} \right) \\
+				&= n! \left(\sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{1}{k} + \sum_{k=\lceil (n+1)/2 \rceil}^{n} \frac{1}{k} \right) \\
+				&= \begin{cases} n!H_n, & \text{$n$ is even}, \\ n! (H_n + \frac{2}{n+1}), & \text{$n$ is odd.} \end{cases} 
+		\end{align*}
+	\end{solution*}
+
+	\begin{problem}
+		For a fixed positive integer $k$, consider the egf $f_k(x) = \sum_{n \ge 0} s(n,k) x^n/n!$. Show that
+		\[ f_k(x) = \frac{1}{k!} \ln\left( \frac{1}{1-x} \right)^k. \]
+	\end{problem}
+	\begin{solution*}
+		Define $g : \N \to \N_0$ by
+		\[ g(r) = \begin{cases} 1, & r = k, \\ 0, & \text{otherwise.} \end{cases} \]
+		Observe that
+		\[ s(n,k) = \sum_{\pi \in \mathfrak{S}_n} g(r), \]
+		where $C_1,\ldots,C_r$ are the cycles in $\pi$. We now use Corollary 5.1.8 in \cite{ec2} with $f$ being the function that takes the constant $1$. We have $E_g(x) = \frac{1}{k!} x^k$, so we get that
+		\[ f_k(x) = \frac{1}{k!} \left( \sum_{n \ge 1} \frac{x^n}{n} \right)^k = \frac{1}{k!} \ln \left( \frac{1}{1-x} \right)^k. \]
+	\end{solution*}
+
+	\begin{problem}
+		Find $\sum_{k=0}^n (-1)^k s(n,k)$.
+	\end{problem}
+	\begin{solution*}
+		Recall that a permutation in $\mathfrak{S}_n$ with $k$ cycles has sign $(-1)^{n-k}$. We have
+		\begin{align*}
+			\sum_{k=0}^n (-1)^k s(n,k) &= \sum_{k=0}^n \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ has exactly $k$ cycles}}} (-1)^k \\
+				&= (-1)^n \sum_{\pi \in \mathfrak{S}_n} \sign(\pi).
+		\end{align*}
+		For $n=1$, this is $-1$. Otherwise, note that $\pi \mapsto (1,2) \pi$ is a bijection between odd and even permutations. As a result, the above sum is equal to $0$.
+	\end{solution*}
+
+	\begin{problem}
+		Show that $S(n+1,k+1) = \sum_{m=0}^n \binom{n}{m} S(m,k)$.
+	\end{problem}
+	\begin{solution*}
+		We shall count the partitions of $[n+1]$ into exactly $k+1$ parts based on the part $n+1$ is in. We have
+		\[ S(n+1,k+1) = \sum_{T \subseteq [n]} S(|[n]\setminus T|,k) = \sum_{m=0}^n \binom{n}{m} S(n-m,k) = \sum_{m=0}^n \binom{n}{m} S(m,k). \]
+	\end{solution*}
+
+	% \begin{problem}
+	% 	Find the number of ways in which a product of $n$ distinct primes can be factored.
+	% \end{problem}
+	% \begin{solution*}
+	% 	$s(n,k)$ trivially?
+	% \end{solution*}
+
+	\begin{problem}
+		Show that for $n \ge 1$, the $S_{n,k}$ as $k$ varies has either a unique maximum value or has at most two equal values.
+	\end{problem}
+	\begin{solution*}
+		
+	\end{solution*}
+
+\subsection{Problem Sheet 2}
+
+	% \begin{problem}
+	% 	\label{problem: recurrence of Chebyshev of the first kind}
+	% 	Show that
+	% 	\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
+	% 	when $n \ge 2$ and $T_0(x) = 1, T_1(x) = x$.
+	% \end{problem}
+	% \begin{solution*}
+	% 	Let $\cos \theta = x$. We have
+	% 	\begin{align*}
+	% 		T_n(x) = \cos n\theta &= \cos (n-1)\theta \cos \theta - \sin (n-1)\theta \sin \theta \\
+	% 			&= x T_{n-1}(x) - ( \sin (n-2)\theta \cos\theta + \cos (n-2)\theta \sin\theta ) \sin\theta \\
+	% 			&= x T_{n-1}(x) - T_{n-2}(x) (1-x^2) - x (\sin\theta \sin (n-2)\theta) \\
+	% 			&= x T_{n-1}(x) + x^2 T_{n-2}(x) - T_{n-2}(x) - x (\cos\theta \cos (n-2)\theta - \cos (n-1)\theta) \\
+	% 			&= 2x T_{n-1}(x) - T_{n-2}(x). \qedhere
+	% 	\end{align*}
+	% \end{solution*}
+
+	\begin{problem}
+		Show that
+		\begin{enumerate}[label=(\alph*)]
+			\item $T_n(1) = 1$ \text{ and}
+			\item $T_n(-1) = (-1)^n$.
+		\end{enumerate}
+	\end{problem}
+	\begin{solution*}
+		This immediately follows since $T_n(\cos\theta) = \cos n\theta$, so $T_n(\cos 0) = \cos (n\cdot 0) = 1$ and $T_n(\cos \pi) = \cos(n\pi) = (-1)^n$. They can also be easily proved inductively.
+	\end{solution*}
+
+	\begin{problem}
+		Show that
+		\begin{enumerate}[label=(\alph*)]
+			\item $U_n(1) = n+1$.
+			\item $U_n(-1) = (-1)^n (n+1)$
+		\end{enumerate}
+	\end{problem}
+	\begin{solution*}
+		We prove this inductively. Both statements are trivially true for $n=0,1$. For $n\ge 2$, inductively, we have
+		\[ U_n(1) = 2U_{n-1}(1) - U_{n-2}(1) = 2n - (n-1) = n+1 \]
+		and
+		\[ U_n(-1) = -2U_{n-1}(1) - U_{n-2}(1) = (-1)^{n} \cdot 2n + (-1)^{n-1} (n-1) = (-1)^n (n+1). \]
+	\end{solution*}
+
+	\begin{problem}
+		Show that
+		\[ \frac{1}{\iota^n} U_n(\iota/2) = f_{n+1}. \]
+	\end{problem}
+	\begin{solution*}
+		Again, we prove this inductively. We have $U_0(\iota/2) = 1 = f_1$ and $U_1(\iota/2) = \iota = \iota f_2$. For $n \ge 2$, we inductively have
+		\[ U_n(\iota/2) = \iota U_{n-1}(\iota/2) - U_{n-2}(\iota/2) = \iota^n f_{n} - \iota^{n-2} f_{n-1} = \iota^n (f_n + f_{n-1}) = \iota^n f_{n+1}. \]
+	\end{solution*}
+
+	\begin{problem}
+		Show that if $m,n \ge 1$,
+		\[ T_{m+n}(x) = T_m(x)U_n(x) - T_{m-1}(x)U_{n-1}(x). \]
+	\end{problem}
+	\begin{solution*}
+		This may be checked manually for $m+n=2,3$. We perform induction on $m+n$. We have that
+		\begin{align*}
+			T_{m+n}(x) &= 2xT_{m+n-1}(x) - T_{m+n-2}(x) \\
+				&= 2x (T_{m-1}(x)U_n(x) - T_{m-2}(x)U_{n-1}(x)) - (T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x)U_{n-2}(x)) \\
+				&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) (2x U_{n-1}(x) - U_{n-2}(x)) \\
+				&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) U_n(x) \\
+				&= U_n(x) (2xT_{m-1}(x) - T_{m-2}(x)) - T_{m-1}(x)U_{n-1}(x) \\
+				&= T_m(x) U_n(x) - T_{m-1}(x) U_{n-1}(x).
+		\end{align*}
+	\end{solution*}
+
+	% \begin{problem}
+	% 	Similar to the tiling combinatorial model for $U_n$, get a combinatorial model for $T_n$.
+	% \end{problem}
+	% \begin{solution*}
+	% 	One can do this in a manner identical to that of $U_n$, except that a square piece has weight $x$ if it is at the leftmost $(1,1)$ position.
+	% \end{solution*}
+
+\subsection{Problem Sheet 3}
+
+	\begin{problem}
+		\label{prob: euler numbers}
+		Let $(E_n)$ be the Euler numbers -- $E_n$ is the number of \href{https://en.wikipedia.org/wiki/Alternating_permutation}{alternating permutations} of $[n]$. Show that its egf
+		\[ E(x) = \sum_{n \ge 0} E_n \frac{x^n}{n!} = \sec x + \tan x. \]
+	\end{problem}
+	\begin{solution*}
+		Let $n \ge 1$. Suppose that $n+1$ is at the $(k+1)$th position of an alternating permutation in $\mathfrak{S}_{n+1}$ for some odd $k$. The section before this as well as the section after this must be equal to the alternating permutations of some subset (of size $k$ or $n-k$) of $[n]$. Consequently,
+		\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ odd}}} \binom{n}{k} E_k E_{n-k}. \]
+		Repeating the same activity but considering the placement of $1$ instead (observe that the number of ``reverse-alternating'' permutations which start with a decrease instead of an increase is equal to the number of alternating permutations) gives that
+		\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ even}}} \binom{n}{k} E_k E_{n-k}. \]
+		Therefore,
+		\begin{align*}
+			2E_{n+1} &= \sum_{k=0}^n \binom{n}{k} E_k E_{n-k} \\
+			2(n+1)\frac{E_{n+1}}{(n+1)!} &= \sum_{k=0}^{n} \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}.
+		\end{align*}
+		Now, observe that the coefficient of $x^n$ in $E(x)^2$ is $F_n = \sum_{k=0}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}$. As a result,
+		\begin{align*}
+			2 (n+1) \frac{E_{n+1}}{(n+1)!} &= F_n \\
+			2 \sum_{n \ge 1} (n+1) x^n \frac{E_{n+1}}{(n+1)!} &= \sum_{n \ge 1} x^n F_n \\
+			2(E'(x)-1) &= E(x)^2-1 \\
+			2E'(x) &= E(x)^2+1
+		\end{align*}
+		Solving this gives $E(x) = \sec x + \tan x$.
+	\end{solution*}
+
+	\begin{problem}
+		\label{problem: three term recurrence matching}
+		A recurrence relation of the following type is called a \emph{three term recurrence} for a sequence $p_n$ of polynomials with $n \ge 0$ (where each $p_n$ is a polynomial of degree $n$) if there exist real numbers $(a_n),(b_n)$ such that 
+		\[ p_{n+1}(x) = (x-a_n)p_n(x) - b_n p_{n-1}(x). \]
+		Show that the matching polynomials of $(P_n)$, $(C_n)$, and $(K_n)$ each satisfy a three term recurrence.
+	\end{problem}
+	\begin{solution*}
+		% \phantom{pain}
+		\begin{enumerate}[label=(\alph*)]
+			\item Setting $v$ as one of the ``end'' vertices in \Cref{lem: matching polynomial basic results}(b), we get
+			\[ \Match_{P_n}(x) = x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x). \]
+
+			\item Fixing some edge $e$ and using \Cref{lem: matching polynomial basic results}(c), then using the recurrence from (a), gives
 			\begin{align*}
-				(y+yD)A_n(y) &= (y+yD) \sum_{k=1}^n S(n,k) y^k \\
-					&= \sum_{k=1}^n S(n,k) (y^{k+1} + ky^k) \\
-					&= S(n,1) y + \sum_{k=2}^{n} y^k (S(n,k-1) + (k-1) S(n,k)) + S(n,n) y^{n+1} \\
-					&= S(n+1,1) y + \sum_{k=2}^n S(n+1,k) y^k + S(n+1,n+1) y^{n+1} = A_{n+1}(y).
+				\Match_{C_n}(x) &= \Match_{P_n}(x) - \Match_{P_{n-2}}(x) \\
+					&= x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x) - x \Match_{P_{n-3}}(x) + \Match_{P_{n-2}}(x) \\
+					&= x\Match_{C_{n-1}}(x) - \Match_{C_{n-2}}(x).
 			\end{align*}
-			The required follows inductively.
-		\end{solution*}
 
-		\begin{problem}
-			Let $D_n$ be the number of derangements in $\mathfrak{S}_n$ and let $D(x) = \sum_{n \ge 0} D_n x^n/n!$ be its egf. Determine $D(x)$.
-		\end{problem}
-		\begin{solution*}
-			A permutation $\pi \in \mathfrak{S}_n$ is a derangement iff it has no cycles of length $1$. Define $f : \N \to \N_0$ by
-			\[ f(k) = \begin{cases} 0 , & k = 1, \\ 1 , & \text{otherwise.} \end{cases} \]
-			By the earlier observation, $\pi \in \mathfrak{S}_n$ is a derangement iff $f(|C_1|)\cdots f(|C_k|) = 1$ where $C_1,\ldots,C_k$ are the cycles of $\pi$.
-			Using Corollary 5.1.9 in \cite{ec2}, we get that
-			\[ D(x) = \exp \left(\sum_{n \ge 2} \frac{x^n}{n}\right) = \exp \left( -x - \log(1-x) \right) = \frac{e^{-x}}{1-x} . \]
-		\end{solution*}
+			\item Fixing some vertex $v$ and using \Cref{lem: matching polynomial basic results}(b), we get
+			\[ \Match_{K_n}(x) = x\Match_{K_{n-1}}(x) - (n-1)\Match_{K_{n-2}}(x) \]
+		\end{enumerate}
+	\end{solution*}
 
-		\begin{problem}
-			Let $s(n,2)$ denote the number of $\pi \in \mathfrak{S}_n$ with $2$ cycles in its cyclic decomposition and let $H_n$ denote the $n$th harmonic number. Show that $s(n+1,2) = H_n \times n!$.
-		\end{problem}
-		\begin{solution*}
-			It is easily checkable that the number of cyclic permutations of $[k]$ is $(k-1)!$. We have
-			\begin{align*}
-				s(n+1,2) &= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \binom{n+1}{k} (k-1)! (n+1-k-1)! \\
-					&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{(n+1)!}{k(n+1-k)} \\
-					&= \sum_{k=1}^{\lfloor (n+1)/2 \rfloor} n! \left( \frac{1}{k} + \frac{1}{n+1-k} \right) \\
-					&= n! \left(\sum_{k=1}^{\lfloor (n+1)/2 \rfloor} \frac{1}{k} + \sum_{k=\lceil (n+1)/2 \rceil}^{n} \frac{1}{k} \right) \\
-					&= \begin{cases} n!H_n, & \text{$n$ is even}, \\ n! (H_n + \frac{2}{n+1}), & \text{$n$ is odd.} \end{cases} 
-			\end{align*}
-		\end{solution*}
+	% ALL OF THE ABOVE ARE INTERESTING FUNCS, SEE THEOREM 3 IN \cite{godsil-matching-poly-real-roots}!
 
-		\begin{problem}
-			For a fixed positive integer $k$, consider the egf $f_k(x) = \sum_{n \ge 0} s(n,k) x^n/n!$. Show that
-			\[ f_k(x) = \frac{1}{k!} \ln\left( \frac{1}{1-x} \right)^k. \]
-		\end{problem}
-		\begin{solution*}
-			Define $g : \N \to \N_0$ by
-			\[ g(r) = \begin{cases} 1, & r = k, \\ 0, & \text{otherwise.} \end{cases} \]
-			Observe that
-			\[ s(n,k) = \sum_{\pi \in \mathfrak{S}_n} g(r), \]
-			where $C_1,\ldots,C_r$ are the cycles in $\pi$. We now use Corollary 5.1.8 in \cite{ec2} with $f$ being the function that takes the constant $1$. We have $E_g(x) = \frac{1}{k!} x^k$, so we get that
-			\[ f_k(x) = \frac{1}{k!} \left( \sum_{n \ge 1} \frac{x^n}{n} \right)^k = \frac{1}{k!} \ln \left( \frac{1}{1-x} \right)^k. \]
-		\end{solution*}
+	\begin{problem}
+		For $n \ge 1$, show that $\Match_{C_n}(2x) = 2T_n(x)$.
+	\end{problem}
+	\begin{solution*}
+		The above is easily verified for $n=1,2$, and we saw in \Cref{problem: three term recurrence matching} that $\Match_{C_n}$ satisfies the same recurrence as $2T_n$, which is the same as that of $T_n$ from \Cref{prop: recurrence of Tn}.
+	\end{solution*}
 
-		\begin{problem}
-			Find $\sum_{k=0}^n (-1)^k s(n,k)$.
-		\end{problem}
-		\begin{solution*}
-			Recall that a permutation in $\mathfrak{S}_n$ with $k$ cycles has sign $(-1)^{n-k}$. We have
-			\begin{align*}
-				\sum_{k=0}^n (-1)^k s(n,k) &= \sum_{k=0}^n \sum_{\substack{\pi \in \mathfrak{S}_n \\ \text{$\pi$ has exactly $k$ cycles}}} (-1)^k \\
-					&= (-1)^n \sum_{\pi \in \mathfrak{S}_n} \sign(\pi).
-			\end{align*}
-			For $n=1$, this is $-1$. Otherwise, note that $\pi \mapsto (1,2) \pi$ is a bijection between odd and even permutations. As a result, the above sum is equal to $0$.
-		\end{solution*}
+	\begin{problem}
+		Let $T$ be a tree with maximum degree $d$. Show that any root of $\Match_T(x)$ has absolute value at most $2\sqrt{d-1}$.
+	\end{problem}
+	\begin{solution*}
+		% By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
+		% Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the vector $x$ defined by $x_u = (d-1)^{-d(u,r)/2}$ for $u \in V(T)$.
+		% Let $V_i$ be the set of vertices $u$ with $d(u,r) = i$. Then,
+		% \[ x^\top x = \sum \frac{|V_i|}{(d-1)^i}. \]
+		% Observe that any neighbour of a vertex in $V_i$ must lie in $V_{i-1}$ or $V_{i+1}$.
+		% On the other hand,
+		% \begin{align*}
+		% 	x^\top A x &= \sum_u x_u \sum_{v : u \leftrightarrow v} x_v \\
+		% 		&= \sum_u \frac{1}{(d-1)^{d(u,r)/2}} \sum_{v : u \leftrightarrow v} \frac{1}{(d-1)^{d(v,r)/2}} \\
+		% 		&\le \sum_i \frac{|V_i|}{(d-1)^{i/2}} \left( \frac{1}{(d-1)^{(i-1)/2}} + \frac{(d-1)}{(d-1)^{(i+1)/2}} \right) \\
+		% 		&= 2\sqrt{d-1} \sum_i \frac{|V_i|}{(d-1)^{i}} = 2\sqrt{d-1} x^\top x.
+		% \end{align*}
 
-		\begin{problem}
-			Show that $S(n+1,k+1) = \sum_{m=0}^n \binom{n}{m} S(m,k)$.
-		\end{problem}
-		\begin{solution*}
-			We shall count the partitions of $[n+1]$ into exactly $k+1$ parts based on the part $n+1$ is in. We have
-			\[ S(n+1,k+1) = \sum_{T \subseteq [n]} S(|[n]\setminus T|,k) = \sum_{m=0}^n \binom{n}{m} S(n-m,k) = \sum_{m=0}^n \binom{n}{m} S(m,k). \]
-		\end{solution*}
+		By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
+		Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the diagonal matrix $D$ defined by $D_{u,u} = (d-1)^{-d(u,r)/2}$. Consider $B = DAD^{-1}$. Clearly, the spectrum of $A$ and $B$ are equal, so it suffices to show that the eigenvalues of $B$ are at most $2\sqrt{d-1}$. We have
+		\[ B_{uv} = \begin{cases} (d-1)^{(d(u,r)-d(v,r))/2}, & u \leftrightarrow v, \\ 0, & \text{otherwise.} \end{cases} \]
+		Recall the \href{https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem#Perron%E2%80%93Frobenius_theorem_for_irreducible_non-negative_matrices}{Perron-Frobenius Theorem}, one of whose consequences gives that the largest eigenvalue of $B$ is at most the largest row sum of $B$.\\
+		Now, observe that for any vertex $u$ with neighbour $v$, $d(v,r) \in \{d(u,r)-1,d(u,r)+1\}$. Further, because $T$ is a tree, there can be at most one neighbour $v$ with $d(v,r) = d(u,r)-1$ -- were there more, we would have a cycle. Therefore,
+		\[ \lambda_\text{max} \le \max_u \sum_v B_{u,v} = \max_u \sum_{v : v \leftrightarrow u} (d-1)^{d(u,r)-d(v,r)} \le 1 \cdot (d-1)^{1/2} + \frac{d-1}{(d-1)^{1/2}} = 2\sqrt{d-1}. \qedhere \]
+	\end{solution*}
 
-		% \begin{problem}
-		% 	Find the number of ways in which a product of $n$ distinct primes can be factored.
-		% \end{problem}
-		% \begin{solution*}
-		% 	$s(n,k)$ trivially?
-		% \end{solution*}
+	The idea of the above proof is similar to that of the Alon-Boppana bound, and the $2\sqrt{d-1}$ bound occurs in the definition of \emph{Ramanujan graphs}. For more details, the interested reader may read Theorem 2.27 and following discussion in the author's \href{https://amitrajaraman.github.io/notes/ma-5109/main.pdf}{Topics in Graph Theory notes}.
 
-		\begin{problem}
-			Show that for $n \ge 1$, the $S_{n,k}$ as $k$ varies has either a unique maximum value or has at most two equal values.
-		\end{problem}
-		\begin{solution*}
-			
-		\end{solution*}
+	\begin{problem}
+		\label{binomial recurrence backwards}
+		Show that when one runs the recurrence relation of the binomial coefficients backwards, we get signed versions of the binomial coefficients.
+	\end{problem}
+	\begin{solution*}
+		The usual binomial recurrence is
+		\[ \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}. \]
+		For negative coefficients, we have
+		\[ \binom{-(n+1)}{k} = \binom{-n}{k} - \binom{-(n+1)}{k-1}. \]
+		We have $\binom{0}{k} = 1$ if $k = 0$ and $0$ otherwise, and also that $\binom{-n}{0} = 1$.
+		For $n\ge 0$, let $f_n(x) = \sum_{k \ge 0} \binom{-n}{k} x^k$. Then,
+		\begin{align*}
+			\sum_{k \ge 1} \binom{-(n+1)}{k} x^k &= \sum_{k \ge 1} \binom{-n}{k} x^k - x \sum_{k \ge 1} \binom{-(n+1)}{k-1} x^{k-1} \\
+			f_{n+1}(x)-1 &= f_n(x)-1 - xf_{n+1}(x) \\
+			f_{n+1}(x) &= \frac{1}{1+x} f_n(x) \\
+			f_{n}(x) &= \frac{1}{(1+x)^n}.
+		\end{align*}
+		Finally,
+		\[ \frac{1}{(1+x)^n} = \sum_{k \ge 0} (-1)^k \binom{n+k}{k} x^k, \]
+		so $\binom{-n}{k} = (-1)^k \binom{n+k}{k}$.
+	\end{solution*}
 
-	\subsection{Problem Sheet 2}
+	\begin{problem}
+		A restricted growth function (RGF) of length $n$ is a sequence $w_1,w_2,\ldots,w_n$ of positive integers such that $w_1 = 1$ and $w_i \le 1 + \max(w_1,\ldots,w_{i-1})$ when $i \ge 2$. Determine the number of RGFs of length $n$.
+	\end{problem}
+	\begin{solution*}
+		Let $r_{n,k}$ be the number of RGFs $w_1,\ldots,w_n$ of length $n$, where $\max w_i = k$. Then,
+		\[ r_{n,k} = r_{n-1,k-1} + k r_{n-1,k}. \]
+		We also have $r_{1,1} = 1$ and $r_{1,k} = 0$ for $k > 1$. Since the recurrence is identical to that of the Stirling numbers of the second kind and the base values coincide as well, $r_{n,k} = S_{n,k}$. So, the number of RGFs of length $n$ is $\sum_k S_{n,k} = B_n$, the $n$th Bell number.
+	\end{solution*}
 
-		% \begin{problem}
-		% 	\label{problem: recurrence of Chebyshev of the first kind}
-		% 	Show that
-		% 	\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
-		% 	when $n \ge 2$ and $T_0(x) = 1, T_1(x) = x$.
-		% \end{problem}
-		% \begin{solution*}
-		% 	Let $\cos \theta = x$. We have
-		% 	\begin{align*}
-		% 		T_n(x) = \cos n\theta &= \cos (n-1)\theta \cos \theta - \sin (n-1)\theta \sin \theta \\
-		% 			&= x T_{n-1}(x) - ( \sin (n-2)\theta \cos\theta + \cos (n-2)\theta \sin\theta ) \sin\theta \\
-		% 			&= x T_{n-1}(x) - T_{n-2}(x) (1-x^2) - x (\sin\theta \sin (n-2)\theta) \\
-		% 			&= x T_{n-1}(x) + x^2 T_{n-2}(x) - T_{n-2}(x) - x (\cos\theta \cos (n-2)\theta - \cos (n-1)\theta) \\
-		% 			&= 2x T_{n-1}(x) - T_{n-2}(x). \qedhere
-		% 	\end{align*}
-		% \end{solution*}
+	\begin{problem}
+		Consider a staircase board $\mathsf{St}_n$ with $n$ columns where the $i$th column has $i-1$ cells all stacked from the same height. We place ``rooks'' on this board and recall that rooks can travel on the same row or column. Two rooks can attack each other if they are on the same row or column and a placement of rooks is said to be non-attacking if no two rooks in the placement can attack each other. Determine the number of ways to place $n-k$ non-attacking rooks in $\mathsf{St}_n$.
+	\end{problem}
+	\begin{solution*}
+		Denote by $\mathsf{Rook}_{n,k}$ the desired quantity.\\
+		If there is no rook in the final column, we get $\mathsf{Rook}_{n-1,k-1}$ placements, and if there is a rook, we have $\mathsf{Rook}_{n-1,k} \cdot (n-1 - (n-k-1)) = k \mathsf{Rook}_{n-1,k}$ -- placing the $n-k-1$ rooks on the rest of the board, we get $k$ possible positions to place the final rook in the $n$th column. In all, we have
+		\[ \mathsf{Rook}_{n,k} = \mathsf{Rook}_{n-1,k-1} + k \mathsf{Rook}_{n-1,k}. \]
+		Note that this is the same as the recurrence for Stirling numbers of the second kind! Verifying that the base values are the same, we get $\mathsf{Rook}_{n,k} = S_{n,k}$.
+	\end{solution*}
 
-		\begin{problem}
-			Show that
-			\begin{enumerate}[label=(\alph*)]
-				\item $T_n(1) = 1$ \text{ and}
-				\item $T_n(-1) = (-1)^n$.
-			\end{enumerate}
-		\end{problem}
-		\begin{solution*}
-			This immediately follows since $T_n(\cos\theta) = \cos n\theta$, so $T_n(\cos 0) = \cos (n\cdot 0) = 1$ and $T_n(\cos \pi) = \cos(n\pi) = (-1)^n$. They can also be easily proved inductively.
-		\end{solution*}
+\subsection{Problem Sheet 5}
 
-		\begin{problem}
-			Show that
-			\begin{enumerate}[label=(\alph*)]
-				\item $U_n(1) = n+1$.
-				\item $U_n(-1) = (-1)^n (n+1)$
-			\end{enumerate}
-		\end{problem}
-		\begin{solution*}
-			We prove this inductively. Both statements are trivially true for $n=0,1$. For $n\ge 2$, inductively, we have
-			\[ U_n(1) = 2U_{n-1}(1) - U_{n-2}(1) = 2n - (n-1) = n+1 \]
-			and
-			\[ U_n(-1) = -2U_{n-1}(1) - U_{n-2}(1) = (-1)^{n} \cdot 2n + (-1)^{n-1} (n-1) = (-1)^n (n+1). \]
-		\end{solution*}
-
-		\begin{problem}
-			Show that
-			\[ \frac{1}{\iota^n} U_n(\iota/2) = f_{n+1}. \]
-		\end{problem}
-		\begin{solution*}
-			Again, we prove this inductively. We have $U_0(\iota/2) = 1 = f_1$ and $U_1(\iota/2) = \iota = \iota f_2$. For $n \ge 2$, we inductively have
-			\[ U_n(\iota/2) = \iota U_{n-1}(\iota/2) - U_{n-2}(\iota/2) = \iota^n f_{n} - \iota^{n-2} f_{n-1} = \iota^n (f_n + f_{n-1}) = \iota^n f_{n+1}. \]
-		\end{solution*}
-
-		\begin{problem}
-			Show that if $m,n \ge 1$,
-			\[ T_{m+n}(x) = T_m(x)U_n(x) - T_{m-1}(x)U_{n-1}(x). \]
-		\end{problem}
-		\begin{solution*}
-			This may be checked manually for $m+n=2,3$. We perform induction on $m+n$. We have that
-			\begin{align*}
-				T_{m+n}(x) &= 2xT_{m+n-1}(x) - T_{m+n-2}(x) \\
-					&= 2x (T_{m-1}(x)U_n(x) - T_{m-2}(x)U_{n-1}(x)) - (T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x)U_{n-2}(x)) \\
-					&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) (2x U_{n-1}(x) - U_{n-2}(x)) \\
-					&= 2x T_{m-1}(x) U_n(x) - T_{m-1}(x)U_{n-1}(x) - T_{m-2}(x) U_n(x) \\
-					&= U_n(x) (2xT_{m-1}(x) - T_{m-2}(x)) - T_{m-1}(x)U_{n-1}(x) \\
-					&= T_m(x) U_n(x) - T_{m-1}(x) U_{n-1}(x).
-			\end{align*}
-		\end{solution*}
-
-		% \begin{problem}
-		% 	Similar to the tiling combinatorial model for $U_n$, get a combinatorial model for $T_n$.
-		% \end{problem}
-		% \begin{solution*}
-		% 	One can do this in a manner identical to that of $U_n$, except that a square piece has weight $x$ if it is at the leftmost $(1,1)$ position.
-		% \end{solution*}
-
-	\subsection{Problem Sheet 3}
-
-		\begin{problem}
-			\label{prob: euler numbers}
-			Let $(E_n)$ be the Euler numbers -- $E_n$ is the number of \href{https://en.wikipedia.org/wiki/Alternating_permutation}{alternating permutations} of $[n]$. Show that its egf
-			\[ E(x) = \sum_{n \ge 0} E_n \frac{x^n}{n!} = \sec x + \tan x. \]
-		\end{problem}
-		\begin{solution*}
-			Let $n \ge 1$. Suppose that $n+1$ is at the $(k+1)$th position of an alternating permutation in $\mathfrak{S}_{n+1}$ for some odd $k$. The section before this as well as the section after this must be equal to the alternating permutations of some subset (of size $k$ or $n-k$) of $[n]$. Consequently,
-			\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ odd}}} \binom{n}{k} E_k E_{n-k}. \]
-			Repeating the same activity but considering the placement of $1$ instead (observe that the number of ``reverse-alternating'' permutations which start with a decrease instead of an increase is equal to the number of alternating permutations) gives that
-			\[ E_{n+1} = \sum_{\substack{k \in [n]_0 \\ k \text{ even}}} \binom{n}{k} E_k E_{n-k}. \]
-			Therefore,
-			\begin{align*}
-				2E_{n+1} &= \sum_{k=0}^n \binom{n}{k} E_k E_{n-k} \\
-				2(n+1)\frac{E_{n+1}}{(n+1)!} &= \sum_{k=0}^{n} \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}.
-			\end{align*}
-			Now, observe that the coefficient of $x^n$ in $E(x)^2$ is $F_n = \sum_{k=0}^n \frac{E_k}{k!} \frac{E_{n-k}}{(n-k)!}$. As a result,
-			\begin{align*}
-				2 (n+1) \frac{E_{n+1}}{(n+1)!} &= F_n \\
-				2 \sum_{n \ge 1} (n+1) x^n \frac{E_{n+1}}{(n+1)!} &= \sum_{n \ge 1} x^n F_n \\
-				2(E'(x)-1) &= E(x)^2-1 \\
-				2E'(x) &= E(x)^2+1
-			\end{align*}
-			Solving this gives $E(x) = \sec x + \tan x$.
-		\end{solution*}
-
-		\begin{problem}
-			\label{problem: three term recurrence matching}
-			A recurrence relation of the following type is called a \emph{three term recurrence} for a sequence $p_n$ of polynomials with $n \ge 0$ (where each $p_n$ is a polynomial of degree $n$) if there exist real numbers $(a_n),(b_n)$ such that 
-			\[ p_{n+1}(x) = (x-a_n)p_n(x) - b_n p_{n-1}(x). \]
-			Show that the matching polynomials of $(P_n)$, $(C_n)$, and $(K_n)$ each satisfy a three term recurrence.
-		\end{problem}
-		\begin{solution*}
-			% \phantom{pain}
-			\begin{enumerate}[label=(\alph*)]
-				\item Setting $v$ as one of the ``end'' vertices in \Cref{lem: matching polynomial basic results}(b), we get
-				\[ \Match_{P_n}(x) = x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x). \]
-
-				\item Fixing some edge $e$ and using \Cref{lem: matching polynomial basic results}(c), then using the recurrence from (a), gives
-				\begin{align*}
-					\Match_{C_n}(x) &= \Match_{P_n}(x) - \Match_{P_{n-2}}(x) \\
-						&= x\Match_{P_{n-1}}(x) - \Match_{P_{n-2}}(x) - x \Match_{P_{n-3}}(x) + \Match_{P_{n-2}}(x) \\
-						&= x\Match_{C_{n-1}}(x) - \Match_{C_{n-2}}(x).
-				\end{align*}
-
-				\item Fixing some vertex $v$ and using \Cref{lem: matching polynomial basic results}(b), we get
-				\[ \Match_{K_n}(x) = x\Match_{K_{n-1}}(x) - (n-1)\Match_{K_{n-2}}(x) \]
-			\end{enumerate}
-		\end{solution*}
-
-		% ALL OF THE ABOVE ARE INTERESTING FUNCS, SEE THEOREM 3 IN \cite{godsil-matching-poly-real-roots}!
-
-		\begin{problem}
-			For $n \ge 1$, show that $\Match_{C_n}(2x) = 2T_n(x)$.
-		\end{problem}
-		\begin{solution*}
-			The above is easily verified for $n=1,2$, and we saw in \Cref{problem: three term recurrence matching} that $\Match_{C_n}$ satisfies the same recurrence as $2T_n$, which is the same as that of $T_n$ from \Cref{prop: recurrence of Tn}.
-		\end{solution*}
-
-		\begin{problem}
-			Let $T$ be a tree with maximum degree $d$. Show that any root of $\Match_T(x)$ has absolute value at most $2\sqrt{d-1}$.
-		\end{problem}
-		\begin{solution*}
-			% By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
-			% Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the vector $x$ defined by $x_u = (d-1)^{-d(u,r)/2}$ for $u \in V(T)$.
-			% Let $V_i$ be the set of vertices $u$ with $d(u,r) = i$. Then,
-			% \[ x^\top x = \sum \frac{|V_i|}{(d-1)^i}. \]
-			% Observe that any neighbour of a vertex in $V_i$ must lie in $V_{i-1}$ or $V_{i+1}$.
-			% On the other hand,
-			% \begin{align*}
-			% 	x^\top A x &= \sum_u x_u \sum_{v : u \leftrightarrow v} x_v \\
-			% 		&= \sum_u \frac{1}{(d-1)^{d(u,r)/2}} \sum_{v : u \leftrightarrow v} \frac{1}{(d-1)^{d(v,r)/2}} \\
-			% 		&\le \sum_i \frac{|V_i|}{(d-1)^{i/2}} \left( \frac{1}{(d-1)^{(i-1)/2}} + \frac{(d-1)}{(d-1)^{(i+1)/2}} \right) \\
-			% 		&= 2\sqrt{d-1} \sum_i \frac{|V_i|}{(d-1)^{i}} = 2\sqrt{d-1} x^\top x.
-			% \end{align*}
-
-			By the proof of \Cref{theo: roots of matching polynomial real}, it suffices to show that the eigenvalues of the adjacency matrix $A$ of $T$ are bounded from above by $2\sqrt{d-1}$.\\
-			Fix a ``root'' vertex $r$ in $T$ and denote by $d(\cdot,r)$ the distance from a vertex to $r$. Consider the diagonal matrix $D$ defined by $D_{u,u} = (d-1)^{-d(u,r)/2}$. Consider $B = DAD^{-1}$. Clearly, the spectrum of $A$ and $B$ are equal, so it suffices to show that the eigenvalues of $B$ are at most $2\sqrt{d-1}$. We have
-			\[ B_{uv} = \begin{cases} (d-1)^{(d(u,r)-d(v,r))/2}, & u \leftrightarrow v, \\ 0, & \text{otherwise.} \end{cases} \]
-			Recall the \href{https://en.wikipedia.org/wiki/Perron%E2%80%93Frobenius_theorem#Perron%E2%80%93Frobenius_theorem_for_irreducible_non-negative_matrices}{Perron-Frobenius Theorem}, one of whose consequences gives that the largest eigenvalue of $B$ is at most the largest row sum of $B$.\\
-			Now, observe that for any vertex $u$ with neighbour $v$, $d(v,r) \in \{d(u,r)-1,d(u,r)+1\}$. Further, because $T$ is a tree, there can be at most one neighbour $v$ with $d(v,r) = d(u,r)-1$ -- were there more, we would have a cycle. Therefore,
-			\[ \lambda_\text{max} \le \max_u \sum_v B_{u,v} = \max_u \sum_{v : v \leftrightarrow u} (d-1)^{d(u,r)-d(v,r)} \le 1 \cdot (d-1)^{1/2} + \frac{d-1}{(d-1)^{1/2}} = 2\sqrt{d-1}. \qedhere \]
-		\end{solution*}
-
-		The idea of the above proof is similar to that of the Alon-Boppana bound, and the $2\sqrt{d-1}$ bound occurs in the definition of \emph{Ramanujan graphs}. For more details, the interested reader may read Theorem 2.27 and following discussion in the author's \href{https://amitrajaraman.github.io/notes/ma-5109/main.pdf}{Topics in Graph Theory notes}.
-
-		\begin{problem}
-			\label{binomial recurrence backwards}
-			Show that when one runs the recurrence relation of the binomial coefficients backwards, we get signed versions of the binomial coefficients.
-		\end{problem}
-		\begin{solution*}
-			The usual binomial recurrence is
-			\[ \binom{n}{k} = \binom{n-1}{k} + \binom{n-1}{k-1}. \]
-			For negative coefficients, we have
-			\[ \binom{-(n+1)}{k} = \binom{-n}{k} - \binom{-(n+1)}{k-1}. \]
-			We have $\binom{0}{k} = 1$ if $k = 0$ and $0$ otherwise, and also that $\binom{-n}{0} = 1$.
-			For $n\ge 0$, let $f_n(x) = \sum_{k \ge 0} \binom{-n}{k} x^k$. Then,
-			\begin{align*}
-				\sum_{k \ge 1} \binom{-(n+1)}{k} x^k &= \sum_{k \ge 1} \binom{-n}{k} x^k - x \sum_{k \ge 1} \binom{-(n+1)}{k-1} x^{k-1} \\
-				f_{n+1}(x)-1 &= f_n(x)-1 - xf_{n+1}(x) \\
-				f_{n+1}(x) &= \frac{1}{1+x} f_n(x) \\
-				f_{n}(x) &= \frac{1}{(1+x)^n}.
-			\end{align*}
-			Finally,
-			\[ \frac{1}{(1+x)^n} = \sum_{k \ge 0} (-1)^k \binom{n+k}{k} x^k, \]
-			so $\binom{-n}{k} = (-1)^k \binom{n+k}{k}$.
-		\end{solution*}
-
-		\begin{problem}
-			A restricted growth function (RGF) of length $n$ is a sequence $w_1,w_2,\ldots,w_n$ of positive integers such that $w_1 = 1$ and $w_i \le 1 + \max(w_1,\ldots,w_{i-1})$ when $i \ge 2$. Determine the number of RGFs of length $n$.
-		\end{problem}
-		\begin{solution*}
-			Let $r_{n,k}$ be the number of RGFs $w_1,\ldots,w_n$ of length $n$, where $\max w_i = k$. Then,
-			\[ r_{n,k} = r_{n-1,k-1} + k r_{n-1,k}. \]
-			We also have $r_{1,1} = 1$ and $r_{1,k} = 0$ for $k > 1$. Since the recurrence is identical to that of the Stirling numbers of the second kind and the base values coincide as well, $r_{n,k} = S_{n,k}$. So, the number of RGFs of length $n$ is $\sum_k S_{n,k} = B_n$, the $n$th Bell number.
-		\end{solution*}
-
-		\begin{problem}
-			Consider a staircase board $\mathsf{St}_n$ with $n$ columns where the $i$th column has $i-1$ cells all stacked from the same height. We place ``rooks'' on this board and recall that rooks can travel on the same row or column. Two rooks can attack each other if they are on the same row or column and a placement of rooks is said to be non-attacking if no two rooks in the placement can attack each other. Determine the number of ways to place $n-k$ non-attacking rooks in $\mathsf{St}_n$.
-		\end{problem}
-		\begin{solution*}
-			Denote by $\mathsf{Rook}_{n,k}$ the desired quantity.\\
-			If there is no rook in the final column, we get $\mathsf{Rook}_{n-1,k-1}$ placements, and if there is a rook, we have $\mathsf{Rook}_{n-1,k} \cdot (n-1 - (n-k-1)) = k \mathsf{Rook}_{n-1,k}$ -- placing the $n-k-1$ rooks on the rest of the board, we get $k$ possible positions to place the final rook in the $n$th column. In all, we have
-			\[ \mathsf{Rook}_{n,k} = \mathsf{Rook}_{n-1,k-1} + k \mathsf{Rook}_{n-1,k}. \]
-			Note that this is the same as the recurrence for Stirling numbers of the second kind! Verifying that the base values are the same, we get $\mathsf{Rook}_{n,k} = S_{n,k}$.
-		\end{solution*}
+	\begin{problem}
+		Let $P$ be a set of polynomials in commuting variables $x_1,\ldots,x_n$ and $\sigma \in \mathfrak{S}_n$ such that $\sigma(f) = f$ for all $f \in P$. Prove or disprove that for $\pi \in \mathfrak{S}_n$, $(\pi\sigma\pi^{-1})(f) = f$ for all $f \in P$.
+	\end{problem}
+	\begin{solution*}
+		The statement is false. For example, if $f(x) = x_1x_2$ and $\sigma = (1,2)$, clearly $f = \sigma(f)$. However, $\sigma$ is in the same conjugacy class as $(\pi\sigma\pi^{-1}) = (1,3)$ (for an appropriate $\pi$), and clearly the desired property does not hold.
+	\end{solution*}
