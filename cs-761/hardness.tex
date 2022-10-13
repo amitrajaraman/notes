@@ -235,3 +235,51 @@
 		\[ \Delta( ( B(x) )_{x \in \{0,1\}^m} , ( \hat{f}(x) )_{x \in \{0,1\}^m} ) < \rho. \]
 		Fix $x$ to be the string in $\{0,1\}^n$ that we wish to obtain the value of (of $f$). Each time we compute $B(y)$ for some $y$, we incur a time of $T$.\\
 		We still need to eliminate the randomness in the local decoding algorithm. To do this, modify the encoding algorithm by repeating it enough times that the error probability is less than $1/N^2$. Then, for a fixed $f,x$, this implies that there exists some \emph{fixed} set of random bits which outputs $f(x)$ correctly for all $x \in [N]$.
+
+	\subsubsection{Lecture 18}
+
+		It is possible to go from functions with high $H_\avg^{1-\rho}$ to functions which are average-case hard, but we omit the details.\\
+		In this lecture, we elaborate a bit more on local decoding. Recall Reed-Solomon codes from \Cref{reed-solomon-codes}. Are these locally decodable?\\
+		Given a polynomial
+		\[ m = a_0 + a_1x + \cdots + a_{d-1}x^{d-1} \]
+		and $(m(\alpha_1),m(\alpha_2),\ldots,m(\alpha_n))$, can we recover a specific $a_i$ by looking at a few of the $m(\alpha_i)$? They do not seem very suitable for local decoding, so let us look at some other codes that are more amenable to this.
+
+		\begin{fdef}[Reed-Muller codes]
+			Let $\F$ be a finite field, and $\ell,d \in \N$ such that $|\F| > d$. Also fix $S_1,\ldots,S_\ell \subseteq \F$ The message space of the \emph{Reed Solomon code} $\RM(n,\ell,d)$ is
+			\[ \{ p(x_1,\ldots,x_\ell) \in \F[x_1,\ldots,x_\ell] : \deg(p) \le d \}. \]
+			A polynomial $p$ is encoded as
+			\[ \Enc(p) = (p(\alpha_1,\ldots,\alpha_\ell))_{\alpha \in (S_1 \times \cdots \times S_\ell)}. \]
+		\end{fdef}
+
+		In our setting, we fix all the $S_i$ to be $\F$.\\
+		That is, the encoding goes from $\F^{\binom{d+\ell}{\ell}}$ to $\F^{|\F|^\ell}$. What is the distance of this code? Given a nonzero polynomial $p$ over $\ell$ variables of degree at most $d$, what is the largest number of zeros it can have?
+
+		\begin{fprop}
+			Any polynomial $p \in \F[x_1,\ldots,x_\ell]$ of degree at most $d$ has at most $d |\F|^{\ell-1}$ zeros. That is,
+			\[ \Pr_{\alpha \sim \F^\ell} [p(\alpha) = 0] \le \frac{d}{|\F|} \]
+		\end{fprop}
+		\begin{proof}
+			Assume wlog that the degree of $p$ is $d$. The idea is that we will partition $\F^\ell$ into a bunch of ``lines'' and show that on each line, the probability is at most $d/|\F|$. For $\alpha \in \F^\ell, r \in \F^\ell$, consider the line
+			\[ L_{\alpha,r} = \{ \alpha + tr : t \in \F \}. \]
+			We shall show that for some clever choice of $r$, the polynomial does not become the zero polynomial on this line for any $\alpha$. Restricted to this line, the function becomes a polynomial in $t$. We want to show that this is a nonzero polynomial
+			\[ p(\alpha_1 + tr_1,\ldots,\alpha_\ell + tr_\ell). \]
+			in $t$. Let $P_d$ be the degree $d$ part of $P$, and note that the coefficient of $t^d$ in this polynomial is $P_d(r_1,\ldots,r_\ell)$, \emph{independent of $\alpha$}! Further, $P_d$ cannot be identically zero on $\F^\ell$ because this would imply that the degree of $p$ is less than $d$ (this uses the fact that $|\F| > d$). Therefore, the polynomial is nonzero for some choice of $r$. This means that the univariate polynomial is nonzero, so has at most $d/|\F|$ zeros, and we are done.
+		\end{proof}
+
+		Are the Reed-Muller codes locally decodable? Let us change our perspective slightly, changing the message space from the coefficients to the evaluations of $\F$ at some $\binom{\ell+d}{d}$ (fixed and specific) points -- there exists a choice of such points which uniquely determines the polynomial.\\
+		In the absence of errors, this makes local decoding trivial. What do we do in the presence of errors?\\
+		Suppose we want to evaluate the polynomial at some point $\beta$ given the evaluations at all points (with an $\epsilon$ fraction of errors). If we manage to come up with some line through $\beta$ that has relatively few errors, then we can use Reed-Solomon decoding on this line to compute what $p(\beta)$ is precisely. Suppose that we choose this line randomly. Then, the expected number of errors is
+		\begin{align*}
+			\E_{\text{random line $\ell$ through $\beta$}}[\text{number of corruptions on $\ell$}] &= \indic_{\text{error at $\beta$}} \frac{1}{(|\F|^\ell-1)/(|\F|-1)} (\text{number of errors not at $\beta$}) \\
+				&\le 1 + \epsilon|\F|.
+		\end{align*}
+		Therefore, by a Markov argument,
+		\[ \Pr_{\ell} [\text{$\ell$ has less than $3(\epsilon|\F|+1)$ errors}] \ge \frac{2}{3} \]
+		and we are done.\\
+
+		In all, we choose a random line through $\beta$, apply Reed-Solomon coding on this line, then use the resultant polynomial to compute $p(\beta)$.\\
+		Here, the local decoding algorithm runs in $O(|\F|)$ time, which we wish to be $\polylog(|\F|^{\ell})$. For sufficiently large $\ell$ ($\Omega( (|\F|/\log|\F|)^\delta)$ for some constant $\delta > 0$), this is indeed true.\\
+
+		When we try to convert this to the binary setting however, one major issue pops up. We can of course view $\F$ as a string over $\{0,1\}^{\log |\F|}$, but in this case the notion of ``error'' changes. An $\epsilon$ fraction corruption means that an $\epsilon$ fraction of the \emph{bits} are corrupted, not points in $\F^\ell$.\\
+		I would like a coding scheme over the binary alphabet that can tolerate a constant fraction of errors, and Reed-Muller codes do not seem to satisfy this.\\
+		The way we fix this is by further concatenating a string over the binary alphabet, to yield a coding known as the \emph{Walsh-Hadamard coding}. We shall see this next lecture.
