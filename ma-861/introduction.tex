@@ -136,7 +136,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Let $\{f_n\},\{g_n\}$ be a sequence with exponential generating functions
 		\[ F(x) = \sum_{n \ge 1} f_n \frac{x^n}{n!} \text{ and } G(n) = \sum_{n \ge 0} g_n \frac{x^n}{n!} . \]
 		Define the sequence $h_n$ by
-		\[ h_n = \sum_{\substack{\pi \in \operatorname{SetPartn}([n]) \\ \pi = \{S_1,\ldots,S_k\}}} f_{|S_1|} f_{|S_2|} \cdots f_{|S_k|} g(k)  \]
+		\[ h_n = \sum_{\substack{\pi \in \operatorname{SetPartn}([n]) \\ \pi = \{S_1,\ldots,S_k\}}} f_{|S_1|} f_{|S_2|} \cdots f_{|S_k|} g_k \]
 		and $h_0 = 1$, and let
 		\[ H(x) = \sum_{n \ge 0} h_n \frac{x^n}{n!}. \]
 		Then,
@@ -228,13 +228,13 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		T_2(x) &= 2x^2-1.
 	\end{align*}
 
-	\begin{fprop}
-		\label{prop: recurrence of Tn}
-		\[ T_n(x) = \begin{cases} 1, & n=0, \\ x, & n=1, \\ 2xT_{n-1}(x) - T_{n-2}(x), & n \ge 2. \end{cases} \]
-	\end{fprop}
-	We give the proof of the above in the solution to \Cref{problem: recurrence of Chebyshev of the first kind}.
+	% \begin{fprop}
+	% 	\[ T_n(x) = \begin{cases} 1, & n=0, \\ x, & n=1, \\ 2xT_{n-1}(x) - T_{n-2}(x), & n \ge 2. \end{cases} \]
+	% \end{fprop}
+	% We give the proof of the above in the solution to \Cref{problem: recurrence of Chebyshev of the first kind}.
 
 	\begin{fprop}
+		\label{prop: recurrence of Tn}
 		\label{problem: recurrence of Chebyshev of the first kind}
 		$T_0(x) = 1$, $T_1(x) = x$, and for $n \ge 2$,
 		\[ T_n(x) = 2xT_{n-1}(x) - T_{n-2}(x). \]
@@ -327,7 +327,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\begin{align*}
 			q^k \binom{n-1}{k}_q + \binom{n-1}{k-1}_q &= q^k \frac{[n-1]_q!}{[k]_q! [n-k-1]_q!} + \frac{[n-1]_q!}{[k-1]_q![n-k]_q!} \\
 				&=  q^k \binom{n}{k}_q \frac{[n-k]_q}{[n]_q} + \binom{n}{k}_q \frac{[k]_q}{[n]_q} \\
-				&= \binom{n}{k}_q \left( \frac{q^k[n-k]_q + [k]_q}{[n]_q} \right) = \binom{n}{k}_q. 
+				&= \binom{n}{k}_q \left( \frac{q^k[n-k]_q + [k]_q}{[n]_q} \right) = \binom{n}{k}_q. \qedhere
 		\end{align*}
 	\end{proof}
 
@@ -906,7 +906,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 \subsection{Another equidistributed pair of parameters}
 
 	Recall how we had seen in \Cref{prop: maj n} a pair of parameters that have the same distribution. Now, we shall look at another such pair of parameters.\\
-	Recall descents in $\mathfrak{S}_n$ from \Cref{def: descent}.\\
+	Recall descents in $\mathfrak{S}_n$ from \Cref{def: descent}.
 	\begin{fdef}[Eulerian polynomial]
 		\label{def: eulerian poly}
 		Define the \emph{Eulerian polynomial}
@@ -945,7 +945,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{proof}
 	\begin{proof}[Proof of \Cref{theo: desc and exc}]
 		% Note that one can cyclically permute elements of $c_i$ and write the $c_i$s in any order
-		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. ALso assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as
+		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. Also assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as
 		\[ ( (c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} ) \cdots ( (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k} ). \]
 		Observe that the parenthesising is redundant! Reading the string $(c_1)_1 (c_1)_2 \cdots (c_1)_{r_1} \cdots (c_k)_1 (c_k)_2 \cdots (c_k)_{r_k}$ from left to right, we can recover the cycles -- a certain position is the beginning of a cycle iff it is greater than all the elements before it. This gives a bijection between canonical cycle representations and $\mathfrak{S}_n$ (which is not the obvious one). Therefore, composing the two maps, let $\Phi : \mathfrak{S}_n \to \mathfrak{S}_n$ be the map that given a permutation, reads it from left to right to get a canonical cycle decomposition, and yields as output the permutation corresponding to this cycle decomposition.\\
 		% For example, if $\pi = 3,5,1,4,6,2 \in \mathfrak{S}_n$
@@ -991,7 +991,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{ftheo}
 
 	\begin{proof}
-		Define a \emph{barred permutation} to be a permutation of length $n$ with ``vertical bars'' between elements such that there is a bar between $\pi_i,\pi_{i+1}$ if $i \in \DES(\pi)$. There are allowed to be more than one bar between any elements of the permutation, the only constraint is that there must be at least one bar at positions of descent. Given a barred permutation, let $\bars(\pi)$ be the number of bars in it. We shall look at
+		Define a \emph{barred permutation} to be a permutation of length $n$ with ``vertical bars'' between elements such that there is a bar between $\pi_i,\pi_{i+1}$ if $i \in \DES(\pi)$. There are allowed to be more than one bar between any elements of the permutation, the only constraint is that there must be at least one bar at positions of descent. Given a barred permutation $\overline{\pi}$, let $\bars(\overline{\pi})$ be the number of bars in it. We shall look at
 		\begin{equation}
 			\label{eqn: counting to carlitz identity}
 			\sum_{\overline{\pi} \text{ is a barred permutation of length $n$}} t^{\bars(\overline{\pi})}.
@@ -1085,7 +1085,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\begin{align*}
 			F_n(1+q,-q) &= (1+q)F_{n-1}(1+q,-q) - qF_{n-2}(1+q,-q) \\
 				&= (1+q)[n]_q - q[n-1]_q \\
-				&= \left(1 + 2\sum_{1 \le i \le n-1} q^i + q^n\right) - \sum_{1 \le i \le n-1} q^i = [n+1]_q.
+				&= \left(1 + 2\sum_{1 \le i \le n-1} q^i + q^n\right) - \sum_{1 \le i \le n-1} q^i = [n+1]_q. \qedhere
 		\end{align*}
 	\end{proof}
 

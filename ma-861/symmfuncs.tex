@@ -155,11 +155,12 @@
 	Recall that $\Lambda_\Q^d$ is an algebra over $\R$.
 
 	\begin{fcor}
+		\label{cor: en algebraic indep}
 		$\{e_n\}_{n \ge 1}$ are algebraically independent.
 	\end{fcor}
 	\begin{proof}
 		Suppose instead that there exists a polynomial $f(y_1,\ldots)$ such that $\restr{f(y_1,\ldots)}{y_i = e_i} = 0$.\\
-		Because monomials of different degree do not interact, we may assume that $\deg(\restr{m_j}{y_i = e_i}) = d$ for all $j$ for some $d$. Therefore,
+		Because monomials of different degree do not interact, we may assume that $\deg(\restr{m_j}{y_i = e_i}) = d$ for all monomials $m_j$ for some $d$. Therefore,
 		\[ \restr{f(y_1,\ldots)}{y_i = e_i} = \sum_{\lambda \vdash d} c_\lambda e_\lambda \]
 		where some $c_\lambda \ne 0$. This immediately contradicts \Cref{theo: eL form basis}, which says that the $\{e_\lambda\}_{\lambda \vdash d}$ are linearly independent.
 	\end{proof}
@@ -353,6 +354,11 @@
 	\begin{corollary}
 		\[ e_n = \sum_{\lambda \vdash n} \frac{\epsilon_\lambda}{z_\lambda} p_\lambda. \]
 	\end{corollary}
+
+	The following may be proved in precisely the same way as \Cref{cor: en algebraic indep}.
+	\begin{fpor}
+		$\{p_n\}_{n \ge 1}$ and $\{h_n\}_{n \ge 1}$ are algebraically independent families.
+	\end{fpor}
 
 	Recall the involution $\omega$ from \Cref{theo: h basis}. What is $\omega(p_n)$, or $\omega(p_\lambda)$ more generally?
 
