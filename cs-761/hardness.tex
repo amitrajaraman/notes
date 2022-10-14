@@ -280,6 +280,6 @@
 		In all, we choose a random line through $\beta$, apply Reed-Solomon coding on this line, then use the resultant polynomial to compute $p(\beta)$.\\
 		Here, the local decoding algorithm runs in $O(|\F|)$ time, which we wish to be $\polylog(|\F|^{\ell})$. For sufficiently large $\ell$ ($\Omega( (|\F|/\log|\F|)^\delta)$ for some constant $\delta > 0$), this is indeed true.\\
 
-		When we try to convert this to the binary setting however, one major issue pops up. We can of course view $\F$ as a string over $\{0,1\}^{\log |\F|}$, but in this case the notion of ``error'' changes. An $\epsilon$ fraction corruption means that an $\epsilon$ fraction of the \emph{bits} are corrupted, not points in $\F^\ell$.\\
+		When we try to convert this to the binary setting however, one major issue pops up. We can of course view $\F$ as a string over $\{0,1\}^{\log |\F|}$, but in this case the notion of ``error'' changes. An $\epsilon$ fraction corruption means that an $\epsilon$ fraction of the \emph{bits} are corrupted, not points in $\F^\ell$. Indeed, an $\epsilon$ fraction of bits being corrupted means that an $\epsilon \log|\F|$ fraction of the points in $\F^\ell$ could be corrupted. \\
 		I would like a coding scheme over the binary alphabet that can tolerate a constant fraction of errors, and Reed-Muller codes do not seem to satisfy this.\\
 		The way we fix this is by further concatenating a string over the binary alphabet, to yield a coding known as the \emph{Walsh-Hadamard coding}. We shall see this next lecture.
