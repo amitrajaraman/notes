@@ -345,4 +345,132 @@
 		All remaining cases follow similar to case 3 using previously shown cases, so we omit the details.
 	\end{proof}
 
-	A reason for a restrictive result like the GS theorem is that the domain of the SCF is too large, a potential manipulator has far too many ways to manipulate.
+	A reason for a restrictive result like the GS theorem is that the domain of the SCF is too large, a potential manipulator has far too many ways to manipulate.\\
+	What this means is that we must restrict the domain of our SCF.
+
+\subsection{Domain restriction}
+
+	Consider the following different definition of strategyproofness.\\
+	An SCF $f$ is strategyproof if for all $i \in \N, P_i,P_i' \in \mathcal{P}, P_{-i} \in \mathcal{P}^{n-1}$,
+	\[ f(P_i,P_{-i}) P_i f(P_i',P_{-i}) \text{ or } f(P_i,P_{-i}) = f(P_i',P_{-i}). \]
+	If we reduce the set of preferences from $\mathcal{P}$ to $\mathcal{S} \subsetneq \mathcal{P}$, a function that is strategyproof on $\mathcal{P}$ continues to remain strategyproof on $\mathcal{S}$. However, we may get some more strategyproof functions.\\
+
+	There are various examples of domain restrictions which lead to interesting non-dictatorial strategyproof SCFs.
+
+	\subsubsection{Single-peaked preferences}
+		Consider the example of a room with several people in it, and each person has a preferred temperature $t_i^*$ -- anything above or below this is monotonically disliked more. The agent preferences are ``single-peaked'' in the sense that there is one unique temperature we like the most, and everything else is liked less in a monotonic fashion.\\
+		There is a common ordering, the temperature scale here, and each person has a unique preferred point, and on each side there is a monotone decrease. % the two decreases may be different.
+
+		This common ordering is denoted $<$, where the order is any total order (a binary relation is transitive and antisymmetric).
+
+		Why is this a domain restriction? If the ordering is over $\{a,b,c\}$ and the ordering is $a>b>c$, then preferences such as $acb$ are ruled out!
+
+		\begin{fdef}[Single-peaked preference]
+			A preference order $P_i$ (that is linear over $A$) of agent $i$ is \emph{single-peaked} with respect to the common order $<$ of the alternatives $A$ if
+			\begin{enumerate}
+				\item for all $b,c \in A$ with $b < c \le P_i(1)$, $c P_i b$ and
+				\item for all $b,c \in A$ with $P_i(1) \le b < c$, $b P_i c$.
+			\end{enumerate}
+			Denote by $\mathcal{S}$ the set of single-peaked preferences.
+		\end{fdef}
+
+		So, under this domain restriction, our SCF is a function $\mathcal{S}^n \to A$.\\
+		We also typically take $A$ to be a finite subset of $\R$.\\
+		This circumvents the Gibbards-Satterthwaite Theorem as seen by the strategyproof, onto, and non-dictatorial SCF which just outputs the leftmost peak. Clearly, the player with the leftmost peak has no reason to misreport. For any other player, misreporting only changes the outcome if they report something less than the leftmost peak, and they necessarily prefer this less to the current outcome.\\
+		A generalization of this is as follows.
+
+		\begin{fdef}[Median voter SCF]
+			An SCF $f : \mathcal{S}^n \to A$ is a \emph{median voter SCF} if there exists a multiset $B = \{y_1,\ldots,y_{n-1}\}$ such that $f(P) = \operatorname{median}(B,\operatorname{peaks}(P))$ for all $P \in \mathcal{S}$.
+		\end{fdef}
+
+		The points in $B$ are called the peaks of ``phantom voters''. Note that $B$ is fixed for $f$ and does not change with $P$.
+
+		\begin{flem}[Moulin 1980]
+			\label{lem: median stratproof}
+			Every median voter SCF is strategyproof.
+		\end{flem}
+
+		We do not prove this as it is relatively simple -- the proof is similar to what we did when considering the leftmost peak SCF.
+
+		\begin{fprop}
+			Let $p_{\min},p_{\max}$ be the leftmost and rightmost peaks of $P$ according to $<$. Then, $f$ is Pareto efficient iff $f(P) \in [p_{\min},p_{\max}]$.
+		\end{fprop}
+
+		\begin{proof}
+			First, suppose that $f(P) \not\in [p_{\min},p_{\max}]$. Assume that $f(P) < p_{\min}$ without loss of generality. Then, every agent prefers $p_{\min}$ to $f(P)$, so $f(P)$ is dominated and $f$ is not Pareto efficient.\\
+			On the other hand, if $f(P) \in [p_{\min},p_{\max}]$, there does not exist any $b$ such that $b P_i f(P)$ for all $i \in N$. Indeed, if $b < f(P)$, it is less preferred by the player with peak $p_{\max}$, and if $b > f(P)$, it is less preferred by the player with peak $p_{\min}$.
+		\end{proof}
+
+		Although the proofs differ quite a bit, several results like in the unrestricted setting hold even here.
+
+		\begin{ftheo}
+			Let $f : \mathcal{S}^n \to A$. If $f$ is strategyproof, it is monotonic.
+		\end{ftheo}
+		The proof of this is quite similar to that we did earlier, although we need to argue why the construction in the reverse implication is valid.
+
+		\begin{ftheo}
+			\label{theo: single-peaked equivalence}
+			Let $f : \mathcal{S}^n \to A$ be strategyproof. The following are equivalent.
+			\begin{enumerate}
+				\item $f$ is onto.
+				\item $f$ is unanimous.
+				\item $f$ is Pareto efficient.
+			\end{enumerate}
+		\end{ftheo}
+
+		\begin{proof}
+			We know that Pareto efficiency implies unanimity which implies ontoness. As a result, it suffices to show that ontoness implies Pareto efficiency.. Suppose instead that $f$ is strategyproof and onto but not Pareto efficient. Then, there exist $a,b \in A$ such that $a P_i b$ for all $i \in N$ but $f(P) = b$. Because preferences are single-peaked, there is some alternative $c \in A$ which is a ``neighbour'' of $b$ such that $c P_i b$ for all $i \in N$ (possibly, $c = a$) -- go ``one step'' in the direction of $a$ from $b$.\\
+			Using ontoness, let $P'$ such that $f(P') = c$. Consider $P''$ such that $P_i''(1) = c$ and $P_i''(2) = b$ for all $i \in N$. Due to monotonicity from $P$ to $P''$, $f(P'') = b$, and due to monotonicity from $P'$ to $P''$, $f(P'') = c$, leading to a contradiction.
+		\end{proof}
+
+		\begin{fdef}
+			Given a preference profile $P$ and a permutation $\sigma : N \to N$, define a new preference profile $P^\sigma$ by $(P \circ \sigma^{-1})$ -- the preference of $i$ under $P$ is the preference of $\sigma(i)$ in the new profile.
+		\end{fdef}
+
+		\begin{fdef}[Anonymity]
+			An SCF $f : \mathcal{S}^n \to A$ is said to be \emph{anonymous} if for every profile $P$ and permutation $\sigma$ of the agents, $f(P^\sigma) = f(P)$.
+		\end{fdef}
+
+		Any social choice function that specifically looks at the agent identities is not anonymous. In particular, dictatorial SCFs are not anonymous.\\
+		Anonymity seems a sensible property to desire from a good SCF.
+
+		\begin{ftheo}[Moulin 1980]
+			An SCF $f$ is strategyproof, onto, and anonymous iff it is a median voter SCF.
+		\end{ftheo}
+		\begin{proof}
+			The backward direction is trivial. We have already seen in \Cref{lem: median stratproof} that $f$ is strategyproof. It is also trivially anonymous because we only look at the set of peaks and do not assign importance to any particular player's peak. For ontoness, given an alternative $a$, we can consider the preference profile that places every player's peak at $a$. Clearly, the outcome is $a$.\\
+
+			Let $f : \mathcal{S}^n \to A$ be strategyproof, anonymous, and onto. Define $P_i^0$ to be agent $i$'s preference with a peak at the leftmost position, and $P_i^1$ as that with a peak at the rightmost position. First, construct the phantom peaks
+			\[ y_j = f(P_1^0,P_2^0,\ldots,P_{n-j}^0,P_{n-j+1}^1,\ldots,P_n^1) \]
+			for $j = 1,\ldots,n-1$.\\
+			
+			First, we claim that the $(y_j)$ is non-decreasing.\\
+			Note that the profiles we use to define $y_j$ and $y_{j+1}$ differ only at the $(n-j)$th coordinate. Consequently, due to strategyproofness, we must have $y_j P_{n-j}^0 y_{j+1}$ or the two are equal. However, $P_{n-j}^0$ is single-peaked with its peak at $0$, so this just means that $y_j \le y_{j+1}$.\\
+
+			Let $P$ be an arbitrary profile, and $p_i$ be the peaks of $P_i$. We claim that
+			\[ f(P) = \operatorname{median}(p_1,\ldots,p_n,y_1,\ldots,y_n). \]
+			Due to anonymity, we may assume without loss of generality that $p_1 \le \cdots \le p_n$. Say $a$ is the median we are interested in.\\
+			
+			First, consider the case where $a = y_j$ for some $j$. By the previous claim and the definition of the median, we must have that $(j-1)$ phantom peaks and $(n-j)$ agent peaks are to the left, and $(n-1-j)$ phantom peaks and $j$ agent peaks to the right of $a$. That is,
+			\[ p_1 \le \cdots \le p_{n-j} \le y_j = a \le p_{n-j+1} \le \cdots \le p_n. \]
+			By definition,
+			\[ y_j = f(P_1^0,P_2^0,\ldots,P_{n-j}^0,P_{n-j+1}^1,\ldots,P_n^1). \]
+			Let
+			\[ b = f(P_1,,P_2^0,\ldots,P_{n-j}^0,P_{n-j+1}^1,\ldots,P_n^1). \]
+			Due to strategyproofness, $y_j P_1^0 b$, so $y_j \le b$. By strategyproofness again, $b P_1 y_j$. Further, $p_1 \le y_j$, so this means that $b \le y_j$. Therefore, $b = y_j$! We can then repeat this argument for the first $(n-j)$ agents to get that
+			\[ f(P_1,\ldots,P_{n-j},P_{n-j+1}^1,\ldots,P_n^1) = y_j. \]
+			After this, we replace preferences from the right hand-side, to finally get that $y_j = f(P)$.\\
+
+			Next, suppose that $a = p_j$ for some $j$. We prove this in the case where there are two players, and the general case is a (slightly non-trivial) extension of this argument.\\
+			Let $a = P_1(1)$ and $b = P_2(1)$. 
+
+			Let $P'$ such that $P_i(1) = P_i'(1)$ for all $i \in N$. We claim that $f(P) = f(P')$. That is, as long as the peaks stay the same, the preferences stay the same.\\
+			Set $f(P) = x$ and $f(P_1',P_2) = y$. Because $f$ is strategyproof, $x P_1 y$ and $y P_1' x$. If $x$ and $y$ are on the same side of the peak $a$, then they must be the same.\\
+			Assume without loss of generality that $x < a < y$ and $a < b$. Recall that $f$ is Pareto efficient by \Cref{theo: single-peaked equivalence}, so $f(P) \in [a,b]$. However, we have $f(P) = x < a$. We repeat this same argument to go from $(P_1',P_2)$ to $(P_1',P_2')$, thus proving the claim.\\
+			
+			Now, set $y_1$ to be the phantom peak obtained from earlier. By our assumption, the median is an agent peak, so say it is equal to $a$. This means that $b < a < y_1$ or $y_1 < a < b$. Assume for contradiction that $f(P) = c \ne a$.\\
+			In the situation where $b < a < y_1$, we have by Pareto efficiency that $c < a$. Construct $P_1'$ such that $P_1'(1) = a$ and $y_1 P_1' c$ (this is possible because $c$ and $y_1$ are on different sides of the peak). Conider the profile $(P_1^1,P_2)$. We have $b < y_1 \le P_1^1(1)$ so the median of the three is $y_1$, a phantom peak, and we can use case 1 to conclude that $f(P_1^1,P_2) = y_1$. However, $y_1 P_1' c$ by construction, contradicting strategyproofness since $f(P_1',P_2) = c$.\\
+			The case where $y_1 < a < b$ is very similar, except that we consider $P_1^0$ instead of $P_1^1$.
+		\end{proof}
+
+		For a complete proof of the above result (with $n$ players), the reader may consult \cite{moulin-singlepeak}.
