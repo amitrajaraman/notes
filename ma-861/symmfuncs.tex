@@ -491,8 +491,62 @@
 			\item neither $i$ not $i+1$ occur.
 			\item only $i$ or only $i+1$ occur -- in this case, there is precisely one of it in the column.
 		\end{enumerate}
-		In the first two cases, we say that the occurences of $i,(i+1)$ are ``paired''. In the third case, we say that the occurence is free. Suppose that some row of $F$ has $a$ $i$s and $b$ $(i+1)$s. Note that these $(a+b)$ occurrences are consecutive! Showing this requires the fact that $F$ is an SSYT.\\
-		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$!
+		In the first two cases, we say that the occurences of $i,(i+1)$ are ``paired''. In the third case, we say that the occurence is free. Suppose that some row of $F$ has $a$ $i$s and $b$ $(i+1)$s. Note that these $(a+b)$ occurrences are consecutive! Showing this requires the fact that $F$ is an SSYT -- show that all paired $i$s are before free $i$s, then that all free $(i+1)$s are before paired $(i+1)$s.\\
+		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$! % Also, $\phi_i^2 = \Id$ so $\varphi_i$ is a bijection.
 	\end{proof}
 
-	Therefore, $S_\lambda$ is a symmetric function, known as the \emph{Schur symmetric function}.
+	The $(S_\lambda)$ are known as the \emph{Schur symmetric functions}.\\
+	Note that for any $n$, $S_n = h_n$ and $S_{1^n} = e_n$.\\
+	Let us now try to show, as per usual, that the $(S_\lambda)$ form a basis of $\Lambda_\Q^d$. We have
+	\begin{align*}
+		S_3 &= m_{1^3} + m_{2,1} + m_3 \\
+		S_{2,1} &= 2m_{1^3} + m_{2,1} \\
+		S_{1^3} &= m_{1^3}.
+	\end{align*}
+
+	Let
+	\[ S_\lambda = \sum_{\mu \vdash d} K_{\lambda\mu} m_\mu. \]
+	Here, the $K_{\lambda\mu}$ are known as the \emph{Kostka numbers}. By definition, $K_{\lambda\mu}$ is the number of SSYTs with shape $\lambda$ and content $\mu$. In a spirit much like \nameref{gale-ryser}, we shall show that $K$ is upper-triangular when we order both the rows and columns in the reverse-lexicographic order.
+
+	\begin{ftheo}
+		$K_{\lambda\mu}$ is nonzero if and only if $\lambda \pge \mu$ (under the majorisation partial order).
+	\end{ftheo}
+	\begin{proof}
+		First, suppose that $K_{\lambda\mu} \ne 0$. Note that the $i$th row cannot have any element less than $i+1$. In particular, all the $i$s for $i\le k$ are contained in the first $k$ rows. This precisely says that $\sum_{i=1}^r \lambda_i \ge \sum_{i=1}^r \mu_i$, since the first term is the number of cells in the first $k$ rows and the second is the number of $i \le k$ in the first $k$ rows.\\
+		Using a constructive argument, we can show the converse.
+	\end{proof}
+
+	\begin{exercise}
+		Complete the above proof.
+		% Show that if $\lambda \pge \mu$, then $K_{\lambda\mu} \ne 0$
+	\end{exercise}
+
+	Now, note that the diagonal entries of $K$ are equal to $1$ by an argument similar to that of the previous theorem.
+	\begin{fcor}
+		$(S_\lambda)_{\lambda \vdash d}$ forms a basis of $\Lambda_\Q^d$. 
+	\end{fcor}
+
+	Unfortunately, $K_{\lambda\mu}$ has no good formula in general. However, there are formulae in certain special cases.\\
+	When $\mu = 1^d$, we wish to determine the number of SSYTs with shape $\lambda$ such that each element of $\{1,2,\ldots,d\}$ occurs precisely once.
+
+	\begin{fdef}
+		A \emph{Standard Young Tableaux} (SYT) of shape $\lambda\vdash d$ is an SSYT of shape $\lambda$ where each element of $[d]$ occurs precisely once. The number of SYTs of shape $\lambda$ is denoted $f_\lambda = K_{\lambda,1^d}$.
+	\end{fdef}
+	Note that this implies that rows are strictly increasing. The number of SYTs of a given shape has some very neat formulae!
+
+	\begin{ftheo}[Hook length formula]
+		Given a cell $c$ in the Ferrer diagram of $\lambda \vdash d$, the \emph{hook} at cell $c$ consists of $c$, cells to the right of $c$, and cells below $c$. Denote by $h_c$ the size of the hook at $\lambda$. Then,
+		\[ f_\lambda = \frac{n!}{\prod_{c \in \operatorname{cell}(\lambda)} h_c}. \]
+	\end{ftheo}
+	We do not prove the above. The original proof was due to Frame, Robinson, Thrall, and Wilf, Nijenhuis later gave an easier proof.\\
+	Using the above, note in particular that the number of SYTs of shape $(n,n)$ is
+	\[ f_{n,n} = \frac{1}{n+1} \frac{2n}{n}, \]
+	the $n$th Catalan number $C_n$!
+
+	\begin{ftheo}
+		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$.
+	\end{ftheo}
+
+	As a result, we get that
+	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
+	We also get that $\sum f_\lambda$ is the number of involutions in $\mathfrak{S}_n$.
