@@ -535,7 +535,7 @@
 	Note that this implies that rows are strictly increasing. The number of SYTs of a given shape has some very neat formulae!
 
 	\begin{ftheo}[Hook length formula]
-		Given a cell $c$ in the Ferrer diagram of $\lambda \vdash d$, the \emph{hook} at cell $c$ consists of $c$, cells to the right of $c$, and cells below $c$. Denote by $h_c$ the size of the hook at $\lambda$. Then,
+		Given a cell $c$ in the Ferrer diagram of $\lambda \vdash n$, the \emph{hook} at cell $c$ consists of $c$, cells to the right of $c$, and cells below $c$. Denote by $h_c$ the size of the hook at $\lambda$. Then,
 		\[ f_\lambda = \frac{n!}{\prod_{c \in \operatorname{cell}(\lambda)} h_c}. \]
 	\end{ftheo}
 	We do not prove the above. The original proof was due to Frame, Robinson, Thrall, and Wilf, Nijenhuis later gave an easier proof.\\
@@ -544,9 +544,59 @@
 	the $n$th Catalan number $C_n$!
 
 	\begin{ftheo}
-		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$.
+		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$.\\
+		Consequently,
+		\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
 	\end{ftheo}
 
-	As a result, we get that
+
+	Let us give an alternate bijective proof of this.
+	% \begin{proof}[RSK algorithm]
+	We would like to come up with a bijection 
+	\[ \varphi : \{(P,Q) : P,Q \text{ are SYTs of the same shape}\} \to \mathfrak{S}_n. \]
+	We use the \emph{RSK algorithm}. We start with a finite matrix $M$ with non-negative integer entries. We encode this as a $2 \times r$ matrix, where $r$ is the sum of entries of $M$. To construct this matrix, we iterate through the entries of $M$ in row-major form, and insert the column $\begin{pmatrix} i \\ j \end{pmatrix}$ $M_{ij}$ many times. Let the first row of this matrix be $Q$ and the second be $P$.\\
+	By definition, the lengths of both $P$ and $Q$ is the sum of entries of $M$. Because we are iterating through the entries in row-major order, $P$ is weakly increasing. For example, in the case where $M$ is a permutation matrix, $Q$ is just $1,2,\ldots,n$ and $P$ some permutation of $[n]$.\\
+	Now, using this new $2 \times r$ matrix, we shall form an SSYT. The algorithm just repeats the following. Iterating through $[r]$, suppose we are at the $i$th entry.
+	\begin{enumerate}
+		\item If it is possible to add $P_i$ at the end of the first row, we append it.
+		\item If this is not possible, we insert it in the first row at the earliest possible position, ``kicking out'' some other entry. We then try to insert this entry in the part of the filling below the first row, recursively in the exact same manner as just described.
+		\item Insert $Q_i$ at an appropriate position in order to ensure that the shapes of the tableauxs remain the same.
+	\end{enumerate}
+	% 1 0 2 \\
+	% 0 2 0
+	% 
+	% 1 1 1 2 2
+	% 1 3 3 2 2
+	% 
+	% 1 ... 1
+	% 1 3 ... 1 1
+	% 1 3 3 ... 1 1 1
+	% 1 2 3 \\ 3 ... 1 1 1 \\ 2
+	% 1 2 2 \\ 3 3 ... 1 1 1 \\ 2 2
+
+	% 0 0 1 \\
+	% 1 0 0 \\
+	% 0 1 0
+
+	% 1 2 3
+	% 3 1 2
+
+	% P1 3 ... 1
+	% 1 \\ 3 ... 1 \\ 2
+	% 1 2 \\ 3 ... 1 3 \\ 2
+	By the construction, it is easy to see that $P,Q$ have the same shape and $P$ is an SSYT. We must show that $Q$ is an SSYT as well.\\
+	% Note that $\content(Q) = \colsum(M)$ and $\content(P) = \rowsum(M)$.
+	This is easy to see in the case where $M$ is a permutation matrix, since the element of $Q$ we add is always strictly greater than previous elements so there is no chance of violating column strictness or row strictness. The issue arises with column strictness in non-permutation matrices since the element we are adding might coincide with other elements in the tableaux.
+	In the case where $M$ is a permutation matrix, it is quite easy to see that this transformation is bijective as well! Indeed, the SSYT of $Q$ precisely describes the order in which the cells were formed. Given $Q^{(i)}$, the location of the largest element of $Q^{(i)}$ is the location of the newly formed cell. If this is in the first row, this is indeed the element of $P$ that was inserted as well. Otherwise, we must go to higher rows and ``reverse-kick'' entries, by determining the largest element smaller than this reverse-kicking number.\\
+	This gives the desired bijection we mentioned earlier, so
 	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
-	We also get that $\sum f_\lambda$ is the number of involutions in $\mathfrak{S}_n$.
+	It turns out that this operation is bijective even in general, for non-permutation matrices!
+	% \end{proof}
+	This proof involves a couple of very clever observations.
+	\begin{theorem}[Schenstead]
+		The length of the first row of $P$ is the length of the largest weakly increasing subsequence of $\pi$. The length of the first column of $P$ is the length of the largest weakly decreasing subsequence of $\pi$.
+	\end{theorem}
+
+	\begin{fcor}[Erd\H{o}s-Szekeres]
+		Given a sequence of $(mn+1)$ elements, there exists an increasing subsequence of length $(m+1)$ or a decreasing subsequence of length $(n+1)$.
+	\end{fcor}

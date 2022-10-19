@@ -235,10 +235,13 @@
 		\[ \Delta( ( B(x) )_{x \in \{0,1\}^m} , ( \hat{f}(x) )_{x \in \{0,1\}^m} ) < \rho. \]
 		Fix $x$ to be the string in $\{0,1\}^n$ that we wish to obtain the value of (of $f$). Each time we compute $B(y)$ for some $y$, we incur a time of $T$.\\
 		We still need to eliminate the randomness in the local decoding algorithm. To do this, modify the encoding algorithm by repeating it enough times that the error probability is less than $1/N^2$. Then, for a fixed $f,x$, this implies that there exists some \emph{fixed} set of random bits which outputs $f(x)$ correctly for all $x \in [N]$.
+		% lec 18
+		% It is possible to go from functions with high $H_\avg^{1-\rho}$ to functions which are average-case hard, but we omit the details.\\
+
+\subsection{Lecture 18--19: Local decoding}
 
 	\subsubsection{Lecture 18}
 
-		It is possible to go from functions with high $H_\avg^{1-\rho}$ to functions which are average-case hard, but we omit the details.\\
 		In this lecture, we elaborate a bit more on local decoding. Recall Reed-Solomon codes from \Cref{reed-solomon-codes}. Are these locally decodable?\\
 		Given a polynomial
 		\[ m = a_0 + a_1x + \cdots + a_{d-1}x^{d-1} \]
@@ -281,5 +284,40 @@
 		Here, the local decoding algorithm runs in $O(|\F|)$ time, which we wish to be $\polylog(|\F|^{\ell})$. For sufficiently large $\ell$ ($\Omega( (|\F|/\log|\F|)^\delta)$ for some constant $\delta > 0$), this is indeed true.\\
 
 		When we try to convert this to the binary setting however, one major issue pops up. We can of course view $\F$ as a string over $\{0,1\}^{\log |\F|}$, but in this case the notion of ``error'' changes. An $\epsilon$ fraction corruption means that an $\epsilon$ fraction of the \emph{bits} are corrupted, not points in $\F^\ell$. Indeed, an $\epsilon$ fraction of bits being corrupted means that an $\epsilon \log|\F|$ fraction of the points in $\F^\ell$ could be corrupted. \\
-		I would like a coding scheme over the binary alphabet that can tolerate a constant fraction of errors, and Reed-Muller codes do not seem to satisfy this.\\
-		The way we fix this is by further concatenating a string over the binary alphabet, to yield a coding known as the \emph{Walsh-Hadamard coding}. We shall see this next lecture.
+		We would like a coding scheme over the binary alphabet that can tolerate a constant fraction of errors, and Reed-Muller codes do not seem to satisfy this.
+		% The way we fix this is by further concatenating a string over the binary alphabet, to yield a coding known as the \emph{Walsh-Hadamard coding}. We shall see this next lecture.
+
+	\subsubsection{Lecture 19}
+
+		In the last lecture, we saw that the relative distance of the Reed Muller code was $1 - d/|\F|$, when viewed as a code on alphabet $|\F|$. When viewed as a code on alphabet $\{0,1\}$ however, this goes to $(1 - d/|\F|)/\log|\F|$. This issue of the relative distance being $o(1)$ cannot be fixed even by changing $\F,\ell,d$.\\
+		To fix this, we shall do the following: for each element of $\F$ (each coordinate when viewed as a code on alphabet $\F$), we shall replace it with another codeword, possibly larger. That is, if we encode it as $x \in \F^{|\F|^\ell}$ under the Reed-Muller code, we encode each $x_i$ as another element $\{0,1\}^{t}$, where $t$ will end up being $\log |\F|$.\\
+
+		This second code is the \emph{Walsh-Hadamard code}, defined as follows. The encoding is a function $\WH : \{0,1\}^k \to \{0,1\}^{2^k}$, where for each $S \subseteq [k]$, we have $(\WH(x))_S = \bigoplus_{i \in S} x_i$.\\
+		We claim that the relative distance of this code is $1/2$. Indeed, if we change $r$ bits, all coordinates corresponding to subsets that contain an odd number of these $r$ bits will change.\\
+		Further, it turns out that this optimal.
+
+		\begin{fprop}
+			For any $\delta > (1/2)$, there exists $n_0$ such that no code with more than $2^{n_0}$ codewords has relative distance $\Delta$.
+		\end{fprop}
+		\begin{proof}[Proof sketch]
+			Let us just look at the case where the code is over $\{0,1\}^{n_0}$, and suppose instead that we have a mapping $f : \{0,1\}^{n_0} \to \{-1,1\}^m$ with relative distance $\Delta > 1/2$. Note that $\langle  f(x),f(y) \rangle < 0$ for any distinct $x,y \in \{0,1\}^{n_0}$. The result follows by bounding the number of such vectors from above.
+		\end{proof}
+		
+		In addition, the Walsh-Hadamard code is indeed locally decodable. Given $x$ and some corruption of $\WH(x)$, we can consider sets of the form $T$ and $T \cup \{i\}$, where $i \not\in T$. Adding (XORing) the two should give $x_i$ in the absence of corruption. When there is corruption, we can just choose a bunch of random $T$ and perform this same operation, taking the majority finally. The probability that both $T$ and $T \cup \{i\}$ are uncorrupted is at least $1-2\rho$, so for $\rho < (1/2)$, we are fine.\\
+		
+		In conclusion, our final code is $\WH(\RM(x))$.\footnote{mildly abusing notation to mean that we apply $\WH$ on a coordinate-by-coordinate basis to $\RM(x)$.} Here, $\WH$ is a mapping from $\{0,1\}^{\log|\F|} \to \{0,1\}^{|\F|}$. The relative distance of this code is $(1/2)(1 - d/|\F|)$, which is $\Theta(1)$ for appropriate $d,|\F|$! We can handle an error fraction of about $\rho \approx \Delta/2 \approx (1/4)$.\\
+		One interesting thing is that due to the previous proposition, we cannot even do better than $1/4$ using a coding theory-based proof like this.
+
+		Now, we have gone from exponential $H_\worst$ to exponential $H_\avg^{1-\rho}$, which in the limiting case is $H_\avg^{3/4}$. How do we go from this to $H_\avg$? We do not delve into the details of this, but the main result used is the following.
+
+		\begin{ftheo}[Yao's XOR Lemma]
+			Given a function $f : \{0,1\}^n \to \{0,1\}$, define the function $\hat{f} : \{0,1\}^{nk} \to \{0,1\}$ defined by
+			\[ f(\overline{x}_1 , \overline{x}_2 , \ldots , \overline{x}_k) = f(\overline{x}_1) \oplus f(\overline{x}_2) \oplus \cdots \oplus f(\overline{x}_k), \]
+			where each $\overline{x}_i$ is in $\{0,1\}^n$.\\
+			If $\delta > 0$ and $\epsilon > 2(1-\delta)^k$,
+			\[ H_\avg^{(1/2) + \epsilon} (\hat{f}) \ge \frac{\epsilon^2}{400n} H_\avg^{1-\delta}(f). \]
+		\end{ftheo}
+		Given a function with exponentially large $H_\avg^{1-\delta}$, making $\epsilon$ appropriately exponentially small does the job (around $H_\avg^{1-\delta}(f)^{-1/3}$).\\
+		Alternatively, one way to go directly from $H_\worst$ to $H_\avg$ is to use \emph{local list decoding} for the Reed-Muller and Walsh-Hadamard combination we saw earlier in the lecture.\\
+
+		Therefore, if we have a function that has exponential worst-case hardness, $\BPP = \PP$!
