@@ -1,4 +1,4 @@
-\subsection{Symmetric functions}
+\section{Symmetric functions}
 
 	Let $G = \{x_1,x_2,\ldots,\}$ be a countably infinite abelian group.\\ 
 	Consider the group action induced by the set of permutations of $\N$ on the set of monomials $x_{i_1}^{\alpha_{i_1}}\cdots x_{i_k}^{\alpha_{i_k}}$. For example,
@@ -586,13 +586,82 @@
 	% 1 2 \\ 3 ... 1 3 \\ 2
 	By the construction, it is easy to see that $P,Q$ have the same shape and $P$ is an SSYT. We must show that $Q$ is an SSYT as well.\\
 	% Note that $\content(Q) = \colsum(M)$ and $\content(P) = \rowsum(M)$.
-	This is easy to see in the case where $M$ is a permutation matrix, since the element of $Q$ we add is always strictly greater than previous elements so there is no chance of violating column strictness or row strictness. The issue arises with column strictness in non-permutation matrices since the element we are adding might coincide with other elements in the tableaux.
+	This is easy to see in the case where $M$ is a permutation matrix, since the element of $Q$ we add is always strictly greater than previous elements so there is no chance of violating column strictness or row strictness. The issue arises with column strictness in non-permutation matrices since the element we are adding might coincide with other elements in the tableaux.\\
+	In general, we prove this with the following lemma.
+
+	\begin{flem}
+		Given an tableaux $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableaux attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
+		If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
+	\end{flem}
+
+	\begin{exercise}
+		Prove the above.
+	\end{exercise}
+
+	We know that every $Q^{(i)}$ is strictly increasing in both rows and columns. What we must show is that if we insert the pairs $\begin{pmatrix} i \\ j \end{pmatrix}$ and $\begin{pmatrix} i \\ k \end{pmatrix}$ into $P$ and $Q$ where $j \le k$, 
+
 	In the case where $M$ is a permutation matrix, it is quite easy to see that this transformation is bijective as well! Indeed, the SSYT of $Q$ precisely describes the order in which the cells were formed. Given $Q^{(i)}$, the location of the largest element of $Q^{(i)}$ is the location of the newly formed cell. If this is in the first row, this is indeed the element of $P$ that was inserted as well. Otherwise, we must go to higher rows and ``reverse-kick'' entries, by determining the largest element smaller than this reverse-kicking number.\\
-	This gives the desired bijection we mentioned earlier, so
+	In the permutation matrix, we do the reversal by looking at the position of the largest entry in $Q^{(i)}$. In general, it turns out that we must look at the position of the \emph{rightmost} largest entry in $Q^{(i)}$, and this will be unique, due to the column strictness of SSYTs.
+	% **** EXPLAIN BETTER ****
+
+	% 1 3 4 	1 2 5
+	% 2 5 	3 4
+	% insert 4
+	% 1 3 	1 2
+	% 2 5  	3 4
+	% insert 3
+	% 1 5 	1 2
+	% 2 		3
+	% insert 1
+	% 2 5 	1 2
+	% insert 5
+	% 2 		1
+	% insert 2
+	% the perm is
+	% 1 2 3 4 5
+	% 2 5 1 3 4
+
+	% SSYT reversibility example
+	% 1 1 2 	1 2 2
+	% 2 3 	2 3
+	% 3 		3
+	% insert 2
+	% 1 1 3 	1 2 2
+	% 2 		2
+	% 3 		3
+	% insert 1
+	% 1 2 3 	1 2 2
+	% 3 		2
+	% insert 3
+	% 1 2 	1 2
+	% 3 		2
+	% insert 2
+	% 1 		1
+	% 3 		2
+	% insert 1
+	% 3 		1
+	% insert 3
+
+	\begin{ftheo}
+		The RSK algorithm is a bijection between $\N$-valued matrices $M$ and ordered pairs $(P,Q)$ of SSYTs such that
+		\[ \content(P) = \rowsum(M) \text{ and } \content(Q) = \colsum(M). \] 
+	\end{ftheo}
+
+	A better proof of SSYT RSK reversibility case is by using the SYT permutation matrix case, by performing the following transformation. Iterating upwards, change repeating elements from left to right to distinct values. For example, if we have three $1$s, change them to $1,2,3$ in order from left to right.
+	% 3 1 2 3 1 2
+	% 3 1 2 3 2 2
+	% 3 1 2 3 3 4
+	% 3 1 2 4 5 6
+	% 3 1 2 4 5 5
+	% 3 1 2 4 5 6
+
+
+	The permutation matrix case yields the desired bijection we mentioned earlier, so
 	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
-	It turns out that this operation is bijective even in general, for non-permutation matrices!
+	% It turns out that this operation is bijective even in general, for non-permutation matrices!
 	% \end{proof}
-	This proof involves a couple of very clever observations.
+
+	Let us look at a couple of interesting corollaries of the above construction.
 	\begin{theorem}[Schenstead]
 		The length of the first row of $P$ is the length of the largest weakly increasing subsequence of $\pi$. The length of the first column of $P$ is the length of the largest weakly decreasing subsequence of $\pi$.
 	\end{theorem}
