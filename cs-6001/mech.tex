@@ -474,3 +474,230 @@
 		\end{proof}
 
 		For a complete proof of the above result (with $n$ players), the reader may consult \cite{moulin-singlepeak}.
+
+	\subsubsection{Task allocation domain}
+
+		The next domain restriction we shall look at is called task allocation domain. In this, we have a unit amount of task to be shared among $n$ agents, and agent $i$ gets a share $s_i \in [0,1]$ such that $\sum_{i \in N} s_i = 1$.\\
+		Similar to single-peaked preferences, every agent has a preferred shared of work. 
+
+		\begin{fex}
+			Each task may have a reward, say a $w$ amount of wages per unit time. If agent $i$ works for time $t_i$, then they earn an amount of $wt_i$. This task also has costs (say physical tiredness) depending on the agent equal to $c_it_i^2$. The net payoff is then $wt_i - c_it_i^2$, which is maximized at $t_i^* = w/(2c_i)$.\\
+			This is single-peaked over the \emph{share of the task}, and not the alternatives. \\
+			If the alternatives are $(0.2,0.4,0.4)$ and $(0.2,0.6,0.2)$, player $1$ is indifferent. Note that if the preferences are single-peaked for all, we cannot have a single common order over the alternatives.
+		\end{fex}
+
+		Denote the domain of task allocation by $T$ (a single-peaked function over the task share), so the SCF is $f : T^n \to A$. For a preference profile $P \in T^n$, we have $(f(P))_i \in [0,1]$ for each $i$ and $\sum_{i \in N} (f(P))_i = 1$.\\
+		Suppose that player $i$ has peak $p_i$ over the share.
+
+		\begin{fdef}
+			An SCF $f : T^n \to A$ is \emph{Pareto efficient} if there exists no other share of the task that is weakly preferred by all agents and strictly preferred by at least one. That is, there exists no $a \in A$ such that $a R_i f(P)$ for all $i \in N$ and $a P_j f(P)$ for some $j$.
+		\end{fdef}
+
+		\begin{flem}
+			\label{lem: task allocation pe}
+			An SCF $f : T^n \to A$ is Pareto efficient iff
+			\begin{enumerate}
+				\item for any preference profile $P$ with $\sum_{i \in N} p_i = 1$, $f_i(P) = p_i$ for all $i \in N$.
+				\item for any preference profile $P$ with $\sum_{i \in N} p_i > 1$, $f_i(P) \le p_i$ for all $i \in N$.
+				\item for any preference profile $P$ with $\sum_{i \in N} p_i = 1$, $f_i(P) \ge p_i$ for all $i \in N$.
+			\end{enumerate}
+		\end{flem}
+		\begin{proof}
+			First of all, if $\sum_{i \in N} p_i = 1$, then there is no problem and we must allocate tasks according to the peaks of the agents. This is the unique Pareto efficient SCF.\\
+
+			If $\sum_{i \in N} p_i > 1$, for any SCF $f$, there exists some $k \in N$ such that $f_k(P) < p_k$.\\
+			If $f$ is Pareto efficient, can there exist an agent $j$ such that $f_j(P) > p_j$? No, because if this were the case, we would increase $k$'s share of the task and reduce $j$'s share of the task, to make both players strictly better off.\\
+			Consequently, for all $j \in N$, $f_j(P) \le p_j$.
+
+			Finally, an identical argument yields that if $\sum_{i \in N} p_i < 1$, $f_j(P) \ge P_j$ for all $j \in N$.
+		\end{proof}
+
+
+		\begin{fdef}[Anonymity]
+			For an anonymous SCF $f : T^n \to A$,
+			\[ f_{\sigma(j)}(P^\sigma) = f_j(P). \]
+		\end{fdef}
+		Note that with the permuting of the agent shares, the shares are permuted as well!\\
+
+		Let us look at a couple of candidate SCFs.
+		\begin{enumerate}
+			\item Serial dictatorship. A predetermined sequence of agents if xied. Each agent is given either their peak or a leftover share. If $\sum p_i < 1$, the last agent is given the leftover share. This is Pareto efficient and strategyproof but not anonymous. It is also quite unfair for later agents.
+			\item Proportional. Every player is assigned a share that is some constant multiplied by their peaks. That is, if $\sum_{i \in N} p_i = s$, we assign a share of $p_i/s$ to each player.\\
+			This is not strategyproof. For example, if the peaks are $0.2,0.3,0.1$, we have $s = 0.6$ and player $1$ gets $1/3$. If they report $0.1,0.3,0.1$ instead however, player $1$ gets $0.2$.
+		\end{enumerate}
+
+		We shall next describe a rule that is Pareto efficient, anonymous, and strategyproof, known as the \emph{uniform rule}.\\
+		Suppose that $\sum_{i \in N} p_i < 1$. We begin with everyone's allocation being $1$. We keep reducing each person's allocation uniformly. Whenever we hit someone's peak, we stop reducing that agent's share. We keepm reducing until $\sum f_i = 1$.\\
+		When $\sum_{i \in N} p_i > 1$, we instead start with everyone's allocation being $0$ and increase it gradually.
+
+		\begin{fdef}
+			The uniform allocation rule $f^u$ is described as follows.
+			\begin{enumerate}
+				\item If $\sum_i p_i = 1$, $f_i^u(P) = p_i$.
+				\item If $\sum_{i \in N} < 1$, set $\mu(P)$ as the largest number that satisfies $\sum_{i \in N} \max\{p_i,\mu\} = 1$ and allocate $f_i^u(P) = \max\{p_i,\mu(P)\}$.
+				\item If $\sum_{i \in N} > 1$, set $\lambda(P)$ as the largest number that satisfies $\sum_{i \in N} \min\{p_i,\lambda\} = 1$ and allocate $f_i^u(P) = \min\{p_i,\lambda(P)\}$.
+			\end{enumerate}
+		\end{fdef}
+
+		\begin{flem}
+			The uniform rule SCF is anonymous, Pareto efficient, and strategyproof.
+		\end{flem}
+		\begin{proof}
+			It is quite easy to see anonymity since we only look at the agents' peaks and not the agents themselves.\\
+			Pareto efficiency follows trivially by \Cref{lem: task allocation pe}.\\
+			Strategyproofness is evident when $\sum p_i = 1$.\\
+			Suppose now that $\sum_i p_i < 1$, so $f_i^u(P) \ge p_i$. Any beneficial manipulation must be done by agents with $f_i^u(P) > p_i$. That is, $\mu(P) > p_i$. the allocation stopped before ``reaching'' $p_i$. The only way this allocation can change is by reporting $p_i' > \mu(P) > p_i$, but this is a worse allocation for $i$ than $\mu(P)$. The proof when $\sum p_i > 1$, the proof is identical
+		\end{proof}
+
+		\begin{ftheo}[Sprumont]
+			An SCF $f : T^n \to A$ is strategyproof, Pareto efficient, and strategyproof iff it is the uniform rule.
+		\end{ftheo}
+		We do not describe the proof of the above, and refer the reader to \cite{sprumont-uniform-rule}.
+
+	\subsubsection{Mechanism design with transfers}
+
+		In this case, the utility can be transferred and is thought of something like money. A social choice function here is a function $F : \Theta \to X$, where an outcome $x \in X$ has two components, an allocation $a \in A$ and a payment vector $\pi \in \R^n$.
+
+		\begin{fex}
+			\label{ex: payment irl examples}
+			One real-life example of this is a public decision of building a bridge or a park, so $A$ is $\{\text{bridge},\text{park}\}$.\\
+			We can think of the allocation of a divisible good (a ``shared spectrum''), where $a \in [0,1]^n$ and $\sum a_i = 1$. We can also think of an indivisible version of this, where $a \in \{0,1\}^n$ and $\sum a_i \le 1$. Alternatively, we can have a partition of indivisible objects, so we have an overall set of objects $S$ and
+			\[ A = \{ (A_1,\ldots,A_n) : A_i \subseteq S\text{ and }A_i \cap A_j = \emptyset \text{ for all distinct $i,j \in N$} \}. \]
+		\end{fex}
+
+		Here, the type of an agent is $\theta_i \in \Theta_i$, the private information of $i$. An agent's benefit from an allocation is defined using a valuation function $v_i : A \times \Theta_i \to \R$.\\
+		In the previous example, if we look at the benefit to the environment for example, the valuation of a bridge would be lower than that for a park.\\
+
+		The utility of a player $i$ when their type is $\theta_i$ and the outcome is $x = (a,\underline{\pi})$ is given by
+		\[ u_i( (a,\pi) , \theta_i ) = v_i(a,\theta_i) - \pi_i. \]
+		Note that this is always linear in the payment, but can be non-linear in the allocation component. Due to this, we call this the \emph{quasilinear domain}. \\
+		If we have two alternatives $(a,\pi^{(1)})$ and $(a,\pi^{(2)})$, agent $i$ always prefers that with the lower $\pi_i$! This is the simple restriction intrinsic to this, section, which opens up opportunity for numerous interesting SCFs.\\
+
+		We split the function $F$ into the allocation part and the payment parts, $f : \Theta \to A$ and $p_i : \Theta \to \R$. Here, $\pi_i = p_i(\theta)$. The tuple of $p_i$ is denoted $p$.
+
+		\begin{fex}[Allocation rules]
+			\label{ex: payment alloc rules}
+			A couple of examples of allocation rules are as follows.
+			\begin{enumerate}
+				\item One uninteresting allocation rule is the \emph{constant rule} where $f^c(\theta) = a$ for all $\theta \in \Theta$.
+
+				\item A slightly more inspired rule is the \emph{dictatorial rule}, where
+				\[ f^D(\theta) = \argmax_{a \in A} v_d(a,\theta_d) \]
+				for all $\theta \in \Theta$ for some fixed $d \in N$.
+				
+				\item The \emph{allocatively efficient} or \emph{utilitarian} rule is
+				\[ f^{\text{AE}}(\theta) = \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i). \]
+				Allocative efficiency is \emph{not} the same as Pareto efficiency, which is defined for the outcome which also considers the payment.
+
+				\item The \emph{affine maximizer} rule is defined by
+				\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} \lambda_i v_i(a,\theta_i) + \kappa(a) \right), \]
+				where each $\lambda_i$ is chosen to be non-negative and at least one is nonzero. Note that all three rules before this are specific cases of the affine maximizer rule.
+
+				\item The \emph{max-min} or \emph{egalitarian rule} has
+				\[ f^\text{MM}(\theta) = \argmax_{a \in A} \min_{i \in N} v_i(a,\theta_i). \]
+			\end{enumerate}
+		\end{fex}
+
+		\begin{fex}[Payment rules]
+			Three examples of rules that our payment function $p$ might satisfy are
+			\begin{enumerate}
+				\item \emph{No deficit}. Here, $\sum_{i \in N} p_i(\theta) \ge 0$ for all $\theta \in \Theta$.
+				\item \emph{No subsidy}. Here, $p_i(\theta) \ge 0$ for all $\theta \in \Theta, i \in N$. Clearly, a no subsidy payment rule is a no deficit payment rule.
+				\item \emph{Budget balanced}. Here, $\sum_i p_i(\theta) = 0$ for all $\theta \in \Theta$. 
+			\end{enumerate}
+		\end{fex}
+
+		Recall incentive compatibility. This definition can be mildly altered in the mechanism design with payment scenario as follows.
+
+		\begin{fdef}[Dominant strategy incentive compatibility]
+			\label{def: payment dsic}
+			A mechanism $(f,p)$ is \emph{dominant strategy incentive compatible} (DSIC) if for all $i \in N, \theta_{-i} \in \Theta_{-i}, \theta_i,\widetilde{\theta}_i \in \Theta_i$, if we set $\theta = (\theta_i,\theta_{-i})$ and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$,
+			\[ v_i(f(\theta),\theta_i) - p_i(\theta) \ge v_i(f(\widetilde{\theta}),\theta_i) - p_i(\widetilde{\theta}). \]
+		\end{fdef}
+
+		DSIC means that telling the truth is a weakly dominating strategy equilibrium.
+
+		Our goal is that the payment rule implements $f$ in dominant strategies. In the quasilinear domain, we are often more interested in the allocation rule than the whole SCF (which also includes the payment).
+		
+		\begin{fex}
+			Suppose that there are two players $N = \{1,2\}$ and $\Theta_1 = \Theta_2 = \{\theta^H, \theta^L\}$ and $f : \Theta_1 \times \Theta_2 \to A$. For $(f,p)$ to be DSIC,
+			\begin{align*}
+				v_1( f(\theta^H, \theta_2) , \theta^H ) - p(\theta^H,\theta_2) &\ge v_1(f(\theta^L,\theta_2) , \theta^H) - p_i(\theta^L,\theta_2) \\
+				v_1( f(\theta^L, \theta_2) , \theta^L ) - p(\theta^L,\theta_2) &\ge v_1(f(\theta^H,\theta_2) , \theta^L) - p_i(\theta^H,\theta_2)
+			\end{align*}
+			and similar inequalities for the second player. 
+		\end{fex}
+
+		Now, suppose that $(f,p)$ is incentive compatible. Consider another payment
+		\[ q_i(\theta) = p_i(\theta) + h_i(\theta_{-i}) \]
+		for all $\theta,i \in N$. Then, note that $(f,q)$ is incentive compatible as well! Therefore, if we find a single payment that implements an allocation rule, we get an entire family of payments that implement the allocation rule. A converse question we can ask is: when do payments that implement $f$ differ only by a factor of $h_i(\theta_{-i})$?
+
+		\begin{fex}
+			Suppose the allocation is the same for two type profiles $\theta,\widetilde{\theta} = (\widetilde{\theta_i},\theta_{-i})$ and $f(\theta) = f(\widetilde{\theta}) = a$. if $p$ implements $f$, then \Cref{def: payment dsic} immediately yields that $p_i(\theta) = p_i(\widetilde{\theta})$.
+		\end{fex}
+
+		Let us now move to Pareto efficiency in the quasilinear domain.
+
+		\begin{fdef}
+			A mechanism $(f,p)$ is said to be \emph{Pareto optimal} if at every type profile $\theta \in \Theta$, there exists no allocation $b \ne f(\theta)$ and payments $(\pi_1,\ldots,\pi_n)$ with $\sum_i \pi_i \ge \sum_i p_i(\theta)$ such that
+			\[ v_i(b,\theta_i) - \pi_i \ge v_i(f(\theta),\theta_i) - p_i(\theta) \]
+			for all $i \in N$, with the inequality being strict for some $i$.
+		\end{fdef}
+
+		The reason for having $\sum_i \pi_i \ge \sum_i p_i(\theta)$ is that otherwise, we can always put an excessive subsidy to every agent and make everyone better off.\\
+		Recall allocative efficiency from \Cref{ex: payment alloc rules}.
+
+		\begin{ftheo}
+			A mechanism $(f,p)$ is Pareto optimal if and only if it is allocatively efficient.
+		\end{ftheo}
+		\begin{proof}
+			\phantom{pain}
+			\begin{itemize}
+				\item Suppose that $(f,p)$ is not allocatively efficient. Then, there exists $b \ne f(\theta)$ such that
+				\[ \sum_i v_i(b,\theta_i) > \sum_{i \in N} v_i(f(\theta),\theta_i) \]
+				for some $\theta$. Let $\delta > 0$ be the difference between the two as above. Consider the payment
+				\[ \pi_i = v_i(b,\theta_i) - v_i(f(\theta),\theta_i) + p_i(\theta) - (\delta/n). \]
+				Then,
+				\[ \left( v_i(b,\theta_i) - \pi_i \right) - \left(v_i(f(\theta),\theta_i) - p_i(\theta)\right) = (\delta/n) > 0 \]
+				and $\sum_i \pi_i = \sum_i p_i(\theta)$, show that $(f,p)$ is not Pareto optimal.
+
+				\item Suppose that $(f,p)$ is not Pareto optimal. Let $\theta,\pi,b \ne f(\theta),\pi$ such that
+				\[ \sum_i \pi_i \ge \sum_i p_i(\theta) \]
+				and
+				\[ v_i(b,\theta_i) - \pi_i \ge v_i(f(\theta),\theta_i) - p_i(\theta) \]
+				for all $i \in N$, with the inequality being strict for some $j$.\\
+				Summing the second inequality over $i$,
+				\begin{align*}
+					\sum_i v_i(b,\theta_i) - \pi_i &> \sum_i v_i(f(\theta),\theta_i) - p_i(\theta) \\
+					\sum_i v_i(b,\theta_i) - \sum_i v_i(f(\theta),\theta_i) &> \sum_i \pi_i - \sum_i p_i(\theta) \ge 0,  
+				\end{align*}
+				showing that $(f,p)$ is not allocatively efficient.
+			\end{itemize}
+		\end{proof}
+
+		So, for any Pareto optimal mechanism $(f^\text{eff},p)$, we have
+		\[ f^\text{eff}(\theta) \in \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i). \]
+		This seems to suggest that any sensible mechanism has this (more or less) fixed allocation part. We must now come up with a sensible payment part to make it DSIC.
+		
+		\begin{fdef}[Groves payment]
+			Given a Pareto optimal function $f$, consider the \emph{Groves payment} defined for each $i$ by
+			\[ p_i^G(\theta) = h_i(\theta_{-i}) - \sum_{j \ne i} v_j(f^\text{eff}(\theta),\theta_j) \]
+			where $h_i : \Theta_{-i} \to \R$ is any arbitrary function.
+		\end{fdef}
+
+		Perhaps surprisingly, this is a truthful mechanism!
+
+		\begin{ftheo}
+			Any Groves mechanism is DSIC.
+		\end{ftheo}
+		\begin{proof}
+			Arbitrarily choose player $i$, $\theta = (\theta_i,\theta_{-i})$, and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$, and set $a = f^\text{eff}(\theta)$ and $b = f^\text{eff}(\widetilde{\theta})$. By definition,
+			\[ v_i(a,\theta_i) + \sum_{j \ne i} v_j(a,\theta_j) \ge v_i(b,\theta_i) + \sum_{j \ne i} v_j(b,\theta_j). \]
+			The utility of player $i$ when they report $\theta_i$ is
+			\begin{align*}
+				v_i(a,\theta_i) - p_i(\theta) &= v_i(a,\theta_i) - h_i(\theta_{-i}) + \sum_{j \ne i} v_j(a,\theta_j) \\
+				&\ge v_i(b,\theta_i) - h_i(\theta_{-i}) + \sum_{j \ne i} v_j(b,\theta_j) \\
+				&= v_i(b,\theta_i) - p_i(\widetilde{\theta}),
+			\end{align*}
+			proving the result.
+		\end{proof}
