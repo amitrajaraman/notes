@@ -96,29 +96,32 @@
 \newcommand{\poly}{\operatorname{poly}}
 \newcommand{\Span}{\operatorname{span}}
 
+\newcounter{dummy}
+\numberwithin{dummy}{section}
+
 \numberwithin{equation}{section}
 \theoremstyle{definition}
-\newtheorem{theorem}{Theorem}
+\newtheorem{theorem}[dummy]{Theorem}
 \newenvironment{ftheo}
   {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{theorem}}
   {\end{theorem}\end{shaded}}
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lemma}[dummy]{Lemma}
 \newenvironment{flem}
   {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{lemma}}
   {\end{lemma}\end{shaded}}
-\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{corollary}[dummy]{Corollary}
 \newenvironment{fcor}
   {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{corollary}}
   {\end{corollary}\end{shaded}}
-\newtheorem{prop}[theorem]{Proposition}
+\newtheorem{prop}[dummy]{Proposition}
 \newenvironment{fprop}
   {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{prop}}
   {\end{prop}\end{shaded}}
-\newtheorem{porism}[theorem]{Porism}
+\newtheorem{porism}[dummy]{Porism}
 \newenvironment{fpor}
   {\colorlet{shadecolor}{orange!15}\begin{shaded}\begin{porism}}
   {\end{porism}\end{shaded}}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}[dummy]{Definition}
 \newenvironment{fdef}
   {\colorlet{shadecolor}{green!7}\begin{shaded}\begin{definition}}
   {\end{definition}\end{shaded}}
@@ -126,8 +129,8 @@
 \newenvironment{fcon}
   {\colorlet{shadecolor}{blue!10}\begin{shaded}\begin{conjecture*}}
   {\end{conjecture*}\end{shaded}}
-\numberwithin{definition}{section}
-\numberwithin{theorem}{section}
+% \numberwithin{definition}{section}
+% \numberwithin{theorem}{section}
 \newtheorem{exercise}{Exercise}
 \newtheorem{problem}{Problem}
 \newtheorem*{problem*}{Problem}

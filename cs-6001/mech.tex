@@ -527,7 +527,7 @@
 		\end{enumerate}
 
 		We shall next describe a rule that is Pareto efficient, anonymous, and strategyproof, known as the \emph{uniform rule}.\\
-		Suppose that $\sum_{i \in N} p_i < 1$. We begin with everyone's allocation being $1$. We keep reducing each person's allocation uniformly. Whenever we hit someone's peak, we stop reducing that agent's share. We keepm reducing until $\sum f_i = 1$.\\
+		Suppose that $\sum_{i \in N} p_i < 1$. We begin with everyone's allocation being $1$. We keep reducing each person's allocation uniformly. Whenever we hit someone's peak, we stop reducing that agent's share. We stop reducing when $\sum f_i = 1$.\\
 		When $\sum_{i \in N} p_i > 1$, we instead start with everyone's allocation being $0$ and increase it gradually.
 
 		\begin{fdef}
@@ -556,22 +556,24 @@
 
 	\subsubsection{Mechanism design with transfers}
 
-		In this case, the utility can be transferred and is thought of something like money. A social choice function here is a function $F : \Theta \to X$, where an outcome $x \in X$ has two components, an allocation $a \in A$ and a payment vector $\pi \in \R^n$.
+		In this case, the utility can be transferred and is thought of something like money. A social choice function here is a function $F : \Theta \to X$, where an outcome $x \in X$ has two components -- an allocation $a \in A$ and a payment vector $\pi \in \R^n$.
 
 		\begin{fex}
 			\label{ex: payment irl examples}
 			One real-life example of this is a public decision of building a bridge or a park, so $A$ is $\{\text{bridge},\text{park}\}$.\\
-			We can think of the allocation of a divisible good (a ``shared spectrum''), where $a \in [0,1]^n$ and $\sum a_i = 1$. We can also think of an indivisible version of this, where $a \in \{0,1\}^n$ and $\sum a_i \le 1$. Alternatively, we can have a partition of indivisible objects, so we have an overall set of objects $S$ and
+			We can think of the allocation of a divisible good (a ``shared spectrum''), where $a \in [0,1]^n$ and $\sum a_i = 1$.\\
+			We can also have a single indivisible good, where $a \in \{0,1\}^n$ and $\sum a_i \le 1$.\\
+			Alternatively, we can have multiple indivisible objects, wherein we have an overall set of objects $S$ and
 			\[ A = \{ (A_1,\ldots,A_n) : A_i \subseteq S\text{ and }A_i \cap A_j = \emptyset \text{ for all distinct $i,j \in N$} \}. \]
 		\end{fex}
 
-		Here, the type of an agent is $\theta_i \in \Theta_i$, the private information of $i$. An agent's benefit from an allocation is defined using a valuation function $v_i : A \times \Theta_i \to \R$.\\
+		Here, the type of an agent is $\theta_i \in \Theta_i$, the private information of $i$. An agent's benefit from an allocation is defined using a \emph{valuation function} $v_i : A \times \Theta_i \to \R$.\\
 		In the previous example, if we look at the benefit to the environment for example, the valuation of a bridge would be lower than that for a park.\\
 
-		The utility of a player $i$ when their type is $\theta_i$ and the outcome is $x = (a,\underline{\pi})$ is given by
+		The utility of a player $i$ when their type is $\theta_i$ and the outcome is $x = (a,\pi)$ is given by
 		\[ u_i( (a,\pi) , \theta_i ) = v_i(a,\theta_i) - \pi_i. \]
 		Note that this is always linear in the payment, but can be non-linear in the allocation component. Due to this, we call this the \emph{quasilinear domain}. \\
-		If we have two alternatives $(a,\pi^{(1)})$ and $(a,\pi^{(2)})$, agent $i$ always prefers that with the lower $\pi_i$! This is the simple restriction intrinsic to this, section, which opens up opportunity for numerous interesting SCFs.\\
+		If we have two alternatives $(a,\pi^{(1)})$ and $(a,\pi^{(2)})$, agent $i$ always prefers that with the lower $\pi_i$! This is the simple restriction intrinsic to this section, which opens up opportunity for numerous interesting SCFs.\\
 
 		We split the function $F$ into the allocation part and the payment parts, $f : \Theta \to A$ and $p_i : \Theta \to \R$. Here, $\pi_i = p_i(\theta)$. The tuple of $p_i$ is denoted $p$.
 
@@ -579,15 +581,16 @@
 			\label{ex: payment alloc rules}
 			A couple of examples of allocation rules are as follows.
 			\begin{enumerate}
-				\item One uninteresting allocation rule is the \emph{constant rule} where $f^c(\theta) = a$ for all $\theta \in \Theta$.
+				\item One uninteresting allocation rule is the \emph{constant rule} where $f^c(\theta) = a$ for all $\theta \in \Theta$ for some fixed $a \in A$.
 
 				\item A slightly more inspired rule is the \emph{dictatorial rule}, where
 				\[ f^D(\theta) = \argmax_{a \in A} v_d(a,\theta_d) \]
 				for all $\theta \in \Theta$ for some fixed $d \in N$.
 				
 				\item The \emph{allocatively efficient} or \emph{utilitarian} rule is
-				\[ f^{\text{AE}}(\theta) = \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i). \]
-				Allocative efficiency is \emph{not} the same as Pareto efficiency, which is defined for the outcome which also considers the payment.
+				\[ f^{\text{AE}}(\theta) = \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i) \]
+				for all $\theta \in \Theta$, where we pick any arbitrary $a$ in the maximizing subset of $A$.
+				% Allocative efficiency is \emph{not} the same as Pareto efficiency, which is defined for the outcome which also considers the payment.
 
 				\item The \emph{affine maximizer} rule is defined by
 				\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} \lambda_i v_i(a,\theta_i) + \kappa(a) \right), \]
@@ -607,7 +610,7 @@
 			\end{enumerate}
 		\end{fex}
 
-		Recall incentive compatibility. This definition can be mildly altered in the mechanism design with payment scenario as follows.
+		Recall \hyperref[def: dsic]{incentive compatibility}. This definition can be reformulated in the mechanism design with payment scenario as follows.
 
 		\begin{fdef}[Dominant strategy incentive compatibility]
 			\label{def: payment dsic}
@@ -630,10 +633,11 @@
 
 		Now, suppose that $(f,p)$ is incentive compatible. Consider another payment
 		\[ q_i(\theta) = p_i(\theta) + h_i(\theta_{-i}) \]
-		for all $\theta,i \in N$. Then, note that $(f,q)$ is incentive compatible as well! Therefore, if we find a single payment that implements an allocation rule, we get an entire family of payments that implement the allocation rule. A converse question we can ask is: when do payments that implement $f$ differ only by a factor of $h_i(\theta_{-i})$?
+		for all $\theta \in \Theta,i \in N$ for some function(s) $h_i$. Then, observe that $(f,q)$ is incentive compatible as well!\\
+		Therefore, if we find a single payment that implements an allocation rule, we get an entire family of payments that implement the allocation rule. A converse question we can ask is: when do payments that implement $f$ differ only by a factor of $h_i(\theta_{-i})$?
 
 		\begin{fex}
-			Suppose the allocation is the same for two type profiles $\theta,\widetilde{\theta} = (\widetilde{\theta_i},\theta_{-i})$ and $f(\theta) = f(\widetilde{\theta}) = a$. if $p$ implements $f$, then \Cref{def: payment dsic} immediately yields that $p_i(\theta) = p_i(\widetilde{\theta})$.
+			Suppose the allocation is the same for two type profiles $\theta = (\theta_i,\theta_{-i})$ and $\widetilde{\theta} = (\widetilde{\theta_i},\theta_{-i})$ and $f(\theta) = f(\widetilde{\theta}) = a$. if $p$ implements $f$, then \Cref{def: payment dsic} immediately yields that $p_i(\theta) = p_i(\widetilde{\theta})$.
 		\end{fex}
 
 		Let us now move to Pareto efficiency in the quasilinear domain.
@@ -659,30 +663,31 @@
 				\[ \pi_i = v_i(b,\theta_i) - v_i(f(\theta),\theta_i) + p_i(\theta) - (\delta/n). \]
 				Then,
 				\[ \left( v_i(b,\theta_i) - \pi_i \right) - \left(v_i(f(\theta),\theta_i) - p_i(\theta)\right) = (\delta/n) > 0 \]
-				and $\sum_i \pi_i = \sum_i p_i(\theta)$, show that $(f,p)$ is not Pareto optimal.
+				and $\sum_i \pi_i = \sum_i p_i(\theta)$, showing that $(f,p)$ is not Pareto optimal.
 
-				\item Suppose that $(f,p)$ is not Pareto optimal. Let $\theta,\pi,b \ne f(\theta),\pi$ such that
+				\item Suppose that $(f,p)$ is not Pareto optimal. Let $\theta,\pi,b \ne f(\theta)$ such that
 				\[ \sum_i \pi_i \ge \sum_i p_i(\theta) \]
 				and
 				\[ v_i(b,\theta_i) - \pi_i \ge v_i(f(\theta),\theta_i) - p_i(\theta) \]
-				for all $i \in N$, with the inequality being strict for some $j$.\\
+				for all $i \in N$, with the inequality being strict for some $i$.\\
 				Summing the second inequality over $i$,
 				\begin{align*}
-					\sum_i v_i(b,\theta_i) - \pi_i &> \sum_i v_i(f(\theta),\theta_i) - p_i(\theta) \\
+					\sum_i (v_i(b,\theta_i) - \pi_i) &> \sum_i (v_i(f(\theta),\theta_i) - p_i(\theta)) \\
 					\sum_i v_i(b,\theta_i) - \sum_i v_i(f(\theta),\theta_i) &> \sum_i \pi_i - \sum_i p_i(\theta) \ge 0,  
 				\end{align*}
 				showing that $(f,p)$ is not allocatively efficient.
 			\end{itemize}
 		\end{proof}
 
-		So, for any Pareto optimal mechanism $(f^\text{eff},p)$, we have
-		\[ f^\text{eff}(\theta) \in \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i). \]
+		So, for any Pareto optimal mechanism $(f^\eff,p)$, we have
+		\[ f^\eff(\theta) \in \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i). \]
 		This seems to suggest that any sensible mechanism has this (more or less) fixed allocation part. We must now come up with a sensible payment part to make it DSIC.
 		
 		\begin{fdef}[Groves payment]
-			Given a Pareto optimal function $f$, consider the \emph{Groves payment} defined for each $i$ by
-			\[ p_i^G(\theta) = h_i(\theta_{-i}) - \sum_{j \ne i} v_j(f^\text{eff}(\theta),\theta_j) \]
-			where $h_i : \Theta_{-i} \to \R$ is any arbitrary function.
+			Given a Pareto optimal function $f^\eff$, consider the \emph{Groves payment} defined for each $i$ by
+			\[ p_i^G(\theta) = h_i(\theta_{-i}) - \sum_{j \ne i} v_j(f^\eff(\theta),\theta_j) \]
+			where $h_i : \Theta_{-i} \to \R$ is any arbitrary function.\\
+			A \emph{Groves mechanism} is a pair $(f^\eff,p^G)$, where $f^\eff$ is Pareto optimal and $p^G$ is a Groves payment (for $f^\eff$).
 		\end{fdef}
 
 		Perhaps surprisingly, this is a truthful mechanism!
@@ -691,7 +696,7 @@
 			Any Groves mechanism is DSIC.
 		\end{ftheo}
 		\begin{proof}
-			Arbitrarily choose player $i$, $\theta = (\theta_i,\theta_{-i})$, and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$, and set $a = f^\text{eff}(\theta)$ and $b = f^\text{eff}(\widetilde{\theta})$. By definition,
+			Arbitrarily choose player $i$, $\theta = (\theta_i,\theta_{-i})$, and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$, and set $a = f^\eff(\theta)$ and $b = f^\eff(\widetilde{\theta})$. By definition,
 			\[ v_i(a,\theta_i) + \sum_{j \ne i} v_j(a,\theta_j) \ge v_i(b,\theta_i) + \sum_{j \ne i} v_j(b,\theta_j). \]
 			The utility of player $i$ when they report $\theta_i$ is
 			\begin{align*}
@@ -701,3 +706,84 @@
 			\end{align*}
 			proving the result.
 		\end{proof}
+
+		\begin{fdef}[VCG mechanism]
+			Given a Pareto optimal function $f^\eff$, the \emph{pivotal mechanism} or \emph{VCG mechanism} is the Groves mechanism $(f^\eff,p^\VCG)$ with
+			\[ h_i(\theta_{-i}) = \max_{a \in A} \sum_{j \ne i} v_j(a,\theta_j). \]
+			That is,
+			\[ p_i^\VCG(\theta) = \max_{a \in A} \sum_{j \ne i} (v_j(a,\theta_j) - v_j(f^\eff(\theta),\theta_j)). \]
+		\end{fdef}
+
+		Clearly, $p_i^\VCG(\theta) \ge 0$ for all $\theta \in \Theta,i \in N$, that is, it is a no subsidy payment rule (and in particular, a no deficit payment rule). The first part is essentially the values of others in the absence of agent $i$. When agent $i$ is introduced, the others get less than they could have in $i$'s absence, and the expression above can be thought of as the ``damages'' caused by agent $i$ which are compensated for by this payment. In other words,
+		\[ v_i(f^\eff(\theta),\theta_i) - p_i^\VCG(\theta) = \underbrace{\sum_{j \in N} v_j(f^\eff(\theta),\theta_j)}_{\text{social welfare in presence of $i$}} - \underbrace{\max_{a \in A} \sum_{j \ne i} v_j(a,\theta_j)}_{\text{maximum social welfare in absence of $i$}}, \]
+		which is the marginal contribution of $i$ to social welfare.
+
+		\begin{fex}
+			Let us try to understand this better with a couple of examples.\\
+			Consider single object allocation where an agent's type $\theta_j$ is equal to the amount they value the object, and the value is equal to $\theta_j$ if they get the item and $0$ otherwise. Suppose that there are $4$ agents' valuations are $10,8,9,5$. Allocative efficiency means that the item is allocated to that agent with the highest valuation, namely $10$. We have
+			\[ p_i^\VCG(\theta) = \max_{a \in A} \sum_{j \ne i} (v_j(a,\theta_j) - v_j(f^\eff(\theta),\theta_j)). \]
+			For the agent with valuation $10$, this is equal to the second highest bid $9$. Indeed, the first summation is maximized when $a$ assigns the item to the agent with the second highest bid $9$, and the second summation is equal to $0$. For all other agents, both summations are equal to the higest bid $10$.\\
+			Therefore, under the VCG mechanism, the only agent who pays is the first agent, and he pays the second highest bid $9$. This makes sense since the utility of agent $i$ is equal to $10-9 = 1$, which is the amount they ``profit'' by paying less than the amount they value the item.\\
+
+			Let us look at another example, wherein a committee must decide to build one of a football stadium, a library, or a museum. The members of the committee $A,B,C$ value each of these as follows.
+			\begin{center}
+			\begin{tabular}{|c||c|c|c|}
+				\hline
+				& \text{Football} & \text{Library} & \text{Museum} \\
+				\hline\hline
+				A & $0$ & $70$ & $50$ \\
+				\hline
+				B & $95$ & $10$ & $50$ \\
+				\hline
+				C & $10$ & $50$ & $50$ \\ \hline
+			\end{tabular}
+			\end{center}
+			Due to allocative efficiency, the VCG mechanism decides to build the museum. If $B$ is removed, it is instead decided to build the library which has corresponding value $70+50 = 120$. So, $B$ pays an amount of $120-100 = 20$. Similarly, $A$ pays $(95+10)-100 = 5$, and $C$ pays $(50+50)-100 = 0$.\\
+			Note that agent $C$ pays nothing! They can be thought of as a \emph{non-pivotal} agent, and removing the player does not change the outcome of the game.
+		\end{fex}
+
+		Agents whose presence changes the outcome are referred to as \emph{pivotal agents}. These are precisely those players who have to pay some nonzero amount of money.
+
+		\begin{fex}
+			Let us look at another example of selling multiple objects $1$ and $2$.
+			\begin{center}
+			\begin{tabular}{|c||c|c|c|c|}
+				\hline
+				& $\emptyset$ & $\{1\}$ & $\{2\}$ & $\{1,2\}$ \\
+				\hline\hline
+				$\theta_1$ & $0$ & $8$ & $6$ & $12$ \\
+				\hline
+				$\theta_2$ & $0$ & $9$ & $4$ & $14$ \\ \hline
+			\end{tabular}
+			\end{center}
+			The above table indicates each player value $v_i(a,\theta_i) \eqqcolon \theta_i(a)$ under various actions. Note that the meaning of the table here is not as directly interpreted as that in the previous example -- an allocation is a pair of non-intersecting subsets of $\{1,2\}$. That is, we can decide to allocate $\{1\}$ to one agent and $\{2\}$ to another (but we cannot allocate item $1$ to both agents). \\
+			In fact, this is what happens. Due to allocative efficiency, the VCG mechanism allocates $\{1\}$ to player $2$ and $\{2\}$ to player $1$. If player $1$ is removed, we give the entire bundle to player $2$ for value $14$, so player $1$ pays $14-9 = 5$ and similarly, player $2$ pays $12-6 = 6$. The payoffs of the two players here are $6-5 = 1$ and $9-6 = 3$.
+		\end{fex}
+
+		Over the next two examples, we more precisely look at combinatorial auctions from \Cref{ex: payment irl examples}.
+
+		\begin{fex}[Combinatorial auctions I]
+			In a \emph{combinatorial auction}, there is a fixed set $M$ of objects, and $\Omega = 2^M$ is set of ``bundles''. The set of allocations $A$ is comprised of all elements $a = (a_0,a_1,\ldots,a_n)$ of $\Omega^n$ such that $a_i \cap a_j = \emptyset$ for $i \ne j$ and $M = \bigcup_{i=0}^n a_i$. Here, $a_0$ is the set of unallocated objects. \\
+			Each player's type/value is given by a function $\theta_i : \Omega \to \R$. We assume that $\theta_i(S) \ge 0$ for all $S \in \Omega$, that is, objects are ``goods'' and not trash.\\
+			We further assume that $\theta_i(\emptyset) = 0$ and also that valuations are ``selfish'', that is, $\theta_i(a) = \theta_i(a_i)$ and agent $i$'s valuation does not depend on what the others get.\\
+
+			We claim that in the allocation of goods, the VCG payment for an agent who gets no object in an efficient allocation is equal to $0$.\\
+			Fix some $a^* \in \argmax_{a \in A} \sum_{j \in N} \theta_j(a)$ with $a^*_i = 0$. Also let $a^*_{-i} = \argmax_{a \in A} \sum_{j \in N \setminus \{i\}} \theta_j(a)$. Because $a$ is the defined $\argmax$, we have
+			\[ p_i^\VCG(\theta) = \sum_{j \in N \setminus \{i\}} \theta_j(a^*_{-i}) - \sum_{j \in N \setminus \{i\}} \theta_j(a^*) \le 0, \]
+			so $p_i^\VCG(\theta) = 0$ because it is non-negative.
+		\end{fex}
+
+		\begin{fdef}[Individual rationality]
+			A mechanism $(f,p)$ is \emph{individually rational} if for all $\theta \in \Theta, i \in N$,
+			\[ v_i(f(\theta),\theta_i) - p_i(\theta) \ge 0. \]
+		\end{fdef}
+		Intuitively, what this says is that no player decides to participate if they are going to incur a negative payoff.
+
+		\begin{fex}[Combinatorial auctions II]
+			Next, we claim that in combinatorial auctions, the VCG mechanism is individually rational. Fix $i \in N$ and define $a^*,a^*_{-i}$ as in the previous example. We have
+			\begin{align*}
+				\theta_i(a^*) - p_i^\VCG(\theta) &= \sum_{j} \theta_j(a^*) - \sum_{j \ne i} \theta_j(a_{-i}^*) \\
+					&= \sum_{j} \theta_j(a^*) - \sum_{j \ne i} \theta_j(a_{-i}^*) \\
+					&= \underbrace{\sum_{j} \theta_j(a^*) - \sum_{j} \theta_j(a_{-i}^*)}_{\ge 0\text{ by definition of $a^*$}} + \underbrace{\theta_i(a_{-i}^*)}_{\ge 0} \ge 0.
+			\end{align*}
+		\end{fex}
