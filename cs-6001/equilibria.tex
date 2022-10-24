@@ -68,6 +68,7 @@
 	Let us give another example of this.
 
 	\begin{fex}[Second price auctions]
+		\label{ex: second price auction}
 		Suppose there are two players having ``values'' $v_1,v_2$ respectively. Each player can choose a number in $[0,M]$, where $M \gg v_1,v_2$. The player who quotes the larger number wins the object (with ties being broken in favour of player $1$, say), and pays the losing player's chosen number. The utility of the winning player is their value $v_i$ minus their payment (the amount bid by the other player), and the utility of the losing player is $0$.\\
 		As a NFG representation, $N = \{1,2\}$, $S_1 = S_2 = [0,M]$, and
 		\[ u_1(s_1,s_2) = \begin{cases} v_1 - s_2, & s_1 \ge s_2, \\ 0, & \text{otherwise,} \end{cases} \text{ and } u_1(s_1,s_2) = \begin{cases} v_2 - s_1, & s_1 < s_2, \\ 0, & \text{otherwise,} \end{cases} \]
