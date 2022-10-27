@@ -48,7 +48,53 @@
 		Note that due to the uniqueness, the above determinant is nonzero! It cannot be cancelled by any sum of higher weight matchings (Why?). After that, for each edge, decrement the weight by one and see if the minimum weight has now decreased. If it has, this edge must be part of the minimum weight perfect matching.\\
 		All that remains is to find a weight assignment such that there is a unique minimum weight perfect matching. It turns out that a random weight assignment does the trick. This is not immediately clear, because if we assign weights in $\{1,2,\ldots,n^2\}$, say, then despite there being possibly exponentially many matchings, the minimum weight one is unique.
 
-		\begin{flem}[Isolation lemma]
-			Assigning each edge random weights in $\{1,2,\ldots,2m\}$, the minimum weight perfect matching is unique with probability at least $1/2$.
+		% \begin{flem}[Isolation lemma]
+		% 	Assigning each edge random weights in $\{1,2,\ldots,2m\}$, the minimum weight perfect matching is unique with probability at least $1/2$.
+		% \end{flem}
+		% Further, this lemma is not particular to perfect matchings and works even for objects such as spanning trees.
+
+	\subsubsection{Lecture 21}
+
+		\begin{flem}[Isolation Lemma, \cite{matching-mvv}]
+			Let $E$ be a set of $m$ elements and $\mathcal{S} \subseteq 2^E$ an arbitrary family of subsets of $E$. Independently and uniformly randomly assign to each element of $E$ a weight in $\{1,2,\ldots,N\}$. Then,
+			\[ \Pr\left[ \mathcal{S} \text{ has a minimum weight set} \right] \ge 1 - \frac{m}{N}, \]
+			where the weight of a set is the sum of the weights of the elements in it.
 		\end{flem}
-		Further, this lemma is not particular to perfect matchings and works even for objects such as spanning trees.
+		We get the desideratum in the context of matchings on setting $E$ to be the set of edges and $\mathcal{S}$ to be the collection of perfect matchings. 
+		\begin{proof}
+			Let $E = \{e_1,\ldots,e_m\}$. Split $\mathcal{S}$ into two parts $\mathcal{S}_0,\mathcal{S}_1$, where $\mathcal{S}_0 = \{ T \in \mathcal{S} : e_1 \in T \}$ and $\mathcal{S}_1 = \mathcal{S} \setminus \mathcal{S}_0$. Let us look at the event $E$ that there is a minimum weight set that contains $e_1$ and a minimum weight set that does not contain $e_1$. This means that the minimum weight set in $\mathcal{S}_0,\mathcal{S}_1$ are equal.\\
+			What happens if we fix the weights of all elements other than $e_1$? The minimum weight in $\mathcal{S}_1$ is determined, and the minimum weight in $\mathcal{S_0}$ is just equal to some fixed quantity plus the weight of $e_1$. In particular, there is at most one value of $w(e_1)$ such that the two minimum weights are equal. Therefore, $\Pr[E] \le 1/N$. In general, taking the union bound, we have
+			\[ \Pr[\text{there exist two min wt sets}] = \Pr\left[ \bigcup_{i \in [m]} \text{there exist min wt sets containing $e_i$ and not containing $e_i$} \right] \le \frac{m}{N}. \]
+		\end{proof}
+		Later, \textbf{*****} proved that the above is in fact true with $\left( 1 - \frac{1}{N} \right)^m$ instead. Note that the above is true if we replace the set weights are drawn from with any set of size $N$, so perturbing about $\log N$ bits ensures a unique solution.\\
+
+		The isolation lemma has several surprising applications, for example that \textsf{UNIQUE-SAT}\footnote{This is \textsf{SAT}, except that we know that if there is a satisfying assignment, it is unique.} is \textsf{NP}-hard.\\
+
+		We next look at derandomization. We cannot derandomize the isolation lemma in all its generality, but we can for specific families that have some structure.\\
+		For example, this is very easy for spanning trees and it suffices to assign distinct weights to all edges. Our main goal is that of derandomizing \emph{bipartite perfect matching}. We will only be able to derandomize it to $O(\log^2n)$ random bits unfortunately, which is equivalent to giving $n^{O(\log n)}$ weight assignments with the assurance that one of them gives a minimum weight matching.\\
+
+		The high-level view of the proof is the following.\\
+		The weight construction is done in $\log n$ rounds. We start off with some huge (exponentially large) family of perfect matchings. We then come up with some weight function such that the set of perfect matchings of minimum weight is comparatively smaller. We then come up with another weight function (with about $\log n$ bits) to break ties among these minimum weight perfect matchings and make the set even smaller. Further, we ensure that the older non-minimum weight matchings do not suddenly enter this family by appending the bits of the new weight function to the bits of the previous weight function. Each of these bit sequences we append are $\log n$ bits, and because there are $\log n$ rounds we end at $\log^2 n$ bits in all.
+
+		As before, let the edges be $e_1,\ldots,e_m$.\\
+		For starters, observe that if $w(e_i) = 2^i$ for all $i$, then all subsets have distinct weights.\\
+		Let $M_1,M_2$ be two minimum weight perfect matchings. Observe that $M_1 \cup M_2$ is a union of cycles (and possibly isolated edges contained in both $M_1,M_2$). Further, each cycle in $M_1 \cup M_2$ has zero ``alternating weight''. This is the difference of the sum of all ``odd'' edges in the cycle and the sum of all ``even'' edges in the cycle. If we instead had that the $M_1$ sum was greater than the $M_2$ sum, we could switch out the edges in the cycle in $M_1$ for edges in the cycle in $M_2$ to get a matching of weight strictly less than that of $M_1$, yielding a contradiction.
+
+		\begin{flem}
+			Let $E' \subseteq E$ be the union of all minimum weight perfect matchings. Then, each cycle in $G = (V,E')$ is has zero alternating weight.
+		\end{flem}
+		
+		\begin{corollary}
+			If $w$ is a weight assignment such that a cycle $C$ has nonzero alternating weight, then the union of minimum weight perfect weight matchings (with respect to $w$) does \emph{not} contain $C$.
+		\end{corollary}
+
+		The above corollary is the key idea. For a suitable weight assignment on a cycle, we can get rid of at least one edge in the cycle, and this ensures that all matchings containing that edge are rid of. Our goal then is to maximize the number of edge-disjoint cycles in the graph.
+
+		\begin{fprop}
+			Let $C_1,\ldots,C_k$ be an arbitrary collection of cycles. Then, for some $j \in \{1,2,\ldots,m^2k\}$, the weight function defined by $w(e_i) = 2^i \pmod j$ for each $i$ assigns a nonzero alternating weight to every cycle $C_r$.
+		\end{fprop}
+		\begin{proof}
+			Given a cycle $C$ and a weight assignment $w$, let $w_{\pm}(C)$ be the alternating weight of $C$ under $w$. We would like to show that for some $j$, $j$ is not a factor of $w_{\pm}(C_1) w_{\pm}(C_1) \cdots w_{\pm}(C_k)$. This product is at most $2^{m^2k}$. Recalling that the lcm of the first $n$ numbers is greater than $2^n$ for sufficiently large $n$, we have that $2^{m^2k}$ is less than the lcm of $[m^2k]$, so there is some number in $[m^2k]$ that does not divide $2^{m^2k}$.
+		\end{proof}
+
+		% The overall process is the following. Set $G^{(0)} = G$. Consider a large set of edge-disjoint cycles, and assign weights $w^{(0)}$ to the edges in each cycle such that the cycle becomes non-alternating. Let $G^{(1)}$ to be the union of all minimum weight perfect matchings under $w^{(0)}$. More generally, given $G^{(i)}$, consider a large set of edge-disjoint cycles in the graph and assign weights $w^{(i)}$ 
