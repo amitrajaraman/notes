@@ -1,5 +1,7 @@
 \section{Symmetric functions}
 
+\subsection{Introduction}
+
 	Let $G = \{x_1,x_2,\ldots,\}$ be a countably infinite abelian group.\\ 
 	Consider the group action induced by the set of permutations of $\N$ on the set of monomials $x_{i_1}^{\alpha_{i_1}}\cdots x_{i_k}^{\alpha_{i_k}}$. For example,
 	if $\sigma = (1,2)$ and $m = x_1^2x_2x_4^3$, then $\sigma(m) = x_1x_2^2x_4^3$.
@@ -46,6 +48,8 @@
 	\end{fdef}
 
 	% A majorises B iff it can be written as a convex combination of B and its rearrangements (Birkhoff polytope related!)
+
+\subsection{Elementary symmetric functions}
 
 	We shall now see another basis of $\Lambda_\Q^d$. Consider the \emph{elementary symmetric functions}
 	\[ e_{n} = m_{1^n} = \sum_{i_1 < i_2 < \cdots < i_n} x_{i_1} x_{i_2} \cdots x_{i_n}. \]
@@ -106,7 +110,7 @@
 	% \begin{proof}
 	% 	% \mu = colsum = q, \lambda = rowsum = p
 	% 	The forward direction of the theorem is straightforward and we omit the proof.\\ % keep shifting 1s to the left to get larger colsums without changing rowsum, finally you just end up with p^* (which dominates colsum(A) = q)
-		Let $\mu = (m_1,\ldots,\mu_\ell)$. Let $r \pge q$ be arbitrary. Consider the minimum $i,j$ such that $r_i > q_i$ and $r_j < q_j$. % subtract 1 from r_i and add 1 at r_j. r' \ge q as well. Clearly, |r' - q| < |r - q| (2 norm). repeating this over and over, we finally just get q. Now, consider the matrix starting with Ferrer diagram of \lambda^*. Now, r_i > q_i \ge q_j > r_j. Choose the smallest h such that a_{h i} = 1 and a_{h j} = 0. Swap these two. Repeat over and over.
+		% Let $\mu = (m_1,\ldots,\mu_\ell)$. Let $r \pge q$ be arbitrary. Consider the minimum $i,j$ such that $r_i > q_i$ and $r_j < q_j$. % subtract 1 from r_i and add 1 at r_j. r' \ge q as well. Clearly, |r' - q| < |r - q| (2 norm). repeating this over and over, we finally just get q. Now, consider the matrix starting with Ferrer diagram of \lambda^*. Now, r_i > q_i \ge q_j > r_j. Choose the smallest h such that a_{h i} = 1 and a_{h j} = 0. Swap these two. Repeat over and over.
 	% \end{proof}
 
 	\begin{exercise}
@@ -175,6 +179,8 @@
 			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda\mu} m_\lambda(x) m_\mu(y) \nonumber \\
 		\prod_{i,j \ge 1} \left(1 + x_iy_j\right)  &= \sum_{d \ge 0} \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y). \label{eqn: prod 1 p xi yj}
 	\end{align}
+
+\subsection{Homogenous symmetric functions}
 
 	Define a new class of symmetric functions, known as the \emph{complete homogenous symmetric functions}, by
 	\[ h_n = \sum_{\mu \vdash n} m_\mu \]
@@ -253,6 +259,8 @@
 	\end{remark}
 
 	% monomial symmetric functions is m_\lambda
+
+\subsection{Power sum symmetric functions}
 
 	Let us now look at one more class of symmetric functions, known as the \emph{power sum symmetric functions}. For $n > 0$, define
 	\[ p_n = m_n = \sum_{i \ge 1} x_i^n. \]
@@ -381,6 +389,8 @@
 		Matching the coefficients of $p_\lambda(y)$, we get $\omega(p_\lambda) = \epsilon_\lambda p_\lambda$.
 	\end{proof}
 
+\subsection{Dual bases}
+
 	We now endow $\Lambda_\Q^d$ with a scalar product (a bilinear form over $\Q$) by
 	\[ \langle m_\lambda , h_\mu \rangle = \delta_{\lambda\mu} = \begin{cases} 1, & \lambda = \mu, \\ 0, & \text{otherwise.} \end{cases} \]
 	% Why is this a scalar product?
@@ -462,6 +472,8 @@
 	\begin{exercise}
 		Start with $\{m_\lambda\}_{\lambda\vdash d}$ and run Gram-Schmidt Orthogonalization. What is the output orthogonal basis?
 	\end{exercise}
+
+\subsection{Schur symmetric functions}
 
 	Now, let us define another basis (which will turn out to be orthogonal).\\
 
@@ -546,6 +558,8 @@
 	Using the above, note in particular that the number of SYTs of shape $(n,n)$ is
 	\[ f_{n,n} = \frac{1}{n+1} \frac{2n}{n}, \]
 	the $n$th Catalan number $C_n$!
+
+\subsection{The RSK algorithm}
 
 	\begin{ftheo}
 		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$.\\
@@ -725,6 +739,8 @@
 	\begin{ftheo}
 		Given any $0,1$-matrix $M$, we can bijectively get a pair $(P,Q)$ of tableauxs of the same shape, where $P^\top, Q$ are SSYTs, and $\content(P) = \colsum(M)$ and $\content(Q) = \rowsum(M)$.  
 	\end{ftheo}
+
+\subsection{The dual RSK algorithm}
 
 	This proof uses the \emph{dual RSK algorithm}. Instead of going from non-negative matrices to SSYT pairs $(P,Q)$ of the same shape, we shall go from $0,1$-matrices $M$ to pairs $(P,Q)$ of the same shape where $P^\top,Q$ are SSYTs.\\
 	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.
