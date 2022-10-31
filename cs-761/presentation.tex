@@ -145,10 +145,15 @@
 
 \section{An Overview of Results}
 \begin{frame}
-	
+	\begin{theorem}
+		There exists an (explicitly given) pseudorandom generator which converts a random seed of length $O(S \log R)$ to $R$ bits which cannot be distinguished from truly random bits by any algorithm running in $\mathsf{space}(S)$.
+	\end{theorem}
+
+	In particular, any log-space random algorithm requires only $O(\log^2 n)$ bits.
 \end{frame}
 
 \section{The Model of Computation}
+
 \begin{frame}{The problem}
 	Uniformly sampling points from a high-dimensional convex body is a basic problem that relates to problems such as volume computation of convex bodies in high dimensions. \pause \\
 	\begin{defn}

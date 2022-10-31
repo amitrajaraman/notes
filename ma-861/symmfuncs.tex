@@ -782,3 +782,78 @@
 	% bruce sagan shifted tableauxs, each row shifted over by one more than the prev row, some 2^{diagonal} stuff appears
 	% Marc van Leuwen Elec J of Combinatorics 1996 proves many RSK algos
 	% Foata festschrift, he proved the excedance-descent we saw earlier
+
+	\begin{fcor}
+		For $\lambda \vdash d$, $\omega(s_\lambda) = s_{\lambda'}$.
+	\end{fcor}
+
+	This follows immediately on applying $\omega$ to the Cauchy identity and using the dual Cauchy identity. This presents another proof of $\omega^2 = \Id$.
+
+\subsection{Symmetric functions in $n$ variables}
+
+	Let $\Lambda_{\Q}^{d,n}$ be the vector space over $\Q$ of degree $d$ symmetric functions in $n$ variables. Clearly, $\dim(\Lambda_\Q^{d,n}) \le \dim(\Lambda_\Q^{d,n})$. In fact, the dimension is the number of partitions of $d$ with at most $n$ parts. Note that if we have at least $d$ variables, the two become equal.\\
+	The classical definition of the Schur symmetric function is on $n$ variables, a function $s_\lambda(x_1,\ldots,x_n)$. Let $\alpha = (\alpha_1,\ldots,\alpha_n)$. $\mathfrak{S}_n$ acts on monomials $x^{\alpha}$ as $\pi(x^\alpha) = \prod_{i=1}^n x_i^{\alpha_{\pi(i)}}$.
+	% We can linearize it to act on polynomials as well.
+	Define
+	\[ f_\alpha(x) = \sum_{\ pi \in \mathfrak{S}_n} \sign(\pi) \pi(x^\alpha). \]
+	Note that $f_\alpha$ is not symmetric, since $\sigma(f_\alpha) = \sum_{\pi \in \mathfrak{S}_n} \sign(\pi) \sigma(\pi(x^\alpha))$. However, this is equal to $\sigma(f_\alpha) = \sign(\sigma) f_\alpha$.
+
+	\begin{fdef}[Skew-symmetric function]
+		A function $f$ such that $\sigma(f) = \sign(\sigma) f$ is called a \emph{skew-symmetric function}.
+	\end{fdef}
+
+	\begin{fprop}
+		$f_\alpha \ne 0$ iff all the $\alpha_i$ are distinct. Further, $(x_i - x_j) \mid f_\alpha$ for distinct $i,j$.
+	\end{fprop}
+	The first part above is easily seen by considering $\sigma(f_\alpha)$ where $\sigma$ is just a transposition of two equal exponents.\\
+
+	Note that the form of the $f_\alpha$ is quite reminiscent of the determinant of a matrix! In fact $f_\alpha$ is precisely equal to the determinant of the matrix
+	\[ M_\alpha = \begin{pmatrix} x_1^{\alpha_1} & x_2^{\alpha_1} & \cdots & x_n^{\alpha_n} \\ x_1^{\alpha_2} & x_2^{\alpha_2} & \cdots x_n^{\alpha_2} \\ \vdots & \vdots & \ddots & \vdots \\ x_1^{\alpha_n} & x_2^{\alpha_n} & \cdots & x_n^{\alpha_n} \end{pmatrix}. \]
+	That is, $(M_\alpha)_{ij} = x_i^{\alpha_j}$. This presents an easy proof of the above proposition.\\
+
+	Assume henceforth that $\alpha$ has all distinct parts, and $\alpha_1 > \alpha_2 > \cdots > \alpha_n$.\\
+	Because the $(x_i - x_j)$ are linear monomials, some ring theory yields that
+	\[ \prod_{i < j} (x_i - x_j) \mid f_\alpha. \]
+	The expression on the left is precisely the Vandermonde determinant
+	\[ \det \begin{pmatrix} x_1^{n-1} & x_2^{n-1} & \cdots & x_n^{n-1} \\ x_1^{n-2} & x_2^{n-2} & \cdots x_n^{n-2} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & 1 & 1 \end{pmatrix}. \]
+	Setting $\delta_n = (n-1,n-2,\ldots,0)$ (denoting it as just $\delta$ if $n$ is clear from context), the above is just $f_{\delta}$. Now, $f_\alpha$ is a polynomial of $\sum \alpha_i$ and $f_{\delta_n}$ is a polynomial of degree $\binom{n}{2}$. As a result, $f_\alpha/f_{\delta_n}$, which is a polynomial, has degree $\left(\sum_i \alpha_i\right) - \binom{n}{2}$. Note that because $f_\alpha$ and $f_\delta$ are skew-symmetric, their quotient is symmetric!\\
+	Set $\lambda_i = \alpha_i - (n-i)$ so $\alpha = \lambda + \delta$, and note that $f_\alpha/f_\delta$ has terms like $x^\lambda$. Note that the $\lambda_i$ are weakly decreasing, so they form a partition of some number with at most $n$ parts (some of which may be $0$). We are interested in $f_{\lambda+\delta}/f_\delta$.
+
+	\begin{fdef}[Schur symmetric function]
+		For a partition $\lambda$ with at most $n$ parts, define the \emph{Schur symmetric function} $s_\lambda(x_1,\ldots,x_n)$ by
+		\[ s_\lambda = \frac{f_{\lambda+\delta}}{f_\delta}. \]
+	\end{fdef}
+	The above is Cauchy's bialternant definition of the $s_\lambda$. We must now show that this coincides with the earlier Schur symmetric function we have studied, on setting $x_j = 0$ for $j > n$.
+
+	\begin{proof}
+		Recall that $h_\mu = \sum_{\lambda \vdash d} K_{\lambda\mu} s_\lambda$. APplying $\omega$, we get $e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} s_\lambda$. Set all variables $x_j$ for $j > n$ as $0$. We now wish to show that
+		\[ e_\mu f_\delta = \sum_{\lambda \vdash d} K_{\lambda'\mu} f_{\lambda+\delta}. \]
+		Let $\mu = (\mu_1,\ldots,\mu_r)$. Note that the expression on the left is skew-symmetric. We wish to find the number of ways of choosing indices such that
+		\[ (x_1^{n-1} x_2^{n-2} \cdots x_{n-1})(x_{i_{1,1}}x_{i_{1,2}}\cdots x_{1,\mu_1})\cdots(x_{i_{r,1}}\cdots x_{i_{r,\mu_r}}). \]
+
+		% \lambda = 5 3 2 1
+		% \mu = 3 2 2 1 1 1 1
+		% x_1^3 x_2^2 x_1 to x_1^8 x_2^5 x_3^3 x_4^1
+
+		% 1 1 1 0
+		% 1 0 1 0
+		% 1 1 0 0
+		% 0 1 0 0
+		% 1 0 0 0 
+		% 1 0 0 0
+		% 0 0 0 1
+
+		% encode it as the tableaux
+		% 1 1 1 7
+		% 2 3 2
+		% 3 4
+		% 4
+		% 5
+		% 6
+		% (the first column has 1s at rows 1,2,3,5,6)
+
+		% shape \lambda' and content \mu
+
+		% not valid! However, this contributes 0 because (x_1^3 x_2^2 x_3)(x_1x_2x_3)(x_1x_3)... gets equal exponent of x_2, x_3
+		% in fact, this is valid iff it forms an SSYT
+	\end{proof}
