@@ -2,7 +2,7 @@
 
 \subsection{Introduction}
 
-	Mechanism design is something of an inverse of game theory, given the desired objects/outcomes, our task is to set the rules of the game.\\
+	Mechanism design is something of an inverse of game theory, where our task is to set the rules of the game given the desired objects/outcomes.\\
 	Some common examples of this are elections, resource allocation, matching students to universities, etc.
 
 	Let $N$ be a set of players, $X$ a set of outcomes, and $\Theta_i$ a set of private information of each agent $i$. Each element $\theta_i \in \Theta_i$ is called a \emph{type}.\\
@@ -10,15 +10,15 @@
 	The type manifests in the preferences over the outcomes. We shall look at two ways this can happen.
 	\begin{enumerate}
 	 	\item \emph{Ordinal}: $\theta_i$ defines an ordering over the outcomes, which describes a preference order. It does not describe how much something is preferred, however.
-	 	\item \emph{Cardinal}: A utility function $u_i$ maps an outcome/type pair to real numbers. In the \emph{private value model}, $u_i$ is a map $X \times \Theta_i \to \R$. In the \emph{interdependent value model}, $u_i$ is a map $X \times \Theta \to \R$.
+	 	\item \emph{Cardinal}: A utility function $u_i$ maps an outcome/type pair to real numbers. In the \emph{private value model}, $u_i$ is a map $X \times \Theta_i \to \R$. In the \emph{interdependent value model}, $(u_i)_{i \in N}$ is a map $X \times \Theta \to \R$.
 	\end{enumerate}
 
 	\begin{fex}
 		Let us look at the example of voting. Here, $X$ is the set of candidates, and each $\theta_i$ is a ranking over the candidates. For example, $(a,b,c)$ means that the voter prefers $a$ over $b$ over $c$. \\
-		Another example is single object allocation. Each outcome is $x = (a,p) \in X$, where $a = (a_1,\ldots,a_n)$, where each $a_i \in \{0,1\}$, and at most one of the $a_i$s is $1$ and $p = (p_1,\ldots,p_n)$, where $p_i$ is the payment charged to $i$. $\theta_i$ is the amount $i$ values the object. The utility is given by $u_i(x,\theta_i) = a_i\theta_i - p_i$.
+		Another example is single object allocation. Each outcome is $x = (a,p) \in X$, where $a = (a_1,\ldots,a_n)$, where each $a_i \in \{0,1\}$ and at most one of the $a_i$s is $1$, and $p = (p_1,\ldots,p_n)$ where $p_i$ is the payment charged to $i$. $\theta_i$ is the amount $i$ values the object. The utility is given by $u_i(x,\theta_i) = a_i\theta_i - p_i$. We shall study this in more detail later in \Cref{sec: mechanism design w transfers}.
 	\end{fex}
 
-	Now, the designer has a certain objective, captured by a \emph{social choice function} (SCF) $f : \Theta_1 \times \cdots \times \Theta_n \to X$. For example, in voting, if there is a candidate who beats everyone else in pairwise contests, we would like him to be chosen as the winner. In public project choice, where $\theta_i : X \to \R$ is the value of each project, we should pick $f(\theta) = \argmax_{x \in X} \sum_{i \in N} \theta_i(x)$.\\
+	Now, the designer has a certain objective captured by a \emph{social choice function} (SCF) $f : \Theta_1 \times \cdots \times \Theta_n \to X$. For example, in voting, if there is a candidate who beats everyone else in pairwise contests, we would like him to be chosen as the winner. In public project choice, where $\theta_i : X \to \R$ is the value of each project, we should pick $f(\theta) = \argmax_{x \in X} \sum_{i \in N} \theta_i(x)$.\\
 	To create a game where $f(\theta)$ emerges as the outcome as an equilibrium, we require mechanism design.
 
 	\begin{fdef}
@@ -51,7 +51,7 @@
 		A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{dominant strategy incentive compatible} (DSIC) if
 		\begin{equation}
 			\label{eqn: dsic}
-			u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \ge u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i)
+			u_i(f(\theta_i,\theta_{-i}),\theta_i) \ge u_i(f(\theta_i',\theta_{-i}),\theta_i)
 		\end{equation}
 		for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
 	\end{fdef}
@@ -68,7 +68,7 @@
 		so $f$ is DSIC.
 	\end{proof}
 
-	Now, let us look at a Bayesian extension, where agents may have probabilistic information about others' types. Recall \hyperref[def: bayesian game]{bayesian games}.\\
+	Now, let us look at a Bayesian extension, where agents may have probabilistic information about others' types. Recall \hyperref[def: bayesian game]{bayesian games}.
 
 	\begin{fdef}[Bayesian implementability]
 		A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
@@ -130,7 +130,7 @@
 	We say that $R_i,R_i'\in\mathcal{R}$ \emph{agree} on $\{a,b\}$ if for agent $i$, $a P_i b$ iff $a P_i' b$, $b P_i a$ iff $b P_i' a$, and $a I_i b$ iff $b I_i a$. We use the shorthand $\restr{R_i}{a,b} = \restr{R_i'}{a,b}$ to denote this. If it holds for every agent $i$, we write $\restr{R}{a,b} = \restr{R'}{a,b}$.
 
 	\begin{fdef}[Independence of irrelevant alternatives]
-		An ASFW $F$ is said to satisfy \emph{independence of irrelevant alternatives} (IIA) if for all $a,b \in A$, if $\restr{R}{a,b} = \restr{R'}{a,b}$, then $\restr{F(R)}{a,b} = \restr{F(R')}{a,b}$.
+		An ASWF $F$ is said to satisfy \emph{independence of irrelevant alternatives} (IIA) if for all $a,b \in A$, if $\restr{R}{a,b} = \restr{R'}{a,b}$, then $\restr{F(R)}{a,b} = \restr{F(R')}{a,b}$.
 	\end{fdef}
 	That is, if everyone prefers one option to another, then the final preference order also prefers this option to the other.\\
 	Note that the dictatorship ASWF, defined by $F(R) = R_i$ for some fixed $i$, is both weak Pareto and IIA.
@@ -145,8 +145,8 @@
 
 	\begin{fdef}
 		Let $F : \mathcal{R}^n \to \mathcal{R}$ be given, and let $G \subseteq N$ be non-empty.\\
-		$G$ is said to be \emph{almost decisive} over $\{a,b\}$ if if $a P_i b$ for all $i \in G$ and $b P_j a$ for all $j \not\in G$, then $a \hat{F}(R) b$. This is denoted $\overline{D}_G(a,b)$. \\
-		$G$ is \emph{decisive} over $\{a,b\}$ if if $a P_i b$ for all $i \in G$, then $a \hat{F}(R) b$. This is denoted $D_G(a,b)$.
+		$G$ is said to be \emph{almost decisive} over $\{a,b\}$, denoted $\overline{D}_G(a,b)$, if if $a P_i b$ for all $i \in G$ and $b P_j a$ for all $j \not\in G$, then $a \hat{F}(R) b$. \\
+		$G$ is \emph{decisive} over $\{a,b\}$, denoted $D_G(a,b)$, if if $a P_i b$ for all $i \in G$, then $a \hat{F}(R) b$.
 	\end{fdef}
 	If a group is (almost) decisive over all pairs of coordinates, we say that it is (almost) decisive.
 	% Clearly, any decisive set is almost-decisive. Also note that 
@@ -168,12 +168,12 @@
 		\begin{enumerate}
 			\item Case 1. $x = a$ and $y \ne a,b$. Pick arbitrary $R \in \mathcal{R}^n$ such that $a P_i y$ for all $i \in G$. We wish to show that $a \hat{F}(R) y$.\\
 			Construct another preference $R'$ as follows. For $i \in G$, we have $a P'_i b$ and $b P'_i y$, and on $N \setminus G$, $b P'_i a$ and $b P'_i y$, and between $a,y$ we retain the same ordering as in $R_i$.\\
-			We ensure that $\restr{R_i'}{a,y} = \restr{R_i}{a,y}$ for all $i \in N$. $\overline{D}_G(a,b)$ implies that $a \hat{F}(R') b$. Weak Pareto over $b,y$ implies that $b \hat{F}(R') y$. So, by transitivity, $a \hat{F}(R') y$. Now, use IIA to conclude that $a \hat{F}(R) y$ as well, completing the proof.
+			We ensure that $\restr{R_i'}{a,y} = \restr{R_i}{a,y}$ for all $i \in N$. Almost-decisiveness of $F$ over $\{a,b\}$ for $R'$ implies that $a \hat{F}(R') b$. Weak Pareto over $b,y$ implies that $b \hat{F}(R') y$. So, by transitivity, $a \hat{F}(R') y$. Now, use IIA to conclude that $a \hat{F}(R) y$ as well, completing the proof.
 			\item Case 2. $y = b$ and $x \ne a,b$. The idea for this is nearly identical to that in case 1. $R'$ is constructed such that for $i \in G$, $x P_i' a$ and $a P_i' b$, and on $N \setminus G$, $x P_i' a$ and $b P_i' a$, and the ordering of $a,b$ is the same as that in $R$.
 			\item Case 3. $x \ne a,b$ and $y \ne a,b$. We have $\overline{D}_G(a,b)$, so $D_G(a,y)$ by case 1, so $\overline{D}_G(a,y)$ by definition, so $D_G(x,y)$ by case 2.
 			\item Case 4. $x \ne a,b$ and $y = a$. We have $\overline{D}_G(a,b)$, so $D_G(x,b)$ by case 2, so $\overline{D}_G(x,b)$ by definition, so $D_G(x,a)$ by case 1.
 			\item Case 5. $x = b$ and $y \ne a,b$. We have $\overline{D}_G(a,b)$, so $D_G(a,y)$ by case 1, so $\overline{D}_G(a,y)$ by definition, so $D_G(b,y)$ by case 2.
-			\item Case 6. $x = a$ and $y = b$. This is trivial.
+			\item Case 6. $x = a$ and $y = b$. This similarly follows from previous parts.
 			\item Case 7. $x = b$ and $y = a$. This similarly follows from previous parts.
 		\end{enumerate}
 	\end{proof}
@@ -183,10 +183,10 @@
 		Let $F$ be WP and IIA. Let $G \subseteq N$ with $|G| \ge 2$ be decisive. Then, there exists non-empty $G' \subsetneq G$ which is decisive.
 	\end{lemma}
 	\begin{proof}
-		Let $G_1 \subsetneq G$ and $G_2 = G \setminus G_1$. Let $a,b,c \in R$. Consider an ASWF $R$ which orders $a P_i b P_i c$ for $i \in G_1$, $c P_i a P_i b$ for $i \in G_2$, and $b P_i c P_i a$ for $i \in N \setminus G$. Because $a P_i b$ for all $i \in G$ and $G$ is decisive, $a \hat{F}(R) b$.
+		Arbitrarily choose $G_1 \subsetneq G$ and $G_2 = G \setminus G_1$. Let $a,b,c \in R$. Consider an ASWF $R$ which orders $a P_i b P_i c$ for $i \in G_1$, $c P_i a P_i b$ for $i \in G_2$, and $b P_i c P_i a$ for $i \in N \setminus G$. Because $a P_i b$ for all $i \in G$ and $G$ is decisive, $a \hat{F}(R) b$.
 		\begin{enumerate}
-			\item Case 1. $a \hat{F}(R) c$. Observe that $a P_i c$ for all $i \in G_1$ and $c P_i a$ for $i \not\in G_1$. Consider all $R'$ where this condition holds. By IIA, $a \hat{F}(R') c$. Therefore, $G_1$ is almost decisive over $\{a,c\}$. Therefore, by field expansion $G_1$ is decisive.
-			\item Case 2. $c F(R) a$. Recalling that $a \hat{F}(R) b$, we have $c \hat{F}(R) b$. Observe that $c P_i b$ for all $i \in G_2$ and $b P_i c$ for $i \not\in G_2$. Considering all $R'$ where this condition holds again, we get by IIA that $b \hat{F}(R') c$, so $G_2$ is almost decisive over $\{b,c\}$ and by field expansion, $G_2$ is decisive.
+			\item Case 1. $a \hat{F}(R) c$. Observe that $a P_i c$ for all $i \in G_1$ and $c P_i a$ for $i \not\in G_1$. Consider all $R'$ where this condition holds. By IIA, $a \hat{F}(R') c$. Therefore, $G_1$ is almost decisive over $\{a,c\}$ and by field expansion, $G_1$ is decisive.
+			\item Case 2. $c F(R) a$. Recalling that $a \hat{F}(R) b$, we have $c \hat{F}(R) b$. Observe that $c P_i b$ for all $i \in G_2$ and $b P_i c$ for $i \not\in G_2$. Considering all $R'$ where this condition holds again, we get by IIA that $b \hat{F}(R') c$, so $G_2$ is almost decisive over $\{b,c\}$ and by field expansion, $G_2$ is decisive. \qedhere
 		\end{enumerate}
 	\end{proof}
 
@@ -238,7 +238,7 @@
 	\end{fdef}
 
 	\begin{prop}
-		The set of Pareto efficient SCFs is strictly contained in the set of unanimous SCFs.
+		Any Pareto efficient SCFs is unanimous, and the converse is not false.
 	\end{prop}
 	Indeed, every alternative other than $a$ is Pareto dominated by it. Further, this containment is strict, as can be seen by considering an SCF which picks a dominated alternative when not all the top alternatives are identical.
 
@@ -247,17 +247,17 @@
 	\end{fdef}
 
 	\begin{prop}
-		The set of unanimous SCFs is contained in the set of onto SCFs.
+		Any unanimous SCF is onto.
 	\end{prop}
 	Indeed, $a$ is chosen by any preference profile which has $a$ at the top spot everywhere.
 
 	\begin{fdef}[Manipulability]
-		An SCF $f$ is \emph{manipulable} if there exists $i \in N$ and a profile $P$ such that
+		An SCF $f$ is \emph{manipulable} if there exists a profile $P$ and $i \in N$ such that
 		\[ f(P_i',P_{-i}) P_i f(P_i,P_{-i}) \]
 		for some $P_i'$.
 	\end{fdef}
-	That is, by falsely reporting a preference, the agent can arrive at an outcome he prefers more.\\
-	Non-manipulability means that on changing the preference you report, the outcome can only become worse.
+	That is, false reporting can result in a more preferred outcome.\\
+	Non-manipulability means that false reporting can only result in a worse outcome.
 
 	\begin{fex}[Manipulability]
 		Consider a voting system with three candidates $a,b,c$ (with ties broken in favour of $a > b > c$). \\
@@ -269,7 +269,7 @@
 		An SCF is said to be \emph{strategy-proof} (SP), \emph{truthful}, or \emph{incentive-compatible} if it is not manipulable by any agent at any profile.
 	\end{fdef}
 
-	Let us look at some implications of strategyproofness.
+	Let us look at some properties of strategyproof SCFs.
 
 	\begin{fdef}[Dominated set]
 		For $a \in A$ and preference $P_i$, the \emph{dominated set} of $a$ at $P_i$ is
@@ -279,7 +279,7 @@
 	\begin{fdef}[Monotonicity]
 		An SCF $f$ is \emph{monotone} (MONO) if for any two profiles $P,P'$ with $f(P) = a$ and $D(a,P_i) \subseteq D(a,P_i')$ for all $i \in N$, then $f(P') = a$.
 	\end{fdef}
-	That is, the relative position of $a$ has weakly improved from $R$ to $R'$.
+	That is, if the relative position of $a$ weakly improves from $R$ to $R'$, then $a$ remains the winner.
 
 	\begin{flem}
 		An SCF is strategyproof if and only if it is monotone.
@@ -304,11 +304,11 @@
 	\end{proof}
 
 	\begin{fcor}
-		Let $f$ be an SCF. The following are equivalent.
+		Let $f$ be a strategyproof SCF. The following are equivalent.
 		\begin{enumerate}
-			\item $f$ is strategyproof and Pareto efficient.
-			\item $f$ is strategyproof and unanimous.
-			\item $f$ is strategyproof and onto.
+			\item $f$ is Pareto efficient.
+			\item $f$ is unanimous.
+			\item $f$ is onto.
 		\end{enumerate}
 	\end{fcor}
 
@@ -324,7 +324,7 @@
 	% In general, the result does not hold. We use some specific constructions. If possible, the result holds.
 
 	% The remainder of this section is dedicated to the proof of the Gibbard-Satterthwaite Theorem.\\
-	We shall only prove the result for $n = 2$ (so $N = \{1,2\}$). It is possible to then apply induction on the number of agents to prove it for an arbitrary $n$, but we omit this part -- interested readers may consult \cite{gs-theo-sen} for more details.\\
+	We shall only prove the result for $n = 2$ (so $N = \{1,2\}$). It is possible to then apply induction on the number of agents to prove it for an arbitrary $n$, but we omit this part -- interested readers may consult \cite{gs-theo-sen} for more details.
 
 	\begin{proof}
 		First of all, we claim that for every preference profile $P$, $f(P) \in \{P_1(1),P_2(1)\}$.\\
@@ -332,20 +332,20 @@
 		Suppose that $P_1(1) = a \ne b = P_2(1)$, and $f(P) = c \ne a,b$. Consider a preference $P_1'$ with $P_1'(1) = a, P_1'(2) = b$, and a preference $P_2'$ with $P_2'(1) = b, P_2'(2) = a$. Note that $f(P_1,P_2') \in \{a,b\}$, because every other alternative is Pareto dominated and $f$ is Pareto efficient. Further, $f(P_1,P_2') \ne b$ because this would mean that $f$ is manipulable (by player $2$). Therefore, $f(P_1,P_2') = a$.  Similarly, we get that $f(P_1',P_2) = b$. Now, due to monotonicity (because $f$ is strategyproof), $D(a,P_1) \subseteq D(a,P_1')$, so $f(P_1',P_2') = a$, but similarly $D(b,P_2) \subseteq D(b,P_2')$ so $f(P_1,P_2') = b$, leading to a contradiction and proving the claim.\\
 
 		Now, let $P,P'$ be two profiles with $P_1(1) = a \ne b = P_2(1)$ and $P_1'(1) = c, P_2'(1) = d$. It suffices to show that $f(P') = c$ if $f(P) = a$ and $f(P') = d$ if $f(P) = b$.\\
-		If $c = d$, this is trivial by unanimity, so assume $c \ne d$. We shall show that if $f(P) = a$, $f(P') = c$; the other side follows symmetrically.\\
+		If $c = d$, this is trivial by unanimity, so assume $c \ne d$. We shall show that if $f(P) = a$, $f(P') = c$; the other side follows symmetrically.
 		
 		\begin{enumerate}
 			\item First, consider the case where $(c,d) = (a,b)$. By the claim, $f(P') \in \{a,b\}$. Suppose instead that $f(P') = b$. Let profile $\hat{P}$ with $\hat{P}_1(1) = a, \hat{P}_1(2) = b, \hat{P}_2(1) = b, \hat{P}_2(2) = a$.\\
-			By monotonicity using $P$, we get that $f(\hat{P}) = f(P) = a$, and by monotonicity using $P'$, we get that $f(\hat{P}) = f(P') = b$.
+			By monotonicity using $P$, we get that $f(\hat{P}) = f(P) = a$, and by monotonicity using $P'$, we get that $f(\hat{P}) = f(P') = b$, a contradiction.
 
-			\item Next, consider the case where $d = b$ but $c \ne a,b$. Again, we have that $f(P') \in \{c,b\}$, and suppose instead that $f(P') = b$. Let $\hat{P}_1$ be a preference order with $\hat{P}_1(1) = c, \hat{P}_1(1) = a$. By case $1$, $f(\hat{P}_1,P_2) = f(P_1',P_2') = b$. Under true preferences $(\hat{P}_1,P_2)$, we see that player $1$ misreporting their preference as $P_1$ would result in a more preferred alternative ($a$ as opposed to $b$), contradicting strategyproofness.
+			\item Next, consider the case where $d = b$ but $c \ne a,b$. Again, we have that $f(P') \in \{c,b\}$, and suppose instead that $f(P') = b$. Let $\hat{P}_1$ be a preference order with $\hat{P}_1(1) = c, \hat{P}_1(2) = a$. By case $1$, $f(\hat{P}_1,P_2) = f(P_1',P_2') = b$. Under true preferences $(\hat{P}_1,P_2)$, we see that player $1$ misreporting their preference as $P_1$ would result in a more preferred alternative ($a$ as opposed to $b$), contradicting strategyproofness.
 
 			\item Next, suppose that $c \ne a,b$ and $d \ne b$, and assume that $f(P') = d$. Let $\hat{P}$ be a profile such that $\hat{P}_1(1) = c, \hat{P}_2(1) = b$. By a symmetric version of case 2 applied for $P',\hat{P}$, $f(\hat{P}) = b$. By case 2 applied for $P,\hat{P}$, $f(\hat{P}) = c$, leading to a contradiction.
 		\end{enumerate}
 		All remaining cases follow similar to case 3 using previously shown cases, so we omit the details.
 	\end{proof}
 
-	A reason for a restrictive result like the GS theorem is that the domain of the SCF is too large, a potential manipulator has far too many ways to manipulate.\\
+	A reason for a restrictive result like the GS theorem is that the domain of the SCF is too large, so a potential manipulator has far too many ways to manipulate.\\
 	What this means is that we must restrict the domain of our SCF.
 
 \subsection{Domain restriction}
@@ -363,7 +363,7 @@
 
 		This common ordering is denoted $<$, where the order is any total order (a binary relation is transitive and antisymmetric).
 
-		Why is this a domain restriction? If the ordering is over $\{a,b,c\}$ and the ordering is $a>b>c$, then preferences such as $acb$ are ruled out!
+		Why is this a domain restriction? If the ordering is over $\{a,b,c\}$ and the ordering is $a<b<c$, then preferences such as $acb$ are ruled out.
 
 		\begin{fdef}[Single-peaked preference]
 			A preference order $P_i$ (that is linear over $A$) of agent $i$ is \emph{single-peaked} with respect to the common order $<$ of the alternatives $A$ if
@@ -376,7 +376,7 @@
 
 		So, under this domain restriction, our SCF is a function $\mathcal{S}^n \to A$.\\
 		We also typically take $A$ to be a finite subset of $\R$.\\
-		This circumvents the Gibbards-Satterthwaite Theorem as seen by the strategyproof, onto, and non-dictatorial SCF which just outputs the leftmost peak. Clearly, the player with the leftmost peak has no reason to misreport. For any other player, misreporting only changes the outcome if they report something less than the leftmost peak, and they necessarily prefer this less to the current outcome.\\
+		This circumvents the Gibbards-Satterthwaite Theorem as seen by the strategyproof, onto, and non-dictatorial SCF which just outputs the leftmost peak. Clearly, the player with the leftmost peak has no reason to misreport. For any other player, misreporting only changes the outcome if they report something less than the leftmost peak, and they necessarily prefer this less than the current outcome.\\
 		A generalization of this is as follows.
 
 		\begin{fdef}[Median voter SCF]
@@ -393,12 +393,13 @@
 		We do not prove this as it is relatively simple -- the proof is similar to what we did when considering the leftmost peak SCF.
 
 		\begin{fprop}
-			Let $p_{\min},p_{\max}$ be the leftmost and rightmost peaks of $P$ according to $<$. Then, $f$ is Pareto efficient iff $f(P) \in [p_{\min},p_{\max}]$.
+			\label{prop: singlepeaked pareto efficient characterization}
+			$f$ is Pareto efficient iff for each preference $P$, setting $p_{\min},p_{\max}$ be the leftmost and rightmost peaks, $f(P) \in [p_{\min},p_{\max}]$.
 		\end{fprop}
 
 		\begin{proof}
 			First, suppose that $f(P) \not\in [p_{\min},p_{\max}]$. Assume that $f(P) < p_{\min}$ without loss of generality. Then, every agent prefers $p_{\min}$ to $f(P)$, so $f(P)$ is dominated and $f$ is not Pareto efficient.\\
-			On the other hand, if $f(P) \in [p_{\min},p_{\max}]$, there does not exist any $b$ such that $b P_i f(P)$ for all $i \in N$. Indeed, if $b < f(P)$, it is less preferred by the player with peak $p_{\max}$, and if $b > f(P)$, it is less preferred by the player with peak $p_{\min}$.
+			On the other hand, if $f(P) \in [p_{\min},p_{\max}]$, there does not exist any $b$ such that $b P_i f(P)$ for all $i \in N$. Indeed, if $b < f(P)$, it is less preferred by the player with peak $p_{\max}$, and if $b > f(P)$, it is less preferred by the player with peak $p_{\min}$. This vacuously implies Pareto efficiency.
 		\end{proof}
 
 		Although the proofs differ quite a bit, several results like in the unrestricted setting hold even here.
@@ -419,7 +420,7 @@
 		\end{ftheo}
 
 		\begin{proof}
-			We know that Pareto efficiency implies unanimity which implies ontoness. As a result, it suffices to show that ontoness implies Pareto efficiency.. Suppose instead that $f$ is strategyproof and onto but not Pareto efficient. Then, there exist $a,b \in A$ such that $a P_i b$ for all $i \in N$ but $f(P) = b$. Because preferences are single-peaked, there is some alternative $c \in A$ which is a ``neighbour'' of $b$ such that $c P_i b$ for all $i \in N$ (possibly, $c = a$) -- go ``one step'' in the direction of $a$ from $b$.\\
+ 			We know that Pareto efficiency implies unanimity which implies ontoness. As a result, it suffices to show that ontoness implies Pareto efficiency. Suppose instead that $f$ is strategyproof and onto but not Pareto efficient. Then, there exist $a,b \in A$ such that $a P_i b$ for all $i \in N$ but $f(P) = b$. Because preferences are single-peaked, there is some alternative $c \in A$ which is a ``neighbour'' of $b$ such that $c P_i b$ for all $i \in N$ (possibly, $c = a$) -- go ``one step'' in the direction of $a$ from $b$.\\
 			Using ontoness, let $P'$ such that $f(P') = c$. Consider $P''$ such that $P_i''(1) = c$ and $P_i''(2) = b$ for all $i \in N$. Due to monotonicity from $P$ to $P''$, $f(P'') = b$, and due to monotonicity from $P'$ to $P''$, $f(P'') = c$, leading to a contradiction.
 		\end{proof}
 
@@ -445,7 +446,7 @@
 			for $j = 1,\ldots,n-1$.\\
 			
 			First, we claim that the $(y_j)$ is non-decreasing.\\
-			Note that the profiles we use to define $y_j$ and $y_{j+1}$ differ only at the $(n-j)$th coordinate. Consequently, due to strategyproofness, we must have $y_j P_{n-j}^0 y_{j+1}$ or the two are equal. However, $P_{n-j}^0$ is single-peaked with its peak at $0$, so this just means that $y_j \le y_{j+1}$.\\
+			Note that the profiles we use to define $y_j$ and $y_{j+1}$ differ only at the $(n-j)$th coordinate. Consequently, due to strategyproofness, we must have $y_j P_{n-j}^0 y_{j+1}$ or the two are equal. However, $P_{n-j}^0$ is single-peaked with its peak at the leftmost position, so this just means that $y_j \le y_{j+1}$.\\
 
 			Let $P$ be an arbitrary profile, and $p_i$ be the peaks of $P_i$. We claim that
 			\[ f(P) = \operatorname{median}(p_1,\ldots,p_n,y_1,\ldots,y_n). \]
@@ -466,7 +467,7 @@
 
 			Let $P'$ such that $P_i(1) = P_i'(1)$ for all $i \in N$. We claim that $f(P) = f(P')$. That is, as long as the peaks stay the same, the preferences stay the same.\\
 			Set $f(P) = x$ and $f(P_1',P_2) = y$. Because $f$ is strategyproof, $x P_1 y$ and $y P_1' x$. If $x$ and $y$ are on the same side of the peak $a$, then they must be the same.\\
-			Assume without loss of generality that $x < a < y$ and $a < b$. Recall that $f$ is Pareto efficient by \Cref{theo: single-peaked equivalence}, so $f(P) \in [a,b]$. However, we have $f(P) = x < a$. We repeat this same argument to go from $(P_1',P_2)$ to $(P_1',P_2')$, thus proving the claim.\\
+			Assume without loss of generality that $x < a < y$ and $a < b$. Recall that $f$ is Pareto efficient by \Cref{theo: single-peaked equivalence}, so by \Cref{prop: singlepeaked pareto efficient characterization}, $f(P) \in [a,b]$. However, we have $f(P) = x < a$. We repeat this same argument to go from $(P_1',P_2)$ to $(P_1',P_2')$, thus proving the claim.\\
 			
 			Now, set $y_1$ to be the phantom peak obtained from earlier. By our assumption, the median is an agent peak, so say it is equal to $a$. This means that $b < a < y_1$ or $y_1 < a < b$. Assume for contradiction that $f(P) = c \ne a$.\\
 			In the situation where $b < a < y_1$, we have by Pareto efficiency that $c < a$. Construct $P_1'$ such that $P_1'(1) = a$ and $y_1 P_1' c$ (this is possible because $c$ and $y_1$ are on different sides of the peak). Conider the profile $(P_1^1,P_2)$. We have $b < y_1 \le P_1^1(1)$ so the median of the three is $y_1$, a phantom peak, and we can use case 1 to conclude that $f(P_1^1,P_2) = y_1$. However, $y_1 P_1' c$ by construction, contradicting strategyproofness since $f(P_1',P_2) = c$.\\
@@ -517,11 +518,11 @@
 			For an anonymous SCF $f : T^n \to A$,
 			\[ f_{\sigma(j)}(P^\sigma) = f_j(P). \]
 		\end{fdef}
-		Note that with the permuting of the agent shares, the shares are permuted as well!\\
+		% Note that along with permuting of the agent shares, we permute the peaks as well!\\
 
 		Let us look at a couple of candidate SCFs.
 		\begin{enumerate}
-			\item Serial dictatorship. A predetermined sequence of agents if xied. Each agent is given either their peak or a leftover share. If $\sum p_i < 1$, the last agent is given the leftover share. This is Pareto efficient and strategyproof but not anonymous. It is also quite unfair for later agents.
+			\item Serial dictatorship. A predetermined sequence of agents is fixed. Each agent is given either their peak or a leftover share. If $\sum p_i < 1$, the last agent is given the leftover share. This is Pareto efficient and strategyproof but not anonymous. It is also quite unfair for later agents.
 			\item Proportional. Every player is assigned a share that is some constant multiplied by their peaks. That is, if $\sum_{i \in N} p_i = s$, we assign a share of $p_i/s$ to each player.\\
 			This is not strategyproof. For example, if the peaks are $0.2,0.3,0.1$, we have $s = 0.6$ and player $1$ gets $1/3$. If they report $0.1,0.3,0.1$ instead however, player $1$ gets $0.2$.
 		\end{enumerate}
@@ -534,8 +535,8 @@
 			The uniform allocation rule $f^u$ is described as follows.
 			\begin{enumerate}
 				\item If $\sum_i p_i = 1$, $f_i^u(P) = p_i$.
-				\item If $\sum_{i \in N} < 1$, set $\mu(P)$ as the largest number that satisfies $\sum_{i \in N} \max\{p_i,\mu\} = 1$ and allocate $f_i^u(P) = \max\{p_i,\mu(P)\}$.
-				\item If $\sum_{i \in N} > 1$, set $\lambda(P)$ as the largest number that satisfies $\sum_{i \in N} \min\{p_i,\lambda\} = 1$ and allocate $f_i^u(P) = \min\{p_i,\lambda(P)\}$.
+				\item If $\sum_{i \in N} p_i < 1$, set $\mu(P)$ as the number that satisfies $\sum_{i \in N} \max\{p_i,\mu\} = 1$ and allocate $f_i^u(P) = \max\{p_i,\mu(P)\}$.
+				\item If $\sum_{i \in N} p_i > 1$, set $\lambda(P)$ as the number that satisfies $\sum_{i \in N} \min\{p_i,\lambda\} = 1$ and allocate $f_i^u(P) = \min\{p_i,\lambda(P)\}$.
 			\end{enumerate}
 		\end{fdef}
 
@@ -543,10 +544,10 @@
 			The uniform rule SCF is anonymous, Pareto efficient, and strategyproof.
 		\end{flem}
 		\begin{proof}
-			It is quite easy to see anonymity since we only look at the agents' peaks and not the agents themselves.\\
+			It is quite easy to see anonymity since we only look at the agents' peaks and not the agents themselves.
 			Pareto efficiency follows trivially by \Cref{lem: task allocation pe}.\\
-			Strategyproofness is evident when $\sum p_i = 1$.\\
-			Suppose now that $\sum_i p_i < 1$, so $f_i^u(P) \ge p_i$. Any beneficial manipulation must be done by agents with $f_i^u(P) > p_i$. That is, $\mu(P) > p_i$. the allocation stopped before ``reaching'' $p_i$. The only way this allocation can change is by reporting $p_i' > \mu(P) > p_i$, but this is a worse allocation for $i$ than $\mu(P)$. The proof when $\sum p_i > 1$, the proof is identical
+			Strategyproofness is evident when $\sum p_i = 1$.
+			Suppose now that $\sum_i p_i < 1$, so $f_i^u(P) \ge p_i$. The only agents who have any reason to manipulate are those with $f_i^u(P) > p_i$. That is, $\mu(P) > p_i$ and the allocation stopped before ``reaching'' $p_i$. The only way this allocation can change is by reporting $p_i' > \mu(P) > p_i$, but this is a worse allocation for $i$ than $\mu(P)$. The proof when $\sum p_i > 1$ is similar.
 		\end{proof}
 
 		\begin{ftheo}[Sprumont]
@@ -555,8 +556,9 @@
 		We do not describe the proof of the above, and refer the reader to \cite{sprumont-uniform-rule}.
 
 	\subsubsection{Mechanism design with transfers}
+		\label{sec: mechanism design w transfers}
 
-		In this case, the utility can be transferred and is thought of something like money. A social choice function here is a function $F : \Theta \to X$, where an outcome $x \in X$ has two components -- an allocation $a \in A$ and a payment vector $\pi \in \R^n$.
+		In this case, the utility can be transferred and is thought of as something like money. A social choice function here is a function $F : \Theta \to X$, where an outcome $x \in X$ has two components -- an allocation $a \in A$ and a payment vector $\pi \in \R^n$.
 
 		\begin{fex}
 			\label{ex: payment irl examples}
@@ -642,7 +644,7 @@
 
 		Let us now move to Pareto efficiency in the quasilinear domain.
 
-		\begin{fdef}
+		\begin{fdef}[Pareto optimality]
 			A mechanism $(f,p)$ is said to be \emph{Pareto optimal} if at every type profile $\theta \in \Theta$, there exists no allocation $b \ne f(\theta)$ and payments $(\pi_1,\ldots,\pi_n)$ with $\sum_i \pi_i \ge \sum_i p_i(\theta)$ such that
 			\[ v_i(b,\theta_i) - \pi_i \ge v_i(f(\theta),\theta_i) - p_i(\theta) \]
 			for all $i \in N$, with the inequality being strict for some $i$.
@@ -696,13 +698,13 @@
 			Any Groves mechanism is DSIC.
 		\end{ftheo}
 		\begin{proof}
-			Arbitrarily choose player $i$, $\theta = (\theta_i,\theta_{-i})$, and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$, and set $a = f^\eff(\theta)$ and $b = f^\eff(\widetilde{\theta})$. By definition,
-			\[ v_i(a,\theta_i) + \sum_{j \ne i} v_j(a,\theta_j) \ge v_i(b,\theta_i) + \sum_{j \ne i} v_j(b,\theta_j). \]
+			Arbitrarily choose player $i$, $\theta = (\theta_i,\theta_{-i})$, and $\widetilde{\theta} = (\widetilde{\theta}_i,\theta_{-i})$, and set $a = f^\eff(\theta)$ and $\widetilde{a} = f^\eff(\widetilde{\theta})$. By definition,
+			\[ v_i(a,\theta_i) + \sum_{j \ne i} v_j(a,\theta_j) \ge v_i(\widetilde{a},\theta_i) + \sum_{j \ne i} v_j(\widetilde{a},\theta_j). \]
 			The utility of player $i$ when they report $\theta_i$ is
 			\begin{align*}
 				v_i(a,\theta_i) - p_i(\theta) &= v_i(a,\theta_i) - h_i(\theta_{-i}) + \sum_{j \ne i} v_j(a,\theta_j) \\
-				&\ge v_i(b,\theta_i) - h_i(\theta_{-i}) + \sum_{j \ne i} v_j(b,\theta_j) \\
-				&= v_i(b,\theta_i) - p_i(\widetilde{\theta}),
+				&\ge v_i(\widetilde{a},\theta_i) - h_i(\theta_{-i}) + \sum_{j \ne i} v_j(\widetilde{a},\theta_j) \\
+				&= v_i(\widetilde{a},\theta_i) - p_i(\widetilde{\theta}),
 			\end{align*}
 			proving the result.
 		\end{proof}
@@ -716,15 +718,15 @@
 
 		Clearly, $p_i^\VCG(\theta) \ge 0$ for all $\theta \in \Theta,i \in N$, that is, it is a no subsidy payment rule (and in particular, a no deficit payment rule). The first part is essentially the values of others in the absence of agent $i$. When agent $i$ is introduced, the others get less than they could have in $i$'s absence, and the expression above can be thought of as the ``damages'' caused by agent $i$ which are compensated for by this payment. In other words,
 		\[ v_i(f^\eff(\theta),\theta_i) - p_i^\VCG(\theta) = \underbrace{\sum_{j \in N} v_j(f^\eff(\theta),\theta_j)}_{\text{social welfare in presence of $i$}} - \underbrace{\max_{a \in A} \sum_{j \ne i} v_j(a,\theta_j)}_{\text{maximum social welfare in absence of $i$}}, \]
-		which is the marginal contribution of $i$ to social welfare.
+		is the marginal contribution of $i$ to social welfare.\\
+		Let us try to understand this better with a couple of examples.
 
 		\begin{fex}
-			Let us try to understand this better with a couple of examples.\\
-			Consider single object allocation where an agent's type $\theta_j$ is equal to the amount they value the object, and the value is equal to $\theta_j$ if they get the item and $0$ otherwise. Suppose that there are $4$ agents' valuations are $10,8,9,5$. Allocative efficiency means that the item is allocated to that agent with the highest valuation, namely $10$. We have
+			Consider single object allocation where an agent's type $\theta_j$ is equal to the amount they value the object, and the value is equal to $\theta_j$ if they get the item and $0$ otherwise. Suppose that there are $4$ agents with valuations $10,8,9,5$. Allocative efficiency means that the item is allocated to that agent with the highest valuation, namely $10$. We have
 			\[ p_i^\VCG(\theta) = \max_{a \in A} \sum_{j \ne i} (v_j(a,\theta_j) - v_j(f^\eff(\theta),\theta_j)). \]
 			For the agent with valuation $10$, this is equal to the second highest bid $9$. Indeed, the first summation is maximized when $a$ assigns the item to the agent with the second highest bid $9$, and the second summation is equal to $0$. For all other agents, both summations are equal to the higest bid $10$.\\
 			Therefore, under the VCG mechanism, the only agent who pays is the first agent, and he pays the second highest bid $9$. This makes sense since the utility of agent $i$ is equal to $10-9 = 1$, which is the amount they ``profit'' by paying less than the amount they value the item.\\
-			The single object allocation behaves just like a \hyperref[ex: second price auction]{second price auction}.
+			The VCG mechanism for single object allocation behaves is precisely a \hyperref[ex: second price auction]{second price auction}!
 
 			Let us look at another example, wherein a committee must decide to build one of a football stadium, a library, or a museum. The members of the committee $A,B,C$ value each of these as follows.
 			\begin{center}
@@ -743,9 +745,10 @@
 			Note that agent $C$ pays nothing! They can be thought of as a \emph{non-pivotal} agent, and removing the player does not change the outcome of the game.
 		\end{fex}
 
-		Agents whose presence changes the outcome are referred to as \emph{pivotal agents}. These are precisely those players who have to pay some nonzero amount of money.
+		Agents whose presence changes the outcome are referred to as \emph{pivotal agents}. These are precisely those players who have to pay some nonzero amount of money.\\
+		Over the next several examples, we more precisely look at combinatorial auctions from \Cref{ex: payment irl examples}.
 
-		\begin{fex}
+		\begin{fex}[Combinatorial auctions I: An example]
 			Let us look at another example of selling multiple objects $1$ and $2$.
 			\begin{center}
 			\begin{tabular}{|c||c|c|c|c|}
@@ -761,9 +764,8 @@
 			In fact, this is what happens. Due to allocative efficiency, the VCG mechanism allocates $\{1\}$ to player $2$ and $\{2\}$ to player $1$. If player $1$ is removed, we give the entire bundle to player $2$ for value $14$, so player $1$ pays $14-9 = 5$ and similarly, player $2$ pays $12-6 = 6$. The payoffs of the two players here are $6-5 = 1$ and $9-6 = 3$.
 		\end{fex}
 
-		Over the next several examples, we more precisely look at combinatorial auctions from \Cref{ex: payment irl examples}.
 
-		\begin{fex}[Combinatorial auctions I: Introduction]
+		\begin{fex}[Combinatorial auctions II: Introduction]
 			In a \emph{combinatorial auction}, there is a fixed set $M$ of objects, and $\Omega = 2^M$ is set of ``bundles''. The set of allocations $A$ is comprised of all elements $a = (a_0,a_1,\ldots,a_n)$ of $\Omega^n$ such that $a_i \cap a_j = \emptyset$ for $i \ne j$ and $M = \bigcup_{i=0}^n a_i$. Here, $a_0$ is the set of unallocated objects. \\
 			Each player's type/value is given by a function $\theta_i : \Omega \to \R$. We assume that $\theta_i(S) \ge 0$ for all $S \in \Omega$, that is, objects are ``goods'' and not trash.\\
 			We further assume that $\theta_i(\emptyset) = 0$ and also that valuations are ``selfish'', that is, $\theta_i(a) = \theta_i(a_i)$ and agent $i$'s valuation does not depend on what the others get.\\
@@ -780,7 +782,7 @@
 		\end{fdef}
 		Intuitively, what this says is that no player decides to participate if they are going to incur a negative payoff.
 
-		\begin{fex}[Combinatorial auctions II: Individual rationality]
+		\begin{fex}[Combinatorial auctions III: Individual rationality]
 			Next, we claim that in combinatorial auctions, the VCG mechanism is individually rational. Fix $i \in N$ and define $a^*,a^*_{-i}$ as in the previous example. We have
 			\begin{align*}
 				\theta_i(a^*) - p_i^\VCG(\theta) &= \sum_{j} \theta_j(a^*) - \sum_{j \ne i} \theta_j(a_{-i}^*) \\
@@ -791,17 +793,17 @@
 
 		Let us illustrate the concepts in the previous two examples using a more specific example, that of advertising on the internet.
 
-		\begin{fex}[Combinatorial auctions III: Introduction to internet advertising]
+		\begin{fex}[Combinatorial auctions IV: Introduction to internet advertising]
 			Internet advertising is very lucrative for numerous reasons: 
 			\begin{enumerate}
 				\item it is quite easy to gather a lot of user data,
 				\item using this data it is possible to classify buyers into categories and measure their interests,
-				\item due to the low latency, we can have real-time bidding, automated bidding, and make decisions on the fly.
+				\item due to the low latency, we can have real-time automated bidding and make decisions on the fly.
 			\end{enumerate}
 			Some examples of such advertisements are
 			\begin{enumerate}
 				\item Sponsored search ads: advertisers bid on the keywords entered by users.
-				\item Contextual ads: depdning on the content of the page, we see a related message.
+				\item Contextual ads: depending on the content of the page, we see a related message.
 				\item Display ads: this is akin to more traditional forms of advertising like banner advertisements in newspapers.
 			\end{enumerate}
 			Modern internet advertising is handled via ``ad exchanges'', which act as an intermediary between the publisher and the client/advertiser. Small businesses customize their ads using these exchanges.\\
@@ -813,21 +815,21 @@
 			\end{enumerate}
 		\end{fex}
 
-		\begin{fex}[Combinatorial auctions IV: A deep-dive into internet advertising]
+		\begin{fex}[Combinatorial auctions V: A deep-dive into internet advertising]
 			Suppose there are $N$ advertisers $\{1,\ldots,n\}$ and $m$ slots $\{1,2,\ldots,m\}$ with $m \ge n$ and every ad is shown. Also assume that $1$ is the ``best'' position and $m$ the ``worst'' (where best and worst are defined more precisely a few paragraphs later).\\
 
 			Let us assume that clicks generate value for the advertisers, and all clicks are valued equally irrespective of where the ad is displayed. The position only affects the click-through rate for that ad. This allows us to decouple the value effect and the position effect.\\
-			The expected value of agent $i \in N$ when their ad is shown at position $j \in M$ is $v_{ij} = \CTR_{ij} v_i$, where $\CTR$ is the click-through rate for $i$ at $j$ and $v_i$ is the click value for $i$. $\CTR_{ij}$ has two components: the quality component $e_i$ and the position component $p_j$, so $v_{ij} = p_j (e_i v_i)$. We have assumed that the position effect is decreasing with position, that is, $p_1 = 1$ and $p_j > p_{j+1}$ for $j = 1,\ldots,m-1$.\\
+			The expected value of agent $i \in N$ when their ad is shown at position $j \in M$ is $v_{ij} = \CTR_{ij} v_i$, where $\CTR$ is the click-through rate for $i$ at $j$ and $v_i$ is the click value for $i$. $\CTR_{ij}$ has two components: the quality component $e_i$ and the position component $p_j$, so $v_{ij} = p_j \cdot (e_i v_i)$. We have assumed that the position effect is decreasing with position, that is, $p_1 = 1$ and $p_j > p_{j+1}$ for $j = 1,\ldots,m-1$.\\
 			Note that $v_i$ is the only private information of the advertisers, and both $p_j,e_i$ are measurable. Search engines estimate $e_i$ as $\hat{e}_i$. If the bidders bid $b_i$, we rank the ads in decreasing order of $\hat{e}_i b_i$.\\
 
-			Note that in this setting, we just have a combinatorial auction where the allocation determines which ad spots each client gets.
+			In this setting, we just have a combinatorial auction where the allocation determines which ad spots each client gets.
 			% If we change the $p_j$ to instead determine on the entire set of ad spots won by agent $i$,
 			We get that
 			\[ v_i(a,\theta_i) = p_{a_i} (\hat{e}_i \theta_i) \]
 			for an allocation $a = (a_1,\ldots,a_n)$, where $p_{a_i} = \sum_{j \in a_i} p_j$ and the reported click value is $\theta_i$. Because of allocative efficiency, we pick an allocation $a^* \in \argmax_{a \in A} \sum_{i \in N} v_i(a,\theta_i)$.\\
 			We claim that an allocation of slots is efficient iff it is the rank-by-expected-revenue mechanism we have described. This is rather easily proved as the above is just that maximizing a weighted sum.\\
 			The slot allocation problem is merely a sorting problem, and is computationally tractable. Now, we must use payments to make it DSIC. A natural candidate is the VCG mechanism, which is (at its core) what is used in ad auctions on Facebook!\\
-			Given reported bids $(\theta_1,\ldots,\theta_n)$, assume that $\hat{e}_1 \theta_1 \ge \hat{e}_2 \theta_2 \ge \cdots \hat{e}_n \theta_n$. Assume that the allocation $a^*$ is such that $a_i^* = i$.\\
+			Given reported bids $(\theta_1,\ldots,\theta_n)$, assume that $\hat{e}_1 \theta_1 \ge \hat{e}_2 \theta_2 \ge \cdots \ge \hat{e}_n \theta_n$. Assume that the allocation $a^*$ is such that $a_i^* = i$.\\
 			Consider $a_{-i}^* = \argmax_{a \in A} \sum_{j \ne i} v_j(a,\theta_j)$. Removing agent $i$ means that players after $i$ get an earlier slot. Then,
 			\begin{align*}
 				p_i^\VCG(\theta) &= \sum_{j \ne i} v_j(a_{-i}^*,\theta_j) - \sum_{j \ne i} v_j(a^*,\theta_j) \\

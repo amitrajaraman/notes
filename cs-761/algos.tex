@@ -81,6 +81,7 @@
 		Let $M_1,M_2$ be two minimum weight perfect matchings. Observe that $M_1 \cup M_2$ is a union of cycles (and possibly isolated edges contained in both $M_1,M_2$). Further, each cycle in $M_1 \cup M_2$ has zero ``alternating weight''. This is the difference of the sum of all ``odd'' edges in the cycle and the sum of all ``even'' edges in the cycle. If we instead had that the $M_1$ sum was greater than the $M_2$ sum, we could switch out the edges in the cycle in $M_1$ for edges in the cycle in $M_2$ to get a matching of weight strictly less than that of $M_1$, yielding a contradiction.
 
 		\begin{flem}
+			\label{lem: union of perfect matchings}
 			Let $E' \subseteq E$ be the union of all minimum weight perfect matchings. Then, each cycle in $G = (V,E')$ is has zero alternating weight.
 		\end{flem}
 		
@@ -88,13 +89,53 @@
 			If $w$ is a weight assignment such that a cycle $C$ has nonzero alternating weight, then the union of minimum weight perfect weight matchings (with respect to $w$) does \emph{not} contain $C$.
 		\end{corollary}
 
-		The above corollary is the key idea. For a suitable weight assignment on a cycle, we can get rid of at least one edge in the cycle, and this ensures that all matchings containing that edge are rid of. Our goal then is to maximize the number of edge-disjoint cycles in the graph.
+		The above corollary is the key idea. For a suitable weight assignment on a cycle, we can get rid of at least one edge in the cycle, and this ensures that all matchings containing that edge are rid of. Our goal then is to maximize the number of edge-disjoint cycles in the graph.\\
+		Given a cycle $C$ and a weight assignment $w$, let $\aw(C)$ be the alternating weight of $C$ under $w$.
 
 		\begin{fprop}
 			Let $C_1,\ldots,C_k$ be an arbitrary collection of cycles. Then, for some $j \in \{1,2,\ldots,m^2k\}$, the weight function defined by $w(e_i) = 2^i \pmod j$ for each $i$ assigns a nonzero alternating weight to every cycle $C_r$.
 		\end{fprop}
 		\begin{proof}
-			Given a cycle $C$ and a weight assignment $w$, let $w_{\pm}(C)$ be the alternating weight of $C$ under $w$. We would like to show that for some $j$, $j$ is not a factor of $w_{\pm}(C_1) w_{\pm}(C_1) \cdots w_{\pm}(C_k)$. This product is at most $2^{m^2k}$. Recalling that the lcm of the first $n$ numbers is greater than $2^n$ for sufficiently large $n$, we have that $2^{m^2k}$ is less than the lcm of $[m^2k]$, so there is some number in $[m^2k]$ that does not divide $2^{m^2k}$.
+			We would like to show that for some $j$, $j$ is not a factor of $\aw(C_1) \aw(C_1) \cdots \aw(C_k)$. This product is at most $2^{m^2k}$. Recalling that the lcm of the first $n$ numbers is greater than $2^n$ for sufficiently large $n$, we have that $2^{m^2k}$ is less than the lcm of $[m^2k]$, so there is some number in $[m^2k]$ that does not divide $2^{m^2k}$.
 		\end{proof}
 
-		% The overall process is the following. Set $G^{(0)} = G$. Consider a large set of edge-disjoint cycles, and assign weights $w^{(0)}$ to the edges in each cycle such that the cycle becomes non-alternating. Let $G^{(1)}$ to be the union of all minimum weight perfect matchings under $w^{(0)}$. More generally, given $G^{(i)}$, consider a large set of edge-disjoint cycles in the graph and assign weights $w^{(i)}$ 
+		Note that the list of weight assignments we give as above does not rqeuire knowledge of which cycles we are working with. That is, if we have polynomially many cycles, we can give a polynomially large list of weight assignments with the guarantee that one of these assignments removes all the cycles.
+
+		% The overall process is the following. Set $G^{(0)} = G$. Consider a large set of edge-disjoint cycles, and assign weights $w^{(0)}$ to the edges in each cycle such that the cycle becomes non-alternating. Let $G^{(1)}$ to be the union of all minimum weight perfect matchings under $w^{(0)}$. More generally, given $G^{(i)}$, consider a large set of edge-disjoint cycles in the graph and assign weights $w^{(i)}$
+
+	\subsubsection{Lecture 22}
+
+		Now, we have exponentially many cycles that we must remove somehow, but each step seems to only remove polynomially many cycles. To take care of this, we can change our perspective by looking at the number of \emph{edges} removed in each step instead.
+
+		\begin{flem}
+			In a graph with $m$ edges and $n$ vertices, there exist at least $\Omega\left(\frac{m-n}{\log(m-n)}\right)$ edge-disjoint cycles.
+		\end{flem}
+		The idea of the proof is that any graph with $n$ vertices and $m$ edges has $O(\log(m-n))$ edges. Removing this cycle and then repeating until there are no cycles remaining gives the desired claim.
+		% erdos posa?
+		% More precisely, we may assume that every vertex has degree $3$ by contracting all degree $2$ vertices.\\
+		This allows us to be done in $O(\log^2 n)$.\\
+		An alternate approach uses the following lemma.
+
+		\begin{flem}
+			A graph with no cycles of length at most $4 \log n$ has average degree at most $5/2$.
+		\end{flem}
+
+		We have a third approach more efficient than the above two, however, which again returns to the idea of removing cycles.
+
+		\begin{flem}[Teo, Koh]
+			\label{lemma: teo koh}
+			A graph $G$ with no cycles of length at most $r$ has are at most $n^4$ cycles of length at most $2r$. 
+		\end{flem}
+
+		In just $O(\log n)$ rounds, we can remove \emph{all} cycles! We start by removing all cycles of length at most $3$, then we remove all cycles of length at most $6$, then at most $12$, and so on. The above lemma tells us that each step is efficient.
+
+		\begin{proof}[Proof of \Cref{lemma: teo koh}]
+			Observe that for any two vertices, there is at most one path between them of length $\le (r/2)$. For each cycle, fix $4$ equidistant vertices on the cycle, and associate the cycle with the tuple $(u_1,u_2,u_3,u_4)$. The key of the argument is that by the observation, no two cycles have the same tuple!\\
+			More precisely, suppose that two distinct cycles have the same tuple $(u_1,u_2,u_3,u_4)$. Note that between the two cycles, at least one of the intervals $(u_i,u_{i+1})$ must have different edges (otherwise, they would be the same cycle). This yields a contradiction to our observation.
+		\end{proof}
+
+		Now, all that remains is to prove \Cref{lem: union of perfect matchings}. Recall Hall's theorem, which states that for a bipartite graph $G = (X,Y,E)$, if $|N(S)| \ge |S|$ for every $S \subseteq X$, then $G$ has a perfect matching. In particular, this can be used to prove that a (non-empty) regular bipartite graph has a perfect matching. This in turn implies that a $d$-regular bipartite graph can be decomposed into the union of $d$ edge-disjoint perfect matchings. This holds true for multigraphs as well.
+
+		\begin{proof}[Proof of \Cref{lem: union of perfect matchings}]
+			Say there are $k$ minimum weigt perfect matchings, each of weight $\lambda$. As in the lemma statement, let $E'$ be the union of all minimum weight perfect matchings. Let $H$ be the multigraph equal to the disjoint union of all minimum weight perfect matchings. Note that $H$ is a $k$-regular bipartite (multi)graph. The total weight of the edges in $H$ is equal to $k\lambda$. Suppose that $H$ has a cycle $C$ of nonzero alternating weight. In $C$, remove the alternating set of edges of larger weight, and add the complimentary alternating set of edges to get a new graph $H'$. Note that $H'$ remains $k$-regular so can be decomposed into $k$ perfect matchings, and the total weight of edges in $H'$ is strictly less than $k\lambda$. This implies that some matching among these $k$ has weight less than $\lambda$, yielding a contradiction.
+		\end{proof}
