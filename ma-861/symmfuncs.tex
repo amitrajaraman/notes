@@ -482,17 +482,24 @@
 		\item each row is weakly increasing from left to right and
 		\item all columns are strictly increasing.
 	\end{enumerate}
-	% \lambda = 3,1
-	% 1 1 2
-	% 3
-	% is a valid such filling.
+
+	\begin{fex}
+		For the partition $\lambda = (3,1)$ of $4$,
+		\[
+		\begin{ytableau}
+			1 & 1 & 2 \\
+			3
+		\end{ytableau}
+		\]
+		is such a filling.
+	\end{fex}
 	Such a filling is called a \emph{semi-standard Young Tableaux} (SSYT) of shape $\lambda$. Let $F$ be an SSYT. Let $F$ have $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
 	Define
 	\[ S_\lambda = \sum_{\text{SSYTs $F$ of shape $\lambda$}} x^{\content(F)} \]
 	For example, when $\lambda = (2,1)$,
 	\[ S_\lambda = m_{2,1} + 2 m_{1^3} \]
 
-	\begin{ftheo}[Knuth-Bendix]
+	\begin{ftheo}[Knuth-Bender]
 		Let $d \ge 0$ and $\lambda \vdash d$. Then, $S_\lambda$ is a symmetric function.
 	\end{ftheo}
 	\begin{proof}
@@ -825,35 +832,69 @@
 	\end{fdef}
 	The above is Cauchy's bialternant definition of the $s_\lambda$. We must now show that this coincides with the earlier Schur symmetric function we have studied, on setting $x_j = 0$ for $j > n$.
 
-	\begin{proof}
-		Recall that $h_\mu = \sum_{\lambda \vdash d} K_{\lambda\mu} s_\lambda$. APplying $\omega$, we get $e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} s_\lambda$. Set all variables $x_j$ for $j > n$ as $0$. We now wish to show that
-		\[ e_\mu f_\delta = \sum_{\lambda \vdash d} K_{\lambda'\mu} f_{\lambda+\delta}. \]
-		Let $\mu = (\mu_1,\ldots,\mu_r)$. Note that the expression on the left is skew-symmetric. We wish to find the number of ways of choosing indices such that
-		\[ (x_1^{n-1} x_2^{n-2} \cdots x_{n-1})(x_{i_{1,1}}x_{i_{1,2}}\cdots x_{1,\mu_1})\cdots(x_{i_{r,1}}\cdots x_{i_{r,\mu_r}}). \]
+	Recall that $h_\mu = \sum_{\lambda \vdash d} K_{\lambda\mu} s_\lambda$. Applying $\omega$, we get $e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} s_\lambda$. Set all variables $x_j$ for $j > n$ as $0$. We now wish to show that
+	\[ f_\delta e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} f_{\lambda+\delta}. \]
+	Let $\mu = (\mu_1,\ldots,\mu_r)$. Note that the expression on the left is skew-symmetric. We wish to find the number of ways of choosing indices (where for a fixed $k$, the $i_{k,r}$ are distinct) such that
+	\[ (x_1^{n-1} x_2^{n-2} \cdots x_{n-1})(x_{i_{1,1}}x_{i_{1,2}}\cdots x_{1,\mu_1})\cdots(x_{i_{r,1}}\cdots x_{i_{r,\mu_r}}) = ( x_1^{\lambda_1 + n-1} x_2^{\lambda_2 + n-2} \cdots x_n^{\lambda_n} ). \]
 
-		% \lambda = 5 3 2 1
-		% \mu = 3 2 2 1 1 1 1
-		% x_1^3 x_2^2 x_1 to x_1^8 x_2^5 x_3^3 x_4^1
+	Consider each such way of choosing indices such that at no point in the above $n$ steps of multiplication do two indices become equal. Consider the matrix $M$ as defined in the above example, where $M_{ij} = 1$ if the $i$th step chooses the index $j$ and is $0$ otherwise. Encode this matrix as the tableaux with the $j$th column having those indices where $M_{ij} = 1$, arranged in increasing order of $i$ from top-to-bottom. It is quite easy to see that this tableaux is column-strict. It also clearly has shape $\lambda'$ and content $\mu$. We would like to show that this is an SSYT, that is, that weak row ordering holds as well.
 
-		% 1 1 1 0
-		% 1 0 1 0
-		% 1 1 0 0
-		% 0 1 0 0
-		% 1 0 0 0 
-		% 1 0 0 0
-		% 0 0 0 1
+	\begin{fex}
+		Suppose we have $\lambda = (5,3,2,1)$ and $\mu = (3,2,2,1,1,1,1)$. That is, we would like to go from $x_1^3x_2^2x_3^1$ to $x_1^8x_2^4x_3^3x_4$ in $7$ steps, with the $i$th step multiplying by exactly $\mu_i$ indices. One way of doing this is encoded by the matrix
+		\[ 
+		\begin{pmatrix}
+		 	1 & 1 & 1 & 0 \\
+		 	1 & 0 & 1 & 0 \\
+		 	1 & 1 & 0 & 0 \\
+		 	0 & 1 & 0 & 0 \\
+		 	1 & 0 & 0 & 0 \\
+		 	1 & 0 & 0 & 0 \\
+		 	0 & 0 & 0 & 1
+		\end{pmatrix},
+		\]
+		where the $ij$th element of the matrix being $1$ denotes that the index $j$ is present in the indices in the $\mu_i$th step.
+		We encode this as the tableaux
+		\[ \begin{ytableau} 1 & 1 & 1 & 7 \\ 2 & 3 & 2 \\ 3 & 4 \\ 5 \\ 6 \end{ytableau}. \]
+		This has shape $\lambda'$ and content $\mu$. This is not an SSYT, but note that this multiplication gives $0$ due to skew-symmetry! Indeed, $(x_1^3x_2^2x_3^1)(x_1x_2x_3)(x_1x_3) = x_1^5x_2^{\textcolor{red}{3}}x_3^{\textcolor{red}{3}}$.
 
-		% encode it as the tableaux
-		% 1 1 1 7
-		% 2 3 2
-		% 3 4
-		% 4
-		% 5
-		% 6
-		% (the first column has 1s at rows 1,2,3,5,6)
+		For another example, consider the matrix
+		\[
+		\begin{pmatrix}
+			1 & 1 & 1 & 0 \\
+			1 & 1 & 0 & 0 \\
+			1 & 0 & 1 & 0 \\
+			0 & 0 & 0 & 1 \\
+			1 & 0 & 0 & 0 \\
+			0 & 1 & 0 & 0 \\
+			1 & 0 & 0 & 0
+		\end{pmatrix}
+		\]
+		with corresponding tableaux
+		\[
+		\begin{ytableau}
+			1 & 1 & 1 & 4 \\ 2 & 2 & 3 \\ 3 & 6 \\ 5 \\ 7
+		\end{ytableau}.
+		\]
+		Again, this has shape $\lambda'$ and content $\mu$. One can check that this multiplication does indeed give something nonzero, and the above is clearly an SSYT.
+	\end{fex}
 
-		% shape \lambda' and content \mu
+	We would like to show that we get an SSYT iff no two exponents are equal in the process.
 
-		% not valid! However, this contributes 0 because (x_1^3 x_2^2 x_3)(x_1x_2x_3)(x_1x_3)... gets equal exponent of x_2, x_3
-		% in fact, this is valid iff it forms an SSYT
+	\begin{flem}
+		We can encode multiplication of terms from $e_{\mu_1},e_{\mu)2},\ldots$ to the monomial $x^\delta$ to get $x^{\lambda+\delta}$ as a filling of shape $\lambda'$ and content $\mu$. Further, this filling is an SSYT iff at each stage of the multiplication, all the exponents are distinct.
+	\end{flem}
+	\begin{proof}[Proof sketch]
+		The argument is via induction. Show that the ``ordering'' is violated at a step iff weak row ordering is violated.
 	\end{proof}
+
+\subsection{Determinants and paths}
+
+	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at (j,i)} \}|$.
+
+	% ESEESSE from (1,4) to (5,1) example
+	% x_1 x_3^2 x_4
+
+	Clearly, this transformation is injective. This monomial $x_P$ has total degree $(\alpha - \beta)$ and only involves $x_i$ for $i \in [\delta,\gamma]$. As remarked, the set of all such monomials is in bijection with set of all paths.\\
+	In more generality, we can have a \emph{path system} with $n$ pairs of points denoted by $\overline{\alpha} = (\alpha_1,\ldots,\alpha_n), \overline{\beta}, \overline{\gamma}, \overline{\delta}$ satisfying $\alpha_i \ge \beta_i$ and $\gamma_i \ge \delta_i$ for each $i$. Now, let us look at the set of non-intersecting (vertex-disjoint) paths $(P_1,\ldots,P_n)$, where $P_i$ is from $A_i = (\alpha_i,\gamma_i)$ to $B_i = (\beta_i,\delta_i)$.
+
+	% maybe draw diagram for (1,2) to (2,1)
