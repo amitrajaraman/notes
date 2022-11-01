@@ -74,7 +74,7 @@
 		A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
 		\begin{enumerate}
 			\item there exists a message mapping profile $(s_1,\ldots,s_n)$ such that $s_i(\theta_i)$ maximizes the ex-interim utility of agent $i$, that is,
-			\[ \E_{\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
+			\[ \E_{-\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
 			for all $m_i',\theta_i,i\in N$, and
 			\item $g(s_i(\theta_i),s_{-i}(\theta_{-i})) = f(\theta_i,\theta_{-i})$ for all $i \in N$.
 		\end{enumerate}	
