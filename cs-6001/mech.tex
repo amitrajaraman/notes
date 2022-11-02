@@ -282,6 +282,7 @@
 	That is, if the relative position of $a$ weakly improves from $R$ to $R'$, then $a$ remains the winner.
 
 	\begin{flem}
+		\label{lem: sp iff mono}
 		An SCF is strategyproof if and only if it is monotone.
 	\end{flem}
 	% Note the proof technique, which we will see again later.
@@ -407,7 +408,7 @@
 		\begin{ftheo}
 			Let $f : \mathcal{S}^n \to A$. If $f$ is strategyproof, it is monotonic.
 		\end{ftheo}
-		The proof of this is quite similar to that we did earlier, although we need to argue why the construction in the reverse implication is valid.
+		The proof of this is quite similar to that we did earlier in \Cref{lem: sp iff mono}, although we need to argue why the construction in the reverse implication is valid.
 
 		\begin{ftheo}
 			\label{theo: single-peaked equivalence}
@@ -551,7 +552,7 @@
 		\end{proof}
 
 		\begin{ftheo}[Sprumont]
-			An SCF $f : T^n \to A$ is strategyproof, Pareto efficient, and strategyproof iff it is the uniform rule.
+			An SCF $f : T^n \to A$ is strategyproof and Pareto efficient iff it is the uniform rule.
 		\end{ftheo}
 		We do not describe the proof of the above, and refer the reader to \cite{sprumont-uniform-rule}.
 
