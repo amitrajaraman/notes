@@ -107,6 +107,8 @@
 	For a proof of the above, one can see \href{http://www.math.iitb.ac.in/~krishnan/phd-2022/krause_gale_ryser.pdf}{this link}. Note that the notation used here swaps our definitions of row sum and column sum. % someone told Manfred Krause the problem and in a week, he had a simple solution!
 	% the proof strategy is to start with \lambda^* and perturb it slightly until we get to \mu, and build a 0-1 matrix on the way.
 
+	%%%% ***TODO*** : GALE RYSER
+
 	% \begin{proof}
 	% 	% \mu = colsum = q, \lambda = rowsum = p
 	% 	The forward direction of the theorem is straightforward and we omit the proof.\\ % keep shifting 1s to the left to get larger colsums without changing rowsum, finally you just end up with p^* (which dominates colsum(A) = q)
@@ -393,8 +395,7 @@
 
 	We now endow $\Lambda_\Q^d$ with a scalar product (a bilinear form over $\Q$) by
 	\[ \langle m_\lambda , h_\mu \rangle = \delta_{\lambda\mu} = \begin{cases} 1, & \lambda = \mu, \\ 0, & \text{otherwise.} \end{cases} \]
-	% Why is this a scalar product?
-
+	
 	Given this inner product, one can ask for an orthogonal basis of $\Lambda_\Q^d$.
 
 	\begin{fdef}[Dual basis]
@@ -493,7 +494,7 @@
 		\]
 		is such a filling.
 	\end{fex}
-	Such a filling is called a \emph{semi-standard Young Tableaux} (SSYT) of shape $\lambda$. Let $F$ be an SSYT. Let $F$ have $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
+	Such a filling is called a \emph{semi-standard Young Tableau} (SSYT) of shape $\lambda$. Let $F$ be an SSYT. Let $F$ have $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
 	Define
 	\[ S_\lambda = \sum_{\text{SSYTs $F$ of shape $\lambda$}} x^{\content(F)} \]
 	For example, when $\lambda = (2,1)$,
@@ -512,7 +513,7 @@
 			\item only $i$ or only $i+1$ occur -- in this case, there is precisely one of it in the column.
 		\end{enumerate}
 		In the first two cases, we say that the occurences of $i,(i+1)$ are ``paired''. In the third case, we say that the occurence is free. Suppose that some row of $F$ has $a$ $i$s and $b$ $(i+1)$s. Note that these $(a+b)$ occurrences are consecutive! Showing this requires the fact that $F$ is an SSYT -- show that all paired $i$s are before free $i$s, then that all free $(i+1)$s are before paired $(i+1)$s.\\
-		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$! % Also, $\phi_i^2 = \Id$ so $\varphi_i$ is a bijection.
+		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$! $\varphi_i$ is also clearly a bijection since the same operations define an inverse function from $\mathcal{F}_i$ to $\mathcal{F}$.
 	\end{proof}
 
 	The $(S_\lambda)$ are known as the \emph{Schur symmetric functions}.\\
@@ -553,7 +554,7 @@
 	When $\mu = 1^d$, we wish to determine the number of SSYTs with shape $\lambda$ such that each element of $\{1,2,\ldots,d\}$ occurs precisely once.
 
 	\begin{fdef}
-		A \emph{Standard Young Tableaux} (SYT) of shape $\lambda\vdash d$ is an SSYT of shape $\lambda$ where each element of $[d]$ occurs precisely once. The number of SYTs of shape $\lambda$ is denoted $f_\lambda = K_{\lambda,1^d}$.
+		A \emph{Standard Young Tableau} (SYT) of shape $\lambda\vdash d$ is an SSYT of shape $\lambda$ where each element of $[d]$ occurs precisely once. The number of SYTs of shape $\lambda$ is denoted $f_\lambda = K_{\lambda,1^d}$.
 	\end{fdef}
 	Note that this implies that rows are strictly increasing. The number of SYTs of a given shape has some very neat formulae!
 
@@ -585,37 +586,66 @@
 	\begin{enumerate}
 		\item If it is possible to add $P_i$ at the end of the first row, we append it.
 		\item If this is not possible, we insert it in the first row at the earliest possible position, ``kicking out'' some other entry. We then try to insert this entry in the part of the filling below the first row, recursively in the exact same manner as just described.
-		\item Insert $Q_i$ at an appropriate position in order to ensure that the shapes of the tableauxs remain the same.
+		\item Insert $Q_i$ at an appropriate position in order to ensure that the shapes of the tableaux remain the same.
 	\end{enumerate}
-	% 1 0 2 \\
-	% 0 2 0
-	% 
-	% 1 1 1 2 2
-	% 1 3 3 2 2
-	% 
-	% 1 ... 1
-	% 1 3 ... 1 1
-	% 1 3 3 ... 1 1 1
-	% 1 2 3 \\ 3 ... 1 1 1 \\ 2
-	% 1 2 2 \\ 3 3 ... 1 1 1 \\ 2 2
 
-	% 0 0 1 \\
-	% 1 0 0 \\
-	% 0 1 0
+	Let us explain the above via an example. Suppose our initial matrix is
+	\[
+	\begin{pmatrix}
+		1 & 0 & 2 \\
+		0 & 2 & 0
+	\end{pmatrix}.
+	\]
+	Converted to a $2 \times 5$ matrix, this is
+	\[
+	\begin{pmatrix}
+		1 & 1 & 1 & 2 & 2 \\
+		1 & 3 & 3 & 2 & 2
+	\end{pmatrix},
+	\]
+	where the first row is $Q$ and the second row $P$.
+	We begin by inserting the first elements $(1,1)$ of each of the rows to get
+	\[ P_1 = \begin{ytableau}1\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau}. \] 
+	We next insert $3$ into $P_1$ to get $P_2$. Since it is possible to do this just by appending it to the end of the first row, we get
+	\[ P_2 = \begin{ytableau}1 & 3\end{ytableau}. \]
+	To ensure that the shapes remain the same,
+	\[ Q_2 = \begin{ytableau}1 & 1\end{ytableau}. \]
+	Again inserting $3$ into $P_2$ is similar, so we get
+	\[ P_3 = \begin{ytableau}1 & 3 & 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 1 & 1\end{ytableau}. \]
+	Now, when we attempt the insertion of $2$ into $P_3$, it is not possible to do so by appending it at the end of the first row. So, we kick out the first element that is greater than it, namely the first $3$. Changing $Q_4$ appropriately to ensure that shapes remain the same, this gives
+	\[ P_4 = \begin{ytableau}1 & 2 & 3 \\ 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2\end{ytableau}. \]
+	Inserting the next $2$ kicks out the other $3$ in the first row, so we get
+	\[ P_4 = \begin{ytableau}1 & 2 & 2 \\ 3 & 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2 & 2\end{ytableau} \]
+	as our final tableaux $P,Q$.\\
+	As another example, consider the permutation matrix
+	\[
+	\begin{pmatrix}
+		0 & 0 & 1 \\
+		1 & 0 & 0 \\
+		0 & 1 & 0
+	\end{pmatrix}.
+	\]
+	This has associated $2 \times 3$ matrix
+	\[
+	\begin{pmatrix}
+		1 & 2 & 3 \\ 3 & 1 & 2
+	\end{pmatrix}.
+	\]
+	Incrementally creating the $P_i,Q_i$, we get
+	\begin{align*}
+		P_1 = \begin{ytableau}3\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \\
+		P_2 = \begin{ytableau}1 \\ 3\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau} \\
+		P_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 3 \\ 2\end{ytableau}.
+	\end{align*}
+	% We leave it to the reader to check the details of the above.
 
-	% 1 2 3
-	% 3 1 2
-
-	% P1 3 ... 1
-	% 1 \\ 3 ... 1 \\ 2
-	% 1 2 \\ 3 ... 1 3 \\ 2
 	By the construction, it is easy to see that $P,Q$ have the same shape and $P$ is an SSYT. We must show that $Q$ is an SSYT as well.\\
 	% Note that $\content(Q) = \colsum(M)$ and $\content(P) = \rowsum(M)$.
-	This is easy to see in the case where $M$ is a permutation matrix, since the element of $Q$ we add is always strictly greater than previous elements so there is no chance of violating column strictness or row strictness. The issue arises with column strictness in non-permutation matrices since the element we are adding might coincide with other elements in the tableaux.\\
+	This is easy to see in the case where $M$ is a permutation matrix, since the element of $Q$ we add is always strictly greater than previous elements so there is no chance of violating column strictness or row strictness. The issue arises with column strictness in non-permutation matrices since the element we are adding might coincide with other elements in the tableau.\\
 	In general, we prove this with the following lemma.
 
 	\begin{flem}
-		Given an tableaux $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableaux attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
+		Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
 		If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
 	\end{flem}
 
@@ -626,65 +656,63 @@
 	We know that every $Q^{(i)}$ is strictly increasing in both rows and columns. What we must show is that if we insert the pairs $\begin{pmatrix} i \\ j \end{pmatrix}$ and $\begin{pmatrix} i \\ k \end{pmatrix}$ into $P$ and $Q$ where $j \le k$, 
 
 	In the case where $M$ is a permutation matrix, it is quite easy to see that this transformation is bijective as well! Indeed, the SSYT of $Q$ precisely describes the order in which the cells were formed. Given $Q^{(i)}$, the location of the largest element of $Q^{(i)}$ is the location of the newly formed cell. If this is in the first row, this is indeed the element of $P$ that was inserted as well. Otherwise, we must go to higher rows and ``reverse-kick'' entries, by determining the largest element smaller than this reverse-kicking number.\\
-	In the permutation matrix, we do the reversal by looking at the position of the largest entry in $Q^{(i)}$. In general, it turns out that we must look at the position of the \emph{rightmost} largest entry in $Q^{(i)}$, and this will be unique, due to the column strictness of SSYTs.
-	% **** EXPLAIN BETTER ****
+	Let us explain this idea of ``reverse-kicking'' using an example. Suppose our final SSYTs are
+	\[ P = P_5 = \begin{ytableau}1 & 3 & 4 \\ 2 & 5\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 5 \\ 3 & 4\end{ytableau}. \]
+	This corresponds to a case where the initial matrix is a permutation matrix. The largest element in $Q_5$ is the $5$. Since the element in the same position in $P_5$, is in the first row, $4$ must have been what was inserted in the final step. As a result,
+	\[ P_4 = \begin{ytableau}1 & 3 \\ 2 & 5\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 \\ 3 & 4\end{ytableau}. \]
+	Now, since the largest element in $Q_4$, the $4$, is in the second row, this new position must have been created by kicking the $5$ out of the previous row. Now, with the knowledge that $5$ was kicked out of the first row, the only element it could have been kicked out by is the $3$. Therefore, to get $P_4$, we inserted a $3$ in
+	\[ P_3 = \begin{ytableau}1 & 5 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau}. \]
+	The largest element in $Q_3$ is $3$, which means that the $2$ in $P_3$ was kicked out of the first row, which means that $1$ was inserted.
+	\[ P_2 = \begin{ytableau}2 & 5\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 & 2\end{ytableau}. \]
+	Here, the largest element in $Q_2$ is $2$, and since the corresponding element $5$ in $P_2$ is in the first row, it was inserted.
+	\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
+	Therefore, the permutation corresponding to the SSYT pair $(P,Q)$ is
+	\[
+	\begin{pmatrix}
+		1 & 2 & 3 & 4 & 5 \\
+		2 & 5 & 1 & 3 & 4
+	\end{pmatrix}.
+	\]
 
-	% 1 3 4 	1 2 5
-	% 2 5 	3 4
-	% insert 4
-	% 1 3 	1 2
-	% 2 5  	3 4
-	% insert 3
-	% 1 5 	1 2
-	% 2 		3
-	% insert 1
-	% 2 5 	1 2
-	% insert 5
-	% 2 		1
-	% insert 2
-	% the perm is
-	% 1 2 3 4 5
-	% 2 5 1 3 4
-
-	% SSYT reversibility example
-	% 1 1 2 	1 2 2
-	% 2 3 	2 3
-	% 3 		3
-	% insert 2
-	% 1 1 3 	1 2 2
-	% 2 		2
-	% 3 		3
-	% insert 1
-	% 1 2 3 	1 2 2
-	% 3 		2
-	% insert 3
-	% 1 2 	1 2
-	% 3 		2
-	% insert 2
-	% 1 		1
-	% 3 		2
-	% insert 1
-	% 3 		1
-	% insert 3
+	In the permutation matrix, we do the reversal by looking at the position of the largest entry in $Q^{(i)}$. In general, it turns out that we must look at the position of the \emph{rightmost} largest entry in $Q^{(i)}$, and this will be unique, due to the column strictness of SSYTs. The remainder of the reversing is identical.\\
+	Let us explain this idea of ``reverse-kicking'' using an example. Suppose our final SSYTs are
+	\[ P = P_5 = \begin{ytableau}1 & 1 & 2 \\ 2 & 3\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 2 \\ 2 & 3\end{ytableau}. \]
+	The rightmost largest element in $Q_5$ is the $3$. The element in the same position in $P_5$ is the $3$, so it must have been kicked out of the first row by an inserted $2$.
+	\[ P_4 = \begin{ytableau}1 & 1 & 3 \\ 2\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 & 2 \\ 2\end{ytableau}. \]
+	The rightmost largest element in $Q_4$ here is the $2$ in the third column. The corresponding element, $3$, is in the first row so it must have been inserted.
+	\[ P_3 = \begin{ytableau}1 & 1 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 2\end{ytableau}. \]
+	The rightmost largest element here is the $2$ in the second column. The corresponding element, $1$, is in the first row so it must have been inserted.
+	\[ P_2 = \begin{ytableau}1 \\ 2\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau}. \]
+	The largest element here is the $2$. Since the corresponding element $2$ in $P_2$ is in the second row, it must have been kicked out of the first row by an inserted $1$.
+	\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
+	Therefore, the $2$-row matrix corresponding to this pair is
+	\[
+	\begin{pmatrix}
+		1 & 2 & 2 & 2 & 3\\
+		2 & 1 & 1 & 3 & 2
+	\end{pmatrix},
+	\]
+	which corresponds to matrix
+	\[
+	\begin{pmatrix}
+		0 & 1 & 0 \\
+		2 & 0 & 1 \\
+		0 & 1 & 0
+	\end{pmatrix}.
+	\]
+	% ***TODO*** EXPLAIN BETTER
 
 	\begin{ftheo}
 		The RSK algorithm is a bijection between $\N$-valued matrices $M$ and ordered pairs $(P,Q)$ of SSYTs such that
 		\[ \content(P) = \rowsum(M) \text{ and } \content(Q) = \colsum(M). \] 
 	\end{ftheo}
 
-	A better proof of SSYT RSK reversibility case is by using the SYT permutation matrix case, by performing the following transformation. Iterating upwards, change repeating elements from left to right to distinct values. For example, if we have three $1$s, change them to $1,2,3$ in order from left to right.
-	% 3 1 2 3 1 2
-	% 3 1 2 3 2 2
-	% 3 1 2 3 3 4
-	% 3 1 2 4 5 6
-	% 3 1 2 4 5 5
-	% 3 1 2 4 5 6
+	A better proof of SSYT RSK reversibility case is by using the SYT permutation matrix case, by performing the following transformation. Iterating upwards, change repeating elements from left to right to distinct values. For example, if we have three $1$s, change them to $1,2,3$ in order from left to right.\\
+	For example, if we start off with $(3,1,2,3,1,2)$, we first make both $1$s distinct. This makes it $(3,1,2,3,2,2)$. We next make all the $2$s distinct to get $(3,1,2,3,3,4)$. Making all the $3$s distinct gives $(3,1,2,4,5,4)$, making all the $4$s distinct gives $(3,1,2,4,5,5)$, and finally making all the $5$s distinct gives $(3,1,2,4,5,6)$.
 
 
 	The permutation matrix case yields the desired bijection we mentioned earlier, so
 	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
-	% It turns out that this operation is bijective even in general, for non-permutation matrices!
-	% \end{proof}
 
 	\begin{exercise}
 		Show that if running the RSK algorithm on $M$ gives $(P,Q)$, running it on $M^\top$ gives $(Q,P)$.\\
@@ -744,38 +772,37 @@
 	\end{proof}
 
 	\begin{ftheo}
-		Given any $0,1$-matrix $M$, we can bijectively get a pair $(P,Q)$ of tableauxs of the same shape, where $P^\top, Q$ are SSYTs, and $\content(P) = \colsum(M)$ and $\content(Q) = \rowsum(M)$.  
+		Given any $0,1$-matrix $M$, we can bijectively get a pair $(P,Q)$ of tableaux of the same shape, where $P^\top, Q$ are SSYTs, and $\content(P) = \colsum(M)$ and $\content(Q) = \rowsum(M)$.  
 	\end{ftheo}
 
 \subsection{The dual RSK algorithm}
 
 	This proof uses the \emph{dual RSK algorithm}. Instead of going from non-negative matrices to SSYT pairs $(P,Q)$ of the same shape, we shall go from $0,1$-matrices $M$ to pairs $(P,Q)$ of the same shape where $P^\top,Q$ are SSYTs.\\
-	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.
-
-	% 0 1 1
-	% 1 0 1
-	% 1 0 1
-
-	% 1 1 2 2 3 3
-	% 2 3 1 3 1 3
-
-	% 2 		1
-
-	% 2 3 	1 1
-
-	% 1 3 	1 1
-	% 2 		2
-
-	% 1 3 	1 1
-	% 2 3 	2 2
-
-	% 1 3 	1 1
-	% 1 3 	2 2
-	% 2 		3
-
-	% 1 3 	1 1
-	% 1 3 	2 2
-	% 2 3 	3 3
+	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.\\
+	Let us explain this using the example of the matrix
+	\[
+	\begin{pmatrix}
+		0 & 1 & 1 \\
+		1 & 0 & 1 \\
+		1 & 0 & 1
+	\end{pmatrix},
+	\]
+	which has corresponding $2$-row matrix
+	\[
+	\begin{pmatrix}
+		1 & 1 & 2 & 2 & 3 & 3 \\
+		2 & 3 & 1 & 3 & 1 & 3
+	\end{pmatrix}.
+	\]
+	Since the algorithm is nearly identical to the RSK algorithm, we just give the sequence of tableaux and leave it to the reader to check the modification we have done to the RSK algorithm.
+	\begin{align*}
+		P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \\
+		P_2 = \begin{ytableau}2 & 3\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 & 1\end{ytableau} \\
+		P_3 = \begin{ytableau}1 & 3 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 1 \\ 2\end{ytableau} \\
+		P_4 = \begin{ytableau}1 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 \\ 2 & 2\end{ytableau} \\
+		P_5 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2\end{ytableau} \text{ and } Q_5 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3\end{ytableau} \\
+		P_6 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_6 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3 & 3\end{ytableau} \\
+	\end{align*}
 
 	By construction, $P$ and $Q$ have the same shape, and $P^\top$ is an SSYT. What about $Q$? Much like the earlier proof, we must look at the rightmost occurrence of the largest element in $Q$.
 
@@ -786,16 +813,17 @@
 		\[ \prod_{i,j \ge 1} (1+x_iy_j) = \sum_{d \ge 0} \sum_{\lambda \vdash d} s_{\lambda'}(x) s_\lambda(y). \]
 	\end{fcor}
 
-	% bruce sagan shifted tableauxs, each row shifted over by one more than the prev row, some 2^{diagonal} stuff appears
-	% Marc van Leuwen Elec J of Combinatorics 1996 proves many RSK algos
-	% Foata festschrift, he proved the excedance-descent we saw earlier
-
 	\begin{fcor}
 		For $\lambda \vdash d$, $\omega(s_\lambda) = s_{\lambda'}$.
 	\end{fcor}
 
 	This follows immediately on applying $\omega$ to the Cauchy identity and using the dual Cauchy identity. This presents another proof of $\omega^2 = \Id$.
 
+	% ***TODO***
+
+	% bruce sagan shifted tableaux, each row shifted over by one more than the prev row, some 2^{diagonal} stuff appears
+	% Marc van Leuwen Elec J of Combinatorics 1996 proves many RSK algos
+	% Foata festschrift, he proved the excedance-descent we saw earlier
 \subsection{Symmetric functions in $n$ variables}
 
 	Let $\Lambda_{\Q}^{d,n}$ be the vector space over $\Q$ of degree $d$ symmetric functions in $n$ variables. Clearly, $\dim(\Lambda_\Q^{d,n}) \le \dim(\Lambda_\Q^{d,n})$. In fact, the dimension is the number of partitions of $d$ with at most $n$ parts. Note that if we have at least $d$ variables, the two become equal.\\
@@ -837,7 +865,7 @@
 	Let $\mu = (\mu_1,\ldots,\mu_r)$. Note that the expression on the left is skew-symmetric. We wish to find the number of ways of choosing indices (where for a fixed $k$, the $i_{k,r}$ are distinct) such that
 	\[ (x_1^{n-1} x_2^{n-2} \cdots x_{n-1})(x_{i_{1,1}}x_{i_{1,2}}\cdots x_{1,\mu_1})\cdots(x_{i_{r,1}}\cdots x_{i_{r,\mu_r}}) = ( x_1^{\lambda_1 + n-1} x_2^{\lambda_2 + n-2} \cdots x_n^{\lambda_n} ). \]
 
-	Consider each such way of choosing indices such that at no point in the above $n$ steps of multiplication do two indices become equal. Consider the matrix $M$ as defined in the above example, where $M_{ij} = 1$ if the $i$th step chooses the index $j$ and is $0$ otherwise. Encode this matrix as the tableaux with the $j$th column having those indices where $M_{ij} = 1$, arranged in increasing order of $i$ from top-to-bottom. It is quite easy to see that this tableaux is column-strict. It also clearly has shape $\lambda'$ and content $\mu$. We would like to show that this is an SSYT, that is, that weak row ordering holds as well.
+	Consider each such way of choosing indices such that at no point in the above $n$ steps of multiplication do two indices become equal. Consider the matrix $M$ as defined in the above example, where $M_{ij} = 1$ if the $i$th step chooses the index $j$ and is $0$ otherwise. Encode this matrix as the tableau with the $j$th column having those indices where $M_{ij} = 1$, arranged in increasing order of $i$ from top-to-bottom. It is quite easy to see that this tableau is column-strict. It also clearly has shape $\lambda'$ and content $\mu$. We would like to show that this is an SSYT, that is, that weak row ordering holds as well.
 
 	\begin{fex}
 		Suppose we have $\lambda = (5,3,2,1)$ and $\mu = (3,2,2,1,1,1,1)$. That is, we would like to go from $x_1^3x_2^2x_3^1$ to $x_1^8x_2^4x_3^3x_4$ in $7$ steps, with the $i$th step multiplying by exactly $\mu_i$ indices. One way of doing this is encoded by the matrix
@@ -853,7 +881,7 @@
 		\end{pmatrix},
 		\]
 		where the $ij$th element of the matrix being $1$ denotes that the index $j$ is present in the indices in the $\mu_i$th step.
-		We encode this as the tableaux
+		We encode this as the tableau
 		\[ \begin{ytableau} 1 & 1 & 1 & 7 \\ 2 & 3 & 2 \\ 3 & 4 \\ 5 \\ 6 \end{ytableau}. \]
 		This has shape $\lambda'$ and content $\mu$. This is not an SSYT, but note that this multiplication gives $0$ due to skew-symmetry! Indeed, $(x_1^3x_2^2x_3^1)(x_1x_2x_3)(x_1x_3) = x_1^5x_2^{\textcolor{red}{3}}x_3^{\textcolor{red}{3}}$.
 
@@ -869,7 +897,7 @@
 			1 & 0 & 0 & 0
 		\end{pmatrix}
 		\]
-		with corresponding tableaux
+		with corresponding tableau
 		\[
 		\begin{ytableau}
 			1 & 1 & 1 & 4 \\ 2 & 2 & 3 \\ 3 & 6 \\ 5 \\ 7
@@ -889,12 +917,94 @@
 
 \subsection{Determinants and paths}
 
-	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at (j,i)} \}|$.
+	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at (j,i)} \}|$.\\
+
+	For example, the following path from $(1,4)$ to $(5,1)$ corresponds to the monomial $x_1x_3^2x_4$.
+	\begin{center}
+	\begin{tikzpicture}
+	\draw[step=1cm, color=gray] (0, 0) grid (6,5);
+	\foreach \coord/\label [count=\xi] in {
+		{1,4}/{$A(1,4)$},
+		{5,1}/{$B(5,1)$}
+	}{
+	\pgfmathsetmacro\anch{\xi>1 ? "north east" : "south east"}
+	\node[anchor=\anch] at (\coord) {\label};
+	}
+	\draw[line width=1pt, red] (1,4) -- node[above]{$4$} (2,4) -- (2,3) -- node[above]{$3$} (3,3) -- node[above]{$3$} (4,3) -- (4,1) -- node[above]{$1$} (5,1);
+	\end{tikzpicture}
+	\end{center}
 
 	% ESEESSE from (1,4) to (5,1) example
 	% x_1 x_3^2 x_4
 
-	Clearly, this transformation is injective. This monomial $x_P$ has total degree $(\alpha - \beta)$ and only involves $x_i$ for $i \in [\delta,\gamma]$. As remarked, the set of all such monomials is in bijection with set of all paths.\\
-	In more generality, we can have a \emph{path system} with $n$ pairs of points denoted by $\overline{\alpha} = (\alpha_1,\ldots,\alpha_n), \overline{\beta}, \overline{\gamma}, \overline{\delta}$ satisfying $\alpha_i \ge \beta_i$ and $\gamma_i \ge \delta_i$ for each $i$. Now, let us look at the set of non-intersecting (vertex-disjoint) paths $(P_1,\ldots,P_n)$, where $P_i$ is from $A_i = (\alpha_i,\gamma_i)$ to $B_i = (\beta_i,\delta_i)$.
-
+	Clearly, this transformation is injective. This monomial $x_P$ has total degree $(\alpha - \beta)$ and only involves $x_i$ for $i \in [\delta,\gamma]$. As remarked, the set of all such monomials is in bijection with set of all paths. We encode the set of paths from $(\beta,\gamma)$ to $(\alpha,\delta)$ as the polynomial
+	\[ h(\alpha-\beta,\delta,\gamma) = \sum_{\delta \le i_1 \le \cdots \le i_{\alpha-\beta} \le \gamma} x_{i_1} \cdots x_{i_{\alpha-\beta}}. \]
+	Note that this is a variant of the complete homogenous polynomial we have seen.\\
+	In more generality, we can have a \emph{path system} with $n$ pairs of points denoted by $\overline{\alpha} = (\alpha_1,\ldots,\alpha_n), \overline{\beta}, \overline{\gamma}, \overline{\delta}$ satisfying $\alpha_i \ge \beta_i$ and $\gamma_i \ge \delta_i$ for each $i$. Now, let us look at the set $NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta})$ of non-intersecting (vertex-disjoint) paths $(P_1,\ldots,P_n)$, where $P_i$ is from $A_i = (\alpha_i,\gamma_i)$ to $B_i = (\beta_i,\delta_i)$. We encode each element of this set as the product of the polynomials of the constituent paths. Note that this can be used to recover the paths when the paths are non-intersecting.
 	% maybe draw diagram for (1,2) to (2,1)
+	
+	% rewrite proof with transpose!
+	\begin{ftheo}[Lindstr\"{o}m-Gessel-Viennot Lemma]
+		Let $\NonIn(\pi(\overline{\alpha}),\overline{\beta},\overline{\delta},\pi(\overline{\gamma}))$ be non-empty only for $\pi = \Id$. Then,
+		\[ \NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta}) = \det M, \]
+		where $M_{ij} = h(\alpha_j - \beta_i,\delta_j,\gamma_i)$, the set of paths from $A_i$ to $B_j$. That is,
+		\[ \NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta}) = \prod_{\pi \in \mathfrak{S}_n} \sign(\pi) \prod_{i=1}^n h(\alpha_{\pi(i)} - \beta_i , \delta_{\pi(i)} , \gamma_i). \]
+	\end{ftheo}
+	\begin{proof}
+		Suppose that according to some permutation $\pi$, some two paths from $A_i$ to $B_{\pi(i)}$ intersect. Consider the minimum intersecting pair index $(i,j)$ (according to the lexicographic order, say). Say the two paths intersect at $A$. Note that this cancels out with the set of paths for $(\pi(i), \pi(j)) \pi$ by looking at the paths from $A_i$ to $A$ to $B_{\pi(j)}$ and $A_j$ to $A$ to $B_{\pi(i)}$. Therefore, the only terms in the determinant that survive correspond to those $\pi$ which have non-intersecting paths, which is only $\Id$ by the hypothesis.
+	\end{proof}
+
+	\begin{ftheo}[Jacobi-Trudi Theorem]
+		Let $\lambda \vdash d$ with $\lambda_1,\lambda_2,\ldots,\lambda_n$. Consider the $n \times n$ matrix $M_\lambda$ with $(M_\lambda)_{ij} = h_{\lambda_i + j -i}$, where $h_{n}$ is taken to be $0$ for negative $n$. Then, $s_\lambda = \det M_{\lambda}$.
+	\end{ftheo}
+	\begin{proof}
+		Take some very large $N$ ($\infty$ in the limit). Consider the points $A_i = (n-i,N)$ and $B_i = (n-i+\lambda_i,1)$. In the limit as $N \to \infty$, the tranpose of the matrix from the previous question is \emph{precisely} $M_\lambda$! The set of paths from $A_j$ to $B_i$ is $h( (\lambda_i-i+n)-(n-j) , 1 , N ) = h_{\lambda_i + j - i}$.\\
+		By the Lindstr\"{o}m-Gessel-Viennot lemma, the determinant of this matrix corresponds to the set of non-intersecting paths from $A_i$ to $B_i$ for each $i$ (it is easily checked that the only permutation with non-intersecting paths is the identity). To complete the proof, it suffices to establish an equivalence between such collections of paths and SSYTs of shape $\lambda$.\\
+		Let us explain this bijection using an example. Consider the partition $\lambda = (4,3,1)$ and set $N = 4$ for simplicity. The points are $A_1 = (2,4), A_2 = (1,4), A_3 = (0,4)$ and $B_1 = (6,1), B_2 = (4,1), B_3 = (1,1)$. Take the following collection of paths.
+
+		\begin{center}
+		\begin{tikzpicture}
+		\draw[step=1cm, color=gray] (0, 0) grid (10,5);
+		\foreach \coord/\label [count=\xi] in {
+			{2,4}/{$A_1$},
+			{1,4}/{$A_2$},
+			{0,4}/{$A_3$},
+			{6,1}/{$B_1$},
+			{4,1}/{$B_2$},
+			{1,1}/{$B_3$}
+		}{
+		\pgfmathsetmacro\anch{\xi>3 ? "north east" : "south east"}
+		\node[anchor=\anch] at (\coord) {\label};
+		}
+		\draw[line width=1pt, red] (2,4) -- node[above]{$4$} (3,4) -- node[above]{$4$} (4,4) -- (4,3) -- node[above]{$3$} (5,3) -- node[above]{$3$} (6,3) -- (6,1);
+		\draw[line width=1pt, green] (1,4) -- (1,3) -- node[above]{$3$} (2,3) -- node[above]{$3$} (3,3) -- (3,2) -- node[above]{$2$} (4,2) -- (4,1);
+		\draw[line width=1pt, blue] (0,4) -- (0,2) -- node[above]{$2$} (1,2) -- (1,1);
+		\end{tikzpicture}
+		\end{center}
+
+		To this, we associate the tableau
+		\[
+		\begin{ytableau}
+			4 & 4 & 3 & 3 \\
+			3 & 3 & 2 \\
+			2
+		\end{ytableau}.
+		\]
+		Finally, to convert this to an SSYT, we replace each element with the maximum element in the tableau plus $1$ minus the element to get
+		\[
+		\begin{ytableau}
+			1 & 1 & 2 & 2 \\
+			2 & 2 & 3 \\
+			3
+		\end{ytableau}.
+		\]
+		It is evident that the shape of this SSYT is $\lambda$ and the rows are weakly increasing. So, it suffices to show that the columns are strictly increasing, that is, the columns of the earlier tableau are strictly decreasing. This means that if the $i$th east from $A_j$ to $B_j$ is taken at a height of $y$, then the $i$th east from $A_{j+1}$ to $B_{j+1}$ is taken at a height $y' < y$. By the definition of the paths, this path from $A_j$ to $B_j$ passes through $(n-j+i-1,y)$, and the path from $A_{j+1}$ to $B_{j+1}$ passes through $(n-(j+1)+i,y')$. Clearly, the sections of the two paths until here can be non-intersecting only if $y' < y$, completing the proof.
+	\end{proof}
+
+	% chapter 7 of stanley ec2
+	% macdonald
+
+	% littlewood-richardson coeffs
+	% s_\lambda s_\mu = \sum_{\gamma \vdash \cdot} \alpha_{\lambda,\mu}^\gamma s_\gamma
+	% what are the alpha? some alternating thing. has some relation to class functions of S_n. frobenius map (isometry from inner product to inner product) from class functions to degree n symmetric functions. irreducible characters go to schur symmetric functions!!!
+	% because of this schur positivity becomes important
