@@ -589,55 +589,59 @@
 		\item Insert $Q_i$ at an appropriate position in order to ensure that the shapes of the tableaux remain the same.
 	\end{enumerate}
 
-	Let us explain the above via an example. Suppose our initial matrix is
-	\[
-	\begin{pmatrix}
-		1 & 0 & 2 \\
-		0 & 2 & 0
-	\end{pmatrix}.
-	\]
-	Converted to a $2 \times 5$ matrix, this is
-	\[
-	\begin{pmatrix}
-		1 & 1 & 1 & 2 & 2 \\
-		1 & 3 & 3 & 2 & 2
-	\end{pmatrix},
-	\]
-	where the first row is $Q$ and the second row $P$.
-	We begin by inserting the first elements $(1,1)$ of each of the rows to get
-	\[ P_1 = \begin{ytableau}1\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau}. \] 
-	We next insert $3$ into $P_1$ to get $P_2$. Since it is possible to do this just by appending it to the end of the first row, we get
-	\[ P_2 = \begin{ytableau}1 & 3\end{ytableau}. \]
-	To ensure that the shapes remain the same,
-	\[ Q_2 = \begin{ytableau}1 & 1\end{ytableau}. \]
-	Again inserting $3$ into $P_2$ is similar, so we get
-	\[ P_3 = \begin{ytableau}1 & 3 & 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 1 & 1\end{ytableau}. \]
-	Now, when we attempt the insertion of $2$ into $P_3$, it is not possible to do so by appending it at the end of the first row. So, we kick out the first element that is greater than it, namely the first $3$. Changing $Q_4$ appropriately to ensure that shapes remain the same, this gives
-	\[ P_4 = \begin{ytableau}1 & 2 & 3 \\ 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2\end{ytableau}. \]
-	Inserting the next $2$ kicks out the other $3$ in the first row, so we get
-	\[ P_4 = \begin{ytableau}1 & 2 & 2 \\ 3 & 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2 & 2\end{ytableau} \]
-	as our final tableaux $P,Q$.\\
-	As another example, consider the permutation matrix
-	\[
-	\begin{pmatrix}
-		0 & 0 & 1 \\
-		1 & 0 & 0 \\
-		0 & 1 & 0
-	\end{pmatrix}.
-	\]
-	This has associated $2 \times 3$ matrix
-	\[
-	\begin{pmatrix}
-		1 & 2 & 3 \\ 3 & 1 & 2
-	\end{pmatrix}.
-	\]
-	Incrementally creating the $P_i,Q_i$, we get
-	\begin{align*}
-		P_1 = \begin{ytableau}3\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \\
-		P_2 = \begin{ytableau}1 \\ 3\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau} \\
-		P_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 3 \\ 2\end{ytableau}.
-	\end{align*}
-	% We leave it to the reader to check the details of the above.
+	\begin{fex}
+		Suppose our initial matrix is
+		\[
+		\begin{pmatrix}
+			1 & 0 & 2 \\
+			0 & 2 & 0
+		\end{pmatrix}.
+		\]
+		Converted to a $2 \times 5$ matrix, this is
+		\[
+		\begin{pmatrix}
+			1 & 1 & 1 & 2 & 2 \\
+			1 & 3 & 3 & 2 & 2
+		\end{pmatrix},
+		\]
+		where the first row is $Q$ and the second row $P$.
+		We begin by inserting the first elements $(1,1)$ of each of the rows to get
+		\[ P_1 = \begin{ytableau}1\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau}. \] 
+		We next insert $3$ into $P_1$ to get $P_2$. Since it is possible to do this just by appending it to the end of the first row, we get
+		\[ P_2 = \begin{ytableau}1 & 3\end{ytableau}. \]
+		To ensure that the shapes remain the same,
+		\[ Q_2 = \begin{ytableau}1 & 1\end{ytableau}. \]
+		Again inserting $3$ into $P_2$ is similar, so we get
+		\[ P_3 = \begin{ytableau}1 & 3 & 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 1 & 1\end{ytableau}. \]
+		Now, when we attempt the insertion of $2$ into $P_3$, it is not possible to do so by appending it at the end of the first row. So, we kick out the first element that is greater than it, namely the first $3$. Changing $Q_4$ appropriately to ensure that shapes remain the same, this gives
+		\[ P_4 = \begin{ytableau}1 & 2 & 3 \\ 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2\end{ytableau}. \]
+		Inserting the next $2$ kicks out the other $3$ in the first row, so we get
+		\[ P_4 = \begin{ytableau}1 & 2 & 2 \\ 3 & 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 & 1 \\ 2 & 2\end{ytableau} \]
+		as our final tableaux $P,Q$.
+	\end{fex}
+
+	\begin{fex}
+		As another example, consider the permutation matrix
+		\[
+		\begin{pmatrix}
+			0 & 0 & 1 \\
+			1 & 0 & 0 \\
+			0 & 1 & 0
+		\end{pmatrix}.
+		\]
+		This has associated $2 \times 3$ matrix
+		\[
+		\begin{pmatrix}
+			1 & 2 & 3 \\ 3 & 1 & 2
+		\end{pmatrix}.
+		\]
+		Incrementally creating the $P_i,Q_i$, we get
+		\begin{align*}
+			P_1 = \begin{ytableau}3\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \\
+			P_2 = \begin{ytableau}1 \\ 3\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau} \\
+			P_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 3 \\ 2\end{ytableau}.
+		\end{align*}
+	\end{fex}
 
 	By the construction, it is easy to see that $P,Q$ have the same shape and $P$ is an SSYT. We must show that $Q$ is an SSYT as well.\\
 	% Note that $\content(Q) = \colsum(M)$ and $\content(P) = \rowsum(M)$.
@@ -655,52 +659,57 @@
 
 	We know that every $Q^{(i)}$ is strictly increasing in both rows and columns. What we must show is that if we insert the pairs $\begin{pmatrix} i \\ j \end{pmatrix}$ and $\begin{pmatrix} i \\ k \end{pmatrix}$ into $P$ and $Q$ where $j \le k$, 
 
-	In the case where $M$ is a permutation matrix, it is quite easy to see that this transformation is bijective as well! Indeed, the SSYT of $Q$ precisely describes the order in which the cells were formed. Given $Q^{(i)}$, the location of the largest element of $Q^{(i)}$ is the location of the newly formed cell. If this is in the first row, this is indeed the element of $P$ that was inserted as well. Otherwise, we must go to higher rows and ``reverse-kick'' entries, by determining the largest element smaller than this reverse-kicking number.\\
-	Let us explain this idea of ``reverse-kicking'' using an example. Suppose our final SSYTs are
-	\[ P = P_5 = \begin{ytableau}1 & 3 & 4 \\ 2 & 5\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 5 \\ 3 & 4\end{ytableau}. \]
-	This corresponds to a case where the initial matrix is a permutation matrix. The largest element in $Q_5$ is the $5$. Since the element in the same position in $P_5$, is in the first row, $4$ must have been what was inserted in the final step. As a result,
-	\[ P_4 = \begin{ytableau}1 & 3 \\ 2 & 5\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 \\ 3 & 4\end{ytableau}. \]
-	Now, since the largest element in $Q_4$, the $4$, is in the second row, this new position must have been created by kicking the $5$ out of the previous row. Now, with the knowledge that $5$ was kicked out of the first row, the only element it could have been kicked out by is the $3$. Therefore, to get $P_4$, we inserted a $3$ in
-	\[ P_3 = \begin{ytableau}1 & 5 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau}. \]
-	The largest element in $Q_3$ is $3$, which means that the $2$ in $P_3$ was kicked out of the first row, which means that $1$ was inserted.
-	\[ P_2 = \begin{ytableau}2 & 5\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 & 2\end{ytableau}. \]
-	Here, the largest element in $Q_2$ is $2$, and since the corresponding element $5$ in $P_2$ is in the first row, it was inserted.
-	\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
-	Therefore, the permutation corresponding to the SSYT pair $(P,Q)$ is
-	\[
-	\begin{pmatrix}
-		1 & 2 & 3 & 4 & 5 \\
-		2 & 5 & 1 & 3 & 4
-	\end{pmatrix}.
-	\]
+	In the case where $M$ is a permutation matrix, it is quite easy to see that this transformation is bijective as well! Indeed, the SSYT of $Q$ precisely describes the order in which the cells were formed. Given $Q^{(i)}$, the location of the largest element of $Q^{(i)}$ is the location of the newly formed cell. If this is in the first row, this is indeed the element of $P$ that was inserted as well. Otherwise, we must go to higher rows and ``reverse-kick'' entries, by determining the largest element smaller than this reverse-kicking number.
+	\begin{fex}
+		Let us explain this idea of ``reverse-kicking'' using an example. Suppose our final SSYTs are
+		\[ P = P_5 = \begin{ytableau}1 & 3 & 4 \\ 2 & 5\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 5 \\ 3 & 4\end{ytableau}. \]
+		This corresponds to a case where the initial matrix is a permutation matrix. The largest element in $Q_5$ is the $5$. Since the element in the same position in $P_5$, is in the first row, $4$ must have been what was inserted in the final step. As a result,
+		\[ P_4 = \begin{ytableau}1 & 3 \\ 2 & 5\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 \\ 3 & 4\end{ytableau}. \]
+		Now, since the largest element in $Q_4$, the $4$, is in the second row, this new position must have been created by kicking the $5$ out of the previous row. Now, with the knowledge that $5$ was kicked out of the first row, the only element it could have been kicked out by is the $3$. Therefore, to get $P_4$, we inserted a $3$ in
+		\[ P_3 = \begin{ytableau}1 & 5 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 3\end{ytableau}. \]
+		The largest element in $Q_3$ is $3$, which means that the $2$ in $P_3$ was kicked out of the first row, which means that $1$ was inserted.
+		\[ P_2 = \begin{ytableau}2 & 5\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 & 2\end{ytableau}. \]
+		Here, the largest element in $Q_2$ is $2$, and since the corresponding element $5$ in $P_2$ is in the first row, it was inserted.
+		\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
+		Therefore, the permutation corresponding to the SSYT pair $(P,Q)$ is
+		\[
+		\begin{pmatrix}
+			1 & 2 & 3 & 4 & 5 \\
+			2 & 5 & 1 & 3 & 4
+		\end{pmatrix}.
+		\]
+	\end{fex}
 
-	In the permutation matrix, we do the reversal by looking at the position of the largest entry in $Q^{(i)}$. In general, it turns out that we must look at the position of the \emph{rightmost} largest entry in $Q^{(i)}$, and this will be unique, due to the column strictness of SSYTs. The remainder of the reversing is identical.\\
-	Let us explain this idea of ``reverse-kicking'' using an example. Suppose our final SSYTs are
-	\[ P = P_5 = \begin{ytableau}1 & 1 & 2 \\ 2 & 3\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 2 \\ 2 & 3\end{ytableau}. \]
-	The rightmost largest element in $Q_5$ is the $3$. The element in the same position in $P_5$ is the $3$, so it must have been kicked out of the first row by an inserted $2$.
-	\[ P_4 = \begin{ytableau}1 & 1 & 3 \\ 2\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 & 2 \\ 2\end{ytableau}. \]
-	The rightmost largest element in $Q_4$ here is the $2$ in the third column. The corresponding element, $3$, is in the first row so it must have been inserted.
-	\[ P_3 = \begin{ytableau}1 & 1 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 2\end{ytableau}. \]
-	The rightmost largest element here is the $2$ in the second column. The corresponding element, $1$, is in the first row so it must have been inserted.
-	\[ P_2 = \begin{ytableau}1 \\ 2\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau}. \]
-	The largest element here is the $2$. Since the corresponding element $2$ in $P_2$ is in the second row, it must have been kicked out of the first row by an inserted $1$.
-	\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
-	Therefore, the $2$-row matrix corresponding to this pair is
-	\[
-	\begin{pmatrix}
-		1 & 2 & 2 & 2 & 3\\
-		2 & 1 & 1 & 3 & 2
-	\end{pmatrix},
-	\]
-	which corresponds to matrix
-	\[
-	\begin{pmatrix}
-		0 & 1 & 0 \\
-		2 & 0 & 1 \\
-		0 & 1 & 0
-	\end{pmatrix}.
-	\]
+	In the permutation matrix, we do the reversal by looking at the position of the largest entry in $Q^{(i)}$. In general, it turns out that we must look at the position of the \emph{rightmost} largest entry in $Q^{(i)}$, and this will be unique, due to the column strictness of SSYTs. The remainder of the reversing is identical.
 	% ***TODO*** EXPLAIN BETTER
+	
+	\begin{fex}
+		Suppose our final SSYTs are
+		\[ P = P_5 = \begin{ytableau}1 & 1 & 2 \\ 2 & 3\end{ytableau} \text{ and } Q = Q_5 = \begin{ytableau}1 & 2 & 2 \\ 2 & 3\end{ytableau}. \]
+		The rightmost largest element in $Q_5$ is the $3$. The element in the same position in $P_5$ is the $3$, so it must have been kicked out of the first row by an inserted $2$.
+		\[ P_4 = \begin{ytableau}1 & 1 & 3 \\ 2\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 2 & 2 \\ 2\end{ytableau}. \]
+		The rightmost largest element in $Q_4$ here is the $2$ in the third column. The corresponding element, $3$, is in the first row so it must have been inserted.
+		\[ P_3 = \begin{ytableau}1 & 1 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 2 \\ 2\end{ytableau}. \]
+		The rightmost largest element here is the $2$ in the second column. The corresponding element, $1$, is in the first row so it must have been inserted.
+		\[ P_2 = \begin{ytableau}1 \\ 2\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 \\ 2\end{ytableau}. \]
+		The largest element here is the $2$. Since the corresponding element $2$ in $P_2$ is in the second row, it must have been kicked out of the first row by an inserted $1$.
+		\[ P_1 = \begin{ytableau}2\end{ytableau} \text{ and } Q_1 = \begin{ytableau}1\end{ytableau} \]
+		Therefore, the $2$-row matrix corresponding to this pair is
+		\[
+		\begin{pmatrix}
+			1 & 2 & 2 & 2 & 3\\
+			2 & 1 & 1 & 3 & 2
+		\end{pmatrix},
+		\]
+		which corresponds to matrix
+		\[
+		\begin{pmatrix}
+			0 & 1 & 0 \\
+			2 & 0 & 1 \\
+			0 & 1 & 0
+		\end{pmatrix}.
+		\]
+	\end{fex}
 
 	\begin{ftheo}
 		The RSK algorithm is a bijection between $\N$-valued matrices $M$ and ordered pairs $(P,Q)$ of SSYTs such that
@@ -708,7 +717,9 @@
 	\end{ftheo}
 
 	A better proof of SSYT RSK reversibility case is by using the SYT permutation matrix case, by performing the following transformation. Iterating upwards, change repeating elements from left to right to distinct values. For example, if we have three $1$s, change them to $1,2,3$ in order from left to right.\\
-	For example, if we start off with $(3,1,2,3,1,2)$, we first make both $1$s distinct. This makes it $(3,1,2,3,2,2)$. We next make all the $2$s distinct to get $(3,1,2,3,3,4)$. Making all the $3$s distinct gives $(3,1,2,4,5,4)$, making all the $4$s distinct gives $(3,1,2,4,5,5)$, and finally making all the $5$s distinct gives $(3,1,2,4,5,6)$.
+	\begin{fex}
+		For example, if we start off with $(3,1,2,3,1,2)$, we first make both $1$s distinct. This makes it $(3,1,2,3,2,2)$. We next make all the $2$s distinct to get $(3,1,2,3,3,4)$. Making all the $3$s distinct gives $(3,1,2,4,5,4)$, making all the $4$s distinct gives $(3,1,2,4,5,5)$, and finally making all the $5$s distinct gives $(3,1,2,4,5,6)$.
+	\end{fex}
 
 
 	The permutation matrix case yields the desired bijection we mentioned earlier, so
@@ -778,8 +789,10 @@
 \subsection{The dual RSK algorithm}
 
 	This proof uses the \emph{dual RSK algorithm}. Instead of going from non-negative matrices to SSYT pairs $(P,Q)$ of the same shape, we shall go from $0,1$-matrices $M$ to pairs $(P,Q)$ of the same shape where $P^\top,Q$ are SSYTs.\\
-	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.\\
-	Let us explain this using the example of the matrix
+	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.
+
+	\begin{fex}
+	Consider the matrix
 	\[
 	\begin{pmatrix}
 		0 & 1 & 1 \\
@@ -803,6 +816,7 @@
 		P_5 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2\end{ytableau} \text{ and } Q_5 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3\end{ytableau} \\
 		P_6 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_6 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3 & 3\end{ytableau} \\
 	\end{align*}
+	\end{fex}
 
 	By construction, $P$ and $Q$ have the same shape, and $P^\top$ is an SSYT. What about $Q$? Much like the earlier proof, we must look at the rightmost occurrence of the largest element in $Q$.
 
@@ -919,20 +933,22 @@
 
 	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at (j,i)} \}|$.\\
 
-	For example, the following path from $(1,4)$ to $(5,1)$ corresponds to the monomial $x_1x_3^2x_4$.
-	\begin{center}
-	\begin{tikzpicture}
-	\draw[step=1cm, color=gray] (0, 0) grid (6,5);
-	\foreach \coord/\label [count=\xi] in {
-		{1,4}/{$A(1,4)$},
-		{5,1}/{$B(5,1)$}
-	}{
-	\pgfmathsetmacro\anch{\xi>1 ? "north east" : "south east"}
-	\node[anchor=\anch] at (\coord) {\label};
-	}
-	\draw[line width=1pt, red] (1,4) -- node[above]{$4$} (2,4) -- (2,3) -- node[above]{$3$} (3,3) -- node[above]{$3$} (4,3) -- (4,1) -- node[above]{$1$} (5,1);
-	\end{tikzpicture}
-	\end{center}
+	\begin{fex}
+		The following path from $(1,4)$ to $(5,1)$ corresponds to the monomial $x_1x_3^2x_4$.
+		\begin{center}
+		\begin{tikzpicture}
+		\draw[step=1cm, color=gray] (0, 0) grid (6,5);
+		\foreach \coord/\label [count=\xi] in {
+			{1,4}/{$A(1,4)$},
+			{5,1}/{$B(5,1)$}
+		}{
+		\pgfmathsetmacro\anch{\xi>1 ? "north east" : "south east"}
+		\node[anchor=\anch] at (\coord) {\label};
+		}
+		\draw[line width=1pt, red] (1,4) -- node[above]{$4$} (2,4) -- (2,3) -- node[above]{$3$} (3,3) -- node[above]{$3$} (4,3) -- (4,1) -- node[above]{$1$} (5,1);
+		\end{tikzpicture}
+		\end{center}
+	\end{fex}
 
 	% ESEESSE from (1,4) to (5,1) example
 	% x_1 x_3^2 x_4
@@ -960,44 +976,47 @@
 	\begin{proof}
 		Take some very large $N$ ($\infty$ in the limit). Consider the points $A_i = (n-i,N)$ and $B_i = (n-i+\lambda_i,1)$. In the limit as $N \to \infty$, the tranpose of the matrix from the previous question is \emph{precisely} $M_\lambda$! The set of paths from $A_j$ to $B_i$ is $h( (\lambda_i-i+n)-(n-j) , 1 , N ) = h_{\lambda_i + j - i}$.\\
 		By the Lindstr\"{o}m-Gessel-Viennot lemma, the determinant of this matrix corresponds to the set of non-intersecting paths from $A_i$ to $B_i$ for each $i$ (it is easily checked that the only permutation with non-intersecting paths is the identity). To complete the proof, it suffices to establish an equivalence between such collections of paths and SSYTs of shape $\lambda$.\\
-		Let us explain this bijection using an example. Consider the partition $\lambda = (4,3,1)$ and set $N = 4$ for simplicity. The points are $A_1 = (2,4), A_2 = (1,4), A_3 = (0,4)$ and $B_1 = (6,1), B_2 = (4,1), B_3 = (1,1)$. Take the following collection of paths.
+		Let us explain this bijection via an example.
+		\begin{fex}
+			Consider the partition $\lambda = (4,3,1)$ and set $N = 4$ for simplicity. The points are $A_1 = (2,4), A_2 = (1,4), A_3 = (0,4)$ and $B_1 = (6,1), B_2 = (4,1), B_3 = (1,1)$. Take the following collection of paths.
 
-		\begin{center}
-		\begin{tikzpicture}
-		\draw[step=1cm, color=gray] (0, 0) grid (10,5);
-		\foreach \coord/\label [count=\xi] in {
-			{2,4}/{$A_1$},
-			{1,4}/{$A_2$},
-			{0,4}/{$A_3$},
-			{6,1}/{$B_1$},
-			{4,1}/{$B_2$},
-			{1,1}/{$B_3$}
-		}{
-		\pgfmathsetmacro\anch{\xi>3 ? "north east" : "south east"}
-		\node[anchor=\anch] at (\coord) {\label};
-		}
-		\draw[line width=1pt, red] (2,4) -- node[above]{$4$} (3,4) -- node[above]{$4$} (4,4) -- (4,3) -- node[above]{$3$} (5,3) -- node[above]{$3$} (6,3) -- (6,1);
-		\draw[line width=1pt, green] (1,4) -- (1,3) -- node[above]{$3$} (2,3) -- node[above]{$3$} (3,3) -- (3,2) -- node[above]{$2$} (4,2) -- (4,1);
-		\draw[line width=1pt, blue] (0,4) -- (0,2) -- node[above]{$2$} (1,2) -- (1,1);
-		\end{tikzpicture}
-		\end{center}
+			\begin{center}
+			\begin{tikzpicture}
+			\draw[step=1cm, color=gray] (0, 0) grid (10,5);
+			\foreach \coord/\label [count=\xi] in {
+				{2,4}/{$A_1$},
+				{1,4}/{$A_2$},
+				{0,4}/{$A_3$},
+				{6,1}/{$B_1$},
+				{4,1}/{$B_2$},
+				{1,1}/{$B_3$}
+			}{
+			\pgfmathsetmacro\anch{\xi>3 ? "north east" : "south east"}
+			\node[anchor=\anch] at (\coord) {\label};
+			}
+			\draw[line width=1pt, red] (2,4) -- node[above]{$4$} (3,4) -- node[above]{$4$} (4,4) -- (4,3) -- node[above]{$3$} (5,3) -- node[above]{$3$} (6,3) -- (6,1);
+			\draw[line width=1pt, green] (1,4) -- (1,3) -- node[above]{$3$} (2,3) -- node[above]{$3$} (3,3) -- (3,2) -- node[above]{$2$} (4,2) -- (4,1);
+			\draw[line width=1pt, blue] (0,4) -- (0,2) -- node[above]{$2$} (1,2) -- (1,1);
+			\end{tikzpicture}
+			\end{center}
 
-		To this, we associate the tableau
-		\[
-		\begin{ytableau}
-			4 & 4 & 3 & 3 \\
-			3 & 3 & 2 \\
-			2
-		\end{ytableau}.
-		\]
-		Finally, to convert this to an SSYT, we replace each element with the maximum element in the tableau plus $1$ minus the element to get
-		\[
-		\begin{ytableau}
-			1 & 1 & 2 & 2 \\
-			2 & 2 & 3 \\
-			3
-		\end{ytableau}.
-		\]
+			To this, we associate the tableau
+			\[
+			\begin{ytableau}
+				4 & 4 & 3 & 3 \\
+				3 & 3 & 2 \\
+				2
+			\end{ytableau}.
+			\]
+			Finally, to convert this to an SSYT, we replace each element with the maximum element in the tableau plus $1$ minus the element to get
+			\[
+			\begin{ytableau}
+				1 & 1 & 2 & 2 \\
+				2 & 2 & 3 \\
+				3
+			\end{ytableau}.
+			\]
+		\end{fex}
 		It is evident that the shape of this SSYT is $\lambda$ and the rows are weakly increasing. So, it suffices to show that the columns are strictly increasing, that is, the columns of the earlier tableau are strictly decreasing. This means that if the $i$th east from $A_j$ to $B_j$ is taken at a height of $y$, then the $i$th east from $A_{j+1}$ to $B_{j+1}$ is taken at a height $y' < y$. By the definition of the paths, this path from $A_j$ to $B_j$ passes through $(n-j+i-1,y)$, and the path from $A_{j+1}$ to $B_{j+1}$ passes through $(n-(j+1)+i,y')$. Clearly, the sections of the two paths until here can be non-intersecting only if $y' < y$, completing the proof.
 	\end{proof}
 
