@@ -564,7 +564,7 @@
 	\end{ftheo}
 	We do not prove the above. The original proof was due to Frame, Robinson, Thrall, and Wilf, Nijenhuis later gave an easier proof.\\
 	Using the above, note in particular that the number of SYTs of shape $(n,n)$ is
-	\[ f_{n,n} = \frac{1}{n+1} \frac{2n}{n}, \]
+	\[ f_{n,n} = \frac{1}{n+1} \binom{2n}{n}, \]
 	the $n$th Catalan number $C_n$!
 
 \subsection{The RSK algorithm}
@@ -759,7 +759,7 @@
 	\Cref{theo: characterize dual basis} immediately yields the following.
 
 	\begin{fcor}
-		$\{S_\lambda\}_{\lambda \vdash d}$ is an orthonormal basis of $\Lambda^d_\Q$.
+		$\{s_\lambda\}_{\lambda \vdash d}$ is an orthonormal basis of $\Lambda^d_\Q$.
 	\end{fcor}
 
 	Recall the Kostka numbers $K_{\lambda,\mu}$ from \Cref{eqn: kostka}. The next corollary immediately follows by looking at the coefficient of $x^\alpha y^\beta$ in Cauchy's identity, as we did in the proof.
@@ -777,7 +777,7 @@
 		\[ h_\mu = \sum_{\lambda \vdash d} K_{\lambda\mu} s_\lambda. \]
 	\end{fcor}
 	\begin{proof}
-		Let $h_\mu = \sum_{\lambda \vdash d} a_{\lambda\mu} s_\lambda$, using the fact that the $s_\lambda$ form a basis. Because the $\{s_\lambda\}_{\lambda \vdash d}$ form an orthonormal basis,
+		Let $h_\mu = \sum_{\lambda \vdash d} a_{\lambda\mu} s_\lambda$, using the fact that the $s_\lambda$ form a basis. Because the $\{s_\lambda\}_{\lambda \vdash d}$ are orthonormal,
 		\[ a_{\lambda\mu} = \langle h_\mu , s_\lambda \rangle = \langle  h_\mu , \sum_{\theta \vdash d} K_{\lambda\theta} m_\theta \rangle = K_{\lambda\mu}, \]
 		where we use that $\langle h_\mu,m_\theta\rangle = \delta_{\mu\theta}$.
 	\end{proof}
