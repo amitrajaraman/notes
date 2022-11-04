@@ -899,7 +899,7 @@
 		\[ \begin{ytableau} 1 & 1 & 1 & 7 \\ 2 & 3 & 2 \\ 3 & 4 \\ 5 \\ 6 \end{ytableau}. \]
 		This has shape $\lambda'$ and content $\mu$. This is not an SSYT, but note that this multiplication gives $0$ due to skew-symmetry! Indeed, $(x_1^3x_2^2x_3^1)(x_1x_2x_3)(x_1x_3) = x_1^5x_2^{\textcolor{red}{3}}x_3^{\textcolor{red}{3}}$.
 
-		For another example, consider the matrix
+		For another example, consider the series of multiplications encoded by
 		\[
 		\begin{pmatrix}
 			1 & 1 & 1 & 0 \\
@@ -917,7 +917,7 @@
 			1 & 1 & 1 & 4 \\ 2 & 2 & 3 \\ 3 & 6 \\ 5 \\ 7
 		\end{ytableau}.
 		\]
-		Again, this has shape $\lambda'$ and content $\mu$. One can check that this multiplication does indeed give something nonzero, and the above is clearly an SSYT.
+		Again, this has shape $\lambda'$ and content $\mu$. One can check that this multiplication does indeed give something nonzero at every stage, and the above is clearly an SSYT.
 	\end{fex}
 
 	We would like to show that we get an SSYT iff no two exponents are equal in the process.
@@ -942,7 +942,7 @@
 			{1,4}/{$A(1,4)$},
 			{5,1}/{$B(5,1)$}
 		}{
-		\pgfmathsetmacro\anch{\xi>1 ? "north east" : "south east"}
+		\pgfmathsetmacro\anch{\xi>1 ? "north west" : "south east"}
 		\node[anchor=\anch] at (\coord) {\label};
 		}
 		\draw[line width=1pt, red] (1,4) -- node[above]{$4$} (2,4) -- (2,3) -- node[above]{$3$} (3,3) -- node[above]{$3$} (4,3) -- (4,1) -- node[above]{$1$} (5,1);
@@ -963,10 +963,11 @@
 	\begin{ftheo}[Lindstr\"{o}m-Gessel-Viennot Lemma]
 		Let $\NonIn(\pi(\overline{\alpha}),\overline{\beta},\overline{\delta},\pi(\overline{\gamma}))$ be non-empty only for $\pi = \Id$. Then,
 		\[ \NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta}) = \det M, \]
-		where $M_{ij} = h(\alpha_j - \beta_i,\delta_j,\gamma_i)$, the set of paths from $A_i$ to $B_j$. That is,
-		\[ \NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta}) = \prod_{\pi \in \mathfrak{S}_n} \sign(\pi) \prod_{i=1}^n h(\alpha_{\pi(i)} - \beta_i , \delta_{\pi(i)} , \gamma_i). \]
+		where $M_{ij} = h(\alpha_j - \beta_i,\delta_j,\gamma_i)$, the set of paths from $A_i$ to $B_j$.
 	\end{ftheo}
 	\begin{proof}
+		We would like to show that
+		\[ \NonIn(\overline{\alpha},\overline{\beta},\overline{\gamma},\overline{\delta}) = \prod_{\pi \in \mathfrak{S}_n} \sign(\pi) \prod_{i=1}^n h(\alpha_{\pi(i)} - \beta_i , \delta_{\pi(i)} , \gamma_i). \]
 		Suppose that according to some permutation $\pi$, some two paths from $A_i$ to $B_{\pi(i)}$ intersect. Consider the minimum intersecting pair index $(i,j)$ (according to the lexicographic order, say). Say the two paths intersect at $A$. Note that this cancels out with the set of paths for $(\pi(i), \pi(j)) \pi$ by looking at the paths from $A_i$ to $A$ to $B_{\pi(j)}$ and $A_j$ to $A$ to $B_{\pi(i)}$. Therefore, the only terms in the determinant that survive correspond to those $\pi$ which have non-intersecting paths, which is only $\Id$ by the hypothesis.
 	\end{proof}
 
