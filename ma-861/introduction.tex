@@ -714,7 +714,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ \Chrom_G(t) = \sum_{k=0}^n (-1)^k \nbc_k(G) t^{n-k}. \]	
 	\end{ftheo}
 	\begin{proof}
-		Fix some $t$. For each $A \in \NBC_k(A)$, consider the corresponding subgraph with edge set $A$. This describes a forest on $V$ with $n-k$ components. The number of functions $c : V \to [t]$ such that $c$ is constant on components of $A$ is $t^{n-k}$. Call such a coloring an $A$-improper coloring. For each such pair $(A,c)$, assign the sign $\sign(A,c) = (-1)^k$. Denote the set of all such pairs by $S$. \\
+		Fix some $t$. For each $A \in \NBC_k(G)$, consider the corresponding subgraph with edge set $A$. This describes a forest on $V$ with $n-k$ components. The number of functions $c : V \to [t]$ such that $c$ is constant on components of $A$ is $t^{n-k}$. Call such a coloring an $A$-improper coloring. For each such pair $(A,c)$, assign the sign $\sign(A,c) = (-1)^k$. Denote the set of all such pairs by $S$. \\
 		We would like to show that
 		\[ \sum_{(A,c) \in S} (-1)^{\sign(A)} = \Chrom_G(t) = c_t(G). \]
 		Observe that $(\emptyset,c) \in S$ for any proper coloring $c$, so it suffices to show that the summation of the remaining terms is $0$. Call this set of remaining terms $S'$. We shall come up with an sign-reversing involution $\iota$ on $S'$ to prove that the sum of signs is $0$.\\
@@ -752,7 +752,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	This idea of plugging negative values into polynomials of interest has led to the fascinating subject of combinatorial reciprocity. This includes the idea of ``running recurrences backward''. For example, we have the Fibonacci numbers defined by $f_0 = 0, f_1 = 1$, and $f_{n+1} = f_n + f_{n-1}$. Can we extend this to negative numbers such that $f_{m-1} = f_{m+1} - f_{m}$, where $m-1$ is negative. This leads to a signed version of the Fibonacci numbers, with $f_{-n} = (-1)^{n+1} f_n$ for $n > 0$.\\
 	
-	We encourage the reader to try \Cref{binomial recurrence backwards} to get that on running the binomial recurrence backwards (for negative $n$), one gets
+	One can show that on running the binomial recurrence backwards (for negative $n$), we get
 	\[ \binom{-(n+1)}{k} = (-1)^k \binom{n+k}{k}. \]
 
 	\begin{exercise}
@@ -857,6 +857,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	 	\[ A^\mathsf{rev}(x) = -A\left( \frac{1}{x} \right). \]
 	 \end{ftheo}
 	 % proof in next class (this has been written 05-09-2022)
+	 % ***TODO***
 	 \begin{proof}
 	 	
 	 \end{proof}
@@ -939,12 +940,10 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		\[ A_n(t) = \sum_{\pi \in \mathfrak{S}_n} t^{\exc(\pi)}. \]
 	\end{ftheo}
 	Similar to excedances, consider non-excedances -- points where $\pi_i < i$.
-	\begin{exercise}
-		Show that $\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
-	\end{exercise}
-	\begin{proof}
-		
-	\end{proof}
+	\begin{prop}
+		$\exc(\pi) = \operatorname{nonexc}(\pi^{-1})$.
+	\end{prop}
+
 	\begin{proof}[Proof of \Cref{theo: desc and exc}]
 		% Note that one can cyclically permute elements of $c_i$ and write the $c_i$s in any order
 		Let $\pi \in \mathfrak{S}_n$ have cycles $c_1,\ldots,c_k$. For each $i$, let $m_i$ be the maximal element of $c_i$, and assume that $c_i$ is written starting with $m_i$. Also assume that we write the cycles in increasing order of $m_i$. We refer to this as the \emph{canonical} cycle decomposition of $\pi$. Suppose we write the permutation in this form, as

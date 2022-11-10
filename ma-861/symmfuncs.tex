@@ -21,12 +21,11 @@
 
 	\begin{question}
 		\label{question: rowsum colsum}
-		Given a matrix $M_{r \times k}$, on summing each row of $M$, we get a vector $\rowsum(M) = (r_1,\ldots,r_\ell)$ and on summing the columns we get a vector $\colsum(M) = (c_1,\ldots,c_k)$. When does there exist a 0-1 matrix $M$ such that $\rowsum(M)$ and $\colsum(M)$ are each equal to given vectors $(r_1,\ldots,r_\ell)$ and $(c_1,\ldots,c_k)$?
+		Given a matrix $M_{\ell \times k}$, on summing each row of $M$, we get a vector $\rowsum(M) = (r_1,\ldots,r_\ell)$ and on summing the columns we get a vector $\colsum(M) = (c_1,\ldots,c_k)$. When does there exist a 0-1 matrix $M$ such that $\rowsum(M)$ and $\colsum(M)$ are each equal to given vectors $(r_1,\ldots,r_\ell)$ and $(c_1,\ldots,c_k)$?
 	\end{question}
 
 	For starters, we clearly require $\sum r_i = \sum c_j \eqqcolon S$. Assume without loss of generality that $r_1 \ge \cdots \ge r_\ell$ and $c_1 \ge \cdots \ge c_k$ -- if a matrix for this exists, we can first reorder the rows to ensure the correct order of row sums, then reorder the columns. That is, we have two number partitions $\lambda = (r_1,\ldots,r_\ell)$ and $\mu = (c_1,\ldots,c_k)$ of $S$.\\
-	We shall return to the problem later.\\
-
+	We shall return to this problem later.\\
 
 	Now, we define some partial orders on the set of number partitions.\\
 	First, we consider an order that allows the comparison of number partitions of different numbers.
@@ -34,7 +33,6 @@
 		Under \emph{Young's order}, given two number partitions $\lambda,\mu$, $\lambda \ple \mu$ iff the Ferrer diagram of $\lambda$ is contained in that of $\mu$.
 	\end{fdef}
 	Observe that under this order, two number partitions of the same number are \emph{not} comparable.\\
-
 	Next, we define a total order over number partitions of a fixed number.
 	\begin{fdef}[Lexicographic order]
 		Fix some $d$ and two partitions $\lambda = (\lambda_1,\ldots,\lambda_k),\mu = (\mu_1,\ldots,\mu_\ell)$ of $d$. Under the \emph{lexicographic order}, we have $\lambda < \mu$ iff for some $r \le k$, $\lambda_r < \mu_r$ and $\lambda_i = \mu_i$ for all $i < r$.
@@ -66,7 +64,7 @@
 		e_3 &= m_{1^3} = \sum_{i < j < k} x_i x_j x_k \text{ and} \\
 		e_{2,1} &= e_2e_1 = \left(\sum_{i < j} x_i x_j\right) \left(\sum_k x_k\right) = 3m_{1,1,1} + m_{2,1}.
 	\end{align*}
-	We claim that $\{e_\lambda : \lambda \vdash d\}$ is a basis of the set of symmetric functions.\\
+	We claim that $\{e_\lambda : \lambda \vdash d\}$ is a basis of $\Lambda_\Q^d$.
 	In the case of $d = 4$, we have
 	\begin{align*}
 		e_4 &= 1 m_{1^4} \\
@@ -86,7 +84,7 @@
 	\end{ftheo}
 	Recall \Cref{question: rowsum colsum}.
 	\begin{proof}
-		Let $\ell(\lambda) = r, \ell(\mu) = k$.\\
+		Let $\ell(\lambda) = r, \ell(\mu) = k$.
 		Consider the $r \times k$ matrix
 		\[ \begin{bmatrix} x_1 & x_2 & \cdots \\ x_1 & x_2 & \cdots \\ \vdots & \vdots & \ddots \end{bmatrix}. \]
 		Choose a $0,1$ vector with $\lambda_i$ $1$s and paste it in in $M$ at the $i$th row. The coefficient of $x_1^{\mu_1} x_2^{\mu_2} \cdots x_k^{\mu_k}$ in $\prod_i e_{\lambda_i}$ is given by choosing for each $i \in [r]$ a set of indices in $[k]$ such that
@@ -101,7 +99,7 @@
 
 	\begin{ftheo}[Gale-Ryser]
 		\label{gale-ryser}
-		Let $\lambda,\mu \vdash d$. There exists a $0,1$-matrix $A$ with $\rowsum(A) = \lambda,\colsum(A) = \mu$ iff $\lambda \ple \mu^*$ under the \hyperref[def: majorisation order]{majorisation order}.
+		Let $\lambda,\mu \vdash d$. There exists a $0,1$-matrix $A$ with $\rowsum(A) = \lambda,\colsum(A) = \mu$ (equivalently, $M_{\lambda\mu} \ne 0$) iff $\lambda \ple \mu^*$ under the \hyperref[def: majorisation order]{majorisation order}.
 	\end{ftheo}
 
 	Here, $\lambda^*$ is the \emph{conjugate} partition of $\lambda$, which is such that its Ferrer diagram is the transpose of that of $\lambda$. More precisely,
@@ -184,7 +182,7 @@
 		where some $c_\lambda \ne 0$. This immediately contradicts \Cref{theo: eL form basis}, which says that the $\{e_\lambda\}_{\lambda \vdash d}$ are linearly independent.
 	\end{proof}
 
-	Linear independence implies algebraically independence!\\
+	Linear independence implies algebraic independence!\\
 
 	Consider the following, where we look at the products of finitely many terms on the left.
 	\[ \prod_{i,j \ge 1} \left( 1 + x_iy_j \right). \]
@@ -254,7 +252,7 @@
 	\begin{ftheo}
 		\label{theo: h basis}
 		Consider the algebra homomorphism $\omega : \Lambda_\Q \to \Lambda_\Q$ defined by $\omega(e_n) = h_n$ for all $n$, so $\omega(e_\lambda) = h_\lambda$.\\
-		$\omega$ is an involution. In particular, $(h_\lambda)_{\lambda \vdash d}$ form a basis of $\Lambda_\Q^d$.
+		$\omega$ is an involution. In particular, $(h_\lambda)_{\lambda \vdash d}$ forms a basis of $\Lambda_\Q^d$.
 	\end{ftheo}
 	\begin{proof}
 		Let $E(t) = \sum_{n \ge 0} e_n t^n$ be the ogf of the $e_i$, and similarly $H(t) = \sum_{n \ge 0} h_n t^n$. By \Cref{eqn: prod 1 m xi yj,eqn: prod 1 p xi yj}, setting $x = (t,0,0,\ldots)$ and noting that $m_\lambda(x) \ne 0$ iff $\lambda$ is $n$, we have that
@@ -287,7 +285,7 @@
 
 \subsection{Power sum symmetric functions}
 
-	Let us now look at one more class of symmetric functions, known as the \emph{power sum symmetric functions}. For $n > 0$, define
+	Let us look at one more class of symmetric functions, known as the \emph{power sum symmetric functions}. For $n > 0$, define
 	\[ p_n = m_n = \sum_{i \ge 1} x_i^n. \]
 	For $\lambda = (\lambda_1,\ldots,\lambda_\ell) \vdash d$, define
 	\[ p_\lambda = \prod_{i=1}^\ell p_{\lambda_i}. \]
@@ -338,7 +336,7 @@
 	% \end{exercise}
 	\begin{proof}
 		Suppose that $\lambda$ has $r$ parts. By the combinatorial interpretation of $R_{\lambda\lambda}$, we wish to find the number of preferential arrangements $(S_1,\ldots,S_r)$ of $[r]$ such that $\sum_{j \in S_k} \lambda_j = \lambda_k$. Since no $S_k$ can be empty, each $S_k$ must be a singleton, suppose that it contains the element $\sigma(k)$ (where $\sigma:[r]\to[r]$ is a permutation). The second condition gives that $\lambda_{\sigma(j)} = \lambda_j$ for each $j$. The number of such permutations is precisely
-		\[ R_{\lambda\lambda} = n_1! n_2! \cdots n_d!. \]
+		\[ R_{\lambda\lambda} = n_1! n_2! \cdots n_d!. \qedhere \]
 	\end{proof}
 
 	\begin{fcor}
@@ -537,12 +535,12 @@
 	\end{fex}
 	Such a filling is called a \emph{semi-standard Young Tableau} (SSYT) of shape $\lambda$. Let $F$ be an SSYT. Let $F$ have $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
 	Define
-	\[ S_\lambda = \sum_{\text{SSYTs $F$ of shape $\lambda$}} x^{\content(F)} \]
+	\[ s_\lambda = \sum_{\text{SSYTs $F$ of shape $\lambda$}} x^{\content(F)} \]
 	For example, when $\lambda = (2,1)$,
-	\[ S_\lambda = m_{2,1} + 2 m_{1^3} \]
+	\[ s_\lambda = m_{2,1} + 2 m_{1^3} \]
 
 	\begin{ftheo}[Knuth-Bender]
-		Let $d \ge 0$ and $\lambda \vdash d$. Then, $S_\lambda$ is a symmetric function.
+		Let $d \ge 0$ and $\lambda \vdash d$. Then, $s_\lambda$ is a symmetric function.
 	\end{ftheo}
 	\begin{proof}
 		Fix some content vector $(m_1,m_2,\ldots)$. Let $\mathcal{F}$ be the set of SSYTs $F$ of shape $\lambda$ with $\content(F) = (m_1,m_2,\ldots)$. Fix arbitrary $i$, and let $\mathcal{F}_i$ be the set of SSYTs $F$ of shape $\lambda$ with $\content(F) = (m_1,m_2,\ldots,m_{i-1},m_{i+1},m_i,m_{i+2},m_{i+3},\ldots)$ (the $i$th and $(i+1)$th coordinates are swapped).\\
@@ -557,9 +555,9 @@
 		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$! $\varphi_i$ is also clearly a bijection since the same operations define an inverse function from $\mathcal{F}_i$ to $\mathcal{F}$.
 	\end{proof}
 
-	The $(S_\lambda)$ are known as the \emph{Schur symmetric functions}.\\
+	The $(s_\lambda)$ are known as the \emph{Schur symmetric functions}.\\
 	Note that for any $n$, $S_n = h_n$ and $S_{1^n} = e_n$.\\
-	Let us now try to show, as per usual, that the $(S_\lambda)$ form a basis of $\Lambda_\Q^d$. We have
+	Let us now try to show, as per usual, that the $(s_\lambda)$ form a basis of $\Lambda_\Q^d$. We have
 	\begin{align*}
 		S_3 &= m_{1^3} + m_{2,1} + m_3 \\
 		S_{2,1} &= 2m_{1^3} + m_{2,1} \\
@@ -569,7 +567,7 @@
 	Let
 	\begin{equation}
 		\label{eqn: kostka}
-		S_\lambda = \sum_{\mu \vdash d} K_{\lambda\mu} m_\mu.
+		s_\lambda = \sum_{\mu \vdash d} K_{\lambda\mu} m_\mu.
 	\end{equation}
 	Here, the $K_{\lambda\mu}$ are known as the \emph{Kostka numbers}. By definition, $K_{\lambda\mu}$ is the number of SSYTs with shape $\lambda$ and content $\mu$. In a spirit much like \nameref{gale-ryser}, we shall show that $K$ is upper-triangular when we order both the rows and columns in the reverse-lexicographic order.
 
@@ -588,7 +586,7 @@
 
 	Now, note that the diagonal entries of $K$ are equal to $1$ by an argument similar to that of the previous theorem.
 	\begin{fcor}
-		$(S_\lambda)_{\lambda \vdash d}$ forms a basis of $\Lambda_\Q^d$. 
+		$(s_\lambda)_{\lambda \vdash d}$ forms a basis of $\Lambda_\Q^d$. 
 	\end{fcor}
 
 	Unfortunately, $K_{\lambda\mu}$ has no good formula in general. However, there are formulae in certain special cases.\\
