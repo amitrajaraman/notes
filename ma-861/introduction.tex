@@ -154,7 +154,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Then,
 		\[ H(x) = \exp \left( \sum_{n \ge 1} f_n \frac{x^n}{n} \right) . \]
 	\end{ftheo}
-	Note that the summation of $F$ is for $n \ge 1$, because we may assume that $f_0 = 0$ since $f_0$ does not appear in the expression of any $h_n$.\\
+	Note that the summation of $F$ is for $n \ge 1$, because we may assume that $f_0 = 0$ since $f_0$ does not appear in the expression of any $h_n$.
 
 	\begin{fdef}[Compositional inverse]
 		Generating functions $F$ and $G$ are said to be \emph{compositional inverses} (of each other) if $F(G(x)) = G(F(x)) = x$.
@@ -623,7 +623,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 	\begin{fex}
 		For a fixed $n$, $\binom{n}{k}$ as $k$ varies is log-concave. Indeed,
-		\[ \binom{n}{k}^2 = \frac{(n!)^2}{(k!)!((n-k)!)^2} \ge \frac{(n!)^2}{(k-1)!(k+1)! \cdot (n-k-1)! (n-k+1)!} = \binom{n}{k-1} \binom{n}{k+1}. \]
+		\[ \binom{n}{k}^2 = \frac{(n!)^2}{(k!)^2((n-k)!)^2} \ge \frac{(n!)^2}{(k-1)!(k+1)! \cdot (n-k-1)! (n-k+1)!} = \binom{n}{k-1} \binom{n}{k+1}. \]
 	\end{fex}
 
 	% \begin{exerc}
@@ -640,12 +640,12 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 		Prove the above.
 	\end{exercise}
 
-	The above has an even stronger version.
+	The above has an even stronger version, which we do not prove.
 
 	% add citation for this!
-	\begin{fprop}
-		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then $\left(a_i/\binom{n}{i}\right)_{i \ge 0}$ is log-concave. This is referred to as \emph{ultralogconcavity}.
-	\end{fprop}
+	\begin{ftheo}
+		If $A(x) = \sum_{i=0}^n a_i x^i$ is a polynomial with all real roots, then $\left(a_i/\binom{n}{i}\right)_{i \ge 0}$ is log-concave. This is referred to as \emph{ultra}logconcavity.
+	\end{ftheo}
 
 	\begin{fcor}
 		For any graph $G$, $(m_k(G))_{k\ge 0}$ is log-concave. That is, for all $k$, $m_k(G)^2 \ge m_{k-1}(G)m_{k+1}(G)$.
@@ -694,7 +694,7 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 	\end{fprop}
 	\begin{proof}
 		Take any $k$-coloring of $G-e$. If the endpoints of $e$ have the same colour, it corresponds to a $k$-colouring of $G\setminus e$, and if the endpoints have distinct colours, it corresponds to a $k$-coloring of $G$. Therefore,
-		\[ c_k(G) = c_k(G-e) = c_k(G\setminus e) \]
+		\[ c_k(G-e) = c_k(G) + c_k(G\setminus e) \]
 		and the result follows.
 	\end{proof}
 	This leads to a method to find the chromatic polynomial of any graph. Since we know the chromatic polynomial of the empty graph, we can repeatedly delete and contract edges until from our graph until we get to an empty graph.\\
