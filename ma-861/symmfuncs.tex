@@ -1,3 +1,5 @@
+%!TEX root = main.tex
+
 \section{Symmetric functions}
 
 \subsection{Introduction}
@@ -115,9 +117,20 @@
 		% Let $\mu = (m_1,\ldots,\mu_\ell)$. Let $r \pge q$ be arbitrary. Consider the minimum $i,j$ such that $r_i > q_i$ and $r_j < q_j$. % subtract 1 from r_i and add 1 at r_j. r' \ge q as well. Clearly, |r' - q| < |r - q| (2 norm). repeating this over and over, we finally just get q. Now, consider the matrix starting with Ferrer diagram of \lambda^*. Now, r_i > q_i \ge q_j > r_j. Choose the smallest h such that a_{h i} = 1 and a_{h j} = 0. Swap these two. Repeat over and over.
 	% \end{proof}
 
-	\begin{exercise}
-		Show that $\lambda \ple \mu^*$ iff $\mu \ple \lambda^*$.
-	\end{exercise}
+	\begin{prop}
+		Given partitions $\lambda,\mu \vdash d$, $\lambda \ple \mu^*$ iff $\mu \ple \lambda^*$.
+	\end{prop}
+	\begin{proof}
+		% ****TODO****
+		% We shall show that if $\lambda \ple \mu$, then $\mu^* \ple \lambda^*$. Fix some $t$. Note that
+		% \[ \sum_{i=1}^t \min\{\lambda_i,t\} = \sum_{i=1}^t \min\{\lambda_i^*,t\} \]
+		% and also that
+		% \[ d = \sum_{i=1}^t \min\{\lambda_i,t\} + \sum_{i=1}^t (\lambda_i-t)_+ + \sum_{i=1}^t (\lambda_i^*-t)_+, \]
+		% where $r_+ = r$ if $r \ge 0$ and $0$ otherwise. Consequently,
+		% \[ d = \sum_{i=1}^t \lambda_i^* + \sum_{i=1}^t (\lambda_i-t)_+. \]
+		% So, it suffices to show that
+		% \[ \sum_{i=1}^t (\lambda_i-t)_+ \le \sum_{i=1}^t (\mu_i-t)_+. \]
+	\end{proof}
 	
 	Let us now return to the question of whether the $e_\lambda$ form a basis of $\Lambda_{\Q}^d$. We would like to show that $M$ is invertible.
 
@@ -135,7 +148,7 @@
 	% 	Prove the above.
 	% \end{exercise}
 	\begin{proof}
-		This amounts to showing that if $\lambda \pge \mu$, then $\lambda \ge_{\text{lex}} \mu$. 
+		This amounts to showing that if $\lambda \pge \mu$, then $\lambda \ge_{\text{lex}} \mu$. Let $t$ be the first index where $\lambda_t \ne \mu_t$. Then, $\sum_{i=1}^t \lambda_i \ge \sum_{i=1}^t \mu_i$, and since $\lambda_i = \mu_i$ for $i < t$, this implies that $\lambda_t \ge \mu_t$, proving the claim. 
 	\end{proof}
 
 	\begin{corollary}
@@ -179,8 +192,13 @@
 	\begin{align}
 		\prod_{i,j \ge 1} \left( 1 + x_i y_j \right) &= \sum_{\text{$A$ finite $0,1$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \nonumber \\
 			&= \sum_{d \ge 0} \sum_{\lambda,\mu \vdash d} M_{\lambda\mu} m_\lambda(x) m_\mu(y) \nonumber \\
-		\prod_{i,j \ge 1} \left(1 + x_iy_j\right)  &= \sum_{d \ge 0} \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y). \label{eqn: prod 1 p xi yj}
+		\prod_{i,j \ge 1} \left(1 + x_iy_j\right)  &= \sum_{d \ge 0} \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y).
 	\end{align}
+
+	\begin{prop}
+		\label{eqn: prod 1 p xi yj}
+		\[ \prod_{i,j \ge 1} (1+x_iy_j) = \sum_{\lambda \vdash d} m_\lambda(x) e_\lambda(y) \]
+	\end{prop}
 
 \subsection{Homogenous symmetric functions}
 
@@ -211,10 +229,15 @@
 
 	% The counterpart of the Gale-Ryser Theorem here is as follows.
 
-	\begin{exercise}
+	\begin{prop}
+	% \begin{exercise}
 		Prove that $N_{\lambda\mu} \ne 0$ for any $\lambda,\mu \vdash d$. That is, show that there always exists an $\N$-matrix $A$ such that $\rowsum(A) = \lambda,\colsum(A) = \mu$.\\
 		Try to write a program that takes $\lambda,\mu$ as input and outputs such a matrix.
-	\end{exercise}
+	% \end{exercise}
+	\end{prop}
+	\begin{proof}
+		We prove it using strong induction on $d$. The base case where $d = 1$ is trivial. Otherwise, fill the first $(1,1)$ element of the matrix with $\min\{\lambda_1,\mu_1\}$. Assume that $\lambda_1 \ge \mu_1$. Now, we only need to fill the submatrix omitting the first column of a matrix with elements such that the row-sum is $(\lambda_1-\mu_1,\lambda_2,\ldots)$ and the column-sum is $(\mu_2,\mu_3,\ldots)$. Such a filling exists by the inductive hypothesis.
+	\end{proof}
 
 	It turns out, however, that the problem of determining $N_{\lambda\mu}$ is $\#\mathsf{P}$-complete.\\ % prof wasn't sure though.
 	The next natural question to ask is: are the $(h_\lambda)$ a basis as well?\\
@@ -306,9 +329,17 @@
 	Therefore, the $p(d) \times p(d)$ matrix $R$ with rows and columns ordered reverse lexicographically is lower-triangular!\\
 	Further, it is not too difficult to see that for $\lambda \vdash d$, $R_{\lambda\lambda} \ne 0$.
 	
-	\begin{exercise}
-		Find a formula for $R_{\lambda\lambda}$.
-	\end{exercise}
+	% \begin{exercise}
+		% Find a formula for $R_{\lambda\lambda}$.
+	\begin{prop}
+		Show that for $\lambda \vdash d$, if $\lambda = 1^{n_1}2^{n_2}\cdots d^{n_d}$,
+		\[ R_{\lambda\lambda} = n_1! n_2! \cdots n_d!. \]
+	\end{prop}
+	% \end{exercise}
+	\begin{proof}
+		Suppose that $\lambda$ has $r$ parts. By the combinatorial interpretation of $R_{\lambda\lambda}$, we wish to find the number of preferential arrangements $(S_1,\ldots,S_r)$ of $[r]$ such that $\sum_{j \in S_k} \lambda_j = \lambda_k$. Since no $S_k$ can be empty, each $S_k$ must be a singleton, suppose that it contains the element $\sigma(k)$ (where $\sigma:[r]\to[r]$ is a permutation). The second condition gives that $\lambda_{\sigma(j)} = \lambda_j$ for each $j$. The number of such permutations is precisely
+		\[ R_{\lambda\lambda} = n_1! n_2! \cdots n_d!. \]
+	\end{proof}
 
 	\begin{fcor}
 		$\{p_\lambda\}_{\lambda \vdash d}$ is a basis of $\Lambda_\Q^d$.
@@ -321,6 +352,7 @@
 	Recall \Cref{eqn: prod 1 m xi yj,eqn: prod 1 p xi yj}.
 
 	\begin{prop}
+		\label{prod 1 m xi yj pLpL}
 		\[ \prod_{i,j \ge 1} \frac{1}{1-x_iy_j} = \sum_{d \ge 0} \sum_{\lambda \vdash d} \frac{1}{z_\lambda} p_\lambda(x) p_\lambda(y). \]
 	\end{prop}
 	\begin{proof}
@@ -352,14 +384,22 @@
 	\begin{proof}
 		Set $y_1 = t$ and everything else as $0$ in the previous proposition. Then,
 		\[ \sum_{d \ge 1} h_d t^d = \prod_{i \ge 1} \frac{1}{1-tx_i} = \sum_d \left(\sum_{\lambda \vdash d} \frac{1}{z_\lambda} p_\lambda(x)\right) t^d. \]
-		Comparing the coefficients of $t^d$ completes the proof.
+		Matching the coefficients of $t^d$ completes the proof.
 	\end{proof}
 
-	\begin{exercise}
-		Show that
+	\begin{prop}
+		For any $\pi \in \mathfrak{S}_n$ with cycle type $\lambda$, setting $\epsilon_\lambda = \sign(\pi)$,
 		\[ \prod_{i,j \ge 1} (1+x_iy_j) = \sum_{d \ge 0} \sum_{\lambda \vdash d} \frac{\epsilon_\lambda}{z_\lambda} p_\lambda(x) p_\lambda(y), \]
-		where $\epsilon_\lambda = (-1)^{d - \ell(\lambda)} = \sign(\pi)$ for any $\pi \in \mathfrak{S}_n$ with cycle type $\lambda$.
-	\end{exercise}
+	\end{prop}
+	% \begin{exercise}
+		% Show that
+		% \[ \prod_{i,j \ge 1} (1+x_iy_j) = \sum_{d \ge 0} \sum_{\lambda \vdash d} \frac{\epsilon_\lambda}{z_\lambda} p_\lambda(x) p_\lambda(y), \]
+		% where $\epsilon_\lambda = (-1)^{d - \ell(\lambda)} = \sign(\pi)$ for any $\pi \in \mathfrak{S}_n$ with cycle type $\lambda$.
+	% \end{exercise}
+	% 
+	\begin{proof}
+		The proof is largely similar to that of \Cref{prod 1 m xi yj pLpL}, with the only difference being that in the log expansion, we get an extra $\epsilon_\lambda$ term.
+	\end{proof}
 
 	\begin{corollary}
 		\[ e_n = \sum_{\lambda \vdash n} \frac{\epsilon_\lambda}{z_\lambda} p_\lambda. \]
@@ -410,13 +450,13 @@
 	\begin{proof}
 		Let
 		\[ m_\lambda = \sum_{\varphi \vdash d} A_{\lambda\varphi} u_\varphi \text{ and } h_\mu = \sum_{\theta \vdash d} B_{\mu\theta} v_\theta. \]
-		Now,
+		By definition,
 		\begin{align*}
 			\delta_{\lambda\mu} &= \langle m_\lambda , h_\mu \rangle \\
 				&= \left\langle \sum_{\varphi \vdash d} A_{\lambda\varphi} u_\varphi , \sum_{\theta \vdash d} B_{\mu\theta} v_\theta \right\rangle \\
 				&= \sum_{\varphi,\theta} A_{\lambda\varphi} B_{\mu\theta} \langle u_\varphi , v_\theta \rangle.
 		\end{align*}
-		Define a $p(d) \times p(d)$ matrix $T$ by $T_{\varphi\theta} = \langle u_\varphi , v_\theta \rangle$, then the above gives that
+		Defining the $p(d) \times p(d)$ matrix $T$ by $T_{\varphi\theta} = \langle u_\varphi , v_\theta \rangle$, the above gives that
 		\[ I_{p(d)} = A T B^\top. \]
 
 		Suppose that $\{u_\lambda\},\{v_\mu\}$ form a pair of dual basis, so $T = I_{p(d)}$, and $I = AB^\top  = A^\top B$. That is,
@@ -432,9 +472,10 @@
 		The entire argument is reversible, and we omit the details of checking this.
 	\end{proof}
 
-	\begin{exercise}
-		Complete the above proof.
-	\end{exercise}
+	% NOT DONE
+	% \begin{exercise}
+		% Complete the above proof.
+	% \end{exercise}
 
 	Recall that
 	\[ \prod_{i,j \ge 1} \frac{1}{1-x_iy_j} = \sum_{d \ge 0} \sum_{\lambda \vdash d} \frac{1}{z_\lambda} p_\lambda(x) p_\lambda(y), \]
@@ -470,9 +511,9 @@
 		\end{enumerate}
 	\end{proof}
 
-	\begin{exercise}
+	% \begin{exercise}
 		Start with $\{m_\lambda\}_{\lambda\vdash d}$ and run Gram-Schmidt Orthogonalization. What is the output orthogonal basis?
-	\end{exercise}
+	% \end{exercise}
 
 \subsection{Schur symmetric functions}
 
@@ -537,7 +578,7 @@
 	\end{ftheo}
 	\begin{proof}
 		First, suppose that $K_{\lambda\mu} \ne 0$. Note that the $i$th row cannot have any element less than $i+1$. In particular, all the $i$s for $i\le k$ are contained in the first $k$ rows. This precisely says that $\sum_{i=1}^r \lambda_i \ge \sum_{i=1}^r \mu_i$, since the first term is the number of cells in the first $k$ rows and the second is the number of $i \le k$ in the first $k$ rows.\\
-		Using a constructive argument, we can show the converse.
+		For the converse, given $\lambda \ge \mu$, we must construct an SSYT with shape $\lambda$ and content $\mu$. We do so in the following manner. Having filled all the elements $<r$, fill the $r$th row with $r$s as long as there are filled cells in the corresponding cell one row above. After doing this, fill any remaining $r$s in the $(r-1)$th row as long as there are filled cells in the corresponding cell one row above. Repeat this until $\mu_r$ $r$s are filled up. Both row-increasingness and column-strictness are trivial, and the construction is well-defined because $\sum_{i=1}^r \lambda_i \ge \sum_{i=1}^r \mu_i$.
 	\end{proof}
 
 	\begin{exercise}
@@ -649,13 +690,16 @@
 	In general, we prove this with the following lemma.
 
 	\begin{flem}
-		Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
+		Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $R$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
 		If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
 	\end{flem}
+	\begin{proof}
+		Suppose that $(r,s) \in (P \leftarrow j)$. On inserting $k$, the $(r,t)$th cell can only be altered if it is either a newly formed cell (in which case $t>s$ trivially), or if it is the first element in the $r$th row of $P'$ that is at least equal to $k$. Since the rows of $P'$ are weakly increasing, we again have $t>s$.
+	\end{proof}
 
-	\begin{exercise}
-		Prove the above.
-	\end{exercise}
+	% \begin{exercise}
+	% 	Prove the above.
+	% \end{exercise}
 
 	We know that every $Q^{(i)}$ is strictly increasing in both rows and columns. What we must show is that if we insert the pairs $\begin{pmatrix} i \\ j \end{pmatrix}$ and $\begin{pmatrix} i \\ k \end{pmatrix}$ into $P$ and $Q$ where $j \le k$, 
 
@@ -725,10 +769,17 @@
 	The permutation matrix case yields the desired bijection we mentioned earlier, so
 	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
 
-	\begin{exercise}
-		Show that if running the RSK algorithm on $M$ gives $(P,Q)$, running it on $M^\top$ gives $(Q,P)$.\\
-		In particular, show that if running it on $\pi \in \mathfrak{S}_n$ gives $(P,Q)$, running it on $\pi^{-1}$ gives $(Q,P)$. Further, $P = Q$ here iff $\pi^2 = \Id$, so the number of involutions $I_n$ is equal to $\sum_{\lambda \vdash n} f_\lambda$.
-	\end{exercise}
+	% \begin{exercise}
+	\begin{fprop}
+		If running the RSK algorithm on $M$ gives $(P,Q)$, running it on $M^\top$ gives $(Q,P)$.\\
+		In particular, if running it on $\pi \in \mathfrak{S}_n$ gives $(P,Q)$, running it on $\pi^{-1}$ gives $(Q,P)$. Further, $P = Q$ here iff $\pi^2 = \Id$, so the number $I_n$ of involutions of $\mathfrak{S}_n$ is equal to $\sum_{\lambda \vdash n} f_\lambda$.
+	\end{fprop}
+	\begin{proof}
+		
+	\end{proof}
+		% Show that if running the RSK algorithm on $M$ gives $(P,Q)$, running it on $M^\top$ gives $(Q,P)$.\\
+		% In particular, show that if running it on $\pi \in \mathfrak{S}_n$ gives $(P,Q)$, running it on $\pi^{-1}$ gives $(Q,P)$. Further, $P = Q$ here iff $\pi^2 = \Id$, so the number of involutions $I_n$ is equal to $\sum_{\lambda \vdash n} f_\lambda$.
+	% \end{exercise}
 
 	\begin{exercise}
 		Show that
@@ -813,12 +864,21 @@
 		P_2 = \begin{ytableau}2 & 3\end{ytableau} \text{ and } Q_2 = \begin{ytableau}1 & 1\end{ytableau} \\
 		P_3 = \begin{ytableau}1 & 3 \\ 2\end{ytableau} \text{ and } Q_3 = \begin{ytableau}1 & 1 \\ 2\end{ytableau} \\
 		P_4 = \begin{ytableau}1 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_4 = \begin{ytableau}1 & 1 \\ 2 & 2\end{ytableau} \\
-		P_5 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2\end{ytableau} \text{ and } Q_5 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3\end{ytableau} \\
-		P_6 = \begin{ytableau}1 & 3 \\ 2 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_6 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3 & 3\end{ytableau} \\
+		P_5 = \begin{ytableau}1 & 3 \\ 1 & 3 \\ 2\end{ytableau} \text{ and } Q_5 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3\end{ytableau} \\
+		P_6 = \begin{ytableau}1 & 3 \\ 1 & 3 \\ 2 & 3\end{ytableau} \text{ and } Q_6 = \begin{ytableau}1 & 1 \\ 2 & 2 \\ 3 & 3\end{ytableau} \\
 	\end{align*}
 	\end{fex}
 
 	By construction, $P$ and $Q$ have the same shape, and $P^\top$ is an SSYT. What about $Q$? Much like the earlier proof, we must look at the rightmost occurrence of the largest element in $Q$.
+
+	\begin{flem}
+		Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
+		If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
+	\end{flem}
+	\begin{proof}
+		Suppose that $(r,s) \in (P \leftarrow j)$. On inserting $k$, the $(r,t)$th cell can only be altered if it is either a newly formed cell (in which case $t>s$ trivially), or if it is the first element in the $r$th row of $P'$ that is at least equal to $k$. Since the rows of $P'$ are weakly increasing, we again have $t>s$.
+	\end{proof}
+
 
 	%%%% THIS LEMMA IS AN EXAM QUESTION
 

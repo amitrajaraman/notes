@@ -1,7 +1,9 @@
+%!TEX root = main.tex
+
 \section{Introduction}
 
 \begin{exercise}
-	Recall that the number of $k$-subsets of $[n]$ is $\binom{n}{k}$. Given a $k$-subset $S = \{x_1,\ldots,x_k\}$ of $[n]$, we write $S_< = \{x_1,\ldots,x_k\}_<$ to denote that $x_1<x_2<\cdots<x_k$. Determine the number of $k$-subsets $\{x_1,\ldots,x_k\}_<$ of $[n]$ such that $x_i \cong i \mod 2$.
+	Recall that the number of $k$-subsets of $[n]$ is $\binom{n}{k}$. Given a $k$-subset $S = \{x_1,\ldots,x_k\}$ of $[n]$, we write $S_< = \{x_1,\ldots,x_k\}_<$ to denote that $x_1<x_2<\cdots<x_k$. Determine the number of $k$-subsets $\{x_1,\ldots,x_k\}_<$ of $[n]$ such that $x_i \equiv i \mod 2$.
 \end{exercise}
 For example, for $n=6$ and $k=3$, we have the subsets $\{1,4,5\},\{1,2,3\},\{1,2,5\},\{3,4,5\}$.
 
@@ -107,9 +109,9 @@ We do \emph{not} plug in values for $x$ in the above. We merely look at the coef
 
 \subsection{Counting spanning trees}
 
-	\begin{problem*}
+	\begin{question}
 		Count the number of spanning trees in an arbitrary (finite) graph $G$.
-	\end{problem*}
+	\end{question}
 
 	This was solved by Kirchhoff using the Matrix Tree Theorem.
 	
