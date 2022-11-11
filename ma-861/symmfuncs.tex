@@ -220,6 +220,7 @@
 		then $N_{\lambda\mu}$ is the number of $\N$-matrices $A$ with $\rowsum(A) = \lambda, \colsum(A) = \mu$.
 	\end{flem}
 	\begin{proof}
+		% ***TODO***
 		As before, we shall establish a bijection between the set of described matrices and the terms in the product that contribute to $m_\mu$ (each way of taking products).\\
 		Let $\lambda = \lambda_1,\ldots,\lambda_\ell$ and $\mu = \mu_1,\ldots,\mu_k$. Given a way of taking products, taking $m_{\theta_i} = \sum x^{\theta_i}$ from $h_{\lambda_i}$, consider the $\ell \times k$ matrix that assigns the power of $x_r$ to the $(r,i)$th entry.\\ 
 		Because $h_n = \sum_{\theta \vdash n} m_\theta$, we now have the advantage of choosing any entries in the $r$th row, as long as the sum is $\lambda_r$.
@@ -229,17 +230,17 @@
 
 	\begin{prop}
 	% \begin{exercise}
-		Prove that $N_{\lambda\mu} \ne 0$ for any $\lambda,\mu \vdash d$. That is, show that there always exists an $\N$-matrix $A$ such that $\rowsum(A) = \lambda,\colsum(A) = \mu$.\\
-		Try to write a program that takes $\lambda,\mu$ as input and outputs such a matrix.
+		Prove that $N_{\lambda\mu} \ne 0$ for any $\lambda,\mu \vdash d$. That is, show that there always exists an $\N$-matrix $A$ such that $\rowsum(A) = \lambda,\colsum(A) = \mu$.
 	% \end{exercise}
 	\end{prop}
+		% Try to write a program that takes $\lambda,\mu$ as input and outputs such a matrix.
 	\begin{proof}
 		We prove it using strong induction on $d$. The base case where $d = 1$ is trivial. Otherwise, fill the first $(1,1)$ element of the matrix with $\min\{\lambda_1,\mu_1\}$. Assume that $\lambda_1 \ge \mu_1$. Now, we only need to fill the submatrix omitting the first column of a matrix with elements such that the row-sum is $(\lambda_1-\mu_1,\lambda_2,\ldots)$ and the column-sum is $(\mu_2,\mu_3,\ldots)$. Such a filling exists by the inductive hypothesis.
 	\end{proof}
 
 	It turns out, however, that the problem of determining $N_{\lambda\mu}$ is $\#\mathsf{P}$-complete.\\ % prof wasn't sure though.
 	The next natural question to ask is: are the $(h_\lambda)$ a basis as well?\\
-	Before moving to this, let us quickly look at analogues of \Cref{eqn: prod 1 p xi yj}. We jave
+	Before moving to this, let us quickly look at analogues of \Cref{eqn: prod 1 p xi yj}. We have
 	\begin{align}
 		\prod_{i,j \ge 1} \frac{1}{1-x_iy_j} &= \prod_{i,j \ge 1} \left(1 + (x_iy_j) + (x_iy_j)^2 + \cdots\right) \nonumber \\
 			&= \sum_{\text{$A$ finite $\N$-matrix}} x^{\rowsum(A)} y^{\colsum(A)} \nonumber \\
@@ -271,7 +272,7 @@
 				&= \sum_{0 \le k \le n} (-1)^{n-k} h_k \omega(h_{n-k}) \\
 				&= (-1)^{n}\omega(h_n) + \sum_{1 \le k \le n} (-1)^{n-k} h_k e_{n-k} \\
 				&= (-1)^{n}\omega(h_n) + (-1)^n \sum_{1 \le k \le n} (-1)^{k} h_k e_{n-k} \\
-				&= (-1)^n \omega(h_n) - (-1)^n e_n + (-1)^n \sum_{0 \le k \le m} (-1)^k h_k e_{n-k} \\
+				&= (-1)^n \omega(h_n) - (-1)^n e_n + (-1)^n \sum_{0 \le k \le n} (-1)^k h_k e_{n-k} \\
 			0 &= (-1)^n (\omega(h_n) - e_n).
 		\end{align*}
 		Therefore, $\omega$ is an involution. The second part of the theorem follows directly, because if the $\{h_\lambda\}_{\lambda \vdash d}$ were not linearly independent, then applying $\omega$ yields a violation to the linear independence of $\{e_\lambda\}_{\lambda \vdash d}$.
@@ -289,10 +290,8 @@
 	\[ p_n = m_n = \sum_{i \ge 1} x_i^n. \]
 	For $\lambda = (\lambda_1,\ldots,\lambda_\ell) \vdash d$, define
 	\[ p_\lambda = \prod_{i=1}^\ell p_{\lambda_i}. \]
-
 	Let
 	\[ p_\lambda = \sum_{\mu \vdash d} R_{\lambda\mu} m_\mu. \]
-
 	For example,
 	\begin{align*}
 		p_3 &= m_3 \\
@@ -303,7 +302,7 @@
 	\begin{align*}
 		p_4 &= m_4 \\
 		p_{3,1} &= m_4 + m_{3,1} \\
-		p_{2,2} &= m_4 + 0m_{3,1} + 2m_{2,2} \\
+		p_{2,2} &= m_4 + \phantom{0m_{3,1}} + 2m_{2,2} \\
 		p_{2,1^2} &= m_4 + 2m_{3,1} + 2m_{2,2} + 2m_{2,1^2} \\
 		p_{1^4} &= m_4 + 4m_{3,1} + 6m_{2,2} + 12m_{2,1^2} + 24m_{1^4}.
 	\end{align*}
@@ -330,7 +329,8 @@
 	% \begin{exercise}
 		% Find a formula for $R_{\lambda\lambda}$.
 	\begin{prop}
-		Show that for $\lambda \vdash d$, if $\lambda = 1^{n_1}2^{n_2}\cdots d^{n_d}$,
+		% Show that
+		For $\lambda \vdash d$, if $\lambda = 1^{n_1}2^{n_2}\cdots d^{n_d}$,
 		\[ R_{\lambda\lambda} = n_1! n_2! \cdots n_d!. \]
 	\end{prop}
 	% \end{exercise}
@@ -516,7 +516,6 @@
 \subsection{Schur symmetric functions}
 
 	Now, let us define another basis (which will turn out to be orthogonal).\\
-
 	Let $\lambda \vdash d$. Consider the Ferrer's diagram of $\lambda$. We shall fill the boxes with positive integers such that
 	\begin{enumerate}
 		\item each row is weakly increasing from left to right and
@@ -533,7 +532,7 @@
 		\]
 		is such a filling.
 	\end{fex}
-	Such a filling is called a \emph{semi-standard Young Tableau} (SSYT) of shape $\lambda$. Let $F$ be an SSYT. Let $F$ have $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
+	Such a filling is called a \emph{semi-standard Young Tableau} (SSYT) of shape $\lambda$. Let $F$ be an SSYT with $m_i$ occurrences of $i$ in it -- this yields a vector $(m_1,m_2,\ldots,)$, called the \emph{content} of $F$ and denoted $\content(F)$. Clearly, $\sum_i m_i = d$.\\
 	Define
 	\[ s_\lambda = \sum_{\text{SSYTs $F$ of shape $\lambda$}} x^{\content(F)} \]
 	For example, when $\lambda = (2,1)$,
@@ -551,6 +550,7 @@
 			\item neither $i$ not $i+1$ occur.
 			\item only $i$ or only $i+1$ occur -- in this case, there is precisely one of it in the column.
 		\end{enumerate}
+		% ***TODO*** provide diagram
 		In the first two cases, we say that the occurences of $i,(i+1)$ are ``paired''. In the third case, we say that the occurence is free. Suppose that some row of $F$ has $a$ $i$s and $b$ $(i+1)$s. Note that these $(a+b)$ occurrences are consecutive! Showing this requires the fact that $F$ is an SSYT -- show that all paired $i$s are before free $i$s, then that all free $(i+1)$s are before paired $(i+1)$s.\\
 		We then define $\varphi_i(F)$ to be that filling where this consecutive block of $(a+b)$ elements is changed to have $b$ $i$s then $a$ $(i+1)$s; the remainder of the diagram is left unchanged compared to $F$. Note that this filling is indeed in $\mathcal{F}_i$! $\varphi_i$ is also clearly a bijection since the same operations define an inverse function from $\mathcal{F}_i$ to $\mathcal{F}$.
 	\end{proof}
@@ -601,7 +601,7 @@
 		Given a cell $c$ in the Ferrer diagram of $\lambda \vdash n$, the \emph{hook} at cell $c$ consists of $c$, cells to the right of $c$, and cells below $c$. Denote by $h_c$ the size of the hook at $\lambda$. Then,
 		\[ f_\lambda = \frac{n!}{\prod_{c \in \operatorname{cell}(\lambda)} h_c}. \]
 	\end{ftheo}
-	We do not prove the above. The original proof was due to Frame, Robinson, Thrall, and Wilf, Nijenhuis later gave an easier proof.\\
+	We do not prove the above. The original proof was due to Frame, Robinson, Thrall \cite{frt-hook}, and Greene, Wilf, Nijenhuis \cite{grn-hook} later gave an easier (probabilistic!) proof.\\
 	Using the above, note in particular that the number of SYTs of shape $(n,n)$ is
 	\[ f_{n,n} = \frac{1}{n+1} \binom{2n}{n}, \]
 	the $n$th Catalan number $C_n$!
