@@ -612,7 +612,7 @@
 		\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
 	\end{ftheo}
 	\begin{proof}
-		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$. The desired follows by standard results, see Theorem 2.34 of \href{https://amitrajaraman.github.io/notes/rep-th/main.pdf}{my notes on Representation Theory of Finite Groups}, for instance.
+		Let $\lambda \vdash n$. Recall that $\mathfrak{S}_n$ has $p(n)$ distinct irreducible representations (up to isomorphism), indexed by the conjugacy classes of $\mathfrak{S}_n$. Further, the irreducible representation indexed by $\lambda$ has dimension $f_\lambda$. The desideratum then follows by standard results, see Theorem 2.34 of \href{https://amitrajaraman.github.io/notes/rep-th/main.pdf}{my notes on Representation Theory of Finite Groups}, for instance.
 	\end{proof}
 
 
@@ -991,8 +991,14 @@
 	\begin{flem}
 		We can encode multiplication of terms from $e_{\mu_1},e_{\mu_2},\ldots$ to the monomial $x^\delta$ to get $x^{\lambda+\delta}$ as a filling of shape $\lambda'$ and content $\mu$. Further, this filling is an SSYT iff at each stage of the multiplication, all the exponents are distinct.
 	\end{flem}
-	\begin{proof}[Proof sketch]
-		The argument is via induction. Show that the ``ordering'' is violated at a step iff weak row ordering is violated.
+	\begin{proof}
+		Let us prove the forward direction first. Suppose that weak row ordering is violated somewhere, say between the first two columns. That is, let the first $k$ entries of the first column (vertically) be $r_1,\ldots,r_k$ and the second column be $r_1',\ldots,r_k'$ with $r_k > r_k'$. Note that
+		\begin{enumerate}[label=(\roman*)]
+			\item Initially, the difference of the exponents of $x_1$ and $x_2$ is $+1$.
+			\item At the end of the $r_k'$th multiplication, the difference is $\le 0$.
+			\item At each multiplication, the difference changes by at most one.
+		\end{enumerate}
+		These three observations imply that at some step, the difference is precisely $0$, proving the lemma. This argument is reversible, so the backward direction follows as well.
 	\end{proof}
 
 \subsection{Determinants and paths}
