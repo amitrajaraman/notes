@@ -758,7 +758,7 @@
 
 	\begin{ftheo}
 		The RSK algorithm is a bijection between $\N$-valued matrices $M$ and ordered pairs $(P,Q)$ of SSYTs such that
-		\[ \content(P) = \rowsum(M) \text{ and } \content(Q) = \colsum(M). \] 
+		\[ \content(Q) = \rowsum(M) \text{ and } \content(P) = \colsum(M). \] 
 	\end{ftheo}
 
 	A better proof of SSYT RSK reversibility case is by using the SYT permutation matrix case, by performing the following transformation. Iterating upwards, change repeating elements from left to right to distinct values. For example, if we have three $1$s, change them to $1,2,3$ in order from left to right.\\
@@ -792,10 +792,10 @@
 
 	Let us look at a couple of interesting corollaries of the above construction.
 	\begin{ftheo}[Schensted]
-		The length of the first row of $P$ is the length of the largest weakly increasing subsequence of $\pi$. The length of the first column of $P$ is the length of the largest weakly decreasing subsequence of $\pi$.
+		Apply the RSK insertion algorithm on the string $w = w_1w_2\cdots w_d$ to get an SSYT $P$. Then, the length of the first row of $P$ is the length of the longest weakly increasing subsequence of $w$. The length of the first column of $P$ is the length of the longest weakly decreasing subsequence of $w$.
 	\end{ftheo}
 	\begin{proof}
-		Let $w = w_1,w_2,\ldots,w_d$ be the order of insertion, and $m$ the length of the longest weakly increasing subsequence of $\pi$. For each $1 \le i \le m$, set $r_i$ to be the rightmost element $j$ such that the longest increasing subsequence ending at $j$ is of length $i$. We claim that the first row of $P$ is $r_1,r_2,\ldots,r_m$.\\
+		We prove the first part of the theorem. Let $m$ the length of the longest weakly increasing subsequence of $w$. For each $1 \le i \le m$, set $r_i$ to be the rightmost element $j$ such that the longest increasing subsequence ending at $j$ is of length $i$. We claim that the first row of $P$ is $r_1,r_2,\ldots,r_m$.\\
 		Let us prove this via induction on the length $d$ of the sequence. The case $d = 1$ is trivial since $P$ just has a single cell, which is $r_1$. Now, suppose that the statement is true for $w = w_1,\ldots,w_{d-1}$ with corresponding tableau $P'$, and on inserting $w_d$, we get the tableau $P$. Let $j$ be the length of the longest increasing subsequence $s_{1},\ldots,s_{j}$ ending at $w_d$. If $j$ is greater than the length of the first row of $P'$, we are done. Suppose otherwise, so we wish to show that $r_{j-1} \le w_d < r_j$. Suppose that the longest increasing subsequence ending at $r_j$ is $t_1,t_2,\ldots,t_j$.\\
 		If $w_d \ge r_j$, then the subsequence $t_1,t_2,\ldots,t_j,w_d$, an increasing subsequence of length $j+1$ ending at $w_d$, contradicts the definition of $j$. For the other side, note first that $j-1$ is the length of the longest increasing subsequence ending at $s_{j-1}$. Suppose that $r_{j-1} > w_d$. If the index of $s_{j-1}$ is equal to that of $r_{j-1}$, we clearly have a contradiction as $w_d \ge s_{j-1}$. Otherwise, by the definition of $r_{j-1}$, $s_{j-1}$ is to the left of $r_{j-1}$. We also have $r_{j-1} > w_d \ge s_{j-1}$, but this means that there is an increasing subsequence $s_1,\ldots,s_{j-1},r_{j-1}$ of length $j$ ending at $r_{j-1}$, a contradiction.
 	\end{proof}
@@ -810,10 +810,10 @@
 	\end{fcor}
 
 	\begin{proof}
-		The coefficient of $x^\alpha y^\beta$ on the left is equal to $N_{\alpha,\beta}$, the number of non-negative matrices with $\rowsum(M) = \alpha$ and $\colsum(M) = \beta$.  The coefficient of $x^\alpha y^\beta$ on the right is equal to the number of SSYT pairs $(P,Q)$, where $P,Q$ have the same shape and $\content(P) = \alpha, \content(Q) = \beta$. Since the RSK algorithm is a bijection, we get that the two are equal and are done.
+		The coefficient of $x^\alpha y^\beta$ on the left is equal to $N_{\alpha,\beta}$, the number of $\N_0$-matrices $M$ with $\rowsum(M) = \alpha$ and $\colsum(M) = \beta$.  The coefficient of $x^\alpha y^\beta$ on the right is equal to the number of SSYT pairs $(P,Q)$, where $P,Q$ have the same shape and $\content(P) = \alpha, \content(Q) = \beta$. Since the RSK algorithm is a bijection, we get that the two are equal and are done.
 	\end{proof}
 
-	\Cref{theo: characterize dual basis} immediately yields the following.
+	\Cref{theo: characterize dual basis} with the above immediately yields the following.
 
 	\begin{fcor}
 		$\{s_\lambda\}_{\lambda \vdash d}$ is an orthonormal basis of $\Lambda^d_\Q$.
@@ -839,13 +839,13 @@
 		where we use that $\langle h_\mu,m_\theta\rangle = \delta_{\mu\theta}$.
 	\end{proof}
 
+\subsection{The dual RSK algorithm}
+
 	\begin{ftheo}
 		Given any $0,1$-matrix $M$, we can bijectively get a pair $(P,Q)$ of tableaux of the same shape, where $P^\top, Q$ are SSYTs, and $\content(P) = \colsum(M)$ and $\content(Q) = \rowsum(M)$.  
 	\end{ftheo}
 
-\subsection{The dual RSK algorithm}
-
-	This proof uses the \emph{dual RSK algorithm}. Instead of going from non-negative matrices to SSYT pairs $(P,Q)$ of the same shape, we shall go from $0,1$-matrices $M$ to pairs $(P,Q)$ of the same shape where $P^\top,Q$ are SSYTs.\\
+	This proof uses the \emph{dual RSK algorithm}. Instead of going from non-negative matrices to SSYT pairs $(P,Q)$ of the same shape, we shall go from $0,1$-matrices $M$ to pairs $(P,Q)$ of the same shape where $P^\top,Q$ are SSYTs. Equivalently, it outputs SSYT pairs $(P',Q)$ where $P'$ is of shape $\lambda'$ and $Q$ is of shape $\lambda$. \\
 	The algorithm is mostly similar to the RSK algorithm, with one minor modification -- in the kicking step, instead of kicking the first element that is (strictly) greater than the current element, we insert the first element that is \emph{at least} the current element. This ensures row strictness of $P$, which is needed for its conjugate to be an SSYT.
 
 	\begin{fex}
@@ -877,13 +877,13 @@
 
 	By construction, $P$ and $Q$ have the same shape, and $P^\top$ is an SSYT. What about $Q$? Much like the earlier proof, we must look at the rightmost occurrence of the largest element in $Q$.
 
-	\begin{flem}
-		Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
-		If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
-	\end{flem}
-	\begin{proof}
-		Suppose that $(r,s) \in (P \leftarrow j)$. On inserting $k$, the $(r,t)$th cell can only be altered if it is either a newly formed cell (in which case $t>s$ trivially), or if it is the first element in the $r$th row of $P'$ that is at least equal to $k$. Since the rows of $P'$ are weakly increasing, we again have $t>s$.
-	\end{proof}
+	% \begin{flem}
+	% 	Given an tableau $R$ and $j$, denote by $R \leftarrow j$ the set of cells modified in $P$, including the newly formed cell, on the insertion of $j$ into $R$ in the above described manner. Letting $R'$ be the tableau attained after inserting $j$ into $R$, denote by $(R \leftarrow j) \leftarrow k$ the set $R' \leftarrow k$.\\
+	% 	If $j \le k$, every cell of $P \leftarrow j$ is strictly to the left of any cell in $(P \leftarrow j) \leftarrow k$. That is, if $(r,s) \in P\leftarrow j$ and $(r,t) \in (P \leftarrow j) \leftarrow k$, then $s < t$.
+	% \end{flem}
+	% \begin{proof}
+	% 	Suppose that $(r,s) \in (P \leftarrow j)$. On inserting $k$, the $(r,t)$th cell can only be altered if it is either a newly formed cell (in which case $t>s$ trivially), or if it is the first element in the $r$th row of $P'$ that is at least equal to $k$. Since the rows of $P'$ are weakly increasing, we again have $t>s$.
+	% \end{proof}
 
 
 	%%%% THIS LEMMA IS AN EXAM QUESTION
@@ -906,11 +906,11 @@
 	% Foata festschrift, he proved the excedance-descent we saw earlier
 \subsection{Symmetric functions in $n$ variables}
 
-	Let $\Lambda_{\Q}^{d,n}$ be the vector space over $\Q$ of degree $d$ symmetric functions in $n$ variables. Clearly, $\dim(\Lambda_\Q^{d,n}) \le \dim(\Lambda_\Q^{d,n})$. In fact, the dimension is the number of partitions of $d$ with at most $n$ parts. Note that if we have at least $d$ variables, the two become equal.\\
+	Let $\Lambda_{\Q}^{d,n}$ be the vector space over $\Q$ of degree $d$ symmetric functions in $n$ variables. Clearly, $\dim(\Lambda_\Q^{d,n}) \le \dim(\Lambda_\Q^{d})$. In fact, the dimension is the number of partitions of $d$ with at most $n$ parts. Note that if we have at least $d$ variables, the two become equal.\\
 	The classical definition of the Schur symmetric function is on $n$ variables, a function $s_\lambda(x_1,\ldots,x_n)$. Let $\alpha = (\alpha_1,\ldots,\alpha_n)$. $\mathfrak{S}_n$ acts on monomials $x^{\alpha}$ as $\pi(x^\alpha) = \prod_{i=1}^n x_i^{\alpha_{\pi(i)}}$.
 	% We can linearize it to act on polynomials as well.
 	Define
-	\[ f_\alpha(x) = \sum_{\ pi \in \mathfrak{S}_n} \sign(\pi) \pi(x^\alpha). \]
+	\[ f_\alpha(x) = \sum_{\pi \in \mathfrak{S}_n} \sign(\pi) \pi(x^\alpha). \]
 	Note that $f_\alpha$ is not symmetric, since $\sigma(f_\alpha) = \sum_{\pi \in \mathfrak{S}_n} \sign(\pi) \sigma(\pi(x^\alpha))$. However, this is equal to $\sigma(f_\alpha) = \sign(\sigma) f_\alpha$.
 
 	\begin{fdef}[Skew-symmetric function]
@@ -922,23 +922,23 @@
 	\end{fprop}
 	The first part above is easily seen by considering $\sigma(f_\alpha)$ where $\sigma$ is just a transposition of two equal exponents.\\
 
-	Note that the form of the $f_\alpha$ is quite reminiscent of the determinant of a matrix! In fact $f_\alpha$ is precisely equal to the determinant of the matrix
-	\[ M_\alpha = \begin{pmatrix} x_1^{\alpha_1} & x_2^{\alpha_1} & \cdots & x_n^{\alpha_n} \\ x_1^{\alpha_2} & x_2^{\alpha_2} & \cdots x_n^{\alpha_2} \\ \vdots & \vdots & \ddots & \vdots \\ x_1^{\alpha_n} & x_2^{\alpha_n} & \cdots & x_n^{\alpha_n} \end{pmatrix}. \]
+	The form of $f_\alpha$ is quite reminiscent of the determinant of a matrix! In fact $f_\alpha$ is precisely equal to the determinant of the matrix
+	\[ M_\alpha = \begin{pmatrix} x_1^{\alpha_1} & x_2^{\alpha_1} & \cdots & x_n^{\alpha_n} \\ x_1^{\alpha_2} & x_2^{\alpha_2} & \cdots & x_n^{\alpha_2} \\ \vdots & \vdots & \ddots & \vdots \\ x_1^{\alpha_n} & x_2^{\alpha_n} & \cdots & x_n^{\alpha_n} \end{pmatrix}. \]
 	That is, $(M_\alpha)_{ij} = x_i^{\alpha_j}$. This presents an easy proof of the above proposition.\\
 
 	Assume henceforth that $\alpha$ has all distinct parts, and $\alpha_1 > \alpha_2 > \cdots > \alpha_n$.\\
 	Because the $(x_i - x_j)$ are linear monomials, some ring theory yields that
 	\[ \prod_{i < j} (x_i - x_j) \mid f_\alpha. \]
 	The expression on the left is precisely the Vandermonde determinant
-	\[ \det \begin{pmatrix} x_1^{n-1} & x_2^{n-1} & \cdots & x_n^{n-1} \\ x_1^{n-2} & x_2^{n-2} & \cdots x_n^{n-2} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & 1 & 1 \end{pmatrix}. \]
+	\[ \det \begin{pmatrix} x_1^{n-1} & x_2^{n-1} & \cdots & x_n^{n-1} \\ x_1^{n-2} & x_2^{n-2} & \cdots & x_n^{n-2} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & 1 & \cdots & 1 \end{pmatrix}. \]
 	Setting $\delta_n = (n-1,n-2,\ldots,0)$ (denoting it as just $\delta$ if $n$ is clear from context), the above is just $f_{\delta}$. Now, $f_\alpha$ is a polynomial of $\sum \alpha_i$ and $f_{\delta_n}$ is a polynomial of degree $\binom{n}{2}$. As a result, $f_\alpha/f_{\delta_n}$, which is a polynomial, has degree $\left(\sum_i \alpha_i\right) - \binom{n}{2}$. Note that because $f_\alpha$ and $f_\delta$ are skew-symmetric, their quotient is symmetric!\\
-	Set $\lambda_i = \alpha_i - (n-i)$ so $\alpha = \lambda + \delta$, and note that $f_\alpha/f_\delta$ has terms like $x^\lambda$. Note that the $\lambda_i$ are weakly decreasing, so they form a partition of some number with at most $n$ parts (some of which may be $0$). We are interested in $f_{\lambda+\delta}/f_\delta$.
+	Set $\lambda_i = \alpha_i - (n-i)$ so $\alpha = \lambda + \delta$, so $f_\alpha/f_\delta$ has terms like $x^\lambda$. Note that the $\lambda_i$ are weakly decreasing, so they form a partition of some number with at most $n$ parts (some of which may be $0$). We are interested in $f_{\lambda+\delta}/f_\delta$.
 
 	\begin{fdef}[Schur symmetric function]
 		For a partition $\lambda$ with at most $n$ parts, define the \emph{Schur symmetric function} $s_\lambda(x_1,\ldots,x_n)$ by
 		\[ s_\lambda = \frac{f_{\lambda+\delta}}{f_\delta}. \]
 	\end{fdef}
-	The above is Cauchy's bialternant definition of the $s_\lambda$. We must now show that this coincides with the earlier Schur symmetric function we have studied, on setting $x_j = 0$ for $j > n$.
+	The above is \emph{Cauchy's bialternant definition} of the $s_\lambda$. We must now show that this coincides with the earlier Schur symmetric function we have studied, on setting $x_j = 0$ for $j > n$.
 
 	Recall that $h_\mu = \sum_{\lambda \vdash d} K_{\lambda\mu} s_\lambda$. Applying $\omega$, we get $e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} s_\lambda$. Set all variables $x_j$ for $j > n$ as $0$. We now wish to show that
 	\[ f_\delta e_\mu = \sum_{\lambda \vdash d} K_{\lambda'\mu} f_{\lambda+\delta}. \]
@@ -989,7 +989,7 @@
 	We would like to show that we get an SSYT iff no two exponents are equal in the process.
 
 	\begin{flem}
-		We can encode multiplication of terms from $e_{\mu_1},e_{\mu)2},\ldots$ to the monomial $x^\delta$ to get $x^{\lambda+\delta}$ as a filling of shape $\lambda'$ and content $\mu$. Further, this filling is an SSYT iff at each stage of the multiplication, all the exponents are distinct.
+		We can encode multiplication of terms from $e_{\mu_1},e_{\mu_2},\ldots$ to the monomial $x^\delta$ to get $x^{\lambda+\delta}$ as a filling of shape $\lambda'$ and content $\mu$. Further, this filling is an SSYT iff at each stage of the multiplication, all the exponents are distinct.
 	\end{flem}
 	\begin{proof}[Proof sketch]
 		The argument is via induction. Show that the ``ordering'' is violated at a step iff weak row ordering is violated.
@@ -997,7 +997,7 @@
 
 \subsection{Determinants and paths}
 
-	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at (j,i)} \}|$.\\
+	Consider the lattice $\Z^2$, and the standard problem of going from $A = (\beta,\gamma)$ to $B = (\alpha,\delta)$ with steps only E (east) and S (south) of unit length, where $\alpha \ge \beta$ and $\gamma \ge \delta$. We encode any such path $P$ by a monomial $x_P = \prod_{i \in [\delta,\gamma]} x_i^{P_i}$, where $P_i = |\{ j \in \Z : \text{$P$ takes an E step at $(j,i)$} \}|$.\\
 
 	\begin{fex}
 		The following path from $(1,4)$ to $(5,1)$ corresponds to the monomial $x_1x_3^2x_4$.
