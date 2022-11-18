@@ -76,7 +76,7 @@
 		A(n indirect) mechanism $\langle M_1,\ldots,M_n,g\rangle$ implements an SCF $f$ in \emph{Bayesian equilibrium} if
 		\begin{enumerate}
 			\item there exists a message mapping profile $(s_1,\ldots,s_n)$ such that $s_i(\theta_i)$ maximizes the ex-interim utility of agent $i$, that is,
-			\[ \E_{-\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) \mid \theta_i \right] \]
+			\[ \E_{-\theta_i} \left[ u_i(g(s_i(\theta_i),s_{-i}(\theta_{-i})),\theta_i) | \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(g(m_i',s_{-i}(\theta_{-i})),\theta_i) | \theta_i \right] \]
 			for all $m_i',\theta_i,i\in N$, and
 			\item $g(s_i(\theta_i),s_{-i}(\theta_{-i})) = f(\theta_i,\theta_{-i})$ for all $i \in N$.
 		\end{enumerate}	
@@ -94,7 +94,7 @@
 		A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{Bayesian incentive compatible} (BIC) if
 		\begin{equation}
 			\label{eqn: dsic}
-			\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) \mid \theta_i \right].
+			\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) | \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) | \theta_i \right].
 		\end{equation}
 		for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
 	\end{fdef}
@@ -1022,7 +1022,7 @@
 
 		\begin{ftheo}[Myerson]
 			\label{theo: myerson}
-			Suppose $T_i = [0,b_i]$ for all $i \in N$, and the valuations are in the product form. An allocation rule $f : T \to \Delta A$ and a payment rule $(p_1,\ldots,p_n)$ are DSIC iff
+			Suppose $T_i = [0,b_i]$ for all $i \in N$, and the valuations are in the product form. A mechanism $(f,p)$ is DSIC iff
 			\begin{enumerate}[label=(\alph*)]
 				\item $f$ is non-decreasing and
 				\item payments are given by
@@ -1042,7 +1042,7 @@
 			\end{align*}
 			Fixing $t_{-i}$, define $g(t_i) = u_i(t_i,t_{-i})$ and $\varphi(t_i) = f_i(t_i,t_{-i})$. Then, the above just says that
 			\[ g(t_i) \ge g(s_i) + \varphi(s_i) (t_i-s_i), \]
-			so $\varphi$ is a subgradient function of $g$. Next, let us show that $g$ is convex. Pick $x_i,z_i \in T_i$, and let $y_i = \lambda x_i + (1-\lambda) z_i$ for some $\lambda \in [0,1]$. Due to DSIC-ness,
+			so $\varphi$ is a subgradient function of $g$. Next, let us show that $g$ is convex. Pick $x_i,z_i \in T_i$, and let $y_i = \lambda x_i + (1-\lambda) z_i$ for some $\lambda \in [0,1]$. As seen above,
 			\begin{align*}
 				g(x_i) &\ge g(y_i) + \varphi(y_i)(x_i-y_i) \text{ and} \\
 				g(z_i) &\ge g(y_i) + \varphi(y_i)(z_i-y_i).
@@ -1064,7 +1064,7 @@
 			\begin{enumerate}
 				\item The constant allocation mechanism is non-decreasing and the payment is some constant.
 				\item The dictatorial allocation mechanism gives the object only to the dictator, which is non-decreasing, and the payment is some constant again.
-				\item In a second-price auction, $p_i(0,t_{-i})$ and $f_i(\cdot,t_{-i})$ is an appropriate step function with the step at $t_{-i}^{(2)}$.
+				\item In a second-price auction, $p_i(0,t_{-i})$ and $f_i(\cdot,t_{-i})$ is a step function with the step at $t_{-i}^{(2)}$.
 				\item Efficient allocation with a reserve price is also non-decreasing. This is a modification of the second-price auction such that if the highest value is below some reserve price $r$, nobody gets the object. Similar to the second-price auction, here, $f_i(\cdot,t_{-i})$ is a step function with the step at $\max\{t_{-i}^{(2)},r\}$.
 				\item Let us look at an uncommon allocation rule that might be difficult to arrive at without Myerson's rule. Suppose $N = \{1,2\}$ and $A = \{a_0,a_1,a_2\}$ ($a_0$ meaning unsold, and $a_i$ for $i \ne 0$ meaning that the object is given to $i$). Given a type profile $t$, the seller computes $\max\{2,t_1^2,t_2^3\}$, and selects that $a_i$ corresponding to the maximum, breaking ties as $0>1>2$. Player $1$ gets the object if $t_1 > \sqrt{\max\{2,t_2^3\}}$ and player $2$ gets the object if $t_2 > \sqrt[3]{\max\{2,t_1^2\}}$. Both of these are non-decreasing step functions.
 			\end{enumerate}
@@ -1075,7 +1075,7 @@
 			\[ t_i f_i(t_i,t_{-i}) - p_i(t_i,t_{-i}) \ge 0 \]
 			for all $t \in T$ and $i \in N$.
 		\end{fdef}
-		That is, even after \emph{all} agents have revealed their types, participation is weakly preferred.
+		That is, even after all agents have revealed their types, participation is weakly preferred. We refer to the above as just individually rational.
 
 		\begin{flem}
 			\label{lem: dsic ir single object}
@@ -1089,12 +1089,9 @@
 			\phantom{pain}
 			\begin{enumerate}[label=(\alph*)]
 				\item Using individual rationality in the $t_i = 0$ case gives the forward direction of the first part. For the converse, using DSIC-ness, the payoff of $i$ is
-				\begin{align*}
-					t_i f_i(t_i,t_{-i}) - p_i(t_i,t_{-i}) &= t_i f_i(t_i,t_{-i}) - p_i(0,t_{-i}) - t_i f_i(t_i,t_{-i}) + \int_{0}^{t_i} f_i(x,t_{-i}) \dif x \\
-						&= \int_0^{t_i} f_i(x,t_{-i}) - p_i(0,t_{-i}) \ge 0.
-				\end{align*}
-
-				 \item This is direct since we have $p_i(0,t_{-i}) \le 0$ from the first part, and $p_i(0,t_{-i}) \ge 0$ due to no-subsidy.
+				\[ t_i f_i(t_i,t_{-i}) - p_i(t_i,t_{-i}) = - p_i(0,t_{-i}) + \int_{0}^{t_i} f_i(x,t_{-i}) \dif x \ge 0. \]
+				
+				 \item This is direct since we have $p_i(0,t_{-i}) \le 0$ from the first part, and $p_i(0,t_{-i}) \ge 0$ due to no-subsidy. \qedhere
 			\end{enumerate}
 		\end{proof}
 
@@ -1120,32 +1117,31 @@
 
 	\subsection{Optimal mechanism design}
 
-		We now come to another question: how do we maximize the revenue of the auctioneer? We begin with the same quasilinear domain from the previous subsubsection. \\
+		We now come to another question: how do we maximize the revenue of the auctioneer? We begin with the indivisible object allocation setting from the previous subsubsection. \\
 		Before getting to the details, we must set up some notation.
 
 		\begin{fdef}[Bayesian Incentive Compatibility]
-			Let $T_i = [0,b_i]$ for each $i$ and $G$ a common prior over $T$ with density $g$. We let $G_{-i}(s_{-i} \mid s_i)$ to be the conditional distribution over $T_{-i}$ given that $i$'s type is $s_i$, having density $g_{-i}(s_{-i}\mid s_i)$.
+			Let $T_i = [0,b_i]$ for each $i$ and $G$ a common prior over $T$ with density $g$. We let $G_{-i}(s_{-i} | s_i)$ to be the conditional distribution over $T_{-i}$ given that $i$'s type is $s_i$, having density $g_{-i}(s_{-i}| s_i)$.
 		\end{fdef}
 		$g_{-i}$ is derived using Bayes' rule.
 
 		Any mechanism $(f,p_1,\ldots,p_n)$ induces an expected allocation and payment rule $(\alpha,\pi)$. Here,
-		\[ \alpha_i(s_i \mid t_i) = \int_{s_{-i} \in T_{-i}} f_i(s_i,s_{-i}) g_{-i}(s_i\mid t_i) \dif s_i, \]
+		\[ \alpha_i(s_i | t_i) = \int_{s_{-i} \in T_{-i}} f_i(s_i,s_{-i}) g_{-i}(s_{-i}| t_i) \dif s_{-i}, \]
 		where $s_i$ is the reported type, $t_i$ is the true type, $f_i$ is the probabilistic allocation as before, and $g_{-i}$ encodes the probabilistic knowledge of the types of the other agents in the common prior. The conditioning on $t_i$ means that we are conditioning on the true type being $t_i$. The expected payment is
-		\[ \pi_i(s_i\mid t_i) = \int_{s_{-i} \in T_{-i}} p_i(s_i,s_{-i}) g_{-i}(s_{-i} \mid t_i) \dif s_{-i}. \]
-		The expected utility of agent $i$ is
-		\[ t_i \alpha_i(t_i \mid t_i) - \pi_i(t_i \mid t_i). \]
+		\[ \pi_i(s_i| t_i) = \int_{s_{-i} \in T_{-i}} p_i(s_i,s_{-i}) g_{-i}(s_{-i} | t_i) \dif s_{-i}. \]
+		The expected utility of agent $i$ on reporting $s_i$ is
+		\[ t_i \alpha_i(s_i | t_i) - \pi_i(s_i | t_i). \]
 
 		\begin{fdef}
 			A mechanism $(f,p)$ is \emph{Bayesian incentive compatible} (BIC) if for all $i \in N$, $s_i,t_i \in T_i$,
-			\[ t_i \alpha_i(t_i \mid t_i) - \pi_i(t_i \mid t_i) \ge t_i \alpha_i(s_i \mid t_i) - \pi_i(s_i \mid t_i). \]
+			\[ t_i \alpha_i(t_i | t_i) - \pi_i(t_i | t_i) \ge t_i \alpha_i(s_i | t_i) - \pi_i(s_i | t_i). \]
+			$f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.\\
 		\end{fdef}
-		Similarly, $f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.\\
-
-		Now, let us make the assumption that the priors are independent. That is, agent $i$'s value is drawn from a distribution $G_i$ with density $g_i$ independently from the other agents, so
+		Now, let us assume that the priors are independent. That is, agent $i$'s value is drawn from a distribution $G_i$ with density $g_i$ independently from the other agents, so
 		\[ g(s_1,s_2,\ldots,s_n) = \prod_{i \in N} g_i(s_i) \]
 		and
-		\[ g(s_{-i} \mid t_i) = \prod_{j \ne i} g_j(s_j). \]
-		We use the shorthand $\alpha(t_i) = \alpha(t_i \mid t_i)$.
+		\[ g(s_{-i} | t_i) = \prod_{j \ne i} g_j(s_j). \]
+		We use the shorthand $\alpha(t_i) = \alpha(t_i | t_i)$.
 
 		\begin{fdef}
 			An allocation rule is \emph{non-decreasing in expectation} (NDE) if for all $i \in N, s_i,t_i \in T_i$ with $s_i < t_i$, $\alpha_i(s_i) \le \alpha_i(t_i)$.
@@ -1220,7 +1216,7 @@
 			\pi^f &= \int_0^\beta \left( t - \frac{1-G(t)}{g(t)} \right) g(t)f(t) \dif t.
 		\end{align*}
 		
-		Now, we want to figure out
+		We want to figure out the $f$ that maximizes
 		\begin{equation}
 			\label{eqn: opt1}
 			\max_{\text{non-decreasing $f$}} \int_0^\beta \left( t - \frac{1-G(t)}{g(t)} \right)g(t)f(t) \dif t.
@@ -1259,10 +1255,8 @@
 		where $T_i = [0,b_i]$. Exactly as before, if we set
 		\[ w_i(t_i) = t_i - \frac{1-G_i(t_i)}{g_i(t_i)}, \]
 		called the \emph{virtual valuation} of player $i$, the expected payment simplifies to
-		\[ \int_0^{b_i} w_i(t_i) g_i(t_i) \alpha_i(t_i), \]
-		where
-		\[ \alpha_i(t_i) = \int_{T_{-i}} f_i(t_i,t_{-i}) g_{-i}(t_{-i}) \dif t_{-i}. \]
-		Substituting $\alpha_{-i}$, this gives the payment as
+		\[ \int_0^{b_i} w_i(t_i) g_i(t_i) \alpha_i(t_i). \]
+		Substituting $\alpha_{i}$, this gives the payment as
 		\[ \int_T w_i(t_i) f_i(t) g(t) \dif t. \]
 		Therefore, the total revenue generated by all players is
 		\[ \sum_{i \in N} \int_{T} w_i(t_i) f_i(t) g(t) \dif t = \int_{T} \left(\sum_{i \in N} w_i(t_i) f_i(t)\right) g(t) \dif t \]
@@ -1326,7 +1320,7 @@
 		\begin{ftheo}[Green-Laffont-Holmstr\"{o}m]
 			If the type space is ``sufficiently rich'', every efficient DSIC mechanism is a Groves mechanism.
 		\end{ftheo}
-		``Sufficient richness'' means that everything is feasible in some sense.
+		% ``Sufficient richness'' means that everything is feasible in some sense.
 		\begin{proof}[Proof sketch]
 			Suppose there are two alternatives $A = \{a,b\}$. Consider the welfares $\sum_i t_i(a)$ and $\sum_i t_i(b)$. We choose $a$ if the former is greater than the latter. Fix the valuations of the other agents to $t_{-i}$, and fix the value of $i$ at alternative $b$ at $t_i(b)$. Then, there exists some threshold $t_i^*(a)$ such that for all $t_i(a) \ge t_i^*(a)$, $a$ is the outcome, and for $t_i(a) < t_i^*(a)$, $b$ is the outcome.\\
 			Using DSIC-ness for $t_i^*(a) + \epsilon = t_i(a)$, we get
@@ -1349,7 +1343,7 @@
 		\end{fcor}
 
 		Given this, we try to weaken the notion of DSIC-ness. Allocation is still efficient, and payment is now defined via a prior as
-		\[ \delta_i(t_i) = \E_{t_{-i} \mid t_i} \sum_{j \ne i} t_j(a^*(t)). \]
+		\[ \delta_i(t_i) = \E_{t_{-i} | t_i} \sum_{j \ne i} t_j(a^*(t)). \]
 		For example,
 		\begin{align*}
 			a^*(t) \in \argmax_{a \in A} \sum_{i \in N} t_i(a) \\
