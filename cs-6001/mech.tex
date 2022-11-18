@@ -1340,15 +1340,22 @@
 			If the type space is sufficiently rich, no efficient mechanism is both DSIC and budget-balanced. 
 		\end{fcor}
 
-		% Given this, we try to weaken the notion of DSIC-ness. Allocation is still efficient, and payment is now defined via a prior as
-		Define
+		Given this, we try to weaken the notion of DSIC-ness. Allocation is still the allocatively efficient one. Payment, however, is defined via a prior as
 		\[ \delta_i(t_i) = \E_{t_{-i} | t_i} \sum_{j \ne i} t_j(a^*(t)). \]
-		Set
+		Consider the efficient mechanism defined by
 		\begin{align*}
 			a^*(t) \in \argmax_{a \in A} \sum_{i \in N} t_i(a) \\
 			p_i^\text{dAGVA} = \frac{1}{n-1} \sum_{j \ne i} \delta_j(t_j) - \delta_i(t_i),
 		\end{align*}
-		named after d'Aspremont, Gerard-Varet, Arrow, and is also known as the ``expected VCG'' mechanism. It can be shown that the dAGVA mechanism is efficient, BIC, and budget-balanced. However, it is not IIR.
+		named after d'Aspremont, Gerard-Varet, Arrow, and is also known as the ``expected VCG'' mechanism. This implementation is \hyperref[def: bic]{BIC}.
+		\begin{align*}
+			\E_{t_{-i} | t_i}[t_i(a^*(t)) - p_i^\dagva(t)] &= \E_{t_{-i}|t_i} \left[ \sum_{j \in N} t_j(a^*(t)) \right] - \E_{t_{-i}|t_i} \left[ \frac{1}{n-1} \delta_j(t_j) \right] \\
+				&\ge \E_{t_{-i}|t_i} \left[ \sum_{j \in N} t_j(a^*(t_i',t_{-i})) \right] - \E_{t_{-i}|t_i} \left[ \frac{1}{n-1}\sum_{j \ne i} \delta_j(t_j) \right] \\
+				&= \E_{t_{-i}|t_i}[t_i(a^*(t_i',t_{-i})) - p_i^\dagva(t_i',t_{-i})].
+		\end{align*}
+		It is also budget-balanced as
+		\[ \sum_{i \in N} p_i^\dagva = \frac{1}{n-1} \sum_{i \in N} \sum_{j \ne i} \delta_j(t_j) - \sum_{i \in N} \delta_i(t_i) = 0. \]
+		However, it is not IIR.
 
 		\begin{ftheo}[Myerson-Satterthwaite]
 			In a bilateral trade (that involves two types of agents, seller and buyer), no mechanism can be simultaneously BIC, efficient, IIR, and budget-balanced.
