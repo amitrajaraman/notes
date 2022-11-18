@@ -938,8 +938,8 @@
 			This is quite similar to the Groves payment.
 			If $w_i > 0$, the payoff is
 			\begin{align*}
-				\theta_i(f^\AM(\theta_i,\theta_{-i})) - p_i^\AM(\theta_i,\theta_{-i}) &= \frac{1}{w_i} \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta_i,\theta_{-i})) + \kappa(f^\AM(\theta)) - h_i(\theta_{-i}) \right) \\
-					&\ge \frac{1}{w_i} \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta_i',\theta_{-i})) + \kappa(f^\AM(\theta_i',\theta_{-i})) - h_i(\theta_{-i}) \right) \\
+				\theta_i(f^\AM(\theta_i,\theta_{-i})) - p_i^\AM(\theta_i,\theta_{-i}) &= \frac{1}{w_i} \left( \sum_{j \in N} w_j \theta_j(f^\AM(\theta_i,\theta_{-i})) + \kappa(f^\AM(\theta)) - h_i(\theta_{-i}) \right) \\
+					&\ge \frac{1}{w_i} \left( \sum_{j \in N} w_j \theta_j(f^\AM(\theta_i',\theta_{-i})) + \kappa(f^\AM(\theta_i',\theta_{-i})) - h_i(\theta_{-i}) \right) \\
 					&= \theta_i(f^\AM(\theta_i',\theta_{-i})) - p_i^\AM(\theta_i',\theta_{-i}),
 			\end{align*}
 			where the second step is by the definition of the affine maximizer rule. The case where $w_i = 0$ follows due to INA.
