@@ -94,9 +94,9 @@
 		A direct mechanism $\langle \Theta_1,\ldots,\Theta_n,f\rangle$ is \emph{Bayesian incentive compatible} (BIC) if
 		\begin{equation}
 			\label{eqn: dsic}
-			\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\widetilde{\theta}_{-i}),\theta_i) | \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\widetilde{\theta}_{-i}),\theta_i) | \theta_i \right].
+			\E_{\theta_{-i}} \left[ u_i(f(\theta_i,\theta_{-i}),\theta_i) | \theta_i \right] \ge \E_{\theta_{-i}} \left[ u_i(f(\theta_i',\theta_{-i}),\theta_i) | \theta_i \right].
 		\end{equation}
-		for all $\theta_i,\theta_i',\widetilde{\theta}_{-i},i$.
+		for all $\theta_i,\theta_i',i$.
 	\end{fdef}
 
 	\begin{ftheo}[Revelation principle II]
@@ -124,7 +124,7 @@
 	Let $\hat{F}(R)$ and $\overline{F}(R)$ be the asymmetric and symmetric parts of $F(R)$ respectively.
 
 	\begin{fdef}[Pareto]
-		An ASWF $F$ is said to be \emph{weak Pareto} if for $a,b \in A$, if $a P_i b$ for all $i \in N$, then $a \hat{F}(R) b$ for all $i \in N$.\\ % he says a P_i b, what does that mean
+		An ASWF $F$ is said to be \emph{weak Pareto} if for $a,b \in A$, if $a P_i b$ for all $i \in N$, then $a \hat{F}(R) b$.\\
 		An ASWF $F$ is said to be \emph{strong Pareto} if for $a,b \in A$, if $a R_i b$ for all $i \in N$ and for some $j$, $a P_j b$, then $a \hat{F}(R) b$.
 	\end{fdef}
 
@@ -554,7 +554,7 @@
 		\end{proof}
 
 		\begin{ftheo}[Sprumont]
-			An SCF $f : T^n \to A$ is strategyproof and Pareto efficient iff it is the uniform rule.
+			An SCF $f : T^n \to A$ is strategyproof, Pareto efficient, and anonymous iff it is the uniform rule.
 		\end{ftheo}
 		We do not describe the proof of the above, and refer the reader to \cite{sprumont-uniform-rule}.
 
