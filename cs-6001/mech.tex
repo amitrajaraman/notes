@@ -966,7 +966,7 @@
 		\[ u_i = \begin{cases} 0, & v_i \le t_{-i}^{(2)}, \\ v_i - t_{-i}^{(2)}, & v_i > t_{-i}^{(2)}. \end{cases} \]
 		Observe the following.
 		\begin{enumerate}
-			\item The utility is convex.
+			\item As a function of $v_i$ when all the other $v_j$ are fixed, the utility is convex.
 			\item Wherever differentiable, the utility's derivative coincides with the allocation probability.
 		\end{enumerate}
 
@@ -987,35 +987,31 @@
 
 		% Note that at points where the function is differentiable, the subgradient is unique.
 
-		\begin{lemma}
-			Let $g : I \to \R$ be convex, $x$ be in the interior of $I$, and $g$ be differentiable at $x$. Then, $g'(x)$ is the unique subgradient at $x^*$.
-		\end{lemma}
-
-		\begin{lemma}
-			Let $g : I \to \R$ be convex. For every $x \in I$, a subgradient of $g$ at $x$ exists.
-		\end{lemma}
+		\begin{fact}
+			Let $g : I \to \R$ be convex. For every $x \in I$, a subgradient of $g$ exists. Further, if $x$ is in the interior of $I$ and $g$ is differentiable at $x$, $g'(x)$ is the unique subgradient at $x$.
+		\end{fact}
 
 		\begin{fact}
-			Let $I' \subseteq I$ be the set of points where $g$ is differentiable. Then, $I \setminus I'$ is of measure $0$. Further, The set of subgradients at a point forms a convex set.
+			Let $I' \subseteq I$ be the set of points where $g$ is differentiable. Then, $I \setminus I'$ is of measure $0$.
 		\end{fact}
 		``Measure zero'' means that there is no interval contained in this set.
 
 		\begin{fact}
-			The set of subgradients at $x \in I \setminus I'$ is $[g_-'(x),g_+'(x)]$.
+			 Further, the set of subgradients at a point forms a convex set. More precisely, it is equal to $[g_-'(x),g_+'(x)]$.
 		\end{fact}
 
-		Denote the set of subgradients of $g$ at $x \in I$ as $\partial g(x)$. Then, we have that $\delta g(x) \ne \emptyset$ is convex at all $x \in I$, and if $g$ is differentiable at $x$, it is a singleton.\\
+		Denote the set of subgradients of $g$ at $x \in I$ as $\partial g(x)$. Then, we have that $\partial g(x)$ is non-empty and convex at all $x \in I$, and if $g$ is differentiable at $x$, it is a singleton $\{g'(x)\}$.\\
 		Similar to the non-decreasingness of the derivative of a differentiable convex function, we get the following.
 
 		\begin{lemma}
 			\label{lem: subgrad nondec}
-			Let $g : I \to \R$ be a convex function. Let $\varphi : I \to \R$ a subgradient function. That is, $\varphi(z) = \partial g(z)$ for all $z \in I$. Then, $\varphi$ is non-decreasing, that is, for all $x,y \in I$ with $x > y$, $\varphi(x) \ge \varphi(y)$.
+			Let $g : I \to \R$ be a convex function. Let $\varphi : I \to \R$ a subgradient function, that is, $\varphi(z) \in \partial g(z)$ for all $z \in I$. Then, $\varphi$ is non-decreasing, that is, for all $x,y \in I$ with $x > y$, $\varphi(x) \ge \varphi(y)$.
 		\end{lemma}
 
 		\begin{lemma}
 			\label{lem: subgrad int}
 			Let $g : I \to \R$ be a convex function. Then, for any $x,y \in I$,
-			\[ g(x) = g(y) + \int_y^z \varphi(z) \dif z, \]
+			\[ g(x) = g(y) + \int_y^x \varphi(z) \dif z, \]
 			where $\varphi:I \to \R$ is a subgradient function of $g$.
 		\end{lemma}
 
