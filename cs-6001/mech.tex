@@ -1133,7 +1133,7 @@
 		\begin{fdef}[Bayesian Incentive Compatibility]
 			A mechanism $(f,p)$ is \emph{Bayesian incentive compatible} (BIC) if for all $i \in N$, $s_i,t_i \in T_i$,
 			\[ t_i \alpha_i(t_i | t_i) - \pi_i(t_i | t_i) \ge t_i \alpha_i(s_i | t_i) - \pi_i(s_i | t_i). \]
-			$f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.\\
+			$f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.
 		\end{fdef}
 		Now, let us assume that the priors are independent. That is, agent $i$'s value is drawn from a distribution $G_i$ with density $g_i$ independently from the other agents, so
 		\[ g(s_1,s_2,\ldots,s_n) = \prod_{i \in N} g_i(s_i) \]
@@ -1153,7 +1153,7 @@
 			\begin{enumerate}
 				\item $f$ is non-decreasing in expectation and
 				\item $p_i$ satisfies
-				\[ \pi_i(t_i) = \pi_i(0) + t_i \alpha(t_i) - \int_0^{t_i} \alpha_i(x) \dif x. \]
+				\[ \pi_i(t_i) = \pi_i(0) + t_i \alpha_i(t_i) - \int_0^{t_i} \alpha_i(x) \dif x. \]
 			\end{enumerate}
 		\end{ftheo}
 		The proof is very similar to that of \nameref{theo: myerson}, and we omit it.
@@ -1328,7 +1328,7 @@
 			Because $\epsilon,\delta$ are arbitrary, $t_i^*(a) - p_{ia} = t_i(b) - p_{ib}$. Because $t_i^*(a)$ is the reshold of the efficient outcome,
 			\[ t_i^*(a) + \sum_{j \ne i} t_j(a) = t_i(b) + \sum_{j \ne i} t_j(b). \]
 			Combining these two,
-			\[ p_{ia} - p_{ib} == \sum_{j \ne i} t_j(b) - t_j(a). \]
+			\[ p_{ia} - p_{ib} = \sum_{j \ne i} t_j(b) - t_j(a). \]
 			Therefore, the payment is of the form $p_{ix} = h_i(t_{-i}) - \sum_{j \ne i} t_j(x)$.
 		\end{proof}
 
@@ -1340,9 +1340,10 @@
 			If the type space is sufficiently rich, no efficient mechanism is both DSIC and budget-balanced. 
 		\end{fcor}
 
-		Given this, we try to weaken the notion of DSIC-ness. Allocation is still efficient, and payment is now defined via a prior as
+		% Given this, we try to weaken the notion of DSIC-ness. Allocation is still efficient, and payment is now defined via a prior as
+		Define
 		\[ \delta_i(t_i) = \E_{t_{-i} | t_i} \sum_{j \ne i} t_j(a^*(t)). \]
-		For example,
+		Set
 		\begin{align*}
 			a^*(t) \in \argmax_{a \in A} \sum_{i \in N} t_i(a) \\
 			p_i^\text{dAGVA} = \frac{1}{n-1} \sum_{j \ne i} \delta_j(t_j) - \delta_i(t_i),
