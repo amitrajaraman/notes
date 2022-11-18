@@ -1,3 +1,5 @@
+%!TEX root = ./main.tex
+
 \section{Social Choice}
 
 \subsection{Introduction}
@@ -605,6 +607,7 @@
 		\end{fex}
 
 		\begin{fex}[Payment rules]
+			\label{ex: payment rules}
 			Three examples of rules that our payment function $p$ might satisfy are
 			\begin{enumerate}
 				\item \emph{No deficit}. Here, $\sum_{i \in N} p_i(\theta) \ge 0$ for all $\theta \in \Theta$.
@@ -723,6 +726,7 @@
 		Let us try to understand this better with a couple of examples.
 
 		\begin{fex}
+			\label{vcg obj allocation}
 			Consider single object allocation where an agent's type $\theta_j$ is equal to the amount they value the object, and the value is equal to $\theta_j$ if they get the item and $0$ otherwise. Suppose that there are $4$ agents with valuations $10,8,9,5$. Allocative efficiency means that the item is allocated to that agent with the highest valuation, namely $10$. We have
 			\[ p_i^\VCG(\theta) = \max_{a \in A} \sum_{j \ne i} (v_j(a,\theta_j) - v_j(f^\eff(\theta),\theta_j)). \]
 			For the agent with valuation $10$, this is equal to the second highest bid $9$. Indeed, the first summation is maximized when $a$ assigns the item to the agent with the second highest bid $9$, and the second summation is equal to $0$. For all other agents, both summations are equal to the higest bid $10$.\\
@@ -907,4 +911,456 @@
 			 \item It is not budget balanced. While it is a no deficit mechanism, it nearly always keeps a surplus, which is often quite large. The issue here is that the money cannot be redistributed among the same players because this will change payoffs and violate DSIC. If the players are partitioned into two groups and the surplus of one group is redistributed over the other group, it is budget balanced but the overall efficiency is compromised. 
 		\end{enumerate}
 
-		The final point suggests that the surplus has to be taken away or eliminated somehow. To understand this tradeoff better, we refer the reader to \cite{nath-sandholm-2019}. Despite these limitations, the VCG mechanism is quite elegant and has many use cases.
+		The final point suggests that the surplus has to be taken away or eliminated somehow. To understand this tradeoff better, we refer the reader to \cite{nath-sandholm-2019}. Despite these limitations, the VCG mechanism is quite elegant and has many use cases.\\
+
+		Now, let us try to generalize the VCG mechanism to come up with a larger class of DSIC mechanisms in the quasilinear domain. To do this, we use the affine maximizer rule defined in \Cref{ex: payment alloc rules} as
+		\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} w_i \theta_i(a) + \kappa(a) \right), \]
+		where the $w_i \ge 0$ are not all zero, and $\kappa : A \to \R$ is any arbitrary function, known as the translation.\\
+
+		When $\kappa \equiv 0$ and all the $w_i$ are equal, we get allocative efficiency again. When $\kappa \equiv 0$ and $w_d = 0$ for some $d$ and $w_i = 0$ for $i \ne d$, we get a dictatorial allocation.\\
+		If all the $w_i$ are not identical, then the mechanism is not anonymous. If $\kappa$ is non-constant, then we are giving different importance to different allocations.\\
+		In this wider class of affine maximizers, one can try to characterize the mechanisms that satisfy some property.
+
+		\begin{fdef}
+			An affine maximizer rule $f^\text{AM}$ with weights $(w_i)_{i \in N}$ and translation $\kappa$ is said to satisfy \emph{independence of non-influential agents} (INA) if for all $i \in N$ with $w_i = 0$,
+			\[ f^\AM(\theta_i,\theta_{-i}) = f^\AM(\theta_i',\theta_{-i}) \]
+			for all $\theta_i,\theta_i',\theta_{-i}$. 
+		\end{fdef}
+		This says that tie-breaking is not done on the basis of any weight zero agents.\\
+		If INA were not satisfied, AM could be manipulated by a weight $0$ agent.
+
+		\begin{ftheo}
+			An AM rule satisfying INA is implementable in dominant strategy
+		\end{ftheo}
+		\begin{proof}
+			We need to construct a payment function to make $(f^\AM,p^\AM)$ DSIC. Define
+			\[ p_i^\AM(\theta_i,\theta_{-i}) = \begin{cases} \frac{1}{w_i} \left( h_i(\theta_{-i}) - \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta)) + \kappa(f^\AM(\theta)) \right) \right), & w_i > 0, \\ 0, & w_i = 0. \end{cases} \]
+			This is quite similar to the Groves payment.
+			If $w_i > 0$, the payoff is
+			\begin{align*}
+				\theta_i(f^\AM(\theta_i,\theta_{-i})) - p_i^\AM(\theta_i,\theta_{-i}) &= \frac{1}{w_i} \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta_i,\theta_{-i})) + \kappa(f^\AM(\theta)) - h_i(\theta_{-i}) \right) \\
+					&\ge \frac{1}{w_i} \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta_i',\theta_{-i})) + \kappa(f^\AM(\theta_i',\theta_{-i})) - h_i(\theta_{-i}) \right) \\
+					&= \theta_i(f^\AM(\theta_i',\theta_{-i})) - p_i^\AM(\theta_i',\theta_{-i}),
+			\end{align*}
+			where the second step is by the definition of the affine maximizer rule. The case where $w_i = 0$ follows due to INA.
+		\end{proof}
+
+		% Similar to the Gibbard-Satterthwaite Theorem, what if the 
+		Now, consider the scenario where $\Theta_i$ has all valuation functions $\theta_i : A \to \R$ with no restriction on the functions. In this unrestricted space, we can characterize the class of DSIC mechanisms in the quasilinear domain.
+
+		\begin{ftheo}[Roberts]
+			Let $A$ be finite with $|A| \ge 3$. If the type space is unrestricted, any onto and dominant strategy implementable allocation rule is an affine maximizer.
+		\end{ftheo}
+
+		We omit the proof of the above, but the interested reader can find one at \cite{roberts}.
+
+	\subsubsection{Indivisible object allocation}
+
+		In the single indivisible object allocation setting, recall that due to the truthfulness of VCG, \Cref{vcg obj allocation} implies that the second-price auction mechanism is truthful.\\
+
+		The setup is as follows. Each agent $i$ has a type set $T_i \subseteq \R$, and $t_i \in T_i$ denotes the value of agent $i$ if they win the object. An allocation $a$ is a vector that represents the \emph{probability} of winning the object, so the set of allocations is
+		\[ \Delta A = \{ a \in [0,1]^n : \sum_{i=1}^n a_i = 1 \}. \]
+		The allocation rule is $f : T_1 \times T_2 \times \cdots \times T_n \to \Delta A$. The valuation is said to be in the \emph{product form} if it is given by $v_i(a,t_i)$ equal to $a_i\cdot t_i$ minus the expected valuation. That is, $f_i(t_i,t_{-i})$ is the probability of winning the object for agent $i$ when the type profile is $(t_i,t_{-i})$.\\
+
+		In the second-price auction, also called the \emph{Vickrey} auction, the types are $v_i$, and defining $t_{-i}^{(2)} = \max_{j \ne i} v_j$, agent $i$ wins if $v_i > t_{-i}^{(2)}$ and loses if $v_i < t_{-i}^{(2)}$. Some tiebreaking rule decides the equality case. Because the payment is $t_{-i}^{(2)}$ for the winner $i$, the utility is zero if there is a tie. That is,
+		\[ u_i = \begin{cases} 0, & v_i \le t_{-i}^{(2)}, \\ v_i - t_{-i}^{(2)}, & v_i > t_{-i}^{(2)}. \end{cases} \]
+		Observe the following.
+		\begin{enumerate}
+			\item The utility is convex.
+			\item Wherever differentiable, the utility's derivative coincides with the allocation probability.
+		\end{enumerate}
+
+		We now describe some known results from convex analysis.
+
+		\begin{fact}
+			Convex functions are continuous on the interior of their domain.
+		\end{fact}
+
+		% \begin{fact}
+		% 	Convex functions are differentiable almost everywhere.
+		% \end{fact}
+		\begin{definition}
+			Let $g : I \to \R$ be convex. For any $x \in I$, $x^*$ is a \emph{subgradient} of $g$ at $x^*$ if
+			\[ g(z) \ge g(x) + x^*\cdot(z-x) \]
+			for all $z \in I$.
+		\end{definition}
+
+		% Note that at points where the function is differentiable, the subgradient is unique.
+
+		\begin{lemma}
+			Let $g : I \to \R$ be convex, $x$ be in the interior of $I$, and $g$ be differentiable at $x$. Then, $g'(x)$ is the unique subgradient at $x^*$.
+		\end{lemma}
+
+		\begin{lemma}
+			Let $g : I \to \R$ be convex. For every $x \in I$, a subgradient of $g$ at $x$ exists.
+		\end{lemma}
+
+		\begin{fact}
+			Let $I' \subseteq I$ be the set of points where $g$ is differentiable. Then, $I \setminus I'$ is of measure $0$. Further, The set of subgradients at a point forms a convex set.
+		\end{fact}
+		``Measure zero'' means that there is no interval contained in this set.
+
+		\begin{fact}
+			The set of subgradients at $x \in I \setminus I'$ is $[g_-'(x),g_+'(x)]$.
+		\end{fact}
+
+		Denote the set of subgradients of $g$ at $x \in I$ as $\partial g(x)$. Then, we have that $\delta g(x) \ne \emptyset$ is convex at all $x \in I$, and if $g$ is differentiable at $x$, it is a singleton.\\
+		Similar to the non-decreasingness of the derivative of a differentiable convex function, we get the following.
+
+		\begin{lemma}
+			\label{lem: subgrad nondec}
+			Let $g : I \to \R$ be a convex function. Let $\varphi : I \to \R$ a subgradient function. That is, $\varphi(z) = \partial g(z)$ for all $z \in I$. Then, $\varphi$ is non-decreasing, that is, for all $x,y \in I$ with $x > y$, $\varphi(x) \ge \varphi(y)$.
+		\end{lemma}
+
+		\begin{lemma}
+			\label{lem: subgrad int}
+			Let $g : I \to \R$ be a convex function. Then, for any $x,y \in I$,
+			\[ g(x) = g(y) + \int_y^z \varphi(z) \dif z, \]
+			where $\varphi:I \to \R$ is a subgradient function of $g$.
+		\end{lemma}
+
+		\begin{fdef}
+			An allocation rule is \emph{non-decreasing} if for every agent $i \in N$ and $s_i,t_i \in T_i$ with $t_i > s_i$ and $t_{-i} \in T_{-i}$,
+			\[ f_i(t_i,t_{-i}) \ge f_i(s_i,t_{-i}). \]
+		\end{fdef}
+
+		\begin{ftheo}[Myerson]
+			\label{theo: myerson}
+			Suppose $T_i = [0,b_i]$ for all $i \in N$, and the valuations are in the product form. An allocation rule $f : T \to \Delta A$ and a payment rule $(p_1,\ldots,p_n)$ are DSIC iff
+			\begin{enumerate}[label=(\alph*)]
+				\item $f$ is non-decreasing and
+				\item payments are given by
+				\[ p_i(t_i,t_{-i}) = p_i(0,t_{-i}) + t_i f_i(t_i,t_{-i}) - \int_0^{t_i} f_i(x,t_{-i}) \dif x \]
+				for all $t_i,t_{-i},i$.
+			\end{enumerate}
+		\end{ftheo}
+		\begin{proof}
+			Let us first prove the forward direction. The utility of agent $i$ is
+			\[ u_i(t_i,t_{-i}) = t_if_i(t_i,t_{-i}) - p_i(t_i,t_{-i}). \]
+			Due to DSIC-ness,
+			\begin{align*}
+				u_i(t_i,t_{-i}) &= t_if(t_i,t_{-i}) - p_i(t_i,t_{-i}) \\
+					&\ge t_i f(s_i,t_{-i}) - p_i(s_i,t_{-i}) \\
+					&= s_if_i(s_i,t_{-i}) - p_i(s_i,t_{-i}) + f_i(s_i,t_{-i})(t_i - s_i) \\
+					&= u_i(s_i,t_{-i}) + f_i(s_i,t_{-i}) (t_i-s_i).
+			\end{align*}
+			Fixing $t_{-i}$, define $g(t_i) = u_i(t_i,t_{-i})$ and $\varphi(t_i) = f_i(t_i,t_{-i})$. Then, the above just says that
+			\[ g(t_i) \ge g(s_i) + \varphi(s_i) (t_i-s_i), \]
+			so $\varphi$ is a subgradient function of $g$. Next, let us show that $g$ is convex. Pick $x_i,z_i \in T_i$, and let $y_i = \lambda x_i + (1-\lambda) z_i$ for some $\lambda \in [0,1]$. Due to DSIC-ness,
+			\begin{align*}
+				g(x_i) &\ge g(y_i) + \varphi(y_i)(x_i-y_i) \text{ and} \\
+				g(z_i) &\ge g(y_i) + \varphi(y_i)(z_i-y_i).
+			\end{align*}
+			Taking a convex combination of the two equations above,
+			\[ \lambda g(x_i) + (1-\lambda) g(z_i) \ge g(y_i) + \varphi(y_i)\underbrace{(\lambda x_i + (1-\lambda z_i) - y_i)}_{0}, \]
+			so $g$ is convex. \Cref{lem: subgrad nondec} proves the first part, and \Cref{lem: subgrad int} proves the second.\\
+
+			The backward direction is straightforward. Assuming for simplicity that $p_i(0,t_{-i}) = 0$,
+			\[ \left(t_if_i(t_i,t_{-i}) - p_i(t_i,t_{-i})\right) - \left(t_if_i(s_i,t_{-i}) - p_i(s_i,t_{-i})\right) = (s_i-t_i)f_i(s_i,t_{-i}) + \int_{s_i}^{t_i} f_i(x,t_{-i}) \dif x \ge 0. \qedhere \]
+		\end{proof}
+
+		\begin{fcor}
+			An allocation rule in the single object allocation setting is implementable in dominant strategy iff it is non-decreasing.
+		\end{fcor}
+
+		\begin{fex}[Single object allocation mechanisms]
+			Let us look at some truthful single object allocation mechanisms.
+			\begin{enumerate}
+				\item The constant allocation mechanism is non-decreasing and the payment is some constant.
+				\item The dictatorial allocation mechanism gives the object only to the dictator, which is non-decreasing, and the payment is some constant again.
+				\item In a second-price auction, $p_i(0,t_{-i})$ and $f_i(\cdot,t_{-i})$ is an appropriate step function with the step at $t_{-i}^{(2)}$.
+				\item Efficient allocation with a reserve price is also non-decreasing. This is a modification of the second-price auction such that if the highest value is below some reserve price $r$, nobody gets the object. Similar to the second-price auction, here, $f_i(\cdot,t_{-i})$ is a step function with the step at $\max\{t_{-i}^{(2)},r\}$.
+				\item Let us look at an uncommon allocation rule that might be difficult to arrive at without Myerson's rule. Suppose $N = \{1,2\}$ and $A = \{a_0,a_1,a_2\}$ ($a_0$ meaning unsold, and $a_i$ for $i \ne 0$ meaning that the object is given to $i$). Given a type profile $t$, the seller computes $\max\{2,t_1^2,t_2^3\}$, and selects that $a_i$ corresponding to the maximum, breaking ties as $0>1>2$. Player $1$ gets the object if $t_1 > \sqrt{\max\{2,t_2^3\}}$ and player $2$ gets the object if $t_2 > \sqrt[3]{\max\{2,t_1^2\}}$. Both of these are non-decreasing step functions.
+			\end{enumerate}
+		\end{fex}
+
+		\begin{fdef}
+			A mechanism $(f,p)$ is \emph{ex-post individually rational} if
+			\[ t_i f_i(t_i,t_{-i}) - p_i(t_i,t_{-i}) \ge 0 \]
+			for all $t \in T$ and $i \in N$.
+		\end{fdef}
+		That is, even after \emph{all} agents have revealed their types, participation is weakly preferred.
+
+		\begin{flem}
+			\label{lem: dsic ir single object}
+			Let $(f,p)$ be a DSIC mechanism in the single object allocation setting.
+			\begin{enumerate}[label=(\alph*)]
+				\item $(f,p)$ is individually rational iff $p_i(0,t_{-i}) \le 0$ for all $t_{-i} \in T_{-i}$ and $i \in N$.
+				\item $(f,p)$ is individually rational and is no-subsidy iff $p_i(0,t_{-i}) = 0$ for all $t_{-i} \in T_{-i}$ and $i \in N$.
+			\end{enumerate}
+		\end{flem}
+		\begin{proof}
+			\phantom{pain}
+			\begin{enumerate}[label=(\alph*)]
+				\item Using individual rationality in the $t_i = 0$ case gives the forward direction of the first part. For the converse, using DSIC-ness, the payoff of $i$ is
+				\begin{align*}
+					t_i f_i(t_i,t_{-i}) - p_i(t_i,t_{-i}) &= t_i f_i(t_i,t_{-i}) - p_i(0,t_{-i}) - t_i f_i(t_i,t_{-i}) + \int_{0}^{t_i} f_i(x,t_{-i}) \dif x \\
+						&= \int_0^{t_i} f_i(x,t_{-i}) - p_i(0,t_{-i}) \ge 0.
+				\end{align*}
+
+				 \item This is direct since we have $p_i(0,t_{-i}) \le 0$ from the first part, and $p_i(0,t_{-i}) \ge 0$ due to no-subsidy.
+			\end{enumerate}
+		\end{proof}
+
+		Let us next describe some non-Vickrey auctions, with a focus on budget balanced mechanisms (recall what this means from \Cref{ex: payment rules}) or something close to one.
+
+		\begin{fex}
+			\phantom{pain}
+			\begin{enumerate}
+				\item The object goes to the highest bidder, and the payment is such that everyone is compensated some amount.\\
+				The highest two bidders are compensated $1/n$ of the third highest bid, and everyone else receives $1/n$ of the second highest bid. Assuming without loss of generality that $t_1 > t_2 > \cdots > t_n$, agent $1$ pays
+				\[ -\frac{1}{n}t_3 + t_1 - \int_0^{t_1} f_1(x,t_{-1}) \dif x = t_2 - \frac{1}{n} t_3, \]
+				agent $2$ pays $-t_3/n$, and everyone else pays $-t_2/n$. The total payment is
+				\[ t_2 - \frac{1}{n}t_3 - \frac{1}{n}t_3 - \frac{n-2}{n} t_2 = \frac{2}{n}(t_2 - t_3), \]
+				which tends to $0$ for large $n$.
+
+				\item Allocate the object with probability $\left(1 - \frac{1}{n}\right)$ to the highest bidder, and with probability $\frac{1}{n}$ to the second highest bidder. We also set $p_i(0,t_{-i}) = \frac{-1}{n} t_{-i}^{(2)}$. Then, agent $1$ pays
+				\[ -\frac{1}{n}t_3 + \left( 1 - \frac{1}{n} \right)t_1 - \underbrace{\frac{1}{n}(t_2-t_3)}_{\int_{t_3}^{t_2} \frac{1}{n} \dif x } - \underbrace{\left(1 - \frac{1}{n}\right)(t_1-t_2)}_{\int_{t_2}^{t_1} \left(1-\frac{1}{n}\right) \dif x } = \left( 1 - \frac{2}{n} \right)t_2, \]
+				agent $2$ pays
+				\[ -\frac{1}{n}t_3 + \frac{1}{n}t_2 - \frac{1}{n}(t_2-t_3) = 0, \]
+				and everyone else pays $-t_2/n$. The sum of all these is $0$.
+			\end{enumerate}
+		\end{fex}
+
+	\subsection{Optimal mechanism design}
+
+		We now come to another question: how do we maximize the revenue of the auctioneer? We begin with the same quasilinear domain from the previous subsubsection. \\
+		Before getting to the details, we must set up some notation.
+
+		\begin{fdef}[Bayesian Incentive Compatibility]
+			Let $T_i = [0,b_i]$ for each $i$ and $G$ a common prior over $T$ with density $g$. We let $G_{-i}(s_{-i} \mid s_i)$ to be the conditional distribution over $T_{-i}$ given that $i$'s type is $s_i$, having density $g_{-i}(s_{-i}\mid s_i)$.
+		\end{fdef}
+		$g_{-i}$ is derived using Bayes' rule.
+
+		Any mechanism $(f,p_1,\ldots,p_n)$ induces an expected allocation and payment rule $(\alpha,\pi)$. Here,
+		\[ \alpha_i(s_i \mid t_i) = \int_{s_{-i} \in T_{-i}} f_i(s_i,s_{-i}) g_{-i}(s_i\mid t_i) \dif s_i, \]
+		where $s_i$ is the reported type, $t_i$ is the true type, $f_i$ is the probabilistic allocation as before, and $g_{-i}$ encodes the probabilistic knowledge of the types of the other agents in the common prior. The conditioning on $t_i$ means that we are conditioning on the true type being $t_i$. The expected payment is
+		\[ \pi_i(s_i\mid t_i) = \int_{s_{-i} \in T_{-i}} p_i(s_i,s_{-i}) g_{-i}(s_{-i} \mid t_i) \dif s_{-i}. \]
+		The expected utility of agent $i$ is
+		\[ t_i \alpha_i(t_i \mid t_i) - \pi_i(t_i \mid t_i). \]
+
+		\begin{fdef}
+			A mechanism $(f,p)$ is \emph{Bayesian incentive compatible} (BIC) if for all $i \in N$, $s_i,t_i \in T_i$,
+			\[ t_i \alpha_i(t_i \mid t_i) - \pi_i(t_i \mid t_i) \ge t_i \alpha_i(s_i \mid t_i) - \pi_i(s_i \mid t_i). \]
+		\end{fdef}
+		Similarly, $f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.\\
+
+		Now, let us make the assumption that the priors are independent. That is, agent $i$'s value is drawn from a distribution $G_i$ with density $g_i$ independently from the other agents, so
+		\[ g(s_1,s_2,\ldots,s_n) = \prod_{i \in N} g_i(s_i) \]
+		and
+		\[ g(s_{-i} \mid t_i) = \prod_{j \ne i} g_j(s_j). \]
+		We use the shorthand $\alpha(t_i) = \alpha(t_i \mid t_i)$.
+
+		\begin{fdef}
+			An allocation rule is \emph{non-decreasing in expectation} (NDE) if for all $i \in N, s_i,t_i \in T_i$ with $s_i < t_i$, $\alpha_i(s_i) \le \alpha_i(t_i)$.
+		\end{fdef}
+		It is easily seen that non-decreasing rules are non-decreasing in expectation.\\
+		Similar to Myerson's characterization, we get the following Bayesian version.
+
+		\begin{ftheo}
+			\label{bic char}
+			A mechanism $(f,p)$ in the independent prior setting is BIC iff
+			\begin{enumerate}
+				\item $f$ is non-decreasing in expectation and
+				\item $p_i$ satisfies
+				\[ \pi_i(t_i) = \pi_i(0) + t_i \alpha(t_i) - \int_0^{t_i} \alpha_i(x) \dif x. \]
+			\end{enumerate}
+		\end{ftheo}
+		The proof is very similar to that of \nameref{theo: myerson}, and we omit it.
+
+		\begin{fex}[NDE rules need not be ND]
+			Let us look at one rule that is NDE but not non-decreasing. Suppose there are two players with $5$ types each, and all $5$ types are equally likely.
+			\[
+			\begin{pmatrix}
+				2 & 2 & 2 & 2 & 2 \\
+				2 & 2 & 2 & 2 & 1 \\
+				2 & 2 & 2 & 1 & 2 \\
+				2 & 2 & 2 & 1 & 1 \\
+				2 & 2 & 1 & 2 & 1
+			\end{pmatrix}
+			\]
+			Here, the $ij$th entry depicts who wins if player $2$ chooses type $i$ and player $1$ chooses type $j$. Suppose the true types are $t_1 = t_2 = 3$. For player $1$, the allocation is indeed non-decreasing in expectation since $\alpha_1(t_1')$ is equal to $0,0,1/5,2/5,3/5$ for $t_1' = 1,2,3,4,5$. We can similarly check it for player $2$. However, it is not non-decreasing because $f(4,3) = 1$ and $f(5,3) = 0$ although $5 > 4$.
+		\end{fex}
+
+		Individual rationality now becomes the following.
+		\begin{fdef}
+			A mechanism $(f,p)$ is \emph{interim individually rational} (IIR) if for every bidder $i \in N, t_i \in T_i$,
+			\[ t_i \alpha_i(t_i) - \pi_i(t_i) \ge 0. \]
+		\end{fdef}
+
+		Similar to \Cref{lem: dsic ir single object}, we get the following.
+		\begin{flem}
+			\label{bic iir}
+			A BIC mechanism $(f,p)$ is IIR iff for all $i \in N$,
+			\[ \pi_i(0) \le 0. \]
+		\end{flem}
+		The proof is again quite similar.\\
+
+		Let us return to our question of revenue maximization. Suppose we have a single agent for now, with type set $T = [0,\beta]$. Our mechanism is $(f,p)$, where $f : [0,\beta] \to [0,1]$ and $p : [0,\beta] \to \R$. Incentive compatibility (BIC and DSIC are equivalent since there is only one agent) gives that
+		\[ tf(t) - p(t) \ge tf(s) - p(s) \]
+		for all $t,s \in T$. Individual rationality gives that
+		\[ tf(t) - p(t) \ge 0 \]
+		for all $t \in T$. The expected revenue earned by a mechanism is
+		\[ \pi^M = \int_0^\beta p(t) g(t) \dif t. \]
+		We need to find a mechanism $M^*$ in the class of incentive-compatible and individually rational mechanisms such that $\pi^{M^*} \ge \pi^M$ for all $M$. Call $M^*$ the \emph{optimal mechanism}. By the characterization lemmas \Cref{theo: myerson,lem: dsic ir single object}, we have
+		\begin{align*}
+			p(t) &= p(0) + tf(t) - \int_0^t f(x) \dif x \text{ and} \\
+			p(0) &\le 0.
+		\end{align*}
+		In order to maximize revenue, $p(0) = 0$. So, the payment formula is
+		\[ p(t) = tf(t) - \int_0^t f(x) \dif x. \]
+		The expected revenue is
+		\[ \pi^f = \int_0^\beta \left( tf(t) - \int_0^t f(x) \dif x \right) g(t) \dif t, \]
+		which we want to maximize by choosing an appropriate $f$.
+
+		Now, we have
+		\begin{align*}
+			\pi^f &= \int_0^\beta \left( tf(t) - \int_0^t f(x) \dif x \right) g(t) \dif t \\
+				&= \int_0^\beta tf(t)g(t) \dif t - \int_0^\beta \left(\int_0^t f(x) \dif x\right) g(t) \dif t \\
+				&= \int_0^\beta tf(t)g(t) \dif t - \int_0^\beta \left(\int_x^\beta g(t) \dif t\right) f(x) \dif x \\
+				&= \int_0^\beta tf(t)g(t) \dif t - \int_0^\beta \left(\int_t^\beta g(x) \dif x\right) f(t) \dif t \\
+				&= \int_0^\beta \left(tf(t)g(t) - f(t)\left(\int_t^\beta g(x) \dif x\right)\right) \dif t \\
+				&= \int_0^\beta \left(tf(t)g(t) - f(t)(1-G(t))\right) \dif t \\
+			\pi^f &= \int_0^\beta \left( t - \frac{1-G(t)}{g(t)} \right) g(t)f(t) \dif t.
+		\end{align*}
+		
+		Now, we want to figure out
+		\begin{equation}
+			\label{eqn: opt1}
+			\max_{\text{non-decreasing $f$}} \int_0^\beta \left( t - \frac{1-G(t)}{g(t)} \right)g(t)f(t) \dif t.
+		\end{equation}
+		Let us assume that $G$ satisfies the \emph{monotone hazard rate} condition, which means that $\frac{g(x)}{1-G(x)}$ is non-decreasing in $x$. Standard distributions such as the uniform and exponential distributions satisfy this.
+
+		\begin{fact}
+			If $G$ satisfies the MHR condition, there is a unique solution to
+			\[ x = \frac{1-G(x)}{g(x)}. \]
+		\end{fact}
+		Indeed, the right-hand side is non-increasing and the left is strictly increasing. Set
+		\[ w(x) = x - \frac{1-G(x)}{g(x)}, \]
+		and let $w(x^*) = 0$. Then, $w(x) > 0$ for $x > x^*$ and $w(x) < 0$ for $x < x^*$. The unrestricted solution to \cref{eqn: opt1} is therefore
+		\begin{equation}
+			\label{eqn: optimal dist single agent}
+			f(t) =
+			\begin{cases}
+				0, & t < x^*, \\
+				1, & t > x^*, \\
+				\alpha, & t = x^*,
+			\end{cases}
+		\end{equation}
+		where $\alpha \in [0,1]$. Note that this is basically just a step function. This $f$ is also non-decreasing and is therefore the optimal solution of \cref{eqn: opt1}.
+
+		\begin{ftheo}
+			In the single agent single object allocation setting, a mechanism $(f,p)$ under the MHR condition on the prior is optimal iff
+			\begin{enumerate}
+				\item $f$ is given by \Cref{eqn: optimal dist single agent}.
+				\item For all $t \in T$,
+				\[ p(t) = \begin{cases} x^*, & t \ge x^*, \\ 0, & \text{otherwise.} \end{cases} \]
+			\end{enumerate}
+		\end{ftheo}
+
+		Let us now shift to the multiple agent setting. Call a mechanism optimal if it is BIC, IIR, and maximizes revenue. Recalling \Cref{bic char,bic iir}, the expected payment made by agent $i$ is
+		\[ \int_{T_i} \pi_i(t_i) g_i(t_i) \dif t_i, \]
+		where $T_i = [0,b_i]$. Exactly as before, if we set
+		\[ w_i(t_i) = t_i - \frac{1-G_i(t_i)}{g_i(t_i)}, \]
+		called the \emph{virtual valuation} of player $i$, the expected payment simplifies to
+		\[ \int_0^{b_i} w_i(t_i) g_i(t_i) \alpha_i(t_i), \]
+		where
+		\[ \alpha_i(t_i) = \int_{T_{-i}} f_i(t_i,t_{-i}) g_{-i}(t_{-i}) \dif t_{-i}. \]
+		Substituting $\alpha_{-i}$, this gives the payment as
+		\[ \int_T w_i(t_i) f_i(t) g(t) \dif t. \]
+		Therefore, the total revenue generated by all players is
+		\[ \sum_{i \in N} \int_{T} w_i(t_i) f_i(t) g(t) \dif t = \int_{T} \left(\sum_{i \in N} w_i(t_i) f_i(t)\right) g(t) \dif t \]
+		which we wish to maximize, subject to $f$ being NDE. As before, if we try to solve the unconstrained optimization problem, we get
+		\begin{equation}
+			\label{eqn: multi agent optimal}
+			f_i(t) = \begin{cases} 1, & w_i(t_i) \ge w_j(t_j) \text{ for all $j$ and $w_i(t_i) \ge 0$}, \\ 0, & \text{otherwise,} \end{cases}
+		\end{equation}
+		However, this can result in $f$s that are not NDE. See \cite{myerson} for details. So, like the MHR constraint earlier, we enforce something here as well.
+
+		\begin{fdef}
+			A virtual valuation $v_i$ is \emph{regular} if for all $s_i,t_i \in T_i$ with $s_i < t_i$, $w_i(s_i) < w_i(t_i)$.
+		\end{fdef}
+		This is weaker than MHR.
+
+		Regularity says that $w_i(t_i) > w_i(s_i)$ for all $t_i > s_i$. As a result, the optimal allocation rule \cref{eqn: multi agent optimal} also satisfies
+		\[ f_i(t_i,t_{-i}) \ge f_i(s_i,t_{-i}), \]
+		so $f$ is non-decreasing, and NDE in particular.
+		
+		Note that this $f$ is deterministic (in the sense that it either allocates the whole object or nothing). Therefore, not only is it BIC and IIR, it is DSIC and IR.
+
+		\begin{ftheo}
+			Suppose every agent's valuation is regular. Define the mechanism $(f,p)$ as follows.
+			\begin{enumerate}
+				\item If $w_i(t_i) < 0$ for all $i \in N$, $f_i(t) = 0$ for all $i \in N$.
+				\item Otherwise,
+				\[ f_i(t) = \begin{cases} 1, & w_i(t_i) \ge w_j(t_j) \text{ for all $j$} \\ 0, & \text{otherwise,} \end{cases} \]
+				with ties being broken arbitrarily.
+				\item Payments are given by
+				\[ p_i(t) = \begin{cases} 0, & f_i(t) = 0, \\ \max\{w_i^{-1}(0), \kappa_i^*(t_{-i})\}, & f_i(t) = 1. \end{cases} \]
+			\end{enumerate}
+			Then, $(f,p)$ is an optimal mechanism.
+		\end{ftheo}
+		Above, $w_i^{-1}(0)$ is the value of $t_i$ such that $w_i(t_i) = 0$ and
+		\[ \kappa_i^*(t_{-i}) = \inf\{t_i : f_i(t_i,t_{-i}) = 1\}, \]
+		the smallest value of $t_i$ where $i$ starts to win.\\
+		This can be thought of as something like a second-price auction with a reserve price.
+
+		\begin{fex}[Uniform independent priors]
+			Suppose there are two buyers with $T_1 = [0,12]$ and $T_2 = [0,18]$, with a uniform independent prior. Then,
+			\[ w_1(t_1) = t_1 - \frac{1-G_1(t_1)}{g_1(t_1)} = t_1 - \frac{1-\frac{t_1}{12}}{\frac{1}{12}} = 2t_1-12 \]
+			and $w_2(t_2) = 2t_2-18$. Then, we can tabulate some data as follows. Note that gradual change of when each player's virtual valuation becomes non-negative, and also when they start winning.
+			\begin{center}
+			\begin{tabular}{|c|c|c|c|c|}
+				\hline $t_1$ & $t_2$ & allocation & $p_1$ & $p_2$ \\ \hline\hline
+				$4$ & $8$ & unsold & $0$ & $0$ \\
+				$2$ & $12$ & $2$ & $0$ & $9$ \\
+				$6$ & $6$ & $1$ & $6$ & $0$ \\
+				$9$ & $9$ & $1$ & $6$ & $0$ \\
+				$8$ & $15$ & $2$ & $0$ & $11$ \\ \hline
+			\end{tabular}
+			\end{center}
+		\end{fex}
+
+		\begin{fex}[Symmetric bidders]
+			Suppose the valuations are drawn from the same distribution, so $T_i = T$, the $g_i$ are some common $g$, and all the common valuations $w_i$ are equal to $w$. Here, $w(t_i) > w(t_j)$ iff $t_i > t_j$, so the object goes to the higher bidder, and it is not sold if $w^{-1}(0) > t_i$. This is precisely a second-price auction with a reserve price of $w^{-1}(0)$, and is efficient. 
+		\end{fex}
+
+		Finally, we discuss a few other optimal mechanisms.
+
+		\begin{ftheo}[Green-Laffont-Holmstr\"{o}m]
+			If the type space is ``sufficiently rich'', every efficient DSIC mechanism is a Groves mechanism.
+		\end{ftheo}
+		``Sufficient richness'' means that everything is feasible in some sense.
+		\begin{proof}[Proof sketch]
+			Suppose there are two alternatives $A = \{a,b\}$. Consider the welfares $\sum_i t_i(a)$ and $\sum_i t_i(b)$. We choose $a$ if the former is greater than the latter. Fix the valuations of the other agents to $t_{-i}$, and fix the value of $i$ at alternative $b$ at $t_i(b)$. Then, there exists some threshold $t_i^*(a)$ such that for all $t_i(a) \ge t_i^*(a)$, $a$ is the outcome, and for $t_i(a) < t_i^*(a)$, $b$ is the outcome.\\
+			Using DSIC-ness for $t_i^*(a) + \epsilon = t_i(a)$, we get
+			\[ t_i^*(a) + \epsilon - p_{ia} \ge t_i(b) - p_{ib} \]
+			and similarly,
+			\[ t_i(b) - p_{ib} \ge t_i^*(a) - \delta - p_{ia}. \]
+			Because $\epsilon,\delta$ are arbitrary, $t_i^*(a) - p_{ia} = t_i(b) - p_{ib}$. Because $t_i^*(a)$ is the reshold of the efficient outcome,
+			\[ t_i^*(a) + \sum_{j \ne i} t_j(a) = t_i(b) + \sum_{j \ne i} t_j(b). \]
+			Combining these two,
+			\[ p_{ia} - p_{ib} == \sum_{j \ne i} t_j(b) - t_j(a). \]
+			Therefore, the payment is of the form $p_{ix} = h_i(t_{-i}) - \sum_{j \ne i} t_j(x)$.
+		\end{proof}
+
+		\begin{ftheo}[Green-Laffont]
+			No Groves mechanism is budget-balanced.
+		\end{ftheo}
+
+		\begin{fcor}
+			If the type space is sufficiently rich, no efficient mechanism is both DSIC and budget-balanced. 
+		\end{fcor}
+
+		Given this, we try to weaken the notion of DSIC-ness. Allocation is still efficient, and payment is now defined via a prior as
+		\[ \delta_i(t_i) = \E_{t_{-i} \mid t_i} \sum_{j \ne i} t_j(a^*(t)). \]
+		For example,
+		\begin{align*}
+			a^*(t) \in \argmax_{a \in A} \sum_{i \in N} t_i(a) \\
+			p_i^\text{dAGVA} = \frac{1}{n-1} \sum_{j \ne i} \delta_j(t_j) - \delta_i(t_i),
+		\end{align*}
+		named after d'Aspremont, Gerard-Varet, Arrow, and is also known as the ``expected VCG'' mechanism. It can be shown that the dAGVA mechanism is efficient, BIC, and budget-balanced. However, it is not IIR.
+
+		\begin{ftheo}[Myerson-Satterthwaite]
+			In a bilateral trade (that involves two types of agents, seller and buyer), no mechanism can be simultaneously BIC, efficient, IIR, and budget-balanced.
+		\end{ftheo}
