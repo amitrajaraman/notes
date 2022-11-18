@@ -598,7 +598,7 @@
 				% Allocative efficiency is \emph{not} the same as Pareto efficiency, which is defined for the outcome which also considers the payment.
 
 				\item The \emph{affine maximizer} rule is defined by
-				\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} \lambda_i v_i(a,\theta_i) + \kappa(a) \right), \]
+				\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} w_i v_i(a,\theta_i) + \kappa(a) \right), \]
 				where each $\lambda_i$ is chosen to be non-negative and at least one is nonzero. Note that all three rules before this are specific cases of the affine maximizer rule.
 
 				\item The \emph{max-min} or \emph{egalitarian rule} has
@@ -1120,9 +1120,7 @@
 		We now come to another question: how do we maximize the revenue of the auctioneer? We begin with the indivisible object allocation setting from the previous subsubsection. \\
 		Before getting to the details, we must set up some notation.
 
-		\begin{fdef}[Bayesian Incentive Compatibility]
-			Let $T_i = [0,b_i]$ for each $i$ and $G$ a common prior over $T$ with density $g$. We let $G_{-i}(s_{-i} | s_i)$ to be the conditional distribution over $T_{-i}$ given that $i$'s type is $s_i$, having density $g_{-i}(s_{-i}| s_i)$.
-		\end{fdef}
+		Let $T_i = [0,b_i]$ for each $i$ and $G$ a common prior over $T$ with density $g$. We let $G_{-i}(s_{-i} | s_i)$ to be the conditional distribution over $T_{-i}$ given that $i$'s type is $s_i$, having density $g_{-i}(s_{-i}| s_i)$.
 		$g_{-i}$ is derived using Bayes' rule.
 
 		Any mechanism $(f,p_1,\ldots,p_n)$ induces an expected allocation and payment rule $(\alpha,\pi)$. Here,
@@ -1132,7 +1130,7 @@
 		The expected utility of agent $i$ on reporting $s_i$ is
 		\[ t_i \alpha_i(s_i | t_i) - \pi_i(s_i | t_i). \]
 
-		\begin{fdef}
+		\begin{fdef}[Bayesian Incentive Compatibility]
 			A mechanism $(f,p)$ is \emph{Bayesian incentive compatible} (BIC) if for all $i \in N$, $s_i,t_i \in T_i$,
 			\[ t_i \alpha_i(t_i | t_i) - \pi_i(t_i | t_i) \ge t_i \alpha_i(s_i | t_i) - \pi_i(s_i | t_i). \]
 			$f$ is Bayesian implementable if there exists some $p$ such that $(f,p)$ is BIC.\\
