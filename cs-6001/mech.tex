@@ -917,7 +917,7 @@
 		\[ f^{\text{AM}}(\theta) = \argmax_{a \in A} \left( \sum_{i \in N} w_i \theta_i(a) + \kappa(a) \right), \]
 		where the $w_i \ge 0$ are not all zero, and $\kappa : A \to \R$ is any arbitrary function, known as the translation.\\
 
-		When $\kappa \equiv 0$ and all the $w_i$ are equal, we get allocative efficiency again. When $\kappa \equiv 0$ and $w_d = 0$ for some $d$ and $w_i = 0$ for $i \ne d$, we get a dictatorial allocation.\\
+		When $\kappa \equiv 0$ and all the $w_i$ are equal, we get allocative efficiency again. When $\kappa \equiv 0$ and $w_d = 1$ for some $d$ and $w_i = 0$ for $i \ne d$, we get a dictatorial allocation.\\
 		If all the $w_i$ are not identical, then the mechanism is not anonymous. If $\kappa$ is non-constant, then we are giving different importance to different allocations.\\
 		In this wider class of affine maximizers, one can try to characterize the mechanisms that satisfy some property.
 
@@ -927,13 +927,13 @@
 			for all $\theta_i,\theta_i',\theta_{-i}$. 
 		\end{fdef}
 		This says that tie-breaking is not done on the basis of any weight zero agents.\\
-		If INA were not satisfied, AM could be manipulated by a weight $0$ agent.
+		If INA were not satisfied, the affine maximizer could be manipulated by a weight $0$ agent.
 
 		\begin{ftheo}
-			An AM rule satisfying INA is implementable in dominant strategy
+			An affine maximizer rule satisfying INA is implementable in dominant strategy.
 		\end{ftheo}
 		\begin{proof}
-			We need to construct a payment function to make $(f^\AM,p^\AM)$ DSIC. Define
+			We need to construct a payment function $p^\AM$ such that $(f^\AM,p^\AM)$ is DSIC. Define
 			\[ p_i^\AM(\theta_i,\theta_{-i}) = \begin{cases} \frac{1}{w_i} \left( h_i(\theta_{-i}) - \left( \sum_{j \ne i} w_j \theta_j(f^\AM(\theta)) + \kappa(f^\AM(\theta)) \right) \right), & w_i > 0, \\ 0, & w_i = 0. \end{cases} \]
 			This is quite similar to the Groves payment.
 			If $w_i > 0$, the payoff is
@@ -960,7 +960,7 @@
 
 		The setup is as follows. Each agent $i$ has a type set $T_i \subseteq \R$, and $t_i \in T_i$ denotes the value of agent $i$ if they win the object. An allocation $a$ is a vector that represents the \emph{probability} of winning the object, so the set of allocations is
 		\[ \Delta A = \{ a \in [0,1]^n : \sum_{i=1}^n a_i = 1 \}. \]
-		The allocation rule is $f : T_1 \times T_2 \times \cdots \times T_n \to \Delta A$. The valuation is said to be in the \emph{product form} if it is given by $v_i(a,t_i)$ equal to $a_i\cdot t_i$ minus the expected valuation. That is, $f_i(t_i,t_{-i})$ is the probability of winning the object for agent $i$ when the type profile is $(t_i,t_{-i})$.\\
+		The allocation rule is some $f : T_1 \times T_2 \times \cdots \times T_n \to \Delta A$. The valuation is said to be in the \emph{product form} if it is given by $v_i(a,t_i)$ equal to $a_i\cdot t_i$, namely the expected valuation. That is, $f_i(t_i,t_{-i})$ is the probability of winning the object for agent $i$ when the type profile is $(t_i,t_{-i})$.\\
 
 		In the second-price auction, also called the \emph{Vickrey} auction, the types are $v_i$, and defining $t_{-i}^{(2)} = \max_{j \ne i} v_j$, agent $i$ wins if $v_i > t_{-i}^{(2)}$ and loses if $v_i < t_{-i}^{(2)}$. Some tiebreaking rule decides the equality case. Because the payment is $t_{-i}^{(2)}$ for the winner $i$, the utility is zero if there is a tie. That is,
 		\[ u_i = \begin{cases} 0, & v_i \le t_{-i}^{(2)}, \\ v_i - t_{-i}^{(2)}, & v_i > t_{-i}^{(2)}. \end{cases} \]
