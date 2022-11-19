@@ -1,4 +1,4 @@
-\section{Introduction}
+\section{Randomized algorithms and derandomization}
 
 	\subsection{Lecture 1: Matrix multiplication}
 
@@ -207,3 +207,143 @@
 				\ne 0 \right] + \Pr\left[ Y_{(1+\epsilon)\frac{N}{k}} \ne 0 \right] \right) \\
 					&\ge \epsilon + \frac{\epsilon}{1+\epsilon} - 1.
 			\end{align*}
+
+	\subsection{Lectures 20--22: Bipartite matching}
+
+		\subsubsection{Lecture 20}
+
+			The problem we shall study now is that of finding a perfect matching in a bipartite graph $G = (X,X,E)$. That is, we have two copies of a set $X$ with all edges between the two copies.
+
+			This is a problem as old as computer science itself, and quite recently an almost-linear time algorithm for the above has been found \cite. % m polylog(m)
+
+			We shall give an algebraic algorithm due to Mulmuley, Vazirani, Vazirani \cite{matching-mvv}. It is rather simple, and is also parallelizable. Consider the \emph{biadjacency matrix} $A_G$ of $G$, with rows and columns indexed by $X$ and $(A_G)_{uv} = 1$ if $uv$ is an edge and $0$ otherwise. Note that the $X$ used to index the rows and columns are different (choose which one is used for rows arbitrarily).
+
+			Recall the determinant
+			\[ \det(M) = \sum_{\sigma \in S_n} \sign(\pi) \prod_{i=1}^n M_{i,\sigma(i)} \]
+			and permanent
+			\[ \perm(M) = \sum_{\sigma \in S_n} \prod_{i=1}^n M_{i,\sigma(i)}. \]
+			Suppose that the vertex sets $X$ in our bipartite graph are $[n]$.\\
+			Note that any perfect matching essentially corresponds to a permutation of $[n]$ such that there is an edge between $i$ and $\sigma(i)$ for every $i \in [n]$, that is, $(A_G)_{i,\sigma(i)} = 1$ for all $i$. Due to this, we can also assign a sign to any perfect matching. \\
+
+			Clearly, the number of perfect matchings is then just $\perm(A_G)$. On the other hand,
+			\[ \det(A_G) = \sum_{M \text{ is a perfect matching}} \sign(M). \]
+			Therefore, if $G$ does not have a perfect matching, $\det(A_G) = 0$. The converse is clearly not true as seen by $K_{2,2}$, which has biadjacency matrix
+			\[ \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}. \]
+			Similarly, the determinant is $0$ if any two vertices have the same neighbour set.\\
+			How do we change something to make the converse hold true (with high probability)? The idea is rather simple, and involves changing by biadjacency matrix by replacing each element with a random integer from $\{1,2,\ldots,2n\}$. Call this new (random) matrix $M_G$. We claim that in this new setting, $\det(M_G) \ne 0$ with probability at least $1/2$.\\
+			Indeed, consider the determinant polynomial in $n^2$ variables, which is
+			\[ \det\begin{pmatrix} x_{11} & x_{12} & \cdots & x_{1n} \\ x_{21} & x_{22} & \cdots & x_{2n} \\ \vdots & \vdots & \ddots & \vdots \\ x_{n1} & x_{n2} & \cdots & x_{nn}  \end{pmatrix}. \]
+			Note that this is a degree $n$ polynomial. 
+
+			\begin{flem}[Polynomial Identity Lemma]
+				Let $p$ be a polynomial in $m$ variables of degree $d$. Then,
+				\[  \Pr_{\alpha \sim \{1,2,\ldots,2d\}^{m}} [p(\alpha) \ne 0] \ge \frac{1}{2}. \]
+			\end{flem}
+			We have already seen a proof of this back in Lecture 18 (in the case where coefficients are rational), where we worked with $\F_p$ instead. Indeed, something being nonzero modulo $p$ implies nonzeroness in $\R$.\\
+			An alternative proof is by induction on the number of variables.\\
+
+			Using this lemma in our setting, we see that $\det(M_G) = 0$ with probability at most $1/2$, so we are done. Further, we can use this algorithm to actually find a perfect matching. For $i \in [n]$, assuming that the perfect matching has the edge $1i$, check if the remaining part of the graph has a perfect matching. If yes, find a perfect matching on it (recursively). Otherwise, increment $i$.\\
+
+			Now, can we come up with a \emph{parallel} algorithm for constructing a perfect matching? Assuming we have polynomially many machines that run independently, is it possible to determine a perfect matching rapidly, say in constant or logarithmic time?\\
+
+			In the simple case where we have a \emph{unique} perfect matching, this is quite simple by running $m$ many machines parallelly, each computing a determinant of the graph excepting the vertices in an edge $e$. If for a given $e$ the determinant is nonzero, the edge must be in the matching.\\
+			The algorithm we shall see has its idea centered around the above observation.\\
+
+			Suppose that we can assign weights to the edges $w : E \to \Z$ such that the minimum weight perfect matching is unique, where the weight of a matching $M$ is
+			\[ w(M) = \sum_{e \in M} w(e). \]
+			We then alter the biadjacency matrix $A_G$ so that the edge $e$'s entry is $2^{w(e)}$ instead of $1$. Then,
+			\[ \det(A_G) = \sum_{\text{perfect matchings $M$}} \sign(M) 2^{w(M)}. \]
+			Note that due to the uniqueness, the above determinant is nonzero! It cannot be cancelled by any sum of higher weight matchings (Why?). After that, for each edge, decrement the weight by one and see if the minimum weight has now decreased. If it has, this edge must be part of the minimum weight perfect matching.\\
+			All that remains is to find a weight assignment such that there is a unique minimum weight perfect matching. It turns out that a random weight assignment does the trick. This is not immediately clear, because if we assign weights in $\{1,2,\ldots,n^2\}$, say, then despite there being possibly exponentially many matchings, the minimum weight one is unique.
+
+			% \begin{flem}[Isolation lemma]
+			% 	Assigning each edge random weights in $\{1,2,\ldots,2m\}$, the minimum weight perfect matching is unique with probability at least $1/2$.
+			% \end{flem}
+			% Further, this lemma is not particular to perfect matchings and works even for objects such as spanning trees.
+
+		\subsubsection{Lecture 21} % 27-10-2022
+
+			\begin{flem}[Isolation Lemma, \cite{matching-mvv}]
+				Let $E$ be a set of $m$ elements and $\mathcal{S} \subseteq 2^E$ an arbitrary family of subsets of $E$. Independently and uniformly randomly assign to each element of $E$ a weight in $\{1,2,\ldots,N\}$. Then,
+				\[ \Pr\left[ \mathcal{S} \text{ has a minimum weight set} \right] \ge 1 - \frac{m}{N}, \]
+				where the weight of a set is the sum of the weights of the elements in it.
+			\end{flem}
+			We get the desideratum in the context of matchings on setting $E$ to be the set of edges and $\mathcal{S}$ to be the collection of perfect matchings. 
+			\begin{proof}
+				Let $E = \{e_1,\ldots,e_m\}$. Split $\mathcal{S}$ into two parts $\mathcal{S}_0,\mathcal{S}_1$, where $\mathcal{S}_0 = \{ T \in \mathcal{S} : e_1 \in T \}$ and $\mathcal{S}_1 = \mathcal{S} \setminus \mathcal{S}_0$. Let us look at the event $E$ that there is a minimum weight set that contains $e_1$ and a minimum weight set that does not contain $e_1$. This means that the minimum weight set in $\mathcal{S}_0,\mathcal{S}_1$ are equal.\\
+				What happens if we fix the weights of all elements other than $e_1$? The minimum weight in $\mathcal{S}_1$ is determined, and the minimum weight in $\mathcal{S_0}$ is just equal to some fixed quantity plus the weight of $e_1$. In particular, there is at most one value of $w(e_1)$ such that the two minimum weights are equal. Therefore, $\Pr[E] \le 1/N$. In general, taking the union bound, we have
+				\[ \Pr[\text{there exist two min wt sets}] = \Pr\left[ \bigcup_{i \in [m]} \text{there exist min wt sets containing $e_i$ and not containing $e_i$} \right] \le \frac{m}{N}. \]
+			\end{proof}
+			Later, \textbf{*****} proved that the above is in fact true with $\left( 1 - \frac{1}{N} \right)^m$ instead. Note that the above is true if we replace the set weights are drawn from with any set of size $N$, so perturbing about $\log N$ bits ensures a unique solution.\\
+
+			The isolation lemma has several surprising applications, for example that \textsf{UNIQUE-SAT}\footnote{This is \textsf{SAT}, except that we know that if there is a satisfying assignment, it is unique.} is \textsf{NP}-hard.\\
+
+			We next look at derandomization. We cannot derandomize the isolation lemma in all its generality, but we can for specific families that have some structure.\\
+			For example, this is very easy for spanning trees and it suffices to assign distinct weights to all edges. Our main goal is that of derandomizing \emph{bipartite perfect matching}. We will only be able to derandomize it to $O(\log^2n)$ random bits unfortunately, which is equivalent to giving $n^{O(\log n)}$ weight assignments with the assurance that one of them gives a minimum weight matching.\\
+
+			The high-level view of the proof is the following.\\
+			The weight construction is done in $\log n$ rounds. We start off with some huge (exponentially large) family of perfect matchings. We then come up with some weight function such that the set of perfect matchings of minimum weight is comparatively smaller. We then come up with another weight function (with about $\log n$ bits) to break ties among these minimum weight perfect matchings and make the set even smaller. Further, we ensure that the older non-minimum weight matchings do not suddenly enter this family by appending the bits of the new weight function to the bits of the previous weight function. Each of these bit sequences we append are $\log n$ bits, and because there are $\log n$ rounds we end at $\log^2 n$ bits in all.
+
+			As before, let the edges be $e_1,\ldots,e_m$.\\
+			For starters, observe that if $w(e_i) = 2^i$ for all $i$, then all subsets have distinct weights.\\
+			Let $M_1,M_2$ be two minimum weight perfect matchings. Observe that $M_1 \cup M_2$ is a union of cycles (and possibly isolated edges contained in both $M_1,M_2$). Further, each cycle in $M_1 \cup M_2$ has zero ``alternating weight''. This is the difference of the sum of all ``odd'' edges in the cycle and the sum of all ``even'' edges in the cycle. If we instead had that the $M_1$ sum was greater than the $M_2$ sum, we could switch out the edges in the cycle in $M_1$ for edges in the cycle in $M_2$ to get a matching of weight strictly less than that of $M_1$, yielding a contradiction.
+
+			\begin{flem}
+				\label{lem: union of perfect matchings}
+				Let $E' \subseteq E$ be the union of all minimum weight perfect matchings. Then, each cycle in $G = (V,E')$ is has zero alternating weight.
+			\end{flem}
+			
+			\begin{corollary}
+				If $w$ is a weight assignment such that a cycle $C$ has nonzero alternating weight, then the union of minimum weight perfect weight matchings (with respect to $w$) does \emph{not} contain $C$.
+			\end{corollary}
+
+			The above corollary is the key idea. For a suitable weight assignment on a cycle, we can get rid of at least one edge in the cycle, and this ensures that all matchings containing that edge are rid of. Our goal then is to maximize the number of edge-disjoint cycles in the graph.\\
+			Given a cycle $C$ and a weight assignment $w$, let $\aw(C)$ be the alternating weight of $C$ under $w$.
+
+			\begin{fprop}
+				Let $C_1,\ldots,C_k$ be an arbitrary collection of cycles. Then, for some $j \in \{1,2,\ldots,m^2k\}$, the weight function defined by $w(e_i) = 2^i \pmod j$ for each $i$ assigns a nonzero alternating weight to every cycle $C_r$.
+			\end{fprop}
+			\begin{proof}
+				We would like to show that for some $j$, $j$ is not a factor of $\aw(C_1) \aw(C_1) \cdots \aw(C_k)$. This product is at most $2^{m^2k}$. Recalling that the lcm of the first $n$ numbers is greater than $2^n$ for sufficiently large $n$, we have that $2^{m^2k}$ is less than the lcm of $[m^2k]$, so there is some number in $[m^2k]$ that does not divide $2^{m^2k}$.
+			\end{proof}
+
+			Note that the list of weight assignments we give as above does not rqeuire knowledge of which cycles we are working with. That is, if we have polynomially many cycles, we can give a polynomially large list of weight assignments with the guarantee that one of these assignments removes all the cycles.
+
+			% The overall process is the following. Set $G^{(0)} = G$. Consider a large set of edge-disjoint cycles, and assign weights $w^{(0)}$ to the edges in each cycle such that the cycle becomes non-alternating. Let $G^{(1)}$ to be the union of all minimum weight perfect matchings under $w^{(0)}$. More generally, given $G^{(i)}$, consider a large set of edge-disjoint cycles in the graph and assign weights $w^{(i)}$
+
+		\subsubsection{Lecture 22}
+
+			Now, we have exponentially many cycles that we must remove somehow, but each step seems to only remove polynomially many cycles. To take care of this, we can change our perspective by looking at the number of \emph{edges} removed in each step instead.
+
+			\begin{flem}
+				In a graph with $m$ edges and $n$ vertices, there exist at least $\Omega\left(\frac{m-n}{\log(m-n)}\right)$ edge-disjoint cycles.
+			\end{flem}
+			The idea of the proof is that any graph with $n$ vertices and $m$ edges has $O(\log(m-n))$ edges. Removing this cycle and then repeating until there are no cycles remaining gives the desired claim.
+			% erdos posa?
+			% More precisely, we may assume that every vertex has degree $3$ by contracting all degree $2$ vertices.\\
+			This allows us to be done in $O(\log^2 n)$.\\
+			An alternate approach uses the following lemma.
+
+			\begin{flem}
+				A graph with no cycles of length at most $4 \log n$ has average degree at most $5/2$.
+			\end{flem}
+
+			We have a third approach more efficient than the above two, however, which again returns to the idea of removing cycles.
+
+			\begin{flem}[Teo, Koh]
+				\label{lemma: teo koh}
+				A graph $G$ with no cycles of length at most $r$ has are at most $n^4$ cycles of length at most $2r$. 
+			\end{flem}
+
+			In just $O(\log n)$ rounds, we can remove \emph{all} cycles! We start by removing all cycles of length at most $3$, then we remove all cycles of length at most $6$, then at most $12$, and so on. The above lemma tells us that each step is efficient.
+
+			\begin{proof}[Proof of \Cref{lemma: teo koh}]
+				Observe that for any two vertices, there is at most one path between them of length $\le (r/2)$. For each cycle, fix $4$ equidistant vertices on the cycle, and associate the cycle with the tuple $(u_1,u_2,u_3,u_4)$. The key of the argument is that by the observation, no two cycles have the same tuple!\\
+				More precisely, suppose that two distinct cycles have the same tuple $(u_1,u_2,u_3,u_4)$. Note that between the two cycles, at least one of the intervals $(u_i,u_{i+1})$ must have different edges (otherwise, they would be the same cycle). This yields a contradiction to our observation.
+			\end{proof}
+
+			Now, all that remains is to prove \Cref{lem: union of perfect matchings}. Recall Hall's theorem, which states that for a bipartite graph $G = (X,Y,E)$, if $|N(S)| \ge |S|$ for every $S \subseteq X$, then $G$ has a perfect matching. In particular, this can be used to prove that a (non-empty) regular bipartite graph has a perfect matching. This in turn implies that a $d$-regular bipartite graph can be decomposed into the union of $d$ edge-disjoint perfect matchings. This holds true for multigraphs as well.
+
+			\begin{proof}[Proof of \Cref{lem: union of perfect matchings}]
+				Say there are $k$ minimum weigt perfect matchings, each of weight $\lambda$. As in the lemma statement, let $E'$ be the union of all minimum weight perfect matchings. Let $H$ be the multigraph equal to the disjoint union of all minimum weight perfect matchings. Note that $H$ is a $k$-regular bipartite (multi)graph. The total weight of the edges in $H$ is equal to $k\lambda$. Suppose that $H$ has a cycle $C$ of nonzero alternating weight. In $C$, remove the alternating set of edges of larger weight, and add the complimentary alternating set of edges to get a new graph $H'$. Note that $H'$ remains $k$-regular so can be decomposed into $k$ perfect matchings, and the total weight of edges in $H'$ is strictly less than $k\lambda$. This implies that some matching among these $k$ has weight less than $\lambda$, yielding a contradiction.
+			\end{proof}
