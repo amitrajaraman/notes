@@ -1,3 +1,5 @@
+%!TEX root = ./main.tex
+
 \section{Concentration and Almost-Balls}
 
 Before we formally begin this section, we state without proof some results in probability that will be helpful later.\\
@@ -120,7 +122,6 @@ which directly results in our claim.
 
 The reader might have noticed that we have proved slightly different bounds from what we claimed at the beginning of this subsection ($\varepsilon^2/4$ instead of $\varepsilon^2/2$), we can get arbitrarily close to the given bound by changing $f$, $g$ and $\lambda$ (which we chose to be $\frac{1}{2}$) slightly. Henceforth, we use the $\varepsilon^2/2$ bound itself.
 
-\clearpage
 \subsection{Dvoretzky's Theorem}
 
 \begin{ftheo}[Dvoretzky's Theorem]
@@ -222,7 +223,7 @@ To aid us in our goal, we give the following lemma.
 Let $K\subseteq\R^n$ be a symmetric body with maximal ellipsoid $B_2^n$. Then, there exists some subspace $Z\subseteq\R^n$ of dimension $k=\left\lfloor\frac{n}{\log_2 n}\right\rfloor$ and an orthonormal basis $(u_i)_1^k$ of $Z$ such that $\norm{u_i}_{K}\geq \frac{1}{2}$ for all $i$.
 \end{ftheo}
 
-The above is quite similar in spirit to \Cref{fritz john banach mazur distance}. Instead of bounding the body between $B_2^n$ and $\sqrt{n}B_2^n$, we bound the restriction of the body to a subspace between a ball and a parallelotope.\footnote{the parallelotope is defined by the separating hyperplanes between each $(2u_i)$ and $K$.}\\
+The above is quite similar in spirit to \Cref{fritz john banach mazur distance}. Instead of bounding the body between $B_2^n$ and $\sqrt{n}B_2^n$, we bound the restriction of the body to a subspace between a ball and the parallelotope defined by the separating hyperplanes between each $(2u_i)$ and $K$.\\
 
 The basic idea of the proof is as follows. Either the body $K$ touches the inner ball at a ``large number" of places, in which case we can construct the $(u_i)$, or it stays away from the ball in some ``large" subspace. In this case, we restrict to this subspace, inflate the inner ball, and repeat the process. Since we cannot inflate the inner ball forever (it must be contained within $\sqrt{n}B_2^n$), this will end at some point.
 
@@ -293,4 +294,4 @@ That is, $\norm{Z}$ is less than some constant multiple of $\sqrt{n}$ with proba
 \end{align*}
 Setting $z$ to $\sqrt{\log n}-1$, we get
 \[ \Pr[\norm{Z}_\infty \leq z] \leq \left(1-\frac{2}{\sqrt{2\pi}} n^{-1/2} \right)^n,\]
-which is less than $\frac{1}{3}$ for all $n$. Therefore, $\norm{Z}_\infty \leq c_2\sqrt{n}$ with probability at least $\frac{2}{3}$ and $\norm{Z} \geq c_1 \sqrt{\log n}$ with probability at least $\frac{2}{3}$ for some constants $c_1,c_2$. This implies that $\frac{\norm{Z}_\infty}{\norm{Z}} \geq c\sqrt\frac{\log n}{n}$ for some suitable $c$,\footnote{since we know that it occurs with probability at least $\frac{1}{3}$.} which is exactly what we want.\\
+which is less than $\frac{1}{3}$ for all $n$. Therefore, $\norm{Z}_\infty \leq c_2\sqrt{n}$ with probability at least $\frac{2}{3}$ and $\norm{Z} \geq c_1 \sqrt{\log n}$ with probability at least $\frac{2}{3}$ for some constants $c_1,c_2$. This implies that $\frac{\norm{Z}_\infty}{\norm{Z}} \geq c\sqrt\frac{\log n}{n}$ for some suitable $c$, since we know that it occurs with probability at least $\frac{1}{3}$, which is exactly what we want.

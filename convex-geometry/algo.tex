@@ -1,3 +1,5 @@
+%!TEX root = ./main.tex
+
 \section{Computing Volume in High Dimensions}
 
 A very popular problem in high-dimensional convex geometry is that of determining the volume of an arbitrary convex body.\\
@@ -11,7 +13,7 @@ There are a few issues that arise when we even want to formulate this problem.
 	\item What does ``efficient" exactly mean?
 \end{itemize}
 
-We have already answered the second question above -- we are looking for algorithms that are \textit{polynomial} in the dimension $n$. We either want the exact volume or an approximation up to some small \textit{relative error} $\varepsilon>0$. If it is the latter, we would also like the algorithm to be polynomial in $\frac{1}{\varepsilon}$.\footnote{Note that $\varepsilon$ takes only $\log(1/\varepsilon)$ bits, so this is a relaxation in some sense.}
+We have already answered the second question above -- we are looking for algorithms that are \textit{polynomial} in the dimension $n$. We either want the exact volume or an approximation up to some small \textit{relative error} $\varepsilon>0$. If it is the latter, we would also like the algorithm to be polynomial in $\frac{1}{\varepsilon}$. Note that $\varepsilon$ takes only $\log(1/\varepsilon)$ bits, so this is a relaxation in some sense.
 
 \subsection{Sandwiching and Deterministic Algorithms}
 \label{subsec: sandwiching and deterministic algorithms}
@@ -184,7 +186,7 @@ The basic outline of the proof is as follows.\\
 
 	Now, for the main part of the proof, suppose we have some deterministic polyomial time algorithm $\mathcal{A}$ that returns a lower and upper bound $\uvol(K)$ and $\ovol(K)$ for any body $K$. The basic idea is roughly similar to that of Elekes' Theorem. Suppose we run $\mathcal{A}$ on $B_2^n$ until $m\leq n^a - n$ questions have been asked for some $a\geq 2$ (due to the polynomial nature of the algorithm) and $x_1,\ldots,x_m$ are the points queried. Define
 	\[ C = \conv(\pm e_1, \pm e_2, \ldots, \pm e_n, x_1^\circ, \ldots, x_m^\circ). \]
-	Now, consider the dual $C^*$ of $C$ (recall what a dual is from the proof of \Cref{fritz johns theorem part 1}). Observe that for any of the $x_i$, the output of the oracle on passing $x_i$ (or $\pm e_i$) must be the same whether we pass it with regards to $C$, $C^*$, or $B_2^n$.\footnote{if $x_i\in B_2^n$, we receive a \texttt{yes}. Otherwise, we receive a \texttt{no} along with the information that the hyperplanes at the $x_i^\circ$ are tangential.} Indeed, each $H^+(x_i^\circ)$ and $H^-(x_i^\circ)$ is a supporting hyperplane of all three bodies. This implies that the estimates returned by $\mathcal{A}$ are the same for all three bodies!\\
+	Now, consider the dual $C^*$ of $C$ (recall what a dual is from the proof of \Cref{fritz johns theorem part 1}). Observe that for any of the $x_i$, the output of the oracle on passing $x_i$ (or $\pm e_i$) must be the same whether we pass it with regards to $C$, $C^*$, or $B_2^n$ -- if $x_i\in B_2^n$, we receive a \texttt{yes} and otherwise, we receive a \texttt{no} along with the information that the hyperplanes at the $x_i^\circ$ are tangential. Indeed, each $H^+(x_i^\circ)$ and $H^-(x_i^\circ)$ is a supporting hyperplane of all three bodies. This implies that the estimates returned by $\mathcal{A}$ are the same for all three bodies!\\
 	We then have
 	\[ \ovol(B_2^n) \geq \vol(C^*)\text{ and }\uvol(B_2^n) \leq \vol(C). \]
 	Therefore,
@@ -219,7 +221,7 @@ For $1\leq k\leq n$, define
 
 \begin{lemma}
 \label{rho span bound}
-Let $S=\conv(\{v_0,v_1,\ldots,v_n\})\subseteq B_2^n$ be an $n$-dimensional simplex and $x\in S$. Then for every $k$ such that $0\leq k\leq n-1$, $S$ has a $k$-dimensional face $S_k = \conv(\{v_{i_0},v_{i_1},\ldots,v_{i_k}\})$ and a point $x_k$ in the interior\footnote{it is a convex combination of the $(v_{i_j})$} of $S_k$ such that $(x-x_k) \perp \Span(S_k)$ and $\norm{x-x_k}\leq \rho(n,k)$.
+Let $S=\conv(\{v_0,v_1,\ldots,v_n\})\subseteq B_2^n$ be an $n$-dimensional simplex and $x\in S$. Then for every $k$ such that $0\leq k\leq n-1$, $S$ has a $k$-dimensional face $S_k = \conv(\{v_{i_0},v_{i_1},\ldots,v_{i_k}\})$ and a point $x_k$ in the interior of $S_k$ such that $(x-x_k) \perp \Span(S_k)$ and $\norm{x-x_k}\leq \rho(n,k)$.
 \end{lemma}
 
 \begin{proof}
@@ -339,7 +341,7 @@ As observed earlier, since $1/\Lambda_i$ is not small, we can just stick with Mo
 
 To do this, we synthesize a Markov chain whose stationary distribution is the uniform distribution on $K_i$. We run the chain for polynomially many steps, and take the resultant state as a point uniformly randomly generated from $K_i$.\\
 
-Obviously, we want Markov chains that converge to the stationary distribution very rapidly (in polynomial time) since that is the main part of the algorithm that must be made efficient. To restrict ourselves to finding the uniform distribution \textit{within} $K_i$, we skip any move where the random walk attempts to leave $K_i$.\footnote{For the hit-and-run strategy we describe later, this is unimportant since it never even tries to leave the body.} At the same time, we count how often we are in $K_{i-1}\subseteq K_i$. In the two algorithms we discuss, we modify this to a Metropolis chain, the idea of which is discussed at the end of \Cref{sec: 4.2.4} \\
+Obviously, we want Markov chains that converge to the stationary distribution very rapidly (in polynomial time) since that is the main part of the algorithm that must be made efficient. To restrict ourselves to finding the uniform distribution \textit{within} $K_i$, we skip any move where the random walk attempts to leave $K_i$. For the hit-and-run strategy we shall describe later, this is unimportant since it never even tries to leave the body. At the same time, we count how often we are in $K_{i-1}\subseteq K_i$. In the two algorithms we discuss, we modify this to a Metropolis chain, the idea of which is discussed at the end of \Cref{sec: 4.2.4}.\\
 
 Succinctly, we use ``Multiphase Monte Carlo Markov Chain methods" for volume computation. We call the random walk ``rapidly mixing" if it gets sufficiently close to the stationary distribution in polynomially many steps.\\
 

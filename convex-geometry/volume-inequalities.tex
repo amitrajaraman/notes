@@ -1,3 +1,5 @@
+%!TEX root = ./main.tex
+
 \section{Volume Inequalities}
 
 \subsection{Spherical Sections of Symmetric Bodies}
@@ -116,7 +118,7 @@ Note that $M$ is a universal constant independent of \textit{everything}. Here t
 
 \subsubsection{Brunn's Theorem}
 
-Consider some convex body $K$ in $\R^2$ and the map $v:\R\to\R$ such that $r$ maps to the length (the Lebesgue measure in $\R$) of the intersection of the line $x=r$ with the body $K$. We can think of this as ``collapsing" the body onto the $x$-axis like a deck of cards. To understand this better, consider the following image which represents the graph of $v$ for $K$.\footnote{Source: An Introduction to Modern Convex Geometry by Keith Ball.}
+Consider some convex body $K$ in $\R^2$ and the map $v:\R\to\R$ such that $r$ maps to the length (the Lebesgue measure in $\R$) of the intersection of the line $x=r$ with the body $K$. We can think of this as ``collapsing" the body onto the $x$-axis like a deck of cards. To understand this better, consider the following image (from \cite{intro-ball}) which represents the graph of $v$ for $K$.
 
 \begin{center}
     \includegraphics{brunn-shakedown.jpg}
@@ -389,7 +391,7 @@ If $(v_i)_1^m$ are vectors in $\R^n$ and $(p_i)_1^m$ are positive numbers satisf
 \[ \sum_i \frac{1}{p_i} = n \]
 and $(f_i)_1^m$ are non-negative measurable functions on $\R$, then the expression
 \[ \dfrac{\displaystyle\int_{\R^n} \displaystyle\prod_{i=1}^m f_i(\langle x,v_i\rangle) }{\displaystyle\prod_{i=1}^m \norm{f_i}_{p_i}} \]
-is ``maximized"\footnote{there are degenerate cases for which the maximum is not attained} when the $(f_i)$ are appropriate Gaussian densities $f_i(x) = e^{-\alpha_i x^2}$, where each $\alpha_i$ depends on the $(p_i)$, $(v_i)$, $m$, and $n$.
+is ``maximized"\footnote{the quotation marks because are degenerate cases for which the maximum is not attained} when the $(f_i)$ are appropriate Gaussian densities $f_i(x) = e^{-\alpha_i x^2}$, where each $\alpha_i$ depends on the $(p_i)$, $(v_i)$, $m$, and $n$.
 \end{theorem}
 
 However, this seems quite unwieldy. The constants $\alpha_i$ are quite difficult to compute since they result from non-linear equations of all the variables. When we talk about convex bodies however, this issue completely disappears and gives a surprising connection back to \nameref{fritz john's theorem}!
