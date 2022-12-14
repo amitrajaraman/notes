@@ -1,0 +1,246 @@
+%!TEX root = ./main.tex
+
+\section{Fundamentals}
+
+\subsection{Introduction}
+
+	The sum-of-squares technique, at its most basic form, is a way of determining whether for some polynomial $p$ over $\R^n$, $p(x) \ge 0$ for $x$ in some base set. For now, suppose that our ``base set'' is $\{0,1\}^n$. Elegantly, it manages to convert \emph{disproofs} of such inequalities to \emph{algorithms} to determine a point where $p(x) < 0$. \\
+	More concretely, we shall show non-negativity by expressing $p$ as a \emph{sum of squares} of \emph{low degree} polynomials (while low degree is not technically required, it makes the converted algorithm efficient).
+	\begin{fdef}[Sum-of-squares proof]
+		Given a polynomial $f$ in variables $x_1,\ldots,x_n$, a \emph{degree $d$ sum-of-squares proof} or \emph{degree $d$ sum-of-squares certificate} (abbreviated SoS proof or SoS certificate) of $f \ge 0$ is a set $\{g_1,\ldots,g_m\}$ of polynomials of degree at most $d/2$ such that
+		\begin{equation}
+			\label{eqn: base-sos}
+			f(x) = \sum_{i=1}^m g_i^2(x)
+		\end{equation}
+		for all $x$.
+		If $f$ has a degree $d$ sum-of-squares certificate, we write that
+		\[ \vdash_d f(x) \ge 0. \]
+		Let $\mathcal{A}$ be a set of constraints of the form $A_i(x) = 0$ or $B_j(x) \ge 0$ for $i \in [k], j \in [\ell]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{g_1,\ldots,g_m\}$ of polynomials of degree at most $d/2$ such that \eqref{eqn: base-sos} holds for all $x$ satisfying the constraints in $\mathcal{A}$. If such a set exists, we write
+		\[ \mathcal{A} \vdash_d f \ge 0. \]
+	\end{fdef}
+	We always assume that $d$ in this context is even.
+
+	Note that simple set restrictions can be captured by the set of constraints. In particular, we can check restrict ourselves to the boolean hypercube $\{-1,1\}^n$ by having $\mathcal{A}$ contain $x_i^2 = 1$ for all $i$. 
+	Note that the set of functions with degree $d$ SoS proofs of non-negativity forms a closed convex cone.
+
+	\begin{fprop}
+		\label{prop: deg-2n-sos}
+		Any non-negative $f : \{-1,1\}^n \to \R$ has a degree $2n$ sum-of-squares proof.
+	\end{fprop}
+	\begin{proof}
+		Recall that any function $h : \{-1,1\}^n \to \R$ can be expressed as a polynomial of degree at most $n$ as
+		\[ h(x) = \sum_{S \subseteq [n]} \hat{f}(S) x_S, \]
+		where $x_S = \prod_{i \in S} x_i$ with the convention $x_\emptyset = 1$. Knowledgeable readers may recognize this as the \emph{Fourier expansion} of $h$ -- we omit the details of why such an expansion exists, but refer the reader to the excellent text by O'Donnell \cite{bfa_od} for more details. In particular, $\sqrt{f}$ is a polynomial of degree at most $n$, so squaring both sides we get that $f$ has a degree $2n$ SoS proof.
+	\end{proof}
+
+	The above is \emph{not} true in general; not every non-negative polynomial $f : \R^n \to \R$ can be written as a sum of squares.
+
+	\begin{definition}
+		Given a vector $y \in \R^n$, the vector $y^{\otimes k} \in \R^{n^d}$ has entries indexed by elements of $[n]^d$, with the $\alpha$th entry being $\prod_{j \in d} y_{\alpha_j}$. Also denote $v_k(x)$ to be the size $\binom{n+k}{k}$ vector with entries equal to all the monomials of $x$ of degree at most $k$.
+	\end{definition}
+	Note that for $x \defeq (x_1,\ldots,x_n) \in \R^n$, any monomial of degree at most $d/2$ appears in the vector $(1,x)^{\otimes d/2}$, where $(1,x) = (1,x_2,\ldots,x_n) \in \R^{n+1}$. Also recall that a matrix $A$ is said to be positive semidefinite, denoted $A \pge 0$, if $x^\top A x \ge 0$ for all vectors $x$, which is equivalent to asserting that all eigenvalues of the matrix are non-negative.
+
+	\begin{fprop}
+		\label{prop: sos-sdp-equiv}
+		Let $f$ be a polynomial. $f$ has a degree $d$ sum-of-squares proof iff there exists $A \pge 0$ such that
+		\begin{equation}
+			\label{eqn: sos-sdp-equiv}
+			f(x) = \langle  v_{d/2}(x) , A v_{d/2}(x) \rangle.
+		\end{equation}
+	\end{fprop}
+	\begin{proof}
+		For the forward direction, suppose that $f = \sum_{i=1}^m g_i^2$, with $g_i(x) = v_i^\top v_{d/2}(x)$ by writing it out in the monomial basis. Then,
+		\begin{align*}
+			f(x) &= \sum_{i=1}^{m} v_{d/2}(x)^\top v_i v_i^\top v_{d/2}(x) \\
+				&= \left\langle v_{d/2}(x) , \underbrace{\sum_{i=1}^m v_iv_i^\top}_{A} v_{d/2}(x) \right\rangle.
+		\end{align*}
+		The backward direction is straightforward by decomposing $A$ as $\sum \lambda_i v_i v_i^\top$, where each $\lambda_i \ge 0$, and observing that each $v_i^\top v_{d/2}(x)$ is a polynomial of degree at most $d/2$.
+	\end{proof}
+	As a corollary, this implies that if an $f$ has a degree $d$ SoS proof, it has one with at most $\binom{n+d}{d}$ squares.
+	Also note that \cref{eqn: sos-sdp-equiv} is \emph{linear} in the elements of $A$.
+
+	If we bump up a function by enough, we can ensure non-negativity. It turns out that we can do the same to ensure SoS-ness.
+	\begin{flem}
+		\label{lem:large-enough-sos}
+		Let $f:\{-1,1\}^n \to \R$ be any function of degree at most $d$. For sufficiently large $L$, $L+f$ has a degree $d$ SoS certificate.
+	\end{flem}
+	\begin{proof}
+		Note that for any $S$, $1+x_S \ge 0$ has a degree $\left\lceil|S|/2\right\rceil$ SoS proof. Indeed, setting $S = T_1 \sqcup T_2$ for $T_1,T_2$ of (almost) equal size, $1+x_S = \frac{1}{2}(x_{T_1} + x_{T_2})^2$. Similarly, $1-x_S$ has a degree $|S|$ SoS proof as well. Therefore,
+		\[ \sum_{|S| \le d} |\hat{f}(S)| + \sum_{|S| \le d} \hat{f}(S) x_S = \sum_{|S| \le d} |\hat{f}(S)|(1 + \sign(\hat{f}(S))x_S) \]
+		has a degree $d$ SoS certificate, so the statement is true with $L = \sum_{|S| \le d} \hat{f}(S)$.
+	\end{proof}
+
+\subsection{Semidefinite Programming}
+
+	The reader is likely familiar with \emph{linear programming}, where we are interested in
+	\[ \min_{x \in \mathcal{P}} c^\top x, \text{ where } \mathcal{P} = \{ x \ge 0 : Ax = b \}. \]
+	Although a linear program may in general have inequalities in the constraints, we may merge these into the $x \ge 0$ condition by introducing slack variables (if we have $\sum_i a_i x_i \ge 0$, we may add a non-negative variable $y$ and make it $\sum_i a_i x_i - y = 0$). In \emph{semidefinite programming}, the setting is mostly the same, albeit with the minor change that we represent the variables by a matrix instead of a vector, and we additionally have that this matrix is positive semidefinite. More concretely, denoting
+	\[ \langle C,X\rangle = \sum_{i,j} C_{ij} X_{ij}, \]
+	we are interested in
+	\[ \min_{X \in \mathcal{S}} \langle C,X\rangle, \text{ where } \mathcal{S} = \{ X \pge 0 : \langle A_i,X\rangle = b_i \text{ for $i \in [m]$} \}. \]
+	We interchangeably use $\mathcal{S}$ to denote the set of constraints and the corresponding body.
+	\Cref{prop: sos-sdp-equiv} suggests a link between SoS proofs and SDPs. A natural question is: can we solve SDPs efficiently?\\
+	Note that the set of all PSD matrices $X$ forms a convex cone. In combination with the linear constraints, the intersection of this cone and the affine subspace form a so-called ``spectrahedron'', which we would like to minimize our quantity over. Note that any linear program is a semidefinite program, by enforcing that all off-diagonal elements of the matrix are zero. To answer our earlier question, it turns out that we cannot solve SDPs exactly.\footnote{It is not even known if this is in \textsf{NP}! It is known that it is in \textsf{PSPACE} however.} However, if we enforce certain structural restrictions, we can solve them approximately (up to a small additive error).
+
+	\begin{fdef}[Separation Oracle]
+		For a convex body $K \subseteq \R^n$, a \emph{(strong) separation oracle} for $K$ does the following given as input any $x \in K$.
+		\begin{enumerate}
+			\item if $x \in K$, it returns \textsf{yes}.
+			\item if $x \not\in K$, it returns \textsf{no}, and in addition a vector $a$ and real $b$ such that $\langle a,y\rangle \ge b$ for all $y \in K$ and $\langle a,x\rangle < b$  -- this is a so-called ``separating hyperplane'' that separates $x$ and $K$.
+		\end{enumerate}
+	\end{fdef}
+
+	More generally, we can efficiently minimize an inner product over a convex (bounded) body up to an additive error of $\epsilon$, given an efficient weak separation oracle.
+
+	\begin{ftheo}
+		Let $f : \{-1,1\}^n \to \R$ have a degree $d$ sum-of-squares proof of non-negativity. Then, for $\epsilon > 0$, there exists an algorithm that finds a sum-of-squares proof of $f+\epsilon$ in $\poly(n^d,\log(1/\epsilon))$.
+	\end{ftheo}
+
+	The high-level idea of the algorithm is as follows.\\
+	We first solve the ``feasibility problem'' of finding a point in a body $K$, given that $B(c,r) \subseteq K \subseteq B(0,R)$. We begin by setting $\mathcal{E}^{(0)} = B(0,R)$. Given the ellipsoid $\mathcal{E}^{(i)}$, if its center returns \textsf{yes}, we return the point itself. Otherwise, we use the separating hyperplane to get a halfspace $H$ in which $K$ is contained, and set $\mathcal{E}^{(i+1)}$ to be the smallest ellipsoid containing $\mathcal{E}^{(i)} \cap H$. This algorithm runs in $\poly(n,\size(K)) \log(R/r)$ -- the proof amounts to showing that the volume of the ellipsoid decreases by a factor of at least $\exp(1/2(n+1))$ at each stage, and we have a lower bound on the volume of $K$ by $\vol(B(0,r))$.\\
+	We can slightly modify this algorithm to one that approximately solves the optimization version of maximizing $c^\top x$ as well. Once we get a point $\alpha$ in the body, we begin looking at $K \cap \{x : c^\top x > c^\top \alpha\}$ and repeat the feasibility algorithm. This is repeatedly done until we can guarantee that we are within $\epsilon$ of the optimum. The only non-trivial part of this algorithm is showing that we can use the oracle to construct an oracle for the new body $K \cap \{x : c^\top x > c^\top \alpha\}$.\\
+	To complete the connection to SDPs, we require that the SDP constraints $\mathcal{S}$ admits an efficient weak separation oracle; we omit the details of this. Next, we require that the body $\mathcal{S}$ contains a ball and is contained in a ball. The former is not true in general because the constraints typically make our body lower-dimensional (a subspace). To get around this, we introduce an additive error in each the contraints, so the new constraints are $|\langle A,X\rangle - b_i| \le \epsilon$ for each $i$. In this case, there is a ball of radius $O( (\epsilon/\|A\|_F)^n )$ contained in the body, where $\|A\|_F^2 = \sum_{i,j,k} (A_i)_{jk}^2$.\\
+	In our context of finding $X$ such that $f(x) = v_{d/2}(x)^\top X v_{d/2}(x)$, we know that $\|A\|_F^2 \le \Tr(A)^2 \le \hat{f}(\emptyset)^2$, so the body is bounded as well.\\
+
+	Like how LPs have duals, so do SDPs. If we have the primal
+	\[ \min_{X \in \mathcal{S}} \langle C,X\rangle , \text{ where } \mathcal{S} = \left\{ X \pge 0 : \langle A_i,X\rangle = b_i \text{ for $i \in [m]$} \right\}, \]
+	its dual is
+	\[ \max_{y \in \mathcal{S}^D} b^\top y, \text{ where } \mathcal{S}^D = \left\{ S \pge 0 : C - \sum_{i=1}^m y_i A_i = S \right\}. \]
+	The PSDness condition in the dual just says that $C \pge \sum_{i=1}^m y_i A_i$.
+
+	\begin{fprop}[Weak Duality]
+		Let $X$ and $y$ be solutions to the primal and dual SDPs respectively. Then, $\langle C,X\rangle \ge b^\top y$.
+	\end{fprop}
+	\begin{proof}
+		We have
+		\begin{align*}
+			\langle C,X\rangle &= \left\langle \sum_{i=1}^m y_i A_i + S , X \right\rangle \\
+				&= \sum_{i=1}^m y_i \langle A_i,X\rangle + \langle S,X\rangle \\
+				&= b^\top y + \langle S,X\rangle \ge b^\top y.
+		\end{align*}
+		The final inequality requires showing that if $S,X \pge 0$, then $\langle S,X\rangle \ge 0$% -- this is called the \emph{Schur product theorem}
+		; we omit the details of the proof.
+	\end{proof}
+
+	In linear programming, we have strong duality which asserts that the two optima are in fact \emph{equal}. However, in SDPs, some mild conditions are required for this to be true. 
+
+	\begin{ftheo}[Strong duality]
+		Let $\mathcal{S}$ be the set of constraints of a primal SDP and $\mathcal{S}^D$ the set of constraints in its dual, such that the two have optima $\alpha^*,\beta^*$. Then, $\langle C,\alpha^*\rangle = \langle b,\beta^*\rangle$ if
+		\begin{enumerate}
+			\item the spectrahedron $\mathcal{S}$ is non-empty and there exists $\beta$ such that $\sum_{i \in [m]}\beta_i A_i - C \pg 0$, or
+			\item the spectrahedron $\mathcal{S}^D$ is non-empty and there exists $\alpha \pg 0$ such that $ \langle A,\alpha\rangle = b_i$ for all $i \in [m]$.
+		\end{enumerate}
+		As a corollary, one may show that $\langle C,\alpha^*\rangle = \langle b,\beta^*\rangle$ if the set of optimal solutions of either of the two SDPs is non-empty and bounded.
+	\end{ftheo}
+
+	We omit the (rather involved) proof of the above.
+
+\subsection{Pseudoexpectations}
+
+	Let us again restrict ourselves to $\{-1,1\}^n$ for a while. We have established one link between SoS proofs and SDPs, and now we shall establish another link between them and the following.
+
+	\begin{fdef}[Pseudodistribution]
+		\label{def: pseudodistrib}
+		A \emph{degree $d$ pseudodistribution} is a function $\mu : \{-1,1\}^n \to \R$ such that the expectation operator $\pE_{\mu}$ defined by $\pE_{\mu} f = \sum_{x \in \{-1,1\}^n} f(x) \mu(x)$ satisfies
+		\begin{enumerate}[label=(\alph*)]
+			\item $\pE_\mu 1 = 1$, and
+			\item for all $f$ of degree at most $d/2$, $\pE_\mu f^2 \ge 0$.
+		\end{enumerate}
+		In this case, $\pE_\mu$ is called a \emph{pseudoexpectation}.
+	\end{fdef}
+
+	Analogous to \Cref{prop: deg-2n-sos}, we get that any degree $\ge 2n$ pseudodistribution is an actual distribution, in the sense that $\mu \ge 0$. Analogous to \Cref{prop: sos-sdp-equiv}, we get the following.
+
+	\begin{fprop}
+		\label{prop: pe-characterization}
+		$\pE$ is a degree $d$ pseudoexpectation iff
+		\begin{enumerate}[label=(\alph*)]
+			\item $\pE 1 = 1$, and
+			\item $\pE v_{d/2}(x) v_{d/2}(x)^\top \pge 0$. 
+		\end{enumerate}
+	\end{fprop}
+	\begin{proof}
+		Note that for any vector $(\hat{f})$ of Fourier coefficients of a degree $\le d/2$ function $f : \{-1,1\}^n \to \R$ (so $f(x) = \hat{f}^\top v_{d/2}(x)$),
+		\begin{align*}
+			\pE f^2 &= \pE \left(\sum_{|S| \le d} \hat{f}(S) x_S\right)^2 \\
+				&= \pE \hat{f}^\top v_{d/2}(x) v_{d/2}(x)^\top \hat{f} \\
+				&= \hat{f}^\top \left( \pE v_{d/2}(x) v_{d/2}(x)^\top \right) \hat{f}.
+		\end{align*}
+		To conclude, note that $\pE v_{d/2}(x) v_{d/2}(x) \pge 0$ iff $\hat{f}^\top \left( \pE v_{d/2}(x) v_{d/2}(x)^\top \right) \hat{f} \ge 0$ for all vectors $\hat{f}$.
+	\end{proof}
+
+	Given any function that is not non-negative everywhere, there exists some distribution $\mu$ such that $\E_\mu f < 0$. Ideally, we would like a similar result in order to distinguish between functions that have SoS certificates of degree $d$ and those that don't.
+
+	\begin{ftheo}
+		\label{theo: sos-pe-equiv}
+		$f$ has a degree $d$ sum-of-squares proof iff for all degree $d$ pseudoexpectations $\pE$, $\pE f \ge 0$.
+	\end{ftheo}
+	Equivalently, $f$ does not have a degree $d$ sum-of-squares proof iff there exists a degree $d$ pseudoexpectation $\pE$ such that $\pE f < 0$.
+	\begin{proof}
+		The forward direction is straightforward by \Cref{def: pseudodistrib}(b). For the backward direction, suppose instead that $f$ does not have a degree $d$ SoS proof. Then, there exists a separating hyperplane between $f$ and this set, that is, some degree $d$ pseudoexpectation $\pE$ such that $\pE f < 0$. If we manage to show that $\pE 1 > 0$, we are done since we can then rescale $\mu$ to make it exactly equal to $1$. By \Cref{lem:large-enough-sos}, we have $L > 0$ such that $\pE (f+L) \ge 0$. Since $\pE f < 0$, this means that $\pE L = L \cdot \pE 1 > 0$, completing the proof.
+	\end{proof}
+
+	% Using our earlier discussion, given a function $f$,
+	% \begin{enumerate}
+	% 	\item if $f$ has a degree $d$ SoS certificate of positivity, we may establish so in $\poly(n^d,1/\epsilon,\size(f))$ time, and
+	% 	\item if $f$ does not have a degree $d$ SoS certificate of positivity, we may find in $\poly(n^d,1/\epsilon,\size(f))$ time a pseudoexpectation $\pE$ such that $\pE f < \epsilon$.
+	% \end{enumerate}
+	Using our earlier discussion, given a function $f$ without a degree $d$ SoS certificate of positivity, we may find in $\poly(n^d,1/\epsilon,\size(f))$ time a pseudoexpectation $\pE$ such that $\pE f < \epsilon$.
+
+\subsection{Application: Max-cut}
+
+	In this subsection, let us describe how the content of the previous three subsections interact through an example, and give an approximation algorithm for the max-cut problem.
+
+	\begin{question*}
+		Given a graph $G = (V,E)$, find $S \subseteq V$ such that the size of the cut $E(S,S^c) = \left\{ \{i,j\} \in E : i \in S, j \in S^c \right\}$ is maximized.
+	\end{question*}
+
+	Unlike min-cut, which may be solved in polynomial time using flow, the above is \textsf{NP}-complete.
+
+	One basic approximation algorithm was proposed by Erd\H{o}s, which merely returns a random cut. With constant probability, the returned cut is a $1/2$-approximation of the max-cut. We shall in this algorithm study an algorithm due to Goemans and Williamson \cite{gw-maxcut}.\\
+	Assume wlog that $V = [n]$, and identify any $S \subseteq V$ with the vector in $\{-1,1\}^n$ with a $1$ at precisely those vertices in $S$. Note that the function defined by
+	\[ f_G(x) = \frac{1}{4} \sum_{ij \in E} (x_i - x_j)^2 = \frac{1}{2} \sum_{ij \in E} (1 - x_ix_j). \]
+	on input $S$ returns precisely the size of the cut corresponding to $S$. Equivalently, considering the \emph{graph Laplacian} $L_G \defeq D_G - A_G$, where $D_G$ is the diagonal matrix of degrees and $A_G$ is the adjacency matrix, we have
+	\[ f_G(x) = \frac{1}{4} x^\top L_G x = \frac{1}{4} \langle L_G , xx^\top \rangle. \]
+	We are interested in $\max_{x \in \{-1,1\}^n} f_G(x) \eqdef \opt(G)$. %Now, inspired by SDPs, consider the relaxation where instead of looking at $\langle L,xx^\top\rangle$, we look at $\frac{1}{4}\langle L,X\rangle$ together with the constraint that $X \pge 0$. We also fix the diagonal entries of $X$ to be $1$.
+
+	\begin{ftheo}
+		\label{eqn: gw-sos}
+		Set $\aGW \defeq \min_{\rho \in [-1,1]} \frac{2\arccos(\rho)}{\pi(1-\rho)} \approx 0.8786$. Then,
+		\[ \frac{\opt(G)}{\aGW} - f_G(x) \ge 0 \]
+		has a degree $2$ sum-of-squares certificate.
+	\end{ftheo}
+
+	Let $\pE_\opt$ be a pseudoexpectation that maximizes $\pE_\opt f_G$ as $\opt_{\text{SOS}_2}(G)$. Clearly, $\opt_{\SOS_2}(G) \ge \opt(G)$. Furthermore, by the previous theorem,
+	\[ \opt(G) \le \opt_{\text{SOS}_2}(G) \le \frac{1}{\aGW} \opt(G). \]
+	By the discussion at the end of the previous subsection, we can find in $\poly(n,1/\epsilon)$ a pseudodistribution $\mu$ such that
+	\[ \pE_\mu f_G \ge \opt_{\text{SOS}_2}(G) - \epsilon. \]
+	So,
+	\[ \frac{1}{\aGW} \opt(G) \ge \pE_\mu f_G \ge \opt(G) - \epsilon. \]
+
+	\begin{flem}
+		\label{eqn: gw-pd-to-rd}
+		Let $\mu$ be a degree $2$ pseudodistribution on $\{-1,1\}^n$. Then, there exists a (``real'') distribution $\mu'$ on $\{-1,1\}^n$ such that
+		\[ \E_{\mu'} f_G \ge \aGW \cdot \pE_{\mu} f_G. \]
+	\end{flem}
+	Further, it is possible to efficiently sample from $\mu'$ given $\mu$. Plugging this back into our previous sequence of equations,
+	\[ \E_{\mu'} f_G \ge \aGW(\opt(G) - \epsilon) \ge (\aGW - \epsilon) \opt(G), \]
+	and efficient sampling implies that we can in $\poly(n,1/\epsilon)$ time sample a random cut $S$ such that with good probability, the size of the cut of $S$ is a $(\aGW-\epsilon)$-approximation of the max-cut.\\
+	Let us now get to the proofs of the above results.
+
+	\begin{proof}[Proof that \Cref{eqn: gw-pd-to-rd} implies \Cref{eqn: gw-sos}]
+		It suffices to show that for all pseudodistributions $\pE_\mu$,
+		\[ \pE_\mu \left[ \frac{\opt(G)}{\aGW} - f_G \right] \ge 0. \]
+		Equivalently, we would like to show that
+		\[ \pE_\mu f_G \le \frac{\opt(G)}{\aGW}. \]
+		Letting $\mu'$ be a distribution as in \Cref{eqn: gw-pd-to-rd},
+		\[ \pE_\mu f_G \le \frac{1}{\aGW} \E_{\mu'} f_G \le \frac{1}{\aGW} \opt(G). \qedhere \]
+	\end{proof}
+
+	\begin{proof}[Proof of \Cref{eqn: gw-pd-to-rd}]
+		We may assume wlog that $\pE_\mu x = 0$, by changing $\mu(x)$ to $\frac{\mu(x) + \mu(-x)}{2}$ -- note that this procedure does not change $\pE_\mu f_G$ because $f_G(x) = f_G(-x)$. Using \Cref{prop: pe-characterization}(b) and recalling that any principal submatrix of a PSD matrix is PSD, $\pE_\mu xx^\top \pge 0$. So, let $\nu$ be a normal distribution on $\R^n$ with mean $0$ and covariance matrix $\pE_\mu xx^\top$. Finally, define $\mu'$ by the process that samples a vector $v$ according to $\nu$, and returning $\sign(\nu)$ -- this is well-defined with probability $1$. Note that an $(x_i - x_j)^2$ term in $f_G$ contributes to the cut iff $v_i \ne v_j$. That is,
+		\[ \E_{\mu'} f_G = \sum_{ij \in E} \Pr[\sign(v_i) \ne \sign(v_j)]. \]
+		Set $\rho_{ij} = \E_{x \sim \mu}[x_i x_j]$. Then, it may be shown that
+		\[ \Pr[\sign(v_i) \ne \sign(v_j)] = \frac{2\arccos(\rho_{ij})}{\pi(1-\rho_{ij})} \ge 4\aGW, \]
+		proving the result.
+	\end{proof}
