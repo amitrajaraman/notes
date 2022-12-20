@@ -118,8 +118,7 @@
 				&= \sum_{i=1}^m y_i \langle A_i,X\rangle + \langle S,X\rangle \\
 				&= b^\top y + \langle S,X\rangle \ge b^\top y.
 		\end{align*}
-		The final inequality requires showing that if $S,X \pge 0$, then $\langle S,X\rangle \ge 0$% -- this is called the \emph{Schur product theorem}
-		; we omit the details of the proof.
+		The final inequality requires showing that if $S,X \pge 0$, then $\langle S,X\rangle \ge 0$ -- this is a simple corollary of the \nameref{schur-prod-thm} we shall see later, using $\mathbf{1}^\top (S \circ X) \mathbf{1} \ge 0$.
 	\end{proof}
 
 	In linear programming, we have strong duality which asserts that the two optima are in fact \emph{equal}. However, in SDPs, some mild conditions are required for this to be true. 
@@ -187,60 +186,3 @@
 	% \end{enumerate}
 	Using our earlier discussion, given a function $f$ without a degree $d$ SoS certificate of positivity, we may find in $\poly(n^d,1/\epsilon,\size(f))$ time a pseudoexpectation $\pE$ such that $\pE f < \epsilon$.
 
-\subsection{Application: Max-cut}
-
-	In this subsection, let us describe how the content of the previous three subsections interact through an example, and give an approximation algorithm for the max-cut problem.
-
-	\begin{question*}
-		Given a graph $G = (V,E)$, find $S \subseteq V$ such that the size of the cut $E(S,S^c) = \left\{ \{i,j\} \in E : i \in S, j \in S^c \right\}$ is maximized.
-	\end{question*}
-
-	Unlike min-cut, which may be solved in polynomial time using flow, the above is \textsf{NP}-complete.
-
-	One basic approximation algorithm was proposed by Erd\H{o}s, which merely returns a random cut. With constant probability, the returned cut is a $1/2$-approximation of the max-cut. We shall in this algorithm study an algorithm due to Goemans and Williamson \cite{gw-maxcut}.\\
-	Assume wlog that $V = [n]$, and identify any $S \subseteq V$ with the vector in $\{-1,1\}^n$ with a $1$ at precisely those vertices in $S$. Note that the function defined by
-	\[ f_G(x) = \frac{1}{4} \sum_{ij \in E} (x_i - x_j)^2 = \frac{1}{2} \sum_{ij \in E} (1 - x_ix_j). \]
-	on input $S$ returns precisely the size of the cut corresponding to $S$. Equivalently, considering the \emph{graph Laplacian} $L_G \defeq D_G - A_G$, where $D_G$ is the diagonal matrix of degrees and $A_G$ is the adjacency matrix, we have
-	\[ f_G(x) = \frac{1}{4} x^\top L_G x = \frac{1}{4} \langle L_G , xx^\top \rangle. \]
-	We are interested in $\max_{x \in \{-1,1\}^n} f_G(x) \eqdef \opt(G)$. %Now, inspired by SDPs, consider the relaxation where instead of looking at $\langle L,xx^\top\rangle$, we look at $\frac{1}{4}\langle L,X\rangle$ together with the constraint that $X \pge 0$. We also fix the diagonal entries of $X$ to be $1$.
-
-	\begin{ftheo}
-		\label{eqn: gw-sos}
-		Set $\aGW \defeq \min_{\rho \in [-1,1]} \frac{2\arccos(\rho)}{\pi(1-\rho)} \approx 0.8786$. Then,
-		\[ \frac{\opt(G)}{\aGW} - f_G(x) \ge 0 \]
-		has a degree $2$ sum-of-squares certificate.
-	\end{ftheo}
-
-	Let $\pE_\opt$ be a pseudoexpectation that maximizes $\pE_\opt f_G$ as $\opt_{\text{SOS}_2}(G)$. Clearly, $\opt_{\SOS_2}(G) \ge \opt(G)$. Furthermore, by the previous theorem,
-	\[ \opt(G) \le \opt_{\text{SOS}_2}(G) \le \frac{1}{\aGW} \opt(G). \]
-	By the discussion at the end of the previous subsection, we can find in $\poly(n,1/\epsilon)$ a pseudodistribution $\mu$ such that
-	\[ \pE_\mu f_G \ge \opt_{\text{SOS}_2}(G) - \epsilon. \]
-	So,
-	\[ \frac{1}{\aGW} \opt(G) \ge \pE_\mu f_G \ge \opt(G) - \epsilon. \]
-
-	\begin{flem}
-		\label{eqn: gw-pd-to-rd}
-		Let $\mu$ be a degree $2$ pseudodistribution on $\{-1,1\}^n$. Then, there exists a (``real'') distribution $\mu'$ on $\{-1,1\}^n$ such that
-		\[ \E_{\mu'} f_G \ge \aGW \cdot \pE_{\mu} f_G. \]
-	\end{flem}
-	Further, it is possible to efficiently sample from $\mu'$ given $\mu$. Plugging this back into our previous sequence of equations,
-	\[ \E_{\mu'} f_G \ge \aGW(\opt(G) - \epsilon) \ge (\aGW - \epsilon) \opt(G), \]
-	and efficient sampling implies that we can in $\poly(n,1/\epsilon)$ time sample a random cut $S$ such that with good probability, the size of the cut of $S$ is a $(\aGW-\epsilon)$-approximation of the max-cut.\\
-	Let us now get to the proofs of the above results.
-
-	\begin{proof}[Proof that \Cref{eqn: gw-pd-to-rd} implies \Cref{eqn: gw-sos}]
-		It suffices to show that for all pseudodistributions $\pE_\mu$,
-		\[ \pE_\mu \left[ \frac{\opt(G)}{\aGW} - f_G \right] \ge 0. \]
-		Equivalently, we would like to show that
-		\[ \pE_\mu f_G \le \frac{\opt(G)}{\aGW}. \]
-		Letting $\mu'$ be a distribution as in \Cref{eqn: gw-pd-to-rd},
-		\[ \pE_\mu f_G \le \frac{1}{\aGW} \E_{\mu'} f_G \le \frac{1}{\aGW} \opt(G). \qedhere \]
-	\end{proof}
-
-	\begin{proof}[Proof of \Cref{eqn: gw-pd-to-rd}]
-		We may assume wlog that $\pE_\mu x = 0$, by changing $\mu(x)$ to $\frac{\mu(x) + \mu(-x)}{2}$ -- note that this procedure does not change $\pE_\mu f_G$ because $f_G(x) = f_G(-x)$. Using \Cref{prop: pe-characterization}(b) and recalling that any principal submatrix of a PSD matrix is PSD, $\pE_\mu xx^\top \pge 0$. So, let $\nu$ be a normal distribution on $\R^n$ with mean $0$ and covariance matrix $\pE_\mu xx^\top$. Finally, define $\mu'$ by the process that samples a vector $v$ according to $\nu$, and returning $\sign(\nu)$ -- this is well-defined with probability $1$. Note that an $(x_i - x_j)^2$ term in $f_G$ contributes to the cut iff $v_i \ne v_j$. That is,
-		\[ \E_{\mu'} f_G = \sum_{ij \in E} \Pr[\sign(v_i) \ne \sign(v_j)]. \]
-		Set $\rho_{ij} = \E_{x \sim \mu}[x_i x_j]$. Then, it may be shown that
-		\[ \Pr[\sign(v_i) \ne \sign(v_j)] = \frac{2\arccos(\rho_{ij})}{\pi(1-\rho_{ij})} \ge 4\aGW, \]
-		proving the result.
-	\end{proof}
