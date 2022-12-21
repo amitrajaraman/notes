@@ -247,7 +247,73 @@
 
 \subsection{The bipartite support case}
 
-	In this section, we shall look at the specific case where the \emph{support} $\supp(B) \defeq \{ \{i,j\} : B_{ij} \ne 0\}$ defines a bipartite graph (on vertex set $[n]$). We also assume that $B$ is symmetric by symmetrizing it. The constant-factor approximation we shall describe is due to Alon and Naor \cite{grothendieck-alon-naor}.\\
-	Interestingly, the exact constant of approximation is an open problem, and the interested reader may look up \emph{Grothendieck's inequality} for more details. The approximation constant is known to be somewhere between $\pi/2 \approx 1.57$ and $\pi/(2\ln(1+\sqrt{2})) \approx 1.78$.\\
+	In this section, we shall look at the specific case where the \emph{support} $\supp(B) \defeq \{ \{i,j\} : B_{ij} \ne 0\}$ defines a bipartite graph (on vertex set $[n]$). We also assume that $B$ is symmetric by symmetrizing it. The constant-factor approximation we shall describe is due to Alon and Naor \cite{grothendieck-alon-naor}.
 
-	Since $\supp(B)$ is bipartite, there exists some partition $X \cup Y$ of $[n]$ such that $B_{xx'} = B_{yy'} = 0$ for any $x,x' \in X$ and $y,y' \in Y$.
+	Since $\supp(B)$ is bipartite, there exists some bipartition $X \cup Y$ of $[n]$ such that $B_{xx'} = B_{yy'} = 0$ for any $x,x' \in X$ and $y,y' \in Y$. Letting $B'$ be the submatrix of $B$ consisting of the $X$-rows and $Y$-columns (note that the submatrix consisting of the $Y$-rows and $X$-columns is then $B'^\top$) and splitting a given vector $x \in \R^{n}$ into two parts $(x_X,x_Y)$, we have that
+	\[ x^\top B x = 2x_X^\top B' x_Y. \]
+	Therefore, our optimization problem is equivalent to the following: given an arbitrary $n \times n$ matrix $B$, determine
+	\[ \max_{x,y \in \{-1,1\}^n} x^\top B y. \]
+	For simplicity, denote the above maximum by $\opt(B)$.\\
+
+	While the $B'$ we looked at above in the bipartite setting need not be square, we can assume it is by appending appropriately many rows/columns filled with zeros.\\
+	Given norms ${\color{red}{\|}}\cdot{\color{red}{\|}}$ and ${\color{olive}{\|}}\cdot{\color{olive}{\|}}$ on $\R^n$, we have an associated \emph{operator norm} on matrices defined by
+	\[ {\color{red}{\|}}A{\color{olive}{\|}} = \inf\{c \ge 0 : {\color{red}{\|}}Ax{\color{red}{\|}} \le {\color{olive}{\|}}x{\color{olive}{\|}} \text{ for all }x\in\R^n \}. \]
+	When the first norm is the $L^p$ and the second is the $L^q$, the operator norm is denoted the $\|\cdot\|_{q \to p}$ norm. That is,
+	\[ \|A\|_{q \to p} \defeq \max_{\substack{x \in \R^n \\ x \ne 0}} \frac{\|Ax\|_p}{\|x\|_q}. \]
+	Now, note that for a given $x$,
+	\[ \max_{y \in \{-1,1\}^n} x^\top B y = \max_{y \in \{-1,1\}^n} \langle Bx , y\rangle = \|Bx\|_1, \]
+	since we can just choose the sign of $y_i$ opposite to that of $(Bx)_i$. Further,
+	\begin{align*}
+		\|B\|_{\infty \to 1} &= \max_{\|x\| \le 1} \sum_i \left|\sum_j B_{ij} x_j\right| \\
+			&= \max_{|x_i| = 1} \left|\sum_j B_{ij} x_j\right| \\
+			&= \max_{x \in \{-1,1\}^n} \|Bx\|_1 = \max_{x,y \in \{-1,1\}^n} x^\top B y,
+	\end{align*}
+	where the second equality is because the summation is a convex function of the $(x_i)$, so it is maximized at a vertex of the cube $[-1,1]^n$, namely at a point in $\{-1,1\}^n$.
+	Therefore, our problem is equivalent to approximating $\|B\|_{\infty \to 1}$ for an arbitrary matrix $B \in \R^{n \times n}$.
+
+	\begin{ftheo}
+		There exists a constant $K_G$ such that
+		\[ K_G \opt(B) - x^\top B y \]
+		has a degree $2$ sum-of-squares certificate.
+	\end{ftheo}
+	Interestingly, the exact value of $K_G$ is an open problem, and the interested reader may look up \emph{Grothendieck's inequality} for more details. It is known that
+	\[ 1.57 \approx \frac{\pi}{2} \le K_G \le \frac{\pi}{2\ln(1+\sqrt{2})} \approx 1.78. \]
+	We shall give a proof due to Krivine in 1977 which yields the bound on the right.
+
+	\begin{proof}
+		This proof is slightly different from previous ones in terms of execution. We shall show that given a degree $2$ pseudodistribution $\mu$ (on $\{-1,1\}^n$), there exists a real distribution $\mu'$ such that
+		\[ \E_{\mu'} \hat{x} \hat{y}^\top = \frac{2\ln(1+\sqrt{2})}{\pi} \pE_\mu x y^\top. \]
+		Given this,
+		\begin{align*}
+			\E_{\mu'} \hat{x}^\top B \hat{y} &= \left\langle B , \E_{\mu'} \hat{x} \hat{y}^\top \right\rangle \\
+				&= \frac{2\ln(1+\sqrt{2})}{\pi} \left\langle B , \pE_{\mu} xy^\top \right\rangle = \frac{2\ln(1+\sqrt{2})}{\pi} \pE_\mu x^\top B y,
+		\end{align*}
+		so we are done by methods similar to previous proofs.
+		We shall first modify the ``covariance matrix'' of $\pE$ in some manner to get another matrix $M'$ before creating the Gaussian used in rounding. Let $c = \ln(1+\sqrt{2})$. This matrix $M'$ is defined by
+		\[ M' = \begin{pmatrix} \sinh\left[ c \pE_\mu xx^\top \right] & \sin\left[ c \pE_\mu xy^\top \right] \\ \sin\left[ c \pE_\mu yx^\top \right] & \sinh\left[ c \pE_\mu yy^\top \right] \end{pmatrix}. \]
+		We shall explain the reasoning behind this choice in the proof.
+		Then, we choose Gaussians $g,h \sim \mathcal{N}(0,M')$, and we finally define $\hat{x} = \sign(g)$ and $\hat{y} = \sign(h)$. To complete the proof, we need to show three things.
+		\begin{enumerate}[label=(\alph*)]
+			\item $\E_{g,h} \hat{x} \hat{y}^\top = (2c/\pi) \pE_{\mu} xy^\top$. Recall that
+			\[ \E\hat{x} \hat{y}^\top = \frac{2}{\pi} \arcsin[\E gh^\top].  \]
+			We want this expression on the left to be some constant times $\pE_\mu xy^\top$. So, it makes sense to choose $\E gh^\top = \sin[c \pE_\mu xy^\top]$. This means that the bottom-left and bottom-right of our modified matrix should look like that of $M'$. While this might inspire us to choose $\sin$s on the diagonal blocks as well, doing so causes problems when it comes to PSD-ness, so we choose $\sinh$ instead. The reason for the precise choice of $\sinh$ is explained when we look at why $M' \pge 0$.\\
+			Recalling the definition of $\E gh^\top$ from $M'$,
+			\[ \E[\hat{x} \hat{y}^\top] = \frac{2}{\pi} \arcsin[\E gh^\top] = \frac{2}{\pi} \arcsin[\sin[c \pE_\mu xy^\top]] = \frac{2\ln(1+\sqrt{2})}{\pi} \pE_\mu xy^\top. \]
+			\item $M' \pge 0$. We saw earlier in the proof of \Cref{prop: taylor-fM-psd} that if $M$ is PSD, so is $[M]^i$. It turns out, in fact, that if
+			\[ M = \begin{pmatrix} M_{11} & M_{12} \\ M_{21} & M_{22} \end{pmatrix} \]
+			is PSD, so is
+			\[ \begin{pmatrix} [M_{11}]^i & -[M_{12}]^i \\ -[M_{21}]^i & [M_{22}]^i \end{pmatrix}. \]
+			Indeed,
+			\[ \begin{pmatrix} v \\ w \end{pmatrix}^\top \begin{pmatrix} [M_{11}]^i & -[M_{12}]^i \\ -[M_{21}]^i & [M_{22}]^i \end{pmatrix} \begin{pmatrix} v \\ w \end{pmatrix} = \begin{pmatrix} v \\ -w \end{pmatrix}^\top \begin{pmatrix} [M_{11}]^i & [M_{12}]^i \\ [M_{21}]^i & [M_{22}]^i \end{pmatrix} \begin{pmatrix} v \\ -w \end{pmatrix} \]
+			and the matrix on the right is PSD.
+			Recalling that the Taylor series expansions of $\sin$ and $\sinh$ are given by
+			\begin{align*}
+				\sinh(x) &= \sum_{n=0}^{\infty} \frac{1}{(2n+1)!} x^{2n+1} \text{ and} \\
+				\sin(x) &= \sum_{n=0}^{\infty} \frac{(-1)^n}{(2n+1)!} x^{2n+1},
+			\end{align*}
+			it follows by a proof very similar to that of \Cref{prop: taylor-fM-psd} that $M' \pge 0$.
+			\item $M'_{ii} = 1$ for each $i$. The value of $c$ is forced by this requirement, and indeed $\sinh(\ln(1+\sqrt{2})) = 1$. \qedhere
+		\end{enumerate}
+	\end{proof}
+
+	Krivine conjectured in his original paper that $K_G$ is exactly equal to this quantity. Later however, it was shown \cite{braverman-krivine} that $K_G$ is strictly less than this.
