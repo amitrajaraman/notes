@@ -103,10 +103,28 @@
 
 	\begin{fprop}
 		\label{prop: gw-reparametr}
-		Let $G$ be a graph with $\opt(G) = (1-\delta)|E|$. For the output distribution $\mu'$ of the Goemans-Williamson algorithm, $\E_{\mu'} f_G = (1 - O(\sqrt{\delta})) |E|$.
+		Let $G$ be a graph with $\opt(G) = (1-\delta)|E|$. For the output distribution $\mu'$ of the Goemans-Williamson algorithm, $\E_{\mu'} f_G \ge (1 - \sqrt{\delta}) |E|$.
 	\end{fprop}
 	\begin{proof}
-		*** INCOMPLETE ***
+		Let
+		\[ h_G(x) = |E| - f_G(x) = \frac{1}{2} \sum_{ij \in E} 1+x_ix_j. \]
+		It suffices to show that given a degree $2$ pseudodistribution $\mu$ such that $\pE_\mu h_G = \delta |E|$, there exists a distribution $\mu'$ such that $\E_{\mu'} h_G \le \sqrt{\delta} |E|$. This distribution $\mu'$ is defined exactly the same as in the Goemans-Williamson algorithm.  We denote $g$ and $\hat{x}$ as we do in the proof.
+		Letting $\rho_{ij} = \E g_i g_j = \pE_\mu x_i x_j$, recall from the proof of \Cref{lem: gw-pd-to-rd} that $\E \hat{x}_i \hat{x}_j = \frac{2}{\pi} \arcsin \rho_{ij}$. This implies that
+		\[ \E_{\mu'} h_G = \E_{\mu'} \sum_{ij \in E} \frac{1+\hat{x}_i \hat{x}_j}{2} = \frac{1}{2} \sum_{ij \in E} 1 + \frac{2}{\pi} \arcsin(\rho_{ij}). \]
+		Also note that
+		\begin{equation}
+			\label{eqn: 2.2}
+			\sup_{\rho \in [-1,1]} \frac{\left(1+(2/\pi)\arcsin(\rho)\right)^2}{1+\rho} = 2.
+		\end{equation}
+		Consequently,
+		\begin{align*}
+			\left(\E_{\mu'} h_G\right)^2 &= \frac{1}{4} \left(\sum_{ij \in E} 1+\frac{2}{\pi} \arcsin(\rho_{ij})\right)^2 \\
+				&\le \frac{|E|}{4} \sum_{ij \in E} \left( 1 + \frac{2}{\pi} \arcsin(\rho_{ij}) \right)^2 \qquad\qquad \text{(Cauchy-Schwarz)} \\
+				&\stackrel{\eqref{eqn: 2.2}}{\le} \frac{|E|}{2} \sum_{ij \in E} 1+\rho_{ij} \\
+				&= |E| \cdot \E\left[\sum_{ij \in E} \frac{1+g_ig_j}{2}\right] \\
+				&= |E| \cdot \pE_\mu h_G = \delta |E|^2,
+		\end{align*}
+		so $\E_{\mu'} h_G \le \sqrt{\delta} |E|$, completing the proof.
 	\end{proof}
 
 	Is this rounding we have done, called ``Gaussian rounding'', the best possible? It turns out that it is not, and we can in general do better using the ``RPR$^2$'' scheme of roundings. We shall soon study this in more detail.\\
@@ -319,3 +337,21 @@
 	Krivine conjectured in his original paper that $K_G$ is exactly equal to this quantity. Later however, it was shown \cite{braverman-krivine} that $K_G$ is strictly less than this.\\
 
 	Here, we looked at matrices with bipartite support. More generally, if the support of the matrix is some graph $G$, \cite{generalized-grothendieck-graph-supp} give an $O(\log(\chi(G)))$-approximation algorithm. They also show it is get an $o(\log(\omega(g)))$-approximation algorithm. Recall that $\chi(G)$ and $\omega(G)$ are the chromatic number and clique number of a graph $G$ respectively.
+
+
+	% explain cut again, introduce normalized cut/conductance \varphi_G(S) E(S,S')/(d/n)|S||S'|. denominator is expected number of edges in (d/n) Erdos R\'{e}nyi. \varphi_G = \min \varphi_G(S) = conductance/expansion/uniform sparsest cut problem.
+	% explain the bottle-neck sort of thing pr[going out of S from random vertex in S]. Given $G$, it turns out that computing $\varphi_G$ is NP-hard (try as exercise, redn from max-cut)
+	% [Chawla-Kranthgamar-Kumar-Rabani-Sivakumar] UGC implies no const-factor approximation for \varphi_G. pretty crazy, since we can get const-factor approximation for max-cut and exact min-cut in poly.
+	% possible to show that \E_S \varphi_G(S) \ge 1/2... but conductance can be very small, even 0 if disconnected.
+	% \varphi_G = min_{S \subseteq V, 0 < |S| < n} ... = min_{x in {-1,1}^n} (f_G(x))/(d/n(sum_{i,j} (x_i - x_j)^2)/4) 
+	% equivalently, find \alpha such that f_G(x) - \alpha (d/4n) sum_{i,j} (x_i - x_j)^2 <--- get SoS cert for this
+	% cheeger's inequality:
+	% the thing above has a deg 2 SoS for C = 1/2 \varphi^2_G. also tight up to constants for deg 2 (cycle example again)
+	% given a deg 2 pd \mu with \pE_\mu f_G - C \pE_\mu ... \ge 0, can find a set S with expansion \varphi_G(S) = O(\sqrt{C}).
+	% when phi_G large, this is pretty good -- called expander graph. it becomes worse the smaller o(1) phi_G is.
+	% Leighton-Rao 88 gave a LP O(log(n)) approximation. improves on Cheeger when phi = o(1/log n)
+	
+	% Arora-Rao-Vazirani 04 (ARV) gave O(sqrt{log n}) approximation. based on deg 4 SoS, which is what we shall do.
+	% in earlier secs, we did some sort of local analysis where we just comapred \pE_\mu (x_i - x_j)^2 and \E_{\mu'} (x_i - x_j)^2. here, we shall do global analysis instead.
+
+	% first, let us give a local analysis which gives Leighton's O(log n).

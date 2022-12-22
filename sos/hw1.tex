@@ -1,0 +1,23 @@
+%!TEX root = ./exercises.tex
+
+\section{Homework 1}
+
+\begin{exercise}
+	Let $A$ be symmetric and $f(x) = x^\top A x$. Prove that $\|A\|_2 \|x\|_2^2 - f(x)$ is a degree $2$ sum-of-squares polynomial.
+\end{exercise}
+\begin{solution*}
+	We have
+	\[ \|A\|_2 \|x\|_2^2 - f(x) = x^\top ( \|A\|_2 \bId - A  ) x, \]
+	and the matrix $\|A\|_2 \bId - A$ is PSD by the definition of $\|A\|_2$, so we are done.
+\end{solution*}
+
+\begin{exercise}
+	Show that
+	\[ \frac{1}{k} \sum_{i \le k} a_i^2 - \frac{1}{k^2} \left(\sum_{i \le k} a_i\right)^2 \]
+	is a sum-of-squares polynomial in indeterminates $a_1,\ldots,a_k$.
+\end{exercise}
+\begin{proof}
+	It is easily checked that the given polynomial is equal to
+	\[ \frac{1}{2k^2} \sum_{i,j} (a_i - a_j)^2. \]
+\end{proof}
+
