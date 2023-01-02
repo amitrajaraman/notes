@@ -1,0 +1,102 @@
+%!TEX root = ./main.tex
+
+\clearpage
+
+\section{More applications}
+
+\subsection{Approximating conductance}
+
+	In \Cref{subsec:max-cut}, we looked at the \textsf{NP}-hard problem of max-cut. Before moving to the rest of this section where we look at conductance, let us look at the far simpler min-cut problem. The reader might know that this problem can be solved in polynomial time using the Ford-Fulkerson max-flow algorithm. Before moving to the main problem of this subsection, let us overkill min-cut by giving a randomized algorithm via SoS.\\
+	Min-cut and conductance will be our first example of degree $4$ sum-of-squares. The main reason for the degree $4$ requirement here is the following.
+
+	\begin{ftheo}[Squared Triangle Inequality]
+		For indeterminates $a,b,c \in \{-1,1\}$,
+		\[ (a-c)^2 \le (a-b)^2 + (b-c)^2 \]
+		has a degree $4$ sum-of-squares certificate.
+	\end{ftheo}
+	\begin{proof}
+		We have
+		\begin{align*}
+			\frac{1}{2}\left((a-b)^2 + (b-c)^2 - (a-c)^2\right) &= b^2 - ab - bc + ac \\
+				&= (1-bc)(1-ab) \\
+				&= \frac{1}{4} (b^2+c^2-2bc)(a^2+b^2-2ab) = \left(\frac{(b-c)(a-b)}{2}\right)^2. \qedhere
+		\end{align*}
+	\end{proof}
+
+	While we will not use it, we also state the following, which can be proved by considering a Gaussian with the same first two moments (like in \Cref{sec:quad-optim}) and using the fact that the $L^2$ metric (on $\R$) is a metric.
+
+	\begin{theorem}
+		For any degree $2$ pseudodistribution $\mu$,
+		\[ \sqrt{\pE_\mu (x_i - x_k)^2} \le \sqrt{\pE_\mu (x_i - x_j)^2} + \sqrt{\pE_\mu (x_j - x_k)^2}. \]
+	\end{theorem}
+
+	For the remainder of this subsection, let $G$ be a graph with vertex set $[n]$, and let $\pE$ be any degree $4$ pseudodistribution. We continue to denote by $f_G$ the function in \cref{eqn: fg-def}. Our proof strategy for the min-cut problem will be to give a distribution $\mu'$ such that $\E_{\mu'} f_G \le \pE_{\mu} f_G$. For any $i,j \in [n]$, denote
+	\[ D(i,j) = \pE_{\mu} \frac{1}{4} (x_i - x_j)^2 \]
+	and for non-empty $A \subseteq [n]$, $D(A,i) = D(i,A) = \min_{j \in A} D(i,j)$. Because $\mu$ is a degree $2$ pseudodistribution (degree $4$ in fact), $D(i,A) \ge 0$ for any $i,A$ and it is bounded from above by $1$. Consider the ``line embedding'' of the vertices $[n]$ on the interval $[0,1]$ defined by $i \mapsto D(i,1)$. $\mu'$ is defined by uniformly randomly choosing $t \in [0,1]$, and outputting the cut $\{i \in [n] : D(i,1) \le t\}$. An edge $\{i,j\}$ is cut with probability
+	\[ |D(j,1) - D(i,1)| = \frac{1}{4} \left|\pE_{\mu} (x_i - x_1)^2 - \pE_{\mu} (x_j - x_1)^2 \right| \le \frac{1}{4} \pE_\mu (x_i - x_j)^2 = D(i,j), \]
+	where we have used the fact that $\mu$ is degree $4$ for the squared triangle inequality.
+	Summing over all edges,
+	\[ \E_{\mu'} f_G \le \sum_{ij \in E} D(i,j) = \pE_{\mu} f_G. \]
+
+	Note that this proof works out more generally in the scenario where we have $D(i,A)$ for some set $A$ instead.
+	% While this proof may seem complete, it is not -- we require that the cut output by $\mu'$ is (almost surely) not $\emptyset$ or $[n]$. Since $D(j,A) = 0$ for any $j \in A$, the cut is never $\emptyset$. For the cut to be almost surely unequal to $[n]$, we require the existence of some $i \in [n]$ such that $D(i,A) \ne 0$. 
+
+	Let us now get to a more non-trivial problem.
+
+	\begin{fdef}
+		Given a $d$-regular graph $G = (V,E)$ with $n$ vertices and a non-empty subset $S \subsetneq V$, the \emph{conductance} or \emph{normalized cut} of $S$ is
+		\[ \Phi_G(S) = \frac{E(S,V \setminus S)}{(d/n) |S| |V \setminus S|}. \] 
+	\end{fdef}
+	The denominator can be thought of as the expected number of edges between $S$ and $S^c$ if the graph is a Erd\H{o}s-R\'{e}nyi random graph with edge probability $d/n$.
+
+	\begin{fdef}
+		Given a graph $G = (V,E)$ with $n$ vertices, the \emph{conductance} or \emph{expansion} of $G$ is
+		\[ \Phi_G = \min_{\emptyset \ne S \subsetneq V} \Phi_G(S). \]
+	\end{fdef}
+	Conductance is very closely related to the rate of convergence of the standard random walk on the graph -- a low conductance implies that there is a ``tight bottleneck'' somewhere in the graph where the walk can get stuck. Indeed, if we remove the $d/n$ in the denominator, the conductance of a set is just the probability of exiting the set if we start a random walk at a uniformly random point in it.\\
+
+	The problem of determining the conductance of a graph (and possibly a cut that attains it) is called the uniform sparsest cut problem. It is not too difficult to show that this is \textsf{NP}-hard using a reduction from max-cut. In fact, \cite{cond-appx-hard-ugc} show that the Unique Games Conjecture implies that any constant-factor approximation for $\Phi_G$ is $\mathsf{NP}$-hard! It is quite interesting how min-cut is in \textsf{P}, max-cut is \textsf{NP}-hard but we can get a good constant-factor approximation, but even that is not possible for sparsest-cut (assuming the UGC).
+
+	It is quite easy to see that
+	\[ \Phi_G = \min_{x \in \{-1,1\}^n} \frac{f_G(x)}{(d/4n) \sum_{i,j} (x_i - x_j)^2} = \min_{x \in \{-1,1\}^n} \frac{f_G(x)}{(d/n) f_{K_n}(x)}. \]
+	Minimizing this directly seems impossible using the sum-of-squares method since we are looking at a rational function that is not a polynomial. So, we instead try to get a ``large'' $\alpha$ such that
+	\[ f_G(x) - \alpha \frac{d}{n} f_{K_n}(x) \]
+	has a sum-of-squares certificate.
+	
+	\begin{ftheo}[Cheeger's Inequality]
+		There is a degree $2$ sum-of-squares certificate for
+		\[ f_G(x) - \frac{\Phi_G^2}{2} \cdot \frac{d}{n} f_{K_n}(x). \]
+	\end{ftheo}
+	Furthermore, this value of $\alpha$ is tight up to constants for degree $2$ SoS -- with the example used being the cycle again.\\
+	We omit the proof of this (standard) inequality; the reader may consult 
+	% given a deg 2 pd \mu with \pE_\mu f_G - C \pE_\mu ... \ge 0, can find a set S with expansion \varphi_G(S) = O(\sqrt{C}).
+
+	In [cite Leighton-Rao 88], Leighton-Rao gave an $O(\log n)$-approximation using linear programming. In the setting where $\Phi_G = O(1/\log n)$, this improves on Cheeger's inequality. We shall study the Arora-Rao-Vazirani (ARV) algorithm [cite ARV04], which gives an $O(\sqrt{\log n})$-approximation, based on degree $4$ sum-of-squares. \\
+	In \Cref{sec:quad-optim}, our analysis was completely local in the sense that we analyzed what happens to each $(x_i - x_j)^2$ term completely independent of the others. It might not be too ambitious to hope that some sort of global analysis is possible, wherein we show that if one term is small, then others must be large, thus forcing the entire summation to be large. Of course, our remarks before \Cref{prop: gw-reparametr} make this unlikely, at least in the setting of max-cut.\\
+	On the other hand, we shall use global analysis in the ARV algorithm. Even before ARV, it has helped in better approximations to vertex cover, graph coloring, max-cut gain etc.
+
+	\begin{ftheo}
+		Let $G$ be a $d$-regular graph with $n$ vertices. There is a degree $4$ sum-of-squares certificate for
+		\[ f_G(x) - \frac{\varphi_G}{\Theta(\sqrt{\log n})} \cdot \frac{d}{n} f_{K_n}(x). \]
+		Furthermore, given any degree $4$ pseudodistribution $\mu$ on $\{-1,1\}^n$, it is possible to find in polynomial time a set $S \subseteq V$ such that
+		\[ \varphi_G(S) \le O(\sqrt{\log n}) \cdot \frac{\pE_\mu f_G}{(d/n) \pE_\mu f_{K_n}}. \]
+	\end{ftheo}
+	\begin{proof}
+		Like in prior proofs, we shall show that given any degree $4$ pseudodistribution $\mu$, there exists a distribution $\mu'$ such that
+		\[ \frac{\E_{\mu'} f_G}{\E_{\mu'} f_{K_n}} \le O(\sqrt{\log n}) \cdot \frac{\pE_\mu f_G}{\pE_\mu f_{K_n}}. \]
+		$D(i,j) = \frac{1}{4} \pE_\mu (x_i - x_j)^2$ is in some sense the ``pseudoprobability'' that $i,j$ are separated by the cut. Because $\mu$ is a degree $2$ pseudodistribution (a degree $4$ one, in fact), this is non-negative. By the squared triangle inequality, we have that $D(i,k) \le D(i,j) + D(j,k)$ for any $i,j,k$ has a degree $4$ sum-of-squares certificate. \\
+		% OVERKILL
+		Now, given a (nonempty) set $A$ and vertex $i$, define $D(i,A) = \min_{j \in A} D(i,j)$. In the min-cut procedure above, we created the distribution by arranging all the $D(j,1)$ on a line. In fact, the same analysis works if we use $D(j,A)$ instead. To make this meaningful however, I need to ensure that the cut is non-trivial. So, I choose $t \in [0,\max_j D(1,j)]$ instead of $t \in [0,1]$.\\
+		Getting back to approximating expansion, we have a distribution $\mu'$ such that $\E_{\mu'} f_G \le \pE_{\mu} f_G$, but we would also like to show that $\E_{\mu'} f_{K_n} \ge C \cdot \pE_\mu f_{K_n}$. Denoting by $\indic(\hat{x})$ the set of vertices where $\hat{x} = 1$, we have that $\E_{\mu'} f_{K_n} = |\indic(\hat{x})|(n - |\indic(\hat{x})|)$.
+
+		% large separated sets: A, B are \Delta-separated if for all i \in A, j \in B, D(i,j) \ge \Delta and |A||B| = \Omega(n^2).
+	\end{proof}
+	% cheeger's inequality:
+	% the thing above has a deg 2 SoS for C = 1/2 \varphi^2_G. also tight up to constants for deg 2 (cycle example again)
+	% when phi_G large, this is pretty good -- called expander graph. it becomes worse the smaller o(1) phi_G is.
+	% Leighton-Rao 88 gave a LP O(log(n)) approximation. improves on Cheeger when phi = o(1/log n)
+	
+	% Arora-Rao-Vazirani 04 (ARV) gave O(sqrt{log n}) approximation. based on deg 4 SoS, which is what we shall do.
+	% in earlier secs, we did some sort of local analysis where we just comapred \pE_\mu (x_i - x_j)^2 and \E_{\mu'} (x_i - x_j)^2. here, we shall do global analysis instead. this sort of global analysis is a pretty incredible idea, and before ARV (? unsure) it helped in vertex cover, coloring graphs, max-cut gain etc
+
+	% first, let us give a local analysis which gives Leighton's O(log n).

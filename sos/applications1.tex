@@ -1,8 +1,10 @@
 %!TEX root = ./main.tex
 
-\section{Quadratic optimization on the hypercube}
+\section{Degree $2$: Quadratic optimization on the hypercube}
+\label{sec:quad-optim}
 
 \subsection{Max-cut}
+\label{subsec:max-cut}
 
 	In this subsection, let us describe how the content of the previous three subsections interact through an example, and give an approximation algorithm for the max-cut problem.
 
@@ -14,7 +16,10 @@
 
 	One basic approximation algorithm was proposed by Erd\H{o}s, which merely returns a random cut. With constant probability, the returned cut is a $1/2$-approximation of the max-cut. We shall in this algorithm study an algorithm due to Goemans and Williamson \cite{gw-maxcut}.\\
 	Assume wlog that $V = [n]$, and identify any $S \subseteq V$ with the vector in $\{-1,1\}^n$ with a $1$ at precisely those vertices in $S$. Note that the function defined by
-	\[ f_G(x) = \frac{1}{4} \sum_{ij \in E} (x_i - x_j)^2 = \frac{1}{2} \sum_{ij \in E} (1 - x_ix_j). \]
+	\begin{equation}
+		\label{eqn: fg-def}
+		f_G(x) = \frac{1}{4} \sum_{ij \in E} (x_i - x_j)^2 = \frac{1}{2} \sum_{ij \in E} (1 - x_ix_j).
+	\end{equation}
 	on input $S$ returns precisely the size of the cut corresponding to $S$. Equivalently, considering the \emph{graph Laplacian} $L_G \defeq D_G - A_G$, where $D_G$ is the diagonal matrix of degrees and $A_G$ is the adjacency matrix, we have
 	\begin{equation}
 		\label{eqn: gw-lapl}
@@ -337,21 +342,3 @@
 	Krivine conjectured in his original paper that $K_G$ is exactly equal to this quantity. Later however, it was shown \cite{braverman-krivine} that $K_G$ is strictly less than this.\\
 
 	Here, we looked at matrices with bipartite support. More generally, if the support of the matrix is some graph $G$, \cite{generalized-grothendieck-graph-supp} give an $O(\log(\chi(G)))$-approximation algorithm and also show it is impossible to get an $o(\log(\omega(g)))$-approximation algorithm -- recall that $\chi(G)$ and $\omega(G)$ are the chromatic number and clique number of a graph $G$ respectively.
-
-
-	% explain cut again, introduce normalized cut/conductance \varphi_G(S) E(S,S')/(d/n)|S||S'|. denominator is expected number of edges in (d/n) Erdos R\'{e}nyi. \varphi_G = \min \varphi_G(S) = conductance/expansion/uniform sparsest cut problem.
-	% explain the bottle-neck sort of thing pr[going out of S from random vertex in S]. Given $G$, it turns out that computing $\varphi_G$ is NP-hard (try as exercise, redn from max-cut)
-	% [Chawla-Kranthgamar-Kumar-Rabani-Sivakumar] UGC implies no const-factor approximation for \varphi_G. pretty crazy, since we can get const-factor approximation for max-cut and exact min-cut in poly.
-	% possible to show that \E_S \varphi_G(S) \ge 1/2... but conductance can be very small, even 0 if disconnected.
-	% \varphi_G = min_{S \subseteq V, 0 < |S| < n} ... = min_{x in {-1,1}^n} (f_G(x))/(d/n(sum_{i,j} (x_i - x_j)^2)/4) 
-	% equivalently, find \alpha such that f_G(x) - \alpha (d/4n) sum_{i,j} (x_i - x_j)^2 <--- get SoS cert for this
-	% cheeger's inequality:
-	% the thing above has a deg 2 SoS for C = 1/2 \varphi^2_G. also tight up to constants for deg 2 (cycle example again)
-	% given a deg 2 pd \mu with \pE_\mu f_G - C \pE_\mu ... \ge 0, can find a set S with expansion \varphi_G(S) = O(\sqrt{C}).
-	% when phi_G large, this is pretty good -- called expander graph. it becomes worse the smaller o(1) phi_G is.
-	% Leighton-Rao 88 gave a LP O(log(n)) approximation. improves on Cheeger when phi = o(1/log n)
-	
-	% Arora-Rao-Vazirani 04 (ARV) gave O(sqrt{log n}) approximation. based on deg 4 SoS, which is what we shall do.
-	% in earlier secs, we did some sort of local analysis where we just comapred \pE_\mu (x_i - x_j)^2 and \E_{\mu'} (x_i - x_j)^2. here, we shall do global analysis instead.
-
-	% first, let us give a local analysis which gives Leighton's O(log n).
