@@ -1,0 +1,31 @@
+%!TEX root = ./main.tex
+
+\section{The Bipartite Setting}
+
+A well-known result characterizing bipartite graphs with perfect matchings is the following.
+
+\begin{ftheo}[Hall's Theorem]
+	A bipartite graph $G(X,Y)$ has a perfect matching iff $|X|=|Y|$ and $|\Gamma(S)| \ge |S|$ for all $S \subseteq X$.
+\end{ftheo}
+
+\begin{fcor}
+	For $d \ge 1$, any $d$-regular bipartite graph has a perfect matching. In particular, it is decomposable into $d$ perfect matchings.
+\end{fcor}
+
+Henceforth, assume that $G$ is a bipartite graph with $|X|=|Y|\eqdef n$. Although it is easy through Hall's Theorem to figure out if $G$ \emph{has} a perfect matching, it is harder to count the number of perfect matchings. Indeed, counting turns out to be $\#\P$-hard, and even counting modulo a prime $p$ is hard. Any perfect matching of a bipartite graph may be thought of as a permutation $\sigma \in S_n$. Recall that any permutation $\pi$ has a sign
+\[ \sign(\pi) = (-1)^{\text{number of even cycles in $\pi$}}. \]
+See Section 1.1 of the author's Combinatorics I notes for more details.\\
+
+We may associate with $G$ an $n \times n$ \emph{bipartite adjacency matrix} $M$, where $M_{ij} = 1$ iff the $i$th vertex in $X$ is adjacent to the $j$th vertex in $Y$. Note that
+\[ \det(M) = \sum_{\sigma \in S_n} \sign(\sigma) \prod_{i=1}^n M_{i,\sigma(i)}. \]
+Note that the product is nonzero (and in this case equal to $1$) iff $\sigma$ corresponds to a perfect matching of $G$. Consequently, if every perfect matching has the same sign, we can count the number of perfect matchings by merely looking at the absolute value of the determinant of the bipartite adjacency matrix. One interesting problem is to determine which graphs are such thata all perfect matchings have the same sign. We also have
+\[ \perm(M) = \sum_{\sigma \in S_n} \prod_{i=1}^n M_{i,\sigma(i)} = \text{number of perfect matchings}, \]
+but unlike the determinant, the permanent is hard to compute.\\
+
+Let $M_1,M_2$ be perfect matchings of $G$. Note that $M_1 \triangle M_2$, the set comprising of the edges in precisely one of $M_1,M_2$, is a disjoint union of alternating cycles. Here, an alternating cycle means that the edges alternate being in $M_1,M_2$. $M_2$ has the same sign as $M_1$ iff there is an even number of cycles which have lengths divisible by $4$.\\
+We can use the above observation to check if all matchings have the same sign. Given a perfect matching $M$, all permutations have the same sign (as $M$) iff there exists a cycle of length $4$ with edges alternating in $M$. How do we do this? First convert the bipartite graph to a directed one by assigning to each edge a direction from $X$ to $Y$. The problem then boils down to determining if there exists an even directed cycle in the graph obtained by contracting the matching edges. This seems simple, but is in fact far from trivial. We know now due to Seymour [cite] that this is possible in polynomial time. We do not discuss the details in general. \\
+Consider the specific case where $G$ is $3$-regular. The Heawood graph is known to have all matchings of the same sign.
+\begin{fex}[Heawood graph]
+	The Heawood graph has vertex set $\Z_{14}$, 
+\end{fex}
+and we can use a construction procedure called the \emph{star product} (sometimes called \emph{splicing}) or to build up larger graphs with the same property. In fact, McCaig showed that the only $3$-regular graphs with this property are obtained in this manner from the Heawood graph. There is also only one strongly $2$-connected $2$-regular directed graph without any even cycle, which is obtained by contracting the Heawood graph. %\Z_7 with edge from x to x+1,x+3. can preserve similar to star product by u1 u2 u v1 v2 and u1' u2' u' v1' v2' by u1 u2 w v1' v2' and u1' v1 and u2' v2.
