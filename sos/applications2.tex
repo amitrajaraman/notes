@@ -89,8 +89,32 @@
 		Now, given a (nonempty) set $A$ and vertex $i$, define $D(i,A) = \min_{j \in A} D(i,j)$. In the min-cut procedure above, we created the distribution by arranging all the $D(j,1)$ on a line. In fact, the same analysis works if we use $D(j,A)$ instead. To make this meaningful however, I need to ensure that the cut is non-trivial. So, I choose $t \in [0,\max_j D(1,j)]$ instead of $t \in [0,1]$.\\
 		Getting back to approximating expansion, we have a distribution $\mu'$ such that $\E_{\mu'} f_G \le \pE_{\mu} f_G$, but we would also like to show that $\E_{\mu'} f_{K_n} \ge C \cdot \pE_\mu f_{K_n}$. Denoting by $\indic(\hat{x})$ the set of vertices where $\hat{x} = 1$, we have that $\E_{\mu'} f_{K_n} = |\indic(\hat{x})|(n - |\indic(\hat{x})|)$.
 
-		% large separated sets: A, B are \Delta-separated if for all i \in A, j \in B, D(i,j) \ge \Delta and |A||B| = \Omega(n^2).
+		% large separated sets: A, B are large \Delta-separated if for all i \in A, j \in B, D(i,j) \ge \Delta and |A|,|B| = \Omega(n).
+		% If we round according to D(j,A), then \sum_{i,j} \E (x_i - x_j)^2 \ge \Delta |B||A| = \Omega(\Delta n^2). Therefore, \pE_\mu f_G(x) \ge \Omega(\Delta n^2), so we can round with approximation ratio 1/\Theta(\Delta).
 	\end{proof}
+
+	\begin{ftheo}[Global Structure Theorem]
+		\label{arv-glob-struct}
+		Let $G$ be a $d$-regular graph and $\mu$ a degree $4$ pseudodistribution. Suppose that
+		\[ \frac{1}{n^2} \sum_{i,j} D(i,j) \ge 0.1. \]
+		Then, there exist $A,B$ that can be found in polynomial time that are $\Omega(1/\sqrt{\log n})$-separated.
+	\end{ftheo}
+	Let us first give a proof of the Leighton-Rao $O(\log n)$-approximation algorithm, which proves the above for $\Omega(1/\log n)$-separation instead.
+	\begin{proof}[Proof of weaker \nameref{arv-glob-struct}]
+		Like before, assume wlog that $\pE_\mu x = 0$, and let $g \sim \mathcal{N}(0,\pE_\mu xx^\top)$. Let $A^{(0)} = \{i : g_i \le -1\}$ and $B^{(0)} = \{i : g_i \ge 1\}$. Because $\E g_i^2 = 1$ and $\E g_i = 0$, we expect these two sets to have $\Omega(n)$ size separately. However, this is not enough, because we might have that $B^{(0)}$ is small when we condition on $A^{(0)}$ being large. So, we shall show that $\E |A^{(0)}||B^{(0)}| \ge \Omega(n^2)$. To do so, we can pretty easily show that $\Pr[g_i \le -1 \text{ and } g_j \ge 1] \ge C D(i,j)$ for some constant $C$ using arguments from earlier sections. Since $\sum_{i,j} D(i,j) = \Omega(n^2)$, we can use linearity of expectation to conclude that $\E |A^{(0)}||B^{(0)}| \ge \Omega(n^2)$.\\
+		Note that $A^{(0)}$ and $B^{(0)}$ are random variables depending on the draw of the Gaussian. While we have that for $i \in A^{(0)}, j \in B^{(0)}$, $g_j - g_i \ge 2$, we would like some fixed non-random sets $A,B$ such that for any $i \in A, j \in B$, $\E (g_i - g_j)^2 \ge \Delta$. We would like to show that if some coordinates appear in $A^{(0)},B^{(0)}$, then with good probability they are ``good'' pairs in the sense of also being $\Delta$-separated (which is a statement about the expectation, not a single draw). If we have for some pair $i,j$ that $\E (g_i - g_j)^2 \le \Delta$, then standard concentration inequalities show that $\Pr[g_j - g_i \ge 2] \le e^{-\Omega(1/\Delta)}$. However, this is still for a \emph{single} pair $i,j$, but we need to somehow deal with $\Omega(n^2)$ such pairs simultaneously; when $\Delta = O(1/\log n)$, we can use a union bound to do so.
+	\end{proof}
+
+	The original Leighton-Rao proof was based on linear programming. Consider the graph $H$ with vertex set $[n]$ and edges between pairs $ij$ iff $D(i,j) \le \Delta$. Our goal is to find $\Omega(n)$ sets $A,B$ such that there are no edges between $A$ and $B$ in $H$. Such pairs are typically called \emph{vertex separators}.\\
+	Now, $A^{(0)}$ and $B^{(0)}$ are still not necessarily vertex separators, since some ``bad'' pairs might have crept in. So, greedily\footnote{non-randomly fix a vertex order beforehand to do this.} find a maximal matching $M$ in $E(H) \cap (A^{(0)} \times B^{(0)})$, and then set $A = A^{(0)} \setminus V(M)$ and $B = B^{(0)} \setminus V(M)$. Note again that $M$ is a random variable comprised of directed edges. If $i,j \in M$, then $g_j - g_i \ge 2$ but $\E (g_j - g_i)^2 \le \Delta$. Also note that $M(g)$ has all the edges in $M(-g)$ but reversed. Therefore, the probability that a vertex has an incoming edge in $M$ is the same as the probability that a vertex has an outgoing edge in the perfect matching.\\
+	Next, we claim that if $|A||B| = o(n^2)$, then $\E |M| \ge \Omega(n)$. We already saw that for each $(i,j) \in M$, because $\E (g_i - g_j)^2 \le \Delta$ and $g_j - g_i \ge 2$, the matching is expected to be small generally. Furthermore, one might think that we can blame the smallness of $|A||B|$ on a single outlier vertex whose Gaussian value is too large, but the fact that we are using a matching rules this out. To prove the claim, we shall use the right inequality in the following.
+	\[ O(\sqrt{\log n}) \ge \E \max_{i,j \in [n]} (g_j - g_i) \ge \frac{\Omega(1)}{\Delta} \cdot \left( \frac{\E |M|}{n} \right)^3. \]
+	The left-hand-side is proved rather simply, using the fact that if $(Z_1,Z_2,\ldots,Z_t)$ are jointly Gaussian, then
+	\[ \Var \max_{i \le t} Z_i \le O(1) \max_{i \le t} \Var Z_i. \]
+
+	Let $H^k(i)$ be the vertices within distance $k$ of $i$ in the graph $H$, and $\gamma_i^k = \max_{j \in H^k(i)} g_j - g_i$.
+
+
 	% cheeger's inequality:
 	% the thing above has a deg 2 SoS for C = 1/2 \varphi^2_G. also tight up to constants for deg 2 (cycle example again)
 	% when phi_G large, this is pretty good -- called expander graph. it becomes worse the smaller o(1) phi_G is.
