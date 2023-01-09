@@ -2,6 +2,8 @@
 
 \section{The Bipartite Setting}
 
+% LEC 1
+
 A well-known result characterizing bipartite graphs with perfect matchings is the following.
 
 \begin{ftheo}[Hall's Theorem]
@@ -29,3 +31,35 @@ Consider the specific case where $G$ is $3$-regular. The Heawood graph is known 
 	The Heawood graph has vertex set $\Z_{14}$, 
 \end{fex}
 and we can use a construction procedure called the \emph{star product} (sometimes called \emph{splicing}) or to build up larger graphs with the same property. In fact, McCaig showed that the only $3$-regular graphs with this property are obtained in this manner from the Heawood graph. There is also only one strongly $2$-connected $2$-regular directed graph without any even cycle, which is obtained by contracting the Heawood graph. %\Z_7 with edge from x to x+1,x+3. can preserve similar to star product by u1 u2 u v1 v2 and u1' u2' u' v1' v2' by u1 u2 w v1' v2' and u1' v1 and u2' v2.
+
+% LEC 2
+
+Now, requiring that all matchings have the same sign is rather restrictive. A better idea might be to change the non-zero entries of the bipartite adjacency matrix in a way that ensures nonzeroness of the overall determinant iff there exists a perfect matching. More specifically, Polya asked if we can we change some of the $1$ entries to $-1$ such that the resulting determinant becomes equal to the number of perfect matchings. For example, changing the bipartite adjacency matrix of $K_{2,2}$ to
+\[ \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} \]
+makes the determinant equal to $2$, the number of perfect matchings. Another example is changing the bipartite adjacency matrix of $K_{3,3}$ with an edge removed to
+\[ \begin{pmatrix} -1 & 1 & 1 \\ 1 & -1 & 1 \\ 1 & 1 & 0 \end{pmatrix}. \]
+That is, Polya's problem asks whether some of the $1$s can be changed to $-1$s such that for any matching $\sigma$, $\sign(\sigma) = \prod_{i=1}^{n} a_{i\sigma(i)}$. We can think of the changed $\pm 1$ entries as assigning directions to the edges in the graph, with $+1$ edges being directed from $A$ to $B$ and $-1$s from $B$ to $A$ (this is called an \emph{orientation} of the graph). \\
+Given a perfect matching $M$, say with positive sign, we would like to test if the matching obtained by switching the edges in any alternating cycle contributes the same way to the determinant as $M$. Let $M_1$ and $M_2$ be two matchings differing only on an alternating cycle, and let $a_1,b_1$ be the number of edges on the cycle in $M_1$ directed from $A$ to $B$ and $B$ to $A$ respectively, and $a_2,b_2$ the number in $M_2$ directed from $A$ to $B$ and $B$ to $A$ respectively. Let $\ell = a_1+b_1 = a_2+b_2$. The contribution by both matchings is the same iff
+\[ (-1)^{b_1} \sign(M_1) = (-1)^{b_2} \sign(M_2) = (-1)^{b_2} (-1)^{\ell+1} \sign(M_1) = (-1)^{a_2+1} \sign(M_1), \]
+that is, $(-1)^{b_1+a_2} = -1$. In other words, there is an odd number of edges oriented along the direction of traversal of the cycle (this does not depend on the direction).
+\begin{fdef}
+	Given an orientation of a graph, an even cycle (in the undirected graph) is said to be \emph{oddly oriented} if there is an odd number of edges oriented along the direction of traversal.
+\end{fdef}
+
+\begin{fdef}[Pfaffian orientation]
+	Given a perfect matching in a bipartite graph, a \emph{Pfaffian orientation} is an orientation of the edges such that all alternating cycles are oddly oriented.
+\end{fdef}
+Thus, if we can find a Pfaffian orientation of a given bipartite graph, we can determine the number of perfect matchings.\\
+We may assume without loss of generality that all edges in the matching we have are oriented from $A$ to $B$ -- if not, reverse the direction of all edges incident on the $A$-vertex of the ``wrongly'' oriented edge.\\
+We can reduce this problem to one on directed graphs. As before, reduce the original bipartite graph to a directed graph by contracting the edges in the matching, directing an edge that was originally between $a_i,b_j$ from $v_i$ to $v_j$. Then, the existence of a Pfaffian orientation is equivalent to the existence of a $\{0,1\}$-weight assignment to the vertices $\{v_i\}$ such that no (directed) cycle has even weight. If in the Pfaffian orientation it is oriented from $a_i$ to $b_j$, we assign weight $1$ and we assign weight $0$ otherwise.\\
+The above reduction can be used to easily prove that $K_{3,3}$ does \emph{not} have a Pfaffian orientation. More generally, if the directed graph has an odd (undirected) cycle with edges in both directions at all these edges (an ``odd double cycle''), the graph does not have a Pfaffian orientation. Let us now make a couple of observations.
+\begin{enumerate}
+	\item We may assume that no vertex has indegree and outdegree $1$. Vertices with degree $2$ (indegree and outdegree $1$) can be removed by assigning the sum of the two edges' weights to the contracted edge.
+	\item We may assume that no vertex has neither indegree nor outdegree $1$. If such a vertex exists, we can split it into two vertices, one with all the incoming edges, one with all the outgoing edges, and an edge from the former to the latter. If this middle edge is assigned weight $0$ in a Pfaffian weighting, we trivially get a Pfaffian weighting for the original graph. If it is assigned weight $1$, we can get a Pfaffian weighting with weight $0$ by complimenting the weights of all edges.
+\end{enumerate}
+
+\begin{ftheo}
+	A directed graph has a Pfaffian weighting iff the graph obtained by performing the above reductions does not contain a weak odd double cycle.
+\end{ftheo}
+
+% pfaffian is in \Sigma_2 ``there exists ... such that for all ...''. usual NP is \Sigma_1. In fact it's poly tho.
