@@ -72,8 +72,8 @@
 
 	The above $*$-algebra may be possible be non-commutative. Suppose that $G$ acts on a set $S$. For each $g$, we can denote the group action by an $S \times S$ permutation matrix $\rho(g)$, with $(\rho(g))_{gs,s} = 1$. This gives a \emph{representation} $\rho : G \to \mathcal{U}_{S}(\C)$ -- any group action thus yields a $*$-algebra.\\
 	We would like to analyze the set of matrices which commute with all $\rho(g)$. Let $G$ act on the sets $S,T$, and let $\rho : G \to \mathcal{U}_S(\C), \tau : G \to \mathcal{U}_T(\C)$ be the corresponding maps. Consider
-	\[ \mathcal{A} = \left\{ M \in \mathcal{M}_{S \times S}(\C) : M \rho(g) = \tau(g) M \text{ for all $g \in G$} \right\}. \]
-	Finally, we shall set $S = T$ so that it is a $*$-algebra.
+	\[ \mathcal{A} = \left\{ M \in \mathcal{M}_{T \times S}(\C) : M \rho(g) = \tau(g) M \text{ for all $g \in G$} \right\}. \]
+	Finally, we shall set $S = T$ so that it is a $*$-algebra, which we denote $\Hom_G(S,S)$.
 
 	\begin{flem}
 		Let $M \in \mathcal{M}_{T \times S}(\C)$. Defining $\mathcal{A}$ as above, $M \in \mathcal{A}$ iff $M_{t,s} = M_{gt,gs}$ for all $g \in G, t \in T,s \in S$.
@@ -113,10 +113,11 @@
 	Note that $A_1$ is the adjacency matrix $A$ of the $n$-cube graph $C(n)$!
 	% CAL A HAS SOME SPECIAL NAME HERE, CHECK NOTES
 	\begin{fprop}
+		\label{prop: ncube-adj-eigenvals}
 		It holds that $\langle A\rangle = \Span\{A_0,A_1,\ldots,A_n\}$.
 	\end{fprop}
 	\begin{proof}
-		Denote by $\mathcal{A}$ the algebra on the right, which is the commutant of the $H(n)$ action on $B(n)$. Because $A_1 = A$ is in $\mathcal\{A\}$, $\langle A\rangle \subseteq \mathcal{A}$. It remains to show the reverse containment, which is implied if we show that $A_j \in \langle A\rangle$ for each $j$. If $A_j \in \langle A\rangle$, then $AA_j$ is just some linear combination of $A_0,A_1,\ldots,A_{j+1}$ (with a positive coefficient on $A_{j+1}$), completing the proof.
+		Denote by $\mathcal{A}$ the algebra on the right, which is the commutant of the $H(n)$ action on $B(n)$. Because $A_1 = A$ is in $\mathcal{A}$, $\langle A\rangle \subseteq \mathcal{A}$. It remains to show the reverse containment, which is implied if we show that $A_j \in \langle A\rangle$ for each $j$. If $A_j \in \langle A\rangle$, then $AA_j$ is just some linear combination of $A_0,A_1,\ldots,A_{j+1}$ (with a positive coefficient on $A_{j+1}$), completing the proof.
 	\end{proof}
 
 	\begin{fcor}
@@ -124,4 +125,87 @@
 	\end{fcor}
 
 	A natural next question is: what are these $n+1$ eigenvalues, and what are each of their eigenspaces and multiplicities?\\
-	As a little spoiler, we answer these questions: the eigenvectors are $n-2k$ for $k=0,1,\ldots,n$, with $n-2k$ having multiplicity $\binom{n}{k}$.
+	As a little spoiler, we answer these questions: the eigenvectors are $n-2k$ for $k=0,1,\ldots,n$, with $n-2k$ having multiplicity $\binom{n}{k}$. We shall prove this later in *** SEC ? ***. \\
+
+	Let us next go back to the example of $B(n,k)$. $S_n$ acts on $B(n,k)$ with $\pi \cdot \{i_1,\ldots,i_k\} = \{\pi(i_1),\ldots,\pi(i_k)\}$. What are the orbits of this $S_n$-action on $B(n,k) \times B(n,k)$?
+
+	\begin{flem}
+		Let $(X,Y), (X',Y') \in B(n,k) \times B(n,k)$. Then, $(X,Y) \sim (X',Y')$ iff $|X \cap Y| = |X' \cap Y'|$.
+	\end{flem}
+	The proof of the above is straightforward, and we omit it. Note in particular that $(X,Y) \sim (Y,X)$, so each orbital matrix is symmetric. Therefore,
+	\[ \mathcal{A} = \Hom_{S_n}(B(n,k),B(n,k)) \]
+	is commutative. We have for any sets $X,Y$ of size $k$ that
+	\[ \max\{0,2k-n\} \le |X \cap Y| \le k. \]
+	Therefore, $\dim \mathcal{A} = 1 + \min\{k,n-k\}$. Let $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $|X \cap Y| = j$ and $0$ otherwise. Then,$A_k = \Id$ and $A_{k-1} = A$ is the adjacency matrix of the Johnson graph $J(n,k)$!
+
+	\begin{fprop}
+		\label{prop: johnson-adj-eigenvals}
+		It holds that $\langle A\rangle = \Span\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$.
+	\end{fprop}
+	The proof is very similar to that of \Cref{prop: ncube-adj-eigenvals}.
+
+	\begin{fcor}
+		The adjacency matrix $A$ of the Johnson graph $J(n,k)$ has $1+\min\{k,n-k\}$ distinct eigenvalues.
+	\end{fcor}
+	In the case where $k \le n-k$, the multiplicities of the eigenvalues of the graph are $\binom{n}{0}, \binom{n}{1} - \binom{n}{0}, \binom{n}{2} - \binom{n}{1}, \ldots, \binom{n}{k}-\binom{n}{k-1}$. We shall prove this and find the corresponding eigenspaces later in *** SEC ? ***.\\
+
+	When we deal with $B_q(n,k)$, the collection of $k$-dimensional subspaces of $\F_q^n$, we shall take the action of $\GL_n(\F_q)$ defined by
+	\[ MX = M(X) = \{Mv : v \in X\} \]
+	Once more, we get results as in the Johnson graph.
+
+	\begin{flem}
+		Let $(X,Y), (X',Y') \in B_q(n,k) \times B_q(n,k)$. Then, $(X,Y) \sim (X',Y')$ iff $\dim(X \cap Y) = \dim(X' \cap Y')$.
+	\end{flem}
+	So, the Grassmann graph with adjacency matrix $A$ and corresponding adjacency algebra $\mathcal{A}$ has $\dim \mathcal{A} = 1+\max\{k,n-k\}$ as well. Letting $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $\dim(X \cap Y) = j$ and $0$ otherwise, we again get that $\langle A\rangle = \Span\{A_k,\ldots,A_{\max\{0,2k-n\}}\}$.
+
+	\begin{fprop}
+		\label{prop: johnson-adj-eigenvals}
+		It holds that $\langle A\rangle = \Span\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$.
+	\end{fprop}
+
+	\begin{fcor}
+	 	The adjacency matrix $A$ of the Grassmann graph $J_q(n,k)$ has $1+\min\{k,n-k\}$ distinct eigenvalues. 
+	 \end{fcor}
+	 
+	 The multiplicity of the eigenvalues (when $k \le n/2$) end up being $\binom{n}{0}_q, \binom{n}{1}_q-\binom{n}{0}_q, \binom{n}{2}_q-\binom{n}{1}_q, \ldots, \binom{n}{k}_q-\binom{n}{k-1}_q$.\\
+
+	 So far, all examples have been commutative.
+
+	 \begin{fex}[Non-commutative $*$-algebras]
+	 	Consider the action of $S_n$ on $B(n)$, with $\pi \{i_1,\ldots,i_k\} = \{\pi(i_1),\ldots,\pi(i_k)\}$. Similar to what we have already seen, $(X,Y) \sim (X',Y')$ iff $|X| = |X'|$, $|Y| = |Y'|$, and $|X \cap Y| = |X' \cap Y'|$. Consider the $B(n) \times B(n)$ matrix $M_{i,j,t}$ defined by
+	 	\[
+	 	M_{i,j,t}(X,Y) =
+	 	\begin{cases}
+	 		1, & |X|=i, |Y|=j, |X \cap Y| = t, \\ 0, & \text{otherwise,}
+	 	\end{cases}
+	 	\]
+	 	for any choice of $i-t\ge 0$, $j-t\ge 0$, and $i+j-t \le n$. The number of ways of choosing such $i,j,t$ is $\binom{n+3}{3}$ -- we would like to find the number of solutions to $(i-t) + (j-t) + t + r = n$, where $i-t,j-t,t,r \ge 0$.\\
+	 	Therefore, setting $\mathcal{A} = \Hom_{S_n}(B(n),B(n))$, we have $\dim \mathcal{A} = \binom{n+3}{3}$. Further note that $\mathcal{A}$ is non-commutative. Indeed, $M_{2,3,1} M_{3,4,2} \ne 0$ but $M_{3,4,2} M_{2,3,1} = 0$.\\
+
+	 	The $q$-analogue of the above example is as follows. Let $\GL_n(\F_q)$ act on $B_q(n)$, and define $M_{i,j,t}(q)$ by
+	 	\[ M_{i,j,t}(q)(X,Y) = \begin{cases} 1, & \dim X = i, \dim Y = j, \dim (X \cap Y) = t, \\ 0, & \text{otherwise.} \end{cases} \]
+	 	Again, we have $\dim \mathcal{A} = \binom{n+3}{3}$.
+	 \end{fex}
+
+	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H(n)$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H(n)}(B(n),B(n))$ that does not come from a graph action.
+
+	\begin{fex}
+		Let $G$ be a finite group. $G \times G$ acts on $G$ by $(g,h) \cdot a = gah^{-1}$. What is the orbital basis of the commutant of this action?\\
+		Let $(a,b),(c,d) \in G \times G$. Then, $(a,b) \sim (c,d)$ iff $ab^{-1}$ and $cd^{-1}$ are conjugates in $G$.\\
+		The former is true iff for some $g,h \in G$, $gah^{-1} = c$ and $gbh^{-1} = d$. Equivalently, $ga = ch$ and $b^{-1}g^{-1} = h^{-1}d^{-1}$. Multiplying the two, this implies that $gab^{-1}g^{-1} = cd^{-1}$, that is, $ab^{-1}$ and $cd^{-1}$ are conjugates. For the backward direction, if we have $gab^{-1}g^{-1} = cd^{-1}$. Setting $h = gac^{-1}$, the previous equation implies that $h = d^{-1}gb$. This directly implies that $gah^{-1} = c$ and $gbh^{-1} = d$.\\
+		Let the conjugacy classes of $G$ be $C_1,\ldots,C_t$. Consider the $G \times G$ matrices $A_j$ by
+		\[ A_j(g,h) = \begin{cases} 1, & gh^{-1} \in C_j, \\ 0, & \text{otherwise.} \end{cases} \]
+		In the case where each element of the group is conjugate to its inverse, we can use \nameref{lem: gelfands lemma} to conclude that each $A_j$ is symmetric so $\mathcal{A}$ is abelian. An example of such a group is the symmetric group $S_n$, and the dimension of the resulting $\mathcal{A}$ is $p(n)$, the number of number partitions of $n$. However, it turns out that $\mathcal{A}$ is commutative for \emph{any} $G$! This shows that Gelfand's lemma is sufficient but not necessary. *** EXERCISE ***
+	\end{fex}
+
+	\begin{fex}
+		Consider $K_{2n}$, the complete graph on $2n$ vertices. It is not too difficult to show that the number of perfect matchings of $K_{2n}$ is $\frac{(2n)!}{n!2^n} = (2n)!!$. Denote the set of all perfect matchings on $K_{2n}$ by $\PM_{2n}$. $S_{2n}$ acts on $\PM_{2n}$ in an obvious manner, by mapping the matching $\{i_1j_1,i_2j_2,\ldots,i_nj_n\}$ to $\{\pi(i_1)\pi(i_2),\ldots,\pi(i_n)\pi(j_n)\}$. What are the $K_{2n}$ orbits on $\PM_{2n} \times \PM_{2n}$?\\
+		Let $M_1,M_2 \in \PM_{2n}$. It is not too difficult to see that $M_1 \cup M_2$ comprises of ``alternating cycles'', namely even cycles whose edges alternate between being in $M_1,M_2$ (such a cycle may also be a $2$-cycle with two edgees between two vertices, one of which is in $M_1$ and the other in $M_2$).  This induces a number partition of $n$, based on the number of cycles of size $2k$ for $1 \le k \le n$. Call this partition $d(M_1,M_2)$.\\
+		
+		We claim that $(M_1,M_2) \sim (M_3,M_4)$ iff $d(M_1,M_2) = d(M_3,M_4)$.\\
+		The forward direction is direct since if we have $\pi (M_1,M_2) = (M_3,M_4)$, then $\pi$ applied to the vertices of the multigraph $M_1 \cup M_2$ gives $M_3 \cup M_4$ while having the same graph (up to isomorphism), so the partition remains the same. For the backward direction, just match up $M_1 \cup M_2$ and $M_3 \cup M_4$ in a way that cycle sizes agree.\\
+
+		Therefore, the dimension of this $*$-algebra is $p(n)$, the number of partitions of $n$. Recall that this is the same as the number of partitions as the previous example when $G = S_n$. Further, since $d(M_1,M_2) = d(M_2,M_1)$, this algebra is abelian by \nameref{lem: gelfands lemma}.
+	\end{fex}
+
+	

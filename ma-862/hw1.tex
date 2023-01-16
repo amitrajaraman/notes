@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{MA 861 : Combinatorics I}
+\usepackage{../generic}
+% \usepackage{ytableau}
+
+% \newcommand{\DES}{\operatorname{DES}}
+% \newcommand{\des}{\operatorname{des}}
+% \newcommand{\pk}{\operatorname{pk}}
+% \newcommand{\Peak}{\operatorname{Peak}}
+% \newcommand{\Match}{\operatorname{Match}}
+% \newcommand{\Charpoly}{\operatorname{Charpoly}}
+% \newcommand{\Chrom}{\operatorname{Chrom}}
+% \newcommand{\isf}{\operatorname{isf}}
+% \newcommand{\ISF}{\operatorname{ISF}}	
+% \newcommand{\nbc}{\operatorname{nbc}}
+% \newcommand{\NBC}{\operatorname{NBC}}
+% \newcommand{\adj}{\leftrightarrow}
+% \newcommand{\EXC}{\operatorname{EXC}}
+% \newcommand{\exc}{\operatorname{exc}}
+% \newcommand{\nonexc}{\operatorname{nonexc}}
+% \newcommand{\bars}{\operatorname{bars}}
+% \def\mbinom#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+% \newcommand{\rowsum}{\operatorname{rowsum}}
+% \newcommand{\colsum}{\operatorname{colsum}}
+% \newcommand{\pge}{\succcurlyeq} % poset le
+% \newcommand{\ple}{\preccurlyeq} % poset le
+% \newcommand{\A}{\mathbb{A}}
+% \newcommand{\content}{\operatorname{content}}
+% \newcommand{\NonIn}{\operatorname{NonIn}}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\titleBC
+\tableofcontents
+\clearpage
+
+
+\section{Problem Sheet 1}
+
+	\begin{problem}
+		
+	\end{problem}
+
+	\begin{solution*}
+
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$ be a graph.
+		\begin{enumerate}[label=(\roman*)]
+			\item Let $A$ be the adjacency matrix of $G$. Show that $(A^m)_{uv}$ is the number of length $m$ walks from $u$ to $v$.
+			\item Show that if two graphs have the same spectrum (multiset of eigenvalues), they have the same number of edges of triangles but not necessarily the same number of $4$-cycles.
+			\item Let $G$ be connected. Show that if the diameter of a graph is $d$, then the adjacency matrix of $G$ has at least $d+1$ distinct eigenvalues.
+		\end{enumerate}
+	\end{problem}
+	\begin{proof}
+		\begin{enumerate}[label=(\roman*)]
+			\item We have
+			\[ (A^m)_{uv} = \sum_{v_1,\ldots,v_{m-1}} A_{uv_1} A_{v_1v_2} \cdots A_{v_{m-1}v}. \]
+			Note that the term we are summing is nonzero (and in such a case equal to $1$) iff $uv_1v_2\cdots v_{m-1}v$ forms a walk from $u$ to $v$.
+
+			\item To see that they have the same number of edges, observe that the number of length $2$ walks from a vertex to itself is precisely its degree. Therefore, $2|E| = \Tr(A^2)$, which is determined by the spectrum. Similarly, the number of length $3$ walks from a vertex to itself is precisely equal to the number of triangles it is contained in. Therefore, $3\cdots (\text{number of triangles}) = \Tr(A^3)$, proving the first part of the result.\\
+
+			\item If the diameter of a graph is $d$, then for any $1 \le k \le d$, there exist $u,v$ such that $(A^k)_{uv} \ne 0$ but $(A^r)_{uv} = 0$ for $1 \le r < k$ -- $v$ is the $k$th vertex along a path of length equal to the diameter starting at $u$. In particular, this implies that $\Id,A,A^2,\ldots,A^d$ are linearly independent.	This implies that the minimal polynomial of $A$, whose roots are the eigenvalues of $A$ with algebraic multiplicity $1$ (because $A$ is symmetric and so diagonalizable), has degree at least $d$, proving the claim.
+		\end{enumerate}
+	\end{proof}
+
+\end{document}

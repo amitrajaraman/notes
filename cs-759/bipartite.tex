@@ -25,7 +25,7 @@ Note that the product is nonzero (and in this case equal to $1$) iff $\sigma$ co
 but unlike the determinant, the permanent is hard to compute.\\
 
 Let $M_1,M_2$ be perfect matchings of $G$. Note that $M_1 \triangle M_2$, the set comprising of the edges in precisely one of $M_1,M_2$, is a disjoint union of alternating cycles. Here, an alternating cycle means that the edges alternate being in $M_1,M_2$. $M_2$ has the same sign as $M_1$ iff there is an even number of cycles which have lengths divisible by $4$.\\
-We can use the above observation to check if all matchings have the same sign. Given a perfect matching $M$, all permutations have the same sign (as $M$) iff there exists a cycle of length divisible by $4$ with edges alternating in $M$. How do we do this? First convert the bipartite graph to a directed one by assigning to each edge a direction from $X$ to $Y$. The problem then boils down to determining if there exists an even directed cycle in the graph obtained by contracting the matching edges. This seems simple, but is in fact far from trivial. We know now due to Seymour [cite] that this is possible in polynomial time. We do not discuss the details in general. \\
+We can use the above observation to check if all matchings have the same sign. Given a perfect matching $M$, all permutations have the same sign (as $M$) iff there exists no cycle of length divisible by $4$ with edges alternating in $M$. How do we do this? First convert the bipartite graph to a directed one by assigning to each edge a direction from $X$ to $Y$. The problem then boils down to determining if there exists an even directed cycle in the graph obtained by contracting the matching edges. This seems simple, but is in fact far from trivial. We know now due to Seymour [cite] that this is possible in polynomial time. We do not discuss the details in general. \\
 Consider the specific case where $G$ is $3$-regular. The Heawood graph is known to have all matchings of the same sign.
 \begin{fex}[Heawood graph]
 	The Heawood graph has vertex set $\Z_{14}$, 
@@ -47,8 +47,11 @@ that is, $(-1)^{b_1+a_2} = -1$. In other words, there is an odd number of edges 
 \end{fdef}
 
 \begin{fdef}[Pfaffian orientation]
-	Given a perfect matching in a bipartite graph, a \emph{Pfaffian orientation} is an orientation of the edges such that all alternating cycles are oddly oriented.
+	% Given a perfect matching, a \emph{Pfaffian orientation} is an orientation of the edges such that all alternating cycles are oddly oriented.
+	A Pfaffian orientation is an orientation of the edges of a graph such that all alternating cycles with respect to some perfect matching are oddly oriented. 
 \end{fdef}
+Note that in a bipartite graph, if a Pfaffian orientation exists for one perfect matching, it works for all perfect matchings.\\
+
 Thus, if we can find a Pfaffian orientation of a given bipartite graph, we can determine the number of perfect matchings.\\
 We may assume without loss of generality that all edges in the matching we have are oriented from $A$ to $B$ -- if not, reverse the direction of all edges incident on the $A$-vertex of the ``wrongly'' oriented edge.\\
 We can reduce this problem to one on directed graphs. As before, reduce the original bipartite graph to a directed graph by contracting the edges in the matching, directing an edge that was originally between $a_i,b_j$ from $v_i$ to $v_j$. Then, the existence of a Pfaffian orientation is equivalent to the existence of a $\{0,1\}$-weight assignment to the vertices $\{v_i\}$ such that no (directed) cycle has even weight. If in the Pfaffian orientation it is oriented from $a_i$ to $b_j$, we assign weight $1$ and we assign weight $0$ otherwise.\\
@@ -63,3 +66,83 @@ The above reduction can be used to easily prove that $K_{3,3}$ does \emph{not} h
 \end{ftheo}
 
 % pfaffian is in \Sigma_2 ``there exists ... such that for all ...''. usual NP is \Sigma_1. In fact it's poly tho.
+
+% LEC 3
+
+\begin{definition}
+	A digraph is said to be \emph{even} if in any assignment of $\{0,1\}$-weights to the edges, every cycle has even weight.
+\end{definition}
+
+\begin{fprop}
+	\label{prop:1}
+	If the XOR of an odd number of cycles gives the empty set, one of these cycles must be even for any $\{0,1\}$-assignment of weights.
+\end{fprop}
+This is also the reason why weak odd double cycles are even.
+
+% Before getting to the problem of finding a Pfaffian orientation of a graph (if one exists), what about the simpler question of 
+It is not immediately clear whether one can even check if a given orientation is a Pfaffian orientation. That is, given a directed graph with $\{0,1\}$-weights, does it contain a cycle of even weight? This is a co-\textsf{NP} problem, since it can be proved to be false by giving a cycle of odd weight. The original problem asking whether a Pfaffian orientation exists asks whether there \emph{exists} a weight assignment such that \emph{for all} cycles, the cycle has odd weight -- this is an example of a $\Sigma_2$ problem. Similarly, \textsf{NP} (which has a single $\exists$) is sometimes called $\Sigma_1$ and co-\textsf{NP} (which has a single $\forall$) is called $\Pi_1$.\\
+% szemeredi reg lemma, can find partition but checking if a given partition is regular is difficult
+% given a matching, does every spanning tree contain some edge in the matching? trivially in P by just removing the matching and checking connectivity.
+% but does there exist a matching that intersects every spanning tree? turns out to be NP-complete.
+
+First off, we shall show that determining if a given orientation is Pfaffian in polynomial time is equivalent to determining the existence of a Pfaffian orientation in polynomial time. 
+
+
+% Given a directed graph, does it contain a cycle of even length? Contract 0-weight edges.
+
+\begin{fprop}
+	Every strongly connected graph has an \emph{ear decomposition}, that is, a partition of the edges into $C_0,P_1,\ldots,P_k$, where $C_0$ is a cycle and each $P_i$ is a path whose endpoints are in $C_0 \cup P_1 \cup P_2 \cup \cdots \cup P_{i-1}$ and whose internal vertices (if any) are not contained in $C_0 \cup P_1 \cup P_2 \cup \cdots \cup P_{i-1}$.
+\end{fprop}
+
+\begin{ftheo}
+	Consider the problem EVEN-DIGRAPH of determining if for a given digraph, every assignment of $\{0,1\}$-weights to the edges gives an even weight cycle. Consider the problem EVEN-CYCLE of determining if a given digraph has a cycle of even length. EVEN-DIGRAPH is in \textsf{P} iff EVEN-CYCLE is in \textsf{P}.
+\end{ftheo}
+\begin{proof}
+	We first reduce EVEN-CYCLE to EVEN-DIGRAPH.\\
+	In EVEN-CYCLE, we may assume without loss of generality that the graph is strongly connected. Consider the ear decomposition $(C_0,P_1,\ldots,P_k)$ of this graph. Let $G_i$ be the (strongly connected) graph formed by $C_0 \cup P_1 \cup \cdots \cup P_{i-1}$, and let $C_i$ be any cycle in $G_i$ that contains the ear $P_i$. We claim that the $(C_i)$ form a basis of all cycles in the underlying undirected graph (under XORing).\\
+	If some $C_i$ is even, we are done since we have found an even cycle. Otherwise, run the algorithm to check if the graph is even. If yes, output yes, and output no otherwise. To prove this, it suffices to show that iff all $C_i$ are odd and there exists an even cycle $C$, thenn the graph must be even. Indeed, because the $C_i$ form a basis, we can write $C$ as a XOR of an \emph{even} number of $C_i$ (because $C$ is even and each $C_i$ is odd). However, the XOR of this even number of cycles with $C$ (an odd number of cycles overall) is empty, so we are done by \Cref{prop:1}.\\
+
+	Let us now reduce EVEN-DIGRAPH to EVEN-CYCLE.\\
+	We shall construct a weighting such that if there is no even cycle with respect to this weighting, there is no even cycle with respect to any weighting. If we manage to assign weights such that every basic $C_i$ cycle has odd weight, we are done. Furthermore, it is easy to do this by assigning a $1$ to some edge and $0$ to everything else.
+\end{proof}
+
+% ^ DONE BY SEYMOUR-THOMASSEN
+
+
+% LEC 4
+
+\begin{ftheo}
+	Every planar graph has a Pfaffian orientation.
+\end{ftheo}
+% first done by physicist Kastelyn.
+\begin{proof}
+	First off, we claim that every planar graph has an orientation such that for every internal face, there are an odd number of edges directed in the clockwise direction. This can be proved by induction on the number of edges. If the graph is a tree, orient it arbitrarily. Consider some edge that is incident on the external face. If removing this edge disconnects the graph (so the external face is the only face it is incident on), we can orient it arbitrarily since it is not part of any internal face. Otherwise, consider some such orientation for the graph minus the edge. Then, when adding this edge back, orient it in a way that ensures the internal face the edge is incident on has an odd number of clockwise edges. Note that this inductive proof also yields an algorithm to \emph{find} such an orientation for any planar graph.\\
+	We claim that any such orientation is a Pfaffian orientation.\\
+	It may be seen using Euler's formula that the orientation is such that for any cycle, the number of edges in a clockwise direction will be of parity opposite to the number of vertices inside the cycle. If $v$ is the number of vertices inside a length $\ell$ cycle, $f$ is the number of faces inside the cycle, and $e$ is the number of edges within the cycle, we have $(v+\ell)-(e+\ell)+f = v-e+f = 1$ (because the external edge is not being considered). Now note that if we traverse every internal face in a clockwise direction, every internal edge contributes in a clockwise manner to a cycle exactly once. Now let $k$ be the number of edges on our $\ell$-cycle which are clockwise. Then, $k+e$ is the sum of $f$ odd numbers, so $k+e$ and $f$ have the same parity. We also have by the use of Euler's formula that $f$ and $v-e$ have opposite parities, so $k+e$ and $v-e$ have opposite parities, so $k$ and $v$ have opposite parities as desired. \\
+	However, this near-directly implies that the orientation is Pfaffian. Consider any alternating cycle, and note that no vertex within the cycle can be matched to a vertex outside the cycle, so there is an even number of vertices within the cycle and thus the alternating cycle is oddly oriented.
+\end{proof}
+
+For bipartite planar graphs, since the above proof gives an algorithm to find a Pfaffian orientation, this implies that we can count the number of perfect matchings in polynomial time.\\
+What does the result mean for general (non-bipartite) planar graphs? It turns out that even in general, we can construct a matrix using a Pfaffian orientation whose determinant has absolute value equal to the number of perfect matchings. This matrix $A$ has
+\[ a_{ij} = \begin{cases} 1, & \text{edge $ij$ is directed from $i$ to $j$,} \\ -1, & \text{edge $ij$ is directed from $j$ to $i$}, \\ 0, & \text{there is no edge $ij$.} \end{cases} \]
+We claim that this matrix has determinant equal to the square of the number of perfect matchings of the graph.
+
+\begin{fdef}[Pfaffian]
+	Let $M$ be a matching of $K_{2n}$. Suppose we order the matching $M$ by writing down the edges in a specified order and the vertices within the edges -- for example, the matching $\{\{1,2\},\{3,4\}\}$ could be written as $1,2,3,4$ or $1,2,4,3$. More generally, if the edges in $M$ are $\{i_1j_1,\ldots,i_nj_n\}$, order it in some fixed manner as $i_1j_1 \cdots i_nj_n = \sigma_M$, a permutation of $[2n]$. Let $A$ be a $2n \times 2n$ skew-symmetric matrix. The \emph{Pfaffian} of $A$ is
+	\[ \sum_{\substack{\text{all perfect matchings $M$ of $K_{2n}$} \\ \sigma_M = i_1j_1i_nj_n}} \sign(\sigma_M) \prod_{r \in [n]} A_{i_r j_r}.  \]
+\end{fdef}
+Defining the above requires one to verify that we get the same quantity irrespective of how we order any matching $M$, but we omit the proof of this as it is relatively straightforward.\\
+Finally, we must show that if we have a Pfaffian orientation and consider the matrix $A$ defined before the above definition, it has Pfaffian equal to the number of perfect matchings of the graph (in absolute value).
+
+\begin{fprop}
+	The determinant of a $2n \times 2n$ skew-symmetric matrix is equal to the square of the Pfaffian of the matrix.
+\end{fprop}
+The idea behind the proof is that two perfect matchings together can be thought of as a permutation on $[2n]$, with cycles in the graph being cycles of the permutation.
+
+\begin{fprop}
+	If we have a Pfaffian orientation, then every perfect matching contributes the same $\pm 1$ sign to the Pfaffian of the corresponding matrix. In particular, the number of perfect matchings of $G$ is equal to the square root of the absolute value of the determinant.
+\end{fprop}
+
+Characterizing the class of graphs which have Pfaffian orientations is one of the largest open problems in matching theory. As of the time of writing, all we know is the Heawood graph, planar graphs, and graphs obtained by combining known graphs with Pfaffian orientations in some specified manners.
+
+% Heawood has Pfaffian orientation. 7-vtx digraph i+3 i-3 i+1 i-1. take the two graphs disjointly, add edges from one to another in only one direction. if you have a bidirectional edge in each graph, combine the two to get a single bidirectional edge in the new graph (2 less vertices).
