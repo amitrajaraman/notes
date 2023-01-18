@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{CS 779 : Tutorial solutions}
+\usepackage{../generic}
+\usepackage{titling}
+\usepackage{float}
+\setlength{\droptitle}{-10cm}
+\allowdisplaybreaks
+
+\newcommand{\lcm}{\operatorname{lcm}}
+
+\begin{document}
+
+\thispagestyle{empty}
+\titleBC
+
+\tableofcontents
+
+\vspace{1cm}
+
+\clearpage
+
+\section{Tutorial 1}
+
+\begin{exercise}
+	Prove that the maximum number of subsets of $[n]$ with pairwise non-empty intersection is $2^{n-1}$.
+\end{exercise}
+\begin{solution*}
+	$2^{n-1}$ is clearly attainable by taking $\{S \subseteq [n] : 1 \in S\}$. Furthermore, this is an upper bound since if $\mathcal{S}$ is a family of subsets with pairwise non-empty intersection, then $\mathcal{S}' = \{S^c : S \in \mathcal{S}\}$ has zero intersection with $\mathcal{S}$ and is of the same size, so $2|\mathcal{S}| = |\mathcal{S}'|+|\mathcal{S}| \le 2^n$.
+\end{solution*}
+
+\begin{exercise}
+	\label{ex1.2}
+	Suppose you have a set system with $m$ sets $(A_i)_{i=1}^m$ such that $|A_i|$ is odd for each $i$ and $|A_i \cap A_j|$ is even for any $i \ne j$. Prove that $m \le n$.
+\end{exercise}
+\begin{solution*}
+	Consider the $m \times n$ matrix $M$ where $M_{ij}$ is $1$ if $j \in A_i$ and is $0$ otherwise. Then,
+	\[ (MM^\top)_{ij} = \sum_{k \in [n]} M_{ik} M_{jk} = |A_i \cap A_j|. \]
+	In particular, all the diagonal entries of $MM^\top$ are odd and all off-diagonal entries are even. Using this, it is not too difficult to show that $\det(MM^\top) \ne 0$ (for an easy solution* of this, note that modulo $2$, $MM^\top$ is congruent to the identity, which has nonzero determinant). Therefore, $m = \rank(MM^\top) = \rank(M)$, so $m \le n$.
+\end{solution*}
+
+\begin{exercise}
+	\label{ex1.3}
+	Prove that for matrices $A,B$, $\rank(A+B) \le \rank(A)+\rank(B)$.
+\end{exercise}
+\begin{solution*}
+	It suffices to show that any column of $A+B$ is present in the space spanned by the column of $A$ and $B$. This is straightforward since any column of $A+B$ is just the sum of the two corresponding columns in $A$ and $B$.
+\end{solution*}
+
+\begin{exercise}
+	Suppose you have $A+A^\top = J-I$, where $J$ is the all ones matrix. Prove that $\rank(A) \ge n/2$.
+\end{exercise}
+\begin{solution*}
+	Using the previous exercise, we have $n = \rank(J-I) = \rank(A+A^\top) \le \rank(A) + \rank(A^\top) = 2\rank(A)$.
+\end{solution*}
+
+\begin{exercise}
+	\label{ex1.5}
+	Suppose you have $A+A^\top = J-I$, where $J$ is the all ones matrix. Show that if $\rank(A) < n-1$, there is a vector $x$ such that $Ax = 0$, $x \ne 0$, and $\mathbf{1}^\top x = 0$. Using this, prove that $\rank(A) \ge n-1$.
+\end{exercise}
+\begin{solution*}
+	Suppose $\rank(A) < n-1$. Then, $\dim \ker A \ge 2$. We also have $\dim \mathbf{1}^\perp = n-1$. Therefore, $\ker A$ and $\mathbf{1}^\perp$ have nonzero intersection, and say $x \ne 0$ is in both. $x$ satisfies the conditions mentioned in the question. Now,
+	\begin{align*}
+		0 &= x^\top (Ax) + (x^\top A^\top) x \\
+			&= x^\top (J-I) x \\
+			&= \left(\sum_i x_i\right)^2 - \left(\sum_i x_i^2\right) = - \sum_i x_i^2,
+	\end{align*}
+	so $x = 0$, a contradiction. Therefore, $\rank(A) \ge n-1$.
+\end{solution*}
+
+\begin{exercise}
+	Suppose $B_1,\ldots,B_m$ are complete bipartite graphs whose edge disjoint union yields the complete graph $K_n$. Show that $m \ge n-1$.
+\end{exercise}
+\begin{solution*}
+	Suppose that $B_i$ corresponds to the complete bipartite graph between sets $X_i,Y_i \subseteq [n]$, where $X_i \cap Y_i = \emptyset$. As a graph on vertex set $[n]$, on setting $M_i = \indic_X \indic_Y^\top$, $B_i$ has adjacency matrix $M_i + M_i^\top$. Note that $\rank(M_i) = 1$ for all $i$, since $\indic_Y^\perp \subseteq \ker M_i$. Because the edge disjoint union of the $B_i$ is $K_n$, we have $(\sum_i M_i) + (\sum_i M_i)^\top = J-I$. Using the previous exercise, $\rank(\sum_i M_i) \ge n-1$. Using \Cref{ex1.3} and the observation that $\rank(M_i) = 1$ for all $i$, this implies that $m = \sum_{i=1}^m \rank(M_i) \ge n-1$, completing the proof.
+\end{solution*}
+
+\begin{exercise}
+	Suppose you have a set system of $m$ sets such that for every pair of sets, the intersection size is fixed as $\lambda \ge 1$. Prove that $m \le n$.
+\end{exercise}
+\begin{solution*}
+	Let the set system be $(A_{i})_{i=1}^m$. The size of at most one set is equal to $\lambda$. Furthermore, if $|A_1| = \lambda$, then $A_i \setminus A_1$ are disjoint for distinct $i$, so $m-1 \le n-\lambda$. Thus, we may assume that the size of every set is greater than $\lambda$.\\
+	Define the matrix $M$ exactly as in \Cref{ex1.2}. We have that the off-diagonal entries of $M$ are equal to $\lambda$. Now, $MM^\top = \lambda J + D$, for some diagonal matrix $D$ with all positive diagonal entries. We wish to show that $\rank(\lambda J + D) = m$. Let $x \ne 0$ in $\R^n$, and let $u,v$ be the components of $x$ along and orthogonal to $\mathbf{1}$ respectively, such that $u = t\mathbf{1}$. Then,
+	\begin{align*}
+		(\lambda J + D)x &= (\lambda J + D)(u+v) \\
+			&= n\lambda u + D(u+v) \\
+			&= D (D^{-1}n\lambda u + u+v).
+	\end{align*}
+	When $t = 0$, this is clearly nonzero as $v \ne 0$. Otherwise, to conclude, note that
+	\[ \sum_i (D^{-1}n\lambda u + u + v)_i = \sum_i (D_{ii}^{-1} n \lambda + 1) u_i + v_i = \sum_i t(D_{ii}^{-1}n\lambda + 1),  \]
+	which is nonzero as $d_{ii},\lambda > 0$ and $t \ne 0$.
+\end{solution*}
+
+\end{document}

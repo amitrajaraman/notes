@@ -4,6 +4,8 @@
 
 % LEC 1
 
+\subsection{Basic matching theory}
+
 A well-known result characterizing bipartite graphs with perfect matchings is the following.
 
 \begin{ftheo}[Hall's Theorem]
@@ -34,28 +36,32 @@ and we can use a construction procedure called the \emph{star product} (sometime
 
 % LEC 2
 
+\subsection{Pfaffians}
+
 Now, requiring that all matchings have the same sign is rather restrictive. A better idea might be to change the non-zero entries of the bipartite adjacency matrix in a way that ensures nonzeroness of the overall determinant iff there exists a perfect matching. More specifically, Polya asked if we can we change some of the $1$ entries to $-1$ such that the resulting determinant becomes equal to the number of perfect matchings. For example, changing the bipartite adjacency matrix of $K_{2,2}$ to
 \[ \begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix} \]
 makes the determinant equal to $2$, the number of perfect matchings. Another example is changing the bipartite adjacency matrix of $K_{3,3}$ with an edge removed to
 \[ \begin{pmatrix} -1 & 1 & 1 \\ 1 & -1 & 1 \\ 1 & 1 & 0 \end{pmatrix}. \]
-That is, Polya's problem asks whether some of the $1$s can be changed to $-1$s such that for any matching $\sigma$, $\sign(\sigma) = \prod_{i=1}^{n} a_{i\sigma(i)}$. We can think of the changed $\pm 1$ entries as assigning directions to the edges in the graph, with $+1$ edges being directed from $A$ to $B$ and $-1$s from $B$ to $A$ (this is called an \emph{orientation} of the graph). \\
-Given a perfect matching $M$, say with positive sign, we would like to test if the matching obtained by switching the edges in any alternating cycle contributes the same way to the determinant as $M$. Let $M_1$ and $M_2$ be two matchings differing only on an alternating cycle, and let $a_1,b_1$ be the number of edges on the cycle in $M_1$ directed from $A$ to $B$ and $B$ to $A$ respectively, and $a_2,b_2$ the number in $M_2$ directed from $A$ to $B$ and $B$ to $A$ respectively. Let $\ell = a_1+b_1 = a_2+b_2$. The contribution by both matchings is the same iff
+That is, Polya's problem asks whether some of the $1$s can be changed to $-1$s such that for any matching $\sigma$, $\sign(\sigma) = \prod_{i=1}^{n} a_{i\sigma(i)}$ (or possibly the negative for all matchings $\sigma$). That is, for any two matchings $\sigma,\pi$,
+\[ \sign(\sigma) \prod_{i=1}^n a_{i \sigma(i)} = \sign(\pi) \prod_{i=1}^n a_{i \pi(i)}. \]
+We can think of the changed $\pm 1$ entries as assigning directions to the edges in the graph, with $+1$ edges being directed from $A$ to $B$ and $-1$s from $B$ to $A$ (this is called an \emph{orientation} of the graph). \\
+Given a perfect matching $M$, say with positive sign, we would like to test if the matching obtained by switching the edges in any alternating cycle contributes the same way to the determinant as $M$. Let $M_1$ and $M_2$ be two matchings differing only on an alternating cycle, and let $a_1,b_1$ be the number of edges on the cycle in $M_1$ directed from $A$ to $B$ and $B$ to $A$ respectively, and $a_2,b_2$ the number of edges on the cycle in $M_2$ directed from $A$ to $B$ and $B$ to $A$ respectively. Let $\ell = a_1+b_1 = a_2+b_2$. The contribution by both matchings is the same iff
 \[ (-1)^{b_1} \sign(M_1) = (-1)^{b_2} \sign(M_2) = (-1)^{b_2} (-1)^{\ell+1} \sign(M_1) = (-1)^{a_2+1} \sign(M_1), \]
-that is, $(-1)^{b_1+a_2} = -1$. In other words, there is an odd number of edges oriented along the direction of traversal of the cycle (this does not depend on the direction).
+that is, $(-1)^{b_1+a_2} = -1$. In other words, there is an odd number of edges oriented along the direction of traversal of the cycle (this does not depend on the direction since the size of the alternating cycle is even).
 \begin{fdef}
 	Given an orientation of a graph, an even cycle (in the undirected graph) is said to be \emph{oddly oriented} if there is an odd number of edges oriented along the direction of traversal.
 \end{fdef}
 
 \begin{fdef}[Pfaffian orientation]
 	% Given a perfect matching, a \emph{Pfaffian orientation} is an orientation of the edges such that all alternating cycles are oddly oriented.
-	A Pfaffian orientation is an orientation of the edges of a graph such that all alternating cycles with respect to some perfect matching are oddly oriented. 
+	A Pfaffian orientation is an orientation of the edges of a graph such that all alternating cycles are oddly oriented with respect to some perfect matching. 
 \end{fdef}
-Note that in a bipartite graph, if a Pfaffian orientation exists for one perfect matching, it works for all perfect matchings.\\
+Note that in a bipartite graph, if a Pfaffian orientation exists for one perfect matching, it is Pfaffian for all perfect matchings.\\
 
 Thus, if we can find a Pfaffian orientation of a given bipartite graph, we can determine the number of perfect matchings.\\
-We may assume without loss of generality that all edges in the matching we have are oriented from $A$ to $B$ -- if not, reverse the direction of all edges incident on the $A$-vertex of the ``wrongly'' oriented edge.\\
-We can reduce this problem to one on directed graphs. As before, reduce the original bipartite graph to a directed graph by contracting the edges in the matching, directing an edge that was originally between $a_i,b_j$ from $v_i$ to $v_j$. Then, the existence of a Pfaffian orientation is equivalent to the existence of a $\{0,1\}$-weight assignment to the vertices $\{v_i\}$ such that no (directed) cycle has even weight. If in the Pfaffian orientation it is oriented from $a_i$ to $b_j$, we assign weight $1$ and we assign weight $0$ otherwise.\\
-The above reduction can be used to easily prove that $K_{3,3}$ does \emph{not} have a Pfaffian orientation. More generally, if the directed graph has an odd (undirected) cycle with edges in both directions at all these edges (an ``odd double cycle''), the graph does not have a Pfaffian orientation. Let us now make a couple of observations.
+We may assume without loss of generality that if there exists a Pfaffian orientation, all edges in the matching we have are oriented from $A$ to $B$ -- if not, we can reverse the direction of all edges incident on the $A$-vertex of the ``wrongly'' oriented edge.\\
+We can reduce this problem to one on directed graphs. As before, reduce the original bipartite graph to a directed graph by contracting the edges in the matching, directing an edge that was originally between $a_i$ and $b_j$ from $v_i$ to $v_j$. Then, the existence of a Pfaffian orientation is equivalent to the existence of a $0,1$-weight assignment to the edges such that no (directed) cycle has even weight. If the Pfaffian orientation orients a $a_ib_j$ edge from $a_i$ to $b_j$, we assign weight $1$ to the directed edge $v_iv_j$, and we assign weight $0$ otherwise.\\
+The above reduction can be used to easily prove that $K_{3,3}$ does \emph{not} have a Pfaffian orientation. More generally, if the directed graph has a weak odd double cycle (an odd cycle with edges in both directions at all edges in the cycle), the graph does not have a Pfaffian orientation. Let us now make a couple of observations.
 \begin{enumerate}
 	\item We may assume that no vertex has indegree and outdegree $1$. Vertices with degree $2$ (indegree and outdegree $1$) can be removed by assigning the sum of the two edges' weights to the contracted edge.
 	\item We may assume that no vertex has neither indegree nor outdegree $1$. If such a vertex exists, we can split it into two vertices, one with all the incoming edges, one with all the outgoing edges, and an edge from the former to the latter. If this middle edge is assigned weight $0$ in a Pfaffian weighting, we trivially get a Pfaffian weighting for the original graph. If it is assigned weight $1$, we can get a Pfaffian weighting with weight $0$ by complimenting the weights of all edges.
@@ -69,9 +75,9 @@ The above reduction can be used to easily prove that $K_{3,3}$ does \emph{not} h
 
 % LEC 3
 
-\begin{definition}
-	A digraph is said to be \emph{even} if in any assignment of $\{0,1\}$-weights to the edges, every cycle has even weight.
-\end{definition}
+\begin{fdef}
+	A digraph is said to be \emph{even} if in any assignment of $\{0,1\}$-weights to the edges, some cycle has even weight.
+\end{fdef}
 
 \begin{fprop}
 	\label{prop:1}
@@ -99,11 +105,11 @@ First off, we shall show that determining if a given orientation is Pfaffian in 
 \end{ftheo}
 \begin{proof}
 	We first reduce EVEN-CYCLE to EVEN-DIGRAPH.\\
-	In EVEN-CYCLE, we may assume without loss of generality that the graph is strongly connected. Consider the ear decomposition $(C_0,P_1,\ldots,P_k)$ of this graph. Let $G_i$ be the (strongly connected) graph formed by $C_0 \cup P_1 \cup \cdots \cup P_{i-1}$, and let $C_i$ be any cycle in $G_i$ that contains the ear $P_i$. We claim that the $(C_i)$ form a basis of all cycles in the underlying undirected graph (under XORing).\\
+	In EVEN-CYCLE, we may assume without loss of generality that the graph is strongly connected. Consider the ear decomposition $(C_0,P_1,\ldots,P_k)$ of this graph. Let $G_i$ be the (strongly connected) graph formed by $C_0 \cup P_1 \cup \cdots \cup P_{i-1}$, and let $C_i$ be any cycle in $G_i$ that contains the ear $P_i$. It turns out that the $(C_i)$ form a basis of all cycles in the underlying undirected graph (under XORing).\\
 	If some $C_i$ is even, we are done since we have found an even cycle. Otherwise, run the algorithm to check if the graph is even. If yes, output yes, and output no otherwise. To prove this, it suffices to show that iff all $C_i$ are odd and there exists an even cycle $C$, thenn the graph must be even. Indeed, because the $C_i$ form a basis, we can write $C$ as a XOR of an \emph{even} number of $C_i$ (because $C$ is even and each $C_i$ is odd). However, the XOR of this even number of cycles with $C$ (an odd number of cycles overall) is empty, so we are done by \Cref{prop:1}.\\
 
 	Let us now reduce EVEN-DIGRAPH to EVEN-CYCLE.\\
-	We shall construct a weighting such that if there is no even cycle with respect to this weighting, there is no even cycle with respect to any weighting. If we manage to assign weights such that every basic $C_i$ cycle has odd weight, we are done. Furthermore, it is easy to do this by assigning a $1$ to some edge and $0$ to everything else.
+	We shall construct a weighting such that if there is no even cycle with respect to this weighting, there is no even cycle with respect to any weighting. If we manage to assign weights such that every basic $C_i$ cycle has odd weight, we are done. Furthermore, it is easy to do this by inductively building up the graph ear-by-ear -- assign a weight of $0$ or $1$ to a specific edge in $P_i$ such that $C_i$ is odd, and assign $0$ to all other edges in the ear.
 \end{proof}
 
 % ^ DONE BY SEYMOUR-THOMASSEN
@@ -123,7 +129,7 @@ First off, we shall show that determining if a given orientation is Pfaffian in 
 \end{proof}
 
 For bipartite planar graphs, since the above proof gives an algorithm to find a Pfaffian orientation, this implies that we can count the number of perfect matchings in polynomial time.\\
-What does the result mean for general (non-bipartite) planar graphs? It turns out that even in general, we can construct a matrix using a Pfaffian orientation whose determinant has absolute value equal to the number of perfect matchings. This matrix $A$ has
+What is the significance of this result for general (non-bipartite) planar graphs? It turns out that even in general, we can construct a matrix using a Pfaffian orientation whose determinant is related to the number of perfect matchings. This matrix $A$ has
 \[ a_{ij} = \begin{cases} 1, & \text{edge $ij$ is directed from $i$ to $j$,} \\ -1, & \text{edge $ij$ is directed from $j$ to $i$}, \\ 0, & \text{there is no edge $ij$.} \end{cases} \]
 We claim that this matrix has determinant equal to the square of the number of perfect matchings of the graph.
 
@@ -140,9 +146,94 @@ Finally, we must show that if we have a Pfaffian orientation and consider the ma
 The idea behind the proof is that two perfect matchings together can be thought of as a permutation on $[2n]$, with cycles in the graph being cycles of the permutation.
 
 \begin{fprop}
-	If we have a Pfaffian orientation, then every perfect matching contributes the same $\pm 1$ sign to the Pfaffian of the corresponding matrix. In particular, the number of perfect matchings of $G$ is equal to the square root of the absolute value of the determinant.
+	If we have a Pfaffian orientation, then every perfect matching contributes the same $\pm 1$ sign to the Pfaffian of the corresponding matrix. In particular, the number of perfect matchings of $G$ is equal to the square root of the determinant.
 \end{fprop}
 
-Characterizing the class of graphs which have Pfaffian orientations is one of the largest open problems in matching theory. As of the time of writing, all we know is the Heawood graph, planar graphs, and graphs obtained by combining known graphs with Pfaffian orientations in some specified manners.
+Characterizing the class of graphs which have Pfaffian orientations is one of the largest open problems in matching theory. As of the time of writing, all we know is the Heawood graph, planar graphs, and graphs obtained by combining known graphs with Pfaffian orientations in some specified manner.
+
+% LEC 5
+
+\subsection{Red-blue matchings}
+
+Given a bipartite graph $G$ with a perfect matching, suppose we color each edge as red or blue. Does there exist a perfect matching with some specified number $k$ of red edges?\\
+This problem is not known to be solvable in polynomial time as of the time of writing, but is also not known to be \textsf{NP}-complete.\\
+In the scenario where the graph has a Pfaffian orientation, we can take the corresponding matrix and replace each red edge with a variable $r$ (signed with the corresponding sign of the matrix depending on the Pfaffian orientation). The question then just asks whether there the $r^k$ term has nonzero coefficient, which can be determined in polynomial time, either by finding the determinant as a polynomial, or using interpolation since we know that the polynomial has degree at most $n$.\\
+
+The above Pfaffian case even counts the number of perfect matchings with $k$ red edges, however. Is there an easier way if we want to just determine existence?\\
+As in the usual perfect matching case, if we take the determinant of the adjacency matrix replacing all red edges with the variable $r$, if the coefficient of $r^k$ in this polynomial is $0$, then there is a matching with $k$ red edges. We leverage this idea by assigning a random weight to each red edge; with good ($\Omega(1)$) probability, the resulting determinant is nonzero if there exists a matching with $k$ red edges.
+
+\begin{ftheo}
+	\label{randomized red-blue matching}
+	Let $G$ be a bipartite graph. For $e = ij \in E$, the weight $w_e$ is uniformly randomly drawn from $[2m]$. Consider the matrix $M$ defined by
+	\[ M_{ij} = \begin{cases} 2^{w_{ij}}, & \text{$ij \in E$ \text{ and } $ij$ is blue} \\ 2^{w_{ij}}, & \text{$ij \in E$ \text{ and } $ij$ is red}, \\ 0, & \text{otherwise.} \end{cases} \]
+	If $G$ has no perfect matching with $k$ red edges, then the coefficient of $r^k$ in $\det(M)$ is $0$. If $G$ has as perfect matching with $k$ red edges, the coefficient of $r^k$ in $\det(M)$ is nonzero with probability at least $1/2$.
+\end{ftheo}
+Note that the size of the bit representation of $2^{w_{ij}}$ is still polynomial in the input size $n$.
+\begin{proof}
+	A matching $M$ with $k$ red edges contributes a term $\pm 2^{\sum_{e \in M} w_e} r^k$ to the determinant. That is, the coefficient of $r^k$ in $\det M$ is
+	\[ \sum_{\text{matchings $M$ with $k$ red edges}} \pm 2^{\sum_{e \in M} w_e}. \]
+	Suppose that our weight assignment is such that there is a unique minimum weight perfect matching with $k$ red edges. In this case, the coefficient is nonzero! Indeed, the bit in the representation corresponding to this minimum weight matching cannot be cancelled out by any other matching. So, if we show that there is a unique minimum weight perfect matching with probability at least $1/2$, we are done. A stronger version of this is proved in the \nameref{isolation lemma}.
+\end{proof}
+
+The following surprising result was proved by Mulmuley, Vazirani, and Vazirani.
+
+\begin{flem}[Isolation Lemma]
+\label{isolation lemma}
+	Let $E$ be a set of $m$ elements and $\mathcal{S} \subseteq 2^E$ an arbitrary nonempty family of subsets of $E$. Independently and uniformly randomly assign to each element of $E$ a weight in $\{1,2,\ldots,N\}$. Then,
+	\[ \Pr\left[ \mathcal{S} \text{ has a minimum weight set} \right] \ge 1 - \frac{m}{N}, \]
+	where the weight of a set is the sum of the weights of the elements in it.
+\end{flem}
+We get the desired result in the context of \Cref{randomized red-blue matching} on setting $E$ to be the set of edges, $\mathcal{S}$ to be the collection of perfect matchings with $k$ red edges, and $N = 2m$.
+\begin{proof}
+	Let $E = \{e_1,\ldots,e_m\}$. Split $\mathcal{S}$ into two parts $\mathcal{S}_0,\mathcal{S}_1$, where $\mathcal{S}_0 = \{ T \in \mathcal{S} : e_1 \in T \}$ and $\mathcal{S}_1 = \mathcal{S} \setminus \mathcal{S}_0$. Let us look at the event $E$ that there is a minimum weight set that contains $e_1$ and a minimum weight set that does not contain $e_1$. This means that the minimum weight set in $\mathcal{S}_0,\mathcal{S}_1$ are equal.\\
+	What happens if we fix the weights of all elements other than $e_1$? The minimum weight in $\mathcal{S}_1$ is determined, and the minimum weight in $\mathcal{S_0}$ is just equal to some fixed quantity plus the weight of $e_1$. In particular, there is at most one value of $w(e_1)$ such that the two minimum weights are equal. Therefore, $\Pr[E] \le 1/N$. In general, taking the union bound, we have
+	\[ \Pr[\text{there exist two min wt sets}] = \Pr\left[ \bigcup_{i \in [m]} \text{there exist min wt sets containing $e_i$ and not containing $e_i$} \right] \le \frac{m}{N}. \qedhere \]
+\end{proof}
+
+In fact, the above is known to be true with the larger probability $\left(1 - \frac{1}{N}\right)^m$.\\
+The fact that this problem has a randomized polynomial time algorithm is good reason to believe that it is not $\mathsf{NP}$-complete; no $\mathsf{NP}$-complete problem is known to have a randomized polynomial time algorithm.
+% TRY TO DO IT WHEN CUBIC GRAPH!
 
 % Heawood has Pfaffian orientation. 7-vtx digraph i+3 i-3 i+1 i-1. take the two graphs disjointly, add edges from one to another in only one direction. if you have a bidirectional edge in each graph, combine the two to get a single bidirectional edge in the new graph (2 less vertices).
+
+% LEC 6
+
+% \subsection{Relating graph problems}
+
+Consider three graph objects which are specific subsets of edges -- spanning trees, paths from $u$ to $v$, and perfect matchings. 
+
+\begin{itemize}
+	\item Determining existence of any of these three is in $\mathsf{P}$.
+	\item Next, we have the search versions of these problems of determining an object of the required form: for the first two, the proof of existence also gives an algorithm for finding an object. For the third, we can adapt the Mulmuley-Vazirani-Vazirani determinant idea used to determine the existence of a perfect matching to also find a perfect matching; we omit the details. Regardless, all three can again be done in polynomial time. \\
+	\item Next, suppose we have to find the minimum weight object. This problem is in \textsf{P} for spanning trees. For paths, it can be done in polynomial when all weights are non-negative, and it is \textsf{NP}-complete otherwise. The problem is in \textsf{P} for perfect matchings.
+	\item Next, look at the red-blue variants of this problem, where we wish to find an object with $k$ red edges. This can be done for spanning trees in polynomial time -- first find a tree with a maximal number of red edges (How?), find a tree with a minimal number of red edges, then perform swapping operations edge-by-edge to get from the first to the second, and at some point in this process there must be exactly $k$ red edges if possible. This is \textsf{NP}-complete for paths, since it can be used to find a Hamiltonian path. Finally, we don't know whether this problem is in \textsf{P} or \textsf{NP}-complete for perfect matchings.
+	\item Next, we have the counting variant of this problem. This can be done in polynomial time for spanning trees using the \emph{matrix tree theorem}. This is $\#\mathsf{P}$-complete for boths paths and perfect matchings.
+	\item Finally, let us look at the problem of determining the maximum number of edge-disjoint objects. This can again be done in polynomial time for spanning trees, in polynomial time for paths (using flow, say). For perfect matchings, this is in polynomial time for bipartite graphs but is \textsf{NP}-complete in general.
+\end{itemize}
+
+\subsection{Forcing number}
+
+\begin{fdef}[Forcing number]
+	Given a perfect matching $M$ in a graph $G$, the \emph{forcing number} of $M$ is the size of the smallest subset $S \subseteq M$ such that $M$ is the only perfect matching containing $M$. In such a case, we say that $S$ \emph{forces} $M$.
+\end{fdef}
+This is related to the problem of setting a Sudoku, where given a solution, we are interested in the smallest number of clues required to make the solution unique. The forcing number is used in chemistry, where atoms are vertices and edges are bonds.\\
+This is \textsf{NP}-complete for graphs in general, unfortunately. However, we can also study the \emph{minimum forcing number} of a graph, which is the smallest forcing number across all perfect matchings of the graph, and we can similarly study the \emph{maximum forcing number}.\\
+
+A matching has no alternating cycle which does not contain any edges in its forcing set. In particular, if a matching has $k$ disjoint alternating cycles, its forcing number is at least $k$.\\
+For the $2n \times 2n$ grid graph, it has been proved that the maximum forcing number is $n^2$ and the minimum forcing number is $n$. It was also proved that there exists a perfect matching with forcing number $k$ for any integer $n \le k \le n^2$.\\
+In this same paper, it was conjecture that in the $n$-hypercube, every perfect matching has forcing number $2^{n-2}$. This was soon proved to be false, by showing matchings on the hypercube for which nearly all edges in the matching need to be fixed for a unique perfect matching (the conjecture says we only need to fix $1/2$ the edges). We still do not know the maximum forcing number of the hypercube, however. \\
+
+We introduce a fairly general technique to prove lower bounds on the minimum forcing number of a bipartite graph. Consider the bipartite adjacency matrix $A$ of the graph, and let $M$ be a matching, and let $S \subseteq M$ be a forcing set of size $k$. Consider the $(n-k) \times (n-k)$ submatrix $A'$ of $A$ comprising those rows and columns (vertices) that are \emph{not} in $S$. Then, the determinant of $A'$ is $\pm A$. In fact, if I replace each $1$ entry in $A'$ with any nonzero value, the determinant remains nonzero.\\
+That is, if there exists a matching with forcing number $k$, if we assign any nonzero weights to the edges, there always exists a $(n-k) \times (n-k)$ nonsingular submatrix, that is, the rank of $A$ is at least $(n-k)$. In particular, the rank of the matrix is at least $(n-k)$ in any field, if we replace each $1$ with a nonzero field entry. If we want to prove a lower bound on the minimum forcing number, we should assign nonzero weights to the edges in some manner that the rank of the resulting matrix is small.
+
+\begin{fdef}[Min-rank]
+	Given a $n \times n$ $0,1$-matrix $M$, the \emph{min-rank} of $M$ is the smallest possible rank of $M'$, where $M'$ is obtained by replacing each nonzero entry of $M$ with a nonzero field entry.
+\end{fdef}
+
+Therefore, $n$ minus the min-rank of a graph's bipartite adjacency matrix is a lower bound on the graph's minimum forcing number.
+% minimum forcing number
+
+So, a natural next question is: when is this method tight? For which graphs, with minimum forcing number $k$, is $(n-k)$ precisely the min-rank of the bipartite adjacency matrix?\\
+Slightly more generally, for what bipartite graphs is the number of vertices in the largest subgraph with a unique perfect matching equal to twice the min-rank of the bipartite adjacency matrix? We do not know any examples where the two are not equal.
+
+% for a 2n x 2n grid graph, max forcing number is n^2 and min forcing number is n.
