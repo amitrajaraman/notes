@@ -237,3 +237,127 @@ So, a natural next question is: when is this method tight? For which graphs, wit
 Slightly more generally, for what bipartite graphs is the number of vertices in the largest subgraph with a unique perfect matching equal to twice the min-rank of the bipartite adjacency matrix? We do not know any examples where the two are not equal.
 
 % for a 2n x 2n grid graph, max forcing number is n^2 and min forcing number is n.
+
+\begin{fdef}[Cartesian Product]
+	Given graphs $G_1,G_2$, the \emph{Cartesian product} $G_1 \times G_2$ of the graphs has vertex set $V(G_1) \times V(G_2)$, with $(u_1,v_1)$ adjacent to $(u_2,v_2)$ iff $u_1 = u_2$ and $v_1 \leftrightarrow v_2$ or $v_1 = v_2$ and $u_1 \leftrightarrow u_2$.
+\end{fdef}
+
+That is, we replace each vertex in $G_2$ by a copy of $G_1$, also making the copies adjacent for neighbouring vertices in $G_2$. The graph $G \times K_2$ is sometimes called the \emph{prism} over $G$.\\
+Given this, $Q_n = K_2 \times K_2 \times \cdots \times K_2$.
+
+\begin{flem}
+	Let $G$ be a bipartite graph with the $n \times n$ bipartite adjacency matrix $A$. Then, the prism over $G$ has bipartite adjacency matrix
+	\[ \begin{pmatrix} A & \Id_n \\ \Id_n & A^\top \end{pmatrix}. \]
+\end{flem}
+The proof of the above is straightforward and we omit it.\\
+
+Denote by $A_n$ the bipartite adjacency matrix of the $n$-hypercube. It is easily argued using the above lemma that $A_n$ is symmetric.
+
+\begin{flem}
+	Over $\F_2$,
+	\[ A_n^2 = \begin{cases} 0, & n\text{ is even,} \\ \Id, & n\text{ is odd.} \end{cases}  \]
+\end{flem}
+\begin{proof}
+	We prove this via induction. The base case when $n = 1$ is trivial. In general,
+	\[ A_n^2 = \begin{pmatrix} A_n & \Id \\ \Id & A_n \end{pmatrix}^2 = \begin{pmatrix} A_n^2 + \Id & 2A_n \\ 2A_n & A_n^2 + \Id \end{pmatrix}. \]
+	Over $\F_2$, this is just $\Id - A_n^2$, so the required follows by the inductive hypothesis.
+\end{proof}
+
+In particular, when $n$ is odd, $A_n$ has full rank over $\F_2$. 
+
+\begin{flem}
+	The minimum forcing rank of the $n$-hypercube $Q_n$ is at least $2^{n-1}$.
+\end{flem}
+\begin{proof}
+	Suppose $n$ is even. We shall prove that the rank of $A_n$ over $\F_2$ is $2^{n-1}$. Recalling that $A_{n-1}^2 = \Id$,
+	\[ \begin{pmatrix} A_{n-1} & -\Id \\ 0 & \Id \end{pmatrix} \begin{pmatrix} A_{n-1} & \Id \\ \Id & A_{n-1} \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ \Id & A_{n-1} \end{pmatrix}.  \]
+	Since the first matrix is non-singular due to the non-singularity of $A_{n-1}$, the rank of $A_n$ is half the number of rows of $A_n$, that is, $2^{n-1}$.\\
+	% can also look at rank over R
+
+	When $n$ is odd, this argument does not work directly. Here however, we leverage the fact that we can assign nonzero weights to the nonzero entries. Replacing the entries of the $A_{n-1}$ parts, we shall get
+	\[ \begin{pmatrix} W_{n-1} & \Id \\ \Id & W_{n-1}^{-1} \end{pmatrix}, \]
+	so that we can apply the same trick as in the first part to show that the rank of this matrix is half the number of rows of $A_n$.
+	That is, we would like to be able to assign nonzero weights to the nonzero entries of $W_{n-1}$ such that the inverse of $W_{n-1}$ is also obtained by assigning nonzero weights to the nonzero entries. More succinctly, the ``nonzero pattern'' of $W_{n-1}$, $W_{n-1}^{-1}$, and $A_{n-1}$ are identical.\\
+	This can inductively be done rather easily however. We have $W_1 = W_1^{-1} = \Id$. In general, we define
+	\[ W_n = \begin{pmatrix} 2W_{n-1} & \Id \\ \Id & W_{n-1}^{-1} \end{pmatrix}, \]
+	so
+	\[ W_n^{-1} = \begin{pmatrix} W_{n-1}^{-1} & -\Id \\ -\Id & 2W_{n-1} \end{pmatrix} \]
+	has the same nonzero pattern as $A_n$ by the inductive hypothesis.
+\end{proof}
+Note that we can take the $W_n$ modulo $p$ for any prime $p \ne 2$.\\
+
+Let us next consider a $n \times n$ bipartite graph $G$. It is easy to see that the minimum forcing number of $G \times K_2$ is at most $n$, by considering the matching which matches a vertex to its copy -- if we map all the vertices on one side of the bipartition to its copy, the remaining $n$ edges in the matching are forced by the fact that there are no edges remaining.\\
+
+\begin{question}
+For which bipartite graphs does the corresponding prism have minimum forcing number exactly $n$? For such a graph, can this be proved using the min-rank argument?
+\end{question}
+
+The second part amounts to finding a $n \times n$ weight matrix $W$ such that $W$ has the same nonzero pattern as $A$ and $W^{-1}$ has the same nonzero pattern as $A^\top$.\\
+
+For the first question, there do exist graphs whose prisms don't have minimum forcing number exactly $n$.
+
+	\begin{figure}[H]
+	\centering
+	\begin{subfloat}[The minimum forcing number of $C_6 \times K_2$ is less than $3$] {
+	\centering
+	\begin{tikzpicture}
+		\foreach \phi in {1,...,6}{
+		\node (\phi) at (150 - 360/6 * \phi:1.3cm) {$\phi'$};
+		\node (\phi') at (150 - 360/6 * \phi:2.5cm) {$\phi$};
+      	};
+      	\draw (1) edge[green] (2);
+		\draw (2) edge (3);
+		\draw (3) edge[green] (4);
+		\draw (4) edge (5);
+		\draw (5) edge[red] (6);
+		\draw (6) edge (1);
+
+		\draw (1') edge (2');
+		\draw (2') edge[green] (3');
+		\draw (3') edge (4');
+		\draw (4') edge[green] (5');
+		\draw (5') edge (6');
+		\draw (6') edge[red] (1');
+
+		\draw (1) edge (1');
+		\draw (2) edge (2');
+		\draw (3) edge (3');
+		\draw (4) edge (4');
+		\draw (5) edge (5');
+		\draw (6) edge (6');
+	\end{tikzpicture}
+	}
+	\end{subfloat}
+	\hspace{100pt}
+	\begin{subfloat}[The minimum forcing number of $P_4 \times K_2$ is $1$.] {
+	\centering
+	\begin{tikzpicture}
+		\foreach \phi in {1,...,4}{
+		\node (\phi') at (-1.5,1.5*\phi) {$\phi'$};
+		\node (\phi) at (1.5,1.5*\phi) {$\phi$};		
+      	};
+		\draw (1) edge (2);
+		\draw (2) edge[green] (3);
+		\draw (3) edge (4);
+
+		\draw (1) edge[green] (1');
+		\draw (2) edge (2');
+		\draw (3) edge (3');
+		\draw (4) edge[green] (4');
+
+		\draw (1') edge (2');
+		\draw (2') edge[red] (3');
+		\draw (3') edge (4');
+	\end{tikzpicture}
+	}
+	\end{subfloat}
+	\caption{The coloured edges form a matching with the red edges being a forcing set.}
+	\end{figure}
+	% The bipartite adjacency matrix of $P_4$ is
+	% \[
+	% \begin{pmatrix}
+	% 	1 & 0 \\ 1 & 1	
+	% \end{pmatrix}.
+	% \]
+	% In particular, if we weight the nonzero entries of this matrix as $a,b,c$ to get $W$ and the nonzero entries of the transpose as $d,e,f$ to get $W^{-1}$, we have
+	% \[ WW^{-1} = \begin{pmatrix} a & 0 \\ b & c \end{pmatrix} \begin{pmatrix} d & e \\ 0 & f \end{pmatrix} = \begin{pmatrix} ad & ae \\ bd & be+cf \end{pmatrix}. \]
