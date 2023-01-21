@@ -2,7 +2,7 @@
 
 \clearpage
 
-\section{More applications}
+\section{Higher degree sum-of-squares}
 
 \subsection{Approximating conductance}
 
@@ -39,6 +39,7 @@
 	\[ \E_{\mu'} f_G \le \sum_{ij \in E} D(i,j) = \pE_{\mu} f_G. \]
 
 	Note that this proof works out more generally in the scenario where we have $D(i,A)$ for some set $A$ instead.
+	To ensure non-triviality, we choose $t \in [0,\max_j D(1,j)]$ instead of $t \in [0,1]$.\\
 	% While this proof may seem complete, it is not -- we require that the cut output by $\mu'$ is (almost surely) not $\emptyset$ or $[n]$. Since $D(j,A) = 0$ for any $j \in A$, the cut is never $\emptyset$. For the cut to be almost surely unequal to $[n]$, we require the existence of some $i \in [n]$ such that $D(i,A) \ne 0$. 
 
 	Let us now get to a more non-trivial problem.
@@ -75,52 +76,144 @@
 	In \Cref{sec:quad-optim}, our analysis was completely local in the sense that we analyzed what happens to each $(x_i - x_j)^2$ term completely independent of the others. It might not be too ambitious to hope that some sort of global analysis is possible, wherein we show that if one term is small, then others must be large, thus forcing the entire summation to be large. Of course, our remarks before \Cref{prop: gw-reparametr} make this unlikely, at least in the setting of max-cut.\\
 	On the other hand, we shall use global analysis in the ARV algorithm. Even before ARV, it has helped in better approximations to vertex cover, graph coloring, max-cut gain etc.
 
-	\begin{ftheo}
+	\begin{ftheo}[ARV]
 		Let $G$ be a $d$-regular graph with $n$ vertices. There is a degree $4$ sum-of-squares certificate for
 		\[ f_G(x) - \frac{\varphi_G}{\Theta(\sqrt{\log n})} \cdot \frac{d}{n} f_{K_n}(x). \]
 		Furthermore, given any degree $4$ pseudodistribution $\mu$ on $\{-1,1\}^n$, it is possible to find in polynomial time a set $S \subseteq V$ such that
 		\[ \varphi_G(S) \le O(\sqrt{\log n}) \cdot \frac{\pE_\mu f_G}{(d/n) \pE_\mu f_{K_n}}. \]
 	\end{ftheo}
-	\begin{proof}
-		Like in prior proofs, we shall show that given any degree $4$ pseudodistribution $\mu$, there exists a distribution $\mu'$ such that
-		\[ \frac{\E_{\mu'} f_G}{\E_{\mu'} f_{K_n}} \le O(\sqrt{\log n}) \cdot \frac{\pE_\mu f_G}{\pE_\mu f_{K_n}}. \]
-		$D(i,j) = \frac{1}{4} \pE_\mu (x_i - x_j)^2$ is in some sense the ``pseudoprobability'' that $i,j$ are separated by the cut. Because $\mu$ is a degree $2$ pseudodistribution (a degree $4$ one, in fact), this is non-negative. By the squared triangle inequality, we have that $D(i,k) \le D(i,j) + D(j,k)$ for any $i,j,k$ has a degree $4$ sum-of-squares certificate. \\
-		% OVERKILL
-		Now, given a (nonempty) set $A$ and vertex $i$, define $D(i,A) = \min_{j \in A} D(i,j)$. In the min-cut procedure above, we created the distribution by arranging all the $D(j,1)$ on a line. In fact, the same analysis works if we use $D(j,A)$ instead. To make this meaningful however, I need to ensure that the cut is non-trivial. So, I choose $t \in [0,\max_j D(1,j)]$ instead of $t \in [0,1]$.\\
-		Getting back to approximating expansion, we have a distribution $\mu'$ such that $\E_{\mu'} f_G \le \pE_{\mu} f_G$, but we would also like to show that $\E_{\mu'} f_{K_n} \ge C \cdot \pE_\mu f_{K_n}$. Denoting by $\indic(\hat{x})$ the set of vertices where $\hat{x} = 1$, we have that $\E_{\mu'} f_{K_n} = |\indic(\hat{x})|(n - |\indic(\hat{x})|)$.
+	Like in prior proofs, we shall show that given any degree $4$ pseudodistribution $\mu$, there exists a distribution $\mu'$ such that
+	\[ \frac{\E_{\mu'} f_G}{\E_{\mu'} f_{K_n}} \le O(\sqrt{\log n}) \cdot \frac{\pE_\mu f_G}{\pE_\mu f_{K_n}}. \]
+	% $D(i,j) = \frac{1}{4} \pE_\mu (x_i - x_j)^2$ is in some sense the ``pseudoprobability'' that $i,j$ are separated by the cut. Because $\mu$ is a degree $2$ pseudodistribution (a degree $4$ one, in fact), this is non-negative. By the squared triangle inequality, we have that $D(i,k) \le D(i,j) + D(j,k)$ for any $i,j,k$ has a degree $4$ sum-of-squares certificate. \\
+	We have a distribution $\mu'$ such that $\E_{\mu'} f_G \le \pE_{\mu} f_G$, but we would also like to show that $\E_{\mu'} f_{K_n} \ge C \cdot \pE_\mu f_{K_n}$. Denoting by $\indic(\hat{x})$ the set of vertices where $\hat{x} = 1$, we have that $\E_{\mu'} f_{K_n} = |\indic(\hat{x})|(n - |\indic(\hat{x})|)$.
 
-		% large separated sets: A, B are large \Delta-separated if for all i \in A, j \in B, D(i,j) \ge \Delta and |A|,|B| = \Omega(n).
-		% If we round according to D(j,A), then \sum_{i,j} \E (x_i - x_j)^2 \ge \Delta |B||A| = \Omega(\Delta n^2). Therefore, \pE_\mu f_G(x) \ge \Omega(\Delta n^2), so we can round with approximation ratio 1/\Theta(\Delta).
-	\end{proof}
+	\begin{fdef}
+		$A,B \subseteq V$ are said to be \emph{large $\Delta$-separated sets} if for all $i \in A, j \in B$, $D(i,j) \ge \Delta$ and $|A||B| = \Omega(n^2)$.
+	\end{fdef}
+
+	If we manage to find large $\Delta$-separated sets, we can do the rounding (similar to the min-cut procedure) using $D(j,A)$, so
+	\[ \E_{\mu'} f_{K_n} = \sum_{i,j} \E_{\mu'} \frac{1}{4} (x_i - x_j)^2 \ge \sum_{i\in A,j\in B} \E_{\mu'} \frac{1}{4} D(j,A) \ge \frac{\Delta}{4} |A||B| = \Omega(\Delta n^2) \ge \Omega(\Delta) \pE_\mu f_{K_n}. \]
+	Therefore, if we manage to find large $\Delta$-separated sets, we immediately get an $O(1/\Delta)$-approximation algorithm.
 
 	\begin{ftheo}[Global Structure Theorem]
 		\label{arv-glob-struct}
-		Let $G$ be a $d$-regular graph and $\mu$ a degree $4$ pseudodistribution. Suppose that
-		\[ \frac{1}{n^2} \sum_{i,j} D(i,j) \ge 0.1. \]
+		Let $G$ be a $d$-regular graph and $\mu$ a degree $4$ pseudodistribution. Suppose that $\sum_{i,j} D(i,j) = \Omega(n^2)$.
 		Then, there exist $A,B$ that can be found in polynomial time that are $\Omega(1/\sqrt{\log n})$-separated.
 	\end{ftheo}
-	Let us first give a proof of the Leighton-Rao $O(\log n)$-approximation algorithm, which proves the above for $\Omega(1/\log n)$-separation instead.
+	Let us first give a proof of the Leighton-Rao $O(\log n)$-approximation algorithm, which proves the above for $\Omega(1/\log n)$-separation instead. Their original Leighton-Rao proof was based on linear programming, but we give one based on the above sum-of-squares idea.
 	\begin{proof}[Proof of weaker \nameref{arv-glob-struct}]
-		Like before, assume wlog that $\pE_\mu x = 0$, and let $g \sim \mathcal{N}(0,\pE_\mu xx^\top)$. Let $A^{(0)} = \{i : g_i \le -1\}$ and $B^{(0)} = \{i : g_i \ge 1\}$. Because $\E g_i^2 = 1$ and $\E g_i = 0$, we expect these two sets to have $\Omega(n)$ size separately. However, this is not enough, because we might have that $B^{(0)}$ is small when we condition on $A^{(0)}$ being large. So, we shall show that $\E |A^{(0)}||B^{(0)}| \ge \Omega(n^2)$. To do so, we can pretty easily show that $\Pr[g_i \le -1 \text{ and } g_j \ge 1] \ge C D(i,j)$ for some constant $C$ using arguments from earlier sections. Since $\sum_{i,j} D(i,j) = \Omega(n^2)$, we can use linearity of expectation to conclude that $\E |A^{(0)}||B^{(0)}| \ge \Omega(n^2)$.\\
-		Note that $A^{(0)}$ and $B^{(0)}$ are random variables depending on the draw of the Gaussian. While we have that for $i \in A^{(0)}, j \in B^{(0)}$, $g_j - g_i \ge 2$, we would like some fixed non-random sets $A,B$ such that for any $i \in A, j \in B$, $\E (g_i - g_j)^2 \ge \Delta$. We would like to show that if some coordinates appear in $A^{(0)},B^{(0)}$, then with good probability they are ``good'' pairs in the sense of also being $\Delta$-separated (which is a statement about the expectation, not a single draw). If we have for some pair $i,j$ that $\E (g_i - g_j)^2 \le \Delta$, then standard concentration inequalities show that $\Pr[g_j - g_i \ge 2] \le e^{-\Omega(1/\Delta)}$. However, this is still for a \emph{single} pair $i,j$, but we need to somehow deal with $\Omega(n^2)$ such pairs simultaneously; when $\Delta = O(1/\log n)$, we can use a union bound to do so.
+		Like before, assume wlog that $\pE_\mu x = 0$, and let $g \sim \mathcal{N}(0,\pE_\mu xx^\top)$. Let
+		\[ A^{(0)} = \{i : g_i \le -1\} \text{ and } B^{(0)} = \{i : g_i \ge 1\}. \]
+		Because $\E g_i^2 = 1$ and $\E g_i = 0$, these two sets have size $\Omega(n)$ in expectation.\\
+		However, this is not enough, because it is possible that the probability that \emph{both} sets are large is small. To fix this, we can show without much difficulty that $\Pr[g_i \le -1 \text{ and } g_j \ge 1] \ge C D(i,j)$ for some constant $C$ using arguments from earlier sections. Since $\sum_{i,j} D(i,j) = \Omega(n^2)$, we can use linearity of expectation to conclude that $\E |A^{(0)}||B^{(0)}| = \Omega(n^2)$.\\
+		Now, while $A^{(0)}$ and $B^{(0)}$ are well-separated for the draw of the Gaussian that is used to define them, we care about the separation in expectation. That is, while $g_j - g_i \ge 2$ for $i \in A^{(0)}, j \in B^{(0)}$, we want that $\E (g_i - g_j)^2 \ge \Delta$ for $i \in A, j \in B$. We would like to show that if some coordinates appear in $A^{(0)},B^{(0)}$, then with good probability they are ``good'' pairs in the sense of also being $\Delta$-separated. \\
+		If we have for some pair $i,j$ that $\E (g_i - g_j)^2 \le \Delta$, then standard concentration inequalities show that $\Pr[g_j - g_i \ge 2] \le e^{-\Omega(1/\Delta)}$. When $\Delta = O(1/\log n)$, we can use a union bound argument to extend this to all pairs $i,j$.
 	\end{proof}
 
-	The original Leighton-Rao proof was based on linear programming. Consider the graph $H$ with vertex set $[n]$ and edges between pairs $ij$ iff $D(i,j) \le \Delta$. Our goal is to find $\Omega(n)$ sets $A,B$ such that there are no edges between $A$ and $B$ in $H$. Such pairs are typically called \emph{vertex separators}.\\
-	Now, $A^{(0)}$ and $B^{(0)}$ are still not necessarily vertex separators, since some ``bad'' pairs might have crept in. So, greedily\footnote{non-randomly fix a vertex order beforehand to do this.} find a maximal matching $M$ in $E(H) \cap (A^{(0)} \times B^{(0)})$, and then set $A = A^{(0)} \setminus V(M)$ and $B = B^{(0)} \setminus V(M)$. Note again that $M$ is a random variable comprised of directed edges. If $i,j \in M$, then $g_j - g_i \ge 2$ but $\E (g_j - g_i)^2 \le \Delta$. Also note that $M(g)$ has all the edges in $M(-g)$ but reversed. Therefore, the probability that a vertex has an incoming edge in $M$ is the same as the probability that a vertex has an outgoing edge in the perfect matching.\\
-	Next, we claim that if $|A||B| = o(n^2)$, then $\E |M| \ge \Omega(n)$. We already saw that for each $(i,j) \in M$, because $\E (g_i - g_j)^2 \le \Delta$ and $g_j - g_i \ge 2$, the matching is expected to be small generally. Furthermore, one might think that we can blame the smallness of $|A||B|$ on a single outlier vertex whose Gaussian value is too large, but the fact that we are using a matching rules this out. To prove the claim, we shall use the right inequality in the following.
-	\[ O(\sqrt{\log n}) \ge \E \max_{i,j \in [n]} (g_j - g_i) \ge \frac{\Omega(1)}{\Delta} \cdot \left( \frac{\E |M|}{n} \right)^3. \]
-	The left-hand-side is proved rather simply, using the fact that if $(Z_1,Z_2,\ldots,Z_t)$ are jointly Gaussian, then
-	\[ \Var \max_{i \le t} Z_i \le O(1) \max_{i \le t} \Var Z_i. \]
+	Consider the graph $H$ on vertex set $[n]$ with $ij$ adjacent iff $D(i,j) \le \Delta$. Our goal is to find $\Omega(n)$-sized sets $A,B$ such that there are no edges between $A$ and $B$ in $H$. Such pairs are typically called \emph{vertex separators}.\\
+	The $A^{(0)}$ and $B^{(0)}$ we have now are random sets such that $(g_j - g_i) \ge 2$ for $i \in A^{(0)}, j \in B^{(0)}$ and $\E |A^{(0)}| |B^{(0)}| = \Omega(n^2)$. The issue that might require us to throw away vertices from $A^{(0)}$ and $B^{(0)}$ is when for some two vertices, $\E (g_j - g_i)^2 \le \Delta$. One cause for this might be if in our draw, there is some vertex $j$ whose value $g_j$ is abnormally large, which results in it contributing to many ``bad'' edges. To account for this, in the ARV result, we remove such vertices only once using a matching.  \\
+	Before the algorithm begins, deterministically fix an ordering on the vertices. Greedily find a maximal matching $M$ in $E(H) \cap (A^{(0)} \times B^{(0)})$, and then set $A = A^{(0)} \setminus V(M)$ and $B = B^{(0)} \setminus V(M)$. Note that this $A$ and $B$ are indeed $\Delta$-separated -- were they not, we would be able to make the matching larger by adding an edge. For ease of notation, direct all edges in $M$ from $A^{(0)}$ to $B^{(0)}$.\\
+	% If $ij \in M$, then $g_j - g_i \ge 2$ but $\E (g_j - g_i)^2 \le \Delta$.
+	We would like to show that $M$ is small, so not too many vertices are removed from $A^{(0)}$ and $B^{(0)}$ to get $A,B$.
+	% Next, we claim that if $|A||B| = o(n^2)$, then $\E |M| \ge \Omega(n)$.
+	To prove this, we shall show that
+	\begin{flem}
+		\label{lem: arv-matching-size}
+		It holds that
+		\[ O(\sqrt{\log n}) \ge \E \max_{i,j \in [n]} (g_j - g_i) \ge \frac{\Omega(1)}{\Delta} \cdot \left( \frac{\E |M|}{n} \right)^3. \]
+	\end{flem}
+	In particular, on setting $\Delta = \Theta(1/\sqrt{\log n})$, $|M|$ is $O(n)$, so $|A||B| = \Omega(n^2)$, completing the proof of the \nameref{arv-glob-struct}.
+	\begin{proof}%[Proof of \cref{eqn: arv-matching-size}]
+		The left-hand-side is proved rather simply, using the fact that if $(Z_1,Z_2,\ldots,Z_t)$ are jointly Gaussian, then
+		\begin{equation}
+			\label{eqn: var-max-gauss}
+			\Var \max_{i \le t} Z_i \le O(1) \max_{i \le t} \Var Z_i.
+		\end{equation}
+		The variable $\max Z_i$ is actually a subgaussian distribution around its mean, which is around $\sqrt{\log t}$ (this may be proved using a Hoeffding bound argument). In our context, we have $n^2$ Gaussians $(g_j - g_i)$, and this is around $O(\sqrt{\log n})$ with good probability.\\
 
-	Let $H^k(i)$ be the vertices within distance $k$ of $i$ in the graph $H$, and $\gamma_i^k = \max_{j \in H^k(i)} g_j - g_i$.
+		The more difficult part of the inequality is the lower bound. Let $H^k(i)$ be the vertices at most $k$ steps away of $i$ in the graph $H$, and $\gamma_i^k = \max_{j \in H^k(i)} g_j - g_i$. The idea is that we shall ``chain'' together edges in the matching, each of which increases the difference $g_j - g_i$ of the terminal edges in the path by $2$, such that the final difference is quite large. Let $\phi_k = \sum_i \E \gamma_i^k$. We shall try to show $\phi_\cdot$ becomes quite large. More precisely, we claim that
+		\begin{equation}
+			\label{eqn: chaining}
+			\phi_{k+1} - \phi_k \ge \E |M| - O(n) \max_{\substack{i \in [n] \\ j \in H^{k+1}(i)}} (\E (g_j - g_i)^2)^{1/2}.
+		\end{equation}
+		Given this, let us prove the lower bound. Note that for any vertices $i,j$ which are $k$ steps apart in $H$, we have $\E (g_i - g_j)^2 \le k\Delta$ by the squared triangle inequality. Consequently, using \eqref{eqn: chaining},
+		\[ \phi_{k+1} - \phi_k \ge \E |M| - O(n) \sqrt{k\Delta}. \]
+		Set $k_0 = \frac{c}{\Delta} \left(\frac{\E|M|}{n}\right)^2$, for some constant $c$ to be fixed later. For $k \le k_0$, we have that
+		\[ \phi_{k+1} - \phi_k \ge 2 \E |M| - O(n) \sqrt{\Delta \cdot \frac{c}{\Delta} \left(\frac{\E|M|}{n}\right)^2} \ge \E |M|, \]
+		where we set $c$ appropriately to get the second inequality. In particular, $\phi_{k_0} \ge k_0 \E|M|$. Noting that $\max_{i,j \in [n]} (g_j - g_i) \ge \phi_{k_0}/n$, we get that
+		\[ \max_{i,j \in [n]} (g_j - g_i) \ge \Omega\left(\frac{k_0}{n}\E |M|\right) = \frac{\Omega(1)}{\Delta} \left(\frac{\E|M|}{n}\right)^3 \]
+		as desired.\\
 
+		Now, to conclude the proof, let us prove \cref{eqn: chaining}. First off, we have that if $ij \in E(H)$, $H_k(j) \subseteq H_{k+1}(i)$ so
+		\[ \gamma_j^{k+1} \ge \gamma_i^k + (g_j - g_i). \]
+		In particular, if $ij$ is an edge in the matching $M$, then by definition, $\gamma_j^{k+1} \ge \gamma_i^k + 2$.
+		Now, for each vertex $i$, set
+		\[ L_i = \begin{cases} 1, & \text{$i$ has an outgoing edge in $M$,} \\ 0, & \text{$i$ has an incoming edge in $M$,} \\ 1/2, & \text{$i$ is unmatched in $M$} \end{cases} \]
+		and $R_i = (1-L_i)$. Because $H^{k+1}(\cdot) \supseteq H^k(\cdot)$, we have that $\gamma_{\cdot}^{k+1} \ge \gamma_{\cdot}^k$ and so,
+		\[ \sum_i L_i \gamma_i^{k+1} \ge \sum_i R_i \gamma_i^k + 2|M| \]
+		and
+		\begin{equation}
+			\label{eqn: arv-chaining-penult}
+			\sum_i \E L_i \gamma_i^{k+1} \ge \sum_i \E R_i \gamma_i^k + 2 \E |M|.
+		\end{equation}
+		Note that for a specific draw $g$ of the gaussians, the matching $M(g)$ has all the edges in $M(-g)$ but reversed (due to the greedy nature when defining $M$). Therefore, the probability that a vertex has an incoming edge in $M$ is the same as the probability that a vertex has an outgoing edge in the perfect matching. This implies that $\E L_i = \E R_i = (1/2)$. \\
+		We are almost done, barring the issue that the expectation of the product above is not equal to the product of the expectation. The difference between the two is bounded using Cauchy-Schwarz without too much difficulty as
+		\begin{align*}
+			\left| \E L_i \gamma_i^{k+1} - \E L_i \E \gamma_i^{k+1} \right| &= \left| \E (L_i - \E L_i)(\gamma_i^{k+1} - \E \gamma_i^{k+1}) \right| \\
+				&\le \sqrt{\E (L_i - \E L_i)^2} \sqrt{\E(\gamma_i^{k+1} - \E \gamma_i^{k+1})^2} \\
+				&\le \sqrt{\Var \gamma_i^{k+1}} \\
+				&\stackrel{\eqref{eqn: var-max-gauss}}{\le} O(1) \sqrt{\max_{j \in H^{k+1}(i)} \E (g_j - g_i)^2}, \\
+		\end{align*}
+		with a similar inequality for $R_i$ instead of $L_i$.
+		Substituting this back in \Cref{eqn: arv-chaining-penult}, we get that
+		\begin{align*}
+			\phi^{k+1} &= \sum_i \E \gamma_i^{k+1} \\
+				&= 2 \sum_i \E L_i \E \gamma_i^{k+1} \\
+				&\ge 2 \sum_i \E L_i \gamma_i^{k+1} - O(1) \sum_i \sqrt{\max_{j \in H^{k+1}(i)} \E (g_j - g_i)^2} \\
+				&\ge 2 \sum_i \E R_i \gamma_i^k + 2 \E |M| - O(1) \sum_i \max_{j \in H^{k+1}(i)} \sqrt{\E (g_j - g_i)^2} \\
+				&\ge 2 \sum_i \E R_i \E \gamma_i^k + 2 \E |M| - O(1) \sum_i \max_{j \in H^{k+1}(i)} \sqrt{ \E (g_j - g_i)^2} \\
+				&\ge \phi^{k} + 2 \E |M| - O(n) \max_{\substack{i \in [n] \\ j \in H^{k+1}(i)}} \sqrt{\E (g_j - g_i)^2}. \qedhere
+		\end{align*}
+		% completing the proof.
+	\end{proof}
 
-	% cheeger's inequality:
-	% the thing above has a deg 2 SoS for C = 1/2 \varphi^2_G. also tight up to constants for deg 2 (cycle example again)
-	% when phi_G large, this is pretty good -- called expander graph. it becomes worse the smaller o(1) phi_G is.
-	% Leighton-Rao 88 gave a LP O(log(n)) approximation. improves on Cheeger when phi = o(1/log n)
-	
-	% Arora-Rao-Vazirani 04 (ARV) gave O(sqrt{log n}) approximation. based on deg 4 SoS, which is what we shall do.
-	% in earlier secs, we did some sort of local analysis where we just comapred \pE_\mu (x_i - x_j)^2 and \E_{\mu'} (x_i - x_j)^2. here, we shall do global analysis instead. this sort of global analysis is a pretty incredible idea, and before ARV (? unsure) it helped in vertex cover, coloring graphs, max-cut gain etc
+\subsection{The Unique Games Conjecture}
 
-	% first, let us give a local analysis which gives Leighton's O(log n).
+	\begin{fdef}[$2$-Constraint Satisfaction Problem]
+		In a \emph{$2$-CSP}, we have $n$ variables $(x_i)_{i=1}^n$, which take values in a finite alphabet $[q]$ and $m$ constraints $( (C_i,S_i) )_{i=1}^m$, where each $C_i$ is a pair of variables $(x_{i_1},x_{i_2})$, and $S_i \subseteq [q]^2$. A certain constraint $(C_i,S_i)$ is said to be \emph{satisfied} by a certain assignment of the variables if the corresponding pair is contained in $S_i$. The algorithmic goal of a $2$-CSP is to find an assignment that maximizes the number of satisfied assignments.
+	\end{fdef}
+	In our setting, $q$ is typically a constant. An example of a (boolean) $2$-CSP is the max-cut problem, where for each edge $ij$ in the graph, we have the constraint $(x_i,x_j) \in \{(0,1),(1,0)\}$. An example of a non-boolean $2$-CSP is max $3$-coloring, where we try to find a coloring of the vertices that maximizes the number of ``good'' edges which have end-vertices of different colours -- try to encode this as a CSP!
+
+	\begin{fdef}[Promise Problem]
+		For $0 \le s \le c \le 1$, the $(c,s)$ promise problem takes as input a $2$-CSP instance, and the goal is to decide whether
+		\begin{enumerate}
+			\item there exists an assignment that satisfies a $\ge c$ fraction of constraints, or
+			\item every assignment satisfies a $\le s$ fraction of the constraints.
+		\end{enumerate}
+		The quantities $c$ and $s$ are typically referred to as \emph{completeness} and \emph{soundness.}
+	\end{fdef}
+	When the input is a general $2$-CSP, we refer to this problem as $(c,s)$-2CSP. We use similar notation throughout, for example in restricted classes of $2$-CSPs.
+
+	For example, a $(1,1-1/m)$-2CSP could be used to check the satisfiability of a CNF. For $q \ge 3$, $(1,1-1/m)$-2CSP is \textsf{NP}-hard.
+
+	\begin{fdef}[Unique $2$-CSP]
+		A $q$-sized alphabet $2$-variable constraint $(C,S)$ is said to be \emph{unique} if for every possible assignment to one of the two variables, there is exactly one satisfying assignment to the other variable. A $2$-CSP is said to be a \emph{unique $2$-CSP} or \emph{unique game} if all its constraints are unique. 
+	\end{fdef}
+	A unique constraint is essentially just a permutation $\pi$ of $[q]$, where the set $S$ is just $\{(i,\pi(i)) : i \in [q]\}$.\\
+	Max-Cut is an example of a boolean unique game, while Max-$2$SAT is not. A non-boolean unique game is Max-$2$Lin, where $q$ is a prime and the constraints are linear equations like $x_i \pm x_j \equiv a_{ij} \pmod{q}$.\\
+
+	Given that $(1,1-1/m)$-2CSP is NP-hard for $q \ge 3$, the following may be slightly surprising.
+	\begin{ftheo}[Propagation]
+		There is a polynomial time algorithm for $(1,1-1/m)$-UG.
+	\end{ftheo}
+	\begin{proof}
+		Let $G$ be the graph of all pairs that appear in constraints. Assume wlog that $G$ is connected; if it is not, we can apply the following argument separately on connected components. Start an arbitrary vertex $u$, and give it the assignment $1$. Due to uniqueness, this single assignment propagates to an assignment on all vertices in $u$. If we get conflicting assignments at some point, then there is no satisfying assignment which assigns $1$ to $u$. We can then repeat this by varying the assignment for $u$ to determine if there is a satisfying assignment. 
+	\end{proof}
+
+	Given the previous, the following may be very surprising.
+	\begin{fcon}[Unique Games Conjecture]
+		For any $\epsilon > 0$, for sufficiently large $q$, $(1-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
+	\end{fcon}
+	The above was proposed by Subhash Khot in 2002.\\
+
+	A random constraint satisfies $1/q$ of the constraints, so we clearly require $q > 1/\epsilon$ above.
