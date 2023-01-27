@@ -1,0 +1,120 @@
+%!TEX root = ./main.tex
+
+\section{Combinatorial Optimization}
+
+	``Optimization'' is the subject where we attempt to maximize/minimize some function. ``Combinatorial'' refers to the fact that the function we are trying to optimize over a finite set.\\
+	In matching theory, there is a plethora of ``min-max'' results, where the maximum of some function is associated to the minimum of another.
+
+	\begin{fdef}
+		Given a bipartite graph $G(A,B)$, define the \emph{deficiency} of $G$ by
+		\[ \Def(G) = \max_{X \subseteq A} |X| - |N(X)|. \]
+	\end{fdef}
+	Note that $\Def(G) \ge 0$ for any graph, since $|\emptyset| - |N(\emptyset)| = 0$.
+
+	\begin{fprop}
+		The size of the largest matching in a bipartite graph $G(A,B)$ is equal to $|A| - \Def(G)$.
+	\end{fprop}
+
+	Arguably the first min-max result in matching theory was the following.
+
+	\begin{ftheo}[K\"{o}nig's Theorem]
+		\label{theo: konigs theorem}
+		The size of a maximum matching in a bipartite graph is equal to the minimum number of vertices required to cover all edges in the graph (a minimum vertex cover) -- the smallest subset such that every edge has at least one endpoint in the subse.t
+	\end{ftheo}
+	This result is equivalent to Hall's Theorem.
+
+	Proofs of min-max results usually go about by showing that one quantity is always larger than the other, then proving that there is some object of each type whose corresponding quantities are equal.
+
+	Consider the problem of finding a maximum weight perfect matching -- given positive weights $(w_e)$ assigned to edges, find a matching of maximum weight. This is associated to a minimum problem using LP duality.\\
+	For each edge, associate a variable $x_e \in \{0,1\}$ indicating whether an edge is in the matching or not. Then, finding a max weight matching amounts to the program
+	\[
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & \displaystyle\sum_{e \in E} w_{e} x_{e} &\\
+	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} \le 1,  &\qquad v \in V\\\\
+	                 & x_{e} \in \{0,1\},                                                &\qquad e \in E
+	\end{array}
+	\]
+	This is an \emph{integer linear program}, which is \textsf{NP}-complete in general. We can get a normal linear program by relaxing the integrality constraint, say by allowing the $x_e$ variables to take any non-negative value.
+
+	\begin{equation}
+	\label{max-wt-pm-lp}
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & \displaystyle\sum_{e \in E} w_{e} x_{e} &\\
+	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} \le 1,  &\qquad v \in V\\\\
+	                 & x_{e} \ge 0,                                                &\qquad e \in E
+	\end{array}
+	\end{equation}
+	
+	Further, since this linear program must be maximized at some point on the boundary of the resulting polytope, whose vertices are integral points, there is a solution to this linear program that is also a solution to the integer linear program. It is possible to find such a solution efficiently by possibly adding additional constraints; we shall return to this later.\\
+	The dual of the above linear program \eqref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
+	\[ \sum_{e\text{ incident on }v} y_v x_e \le y_v. \]
+	Adding this up over all vertices gives
+	\[ \sum_{\text{edges } e = uv} (y_u + y_v) x_e \le \sum_{v \in V} y_v. \]
+	If the $y_v$ are such that for any edge $uv$, $y_u + y_v \ge w_e$, then
+	\[ \sum_{e = uv} w_e x_e \le \sum_{e = uv} (y_u + y_v) x_e \le \sum_v y_v. \]
+	From the perspective of \nameref{theo: konigs theorem} where all the $w_e$ are $1$, this just asks for a smallest vertex cover!
+
+	We get the dual linear program
+
+	\begin{equation}
+	\label{dual-max-wt-pm-lp}
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & \displaystyle\sum_{v \in V} y_v &\\
+	\text{subject to} \displaystyle &y_u+y_v \ge w_e,  &\qquad uv = e \in E\\
+	                  &y_v \ge 0,                      &\qquad v \in V
+	\end{array}
+	\end{equation}
+
+	For example, consider the following graph.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, near start}]
+		\foreach \phi in {1,...,2}{
+		\node (\phi') at (1,2-2*\phi) {$\phi'$};
+		\node (\phi) at (-1,2-2*\phi) {$\phi$};		
+      	};
+		\draw (1) edge["10"] (1'); % 10
+		\draw (1) edge["5"] (2'); % 5
+		\draw (2) edge["20"] (1'); % 20
+		\draw (2) edge["13"] (2'); % 13
+		% 4 7 \\ 13 1
+	\end{tikzpicture}
+	\end{figure}
+
+	The linear program \eqref{max-wt-pm-lp} is optimized by setting $(x_{11'},x_{12'},x_{21'},x_{22'}) = (0,1,1,0)$, that is, the matching $\{12',21'\}$. On the other hand, the dual linear program \eqref{dual-max-wt-pm-lp} is optimized by setting $(y_1,y_2,y_1',y_2') = (4,13,7,1)$. Note that in either case, the optimum is equal to $25$! \\
+
+	More generally, we have the following definition.
+
+	\begin{fdef}
+		Given the \emph{primal} linear program
+		\[
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \displaystyle c^\top x \\
+		\text{subject to} \displaystyle &Ax \le b,\\
+		                  &x \ge 0,
+		\end{array}
+		\]
+		its \emph{dual} is
+		\[
+		\begin{array}{ll@{}ll}
+		\text{minimize}  & \displaystyle b^\top y \\
+		\text{subject to} \displaystyle &A^\top y \ge c,\\
+		                  &y \ge 0.
+		\end{array}
+		\]
+	\end{fdef}
+
+	Note that the dual of the dual of a primal is the primal itself.
+
+	\begin{fprop}[Weak Duality]
+		For any feasible solution $x$ of the primal and $y$ of the dual, $c^\top x \le b^\top y$.
+	\end{fprop}
+
+	% \begin{fprop}
+	% 	If both the dual and primal are feasible, their optimum values are equal.
+	% \end{fprop}
+
+	\begin{fprop}[Strong duality]
+		If the primal has a solution, then so does the dual. Furthermore, the resulting optimal values are equal.
+	\end{fprop}

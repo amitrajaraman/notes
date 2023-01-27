@@ -361,3 +361,80 @@ For the first question, there do exist graphs whose prisms don't have minimum fo
 	% \]
 	% In particular, if we weight the nonzero entries of this matrix as $a,b,c$ to get $W$ and the nonzero entries of the transpose as $d,e,f$ to get $W^{-1}$, we have
 	% \[ WW^{-1} = \begin{pmatrix} a & 0 \\ b & c \end{pmatrix} \begin{pmatrix} d & e \\ 0 & f \end{pmatrix} = \begin{pmatrix} ad & ae \\ bd & be+cf \end{pmatrix}. \]
+
+	If the forcing number of a matching is $k$, there exists an induced subgraph on $2(n-k)$ vertices with a unique perfect matching. The converse of this need not be true, since we also require that the subgraph on the remaining $2k$ vertices has a perfect matching. For example, the $2 \times n$ grid graph has an induced subgraph on $2n-2$ vertices with a unique perfect matching.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+		\foreach \phi in {1,...,8}{
+		\node (\phi') at (-5+\phi,0.5) {$\phi'$};
+		\node (\phi) at (-5+\phi,-0.5) {$\phi$};		
+      	};
+      	\node (2') at (-5+2,0.5) {\textcolor{green}{$2'$}};
+      	\node (7') at (-5+7,0.5) {\textcolor{green}{$7'$}};
+		\draw (1) edge (2);
+		\draw (2) edge[red] (3);
+		\draw (3) edge (4);
+		\draw (4) edge[red] (5);
+		\draw (5) edge (6);
+		\draw (6) edge[red] (7);
+		\draw (7) edge (8);
+
+		\draw (1) edge[red] (1');
+		\draw (2) edge (2');
+		\draw (3) edge (3');
+		\draw (4) edge[red] (4');
+		\draw (5) edge (5');
+		\draw (6) edge (6');
+		\draw (7) edge (7');
+		\draw (8) edge[red] (8');
+
+		\draw (1') edge (2');
+		\draw (2') edge (3');
+		\draw (3') edge[red] (4');
+		\draw (4') edge (5');
+		\draw (5') edge[red] (6');
+		\draw (6') edge (7');
+		\draw (7') edge (8');
+	\end{tikzpicture}
+	\caption{The subgraph on $2n-2$ vertices has a unique perfect matching but the minimum forcing number is $>1$.} 
+	\end{figure}
+
+	A \emph{conformal subgraph} is a subgraph such that the subgraph obtained by removing its vertices has a perfect matching. Therefore, if the forcing number of a matching is $k$, there exists an induced conformal subgraph on $2(n-k)$ vertices with a unique perfect matching.
+
+	\begin{question}
+		Then, which graphs are such that if their minimum forcing number is $k$, there exists a largest induced subgraph with a unique perfect matching of size $2k$? That is, when does there exist a largest induced subgraph with a unique perfect matching that is also conformal?
+	\end{question}
+
+	\begin{question}
+		When is the order of the largest induced subgraph with a unique perfect matching equal to twice the min-rank of the bipartite adjacency matrix?
+	\end{question}
+
+	Let $G(A,B)$ be a bipartite graph over $2n$ vertices. For a prism $G \times K_2$, the minimum forcing number is at most $n$, for example by matching corresponding vertices in $A$ between the two copies of $G$. If we find a matrix $W$ that has the same non-zero pattern as $A$ such that $W^{-1}$ has the same nonzero pattern as $A^\top$, then the largest induced subgraph with a unique perfect matching has order $2n$, which implies that the minimum forcing number is $n$. A necessary condition for such a $W$ to exist is that no two rows of $A$ have exactly $1$ column in which both rows are $1$. That is, no two vertices in $G$ have exactly one common neighbour.
+
+	\begin{question}
+		Is the above necessary condition sufficient? That is, if we have a $0,1$-matrix $A$ such that no two rows have exactly one coordinate where both are $1$, then does there exist a matrix $W$ with the same nonzero pattern as $A$ such that $W^{-1}$ has the same nonzero pattern as $A^\top$? If yes, can we ensure that $W^{-1} = \lambda W^\top$ for some scalar $\lambda$?
+	\end{question}
+
+	For example, in the complete bipartite graph $K_{n,n}$ which has bipartite adjacency matrix equal to $J$ (the all $1$s matrix), an example of such a matrix $W$ (for $n=3$, say) is just
+	\[
+	\begin{pmatrix}
+		1 & 1 & 1 \\ 1 & \omega & \omega^2 \\ 1 & \omega^2 & \omega
+	\end{pmatrix},
+	\]
+	where $\omega = e^{2\pi\iota/3}$.\\
+	Another example is $K_{n,n}$ with a perfect matching removed (for $n > 3$). For $n=4$, over $\F_2$, the resulting bipartite adjacency matrix is its own inverse. In general, we can take the matrix itself over $\F_p$ for $p$ any prime dividing $n-2$.\\
+	
+	What happens if we take any bipartite graph $G'$, and then modify it to a graph $G$ by duplicating all the vertices and adding edges $uv'$ if $uv$ is an edge, where $v'$ is the copy of $v$? The bipartite adjacency matrix of this graph is symmetric on taking an appropriate ordering of the vertices. \\
+
+	This question arises from the study of \emph{Hadamard matrices}, which are $n \times n$ $\pm 1$-matrices $H$ such that $HH^\top = n \Id$. There is a famous conjecture stating that such an $H$ exists for $n \equiv 0 \pmod{4}$. There is an easy construction for $n = 2^k$, by taking $H_1 = \begin{pmatrix} 1 \end{pmatrix}$ and
+	\[
+	H_{2^k} = 
+	\begin{pmatrix}
+		H_{2^{k-1}} & H_{2^{k-1}} \\ H_{2^{k-1}} & -H_{2^{k-1}}
+	\end{pmatrix}.
+	\]
+	An even more general notion is that of \emph{weighing matrices} $W$, where we allow the entries to be in $\{0,\pm 1\}$ instead of just $\pm 1$ like in Hadamard matrices, and we are interested in having $WW^\top = w \Id$ for some integer $w$. That is, any row has exactly $w$ nonzero entries, and any two rows are orthogonal to each other.
+
+\clearpage
