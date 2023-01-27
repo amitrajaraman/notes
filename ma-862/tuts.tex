@@ -1,0 +1,196 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\newcommand{\myname}{Amit Rajaraman}
+\newcommand{\topicname}{MA 862 : Combinatorics II}
+\usepackage{../generic}
+% \usepackage{ytableau}
+
+\counterwithout{problem}{subsection}
+
+% \newcommand{\DES}{\operatorname{DES}}
+% \newcommand{\des}{\operatorname{des}}
+% \newcommand{\pk}{\operatorname{pk}}
+% \newcommand{\Peak}{\operatorname{Peak}}
+% \newcommand{\Match}{\operatorname{Match}}
+% \newcommand{\Charpoly}{\operatorname{Charpoly}}
+% \newcommand{\Chrom}{\operatorname{Chrom}}
+% \newcommand{\isf}{\operatorname{isf}}
+% \newcommand{\ISF}{\operatorname{ISF}}	
+% \newcommand{\nbc}{\operatorname{nbc}}
+% \newcommand{\NBC}{\operatorname{NBC}}
+% \newcommand{\adj}{\leftrightarrow}
+% \newcommand{\EXC}{\operatorname{EXC}}
+% \newcommand{\exc}{\operatorname{exc}}
+% \newcommand{\nonexc}{\operatorname{nonexc}}
+% \newcommand{\bars}{\operatorname{bars}}
+% \def\mbinom#1#2{\ensuremath{\left(\kern-.3em\left(\genfrac{}{}{0pt}{}{#1}{#2}\right)\kern-.3em\right)}}
+% \newcommand{\rowsum}{\operatorname{rowsum}}
+% \newcommand{\colsum}{\operatorname{colsum}}
+% \newcommand{\pge}{\succcurlyeq} % poset le
+% \newcommand{\ple}{\preccurlyeq} % poset le
+% \newcommand{\A}{\mathbb{A}}
+% \newcommand{\content}{\operatorname{content}}
+% \newcommand{\NonIn}{\operatorname{NonIn}}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\titleBC
+\tableofcontents
+\clearpage
+
+
+\section{Problem Sheet 1}
+
+	\begin{problem}
+		Let $\mathcal{A} \subseteq \mathcal{M}_n(\C)$ be a commutative $*$-algebra.
+		\begin{enumerate}[label=(\roman*)]
+			\item Show that there exists a $n \times n$ unitary matrix $U$ and positive integers $q_0,\ldots,q_m$ such that $U^\dagger \mathcal{A} U$ is the set of all block-diagonal matrices
+			\[ \begin{pmatrix} C_0 & 0 & \cdots & 0 \\ 0 & C_1 & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & C_m \end{pmatrix}, \]
+			where each $C_k$ is scalar of order $q_k$.
+			\item Show that $m = \dim \mathcal{A}$, $q_0 + \cdots + q_m = n$, and that the $q_i$ are determined by $\mathcal{A}$ up to permutation.
+		\end{enumerate}
+	\end{problem}
+
+	\begin{solution*}
+		Let $A$ be a non-scalar matrix in $\mathcal{A}$. Decompose $\C^n$ into a direct sum of eigenspaces $(W_i)_{i=0}^m$ of $A$.
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$ be a graph.
+		\begin{enumerate}[label=(\roman*)]
+			\item Let $A$ be the adjacency matrix of $G$. Show that $(A^m)_{uv}$ is the number of length $m$ walks from $u$ to $v$.
+			\item Show that if two graphs have the same spectrum (multiset of eigenvalues), they have the same number of edges of triangles but not necessarily the same number of $4$-cycles.
+			\item Let $G$ be connected. Show that if the diameter of a graph is $d$, then the adjacency matrix of $G$ has at least $d+1$ distinct eigenvalues.
+		\end{enumerate}
+	\end{problem}
+	\begin{solution*}
+		\begin{enumerate}[label=(\roman*)]
+			\item We have
+			\[ (A^m)_{uv} = \sum_{v_1,\ldots,v_{m-1}} A_{uv_1} A_{v_1v_2} \cdots A_{v_{m-1}v}. \]
+			Note that the term we are summing is nonzero (and in such a case equal to $1$) iff $uv_1v_2\cdots v_{m-1}v$ forms a walk from $u$ to $v$.
+
+			\item To see that they have the same number of edges, observe that the number of length $2$ walks from a vertex to itself is precisely its degree. Therefore, $2|E| = \Tr(A^2)$, which is determined by the spectrum. Similarly, the number of length $3$ walks from a vertex to itself is precisely equal to the number of triangles it is contained in. Therefore, $3\cdots (\text{number of triangles}) = \Tr(A^3)$, proving the first part of the result.\\
+
+			\item If the diameter of a graph is $d$, then for any $1 \le k \le d$, there exist $u,v$ such that $(A^k)_{uv} \ne 0$ but $(A^r)_{uv} = 0$ for $1 \le r < k$ -- $v$ is the $k$th vertex along a path of length equal to the diameter starting at $u$. In particular, this implies that $\Id,A,A^2,\ldots,A^d$ are linearly independent.	This implies that the minimal polynomial of $A$, whose roots are the eigenvalues of $A$ with algebraic multiplicity $1$ (because $A$ is symmetric and so diagonalizable), has degree at least $d+1$, proving the claim.
+		\end{enumerate}
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$ be a connected graph with adjacency matrix $A$. Show that $G$ is regular iff there exists a polynomial $p$ such that $p(A) = J$, the all $1$s matrix.
+	\end{problem}
+	\begin{solution*}
+		We first prove the forward direction. Note that $d$ is an eigenvalue of $A$ with eigenvector $\mathbf{1}$. Furthermore, by the Perron-Frobenius Theorem, the multiplicity of $d$ as an eigenvalue is $1$. Consequently, the minimal polynomial of $A$ must be of the form $(x-d)p(x)$, where $p(A) \ne 0$. Therefore, $Ap(A) = dp(A)$, so the columns of $p(A)$ are eigenvectors of $A$ for the eigenvalue $d$; so they are just multiples of $\mathbf{1}$. Since $p(A)$ is symmetric, this implies that it is just some multiple of $J$, proving the claim.\\
+		For the other direction, we have that $p(A) = J$, so $AJ = JA$, and $(AJ)_{ij} = \deg i$ and $(JA)_{ij} = \deg j$ are equal, completing the proof.
+	\end{solution*}
+
+\section{Problem Sheet 2}
+
+	\begin{problem}
+		Recall the $B(n) \times B(n)$ matrices $A_0,A_1,\ldots,A_n$ (the $X,Y$th entry of $A_i$ is $1$ if $d(X,Y) = i$ and $0$ otherwise). Define $B(n) \times B(n)$ diagonal matrices $D_0,\ldots,D_n$ with $X,X$th entry $1$ if $|X| = i$ and $0$ otherwise. Show that the algebra generated by the matrices $A_0,\ldots,A_n,D_0,\ldots,D_n$ is equal to the commutant of the $S_n$ action on $B(n)$.
+	\end{problem}
+	\begin{solution*}
+		Let $\mathcal{A}_1$ be the algebra generated by the $A_i,D_i$, and $\mathcal{A}_2$ the commutant of the $S_n$ action on $B(n)$. We saw that the orbital basis of the $S_n$ action on $B(n)$ is $M_{i,j,t}$ where
+		\[ M_{i,j,t}(X,Y) = \begin{cases} 1, & |X|=i, |Y|=j, |X \cap Y| = t, \\ 0, & \text{otherwise.} \end{cases} \]
+		Note that $A_r = \sum_{i,j} M_{i,j,i+j-2r}$ and $D_r = M_{r,r,r}$. Therefore, $\mathcal{A}_1 \subseteq \mathcal{A}_2$. On the other hand, we have that for any $X,Y$,
+		\begin{align*}
+			(D_i A_{i+j-2t} D_j)_{XY} &= \sum_{Z,W} (D_i)_{XZ} (A_{i+j-2t})_{ZW} (D_j)_{WY} \\
+				&= (D_i)_{XX} (D_j)_{YY} (A_{i+j-2t})_{XY} \\
+				&= \begin{cases} 1, & |X|=i, |Y|=j, d(X,Y)=i+j-2t, \\ 0, & \text{otherwise} \end{cases} \\
+				&= (M_{i,j,t})_{XY},
+		\end{align*}
+		so $M_{i,j,t} = D_i A_{i+j-2t} D_j$ and $\mathcal{A}_1 \supseteq \mathcal{A}_2$, completing the proof.
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$ be a finite group. Show that the commutant of the $G \times G$ action on $G$ defined in class is abelian.
+	\end{problem}
+	\begin{solution*}
+		Let $c_0,\ldots,c_k$ be the conjugacy classes of $G$, and $A_0,\ldots,A_k$ be the orbital basis of the commutant where the $g,h$th entry of $A_i$ is $1$ if $gh^{-1} \in c_i$ and $0$ otherwise. For any conjugacy class $c$, let $c'$ be the conjugacy class which has the inverses of elements of $c$ (this is clearly a conjugacy class of its own). It suffices to show that the $A_i$ commute with each other. Let $i,j$ be distinct. Then,
+		\begin{align*}
+			(A_i A_j)_{g_1 g_2} &= \sum_{h \in G} (A_i)_{g_1 h} (A_j)_{h g_2} \\
+				&= |\{h \in G : g_1 h^{-1} \in c_i, h g_2^{-1} \in c_j \}| \\
+				&= |\{h \in G : g_1 h^{-1} \in c_i, g_2 h^{-1} \in c_j'\}| \\
+			(A_j A_i)_{g_1 g_2} &= |\{h \in G : g_2 h^{-1} \in c_i', g_1 h^{-1} \in c_j\}|.
+		\end{align*}
+		The two sets above (whose cardinalities we are considering), have a bijection between them, namely $h \mapsto g_2 h g_1^{-1}$. Indeed, for $h$ in the set corresponding to $(A_i A_j)_{g_1 g_2}$, we have
+		\[ g_2 (g_2 h^{-1} g_1)^{-1} = g_2 g_1^{-1} h g_2^{-1} = (g_2 g_1^{-1}) h g_1^{-1} (g_2 g_1^{-1})^{-1} \in c_i'  \]
+		and similarly,
+		\[ g_1 (g_2 h^{-1} g_1)^{-1} = h g_2^{-1} \in c_j. \]
+		A similar argument in the reverse direction shows that this is indeed a bijection, and therefore the basis elements commute. 
+	\end{solution*}
+
+	\begin{problem}
+		A near-perfect matching in the complete graph $K_{2n+1}$ is a matching with $n$ edges. The symmetric group $S_{2n+1}$ acts on the set $\mathcal{M}_{2n+1}$ of all near-perfect matchings in $K_{2n+1}$. Show that the commutant of the $S_{2n+1}$ action on $\mathcal{M}_{2n+1}$ is abelian.
+	\end{problem}
+	\begin{solution*}
+		Similar to the $K_{2n}$ example from class, here, a union of two matchings consists of an odd-length path, say of length $2r+1$ for $0 \le r \le n$, and a set of even alternating cycles that induces a partition of $2n-2r$. Two pairs of matchings are in the same orbit iff this $r$ and these partitions are the same. In particular, $(M_1,M_2) \sim (M_2,M_1)$, so the matrices in the orbital basis are symmetric and by Gelfand's lemma, the commutant is commutative. 
+	\end{solution*}
+
+\section{Problem Sheet 3}
+
+	\begin{problem}
+		\label{prob:group-action-dual}
+		Let $V$ be a finite-dimensional vector space over $\C$. Define the dual space of $V$ by
+		\[ V^* = \{ f : V \to \C : f \text{ is linear} \}. \]
+		Let $V$ be a $G$-module. For $g \in G$ and $f \in V^*$, define $g \cdot f \in V^*$ by
+		\[ (g \cdot f)(v) = f(g^{-1} \cdot v). \]
+		Show that this makes $V^*$ into a $G$-module.
+	\end{problem}
+	\begin{solution*}
+		We clearly have $1 \cdot f = f$,
+		\[ (g \cdot (h \cdot f)) (v) = (h \cdot f)(g^{-1} \cdot v) = f(h^{-1} \cdot g^{-1} \cdot v) = f(h^{-1}g^{-1} \cdot v) = (gh \cdot f)(v),  \]
+		and
+		\[ g \cdot (\alpha f_1 + f_2) (v) = (\alpha f_1 + f_2) (g^{-1} \cdot v) = \alpha f_1(g^{-1} \cdot v) + f_2(g^{-1} \cdot v) = \alpha (g \cdot f_1)(v) + (g \cdot f_2) (v). \]
+	\end{solution*}
+
+	\begin{problem}
+		Show that if $V$ is a permutation representation of $G$, $V^*$ is isomorphic to $V$.
+	\end{problem}
+	\begin{solution*}
+		Let $V = \C[G]$. For each $g \in G$, define $f_g \in V^*$ by $f_g(\sum_{h \in G} \alpha_h h) = \alpha_g$. Clearly, the $(f_g)$ form a basis of $V^*$. Consider the isomorphism from $V \to V^*$ defined on the basis elements by $g \mapsto f_g$. Then,
+		\begin{align*}
+			(g \cdot f_{g'})(\sum_{h \in G} \alpha_h h) &= f_{g'} (\sum_{h \in G} \alpha_{h} g^{-1} h) \\
+				&= f_{g'} (\sum_{h \in G} \alpha_{gh} h) \\
+				&= \alpha_{gg'} = f_{gg'}(\sum_{h \in G} \alpha_h h),
+		\end{align*}
+		so the two are $G$-isomorphic.
+	\end{solution*}
+
+	\begin{problem}
+		Show that a $G$-invariant inner product on an irreducible $G$-module is unique up to scalars.
+	\end{problem}
+	\begin{solution*}
+		Let $V$ be the irreducible $G$-module, and suppose instead that it has two $G$-invariant inner products $[\cdot,\cdot]$ and $\langle \cdot,\cdot\rangle$ that are not scalar multiples of each other. Define $\varphi : V \to V^*$ by $\varphi_u(v) = \langle u,v\rangle$ and similarly, $\psi$ for $[\cdot,\cdot]$. Now, consider $\pi = \varphi \circ \psi^{-1} : V \to V$. $\varphi$ and $\psi$ are clearly isomorphisms. For the group action of $G$ on $V^*$ defined in \Cref{prob:group-action-dual}, we also have $(g \varphi_u)(v) = \varphi_u(g^{-1}v) = \langle u,g^{-1}v\rangle = \langle gu,v\rangle = \varphi_{gu}$, so $\varphi,\psi$ are $G$-linear. Therefore, $\pi$, which is a $G$-linear isomorphism $V \to V$, must be equal to $\lambda \Id$, and therefore, $\langle \cdot,\cdot\rangle$ and $[\cdot,\cdot]$ can only differ by a scalar factor.  
+	\end{solution*}
+
+	\begin{problem}
+		Let $A$ be the $B_q(n) \times B_q(n)$ matrix with the $X,Y$th entry equal to $1$ if $X \subseteq Y$ or $Y \subseteq X$ and $|\dim X - \dim Y| = 1$, and $0$ otherwise.\\
+		Show that there is no finite group $G$ with an action on $B_q(n)$ such that the commutant is commutative and contains $A$. This is unlike the $n$-cube $q=1$ case, where the hyperoctahedral group acts on $B(n)$.
+	\end{problem}
+	\begin{solution*}
+		
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$ be a finite group which acts on itself by left multiplication. Consider the corresponding permutation representation $\C[G]$, called the regular representation. Let $V$ be a $G$-module and $v \in V$. Show that the map $\C[G] \to V$ given by $g \mapsto g\cdot v$ is $G$-linear. Deduce that there are only finitely many irreducible $G$-modules (up to isomorphism).
+	\end{problem}
+	\begin{solution*}
+		Let the described map be $f$. For $g,h \in G$, we have $g \cdot f(h) = g \cdot (h \cdot v) = (gh) \cdot v = f(gh)$, so $f$ is $G$-linear.\\
+		Now, set $V$ to be an irreducible $G$-module and let $v \ne 0$. We clearly have $f \ne 0$ since $1v = v \ne 0$. Decompose $\C[G]$ into a direct sum of irreducibles. The fact that $f \ne 0$ means that $V$ appears in the decomposition, since otherwise the map is forced to be $0$. It follows that there are at most $\dim \C[G] = |G|$ irreducible $G$-modules. 
+	\end{solution*}
+
+	\begin{problem}
+		Let $G$
+	\end{problem}
+	\begin{solution*}
+		Suppose $v = \sum_{s \in S} \alpha_s s \in F(G,S)$. We have $g \cdot v = \sum_{s \in S} \alpha_s (g \cdot s) = \sum_{s \in S} \alpha_{g^{-1} \cdot s} s$. Therefore, $v$ must be constant on the orbits $o_1,\ldots,o_k$ of the $G$-action on $S$, and a basis $b_1,\ldots,b_k$ of $F(G,S)$ (similar to the orbital basis) is given by $(b_i)_s = 1$ if $s \in o_i$ and $0$ otherwise.
+		\begin{enumerate}[label=(\roman*)]
+			\item Let $v \in F(G,S)$. Then, for any $g \in G$ $g \cdot f(v) = f(g \cdot v) = f(v)$, so $v \in F(G,T)$.
+			\item 
+		\end{enumerate}
+	\end{solution*}
+
+\end{document}

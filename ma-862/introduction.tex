@@ -1,8 +1,8 @@
 %!TEX root = main.tex
 
-\section{Introduction}
+\section{The Delsarte Bound}
 
-\subsection{The Delsarte bound}
+\subsection{$*$-algebras of matrices}
 
 	Denote by $\mathcal{M}_n(\C)$ the $\C$-vector space of all $n \times n$ complex matrices.
 
@@ -208,4 +208,44 @@
 		Therefore, the dimension of this $*$-algebra is $p(n)$, the number of partitions of $n$. Recall that this is the same as the number of partitions as the previous example when $G = S_n$. Further, since $d(M_1,M_2) = d(M_2,M_1)$, this algebra is abelian by \nameref{lem: gelfands lemma}.
 	\end{fex}
 
-	
+	Much like the spectral theorem of normal matrices, there is a spectral theorem of $*$-algebras which ``diagonalizes'' them.
+
+	\begin{ftheo}[Spectral theorem for commutative $*$-algebras]
+		Let $\mathcal{A} \subseteq \mathcal{M}_n(\C)$ be a commutative $*$-algebra. Then, there exists an $n \times n$ unitary matrix $U$ and positive integers $q_1,\ldots,q_m$ (determined up to permutation) such that $U^\dagger \mathcal{A} U$ is the set of all \emph{$(q_0,\ldots,q_m)$-block diagonal matrices}, that is, the set of all matrices
+		\[ \begin{pmatrix} C_1 & & & \\ & C_2 & & \\ & & \ddots & \\ & & & C_m \end{pmatrix}, \]
+		where $C_k$ is a $q_k \times q_k$ scalar matrix. In particular, any element of $U^\dagger \mathcal{A} U$ is determined by the $m$ scalars corresponding to these blocks, so $\dim \mathcal{A} = m$ and $q_1 + \cdots + q_m = n$.
+	\end{ftheo}
+	\begin{proof}
+		
+	\end{proof}
+
+	\begin{corollary}
+		Let $\mathcal{A}$ be a commutative $*$-algebra. Then there exist subspaces $W_1,\ldots,W_m$ of $\C^n$ that are (common) eigenspaces of any $A \in \mathcal{A}$.
+	\end{corollary}
+
+	There is also a more general spectral theorem for (not necessarily commutative) $*$-algebras, that we state without proof.
+
+	\begin{ftheo}[Spectral theorem for $*$-algebras]
+		Let $\mathcal{A} \subseteq \mathcal{M}_n(\C)$ be a commutative $*$-algebra. Then, there exists an $n \times n$ unitary matrix $U$ and positive integers $p_1,\ldots,p_m$ and $q_1,\ldots,q_m$ (determined up to permutation) such that $U^\dagger \mathcal{A} U$ is the set of all \emph{$((p_0,q_0),\ldots,(p_m,q_m))$-block diagonal matrices}, that is, the set of all matrices
+		\[ U^\dagger \mathcal{A} U = \begin{pmatrix} C_1 & & & \\ & C_2 & & \\ & & \ddots & \\ & & & C_m \end{pmatrix}, \]
+		where $C_k$ is a block diagonal matrix
+		\[ C_k = \begin{pmatrix} B_k & & & \\ & B_k & & \\ & & \ddots & \\ & & & B_k \end{pmatrix} \]
+		consisting of $q_k$ repeated blocks of a $p_k \times p_k$ matrix $B_k$.	
+		Furthermore, $\dim \mathcal{A} = p_1^2 + \cdots + p_m^2$ and $n = p_1q_1 + \cdots + p_mq_m$.
+	\end{ftheo}
+
+	In either spectral theorem, we say that we have a \emph{diagonalization} of $\mathcal{A}$ if we know the images $A \mapsto U^\dagger A U$ explicitly, and an \emph{explicit diagonalization} if we further know $U$.
+
+\subsection{A primer on representation theory}
+
+	\begin{fdef}
+		A \emph{representation} of a group $G$ is a group homomorphism $\varphi : G \to \GL(V)$ for some finite-dimensional vector space $V$ over $\C$. Given such a representation, we say that $V$ is a \emph{$G$-module}.
+	\end{fdef}
+	The image of $g$ under $\varphi$ is denoted $\varphi_g$, but we usually abuse notation it like a group action. That is, we denote $(\varphi(g))(v)$ as $\varphi_g(v)$ or merely $g \cdot v$ or even $gv$ when the representation is clear from context.
+
+	\begin{fex}
+		Let $G$ be a group and $S$ a finite set such that $G$ acts on $S$. Consider the \emph{linearization} of $S$ or the \emph{permutation module} corresponding to $S$, which is the vector space with $S$ as a basis, that is,
+		\[ \C[S] = \left\{ \sum_{s \in S} \alpha_s s : \alpha_s \in \C \right\}. \]
+		The action of $G$ induces a representation on $\C[S]$, namely
+		\[ g \cdot \left( \sum_s \alpha_s s \right) = \sum_s \alpha_s (g \cdot s). \] 
+	\end{fex}

@@ -1,3 +1,5 @@
+%!TEX root = ./main.tex
+
 \section{Character Theory and Orthogonality Relations}
 
 	\subsection{Morphisms}
@@ -31,7 +33,7 @@
 			Let $v \in \ker T$. Then, for $g \in G$,
 			\[ T (\varphi_g v) = \rho_g T v = 0,  \]
 			so $\varphi_g v \in \ker T$. Similarly, for $w \in \im T$, letting $v \in V$ such that $Tv = w$, 
-			\[ \rho_g w = \rho_g T v = T (\varphi_g v) \in \im T.  \]
+			\[ \rho_g w = \rho_g T v = T (\varphi_g v) \in \im T. \qedhere \]
 		\end{proof}
 
 		We had mentioned earlier that $\Hom_G(\varphi,\rho) \subseteq \Hom(V,W)$. In fact, the following stronger statement is true.
@@ -73,7 +75,7 @@
 			Let $G$ be a group, $\varphi : G \to \GL(V)$ and $\rho : G \to \GL(W)$ be irreducible representations of $G$, and $T \in \Hom_G(\varphi,\rho)$. Then, either $T$ is an equivalence or $T = 0$.
 		\end{flem}
 		\begin{proof}
-			Suppose that $T \ne 0$. It suffices to show that $T$ is a bijection. If $\ker T \ne 0$, then we have a nonzero proper subspace $\ker T$ that is $G$-invariant (with respect to $\varphi$), contradicting irreducibility (of $\varphi$). Therefore, $T$ is injective. Similarly, $\im T \ne 0$ and if $\im T \ne W$, we have a nonzero proper subspace $\im T$ that is $G$-invariant (with respect to $\rho$), contradicting irreducibility (of $\rho$). Therefore, $T$ is surjective, completing the first part of the proof.
+			Suppose that $T \ne 0$. It suffices to show that $T$ is a bijection. If $\ker T \ne 0$, then we have a nonzero proper subspace $\ker T$ that is $G$-invariant (with respect to $\varphi$), contradicting irreducibility (of $\varphi$). Therefore, $T$ is injective. Similarly, $\im T \ne 0$ and if $\im T \ne W$, we have a nonzero proper subspace $\im T$ that is $G$-invariant (with respect to $\rho$), contradicting irreducibility (of $\rho$). Therefore, $T$ is surjective.
 		\end{proof}
 
 		\begin{fcor}
@@ -99,8 +101,8 @@
 			\[ \dim \Hom_G(\varphi,\rho^{(1)} \oplus \rho^{(2)}) = \dim \Hom_G(\varphi,\rho^{(1)}) + \dim \Hom_G(\varphi,\rho^{(2)}). \]
 		\end{fprop}
 		\begin{proof}
-			Let $T \in \Hom_G(\varphi,\rho^{(1)}\oplus\rho^{(2)}) \subseteq \Hom(V,W_1\oplus W_2)$. Letting $\pi_i$ denote the projection maps, $\pi_i \circ T : V \to W_i$ is linear for $i = 1,2$. Further, $(\pi_i \circ T) \in \Hom_G(\varphi,\rho_i)$ because
-			\[ (\pi_i \circ T) \varphi_g v = \pi_i (\rho^{(1)} \oplus \rho^{(2)})_g T v = (\rho_i)_g T v. \]
+			Let $T \in \Hom_G(\varphi,\rho^{(1)}\oplus\rho^{(2)}) \subseteq \Hom(V,W_1\oplus W_2)$. Letting $\pi_i$ denote the projection maps, $\pi_i \circ T : V \to W_i$ is linear for $i = 1,2$. Further, $(\pi_i \circ T) \in \Hom_G(\varphi,\rho^{(i)})$ because
+			\[ (\pi_i \circ T) \varphi_g v = \pi_i (\rho^{(1)} \oplus \rho^{(2)})_g T v = (\rho^{(i)})_g T v. \]
 			On the other hand, given morphisms $T_i \in \Hom_G(V,W_i)$ for $i = 1,2$, $T : V \to W$ defined by $T(v) = (T_1(v), T_2(v))$ is also a morphism. As a result, the correspondence $(T_1,T_2) \mapsto T$ is bijective and $\C$-linear, so is an isomorphism.
 		\end{proof}
 
@@ -115,7 +117,7 @@
 			We have
 			\begin{align*}
 				\dim \Hom_G (\varphi^{(r)}, \varphi) &= \sum_{i=1}^s m_i \dim \Hom_G (\varphi^{(r)},\varphi^{(i)}) & \text{(by \Cref{prop: direct sum of reps direct sum of Homs})} \\
-					&= m_r & \text{(by \Cref{cor: schurs corollary})}. \qedhere
+					&= m_r & \text{(by \Cref{cor: schurs corollary})}. & \qedhere
 			\end{align*}
 		\end{proof}
 
@@ -123,13 +125,14 @@
 
 		\begin{fcor}
 			\label{cor: completely reducible unique decomp}
-			Let $\varphi^{(1)},\ldots,\varphi^{(s)}$ and $\psi^{(1)},\ldots,\psi^{(r)}$ be pairwise\footnote{the two lists are separately pairwise inequivalent} inequivalent irreducible representations of $G$. Let $\varphi$ be a representation of $G$ such that
+			Let $\varphi^{(1)},\ldots,\varphi^{(s)}$ and $\psi^{(1)},\ldots,\psi^{(r)}$ be pairwise\footnotemark{} inequivalent irreducible representations of $G$. Let $\varphi$ be a representation of $G$ such that
 			\[ \varphi \cong \bigoplus_{i=1}^{s} (\varphi^{(i)})^{m_i} \cong \bigoplus_{j=1}^r (\psi^{(j)})^{n_j} \]
 			where $m_i,n_j > 0$.
 			Then, $r=s$ and there is a permutation $\sigma$ of $[r]$ such that $\varphi^{(i)} \sim \psi^{(\sigma_i)}$ and $m_i = n_{\sigma(i)}$.
 		\end{fcor}
+		\footnotetext{{the two lists are separately pairwise inequivalent.}}
 		\begin{proof}
-			It suffices to show that each $\varphi_i$ is equivalent to some $\psi_j$. Indeed, pairwise inequivalence then implies that $r=s$, and the previous corollary shows that $m_i = n_j$. Suppose instead that $\varphi^{(1)}$ is not equivalent to any $\psi_j$. Then, denoting by $(psi^{(j)})^{n_j}$ the direct sum of $n_j$ $\psi^{(j)}$s,
+			It suffices to show that each $\varphi_i$ is equivalent to some $\psi_j$. Indeed, pairwise inequivalence then implies that $r=s$, and the previous corollary shows that $m_i = n_j$. Suppose instead that $\varphi^{(1)}$ is not equivalent to any $\psi_j$. Then, denoting by $(\psi^{(j)})^{n_j}$ the direct sum of $n_j$ $\psi^{(j)}$s,
 			\begin{align*}
 				m_1 &= \Hom(\varphi^{(1)}, \varphi) \\
 					&= \Hom(\varphi^{(1)}, \bigoplus_{j=1}^s (\psi^{(j)})^{n_j}) \\
