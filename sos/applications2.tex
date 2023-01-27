@@ -178,6 +178,7 @@
 	\end{proof}
 
 \subsection{The Unique Games Conjecture}
+\label{subsec:ugc}
 
 	\begin{fdef}[$2$-Constraint Satisfaction Problem]
 		In a \emph{$2$-CSP}, we have $n$ variables $(x_i)_{i=1}^n$, which take values in a finite alphabet $[q]$ and $m$ constraints $( (C_i,S_i) )_{i=1}^m$, where each $C_i$ is a pair of variables $(x_{i_1},x_{i_2})$, and $S_i \subseteq [q]^2$. A certain constraint $(C_i,S_i)$ is said to be \emph{satisfied} by a certain assignment of the variables if the corresponding pair is contained in $S_i$. The algorithmic goal of a $2$-CSP is to find an assignment that maximizes the number of satisfied assignments.
@@ -192,7 +193,8 @@
 		\end{enumerate}
 		The quantities $c$ and $s$ are typically referred to as \emph{completeness} and \emph{soundness.}
 	\end{fdef}
-	When the input is a general $2$-CSP, we refer to this problem as $(c,s)$-2CSP. We use similar notation throughout, for example in restricted classes of $2$-CSPs.
+	When the input is a general $2$-CSP, we refer to this problem as $(c,s)$-2CSP. We use similar notation throughout, for example in restricted classes of $2$-CSPs.\\
+	It is clear that if we have a $(s/c)$-approximation algorithm for a CSP, then the $(c,s)$-version of this problem is easy.\\
 
 	For example, a $(1,1-1/m)$-2CSP could be used to check the satisfiability of a CNF. For $q \ge 3$, $(1,1-1/m)$-2CSP is \textsf{NP}-hard.
 
@@ -200,7 +202,7 @@
 		A $q$-sized alphabet $2$-variable constraint $(C,S)$ is said to be \emph{unique} if for every possible assignment to one of the two variables, there is exactly one satisfying assignment to the other variable. A $2$-CSP is said to be a \emph{unique $2$-CSP} or \emph{unique game} if all its constraints are unique. 
 	\end{fdef}
 	A unique constraint is essentially just a permutation $\pi$ of $[q]$, where the set $S$ is just $\{(i,\pi(i)) : i \in [q]\}$.\\
-	Max-Cut is an example of a boolean unique game, while Max-$2$SAT is not. A non-boolean unique game is Max-$2$Lin, where $q$ is a prime and the constraints are linear equations like $x_i \pm x_j \equiv a_{ij} \pmod{q}$.\\
+	Max-Cut is an example of a boolean unique game, while MAX2SAT is not. A non-boolean unique game is MAX2LIN, where $q$ is a prime and the constraints are linear equations like $x_i \pm x_j \equiv a_{ij} \pmod{q}$.\\
 
 	Given that $(1,1-1/m)$-2CSP is NP-hard for $q \ge 3$, the following may be slightly surprising.
 	\begin{ftheo}[Propagation]
@@ -212,8 +214,42 @@
 
 	Given the previous, the following may be very surprising.
 	\begin{fcon}[Unique Games Conjecture]
-		For any $\epsilon > 0$, for sufficiently large $q$, $(1-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
+		For any $\epsilon > 0$, for sufficiently large $q_{\epsilon}$, $(1-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
 	\end{fcon}
-	The above was proposed by Subhash Khot in 2002.\\
+	The conjecture was born when trying to show ``hardness of approximation'' results, which claim that even getting a good approximation of certain quantities is \textsf{NP}-hard. For example, recall how in \Cref{subsec:max-cut}, we had said that the Unique Games Conjecture would imply that getting a $(\aGW+\epsilon)$-approximation of the max-cut is \textsf{NP}-hard. The real advent of these results was with the PCP Theorem, an implication of which is the following.
 
-	A random constraint satisfies $1/q$ of the constraints, so we clearly require $q > 1/\epsilon$ above.
+	\begin{theorem}
+		For some constant $c > 0$, $(1,1-c)$-3SAT is \textsf{NP}-hard.
+	\end{theorem}
+	In the original proof of the above, the constant $c$ was incredibly tiny. Later, this was improved by Ran Raz \cite{raz-parallel-reptn} in the parallel repetition theorem. Finally, H\r{a}stad \cite{hastad-appx-3sat} proved the best possible result, showing that for any $\epsilon > 0$, $(1,7/8 + \epsilon)$-3SAT is \textsf{NP}-hard; there is a simple (but clever) $7/8$-approximation algorithm. In the same paper, H\r{a}stad also proved that $(1,1/2+\epsilon)$-3LIN is \textsf{NP}-hard. This provided a more general system for proving hardness of approximation results, including many other CSPs. However, questions regarding the hardness of approximating problems like MAX-CUT and MAX2LIN remained elusive. Recall that for the former, \Cref{prop: gw-reparametr} implies that $(1-\epsilon,1-\sqrt{\epsilon})$-CUT is in \textsf{P}. VERTEX-COVER was another problem that seemed difficult to approximate -- a simple algorithm gives a $2$-approximation, but we were unable to do better on the algorithmic or hardness fronts.\\
+
+	The Unique Games Conjecture was proposed by Subhash Khot \cite{ugc-og} in 2002, and connected it to one of the three problems mentioned above.
+
+	\begin{theorem}[Khot]
+		If the Unique Games Conjecture is true, for all $\epsilon > 0, 1 \ge t \ge (1/2)$, $(1-\epsilon,1-\epsilon^t)$-2LIN is \textsf{NP}-hard.
+	\end{theorem}
+
+	In 2003, Khot-Regev \cite{khot-regev-ugc-vtxcov} connected it to VERTEX-COVER.
+
+	\begin{theorem}[Khot-Regev]
+		If the Unique Games Conjecture is true, for all $\epsilon > 0$, $(2-\epsilon)$-VERTEXCOVER is \textsf{NP}-hard.
+	\end{theorem}
+	An alternate way of phrasing this is as follows. Supposing the Unique Games Conjecture is true and someone manages to synthesize a $(2-\epsilon)$-approximation algorithm for VERTEX-COVER, then $\mathsf{P} = \mathsf{NP}$, so we can in fact solve VERTEX-COVER exactly!
+
+	In 2004, Khot-Kindler-Mossell-O'Donnell \cite{max-cut-ugc} connected it to MAX-CUT, as we mentioned in \Cref{subsec:max-cut}.
+
+	\begin{theorem}[Khot-Kindler-Mossell-O'Donnell]
+		For $\epsilon > 0$, $(1-\rho_\text{GW},\aGW+\epsilon)$-CUT is \textsf{NP}-hard.
+	\end{theorem}
+	This paper gave some very surprising connections between Gaussian rounding of CSPs and $2$-CSPs! A bit later, O'Donnell-Wu gave a strengthening of this, to the analogue of \Cref{prop: gw-reparametr}, showing we cannot do better than RPR$^2$ rounding either! Finally, in 2008, the following was showed by Raghavendra \cite{raghavendra-punchline}.
+
+	\begin{ftheo}[Raghavendra]
+		For every CSP, there exists a natural SDP (the analogue of degree $2$ sum-of-squares) and a natural rounding (the analogue of RPR$^2$) that, assuming the Unique Games Conjecture, is optimal.
+	\end{ftheo}
+
+	Now, setting implications aside, is the Unique Games Conjecture true?\\
+
+	In Khot's original paper \cite{ugc-og}, he gave a $(1/q)$-approximation algorithm. More precisely, he showed that $(1-\epsilon,1 - O(q^2\epsilon^{1/5}\sqrt{\log 1/\epsilon}))$-UG is solvable in polynomial time; this is very good in the small $\epsilon$ regime. There is a long line of work improving on this, and today, the best known algorithm is due to Charikar-Makarychev-Makarychev in 2007 \cite{ug-optimal-algo}, where they gave an optimal polynomial time algorithm for $(1-\epsilon,1-O(\sqrt{\epsilon \log q}))$-UG. This algorithm is optimal in the sense that if the Unique Games Conjecture is true, we cannot do any better! More concretely, \cite{max-cut-ugc} also showed that if the Unique Games Conjecture is true, then for any $\epsilon > 0$, $(1-\epsilon,1 - \sqrt{\frac{2}{\pi}}\sqrt{\epsilon \log q} + \epsilon)$-UG is \textsf{NP}-hard! Improving the \cite{ug-optimal-algo} algorithm just a little bit would disprove the Unique Games Conjecture.\\
+	All the above results are algorithms using degree $2$ sum-of-squares (or rather, an analogue of what we have seen so far in a non-boolean setting).\\
+
+	On the other hand, a proof of the Unique Games Conjecture also seems within reach! Recently, Dinur-Khot-Kindler-Minzer-Safra \cite{2-2-gc} settled the $2$-to-$2$ Games Conjecture, which is a weaker version of the Unique Games Conjecture, wherein instead of ``unique'' constraints where fixing a variable leaves precisely \emph{one} choice for the other variable, there are now \emph{two} possibilities -- this is something like ``half'' of the UGC, showing that $(1/2-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.\\

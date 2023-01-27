@@ -1,5 +1,7 @@
 %!TEX root = ./main.tex
 
+\clearpage
+
 \section{Degree $2$: Quadratic optimization on the hypercube}
 \label{sec:quad-optim}
 
@@ -102,7 +104,7 @@
 	\end{proof}
 
 	Now, we have managed to get roughly an $\aGW$-approximation using degree $2$ SoS. Is it possible to do any better using degree $2$ SoS? What about with a higher (but constant) degree? It might even be interesting to see if we can get a better approximation with non-constant degree, say $O(\log n)$.\\
-	To answer the first question, it turns out that what we have done is indeed the best possible. A strong result regarding the constant degree case is due to Khot-Kindler-Mossel-O'Donnell \cite{max-cut-ugc}, where it is proved that Khot's \emph{Unique Games Conjecture} (UGC) \cite{ugc-og} implies that an $(\aGW+\epsilon)$-approximation is $\NP$-hard for any $\epsilon > 0$. While it is unknown at the time of writing this whether the unique games conjecture is true, we have strong reason to believe that it is due to a recent result \cite{2-2-gc} which proves the ``$2$-to-$2$ Games Conjecture'', a close variant of the unique games conjecture. We shall later look at the UGC in more detail.\\
+	To answer the first question, it turns out that what we have done is indeed the best possible. There is also strong reason to believe that an $(\aGW+\epsilon)$-approximation is \textsf{NP}-hard, assuming the \emph{Unique Games Conjecture}, that we shall study in more detail in \Cref{subsec:ugc}.\\
 
 	Let us get back to the Goemans-Williamson algorithm. Instead of looking at the best approximation ratio, can we parametrize the output result in terms of the optimal value?
 
