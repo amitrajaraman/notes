@@ -45,8 +45,8 @@
 	\end{array}
 	\end{equation}
 	
-	Further, since this linear program must be maximized at some point on the boundary of the resulting polytope, whose vertices are integral points, there is a solution to this linear program that is also a solution to the integer linear program. It is possible to find such a solution efficiently by possibly adding additional constraints; we shall return to this later.\\
-	The dual of the above linear program \eqref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
+	% Further, since this linear program must be maximized at some point on the boundary of the resulting polytope, whose vertices are integral points, there is a solution to this linear program that is also a solution to the integer linear program. It is possible to find such a solution efficiently by possibly adding additional constraints; we shall return to this later.\\
+	The \emph{dual} of the above linear program \eqref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
 	\[ \sum_{e\text{ incident on }v} y_v x_e \le y_v. \]
 	Adding this up over all vertices gives
 	\[ \sum_{\text{edges } e = uv} (y_u + y_v) x_e \le \sum_{v \in V} y_v. \]
@@ -87,6 +87,7 @@
 	More generally, we have the following definition.
 
 	\begin{fdef}
+		\label{def:dual}
 		Given the \emph{primal} linear program
 		\[
 		\begin{array}{ll@{}ll}
@@ -115,6 +116,150 @@
 	% 	If both the dual and primal are feasible, their optimum values are equal.
 	% \end{fprop}
 
-	\begin{fprop}[Strong duality]
-		If the primal has a solution, then so does the dual. Furthermore, the resulting optimal values are equal.
-	\end{fprop}
+	% \begin{fprop}[Strong duality]
+	% 	If the primal has a solution, then so does the dual. Furthermore, the resulting optimal values are equal.
+	% \end{fprop}
+
+	\Cref{max-wt-pm-lp} can more succinctly be written as
+	\[
+	\label{max-wt-pm-lp-2}
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & w^\top x &\\
+	\text{subject to}& \displaystyle Ax \le 1, \\
+	                 & x \ge 0,
+	\end{array}
+	\]
+	where $A$ is the $n \times m$ incidence matrix of the graph, with $A_{ij} = 1$ iff edge $e_j$ is incident on $v_i$. The dual LP (corresponding to \cref{dual-max-wt-pm-lp}) is
+	\[
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & 1^\top y &\\
+	\text{subject to}& \displaystyle A^\top y \ge w, \\
+	                 & y \ge 0.
+	\end{array}
+	\]
+
+	% If the graph is bipartite, the matching has an integral optimal solution.\\
+	Given a linear program (as in \Cref{def:dual}, say), the \emph{feasible region} of the LP is $\{x \in \R^m : Ax \le 1, x \ge 0\}$, which is a convex polytope -- the convex hull of finitely many points. A \emph{vertex} of a polytope is a point in it that is not a convex combination of two distinct points in the polytope. It may be shown that any linear program has an optimum at a vertex of the polytope. More generally, the set of points where the optimum is attained is some face of the polytope. An \emph{integral polytope} is one whose vertices have integral coordinates.\\
+
+	The feasible region of the matching LP \eqref{max-wt-pm-lp-2} is called the \emph{matching polytope}.
+
+	\begin{fdef}
+		The matching polytope of a graph $G$ is integral iff it is bipartite.
+	\end{fdef}
+	\begin{proof}
+		For the forward direction, we have that if the graph has an odd cycle, the point that assigns $1/2$ to the edges in the cycle and $0$ to the remaining vertices is a vertex of the polytope. Indeed, if it were a convex combination of two distinct points in the polytope, both points are forced to have the coordinates of all edges not in the cycle as $0$, and if such a point in the polytope assigned $1/2+\epsilon$ to some edge, then the next edge in the cycle can be assigned at most $1/2-\epsilon$. Repeating this argument around the cycle yields that the other edge adjacent to the edge with weight $1/2+\epsilon$ has weight at least $1/2+\epsilon$, a contradiction. \\
+		% *** FINISH THE PROOF
+		% For the other direction, given a non-integral point, if the graph has an even cycle, we can cyclically alternatingly perturb the weights on some even cycle by $\pm \epsilon$ to get a convex combination. If the graph has no cycle at all, so it is a tree, a similar argument works, perturbing the weight of one edge by $\pm \epsilon$ and changing the weights of the remaining edges accordingly.
+	\end{proof}
+
+	We next give an optimality criterion for a linear program.
+
+	\begin{flem}[Complementary slackness]
+		\label{complementary slackness}
+		Suppose that $x,y$ are solutions to a primal LP and its dual such that
+		\begin{enumerate}[label=(\alph*)]
+			\item if $y_v > 0$, the $v$th inequality in the primal is tight for $x$ and
+			\item if $x_e > 0$, the $e$th inequality in the dual is tight for $y$.
+		\end{enumerate}
+		In this case, the value of the primal for $x$ equals the value of the dual for $y$, so both have the same optimum. 
+	\end{flem}
+
+	In the context of matchings, this means that if some edge $e$ has positive $x_e$, then the sum of $y$ values of its endpoints is equal to the weight $w_e$. Similarly, if a vertex has positive $y_v$, the sum of $x_e$ values over edges $e$ incident on $v$ is equal to $1$.
+
+	\begin{proof}[Proof of \Cref{complementary slackness} in the setting of matchings]
+		The proof is immediate since
+		\[ \sum_e w_e x_e = \sum_{\substack{e = uv \\ x_e > 0}} w_e x_e = \sum_{\substack{e = uv \\ x_e > 0}} ( y_u + y_v ) x_e = \sum_u y_u \sum_{e\text{ incident on } u} x_e = \sum_{u : y_u > 0} y_u. \qedhere \]
+	\end{proof}
+
+	Let us now give an algorithm for finding a max-weight matching in the bipartite setting. Start off with the dual solution $y$, where $y_u$ is the maximum weight edge incident on $u$ if $u \in A$ and $0$ otherwise.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, very near start}]
+		\foreach \phi in {1,...,3}{
+		\node (\phi') at (1,4-2*\phi) {$\phi'$};
+		\node (\phi) at (-1,4-2*\phi) {$\phi$};		
+      	};
+
+      	\node[left of=1] {$3$};
+      	\node[left of=2] {$5$};
+      	\node[left of=3] {$7$};
+
+      	\node[right of=1'] {$0$};
+      	\node[right of=2'] {$0$};
+      	\node[right of=3'] {$0$};
+		
+		\draw (1) edge["2"] (1');
+		\draw (1) edge["3"] (3');
+
+		\draw (2) edge["5"] (1');
+		\draw (2) edge["4"] (2');
+		\draw (2) edge["1"] (3');
+		
+		\draw (3) edge["6"] (2');
+		\draw (3) edge["7"] (3');
+		% weights 3 5 7 on left
+	\end{tikzpicture}
+	\end{figure}
+
+	We will try to maintain complementary slackness by allowing only those edges take nonzero value. Consider the set of \emph{admissible} edges whose $A$ vertex have them as the maximum weight edge. Find a maximum cardinality matching in the graph formed by admissible edges -- this can be done by any old algorithm such as that using augmenting paths.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, very near start}]
+		\foreach \phi in {1,...,3}{
+		\node (\phi') at (1,4-2*\phi) {$\phi'$};
+		\node (\phi) at (-1,4-2*\phi) {$\phi$};		
+      	};
+
+      	\node[left of=1] {$3$};
+      	\node[left of=2] {$5$};
+      	\node[left of=3] {$7$};
+
+      	\node[right of=1'] {$0$};
+      	\node[right of=2'] {$0$};
+      	\node[right of=3'] {$0$};
+		
+		\draw (1) edge["2"] (1');
+		\draw (1) edge[red,"3"] (3');
+
+		\draw (2) edge[red,"5"] (1');
+		\draw (2) edge["4"] (2');
+		\draw (2) edge["1"] (3');
+		
+		\draw (3) edge["6"] (2');
+		\draw (3) edge[red,"7"] (3');
+		% weights 3 5 7 on left
+	\end{tikzpicture}
+	\end{figure}
+
+	If this is is a matching from $A$ to $B$, it is a maximum weight matching. If not, there exists a subset $X$ such that $|N(X)| < |X|$. Then, increase the $y$ value of vertices in $N(X)$ by $\delta$ and decrease the $y$ value of vertices in $X$ by $\delta$, for the largest possible $\delta$. This means that we increase/decrease it until the weight of some vertex becomes $0$, or some new edge becomes admissible. In the former case, we delete that vertex from the graph.
+
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, very near start}]
+		\foreach \phi in {1,...,3}{
+		\node (\phi') at (1,4-2*\phi) {$\phi'$};
+		\node (\phi) at (-1,4-2*\phi) {$\phi$};		
+      	};
+
+      	\node[left of=1] {$2$};
+      	\node[left of=2] {$5$};
+      	\node[left of=3] {$6$};
+
+      	\node[right of=1'] {$0$};
+      	\node[right of=2'] {$0$};
+      	\node[right of=3'] {$1$};
+		
+		\draw (1) edge["2"] (1');
+		\draw (1) edge[red,"3"] (3');
+
+		\draw (2) edge[red,"5"] (1');
+		\draw (2) edge["4"] (2');
+		\draw (2) edge["1"] (3');
+		
+		\draw (3) edge[red,"6"] (2');
+		\draw (3) edge[red,"7"] (3');
+		% weights 3 5 7 on left
+	\end{tikzpicture}
+	\end{figure}

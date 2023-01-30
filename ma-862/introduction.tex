@@ -249,3 +249,41 @@
 		The action of $G$ induces a representation on $\C[S]$, namely
 		\[ g \cdot \left( \sum_s \alpha_s s \right) = \sum_s \alpha_s (g \cdot s). \] 
 	\end{fex}
+
+	\begin{fdef}
+		Given a $G$-module $V$, a subspace $W \subseteq V$ is said to be a \emph{submodule} of $V$ if for all $w \in W$ and $g \in G$, $gw \in W$.
+	\end{fdef}
+	That is, it is invariant with respect to the representation.
+
+	\begin{fdef}
+		A $G$-module $V$ is said to be \emph{irreducible} if $\dim V > 0$ and it has no submodules other than $\{0\}$ and $V$.
+	\end{fdef}
+	More succinctly, an irreducible $G$-module is one with exactly two submodules. In particular, any one-dimensional module is irreducible
+
+	\begin{fex}
+		Consider the obvious action of $S_n$ on $X = [n]$. Considering the permutation module $\C[X]$, the subspaces
+		\begin{align*}
+			V_1 &= \Span\{1+2+\cdots+n\} \text{ and}
+			V_2 &= \{c_11 + c_22 + \cdots + c_nn : c_1 + \cdots + c_n = 0\}.
+		\end{align*}
+		Clearly, $V_1$ is irreducible. It turns out that $V_2$ is irreducible as well! Suppose instead that $W \ne 0$ is a submodule of $V_2$, containing $w = c_11 + \cdots + c_nn$ for some $(c_i)$ adding up to $0$. Suppose that $c_1 \ne 0$. We must have that some other $c_i$ is also nonzero and unequal to $c_1$; suppose that $c_2$ is so. Then,
+		\begin{align*}
+			w &= c_1 1 + c_2 2 + \cdots + c_nn \in W \\
+			(1\; 2) w &= c_2 1 + c_1 2 + \cdots + c_n n \in W
+		\end{align*}
+		since $W$ is a submodule. Subtracting the two, we get that $(1-2) \in W$. Applying $(2\; j)$ for $j \ge 3$, we get that $(1-j) \in W$ for any $j = 2,3,\ldots,n$. Therefore, $\dim W = n-1$ so $W$ must be $V_2$.
+	\end{fex}
+
+	Ideally, we would like some result in the spirit of the prime factorization theorem, saying that any module can be decomposed into a direct sum of irreducible submodules in a ``unique'' fashion. We shall spend the remainder of this section developing this theorem.
+
+	\begin{fdef}
+		Let $V$ be a finite-dimensional vector space with an inner product $\langle \cdot,\cdot\rangle$. A \emph{unitary} representation is a group homomorphism $\varphi : G \to U(V)$. In such a case, $V$ is called a \emph{unitary $G$-module}.
+	\end{fdef}
+	Above $U(V)$ is the subgroup of matrices in $\GL(V)$ under which the inner product is preserved. That is, $U(V)$ is the set of all matrices $A$ such that for any $v,w \in V$, $\langle v,w\rangle = \langle Av,Aw\rangle$.
+
+	\begin{flem}
+		Let $V$ be a unitary $G$-module. Then, $V$ is a direct sum of irreducible submodules.
+	\end{flem}
+	\begin{proof}
+		If $V$ is irreducible, we are done. Suppose otherwise, and let $W \ne 0$ be a proper irreducible submodule of $V$. Consider $W^\perp = \{ v \in V : \langle v,w\rangle = 0 \}$.
+	\end{proof}

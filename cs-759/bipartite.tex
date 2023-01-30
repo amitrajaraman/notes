@@ -109,7 +109,7 @@ First off, we shall show that determining if a given orientation is Pfaffian in 
 	If some $C_i$ is even, we are done since we have found an even cycle. Otherwise, run the algorithm to check if the graph is even. If yes, output yes, and output no otherwise. To prove this, it suffices to show that iff all $C_i$ are odd and there exists an even cycle $C$, thenn the graph must be even. Indeed, because the $C_i$ form a basis, we can write $C$ as a XOR of an \emph{even} number of $C_i$ (because $C$ is even and each $C_i$ is odd). However, the XOR of this even number of cycles with $C$ (an odd number of cycles overall) is empty, so we are done by \Cref{prop:1}.\\
 
 	Let us now reduce EVEN-DIGRAPH to EVEN-CYCLE.\\
-	We shall construct a weighting such that if there is no even cycle with respect to this weighting, there is no even cycle with respect to any weighting. If we manage to assign weights such that every basic $C_i$ cycle has odd weight, we are done. Furthermore, it is easy to do this by inductively building up the graph ear-by-ear -- assign a weight of $0$ or $1$ to a specific edge in $P_i$ such that $C_i$ is odd, and assign $0$ to all other edges in the ear.
+	We shall construct a weighting such that if there is an even cycle with respect to this weighting, there is an even cycle with respect to any weighting. If we manage to assign weights such that every basic $C_i$ cycle has odd weight, we are done. Furthermore, it is easy to do this by inductively building up the graph ear-by-ear -- assign a weight of $0$ or $1$ to a specific edge in $P_i$ such that $C_i$ is odd, and assign $0$ to all other edges in the ear.
 \end{proof}
 
 % ^ DONE BY SEYMOUR-THOMASSEN
