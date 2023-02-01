@@ -281,9 +281,102 @@
 	\end{fdef}
 	Above $U(V)$ is the subgroup of matrices in $\GL(V)$ under which the inner product is preserved. That is, $U(V)$ is the set of all matrices $A$ such that for any $v,w \in V$, $\langle v,w\rangle = \langle Av,Aw\rangle$.
 
+	\begin{lemma}
+		Let $V$ be a unitary $G$-module with $\dim V > 0$. Then, $V$ is a direct sum of irreducible submodules.
+	\end{lemma}
+	\begin{proof}
+		If $V$ is irreducible, we are done. Suppose otherwise, and let $W \ne 0$ be a proper submodule of $V$. Consider $W^\perp = \{ v \in V : \langle v,w\rangle = 0 \}$. For any $v \in W^\perp$, $g \in G$, and $w \in W$, since $W$ is a submodule, $\langle gv,w\rangle = \langle v,g^{-1}w\rangle = 0$, so $gv \in W^\perp$. It follows that $W^\perp$ is a proper submodule of $V$. Induction on dimension completes the proof. 
+	\end{proof}
+
 	\begin{flem}
-		Let $V$ be a unitary $G$-module. Then, $V$ is a direct sum of irreducible submodules.
+		Let $V$ be a $G$-module with $\dim V > 0$. Then, $V$ is a direct sum of irreducible submodules.
 	\end{flem}
 	\begin{proof}
-		If $V$ is irreducible, we are done. Suppose otherwise, and let $W \ne 0$ be a proper irreducible submodule of $V$. Consider $W^\perp = \{ v \in V : \langle v,w\rangle = 0 \}$.
+		Let $(\cdot,\cdot)$ be any inner product on $V$. Consider the inner product $\langle \cdot,\cdot\rangle$ defined by
+		\[ \langle v,w\rangle = \sum_{h \in G} \langle hv,hw\rangle. \]
+		Note that $V$ is a unitary $G$-module with respect to $\langle \cdot,\cdot\rangle$. The desideratum follows by the previous lemma.
 	\end{proof}
+
+	This completes the first part of the statement we made earlier, showing that any module can be decomposed into a direct sum of irreducibles. Now, we would like to show that this decomposition is also unique in some sense.
+
+	\begin{fdef}
+		Given $G$-modules $V,W$, a linear map $f : V \to W$ is said to be \emph{$G$-linear} if $f$ commutes with the action of $G$, that is, $f(gv) = gf(v)$. We denote
+		\[ \Hom_G(V,W) = \{ f : V \to W : f \text{ is $G$-linear} \}. \]
+	\end{fdef}
+
+	In some settings, $W$ may be a vector space of functions; in such cases, take care with the definition of $G$-linearity.
+
+	\begin{flem}
+		Let $V,W$ be irreducible $G$-modules and $f : V \to W$ be $G$-linear. Then, either $f \equiv 0$ or $f$ is an isomorphism.
+	\end{flem}
+	\begin{proof}
+		Note that $\ker f$ and $\operatorname{im} f$ are respectively submodules of $V$ and $W$, so by irreducibility, they must each be equal to $0$ or the entire vector space. If $\ker f = V$, then $f \equiv 0$. If $\ker f = 0$, we must also have $\operatorname{im} f = W$ so $f$ is an isomorphism.
+	\end{proof}
+
+	\begin{flem}[Schur's Lemma]
+		Let $V$ be an irreducible $G$-module and $f : V \to V$ be $G$-linear. Then, $f = \lambda I$ for some $\lambda \in \C$.
+	\end{flem}
+	\begin{proof}
+		Let $\lambda$ be some eigenvalue of $f$. Then, $f - \lambda I$ is also $G$-linear and has nonzero kernel; by the previous lemma, it follows that it is identically $0$, completing the proof.
+	\end{proof}
+
+	\begin{fcor}
+		Let $V,W$ be irreducible $G$-modules. Then,
+		\[ \dim \Hom_G(V,W) = \begin{cases} 1, & V \cong W, \\ 0, & \text{otherwise.} \end{cases} \]
+	\end{fcor}
+
+	\begin{flem}
+		Let $V,W$ be $G$-modules, and $W_1,W_2$ be $G$-submodules of $W$ such that $W = W_1 \oplus W_2$. Then,
+		\[ \Hom_G(V,W_1\oplus W_2) \cong \Hom_G(V,W_1) \oplus \Hom_G(V,W_2). \]
+		In particular,
+		\[ \dim \Hom_G(V,W_1 \oplus W_2) = \dim \Hom_G(V,W_1) + \dim \Hom_G(V,W_2). \]
+	\end{flem}
+	\begin{proof}
+		Let $\pi_1 : W \to W_1$ and $\pi_2 : W \to W_2$ denote the respective projection maps. Given $T \in \Hom_G(V,W_1\oplus W_2)$, we have $\pi_1 \circ T \in \Hom_G(V,W_1)$ and $\pi_2 \circ T \in \Hom_G(V,W_2)$. For the backward inclusion, given $T_1 \in \Hom_G(V,W_1), T_2 \in \Hom_G(V,W_2)$, the map $T$ defined by $T(v) = (T_1(v),T_2(v))$ is in $\Hom_G(V,W)$. This establishes an isomorphism between $\Hom_G(V,W)$ and $\Hom_G(V,W_1) \oplus \Hom_G(V,W_2)$, proving the claim.
+	\end{proof}
+
+	Given a vector space $V$, denote by $nV$ the direct sum of it with itself $n$ times. Also denote $0V = 0$.
+
+	\begin{fcor}
+		Let $V_1,\ldots,V_r$ be irreducible $G$-modules and $V,W$ be $G$-modules such that
+		\begin{align*}
+			V &\cong n_1V_1 \oplus n_2V_2 \oplus \cdots \oplus n_rV_r \text{ and} \\
+			W &\cong m_1V_1 \oplus m_2V_2 \oplus \cdots \oplus m_rV_r, \\
+		\end{align*} 
+		where $n_i,m_i \ge 0$. Then,
+		\[ \dim \Hom_G(V,W) = n_1m_1 + n_2m_2 + \cdots + n_rm_r. \]
+	\end{fcor}
+
+	\begin{fcor}
+		Let $V$ be a $G$-module such that
+		\[ V \cong n_1V_1 \oplus n_2V_2 \oplus \cdots \oplus n_rV_r, \]
+		where $V_1,\ldots,V_r$ are irreducible $G$-modules, and $n_i > 0$ for each $i$. Then, the $(n_i,V_i)$ are determined by $V$ up to permutation and isomorphism. 
+	\end{fcor}
+	\begin{proof}
+		This is immediate on noting that by the previous corollary, for any irreducible $W$, $W$ appears with multiplicity $n$ in a decomposition of $V$ iff $\dim \Hom_G(V,W) = n$.
+	\end{proof}
+
+	\begin{fdef}
+		A $G$-module $V$ is \emph{multiplicity-free} iff for any irreducible $W$, $\dim \Hom_G(V,W) \in \{0,1\}$.
+	\end{fdef}
+
+	\begin{flem}
+		Let $G$ act on a set $S$ and consider $\mathcal{A} = \Hom_G(S,S)$. Then, $\C[S]$ is multiplicity-free iff $\mathcal{A}$ is commutative.
+	\end{flem}
+	Suppose that $\C[S] \cong n_1 V_1 \oplus \cdots \oplus n_r V_r$. It is easy to see that
+	\[ \mathcal{A} \cong \Hom_G(n_1 V_1, n_1 V_1) \oplus \cdots \oplus \Hom_G(n_r V_r, n_r V_r) \]
+	is commutative iff each of the $r$ parts of the direct sum are commutative. The idea behind the proof is that each $\Hom_G(n_i V_i, n_i V_i)$ is essentially a $n_i \times n_i$ matrix, which is commutative iff $n_i = 1$.
+
+\subsection{The Delsarte Bound}
+
+	\begin{fdef}
+		A \emph{binary code} $C$ (of length $n$) is a non-empty proper subset of $B(n)$. Given $X,Y \in B(n)$, the \emph{Hamming distance} $d$ defined by $d(X,Y) = |X \triangle Y|$. The Hamming distance of a code $C$ is $d(C) = \min_{\substack{X,Y \in C \\ X \ne Y}} d(X,Y)$.
+	\end{fdef}
+
+	Codes are studied in great detail in coding theory, with the distance of a code being an indicator of how resistant it is to ``corruption''.
+
+	\begin{fdef}
+		Given $n,d$, $A(n,d)$ is the size of a largest binary code of length $n$ whose distance is at least $d$.
+	\end{fdef}
+
+	Given the previous paragraph, it should be of no surprise that $A(n,d)$ is of great interest to coding theorists. However, it turns out that computing it is \textsf{NP}-hard. We shall give an efficient algorithm to compute an upper bound on $A(n,d)$. While we do not provide any theoretical guarantee on how good this bound is, it turns out to be surprisingly effective in practice.

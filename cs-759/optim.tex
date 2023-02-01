@@ -202,7 +202,7 @@
 	\end{tikzpicture}
 	\end{figure}
 
-	We will try to maintain complementary slackness by allowing only those edges take nonzero value. Consider the set of \emph{admissible} edges whose $A$ vertex have them as the maximum weight edge. Find a maximum cardinality matching in the graph formed by admissible edges -- this can be done by any old algorithm such as that using augmenting paths.
+	We will try to maintain complementary slackness by allowing only those edges take nonzero value. Consider the set of \emph{admissible} edges whose $A$ vertex have them as the maximum weight edge. Find a maximum cardinality matching in the graph formed by admissible edges -- this can be done by any old algorithm such as that which searches for augmenting paths.
 	
 	\begin{figure}[H]
 		\centering
@@ -263,3 +263,57 @@
 		% weights 3 5 7 on left
 	\end{tikzpicture}
 	\end{figure}
+
+	% While there exists a vertex in $A$ with $y_v > 0$ that is not matched, search for an augmenting path using only admissible edges. Once found, augment and reduce the number of unmatched vertices with $y > 0$. If any vertex in $A'$ (that have admissible edges) has $y$ value $0$, take an alternating path from $u$ to it.
+	Now, how large can the $\delta$ mentioned earlier get? First off, none of the $y$ values can become negative, so define
+	\[ \delta_1 = \min_{v \in A' \cup \{u\}} y_v. \]
+	We also have the constraint due to formerly non-admissible edges $pq$ that might become tight due to the decrease in $y_p$ for some $p \in A'$. So, define
+	\[ \delta_2 = \min_{\substack{pq \text{ not admissible} \\ p \in A', q \not\in B'}} (y_p + y_q - w_{pq}). \]
+	Then, we set $\delta = \min\{\delta_1,\delta_2\}$, decreasing $y_u$ by $\delta$ for $u \in A'$, and increasing $y_v$ by $\delta$ for $v \in B'$. We repeat this process until all vertices with positive $y$ value are matched.\\
+
+	Now, in the problem of finding a maximum weight \emph{perfect} matching, we instead have
+
+	\[
+	\label{max-wt-pm-lp}
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & \displaystyle\sum_{e \in E} w_{e} x_{e} &\\
+	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} = 1,  &\qquad v \in V\\\\
+	                 & x_{e} \ge 0,                                                &\qquad e \in E
+	\end{array}
+	\]
+	and in the dual,
+	\[
+	\label{dual-max-wt-pm-lp}
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & \displaystyle\sum_{v \in V} y_v &\\
+	\text{subject to} \displaystyle &y_u+y_v \ge w_e,  &\qquad uv = e \in E.
+	\end{array}
+	\]
+	Note that the $y_v \ge 0$ constraint has been removed. The algorithm now is exactly the same as the earlier one for a maximum weight matching, except that the $y$ coordinates are allowed to be negative.\\
+
+	This is an $O(mn)$ time algorithm, called the \emph{Hungarian method}. Some mild optimizations can bring it down to $O(m\sqrt{n})$. Recently, we got an almost linear time algorithm to find a maximum weight perfect matching! % sushant sachdeva
+
+	Now, the problem of finding maximum weight matchings can be reduced to finding maximum weight perfect matchings by adding extra vertices with the edges having $0$ weight.\\
+
+	In general graphs, we have
+	\[
+	\label{max-wt-pm-lp-2}
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & w^\top x &\\
+	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} = 1,  &\qquad v \in V\\\\
+	                 & x_{e} \ge 0,                                                &\qquad e \in E
+	\end{array}
+	\]
+	This is in general not an integral polytope.
+	If the graph has no odd cycles, it is bipartite so integral, by an argument similar to the previous one. Even in the case where it does have odd cycles, the graph could be integral, an example being $K_4$.
+	% still integral K_4
+
+	Generally, graphs for which this polytope is integral are called \emph{Birkhoff-von Neumann} graphs. There is no characterization known for such graphs.\\
+	Suppose we have a graph with two odd cycles, with the remaining vertices having a perfect matching among themselves. Then, the point assigning $1$ to the matching and $1/2$ to all vertices in the odd cycle is a vertex of the polytope.
+	% 
+	\begin{ftheo}
+		Let $G$ be a matching-covered graph, that is, a connected graph where every edge is in a perfect matching. The perfect matching polytope of $G$ is not integral iff it contains two disjoint odd cycles such that the remaining graph has a perfect matching.
+	\end{ftheo}
+
+	This gives some sort of co-\textsf{NP} characterization of which graphs have integral perfect matching polytopes, but it is unclear how to check this property.
+	% add more LP inequalities (making it exponentially large), but this can still be solved in poly time
