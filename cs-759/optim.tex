@@ -141,10 +141,8 @@
 	% If the graph is bipartite, the matching has an integral optimal solution.\\
 	Given a linear program (as in \Cref{def:dual}, say), the \emph{feasible region} of the LP is $\{x \in \R^m : Ax \le 1, x \ge 0\}$, which is a convex polytope -- the convex hull of finitely many points. A \emph{vertex} of a polytope is a point in it that is not a convex combination of two distinct points in the polytope. It may be shown that any linear program has an optimum at a vertex of the polytope. More generally, the set of points where the optimum is attained is some face of the polytope. An \emph{integral polytope} is one whose vertices have integral coordinates.\\
 
-	The feasible region of the matching LP \eqref{max-wt-pm-lp-2} is called the \emph{matching polytope}.
-
 	\begin{fdef}
-		The matching polytope of a graph $G$ is integral iff it is bipartite.
+		Given a graph $G$, the polytope defined by \cref{max-wt-pm-lp-2} is integral iff $G$ is bipartite.
 	\end{fdef}
 	\begin{proof}
 		For the forward direction, we have that if the graph has an odd cycle, the point that assigns $1/2$ to the edges in the cycle and $0$ to the remaining vertices is a vertex of the polytope. Indeed, if it were a convex combination of two distinct points in the polytope, both points are forced to have the coordinates of all edges not in the cycle as $0$, and if such a point in the polytope assigned $1/2+\epsilon$ to some edge, then the next edge in the cycle can be assigned at most $1/2-\epsilon$. Repeating this argument around the cycle yields that the other edge adjacent to the edge with weight $1/2+\epsilon$ has weight at least $1/2+\epsilon$, a contradiction. \\
@@ -311,9 +309,37 @@
 	Generally, graphs for which this polytope is integral are called \emph{Birkhoff-von Neumann} graphs. There is no characterization known for such graphs.\\
 	Suppose we have a graph with two odd cycles, with the remaining vertices having a perfect matching among themselves. Then, the point assigning $1$ to the matching and $1/2$ to all vertices in the odd cycle is a vertex of the polytope.
 	% 
-	\begin{ftheo}
-		Let $G$ be a matching-covered graph, that is, a connected graph where every edge is in a perfect matching. The perfect matching polytope of $G$ is not integral iff it contains two disjoint odd cycles such that the remaining graph has a perfect matching.
-	\end{ftheo}
+	\begin{flem}
+		\label{lem:matching-polytope-lem}
+		Let $G$ be a matching-covered graph, that is, a connected graph where every edge is in a perfect matching. The polytope defined by \eqref{max-wt-pm-lp-2} is not integral iff $G$ contains evenly many disjoint odd cycles such that the remaining graph has a perfect matching.
+	\end{flem}
+	% cannot have an even cycle
+	% no edge in more than one cycle
+	% any vtx with nonzero degree has degree at least 2
+	% any component has exactly one odd cycle
 
 	This gives some sort of co-\textsf{NP} characterization of which graphs have integral perfect matching polytopes, but it is unclear how to check this property.
 	% add more LP inequalities (making it exponentially large), but this can still be solved in poly time
+
+	\begin{fdef}
+		Given a graph $G = (V,E)$ with a perfect matching, identify each perfect matching $M$ of $G$ with the vector $x \in \R^E$, where $x_e = 1$ if $e \in M$ and $0$ otherwise. The \emph{perfect matching polytope} of $G$ is the convex hull of these points. The \emph{matching polytope} is defined similarly.
+	\end{fdef}
+
+	However, this polytope may have exponentially many vertices, so we need some more succinct way to describe it. It turns out that the polytope has far fewer faces than vertices, so it can easily be described by a collection of linear (in)equalities. Indeed, we just need to add appropriate inequalities to \eqref{max-wt-pm-lp-2}, using \Cref{lem:matching-polytope-lem}.
+	
+	\begin{ftheo}
+		Given a graph $G$, its perfect matching polytope is the set $x$ of points in $\R^E$ satisfying
+		\begin{align}
+			x_e &\ge 0 \qquad \text{ for all } e \in E, \\
+			\sum_{e \text{ incident on }v} x_e &= 1 \qquad \text{ for all } v \in V, \\
+			\sum_{e \in \partial S} x_e &\ge 1 \qquad \text{ for all odd sized $S \subseteq V$ with $1 < |S| \le n/2$}.
+		\end{align}
+	\end{ftheo}
+	Show that the third inequality discounts vertices in \Cref{lem:matching-polytope-lem}. In fact, the above constraint only needs to be added for certain $S$, not necessarily all $S$. However, which $S$ we must add depends on the graph itself. Indeed, when we take the dual, most variables are immediately set to $0$ so not many variables need to be considered. For the complete graph $K_{n}$ on evenly many vertices for instance, we do need to add every such constraint.\\
+	Although this is exponentially many constraints, we can still sometimes efficiently solve a linear program. For example, the problem of finding a minimum weight spanning tree can be solved efficiently, although the \emph{spanning tree polytope}
+	\begin{align*}
+		\sum_{e \in G[S]} x_e &\le (|S|-1) \qquad \text{ for all $\emptyset \ne S \subseteq V$,} \\
+		\sum_{e \in E} x_e &= (n-1).
+	\end{align*}
+	has exponentially many constraints. Above, $G[S]$ denotes the subgraph of $G$ induced by $S$. Alternatively, we could replace the first constraint with the constraint that for any partition $\mathcal{P}$ of the vertex set, the sum of $x_e$ over edges crossing the partition is at least $|\mathcal{P}|-1$. Kruskal's and Prim's algorithm to find a minimum weight spanning tree can in fact be expressed as appropriate linear programs.
+	% combinatorial Optimization: Algorithms and Complexity - Papadimitrou and Steiglitz

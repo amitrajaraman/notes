@@ -219,11 +219,11 @@ Consider three graph objects which are specific subsets of edges -- spanning tre
 This is related to the problem of setting a Sudoku, where given a solution, we are interested in the smallest number of clues required to make the solution unique. The forcing number is used in chemistry, where atoms are vertices and edges are bonds.\\
 This is \textsf{NP}-complete for graphs in general, unfortunately. However, we can also study the \emph{minimum forcing number} of a graph, which is the smallest forcing number across all perfect matchings of the graph, and we can similarly study the \emph{maximum forcing number}.\\
 
-A matching has no alternating cycle which does not contain any edges in its forcing set. In particular, if a matching has $k$ disjoint alternating cycles, its forcing number is at least $k$.\\
+Note that no alternating cycle of a matching can contain an edge in its forcing set. In particular, if a matching has $k$ disjoint alternating cycles, its forcing number is at least $k$.\\
 For the $2n \times 2n$ grid graph, it has been proved that the maximum forcing number is $n^2$ and the minimum forcing number is $n$. It was also proved that there exists a perfect matching with forcing number $k$ for any integer $n \le k \le n^2$.\\
-In this same paper, it was conjecture that in the $n$-hypercube, every perfect matching has forcing number $2^{n-2}$. This was soon proved to be false, by showing matchings on the hypercube for which nearly all edges in the matching need to be fixed for a unique perfect matching (the conjecture says we only need to fix $1/2$ the edges). We still do not know the maximum forcing number of the hypercube, however. \\
+In this same paper, it was conjectured that in the $n$-hypercube, every perfect matching has forcing number $2^{n-2}$. This was soon proved to be false, by showing matchings on the hypercube for which nearly all edges in the matching need to be fixed for a unique perfect matching (the conjecture says we only need to fix $1/2$ the edges). We still do not know the maximum forcing number of the hypercube, however. \\
 
-We introduce a fairly general technique to prove lower bounds on the minimum forcing number of a bipartite graph. Consider the bipartite adjacency matrix $A$ of the graph, and let $M$ be a matching, and let $S \subseteq M$ be a forcing set of size $k$. Consider the $(n-k) \times (n-k)$ submatrix $A'$ of $A$ comprising those rows and columns (vertices) that are \emph{not} in $S$. Then, the determinant of $A'$ is $\pm A$. In fact, if I replace each $1$ entry in $A'$ with any nonzero value, the determinant remains nonzero.\\
+We introduce a fairly general technique to prove lower bounds on the minimum forcing number of a bipartite graph. Consider the bipartite adjacency matrix $A$ of the graph, and let $M$ be a matching, and let $S \subseteq M$ be a forcing set of size $k$. Consider the $(n-k) \times (n-k)$ submatrix $A'$ of $A$ comprising those rows and columns (vertices) that are \emph{not} in $S$. Then, the determinant of $A'$ is $\pm 1$. In fact, if we replace each $1$ entry in $A'$ with any nonzero value, the determinant remains nonzero.\\
 That is, if there exists a matching with forcing number $k$, if we assign any nonzero weights to the edges, there always exists a $(n-k) \times (n-k)$ nonsingular submatrix, that is, the rank of $A$ is at least $(n-k)$. In particular, the rank of the matrix is at least $(n-k)$ in any field, if we replace each $1$ with a nonzero field entry. If we want to prove a lower bound on the minimum forcing number, we should assign nonzero weights to the edges in some manner that the rank of the resulting matrix is small.
 
 \begin{fdef}[Min-rank]
@@ -266,7 +266,7 @@ Denote by $A_n$ the bipartite adjacency matrix of the $n$-hypercube. It is easil
 In particular, when $n$ is odd, $A_n$ has full rank over $\F_2$. 
 
 \begin{flem}
-	The minimum forcing rank of the $n$-hypercube $Q_n$ is at least $2^{n-1}$.
+	The minimum forcing number of the $n$-hypercube $Q_n$ is at least $2^{n-1}$.
 \end{flem}
 \begin{proof}
 	Suppose $n$ is even. We shall prove that the rank of $A_n$ over $\F_2$ is $2^{n-1}$. Recalling that $A_{n-1}^2 = \Id$,

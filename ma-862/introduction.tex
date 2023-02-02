@@ -172,6 +172,7 @@
 	 So far, all examples have been commutative.
 
 	 \begin{fex}[Non-commutative $*$-algebras]
+	 	\label{ex:non-comm-alg}
 	 	Consider the action of $S_n$ on $B(n)$, with $\pi \{i_1,\ldots,i_k\} = \{\pi(i_1),\ldots,\pi(i_k)\}$. Similar to what we have already seen, $(X,Y) \sim (X',Y')$ iff $|X| = |X'|$, $|Y| = |Y'|$, and $|X \cap Y| = |X' \cap Y'|$. Consider the $B(n) \times B(n)$ matrix $M_{i,j,t}$ defined by
 	 	\[
 	 	M_{i,j,t}(X,Y) =
@@ -379,4 +380,143 @@
 		Given $n,d$, $A(n,d)$ is the size of a largest binary code of length $n$ whose distance is at least $d$.
 	\end{fdef}
 
-	Given the previous paragraph, it should be of no surprise that $A(n,d)$ is of great interest to coding theorists. However, it turns out that computing it is \textsf{NP}-hard. We shall give an efficient algorithm to compute an upper bound on $A(n,d)$. While we do not provide any theoretical guarantee on how good this bound is, it turns out to be surprisingly effective in practice.
+	Given the previous paragraph, it should be of no surprise that $A(n,d)$ is of great interest to coding theorists. However, it turns out that computing it is \textsf{NP}-hard. We shall give an efficient algorithm to compute an upper bound on $A(n,d)$. While we do not provide any theoretical guarantee on how good this bound is, it turns out to be surprisingly effective in practice.\\
+
+	Consider the graph $G$ on vertex set $B(n)$, where $X,Y$ are adjacent iff $d(X,Y) < d$. $A(n,d)$ is then precisely the size of a largest independent set on $G$. For $S \subseteq B(n)$ an independent set, let $\chi(S) \in \R^V$ be the indicator vector of $S$. Consider
+	\[ M = \frac{1}{|S|} \chi(S) \chi(S)^\top. \]
+	Then, $M$ is positive semidefinite, $M_{ij} = 0$ if $ij \not\in E$, $\Tr(M) = 1$, and $|S| = \sum_{i,j} M_{ij}$.
+
+	\begin{fdef}[Semidefinite Program]
+		Given matrices $C,X$, denote $\langle C,X\rangle = \sum_{i,j} C_{ij} X_{ij}$. A \emph{semidefinite program} is a program of the form
+		\[
+		\label{def:sdp}
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \displaystyle\langle C,X\rangle &\\
+		\text{subject to} \displaystyle &X \pge 0  &\\
+		& \displaystyle \langle A_i,X\rangle = b_i, & i \in [m]
+		\end{array}
+		\]
+		where $X$ is a $n \times n$ matrix of variables $x_{ij}$, $A_i$ and $C$ are matrices (that are also part of the input of the program), and the $b_i$ are constants.
+	\end{fdef}
+	That is, a semidefinite program is just a linear program with an additional constraint that a matrix defined by the variables is positive semidefinite. It turns out that optima to semidefinite programs can be found in polynomial time (up to an error of $\epsilon$).
+
+	Given the earlier discussion, it follows that the size of a largest independent set is bounded from above by the solution to the following semidefinite program.
+
+	\begin{equation}
+		\label{indep-sdp}
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \displaystyle  \langle J,M\rangle &\\
+		\text{subject to} \displaystyle & M \pge 0, &\\
+		& \displaystyle \Tr(M) = 1, & \\
+		& M_{ij} = 0, & \qquad ij \in E.
+		\end{array}
+	\end{equation}
+	However, note that for our graph $G$ on $B(n)$, this SDP is of exponential size in the input parameter $n$! The Delsarte bound takes advantage of the symmetries of the graph to bring this down to a \emph{linear} program whose size is polynomial in $n$.\\
+
+	Recall the hyperoctahedral group $H_n$. For $\tau \in H_n$, let $\rho_\tau$ be the $B(n) \times B(n)$ permutation matrix that permutes vertices according to $\tau$. The key idea is that since $\tau$ is distance-preserving, if $C$ is a code with minimum distance at least $d$, so is $\tau(C)$. Therefore, for a given code $C$, instead of the $\chi(S) \chi(S)^\top$ we considered earlier, we shall instead look at
+	\begin{equation}
+		\label{eq:delsarte-key}
+		M = \frac{1}{|C|} \sum_{\tau \in H_n} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top,
+	\end{equation}
+	which is positive semidefinite. Furthermore, since $M$ lives in a far lower-dimensional space than the $2^n \times 2^n$ space we had earlier. In fact, $M \in \Hom_{H_n}(B(n),B(n))$, so lives in only a $(n+1)$-dimensional space (recall that we had proved this back in \Cref{prop: ncube-adj-eigenvals})! Indeed, it is easy to show that for any $\sigma \in H_n$, $M$ commutes with the unitary matrix $P_\sigma$, since
+	\begin{equation}
+		\label{eq:1.4}
+		P_\sigma M P_\sigma^\top = P_\sigma \left(\frac{1}{|C|} \sum_{\tau \in H_n} P_\tau \chi(C) \chi(C)^\top P_\tau^\top \right) P_\sigma^\top = \frac{1}{|C|} \sum_{\tau \in H_n} P_{\sigma \circ \tau} \chi(C) \chi(C)^\top P_{\sigma \circ \tau}^\top = M.
+	\end{equation}
+	Let $A_0,\ldots,A_n$ be the orbital basis of $\Hom_{H_n}(B(n),B(n))$, so any element in the commutant is of the form $\sum_{i=0}^n x_i A_i$. Let us next express the $x_i$ in terms of the code itself.
+
+	\begin{fprop}
+		\label{prop:delsarte-1}
+		Let $\lambda_i$ be the number of pairs $(X,Y) \in C^2$ with $d(X,Y) = i$, and $\alpha_i = \lambda_i / |C| \binom{n}{i}$.  With $M$ defined as above,
+		\[ M = n! (\alpha_0 A_0 + \alpha_1 A_1 + \cdots + \alpha_n A_n).  \]
+	\end{fprop}
+	\begin{proof}
+		The number of $1$s in $A_i$ is $2^n \binom{n}{i}$. The number of $1$s in $\chi(C)\chi(C)^\top$ in the nonzero positions of $A_i$ is precisely $\lambda_i$. When we sum over the elements of $H_n$, this implies that the sum of elements of $M$ in the nonzero positions of $A_i$ is $2^n n! \lambda_i = 2^n n! \binom{n}{i} \alpha_i |C|$. Therefore, the $A_i$ term in $M$ has a coefficient of $(2^n n! \binom{n}{i} \alpha_i |C|)/(|C| 2^n \binom{n}{i}) = n! \alpha_i$, as desired.
+	\end{proof}
+
+	Therefore, the upper bound yielded by \cref{indep-sdp} is at most that of the following semidefinite program.
+	\[
+		\label{indep-sdp2}
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \sum_{i=0}^{n} \binom{n}{i} x_i  &\\
+		\text{subject to} \displaystyle & x_i \ge 0 \quad \text{for all $i$,} &\\
+		& x_0 = 1, x_1 = \cdots = x_{d-1} = 0, & \\
+		& x_0 A_0 + x_1 A_1 + \cdots + x_n A_n \pge 0. &
+		\end{array}
+	\]
+
+	However, the positive semidefiniteness constraint is still exponentially large! To get around this, recall that the $A_i$ have the same eigenspaces, and only $(n+1)$ distinct eigenvalues, so we can just manually check that all the eigenvalues of $\sum_{i=0}^n x_i A_i$ are non-negative. To do this, we must compute the eigenvalues of each $A_i$.\\
+	Now, consider $\C^2$ with the basis $e_0 = \begin{pmatrix} 1 & 0 \end{pmatrix}$ and $e_1 = \begin{pmatrix} 0 & 1 \end{pmatrix}$. The matrix $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$ has eigenvalues $1,-1$ with the respective eigenvectors being
+	\[ u = \frac{e_0 + e_1}{\sqrt{2}} \text{ and } v = \frac{e_0 - e_1}{\sqrt{2}}. \]
+	Now, consider the isomorphism $\C[B(n)] \to (\C^2)^{\otimes n}$ where each basis vector $X$ maps to $a_1 \otimes \cdots \otimes a_n$, with $a_i = e_1$ if $i \in X$ and $e_0$ otherwise.\\
+	An alternate orthonormal basis of $\C[B(n)]$ is the set of $u_1 \otimes \cdots \otimes u_n$, where each $u_i$ is either $u$ or $v$.
+
+	Now, consider the subspace $W_j$ spanned by all $u_1 \otimes \cdots \otimes u_n$, where exactly $j$ of the $u_i$ are $v$ (and the remaining are $u$). It may be checked that $W_j$ is an eigenspace of $A_i$, with the eigenvalue
+	\[ \sum_{k=0}^{i} (-1)^k \binom{j}{k} \binom{n-j}{i-k}. \]
+	In particular, the eigenvalues of $A = A_1$ are $n-2j$ with multiplicity $\dim W_j = \binom{n}{j}$. Therefore, an upper bound on $A(n,d)$ is given by the linear program
+	\[
+		\label{indep-sdp3}
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \sum_{i=0}^{n} \binom{n}{i} x_i  &\\
+		\text{subject to} \displaystyle & x_i \ge 0 \quad \text{for all $i$,} &\\
+		& x_0 = 1, x_1 = \cdots = x_{d-1} = 0, & \\
+		& \displaystyle \sum_{i=0}^{n} x_i \left( \sum_{k=0}^{i} (-1)^k \binom{j}{k} \binom{n-j}{i-k} \right) \ge 0 & \qquad j \in [n].
+		\end{array}
+	\]
+
+\subsection{The Schrijver Bound}
+
+	The idea behind the Schrijver bound is that we split the sum in \cref{eq:delsarte-key} into two parts as 
+	\[ |C| \cdot M = |\Pi| \cdot \frac{1}{|\Pi|} \sum_{\tau \in \Pi} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top + |H_n \setminus \Pi| \cdot \frac{1}{|H_n \setminus \Pi|} \sum_{\tau \in H_n \setminus \Pi} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top, \]
+	where each of the two matrices live in a space of dimension polynomial in $n$. It is clear that the two are positive semidefinite.\\
+	Here, $\Pi$ is defined as
+	\[ \Pi = \{ \tau \in H_n : \tau(C) \ni \mathbf{0} \}. \]
+	For $X \in B(n)$, consider
+	\[ \Pi_X = \{ \tau \in H_n : \tau(X) = \mathbf{0} \}. \]
+	Then, setting 
+	\[ R_X = \frac{1}{|\Pi_X|} \sum_{\tau \in \Pi_X} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top, \]
+	we have
+	\[ R = \frac{1}{|\Pi|} \sum_{\tau \in \Pi} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top = \frac{1}{|C|} \sum_{X \in C} R_X. \]
+	Set $\Pi' = H_n \setminus \Pi$. We similarly have
+	\[ R' = \frac{1}{|\Pi'|} \sum_{\tau \in \Pi} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top, \]
+	so
+	\[ M = |\Pi| \cdot R + |\Pi'| \cdot R'. \]
+	The space we shall consider is $\mathcal{A} = \Hom_{S_n}(B(n),B(n))$ -- recall from \Cref{ex:non-comm-alg} that this is a non-commutative $\binom{n+3}{3}$-dimensional $*$-algebra with basis $(M_{i,j,t})$. It is reasonably easy to show that $R,R' \in \mathcal{A}$ by a proof similar to \cref{eq:1.4}.
+
+	\begin{fprop}
+		Let $\lambda_{i,j,t}$ be the number of pairs $(X,Y,Z) \in C^3$ with $d(X,Y) = i, d(Y,Z) = j, d(Z,X) = i+j-2t$, and $\alpha_{i,j,t} = \lambda_i / |C| \binom{n}{i-t,t,j-t}$.  With $R,R'$ defined as above,
+		\[ R = \sum_{i,j,t} \alpha_{i,j,t} M_{i,j,t}  \]
+		and
+		\[ R' = \frac{|C|}{2^n - |C|} \sum_{i,j,t} (\alpha_{i+j-2t,0,0} - \alpha_{i,j,t}) M_{i,j,t}. \]
+	\end{fprop}
+	\begin{proof}
+		The sum of elements of $R_X$ in the nonzero positions of $M_{i,j,t}$ is precisely the number of $(Y,Z) \in C^2$ such that for some $\tau \in \Pi$, $|\tau(Y)| = i$, $|\tau(Z)| = j$, and $d(\tau(Y),\tau(Z)) = i+j-2t$, which is precisely the number of $(Y,Z) \in C^2$ such that $d(X,Y) = i$, $d(X,Z) = j$, and $d(Y,Z) = i+j-2t$. Summing over $X$ and dividing by $|C|$, this is exactly $\binom{n}{i-t,t,j-t} \alpha_{i,j,t}$. On the other hand, the sum of elements of $M_{i,j,t}$ on the other hand is $\binom{n}{i-t,t,j-t}$. The first equation follows.\\
+		Now, by \Cref{prop:delsarte-1}, we have
+		\begin{align*}
+			M &= n! \sum_{t=0}^{n} \alpha_t A_t \\
+				&= n! \sum_{t=0}^{n} \alpha_{t,0,0} A_t \\
+				&= n! \sum_{t=0}^{n} \alpha_{t,0,0} \sum_{i,j} M_{i,j,(i+j-t)/2} \\
+				&= n! \sum_{i,j,t} \alpha_{i+j-2t,0,0} M_{i,j,t}.
+		\end{align*}
+		Therefore, using the expansion of $R$, we have
+		\begin{align*}
+			|\Pi| R + |\Pi'| R' &= |C| \cdot M \\
+			n! |C| R + n! (2^n - |C|) R' &= n! |C| \sum_{i,j,t} \alpha_{i+j-2t,0,0} M_{i,j,t} \\
+			R' &= \frac{|C|}{2^n - |C|} \sum_{i,j,t} (\alpha_{i+j-2t,0,0} - \alpha_{i,j,t}) M_{i,j,t}.
+		\end{align*}
+	\end{proof}
+
+	Now, note that $|C| = \sum_{i=0}^{n} \binom{n}{i} \alpha_{i,0,0}$. So, the upper bound yielded by \cref{indep-sdp} is at most that by the following semidefinite program, where we have added a couple more constraints that may be proved using the definitions of $\alpha_{i,j,t}$.
+
+	\begin{equation}
+		\label{indep-sdp2}
+		\begin{array}{ll@{}ll}
+		\text{maximize}  & \sum_{i=0}^{n} \binom{n}{i} x_{i,j,t}  &\\
+		\text{subject to} \displaystyle & x_{i,j,t} = 0 & \{i,j,i+j-2t\} \cap [d-1] \ne \emptyset, \\
+		& \displaystyle x_{i,j,t} = x_{i',j',t'} & \text{$(i,j,i+j-2t)$ is a permutation of $(i',j',i'+j'-2t')$}, \\
+		& \displaystyle 0 \le x_{i,j,t} \le x_{i,0,0} & \text{ for all $i,j,t$}, \\
+		& \displaystyle x_{i,0,0} + x_{j,0,0} \le 1 + x_{i,j,t} & \text{ for all $i,j,t$}, \\
+		& \displaystyle \sum_{i,j,t} x_{i,j,t} M_{i,j,t} \pge 0, & \\
+		& \displaystyle \sum_{i,j,t} (x_{i+j-2t,0,0} - x_{i,j,t}) M_{i,j,t} \pge 0. &
+		\end{array}
+	\end{equation}
