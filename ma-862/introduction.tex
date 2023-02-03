@@ -1,6 +1,6 @@
 %!TEX root = main.tex
 
-\section{The Delsarte Bound}
+\section{The Delsarte and Schrijver Bounds}
 
 \subsection{$*$-algebras of matrices}
 
@@ -30,7 +30,7 @@
 		\item all rows are nonzero,
 		\item the first non-zero entry in every row is a $1$. Suppose this entry occurs in column $C_i$ in row $i$,
 		\item $C_1 < C_2 < \cdots C_k$, and
-		\item the submatrix comprising the $\{C_1,\ldots,C_k\}$ rows is a $k \times k$ identity matrix.
+		\item the submatrix comprising the $\{C_1,\ldots,C_k\}$ columns is a $k \times k$ identity matrix.
 	\end{enumerate}
 	So, we can count $k \times n$ matrices in RREF instead of subspaces. \Cref{eqn: q-pascal} then follows immediately by considering whether the last column is pivotal or not.
 
@@ -46,7 +46,7 @@
 		\label{exmp: star-alg}
 		Let $G = (V,E)$ be a graph and $A$ its adjacency matrix. $\langle A\rangle$ is called the \emph{adjacency algebra} of $G$. \\
 
-		More specifically, consider the $n$-cube graph $C_n$ with vertex set $B(n)=2^{[n]}$ and an edge between $X,Y$ if $|X \triangle Y| = 1$. Although $\langle A\rangle$ is $*$-algebra of $2^n \times 2^n$ matrices, its dimension is only $n+1$. The fact that we only require $n+1$ parameters to describe an arbitrary element of $\langle A\rangle$ is key to the Delsarte bound on binary code size we shall study in this section.\\
+		More specifically, consider the $n$-cube graph $C_n$ with vertex set $B(n)=2^{[n]}$ and an edge between $X,Y$ if $|X \triangle Y| = 1$. Although $\langle A\rangle$ is $*$-algebra of $2^n \times 2^n$ matrices, its dimension turns out to be only $n+1$. The fact that we only require $n+1$ parameters to describe an arbitrary element of $\langle A\rangle$ is key to the Delsarte bound on binary code size we shall study later.\\
 
 		Let $k \le n/2$. The Johnson graph has vertex set $B(n,k) = \binom{[n]}{k}$ and an edge between $X,Y$ if $|X \cap Y| = k-1$. The dimension of this graph's adjacency algebra turns out to be $k+1$.\\
 
@@ -58,7 +58,7 @@
 	All the above examples are commutative. \href{https://amitrajaraman.github.io/notes/rep-th/main.pdf}{Recall} that a \emph{unitary representation} of a group $G$ is a group homomorphism $\varphi : G \to \mathcal{U}_n(\C)$.
 
 	\begin{ftheo}
-		Let $f$ be a unitary representation as above. Then,
+		Let $\varphi$ be a unitary representation as above. Then,
 		\[ \mathcal{A} = \{A \in \mathcal{M}_n(\C) : A \varphi(g) = \varphi(g) A \text{ for all } g \in G \} \]
 		is a $*$-algebra called the \emph{commutant} of $\varphi$.
 	\end{ftheo}
@@ -70,7 +70,7 @@
 		which easily yields the desideratum.
 	\end{proof}
 
-	The above $*$-algebra may be possible be non-commutative. Suppose that $G$ acts on a set $S$. For each $g$, we can denote the group action by an $S \times S$ permutation matrix $\rho(g)$, with $(\rho(g))_{gs,s} = 1$. This gives a \emph{representation} $\rho : G \to \mathcal{U}_{S}(\C)$ -- any group action thus yields a $*$-algebra.\\
+	The above $*$-algebra may possibly be non-commutative. Suppose that $G$ acts on a set $S$. For each $g$, we can denote the group action by an $S \times S$ permutation matrix $\rho(g)$, with $(\rho(g))_{gs,s} = 1$. This gives a \emph{representation} $\rho : G \to \mathcal{U}_{S}(\C)$ -- any group action thus yields a $*$-algebra.\\
 	We would like to analyze the set of matrices which commute with all $\rho(g)$. Let $G$ act on the sets $S,T$, and let $\rho : G \to \mathcal{U}_S(\C), \tau : G \to \mathcal{U}_T(\C)$ be the corresponding maps. Consider
 	\[ \mathcal{A} = \left\{ M \in \mathcal{M}_{T \times S}(\C) : M \rho(g) = \tau(g) M \text{ for all $g \in G$} \right\}. \]
 	Finally, we shall set $S = T$ so that it is a $*$-algebra, which we denote $\Hom_G(S,S)$.
@@ -93,20 +93,20 @@
 		Since each $M_j$ is symmetric and orthogonal, all matrices in $\mathcal{A}$ are symmetric. We are done if we show that a $*$-algebra of symmetric matrices is commutative. Indeed, $MN = (MN)^\top = N^\top M^\top = NM$.
 	\end{proof}
 
-	Note that the converse does \emph{not} hold; we shall see a counterexample later. Let us get back to our earlier discussion in \Cref{exmp: star-alg}. Think of $B(n)$ as $\{0,1\}^n$. Consider the \emph{hyperoctahedral group} $H(n)$, which has base set equal to $S_2^n \times S_n$, with elements denoted $(\sigma_1,\sigma_2,\ldots,\sigma_n,\pi)$. This group acts on $B(n)$ by first permuting the $n$ coordinates according to $\pi$, then deciding whether or not to flip the entries based on the $(\sigma_i)$. Note that adjacency is preserved under the group action. In fact, $H(n)$ is the set of all permutations that preserve adjacency.\\
+	Note that the converse does \emph{not} hold; we shall see a counterexample later. Let us get back to our earlier discussion in \Cref{exmp: star-alg}. Think of $B(n)$ as $\{0,1\}^n$. Consider the \emph{hyperoctahedral group} $H_n$, which has base set equal to $S_2^n \times S_n$, with elements denoted $(\sigma_1,\sigma_2,\ldots,\sigma_n,\pi)$. This group acts on $B(n)$ by first permuting the $n$ coordinates according to $\pi$, then deciding whether or not to flip the entries based on the $(\sigma_i)$. Note that adjacency is preserved under the group action. In fact, $H_n$ is the set of all permutations that preserve adjacency.\\
 	The group action can be thought of as first taking the vertex to any other arbitrary vertex, then permuting the $n$ outgoing edges in some manner -- these two together further determine the group element.\\
 
-	Let $\alpha,\beta,\alpha',\beta' \in B(n)$. We denote by $d(\alpha,\beta)$ the set of coordinates where $\alpha,\beta$ differ. We write $(\alpha,\beta) \sim (\alpha',\beta')$ if the two are in the same $H(n)$-orbit.
+	Let $\alpha,\beta,\alpha',\beta' \in B(n)$. We denote by $d(\alpha,\beta)$ the set of coordinates where $\alpha,\beta$ differ. We write $(\alpha,\beta) \sim (\alpha',\beta')$ if the two are in the same $H_n$-orbit.
 
 	\begin{flem}
-		$(\alpha,\beta)$ and $(\alpha',\beta')$ are in the same $H(n)$-orbit iff $d(\alpha,\beta) = d(\alpha',\beta')$.
+		$(\alpha,\beta)$ and $(\alpha',\beta')$ are in the same $H_n$-orbit iff $d(\alpha,\beta) = d(\alpha',\beta')$.
 	\end{flem}
 	\begin{proof}
 		The forward direction is straightforward -- permuting the coordinates leaves the distance the same and flipping a select set of coordinates of both also leaves the distance unchanged.\\
 		For the backward direction, suppose $d(\alpha,\beta) = d(\alpha',\beta') = k$. Consider the permutation applied to $\alpha$ which has all $0$s at the start then all $1$s. Then, flip all the $1$s in $\alpha$. Consider the element $\beta''$ obtained by performing the same operations on $\beta$. Due to the first part, $\beta''$ has exactly $k$ $1$s. Next, permute the coordinates of $\beta''$ to get $\beta'''$, which has all $0$s at the start then all $1$s. $(0,\beta''')$ is in the same orbit as $(\alpha,\beta)$. By performing similar operations, it is also in the same orbit as $(\alpha',\beta')$, completing the proof. 
 	\end{proof}
 
-	Let $A_0,A_1,\ldots,A_n$ be the $n$ orbital bases of $B(n) \times B(n)$ under the group action $H(n)$, defined by
+	Let $A_0,A_1,\ldots,A_n$ be the $n$ orbital bases of $B(n) \times B(n)$ under the group action $H_n$, defined by
 	\[ A_j(\alpha,\beta) = \begin{cases} 1, & d(\alpha,\beta) = j, \\ 0, & \text{otherwise.} \end{cases} \]
 	Going back to the perspective of $B(n)$ containing subsets of $[n]$,
 	\[ A_j(X,Y) = \begin{cases} 1, & |X\triangle Y| = j, \\ 0, & \text{otherwise.} \end{cases} \]
@@ -117,7 +117,7 @@
 		It holds that $\langle A\rangle = \Span\{A_0,A_1,\ldots,A_n\}$.
 	\end{fprop}
 	\begin{proof}
-		Denote by $\mathcal{A}$ the algebra on the right, which is the commutant of the $H(n)$ action on $B(n)$. Because $A_1 = A$ is in $\mathcal{A}$, $\langle A\rangle \subseteq \mathcal{A}$. It remains to show the reverse containment, which is implied if we show that $A_j \in \langle A\rangle$ for each $j$. If $A_j \in \langle A\rangle$, then $AA_j$ is just some linear combination of $A_0,A_1,\ldots,A_{j+1}$ (with a positive coefficient on $A_{j+1}$), completing the proof.
+		Denote by $\mathcal{A}$ the algebra on the right, which is the commutant of the $H_n$ action on $B(n)$. Because $A_1 = A$ is in $\mathcal{A}$, $\langle A\rangle \subseteq \mathcal{A}$. It remains to show the reverse containment, which is implied if we show that $A_j \in \langle A\rangle$ for each $j$. If $A_j \in \langle A\rangle$, then $AA_j$ is just some linear combination of $A_0,A_1,\ldots,A_{j+1}$ (with a positive coefficient on $A_{j+1}$), completing the proof.
 	\end{proof}
 
 	\begin{fcor}
@@ -188,7 +188,7 @@
 	 	Again, we have $\dim \mathcal{A} = \binom{n+3}{3}$.
 	 \end{fex}
 
-	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H(n)$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H(n)}(B(n),B(n))$ that does not come from a graph action.
+	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H_n$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H_n}(B(n),B(n))$ that does not come from a graph action.
 
 	\begin{fex}
 		Let $G$ be a finite group. $G \times G$ acts on $G$ by $(g,h) \cdot a = gah^{-1}$. What is the orbital basis of the commutant of this action?\\
@@ -278,9 +278,9 @@
 	Ideally, we would like some result in the spirit of the prime factorization theorem, saying that any module can be decomposed into a direct sum of irreducible submodules in a ``unique'' fashion. We shall spend the remainder of this section developing this theorem.
 
 	\begin{fdef}
-		Let $V$ be a finite-dimensional vector space with an inner product $\langle \cdot,\cdot\rangle$. A \emph{unitary} representation is a group homomorphism $\varphi : G \to U(V)$. In such a case, $V$ is called a \emph{unitary $G$-module}.
+		Let $V$ be a finite-dimensional vector space with an inner product $\langle \cdot,\cdot\rangle$. A \emph{unitary} representation is a group homomorphism $\varphi : G \to \mathcal{U}(V)$. In such a case, $V$ is called a \emph{unitary $G$-module}.
 	\end{fdef}
-	Above $U(V)$ is the subgroup of matrices in $\GL(V)$ under which the inner product is preserved. That is, $U(V)$ is the set of all matrices $A$ such that for any $v,w \in V$, $\langle v,w\rangle = \langle Av,Aw\rangle$.
+	Above $\mathcal{U}(V)$ is the subgroup of matrices in $\GL(V)$ under which the inner product is preserved. That is, $\mathcal{U}(V)$ is the set of all matrices $A$ such that for any $v,w \in V$, $\langle v,w\rangle = \langle Av,Aw\rangle$.
 
 	\begin{lemma}
 		Let $V$ be a unitary $G$-module with $\dim V > 0$. Then, $V$ is a direct sum of irreducible submodules.
@@ -294,7 +294,7 @@
 	\end{flem}
 	\begin{proof}
 		Let $(\cdot,\cdot)$ be any inner product on $V$. Consider the inner product $\langle \cdot,\cdot\rangle$ defined by
-		\[ \langle v,w\rangle = \sum_{h \in G} \langle hv,hw\rangle. \]
+		\[ \langle v,w\rangle = \sum_{h \in G} ( hv,hw ). \]
 		Note that $V$ is a unitary $G$-module with respect to $\langle \cdot,\cdot\rangle$. The desideratum follows by the previous lemma.
 	\end{proof}
 
