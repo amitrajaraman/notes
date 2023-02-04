@@ -165,7 +165,7 @@ As in the usual perfect matching case, if we take the determinant of the adjacen
 \begin{ftheo}
 	\label{randomized red-blue matching}
 	Let $G$ be a bipartite graph. For $e = ij \in E$, the weight $w_e$ is uniformly randomly drawn from $[2m]$. Consider the matrix $M$ defined by
-	\[ M_{ij} = \begin{cases} 2^{w_{ij}}, & \text{$ij \in E$ \text{ and } $ij$ is blue} \\ 2^{w_{ij}}, & \text{$ij \in E$ \text{ and } $ij$ is red}, \\ 0, & \text{otherwise.} \end{cases} \]
+	\[ M_{ij} = \begin{cases} 2^{w_{ij}}, & \text{$ij \in E$ \text{ and } $ij$ is blue} \\ 2^{w_{ij}} r, & \text{$ij \in E$ \text{ and } $ij$ is red}, \\ 0, & \text{otherwise.} \end{cases} \]
 	If $G$ has no perfect matching with $k$ red edges, then the coefficient of $r^k$ in $\det(M)$ is $0$. If $G$ has as perfect matching with $k$ red edges, the coefficient of $r^k$ in $\det(M)$ is nonzero with probability at least $1/2$.
 \end{ftheo}
 Note that the size of the bit representation of $2^{w_{ij}}$ is still polynomial in the input size $n$.
@@ -204,7 +204,7 @@ Consider three graph objects which are specific subsets of edges -- spanning tre
 
 \begin{itemize}
 	\item Determining existence of any of these three is in $\mathsf{P}$.
-	\item Next, we have the search versions of these problems of determining an object of the required form: for the first two, the proof of existence also gives an algorithm for finding an object. For the third, we can adapt the Mulmuley-Vazirani-Vazirani determinant idea used to determine the existence of a perfect matching to also find a perfect matching; we omit the details. Regardless, all three can again be done in polynomial time. \\
+	\item Next, we have the search versions of these problems of determining an object of the required form: for the first two, the proof of existence also gives an algorithm for finding an object. For the third, we can adapt the Mulmuley-Vazirani-Vazirani determinant idea used to determine the existence of a perfect matching to also find a perfect matching; we omit the details. Regardless, all three can again be done in polynomial time.
 	\item Next, suppose we have to find the minimum weight object. This problem is in \textsf{P} for spanning trees. For paths, it can be done in polynomial when all weights are non-negative, and it is \textsf{NP}-complete otherwise. The problem is in \textsf{P} for perfect matchings.
 	\item Next, look at the red-blue variants of this problem, where we wish to find an object with $k$ red edges. This can be done for spanning trees in polynomial time -- first find a tree with a maximal number of red edges (How?), find a tree with a minimal number of red edges, then perform swapping operations edge-by-edge to get from the first to the second, and at some point in this process there must be exactly $k$ red edges if possible. This is \textsf{NP}-complete for paths, since it can be used to find a Hamiltonian path. Finally, we don't know whether this problem is in \textsf{P} or \textsf{NP}-complete for perfect matchings.
 	\item Next, we have the counting variant of this problem. This can be done in polynomial time for spanning trees using the \emph{matrix tree theorem}. This is $\#\mathsf{P}$-complete for boths paths and perfect matchings.
