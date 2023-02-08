@@ -118,7 +118,9 @@
 		\emph{Hint.} \textcolor{gray!20}{Associate a polynomial to each set so that the polynomials are linearly independent. Give an upper bound on the space spanned by these polynomials.}
 	\end{exercise}
 	\begin{solution*}
-		
+		Let $A_1,\ldots,A_m$ be sets of the above form. Associate to each set the polynomial
+		\[ p_i(x) = \sum_{j \in A_m} x_j - d. \]
+		Let $u_i$ be the indicator vector of $A_i$, equal to $1$ at precisely those coordinates $j$ in $A_i$. Note that $p_i(u_j) \ne 0$ iff $i \ne j$, so the $p_i$ are linearly independent. Furthermore, the span of the $p_i$ is of dimension at most $n+1$, corresponding to $1$ and the $n$ $x_j$. It follows that $m \le (n+1)$.
 	\end{solution*}
 
 	\begin{exercise}
@@ -131,7 +133,19 @@
 		\end{enumerate}
 	\end{exercise}
 	\begin{solution*}
-		
+		\begin{enumerate}[label=(\alph*)]
+			\item Given $x,y \in \R^n$, the $L^2$ distance between them is given by $\|x-y\|_2 = (x-y)^\top(x-y) = \sum_{i=1}^n (x_i - y_i)^2$.
+			\item 
+			\item Let the points be $u_1,\ldots,u_m$. To each point, associate the polynomial $p_i(x) = (\|x-u_i\|_2^2 - d_1^2)(\|x-u_i\|_2^2 - d_2^2)$. Note that $p_i(u_j) \ne 0$ iff $i = j$. It follows that the polynomials are linearly independent.
+			\item Each of the two terms in the $p_i$ is of the form
+			\begin{align*}
+				\|x-u\|^2 - d^2 &= \left(\sum_{k=1}^{n} (x_k - u_k)^2 - d^2\right) \left(\sum_{k=1}^{n} (x_k - u_k)^2 - d^2\right) \\
+					&= \left(\left(\sum_{k=1}^{n} x_k^2\right)^2 - 2\sum_{k=1}^n x_k u_k + \sum_{k=1}^n u_k^2 - d_1^2\right).
+			\end{align*}
+			It follows that a basis of the span of the $p_i$ is given by $\left(\sum_{k=1}^n x_k^2\right)^2$, $x_j \left( \sum_{k=1}^n x_k^2 \right)$, $x_j^2$, $x_jx_t$, $x_j$, and $1$, where $j,k$ range over $n$ with $j \ne k$. Therefore, the dimension of the span of $p_i$ is at most
+			\[ 1 + n + n + \binom{n}{2} + n + 1 = \frac{n^2}{2} + \frac{5n}{2} + 2. \]
+			Since the polynomials are linearly independent, this implies that the number of points with exactly two pairwise distances is at most the above quantity. 
+		\end{enumerate}
 	\end{solution*}
 
 	\begin{exercise}
@@ -142,7 +156,23 @@
 	\end{solution*}
 
 	\begin{exercise}
-		Consider $m$ sets $A_1,\ldots,A_m$ such that $|A_i| \equiv k \pmod{p}$ for some prime $p$. Assume that $|A_i \cap A_j| \in L \pmod{p}$ for some set $L$, such that $k \not\in L$ and $|L| = \ell$. Show that $m \le \binom{n}{0} + \cdots + \binom{n}{\ell}$.
+		Consider $m$ sets $A_1,\ldots,A_m$ such that $|A_i| \equiv k \pmod{p}$ for some prime $p$. Assume that $|A_i \cap A_j| \in L \pmod{p}$ for some set $L$, such that $k \not\in L$ and $|L| = \ell$. Show that $m \le \binom{n}{0}+\cdots+\binom{n}{\ell}$.
+	\end{exercise}
+	\begin{solution*}
+		For each set, associate the polynomial
+		\[ q_i(x) = \prod_{u \in L} \left( -u + \sum_{j \in A_i} x_j \right) \]
+		over $\F_p$. Denoting by $u_j$ the vector over $\F_p$ that is $1$ precisely at coordinates in $A_j$ and $0$ elsewhere, note that $q_i(u_j) \ne 0$ iff $i = j$. Now, consider the polynomial $p_i$ obtained by opening up the product in the above definition, and replacing any occurence of $x_j^t$ by $x_j$ for $t \ge 1$. Since any coordinate of the $u_j$ is $0$ or $1$, $p_i(u_j) = q_i(u_j)$ for any $j$. In particular, $p_i(u_j) \ne 0$ iff $i = j$ and so the $p_i$ are linearly independent. Furthermore, since the $p_i$ are multilinear, the dimension of their span is at most $\binom{n}{0} + \cdots + \binom{n}{\ell}$ as in the previous problem.
+	\end{solution*}
+
+	\begin{exercise}
+		For a prime power $q = p^t$, prove that $\binom{r-1}{q-1}$ is divisible by $p$ iff $r$ is not divisible by $q$.
+	\end{exercise}
+	\begin{solution*}
+		
+	\end{solution*}
+
+	\begin{exercise}
+		Let $q = p^t$ and $k \in \Z$. Let $(A_i)_{i=1}^m$ be subsets of $[n]$ such that $|A_i| \equiv k \pmod{q}$ for each $i$ and $|A_i \cap A_j| \not\equiv k \pmod{q}$ for $i \ne j$. Then, show that $m \le \binom{n}{q-1} + \binom{n}{q-3} + \cdots$.
 	\end{exercise}
 	\begin{solution*}
 		
