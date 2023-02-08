@@ -1,0 +1,54 @@
+% Ryan Alweiss, Mehtaab Sawhney, Yang P Liu
+
+Let $\mathcal{S} = \{S_1,\ldots,S_t\} \subseteq 2^{[n]}$ be a family of subsets, where $[n]$ is the \emph{universe}. In our setting, think of $t = \Theta(n)$.\\
+Given a coloring $\chi : [n] \to \{\pm 1\}$, define the \emph{discrepancy} of $\chi$ by
+\[ \disc_{\chi}(\mathcal{S}) = \max_{i \in [t]} \left| \sum_{j \in S_i} \chi(j) \right|, \]
+and
+\[ \disc(\mathcal{S}) = \min_{\chi} \disc_{\chi}(\mathcal{S}) \]
+
+\begin{ftheo}[Spencer 1985]
+	In the setting $t = \Theta(n)$, There exists a coloring $\chi$ such that
+	\[ \disc_{\chi}(\mathcal{S}) \le 6\sqrt{n}. \]
+\end{ftheo}
+Nikhil Bansal [] also algorithmized this later (albeit with a different constant) using semidefinite programming.
+Tsunady's problem: points inside rectangle. Roth showed $\Omega(n^{1/4})$. VC dimension d, n^{1/2 - 1/d}.
+% seshadri 1st lec randomized algos
+
+It is far easier to show the following.
+\begin{fprop}
+	We have
+	\[ \disc(\mathcal{S}) \le O(\sqrt{n \log n}). \]
+\end{fprop}
+% eldan seng discrep
+The above can be proved by taking a random coloring, and using some simple concentration arguments. The set system $\mathcal{S}$ can be represented by a $t \times n$ matrix $M_\mathcal{S}$, with $M_{ij} = 1$ if $j \in S_i$ and $0$ otherwise. If we represent $\chi$ as a vector in $\R^n$,
+\[ \disc_{\chi}(\mathcal{S}) = \|M\chi\|_\infty. \]
+
+\begin{fcon}[Komlos Conjecture]
+	Fix $T$ unit\footnote{with respect to the $\ell_2$-norm.} vectors $v_1,\ldots,v_T \in \R^n$. Then, there exists a signing $\epsilon_1,\ldots,\epsilon_T \in \{\pm 1\}$ such that
+	\[ \|\epsilon_1 v_1 + \cdots \epsilon_T v_T\|_\infty \le O_T(1). \]
+\end{fcon}
+Let $K(n)$ be the maximum of the above over all unit $v_1,\ldots,v_n$.
+% related to stoch loc
+
+\begin{fprop}
+	$K(n) \le O(\sqrt{n})$.
+\end{fprop}
+We don't even know anything better than this!
+
+We shall look at the problem of online discrepancy minimization. In the online setup, at each arrival we get an element $i \in [n]$ along with which sets $S \in \mathcal{S}$ it belongs to, and we must irrevocably decide then whether $i$ gets a $\pm 1$ sign. In the Komlos problem, we get the vectors $v_1,\ldots,v_T$ one-by-one, and we must decide irrevocably at each arrival whether to assign $v_i$ $\pm 1$.
+
+For $t \le n$, we cannot do better than $\Omega(\sqrt{t/n})$ in general. This can be seen by taking the $v_i$ to be mutually orthogonal vectors. Indeed, setting $y = Mx$ for any vector $x$, we have
+\[ \|y\|_2^2 = \|Mx\|_2^2 = \sum_{i=1}^t \|v_i\|_2^2 = t \]
+Therefore, by averaging, there exists some coordinate which is $\Omega(\sqrt{t/n})$.\\
+
+In the adaptive online setting where the adversary can see the signs you have chosen thus far, it can get incredibly bad ($\Omega(\sqrt{t/n})$) since the adversary can give a vector that is orthogonal to our current partial sum vector. \\
+This also rules out deterministic algorithms (even in the non-adaptive setting), since the adversary can run the algorithm to be effectively adaptive. Ideally, we would have a logarithmic dependence on $t$. 
+
+\begin{ftheo}
+	In the non-adaptive adversary model, there exists a (randomized) algorithm which on input $T$ unit vectors $v_1,\ldots,v_T$, finds a signing $\epsilon_1,\ldots,\epsilon_T$ such that for all $t \in [T]$, 
+	\[ \left\| \sum_{i=1}^t \epsilon_i v_i \right\|_\infty \le O\left( \log \frac{nt}{\delta} \right) \]
+	with probability at least $1-\delta$.
+\end{ftheo}
+
+% beck fiala
+% if each element in s sets (s-sparse) aand each set has at most s elements, \sqrt{s} discrep

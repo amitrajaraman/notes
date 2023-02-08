@@ -46,7 +46,7 @@
 	\end{equation}
 	
 	% Further, since this linear program must be maximized at some point on the boundary of the resulting polytope, whose vertices are integral points, there is a solution to this linear program that is also a solution to the integer linear program. It is possible to find such a solution efficiently by possibly adding additional constraints; we shall return to this later.\\
-	The \emph{dual} of the above linear program \eqref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
+	The \emph{dual} of the above linear program \Cref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
 	\[ \sum_{e\text{ incident on }v} y_v x_e \le y_v. \]
 	Adding this up over all vertices gives
 	\[ \sum_{\text{edges } e = uv} (y_u + y_v) x_e \le \sum_{v \in V} y_v. \]
@@ -121,14 +121,14 @@
 	% \end{fprop}
 
 	\Cref{max-wt-pm-lp} can more succinctly be written as
-	\[
+	\begin{equation}		
 	\label{max-wt-pm-lp-2}
 	\begin{array}{ll@{}ll}
 	\text{maximize}  & w^\top x &\\
-	\text{subject to}& \displaystyle Ax \le 1, \\
-	                 & x \ge 0,
+	\text{subject to}& \displaystyle Ax \le 1, &\\
+	                 & x \ge 0,&
 	\end{array}
-	\]
+	\end{equation}
 	where $A$ is the $n \times m$ incidence matrix of the graph, with $A_{ij} = 1$ iff edge $e_j$ is incident on $v_i$. The dual LP (corresponding to \cref{dual-max-wt-pm-lp}) is
 	\[
 	\begin{array}{ll@{}ll}
@@ -138,11 +138,21 @@
 	\end{array}
 	\]
 
+	More explicitly,
+
+	\[
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & \sum_{v \in V} y_v &\\
+	\text{subject to}& \displaystyle y_u + y_v \ge w_e, & \qquad uv = e \in E, \\
+	                 & y_v \ge 0, & \qquad v \in V.
+	\end{array}
+	\]
+
 	% If the graph is bipartite, the matching has an integral optimal solution.\\
 	Given a linear program (as in \Cref{def:dual}, say), the \emph{feasible region} of the LP is $\{x \in \R^m : Ax \le 1, x \ge 0\}$, which is a convex polytope -- the convex hull of finitely many points. A \emph{vertex} of a polytope is a point in it that is not a convex combination of two distinct points in the polytope. It may be shown that any linear program has an optimum at a vertex of the polytope. More generally, the set of points where the optimum is attained is some face of the polytope. An \emph{integral polytope} is one whose vertices have integral coordinates.\\
 
 	\begin{fdef}
-		Given a graph $G$, the polytope defined by \cref{max-wt-pm-lp-2} is integral iff $G$ is bipartite.
+		Given a graph $G$, the polytope defined by \eqref{max-wt-pm-lp-2} is integral iff $G$ is bipartite.
 	\end{fdef}
 	\begin{proof}
 		For the forward direction, we have that if the graph has an odd cycle, the point that assigns $1/2$ to the edges in the cycle and $0$ to the remaining vertices is a vertex of the polytope. Indeed, if it were a convex combination of two distinct points in the polytope, both points are forced to have the coordinates of all edges not in the cycle as $0$, and if such a point in the polytope assigned $1/2+\epsilon$ to some edge, then the next edge in the cycle can be assigned at most $1/2-\epsilon$. Repeating this argument around the cycle yields that the other edge adjacent to the edge with weight $1/2+\epsilon$ has weight at least $1/2+\epsilon$, a contradiction. \\
@@ -200,7 +210,7 @@
 	\end{tikzpicture}
 	\end{figure}
 
-	We will try to maintain complementary slackness by allowing only those edges take nonzero value. Consider the set of \emph{admissible} edges whose $A$ vertex have them as the maximum weight edge. Find a maximum cardinality matching in the graph formed by admissible edges -- this can be done by any old algorithm such as that which searches for augmenting paths.
+	We will try to maintain complementary slackness by allowing only those edges take nonzero value. Consider the set of \emph{admissible} edges, namely edges which are the maximum weight edge for their $A$-vertex. Find a maximum cardinality matching in the graph formed by admissible edges -- this can be done by any old algorithm such as that which searches for augmenting paths.
 	
 	\begin{figure}[H]
 		\centering
@@ -231,11 +241,11 @@
 	\end{tikzpicture}
 	\end{figure}
 
-	If this is is a matching from $A$ to $B$, it is a maximum weight matching. If not, there exists a subset $X$ such that $|N(X)| < |X|$. Then, increase the $y$ value of vertices in $N(X)$ by $\delta$ and decrease the $y$ value of vertices in $X$ by $\delta$, for the largest possible $\delta$. This means that we increase/decrease it until the weight of some vertex becomes $0$, or some new edge becomes admissible. In the former case, we delete that vertex from the graph.
+	If this contains a perfect matching from $A$ to $B$, this matching is a maximum weight matching. If not, there exists a subset $X$ such that $|N(X)| < |X|$. Then, increase the $y$ value of vertices in $N(X)$ by $\delta$ and decrease the $y$ value of vertices in $X$ by $\delta$, for the largest possible $\delta$. This means that we increase/decrease it until the weight of some vertex becomes $0$, or some new edge becomes admissible. In the former case, we delete that vertex from the graph.
 
 	\begin{figure}[H]
-		\centering
-		\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, very near start}]
+	\centering
+	\begin{tikzpicture}[every edge quotes/.style = {auto, font=\footnotesize, sloped, very near start}]
 		\foreach \phi in {1,...,3}{
 		\node (\phi') at (1,4-2*\phi) {$\phi'$};
 		\node (\phi) at (-1,4-2*\phi) {$\phi$};		
@@ -258,7 +268,6 @@
 		
 		\draw (3) edge[red,"6"] (2');
 		\draw (3) edge[red,"7"] (3');
-		% weights 3 5 7 on left
 	\end{tikzpicture}
 	\end{figure}
 
@@ -294,14 +303,14 @@
 	Now, the problem of finding maximum weight matchings can be reduced to finding maximum weight perfect matchings by adding extra vertices with the edges having $0$ weight.\\
 
 	In general graphs, we have
-	\[
-	\label{max-wt-pm-lp-2}
+	\begin{equation}
+	\label{max-wt-pm-lp-3}
 	\begin{array}{ll@{}ll}
 	\text{maximize}  & w^\top x &\\
 	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} = 1,  &\qquad v \in V\\\\
 	                 & x_{e} \ge 0,                                                &\qquad e \in E
 	\end{array}
-	\]
+	\end{equation}
 	This is in general not an integral polytope.
 	If the graph has no odd cycles, it is bipartite so integral, by an argument similar to the previous one. Even in the case where it does have odd cycles, the graph could be integral, an example being $K_4$.
 	% still integral K_4
@@ -311,7 +320,7 @@
 	% 
 	\begin{flem}
 		\label{lem:matching-polytope-lem}
-		Let $G$ be a matching-covered graph, that is, a connected graph where every edge is in a perfect matching. The polytope defined by \eqref{max-wt-pm-lp-2} is not integral iff $G$ contains evenly many disjoint odd cycles such that the remaining graph has a perfect matching.
+		Let $G$ be a matching-covered graph, that is, a connected graph where every edge is in a perfect matching. The polytope defined by \eqref{max-wt-pm-lp-3} is not integral iff $G$ contains two disjoint odd cycles such that the remaining graph has a perfect matching.
 	\end{flem}
 	% cannot have an even cycle
 	% no edge in more than one cycle
@@ -329,17 +338,120 @@
 	
 	\begin{ftheo}
 		Given a graph $G$, its perfect matching polytope is the set $x$ of points in $\R^E$ satisfying
-		\begin{align}
+		\begin{align*}
 			x_e &\ge 0 \qquad \text{ for all } e \in E, \\
 			\sum_{e \text{ incident on }v} x_e &= 1 \qquad \text{ for all } v \in V, \\
 			\sum_{e \in \partial S} x_e &\ge 1 \qquad \text{ for all odd sized $S \subseteq V$ with $1 < |S| \le n/2$}.
-		\end{align}
+		\end{align*}
 	\end{ftheo}
 	Show that the third inequality discounts vertices in \Cref{lem:matching-polytope-lem}. In fact, the above constraint only needs to be added for certain $S$, not necessarily all $S$. However, which $S$ we must add depends on the graph itself. Indeed, when we take the dual, most variables are immediately set to $0$ so not many variables need to be considered. For the complete graph $K_{n}$ on evenly many vertices for instance, we do need to add every such constraint.\\
-	Although this is exponentially many constraints, we can still sometimes efficiently solve a linear program. For example, the problem of finding a minimum weight spanning tree can be solved efficiently, although the \emph{spanning tree polytope}
+	Although this is exponentially many constraints, we can still sometimes efficiently solve such linear programs.
+
+\subsection{The spanning tree polytope}
+
+	For example, the problem of finding a minimum weight spanning tree can be solved efficiently, although the \emph{spanning tree polytope}
 	\begin{align*}
 		\sum_{e \in G[S]} x_e &\le (|S|-1) \qquad \text{ for all $\emptyset \ne S \subseteq V$,} \\
 		\sum_{e \in E} x_e &= (n-1).
 	\end{align*}
-	has exponentially many constraints. Above, $G[S]$ denotes the subgraph of $G$ induced by $S$. Alternatively, we could replace the first constraint with the constraint that for any partition $\mathcal{P}$ of the vertex set, the sum of $x_e$ over edges crossing the partition is at least $|\mathcal{P}|-1$. Kruskal's and Prim's algorithm to find a minimum weight spanning tree can in fact be expressed as appropriate linear programs.
+	has exponentially many constraints. Above, $G[S]$ denotes the subgraph of $G$ induced by $S$. Alternatively, we could replace the first constraint with the constraint that for any partition $\mathcal{P}$ of the vertex set, the sum of $x_e$ over edges crossing the partition is at least $|\mathcal{P}|-1$. Kruskal's and Prim's algorithm to find a minimum weight spanning tree can in fact be expressed as appropriate linear programs.\\
 	% combinatorial Optimization: Algorithms and Complexity - Papadimitrou and Steiglitz
+	We would like to show that the spanning tree polytope is integral, with vertices corresponding to spanning trees. One way to do this is to show that for \emph{any} weight function $w$, there exists a spanning tree with the optimal value. Such a linear program is of the form
+	\[
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & w^\top x &\\
+	\text{subject to}& \displaystyle\sum_{\substack{\text{edges between different}\\\text{parts of $\mathcal{P}$}}} x_e \ge |\mathcal{P}|-1 ,  &\qquad \text{for any partition $\mathcal{P}$ of $V$},\\\\
+	                 & \sum x_{e} = (n-1). &
+	\end{array}
+	\]
+	The dual of this linear program is
+	\[
+	\begin{array}{ll@{}ll}
+	\text{maximize}  & \displaystyle\sum_{\mathcal{P}} (|\mathcal{P}|-1) y_\mathcal{P} &\\
+	\text{subject to}& \displaystyle\sum_{\substack{\text{partitions $\mathcal{P}$} \\ e \text{ crosses }\mathcal{P}}} y_\mathcal{P} \le w_e, &\qquad \text{for all edges }e.\\
+	\end{array}
+	\]
+	Consider Kruskal's algorithm. Start with just the edge having the minimum weight $w_{\operatorname{min}}$. We then consider the partition consisting of all singletons, and set the corresponding $y_\mathcal{P}$ as $w_{\operatorname{min}}$. We then contract this edge, and repeat by altering the right-hand sides in the dual constraints for partitions that involve the minimum weight edge, reducing the weights of the remaining edges. That is, if our current dual values are given by $y$, we replace $w_e$ with $w_e - \sum_{\mathcal{P}} y_\mathcal{P}$. We repeat this until the entire graph contracts to a single vertex. The cost of the dual is the cost of the spanning tree obtained.\\
+
+	Another way that seems to give the spanning tree polytope is
+	\begin{align*}
+		\sum_{e \in \partial S} x_e &\ge 1 \qquad \text{ for all $\emptyset \ne S \subsetneq V$,} \\
+		\sum_{e \in E} x_e &= (n-1),
+	\end{align*}
+	but it turns out that this polytope is not integral. % half-integral out of a set
+	% k4 with three 1-edges and three 1/2, with two diametrically opposite edges connected to each other through a path of 1/2s
+
+	Another seeming definition is
+	\begin{align*}
+		\sum_{e \in C} x_e &\le |C|-1 \qquad \text{ for all cycles $C$,} \\
+		\sum_{e \in E} x_e &= (n-1),
+	\end{align*}
+	but this is not necessarily integral either.
+	% two vertices with three parallel 1/2-edges between them. add a path between them with 0 edges, to make the sum n-1.
+	% check whetherh the earlier S definition polytope is integral
+
+	Another problem is that of minimum weight $k$-disjoint spanning trees, where we have the linear program
+	\[
+	\begin{array}{ll@{}ll}
+	\text{minimize}  & \displaystyle\sum_{r=1}^k w_r^\top x_r &\\
+	\text{subject to}& \displaystyle\sum_{\substack{\text{edges between different}\\ \text{parts of $\mathcal{P}$}}} x_e \ge k(|\mathcal{P}|-1) ,  &\qquad \text{for any partition $\mathcal{P}$ of $V$},\\\\
+	                 & \sum x_{e} = k(n-1). &
+	\end{array}
+	\]
+	There is a generalization of Kruskal's algorithm that works for this. Consider the $2$-disjoint spanning trees problem. If we have two parallel minimum weight edges, both must in the spanning trees, so we can contract and run the algorithm on the resulting graph. Here, we set $y_S = w_{\operatorname{min}}$ as before, where $y_S$ is the partition into singletons. In general, start picking edges in non-decreasing order of weight. As soon as we obtain a subset of vertices which have two disjoint spanning trees, we contract these into a single vertex and contract. 
+
+\subsection{Matchings in special graphs}
+
+	Matchings are a natural way to phrase problems about coming up with bijections between two sets.\\
+
+	Consider the set of bit strings of length $n$ without the substring $11$. It is easy to show that the number of such strings is equal to the $n$th Fibonacci number. This is even when $n \equiv 1 \pmod{3}$ and odd otherwise. Consider the set of all such strings, and the complete graph on these vertices. Can we find an explicit matching on this graph such that if $n \equiv 1 \pmod{3}$, it is a perfect matching, and otherwise exactly one string is left out? Such a matching can be given by flipping the first letter to a $1$ if it is $0$, changing the first two bits to $10$ if it starts with $00$, and if it starts with $01$, it must start with $010$, so we recurse on the remaining string of length $n-3$. When $n \equiv 2 \pmod{3}$, the string $(010)^{(n-2)/3}01$ is unmatched, and when $n \equiv 0 \pmod{3}$, the string $(010)^{n/3}$ is unmatched.\\
+	We can get more non-trivial matchings when we consider a graph other than the complete one, where only specified edges are allowed.\\
+
+	Consider the Catalan numbers given by
+	\[ T_n = \frac{1}{n+1} \binom{2n}{n}. \]
+	For which $n$ is the $n$th Catalan number even? \\
+	There is a famous bijection between $T_n$ and binary trees on $n$ nodes. Using this, by constructing a matching on the complete graph on the latter set, we can prove that $T_n$ is odd iff $n = 2^k-1$ for some $k \ge 1$.\\
+	It is not difficult to show (using induction, say) that the complete binary trees are the only one binary trees that every node has an equal number of nodes in its left and right subtree. So, we leave the complete binary tree unmatched (if it exists for the given value of $n$), and for every other tree, we consider the smallest node (in the pre-order ordering) that has a different number of nodes in its two subtrees, and swap them.\\
+	We can obtain another bijection using only rotations of binary trees.
+
+	\begin{question}
+		Consider the graph on balanced parentheses strings, with two strings being adjacent if we can obtain one from the other by swapping two adjacent characters. Does there always exist a matching on this graph, that is a perfect matching if $n \ne 2^k-1$ and leaves exactly one node unmatched if $n = 2^k-1$? 
+	\end{question}
+
+	Another interesting facet of this study is that of \emph{partition identities}.
+
+	\begin{fdef}
+		A \emph{partition} of a number $n$ is a non-increasing sequence $n_1 \ge n_2 \ge \cdots \cdots \ge n_k \ge 1$ such that $n = n1 + \cdots + n_k$. Given such a partition $\lambda$, $k$ is said to be the number of parts, and $n_i$ is called a part.
+	\end{fdef}
+
+	\begin{ftheo}[Rogers-Ramanujan Identity]
+		The number of partitions of $n$ into parts, each of which is congruent to $\pm1 \pmod{5}$, is equal to the number of partitions of $n$ into distinct parts that differ by at least $2$.
+	\end{ftheo}
+	% For example, when $n = 10$, the partitions of the first kind are
+	% \[ 9+1, 6+4, 6+1^4, 4^2+1^2, 4+1^6, 1^{10} \]
+	% and the number of partitions of the second kind is
+	% \[ 10, 9+1, 8+2, 7+3, 6+4, 6+3+1. \]
+
+	Much of the study of partitions was done by Euler.
+
+	\begin{ftheo}[Euler]
+		The number of partitions of $n$ into odd parts equals the number of partitions of $n$ into distinct parts.
+	\end{ftheo}
+	\begin{proof}
+		This uses the fact that any number can uniquely be written as a power of $2$ multiplied by an odd number, and also that any number can be expressed as a sum of powers of $2$. Given a partition of the first form, suppose we have $r$ $k$s, where $k$ is odd. We then write $r$ in binary as $2^{n_1} + 2^{n_2} + \cdots + 2^{n_t}$, and make the second partition have parts $2^{n_i}k$ for $1 \le i \le t$.\\
+		To go backwards, we write out each part as a power of $2$ multiplied by an odd number, and group together all parts that have the same odd number.
+	\end{proof}
+
+	We can give another algebraic proof. Consider the generating function $P$ of the sequence of number $P_n$ of partitions, given by
+	\[ P(x) = \prod_{i \ge 1} \frac{1}{1-x^i}. \]
+	Although this is an infinite product, the coefficient of any $x^n$, which is equal to $P_n$, is well-defined.\\
+	Similarly, the generating function of the number of partitions with odd parts is given by
+	\[ O(x) = \prod_{\substack{i \ge 1 \\ i \text{ odd}}} \frac{1}{1-x^i}. \]
+	The generating function of the number of partitions with distinct parts is given by
+	\[ D(x) = \prod_{i \ge 1} (1+x). \] 
+	Every (finite) coefficient of $O$ and $D$ is equal! Indeed,
+	\begin{align*}
+		\frac{D(x)}{O(x)} &= ((1-x)(1-x^3)(1-x^5)\cdots) ((1+x)(1+x^2)(1+x^3)\cdots) \\
+			&= \left( (1-x) \prod_{k \ge 1} (1+x^{2^k}) \right) \left( (1-x^3) \prod_{k \ge 1} (1+x^{2^k\cdot 3}) \right) \cdots \left((1-x^{2r+1})\prod_{k \ge 1} (1+x^{2^k\cdot(2r+1)})\right) \cdots
+	\end{align*}
+	and any finite coefficient of each of the parts is equal to $0$.
