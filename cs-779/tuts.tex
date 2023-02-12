@@ -137,12 +137,9 @@
 			\item Given $x,y \in \R^n$, the $L^2$ distance between them is given by $\|x-y\|_2 = (x-y)^\top(x-y) = \sum_{i=1}^n (x_i - y_i)^2$.
 			\item 
 			\item Let the points be $u_1,\ldots,u_m$. To each point, associate the polynomial $p_i(x) = (\|x-u_i\|_2^2 - d_1^2)(\|x-u_i\|_2^2 - d_2^2)$. Note that $p_i(u_j) \ne 0$ iff $i = j$. It follows that the polynomials are linearly independent.
-			\item Each of the two terms in the $p_i$ is of the form
-			\begin{align*}
-				\|x-u\|^2 - d^2 &= \left(\sum_{k=1}^{n} (x_k - u_k)^2 - d^2\right) \left(\sum_{k=1}^{n} (x_k - u_k)^2 - d^2\right) \\
-					&= \left(\left(\sum_{k=1}^{n} x_k^2\right)^2 - 2\sum_{k=1}^n x_k u_k + \sum_{k=1}^n u_k^2 - d_1^2\right).
-			\end{align*}
-			It follows that a basis of the span of the $p_i$ is given by $\left(\sum_{k=1}^n x_k^2\right)^2$, $x_j \left( \sum_{k=1}^n x_k^2 \right)$, $x_j^2$, $x_jx_t$, $x_j$, and $1$, where $j,k$ range over $n$ with $j \ne k$. Therefore, the dimension of the span of $p_i$ is at most
+			\item We have
+			\[ \|x-u\|^2 - d^2 = \sum x_k^2 + \sum x_k (-2u_k) + \sum u_k^2 - d^2, \]
+			a linear combination of $\sum x_k^2$, the $x_k$, and $1$. It follows that each $p_i$ is a linear combination of $\left(\sum_{k=1}^n x_k^2\right)^2$, $x_j \left( \sum_{k=1}^n x_k^2 \right)$, $x_j^2$, $x_jx_t$, $x_j$, and $1$, where $j,k$ range over $n$ with $j \ne k$. Therefore, the dimension of the span of $p_i$ is at most
 			\[ 1 + n + n + \binom{n}{2} + n + 1 = \frac{n^2}{2} + \frac{5n}{2} + 2. \]
 			Since the polynomials are linearly independent, this implies that the number of points with exactly two pairwise distances is at most the above quantity. 
 		\end{enumerate}
