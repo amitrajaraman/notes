@@ -106,10 +106,10 @@
 	\begin{solution*}
 		\begin{enumerate}[label=(\alph*)]
 			\item Over $\R$, it is clear that $(x_1 + x_2)^2 = (x_1^2 + x_2^2) + 2(x_1x_2)$, and the collection formed by removing $(x_1 + x_2)^2$ is linearly independent, so the dimension of the space is $6$.\\
-			We can again remove $(x_1+x_2)^2$ in the $\F_2$ case. Note that $x^2 = x$ in $\F_2$. Therefore, over $\F_2$, the set of polynomials is $x_1, x_2, x_1x_2, x_1x_2, 1, x_1+x_2$; it is clear a maximal linearly independent subset of these vectors is $x_1, x_2, x_1x_2, 1$, so the dimension is $4$.
+			Since linear dependence requires that there exists a linear combination of the polynomials which is equal to the zero polynomial (in the sense that every coefficient is $0$), and not merely a polynomial that evaluates to $0$ everywhere, the dimension of this space is $6$ as well.
 
 			\item Over $\R$, all these monomials are linearly independent, so the dimension is the number of ways of choosing $n$ non-negative numbers that sum to $m$. This is a routine exercise in combinatorics, with the answer being $\binom{m+n-1}{m}$.\\
-			Over $\F_2$, since $x_1 = x_1^{i_1}$ for any $i_1 \ge 1$, we only care whether each $i_r$ is zero or not. Let $j_r$ be $1$ if $i_r \ge 1$ and $0$ otherwise. We then want to find the number of ways of choosing $(j_r)_{r=1}^n$ such that $0 < \sum_{r=1}^{n} j_r \le m$. This is precisely $\binom{n}{1} + \binom{n}{2} + \cdots + \binom{n}{d}$, where $d = \min\{n,m\}$.
+			As in the first part, the dimension over $\F_2$ is $\binom{m+n-1}{m}$ as well.
 		\end{enumerate}
 	\end{solution*}
 

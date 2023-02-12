@@ -180,84 +180,262 @@
 \subsection{The Unique Games Conjecture}
 \label{subsec:ugc}
 
-	\begin{fdef}[$2$-Constraint Satisfaction Problem]
-		In a \emph{$2$-CSP}, we have $n$ variables $(x_i)_{i=1}^n$, which take values in a finite alphabet $[q]$ and $m$ constraints $( (C_i,S_i) )_{i=1}^m$, where each $C_i$ is a pair of variables $(x_{i_1},x_{i_2})$, and $S_i \subseteq [q]^2$. A certain constraint $(C_i,S_i)$ is said to be \emph{satisfied} by a certain assignment of the variables if the corresponding pair is contained in $S_i$. The algorithmic goal of a $2$-CSP is to find an assignment that maximizes the number of satisfied assignments.
+	\subsubsection{Introduction}
+
+		\begin{fdef}[$2$-Constraint Satisfaction Problem]
+			In a \emph{$2$-CSP}, we have $n$ variables $(x_i)_{i=1}^n$, which take values in a finite alphabet $[q]$ and $m$ constraints $( (C_i,S_i) )_{i=1}^m$, where each $C_i$ is a pair of variables $(x_{i_1},x_{i_2})$, and $S_i \subseteq [q]^2$. A certain constraint $(C_i,S_i)$ is said to be \emph{satisfied} by a certain assignment of the variables if the corresponding pair is contained in $S_i$. The algorithmic goal of a $2$-CSP is to find an assignment that maximizes the number of satisfied assignments.
+		\end{fdef}
+		In our setting, $q$ is typically a constant. An example of a (boolean) $2$-CSP is the max-cut problem, where for each edge $ij$ in the graph, we have the constraint $(x_i,x_j) \in \{(0,1),(1,0)\}$. An example of a non-boolean $2$-CSP is max $3$-coloring, where we try to find a coloring of the vertices that maximizes the number of ``good'' edges which have end-vertices of different colours -- try to encode this as a CSP!
+
+		\begin{fdef}[Promise Problem]
+			For $0 \le s \le c \le 1$, the $(c,s)$ promise problem takes as input a $2$-CSP instance, and the goal is to decide whether
+			\begin{enumerate}
+				\item there exists an assignment that satisfies a $\ge c$ fraction of constraints, or
+				\item every assignment satisfies a $\le s$ fraction of the constraints.
+			\end{enumerate}
+			The quantities $c$ and $s$ are typically referred to as \emph{completeness} and \emph{soundness.}
+		\end{fdef}
+		When the input is a general $2$-CSP, we refer to this problem as $(c,s)$-2CSP. We use similar notation throughout, for example in restricted classes of $2$-CSPs.\\
+		It is clear that if we have a $(s/c)$-approximation algorithm for a CSP, then the $(c,s)$-version of this problem is easy.\\
+
+		For example, a $(1,1-1/m)$-2CSP could be used to check the satisfiability of a CNF. For $q \ge 3$, $(1,1-1/m)$-2CSP is \textsf{NP}-hard.
+
+		\begin{fdef}[Unique $2$-CSP]
+			A $q$-sized alphabet $2$-variable constraint $(C,S)$ is said to be \emph{unique} if for every possible assignment to one of the two variables, there is exactly one satisfying assignment to the other variable. A $2$-CSP is said to be a \emph{unique $2$-CSP} or \emph{unique game} if all its constraints are unique. 
+		\end{fdef}
+		A unique constraint is essentially just a permutation $\pi$ of $[q]$, where the set $S$ is just $\{(i,\pi(i)) : i \in [q]\}$.\\
+		Max-Cut is an example of a boolean unique game, while MAX2SAT is not. A non-boolean unique game is MAX2LIN, where $q$ is a prime and the constraints are linear equations like $x_i \pm x_j \equiv a_{ij} \pmod{q}$.\\
+
+		Given that $(1,1-1/m)$-2CSP is NP-hard for $q \ge 3$, the following may be slightly surprising.
+		\begin{ftheo}[Propagation]
+			There is a polynomial time algorithm for $(1,1-1/m)$-UG.
+		\end{ftheo}
+		\begin{proof}
+			Let $G$ be the graph of all pairs that appear in constraints. Assume wlog that $G$ is connected; if it is not, we can apply the following argument separately on connected components. Start an arbitrary vertex $u$, and give it the assignment $1$. Due to uniqueness, this single assignment propagates to an assignment on all vertices in $u$. If we get conflicting assignments at some point, then there is no satisfying assignment which assigns $1$ to $u$. We can then repeat this by varying the assignment for $u$ to determine if there is a satisfying assignment. 
+		\end{proof}
+
+		Given the previous, the following may be very surprising.
+		\begin{fcon}[Unique Games Conjecture]
+			For any $\epsilon > 0$, for sufficiently large $q_{\epsilon}$, $(1-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
+		\end{fcon}
+		The conjecture was born when trying to show ``hardness of approximation'' results, which claim that even getting a good approximation of certain quantities is \textsf{NP}-hard. For example, recall how in \Cref{subsec:max-cut}, we had said that the Unique Games Conjecture would imply that getting a $(\aGW+\epsilon)$-approximation of the max-cut is \textsf{NP}-hard. The real advent of these results was with the PCP Theorem, an implication of which is the following.
+
+		\begin{theorem}
+			For some constant $c > 0$, $(1,1-c)$-3SAT is \textsf{NP}-hard.
+		\end{theorem}
+		In the original proof of the above, the constant $c$ was incredibly tiny. Later, this was improved by Ran Raz \cite{raz-parallel-reptn} in the parallel repetition theorem. Finally, H\r{a}stad \cite{hastad-appx-3sat} proved the best possible result, showing that for any $\epsilon > 0$, $(1,7/8 + \epsilon)$-3SAT is \textsf{NP}-hard; there is a simple (but clever) $7/8$-approximation algorithm. In the same paper, H\r{a}stad also proved that $(1,1/2+\epsilon)$-3LIN is \textsf{NP}-hard. This provided a more general system for proving hardness of approximation results, including many other CSPs. However, questions regarding the hardness of approximating problems like MAX-CUT and MAX2LIN remained elusive. Recall that for the former, \Cref{prop: gw-reparametr} implies that $(1-\epsilon,1-\sqrt{\epsilon})$-CUT is in \textsf{P}. VERTEX-COVER was another problem that seemed difficult to approximate -- a simple algorithm gives a $2$-approximation, but we were unable to do better on the algorithmic or hardness fronts.
+
+	\subsubsection{A brief history of unique games}
+
+		The Unique Games Conjecture was proposed by Subhash Khot \cite{ugc-og} in 2002, and connected it to one of the three problems mentioned above.
+
+		\begin{theorem}[Khot]
+			If the Unique Games Conjecture is true, for all $\epsilon > 0, 1 \ge t \ge (1/2)$, $(1-\epsilon,1-\epsilon^t)$-2LIN is \textsf{NP}-hard.
+		\end{theorem}
+
+		In 2003, Khot-Regev \cite{khot-regev-ugc-vtxcov} connected it to VERTEX-COVER.
+
+		\begin{theorem}[Khot-Regev]
+			If the Unique Games Conjecture is true, for all $\epsilon > 0$, $(2-\epsilon)$-VERTEXCOVER is \textsf{NP}-hard.
+		\end{theorem}
+		An alternate way of phrasing this is as follows. Supposing the Unique Games Conjecture is true and someone manages to synthesize a $(2-\epsilon)$-approximation algorithm for VERTEX-COVER, then $\mathsf{P} = \mathsf{NP}$, so we can in fact solve VERTEX-COVER exactly!
+
+		In 2004, Khot-Kindler-Mossell-O'Donnell \cite{max-cut-ugc} connected it to MAX-CUT, as we mentioned in \Cref{subsec:max-cut}.
+
+		\begin{theorem}[Khot-Kindler-Mossell-O'Donnell]
+			For $\epsilon > 0$, $(1-\rho_\text{GW},\aGW+\epsilon)$-CUT is \textsf{NP}-hard.
+		\end{theorem}
+		This paper gave some very surprising connections between Gaussian rounding of CSPs and $2$-CSPs! A bit later, O'Donnell-Wu gave a strengthening of this, to the analogue of \Cref{prop: gw-reparametr}, showing we cannot do better than RPR$^2$ rounding either! Finally, in 2008, the following was showed by Raghavendra \cite{raghavendra-punchline}.
+
+		\begin{ftheo}[Raghavendra]
+			For every CSP, there exists a natural SDP (the analogue of degree $2$ sum-of-squares) and a natural rounding (the analogue of RPR$^2$) that, assuming the Unique Games Conjecture, is optimal.
+		\end{ftheo}
+
+		% take a graph G exhibiting the integrality gap \alpha for deg 2 sos (for max-cut say). then you can reduce UG to Max-Cut with \alpha factor hardness. gadget reduction with this graph being the gadget.
+
+		Now, setting implications aside, is the Unique Games Conjecture true?\\
+
+		In Khot's original paper \cite{ugc-og}, an $(1/q)$-approximation algorithm was given. More precisely, they showed that $(1-\epsilon,1 - O(q^2\epsilon^{1/5}\sqrt{\log 1/\epsilon}))$-UG is solvable in polynomial time; this is very good in the small $\epsilon$ regime. There is a long line of work improving on this, and today, the best known algorithm is due to Charikar-Makarychev-Makarychev in 2007 \cite{ug-optimal-algo}, where they gave an optimal polynomial time algorithm for $(1-\epsilon,1-O(\sqrt{\epsilon \log q}))$-UG. This algorithm is optimal in the sense that if the Unique Games Conjecture is true, we cannot do any better! More concretely, \cite{max-cut-ugc} also showed that if the Unique Games Conjecture is true, then for any $\epsilon > 0$, $(1-\epsilon,1 - \sqrt{\frac{2}{\pi}}\sqrt{\epsilon \log q} + \epsilon)$-UG is \textsf{NP}-hard! Improving the \cite{ug-optimal-algo} algorithm just a little bit would disprove the Unique Games Conjecture.\\
+		All the above results are algorithms using degree $2$ sum-of-squares (or rather, an analogue of what we have seen so far in a non-boolean setting).\\
+
+		On the other hand, a proof of the Unique Games Conjecture also seems within reach!
+		In 2010, Arora-Barak-Steurer \cite{subexp-ug} showed that for all $q,\epsilon$, there exists a $2^{q^2n^{O(\epsilon^{1/3})}}$-time algorithm to find a $(1/2)$-satisfying assignment for any $(1-\epsilon)$-satisfiable instance of UG. That is, $(1-\epsilon,1/2)$-UG has a $2^{q^2 n^{O(\epsilon^{1/3})}}$-time algorithm. This is better than the na\"{i}ve exponential time $2^{O(n)}$ algorithm.\\
+		Consider the following, proposed by Impagliazzo-Kabanets-Wigderson \cite{eth} in 2002. This can be thought of as a stronger version of $\mathsf{P} \ne \mathsf{NP}$.
+
+		\begin{fcon}[Exponential Time Hypothesis]
+			$3$-SAT does not have a $2^{o(n)}$-algorithm.
+		\end{fcon}
+		The ETH is easily seen to imply that $3$-coloring doesn't have a $2^{O(n)}$ algorithm. If it was able to get a $2^{n^{o(1)}}$ algorithm for $(1-\epsilon,1/2)$-UG, assuming the ETH would imply that the UGC is false. Indeed, if the UGC were true instead, there is a $\poly(n)$ algorithm that reduces a 3\textsf{SAT} instance to an instance of UG. Using the $2^{n^{o(1)}}$ algorithm on top of this yields a $2^{n^{o(1)}}$ algorithm for 3\textsf{SAT}, contradicting ETH.\\
+		We also have that assuming the ETH and the UGC, the Arora-Barak-Steurer algorithm shows that no reduction from 3\textsf{SAT} to UGC can have an instance size blow-up of less than $O(n^{\epsilon^{-1/3}})$.
+
+		Recently in 2018, Dinur-Khot-Kindler-Minzer-Safra \cite{2-2-gc} settled the $2$-to-$2$ Games Conjecture, which is a weaker version of the Unique Games Conjecture, wherein instead of ``unique'' constraints where fixing a variable leaves precisely \emph{one} choice for the other variable, there are now \emph{two} possibilities. A consequence of this is that $(1/2-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.\\
+
+		% UGC SAYS THAT YOU CANNOT BEAT THE INTEGRALITY GAP OF DEG 2 SOS
+
+\subsection{Global correlation rounding}
+
+	We have extensively looked at Gaussian rounding, which works for degree $2$ pseudodistributions. Later, we combined this with the squared triangle inequality to get something for degree $4$ pseudodistributions. In this section, we shall study a more general scheme called global correlation rounding that works for higher degree pseudodistributions. This is also the idea behind the Arora-Barak-Steurer proof we mentioned in the previous section.\\
+	Our running example over this section will be the max-cut problem over a certain restricted class of graphs.\\
+
+	Recall the normalized adjacency matrix (random walk matrix) $A$ of a $d$-regular graph $G$ on $[n]$. Let $1 = \lambda_1 \ge \cdots \ge \lambda_n \ge -1$ be the eigenvalues of $A$. Recall that $G$ is said to be a combinatorial expander if the conductance $\Phi_G \ge \delta$ for some constant $\delta$, and a spectral expander if $\lambda_2 \le 1-\delta$. It may be shown that these two notions are equivalent, with $\Phi_G \ge \delta$ implying that $\lambda_2 \le 1 - O(\delta^2)$.\\
+	An example of an expander is a random $d$-regular graph. We also have more explicit examples such as \emph{configuration models}, where $\lambda_2 = \frac{2\sqrt{d-1}}{d} + o(1)$.
+
+	\begin{fdef}
+		Let $G$ be a $d$-regular graph with eigenvalues $\lambda_1 \ge \cdots \ge \lambda_n$. The \emph{$\rho$-threshold rank} of $G$ $\rank_\rho(G)$ is the number of eigenvalues that are at least $\rho$.
 	\end{fdef}
-	In our setting, $q$ is typically a constant. An example of a (boolean) $2$-CSP is the max-cut problem, where for each edge $ij$ in the graph, we have the constraint $(x_i,x_j) \in \{(0,1),(1,0)\}$. An example of a non-boolean $2$-CSP is max $3$-coloring, where we try to find a coloring of the vertices that maximizes the number of ``good'' edges which have end-vertices of different colours -- try to encode this as a CSP!
-
-	\begin{fdef}[Promise Problem]
-		For $0 \le s \le c \le 1$, the $(c,s)$ promise problem takes as input a $2$-CSP instance, and the goal is to decide whether
-		\begin{enumerate}
-			\item there exists an assignment that satisfies a $\ge c$ fraction of constraints, or
-			\item every assignment satisfies a $\le s$ fraction of the constraints.
-		\end{enumerate}
-		The quantities $c$ and $s$ are typically referred to as \emph{completeness} and \emph{soundness.}
-	\end{fdef}
-	When the input is a general $2$-CSP, we refer to this problem as $(c,s)$-2CSP. We use similar notation throughout, for example in restricted classes of $2$-CSPs.\\
-	It is clear that if we have a $(s/c)$-approximation algorithm for a CSP, then the $(c,s)$-version of this problem is easy.\\
-
-	For example, a $(1,1-1/m)$-2CSP could be used to check the satisfiability of a CNF. For $q \ge 3$, $(1,1-1/m)$-2CSP is \textsf{NP}-hard.
-
-	\begin{fdef}[Unique $2$-CSP]
-		A $q$-sized alphabet $2$-variable constraint $(C,S)$ is said to be \emph{unique} if for every possible assignment to one of the two variables, there is exactly one satisfying assignment to the other variable. A $2$-CSP is said to be a \emph{unique $2$-CSP} or \emph{unique game} if all its constraints are unique. 
-	\end{fdef}
-	A unique constraint is essentially just a permutation $\pi$ of $[q]$, where the set $S$ is just $\{(i,\pi(i)) : i \in [q]\}$.\\
-	Max-Cut is an example of a boolean unique game, while MAX2SAT is not. A non-boolean unique game is MAX2LIN, where $q$ is a prime and the constraints are linear equations like $x_i \pm x_j \equiv a_{ij} \pmod{q}$.\\
-
-	Given that $(1,1-1/m)$-2CSP is NP-hard for $q \ge 3$, the following may be slightly surprising.
-	\begin{ftheo}[Propagation]
-		There is a polynomial time algorithm for $(1,1-1/m)$-UG.
+	In particular, on expanders, $\rank_{1-\epsilon}(G) = 1$ for sufficiently small $\epsilon$. The threshold rank ends up being related to some notion of graph expansion, but we shall not study this.\\
+	
+	\begin{ftheo}
+		Let $G$ be a $d$-regular graph on $[n]$, $r = \rank_\delta(G)$. Let $r = \rank_{\delta}(G)/\delta^4$. Given a degree $r+2$ pseudodistribution $\mu$, we can find in polynomial time a distribution $\mu'$ such that
+		\[ \E_{\mu'} f_G \ge \pE_{\mu} f_G - m\cdot O(\sqrt{\delta}). \]
 	\end{ftheo}
+	The ``restricted class of graphs'' we mentioned is that of graphs with bounded threshold rank. This gives us a $n^{O(r)}$ time algorithm to compute an additive $O(\sqrt{\delta})$-approximation of the max-cut. Alternatively, this gives us an algorithm to find an $1-O(\sqrt{\delta})$ multiplicative approximation of the max-cut -- this is a consequence of the fact that the max-cut is at least $m/2$. In particular, this gives us a polynomial time algorithm for max-cut on expanders.
+
+	\begin{fdef}[Marginal pseudodistribution]
+		Let $\mu$ be a pseudodistribution on $\{-1,1\}^n$. For any $S \subseteq [n]$, the marginal pseudodistribution $\restr{\mu}{S} : \{-1,1\}^S \to \R$ is defined by
+		\[ \restr{\mu}{S}(y) = \sum_{x : \restr{x}{S} = y} \mu(x). \]
+	\end{fdef}
+
+	The following observations near-immediately follow from the definition.
+	\begin{fprop}
+		\label{prop:marginal-facts}
+		Let $\mu$ be a degree $r$ pseudodistribution on $\{-1,1\}^n$. Then,
+		\begin{enumerate}[label=(\alph*)]
+			\item For any $U \subseteq S$, $\pE_\mu x_U = \pE_{\restr{\mu}{S}} x_U$.
+			\item For any function $f$ of degree $r$ that depends only on variables in $S$, $\pE_\mu f = \pE_{\restr{\mu}{S}} f$.
+			\item Let $\mu$ be a degree $r$ pseudodistribution on $\{-1,1\}^n$. Let $S \subseteq [n]$ with $|S| \le r/2$. Then, $\restr{\mu}{S}$ is an actual probability distribution. For such $S$, we call this distribution the \emph{local distribution} of $\mu$ on $S$.
+		\end{enumerate}
+	\end{fprop}
+	(c) above is essentially a consequence of \Cref{prop: deg-2n-sos}. 
+
+	\begin{fdef}[Reweighting]
+		Let $\mu$ be a degree $r$ pseudodistribution. Suppose $p$ is polynomial of degree $r' \le r$ that has a sum-of-squares certificate, such that $\pE_\mu p > 0$ (without this assumption, we only have non-negativity). Then, $\mu'$, the \emph{reweighting} of $\mu$ by $p$, is defined by
+		\[ \mu'(x) = \frac{\mu(x) p(x)}{\pE_\mu p}. \]
+	\end{fdef}
+
+	Defining $\mu'$ as above, we have for any other polynomial $f$ that
+	\[ \pE_{\mu'} f = \frac{\pE_\mu pf}{\pE_\mu p}. \]
+
+	\begin{fprop}
+		Let $\mu$ be a degree $r$ pseudodistribution, $p$ a sum-of-squares polynomial of degree at most $r'$ with $\pE_\mu p > 0$. Then, $\mu'$, the reweighting of $\mu$ by $p$, is a degree $(r-r')$ pseudodistribution.
+	\end{fprop}
 	\begin{proof}
-		Let $G$ be the graph of all pairs that appear in constraints. Assume wlog that $G$ is connected; if it is not, we can apply the following argument separately on connected components. Start an arbitrary vertex $u$, and give it the assignment $1$. Due to uniqueness, this single assignment propagates to an assignment on all vertices in $u$. If we get conflicting assignments at some point, then there is no satisfying assignment which assigns $1$ to $u$. We can then repeat this by varying the assignment for $u$ to determine if there is a satisfying assignment. 
+		We clearly have $\pE_{\mu'} 1 = 1$. For any function $f$ of degree $\le (r-r')/2$,
+		\[ \pE_{\mu'} f^2 = \frac{\pE_{\mu} pf^2}{\pE_\mu p} \ge 0 \]
+		since $pf^2$ is an SoS polynomial of degree at most $r$.
 	\end{proof}
 
-	Given the previous, the following may be very surprising.
-	\begin{fcon}[Unique Games Conjecture]
-		For any $\epsilon > 0$, for sufficiently large $q_{\epsilon}$, $(1-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
-	\end{fcon}
-	The conjecture was born when trying to show ``hardness of approximation'' results, which claim that even getting a good approximation of certain quantities is \textsf{NP}-hard. For example, recall how in \Cref{subsec:max-cut}, we had said that the Unique Games Conjecture would imply that getting a $(\aGW+\epsilon)$-approximation of the max-cut is \textsf{NP}-hard. The real advent of these results was with the PCP Theorem, an implication of which is the following.
+	We can also more generally define conditioning on events.
 
-	\begin{theorem}
-		For some constant $c > 0$, $(1,1-c)$-3SAT is \textsf{NP}-hard.
-	\end{theorem}
-	In the original proof of the above, the constant $c$ was incredibly tiny. Later, this was improved by Ran Raz \cite{raz-parallel-reptn} in the parallel repetition theorem. Finally, H\r{a}stad \cite{hastad-appx-3sat} proved the best possible result, showing that for any $\epsilon > 0$, $(1,7/8 + \epsilon)$-3SAT is \textsf{NP}-hard; there is a simple (but clever) $7/8$-approximation algorithm. In the same paper, H\r{a}stad also proved that $(1,1/2+\epsilon)$-3LIN is \textsf{NP}-hard. This provided a more general system for proving hardness of approximation results, including many other CSPs. However, questions regarding the hardness of approximating problems like MAX-CUT and MAX2LIN remained elusive. Recall that for the former, \Cref{prop: gw-reparametr} implies that $(1-\epsilon,1-\sqrt{\epsilon})$-CUT is in \textsf{P}. VERTEX-COVER was another problem that seemed difficult to approximate -- a simple algorithm gives a $2$-approximation, but we were unable to do better on the algorithmic or hardness fronts.\\
+	\begin{fdef}[Conditioning]
+		Let $\mu$ be a pseudodistribution of degree $r$, and let $S \subseteq [n]$ with $|S| \le r/2$. Let $\alpha \in \{-1,1\}^S$. Then, $\restr{\mu}{x_S = \alpha}$ is the reweighting of $\mu$ by the polynomial $f_\alpha^2$, where
+		\[ f_\alpha(x) = \begin{cases} 1, & \restr{x}{S} = \alpha, \\ 0, & \text{otherwise.} \end{cases} \]
+	\end{fdef}
 
-	The Unique Games Conjecture was proposed by Subhash Khot \cite{ugc-og} in 2002, and connected it to one of the three problems mentioned above.
+	How do we round high-degree pseudodistributions?
 
-	\begin{theorem}[Khot]
-		If the Unique Games Conjecture is true, for all $\epsilon > 0, 1 \ge t \ge (1/2)$, $(1-\epsilon,1-\epsilon^t)$-2LIN is \textsf{NP}-hard.
-	\end{theorem}
+	\begin{fdef}[Independent rounding]
+		Let $\mu$ be a pseudodistribution. The independent rounding of $\mu$ is the distribution of the random variable $x'$ which independently sets
+		\[ x_i' = \begin{cases} 1, & \text{with probability $1/2 + (1/2)\pE_\mu x_i$} \\ -1, & \text{with probability $1/2 - (1/2)\pE_\mu x_i$.} \end{cases} \]
+	\end{fdef}
+	That is, the different coordinates are independent and $\E x_i' = \pE_\mu x_i'$.
 
-	In 2003, Khot-Regev \cite{khot-regev-ugc-vtxcov} connected it to VERTEX-COVER.
+	\begin{fprop}
+		Let $\mu$ be a pseudodistribution (of degree $\ge 2$) and $x'$ the independent rounding of $x$ as defined above. Then,
+		\[ \E f_G(x') = \pE_\mu f_G(x) + \sum_{ij \in E} \frac{1}{2} \pCov_\mu(x_i,x_j), \]
+		where $\pCov_\mu (x_i,x_j) \defeq \pE_\mu (x_i - \pE_\mu x_i)(x_j - \pE_\mu x_j)$.
+	\end{fprop}
+	This intuitively makes sense. In the scenario where the various coordinates according to $\mu$ are independent, we do not incur any loss when doing independent rounding. A loss gets introduced when there is a negative correlation. This makes sense in the context of cuts, since here a negative correlation between two adjacent vertices corresponds to the two vertices being likely to be on opposite sides of the cut; when we make it independent, this information gets lost.
+	\begin{proof}
+		Due to linearity of expectation, we can look at a single edge $ij \in E$. On the left, independence implies that
+		\[ \E (x_i' - x_j')^2 = \E x_i'^2 + \E x_j'^2 - 2 \E x_i' \E x_j' = 2 - 2 \pE_\mu x_i \pE_\mu x_j. \]
+		and
+		\[ \pE_\mu (x_i - x_j)^2 = 2 - 2\pE_\mu x_i x_j. \]
+		The desideratum follows on subtracting the two, since $\pCov_\mu(x_i,x_j) = \pE_\mu x_i x_j - \pE_\mu x_i \pE_\mu x_j$.
+	\end{proof}
 
-	\begin{theorem}[Khot-Regev]
-		If the Unique Games Conjecture is true, for all $\epsilon > 0$, $(2-\epsilon)$-VERTEXCOVER is \textsf{NP}-hard.
-	\end{theorem}
-	An alternate way of phrasing this is as follows. Supposing the Unique Games Conjecture is true and someone manages to synthesize a $(2-\epsilon)$-approximation algorithm for VERTEX-COVER, then $\mathsf{P} = \mathsf{NP}$, so we can in fact solve VERTEX-COVER exactly!
+	The main insight of global correlation rounding is the following. We start with a high-degree pseudodistribution $\mu$, and produce a low average covariance pseudodistribution $\mu_1$ but conditioning it, while ensuring that $\pE f_G$ does not change by much. Following this, we just independently round $\mu_1$ to $\mu'$ and are done.\\
 
-	In 2004, Khot-Kindler-Mossell-O'Donnell \cite{max-cut-ugc} connected it to MAX-CUT, as we mentioned in \Cref{subsec:max-cut}.
+	\begin{fdef}[Local correlation]
+		Let $\mu$ be a pseudodistribution on $\{-1,1\}^n$ and $G$ a graph on $[n]$. The \emph{local correlation} of $\mu$ under $G$ is
+		\[ \LC_G(\mu) = \E_{ij \in E} \left|\pCov(x_i,x_j).\right| \]
+	\end{fdef}
+	We drop the $G$ subscript if it is clear from context.\\
+	If the local correlation were less than $\delta$ (i.e., it is used to represent the ``low average covariance'' condition we described in the previous paragraph), we get that
+	\[ \E f_G(x') \ge \pE_{\mu_1} f_G - m\delta \approx \pE_\mu f_G - m\delta. \]
 
-	\begin{theorem}[Khot-Kindler-Mossell-O'Donnell]
-		For $\epsilon > 0$, $(1-\rho_\text{GW},\aGW+\epsilon)$-CUT is \textsf{NP}-hard.
-	\end{theorem}
-	This paper gave some very surprising connections between Gaussian rounding of CSPs and $2$-CSPs! A bit later, O'Donnell-Wu gave a strengthening of this, to the analogue of \Cref{prop: gw-reparametr}, showing we cannot do better than RPR$^2$ rounding either! Finally, in 2008, the following was showed by Raghavendra \cite{raghavendra-punchline}.
+	If independent rounding fails to give an additive $\delta$ approximation, then we must have that the local correlation is at least $2\delta$.\\
+	Unfortunately, we cannot expect to find a pseudodistribution of low local correlation for arbitrary $G$, since we cannot approximate max-cut to an arbitrarily small error.\\ % there is no PTAS for max-cut.
 
-	\begin{ftheo}[Raghavendra]
-		For every CSP, there exists a natural SDP (the analogue of degree $2$ sum-of-squares) and a natural rounding (the analogue of RPR$^2$) that, assuming the Unique Games Conjecture, is optimal.
-	\end{ftheo}
+	Recall that the \emph{entropy} of a random variable $X$ on $[q]$ is defined by
+	\[ H(X) \defeq \sum_{i \in [q]} \Pr[X = i] \log \Pr[X = i]. \]
+	Also recall the \emph{mutual information} between a pair of random variables, which is a measure of how independent the two are, defined by
+	\[ \I(X;Y) \defeq \sum_{i,j \in [q]} \Pr[X=i,Y=j] \log \frac{\Pr[X=i,Y=j]}{\Pr[X=i]\Pr[Y=j]}. \]
+	In particular, the mutual information of two independent random variables is $0$. A consequence of these definitions is that defining the conditional entropy of two random variables by
+	\[ H(X\mid Y) = \sum_{i \in [q]} \Pr[Y = i] H(X \mid Y = i), \]
+	we have
+	\[ \I(X;Y) = H(X) - H(X\mid Y) = H(Y) - H(Y\mid X). \]
 
-	Now, setting implications aside, is the Unique Games Conjecture true?\\
+	\begin{fprop}
+		\label{prop:cov-mutinfo}
+		Let $X,Y$ be $[q]$-valued random variables. Then,
+		\[ |\Cov(X,Y)| = O(\sqrt{\I(X;Y)}). \]
+	\end{fprop}
 
-	In Khot's original paper \cite{ugc-og}, an $(1/q)$-approximation algorithm was given. More precisely, they showed that $(1-\epsilon,1 - O(q^2\epsilon^{1/5}\sqrt{\log 1/\epsilon}))$-UG is solvable in polynomial time; this is very good in the small $\epsilon$ regime. There is a long line of work improving on this, and today, the best known algorithm is due to Charikar-Makarychev-Makarychev in 2007 \cite{ug-optimal-algo}, where they gave an optimal polynomial time algorithm for $(1-\epsilon,1-O(\sqrt{\epsilon \log q}))$-UG. This algorithm is optimal in the sense that if the Unique Games Conjecture is true, we cannot do any better! More concretely, \cite{max-cut-ugc} also showed that if the Unique Games Conjecture is true, then for any $\epsilon > 0$, $(1-\epsilon,1 - \sqrt{\frac{2}{\pi}}\sqrt{\epsilon \log q} + \epsilon)$-UG is \textsf{NP}-hard! Improving the \cite{ug-optimal-algo} algorithm just a little bit would disprove the Unique Games Conjecture.\\
-	All the above results are algorithms using degree $2$ sum-of-squares (or rather, an analogue of what we have seen so far in a non-boolean setting).\\
+	\begin{fdef}[Global correlation]
+		Let $\mu$ be a pseudodistribution of degree at least $4$. The \emph{global correlation} of $\mu$ is defined by
+		\[ \GC(\mu) = \E_{i,j \in [n]} \I(X_i;X_j). \]
+	\end{fdef}
+	Note here that we are using $\I$ despite $\mu$ being a pseudodistribution because \Cref{prop:marginal-facts}(c) implies that the marginal $\restr{\mu}{\{i,j\}}$ is indeed a distribution.\\
+	Unlike local correlation, we can always find a pseudodistribution with low global correlation.
 
-	On the other hand, a proof of the Unique Games Conjecture also seems within reach!
-	In 2010, Arora-Barak-Steurer \cite{subexp-ug} showed that for all $q,\epsilon$, there exists a $2^{q^2n^{O(\epsilon^{1/3})}}$-time algorithm to find a $(1/2)$-satisfying assignment for any $(1-\epsilon)$-satisfiable instance of UG. That is, $(1-\epsilon,1/2)$-UG has a $2^{q^2 n^{O(\epsilon^{1/3})}}$-time algorithm. This is better than the na\"{i}ve exponential time $2^{O(n)}$ algorithm.\\
-	Consider the following, proposed by Impagliazzo-Kabanets-Wigderson \cite{eth} in 2002. This can be thought of as a stronger version of $\mathsf{P} \ne \mathsf{NP}$.
+	\begin{flem}
+		Let $\mu$ be a pseudodistribution on $\{-1,1\}^n$ of degree $\ell + 2/\eta$. Then, there is a reweighting $\mu'$ (of degree at least $\ell$) of $\mu$ by a degree $2/\eta$ sum-of-squares polynomial such that $\GC(\mu') \le \eta$.
+	\end{flem}
+	\begin{proof}
+		We shall build a sequence of reweightings $\mu = \mu_0, \mu_1, \ldots, \mu_{t-1}, \ldots$, with each $\mu_t$ being a degree $2$ reweighting of $\mu_{t-1}$. We shall do this $\eta$ times, then show that one of these $\eta$ reweightings must satisfy the required.\\
+		Sample a uniformly random $1/\eta$-tuple of variables from $[n]$, say $i_1,\ldots,i_{1/\eta}$. For $1 \le t \le 1/\eta$, sample $\alpha_{t}$ from $\restr{\mu_{t-1}}{i_t}$. Finally, get $\mu_t$ from $\mu_{t-1}$ by conditioning on $x_{i_t} = \alpha_t$.\\
+		We are obtaining $\mu_t$ from $\mu_{t-1}$ by reweighting with $\indic_{x_{i_t} = \alpha_t}$, which is a degree $1$ polynomial, so $\mu_t$ has degree $2$ less than $\mu_{t-1}$. Now, how do we show that one of the $\mu_i$s work?\\
 
-	\begin{fcon}[Exponential Time Hypothesis]
-		$3$-SAT does not have a $2^{o(n)}$-algorithm.
-	\end{fcon}
+		Now, suppose instead that for all $t \le 1/\eta$, $\E_{i,j \in [n]} \I_{\mu_t}(x_i;x_j) > \eta$. So, for some $i$, $\E_{j} \I_{\mu_t}(x_i,x_j) > \eta$. Conditioning on $x_i = \alpha_i$ for some such $i$,
+		\[ \E_j H_{\mu_{t-1}}(x_j) - H_{\mu_t}(x_j) = \E_j H_{\mu_{t-1}}(x_j) - H_{\mu_{t-1}}(x_j \mid x_i) = \E_j \I_{\mu_{t-1}}(x_i;x_j) \]
+		is large. Considering the potential function $\E_i H_{\mu_t} (x_i)$, this means that if the chosen $i$ is a typical $i$, the potential increases by $\eta$ at each step. However, this potential function cannot go over $1$, so we are done since we have $1/\eta$ pseudodistributions.\\
+		This gives us an $n^{O(1/\eta)}$ algorithm to also find this reweighting, by brute-forcing over all possible $i_1,\ldots,i_{1/\eta}$ -- this algorithm also uses the fact that global correlations can easily be computed for a given pseudodistribution.
+	\end{proof}
 
-	Recently, Dinur-Khot-Kindler-Minzer-Safra \cite{2-2-gc} settled the $2$-to-$2$ Games Conjecture, which is a weaker version of the Unique Games Conjecture, wherein instead of ``unique'' constraints where fixing a variable leaves precisely \emph{one} choice for the other variable, there are now \emph{two} possibilities -- this is something like ``half'' of the UGC, showing that $(1/2-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.\\
+	Now, we would like to connect global correlation and local correlation. This is where our assumption of bounded threshold rank enters the picture.
+
+	\begin{flem}
+		Let $G$ be a graph on $[n]$ and $\mu$ a pseudodistribution on $\{-1,1\}^n$. If $\LC_G(\mu) \ge \delta$, then for any $\rho$,
+		\[ \GC(\mu) \ge \left( \frac{\delta-\rho}{\rank_\rho(G)} \right)^2. \]
+		In particular,
+		\[ \GC(\mu) \ge \left(\frac{\delta}{2\rank_{\delta/2}(G)}\right)^2. \]
+	\end{flem}
+	If $\GC(\mu) < \eta$, then we have that $\LC_G(\mu) < \delta$ for any $\delta$ such that
+	\[ \delta^2 \le 4 \rank_{\delta/2}(G)^2 \eta. \]
+	This tells us that we should choose some $\eta$ that is much less than $1/\rank_{\delta/2}(G)^2$, that is, we should start with a degree $\Omega(\rank_{\delta/2}(G)^2)$ pseudodistribution. 
+
+	\begin{proof}
+		The following claim implies the desideratum. If $M$ is an $n \times n$ PSD matrix such that $\Tr(M) \le n$ and $|M_{ij}| \le 1$ for all $i,j$, then if $\E_{ij \in E} M_{ij} \ge \delta$, then $\E_{i,j \in [n]} M_{ij}^2 \ge \left(\frac{\delta-\rho}{\rank_\rho(G)}\right)^2$.\\
+		Let us see why this gives the required. For ease of notation, denote $\overline{x}_i = x_i - \pE_\mu x_i$. The local correlation condition says that $\E_{ij \in E} |\pE_\mu \overline{x}_i \overline{x}_j| \ge \delta$.
+		Set $M_{ij} = \pE_\mu \overline{x}_i \overline{x}_j$. $M = \pE_\mu \overline{x} \overline{x}^top$ is clearly PSD, and the above condition gives that $\sum_{ij \in E} M_{ij} \ge \delta$. Using the claim, we get that
+		\[ \E_{i,j \in [n]} \pCov_\mu(x_i,x_j)^2 \ge \left( \frac{\delta-\rho}{\rank_\rho(G)} \right)^2. \] 
+		\Cref{prop:cov-mutinfo} then yields that
+		\[ \GC(\mu) = \E_{i,j \in [n]} \I(X_i;X_j) \ge \Omega\left( \left(\frac{\delta-\rho}{\rank_\rho(G)}\right)^2 \right) \]
+		as desired.\\
+
+		Let us now prove the claim. Let $A$ be the transition matrix of $G$, with eigenvalues $\lambda_i$ and corresponding eigenvectors $v_i$. Using the PSDness of $M$ with the fact that the largest eigenvalue of $A$ is $1$, we have
+		\begin{align*}
+			\delta &\le \E_{ij \in E} M_{ij} \\
+				&= \frac{1}{n} \sum_{i,j \in [n]} A_{ij} M_{ij} \\
+				&= \frac{1}{n} \sum_{i} \lambda_i v_i^\top M v_i \\
+				&\le \frac{1}{n} \left(\sum_{i : \lambda_i \ge \rho} \lambda_i v_i^\top M v_i + \rho \sum_{i} v_i^\top M v_i \right) \\
+				&\le \frac{1}{n} \left(\sum_{i : \lambda_i \ge \rho} v_i^\top M v_i + \rho \Tr(M) \right) \\
+			(\delta-\rho) &\le \frac{1}{n} \sum_{i : \lambda_i \ge \rho} v_i^\top M v_i.
+		\end{align*}
+		It follows that for some $v_i$,
+		\[ \frac{1}{n} v_i^\top M v_i \ge \frac{\delta-\rho}{\rank_\rho(G)}. \]
+		That is,
+		\[ \frac{\delta-\rho}{\rank_\rho(G)} \le \frac{1}{n} \|M_2\| \le \frac{1}{n} \|M\|_F = \sqrt{\E_{i,j \in [n]} M_{ij}^2}	, \]
+		completing the proof.
+	\end{proof}

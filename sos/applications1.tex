@@ -270,6 +270,8 @@
 
 	This above rounding is a specific case of the more general RPR$^2$ scheme of roundings that we mentioned earlier. In this, we ``modify'' $\pE_\mu xx^\top$ in some way (in the above method of Nesterov, we scale it down), sample a Gaussian with this modified covariance matrix, then do randomized rounding. In the setting of max-cut, we search over all RPR$^2$ roundings and output whichever returns the maximum cut value.
 
+	%*** RPR2 ATTAINS THE INTEGRALITY GAP FOR ALL GRAPHS!
+
 \subsection{The bipartite support case}
 
 	In this section, we shall look at the specific case where the \emph{support} $\supp(B) \defeq \{ \{i,j\} : B_{ij} \ne 0\}$ defines a bipartite graph (on vertex set $[n]$). We also assume that $B$ is symmetric by symmetrizing it. The constant-factor approximation we shall describe is due to Alon and Naor \cite{grothendieck-alon-naor}.
