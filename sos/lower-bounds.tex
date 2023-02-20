@@ -1,0 +1,126 @@
+%!TEX root = ./main.tex
+
+\clearpage
+
+\section{Lower bounds through sum-of-squares}
+\label{sec:lower-bounds}
+
+Back towards the ending of \Cref{subsec:max-cut}, we showed a ``lower bound'' using a cycle graph that our analysis of degree $2$ sum-of-squares is essentially the best. However, this specific example can be ``broken'' by degree $4$ sum-of-squares, as a consequence of the squared triangle inequality.
+
+\subsection{$k$-XOR is hard using sum-of-squares}
+
+	How do we establish convincing lower bounds more generally? Our running example in this section will be $k$-LIN over $\F_2$, alternatively called $k$-XOR. While we initiate our discussion by looking at \emph{worst-case} lower bounds, we shall soon realize that we are instead proving \emph{average-case} lower bounds, which are lower-bounds on certain random instances.\\
+
+	\begin{fdef}
+		An instance of $k$-sparse linear equations over $\F_2$ is given by a collection equations
+		\[ z_1 \oplus \cdots \oplus z_k = 1 \text{ or } 0, \]
+		that is, an instance of $k$-LIN over $\F_2$ where each equation has exactly $k$ variables. The goal is to maximize the number of satisfied constraints.
+	\end{fdef}
+
+	Instead looking at $\F_2$ as $\{-1,1\}$ with multiplication, with $0$ mapping to $1$ and $1$ mapping to $-1$, each equation is of the form
+	\[ x_1 x_2 \cdots x_k = \pm 1. \]
+	where each $x_i \in \{-1,1\}$.\\
+	An instance of $k$-XOR is given by $m$ subsets $(C_i)_{i=1}^m$ of $[n]$ of size $k$, denoting the XORed variables in the $i$th constraint, and $m$ numbers $(b_i)_{i=1}^m$, each of which is $\pm 1$. That is, the pair $(C_i,b_i)$ denotes the constraint
+	\[ b_i \prod_{j \in C_i} x_j = 1. \]
+	We denote the collection $(C_i,b_i)_{i=1}^m$ by $\mathcal{I}$.\\
+	This can be pictured as a bipartite graph $G(A,B)$, where $A = [n]$ denotes the set of variables and $B = [m]$ denotes the set of constraints. Each $v \in B$ is labeled $b_v$, and there is an edge from $u \in A$ to $v \in B$ if $u \in C_v$. Finally, define
+	\[ \mathcal{I}(x) = \frac{1}{m} \sum_{i=1}^m b_i \prod_{j \in C_i} x_j. \]
+	This is a degree $k$ polynomial over the reals, which takes as input boolean assignments in $\{-1,1\}^n$. For $x \in \{-1,1\}^n$,
+	\[ \Val_\mathcal{I}(x) \defeq \frac{\mathcal{I}(x)+1}{2} \]
+	is the fraction of constraints satisfied by $x$. In particular, $\mathcal{I}(x) = 1$ if all constraints are satisfied by $x$ and $-1$ if no constraint is satisfied by $x$. Finally, set $\opt(\mathcal{I}) = \max_{x \in \{-1,1\}^n} \Val_\mathcal{I}(x)$. Our goal is to approximate $\opt(\mathcal{I})$.\\
+	In the situation where $\opt(\mathcal{I})$, we can easily find an $x$ achieving this using Gaussian elimination since we just have a set of linear equations.\\
+	For any $\mathcal{I}$, a random assignment satisfies half the constraints, so we have a $1/2$-approximation algorithm. The same phenomenon occurs in the trivial $1/2$-approximation algorithm for max-cut -- it is just $2$-XOR in the case where all the $b_i$ are $-1$. In max-cut, we were able to beat $1/2$ by a lot using the Goemans-Williamson algorithm. However, there is a marked difference between $k=2$ and $k>2$ here!\\
+	In a seminal G\"{o}del prize winning paper, H\r{a}stad \cite{hastad-appx-3sat} proved the following.
+
+	\begin{ftheo}[H\r{a}stad]
+		For $\epsilon > 0$ and $k \ge 3$, it is \textsf{NP}-hard to decide whether an instance of $k$-XOR is $\ge (1-\epsilon)$-satisfiable (so $\mathcal{I}(x) \ge 1-2\epsilon$ for some $x$) or $\le (1/2 + \epsilon)$-satisfiable (so $\mathcal{I}(x) \le 2\epsilon$ for all $x$).
+	\end{ftheo}
+
+	So, if $\mathsf{P} \ne \mathsf{NP}$, there is no polynomial time algorithm to find a $1/2 + 2\epsilon$-satisfying assignment for a $(1-\epsilon)$-satisfiable instance.\\
+	So, in $k$-XOR, the random assignment algorithm is essentially optimal. In the sum-of-squares setting, we can establish this unconditionally, without requiring that $\mathsf{P} \ne \mathsf{NP}$, say.
+
+	\begin{ftheo}
+		\label{def:kxor-hard}
+		Let $k \ge 3$, $c < 2$. Then, there is a constant $c'(k,\epsilon)$ and a family of $k$-XOR instances $(\mathcal{I}_n)_{n \ge 1}$ such that
+		\[ c \cdot \opt(\mathcal{I}_n) - \Val_{\mathcal{I}_n}(x) \]
+		does not have a degree $c'n$ certificate for large enough $n$.
+	\end{ftheo}
+
+	The cryptic statement above can be better understood as follows. If we want a degree $r$ sum-of-squares certificate for
+	\[ c \cdot \opt(\mathcal{I}) - \Val_\mathcal{I}(x), \]
+	the existence of which would immediately yield a $\poly(n^r)$ algorithm for a $(1/c)$-approximation of $\opt(\mathcal{I})$, we require $r = \Omega(n)$ (!) if $1/c < 1/2$.\\
+	This result was originally proved by Grigoriev \cite{grigoriev-kxor-positivstellensatz}, and later independently by Schoenebeck \cite{schoenebeck-kxor}. We shall look at Grigoriev's proof.\\
+	Over the rest of this subsection, we prove \Cref{def:kxor-hard}.
+
+	Each $k$-tuple is taken to be in $\mathcal{I}_n$ with probability $\Delta/\binom{n}{k}$, so $\mathcal{I}_n$ has around $\Delta n$ random constraints, where we shall set $\Delta$ later. For each such tuple, we sample the corresponding $b_i$ uniformly and randomly from $\{-1,1\}$.\\
+	We would like to prove that $c \cdot \opt(\mathcal{I}_n) - \Val_{\mathcal{I}_n}(x)$ does not have a degree $c'n$ certificate. Equivalently, we would like to show that there is a pseudodistribution $\mu$ of degree $c'n$ such that
+	\[ \pE_\mu \left(c \cdot \opt(\mathcal{I}_n) - \Val_{\mathcal{I}_n}(x)\right) < 0, \]
+	that is,
+	\begin{equation}
+		\label{eq:grig-pd}
+		\pE_\mu \Val_{\mathcal{I}_n}(x) > c \cdot \opt(\mathcal{I}_n).
+	\end{equation}
+	% Set $c = 2-\delta$.\\
+	We shall give a pseudodistribution $\mu$ such that $\pE_\mu \Val_\mathcal{I} = 1$, or equivalently, $\pE_\mu \mathcal{I}(x) = 1$. That is, it pretends like \emph{all} constraints are satisfiable! Framed more offensively, this says that sum-of-squares cannot even solve linear equations.\\
+	Such a pseudodistribution satisfies \Cref{eq:grig-pd} with high probability because of the following proposition.
+
+	\begin{fprop}
+		\label{prop:grig-small-true-opt}
+		For some constant $D$, if $\Delta \ge D/\epsilon^2$, $\Pr[\opt(\mathcal{I}_n) \le 1/2 + \epsilon] \ge 0.99$.
+	\end{fprop}
+	\begin{proof}
+		Fix any assignment $y \in \{-1,1\}^n$, and a random draw of the set $(C_i)$ of constraints. The $i$th constraint is satisfied by $y$ with probability $1/2$, depending on the value of $b_i$. Furthermore, this is independent for difference constraints, so an application of the Chernoff bound, followed by a union bound over $y$, completes the proof -- this requires $m \gg n/\epsilon^2$ to work out.
+	\end{proof}
+	To describe this $\mu$, it suffices to describe $\pE_\mu x_S$ for all $|S| \le c'n$. To have $\pE_\mu \mathcal{I}(x) = 1$, we \emph{must} give $\pE_\mu x_{C_i} = b_i$ for each $i$. Indeed, recalling \Cref{prop:marginal-facts}(c), $\mu$ restricts to an actual distribution on the coordinates $C_i$ since its degree is \emph{far} greater than $2k$, so we have $\left|\pE_\mu x_{C_i}\right| \le 1$. Similarly, $\pE_\mu x_{C_i} x_{C_j} = b_i b_j$.\\
+	Consider the output $\Der_d$ of the following process.
+	\begin{enumerate}
+		\item In step $i$ for $i$ in $1$ through $m$, add $x_{C_i} = b_i$ to $\Der_d$.
+		\item Traverse all monomials in some fixed order graded by degree $\le d$. For each $x_U$ in this traversal, if  $x_S = b_S$ and $x_T = b_T$ are included in $\Der_d$ for some $S_1,S_2$ such that $S_1 \oplus S_2 = U$. We then add $x_U = b_U \defeq b_{S_1} b_{S_2}$ to $\Der_d$.
+	\end{enumerate}
+	Finally, for any $x_S = b_S$ constraint in $\Der_d$, set $\pE_\mu x_S = b_S$.\\
+	However, what do we do if there are two choices for the $S_1,S_2$, which lead to conflicting values for $\pE_\mu x_S$? We shall show that with high probability (over $\mathcal{I}_n$), this does not happen.
+
+	\begin{fdef}[Hypergraph expansion]
+		A $k$-uniform hypergraph on $[n]$ is said to be \emph{$(t,\beta)$-expanding} if for every subset $\mathcal{C}$ of at most $t$ hyperedges, 
+		\[ \left| \bigcup_{e \in \mathcal{C}} e \right| \ge \beta |\mathcal{C}|. \]
+	\end{fdef}
+	This is a direct generalization of the notion of combinatorial expansion on ordinary ($2$-uniform hyper)graphs.\\
+	We call an instance $\mathcal{I}$ expanding if the corresponding hypergraph is expanding.
+	% Let us focus on the case $k=3$. The proof generalizes relatively directly for arbitrary $k$.
+
+	\begin{fprop}
+		Let $\mathcal{I}_n$ be a random instance with $m$ constraints. Then, for all $\delta > 0$, there exists $\eta = \eta(\Delta,\delta)$, such that with high probability, the hypergraph with edges $C_1,\ldots,C_m$ is $(\eta n,k-1-\delta)$-expanding.
+		% k-1-\delta in general.
+	\end{fprop}
+	We shall prove this proposition later, and first show how this leads to the existence of the desired pseudodistribution.
+
+	\begin{flem}
+		Suppose that $\{C_1,\ldots,C_m\}$ is $(\eta n, \alpha)$-expanding, where $k/2 + 0.1 < \alpha < k-1$. Then, for $d < \eta n/100$, there do not exist constraints $S_1,S_2,T_1,T_2$ in $\Der_d$ such that $S_1 \oplus S_2 = T_1 \oplus T_2$. 
+	\end{flem}
+	Note that this says something slightly stronger than what we want, since we are fine if there is such a pair $S_1,T_1,S_2,T_2$ as long as $b_{S_1} b_{T_1} = b_{S_2} b_{T_2}$.
+	\begin{proof}
+		Suppose instead that there are such constraints $S_1,S_2,T_1,T_2$ such that $S_1 \oplus S_2 = T_1 \oplus T_2$. Each of these four constraints is associated with a XOR of $C_i$ constraints -- let the corresponding sets be $U_{S_1},U_{S_2},U_{T_1},U_{T_2}$. More precisely, for $S = S_1,S_2,T_1,T_2$, we have $U_S \subseteq \{C_i : i \in [m]\}$ (where $C_i \subseteq [n]$) and
+		\[ S = \bigoplus_{C \in U_{S}} C. \]
+		Now, consider the set
+		\[ U = U_{S_1} \oplus U_{S_2} \oplus U_{T_1} \oplus U_{T_2}. \]
+		of constraints. Because $S_1 \oplus S_2 = T_1 \oplus T_2$, each variable occurs an even number of times across the constraints in $U$. In particular, since each constraint contributes $k$ variables, the number of distinct variables in $U$ is at most $(k/2) |U|$. Framed more suggestively,
+		\[ \left| \bigcup_{C \in U} C \right| \le (k/2) |U|. \]
+		To get a contradiction, we shall use the expansion of $U$ to get a lower bound on the quantity on the left. We claim that $|U| \le 40d < \eta n$. Given this, we have due to $(\eta n, \alpha)$-expansion that
+		\[ \left| \bigcup_{C \in U} C \right| \ge \alpha |U| > (k/2) |U|. \]
+		To complete the proof, we shall show that for any constraint $S$ in $\Der_d$ corresponding to the set $U_S$ of $(C_i)$ constraints, $|U_S| \le 10d$. This immediately implies that $|U| \le 40d$ since $|U| \le |U_{S_1}| + |U_{S_2}| + |U_{T_1}| + |U_{T_2}|$.\\
+		Let $U_1,\ldots,U_r$ be the subsets of base constraints that are derived in $\Der_d$, and suppose instead that $i$ is the smallest index such that $|U_i| > 10d$. Because $U_i = U_{j_1} \oplus U_{j_2}$ for some $j_1,j_2 < i$ and $|U_{j_1}|,|U_{j_2}| \le 10d$, we have $|U_i| \le 20d < \eta n$. Therefore, expansion implies that
+		\[ \left| \bigcup_{C \in U_i} C \right| \ge \alpha |U_i|. \]
+		On the other hand, the total number of variables that occur at least twice in the clauses in $U_i$ is at most $(k/2) |U_i|$ by an argument identical to that before. Consequently, the number of variables that occurs exactly once is at least
+		\[ \alpha |U_i| - (k/2) |U_i| \ge (\alpha - k/2) \cdot 10d > d. \]
+		So, the number of variables in $\bigoplus_{C \in U_i} C$ is at least the number of variables that occurs exactly once in the above union, so is greater than $d$. However, all constraints in $\Der_d$ have at most $d$ variables, leading to a contradiction and completing the proof.
+	\end{proof}
+
+	The above argument concretely defines what $\pE_\mu x_S$ is for $S$ in $\Der_d$. For any $S \not\in \Der_d$, we set $\pE_\mu x_S = 0$, which can be thought of as the ``least informative option''.\\
+
+	In the following proposition, we use the $\pE_\mu$ notation although $\mu$ is not known prima facie to be a pseudodistribution.
+	\begin{fprop}
+		Let $\mu$ be a function on $\{-1,1\}^n$ such that $\pE_\mu x_S = b$ for any constraint $(S,b)$ in $\Der_d$, $\pE_\mu 1 = 1$, and $\pE_\mu x_S = 0$ if $S$ is not a constraint in $\Der_d$. Then, $\mu$ is a degree $d$ pseudodistribution such that $\pE_\mu \Val_\mathcal{I}(x) = 1$.
+	\end{fprop}
+	\begin{proof}
+		It is obvious from the construction that $\pE_\mu \Val_\mathcal{I}(x) = 1$. Let $p$ be a polynomial of degree $\le (d/2)$ -- we shall show that $\pE_\mu p^2 \ge 0$.
+	\end{proof}

@@ -454,4 +454,52 @@
 		\frac{D(x)}{O(x)} &= ((1-x)(1-x^3)(1-x^5)\cdots) ((1+x)(1+x^2)(1+x^3)\cdots) \\
 			&= \left( (1-x) \prod_{k \ge 1} (1+x^{2^k}) \right) \left( (1-x^3) \prod_{k \ge 1} (1+x^{2^k\cdot 3}) \right) \cdots \left((1-x^{2r+1})\prod_{k \ge 1} (1+x^{2^k\cdot(2r+1)})\right) \cdots
 	\end{align*}
-	and any finite coefficient of each of the parts is equal to $0$.
+	and any finite coefficient of each of the parts is equal to $0$.\\
+
+	Let us next study matchings of the $n$-dimensional hypercube. When $n$ is odd, consider the induced subgraph on vertices whose corresponding subsets of $[n]$ are of size $(n-1)/2$ or $(n+1)/2$. This is a $(n+1)/2$-regular bipartite graph, so can be partitioned into $(n+1)/2$ perfect matchings. Can we find an explicit description of one such set of matchings? \\
+	For a long time, the existence of a Hamiltonian cycle of this graph has been an open problem, but was resolved recently. ***cite***\\
+
+	Now, we can represent a subset of size $(n-1)/2$ by a path $x_1x_2\cdots x_n$ on a lattice, taking a unit step northwest $(1,1)$ if $x_i$ belongs to the set and southwest $(1,-1)$ otherwise. A set then describes a path from $(0,0)$ to $(n,-1)$. Similarly, a subset of size $(n+1)/2$ corresponds to a path from $(0,0)$ to $(n,1)$. \\
+	% \emph{Notation in class uses a unit step of slope $+1$ if the element belongs to the class and $-1$ otherwise}.
+	Now, consider the rightmost peak (a point of largest $y$ coordinate) on this path, which has $x$ coordinate less than $n$. We then swap the element after this peak, adding it to the set. This gives a set with $(n+1)/2$ elements. Furthermore, this function describes a bijection since we can get back by flipping the element to the left of the leftmost peak. This thus describes a matching on the graph, and was originally proposed by Greene and Kleitman.\\
+	This rule can be applied to any set of size $k < n/2$ to get a corresponding set of size $k+1$. It turns out that repeating this process over and over for a subset of size $k$ necessarily goes up till at least size $n-k$ (but it could go even further). This gives a symmetric chain decomposition of the lattice. \\
+
+	% difference in y-value of peak and y-value of rightmost point is at least n-2k and decreases by 1 at each step, so goes up till n-k.
+	% horizontal line sweeping from top to bottom. order decreases from right to left.
+	% 0 1 1 0 1 0 0
+	%    /\1/\0
+	% \3/     \2
+	% reverse operation is top-down but order the ascending edges from left to right.
+
+	We can also look at mutlisubsets of a multiset. In this case, the graph is not even regular in the first case. For exampl,e suppose the set has $3$ $x_1$s, $2$ $x_2$s, and $1$ $x_3$ and $x_4$, denoted $3,2,1,1$. Then, $0,1,1,1$ has degree $2$ but $2,1,0,0$ has degree $4$. The graph need not be regular, so it is not immediately clear if there even exists a perfect matching.\\
+	We can encode a multisubset as a path by going up $k_1$ times and down $c_1-k_1$ times if $x_1$ appears $k_1$ times, where $c_1$ is the total number of occurrences of $x_1$. The idea is again similar, flipping the segment after the rightmost peak. Even in this case, we get a symmetric chain decomposition. \\
+	If $c_1 = c_2 \ge \cdots \ge c_m$, then there exist two disjoint perfect matchings at the middle level. This can be proved by ordering the elements in two different ways.\\
+
+	It is easy to show that in any $k$-regular bipartite graph, every edge is contained in a perfect matching.
+
+	\begin{fdef}
+		Given a graph $G$, an edge $e_2$ is \emph{forced} by $e_1$ if every perfect matching containing $e_1$ also contains $e_2$, or no perfect matching containing $e_1$ contains $e_2$.
+	\end{fdef}
+
+	The above is not a symmetric relation in general. Is it symmetric in the bipartite case?
+
+	% cubic bridgeless graph has pm -- bridge is an odd induced subgraph with exactly one edge out of it
+
+	\begin{fdef}
+		Let $G$ be a $3$-regular bipartite graph, and $e$ an edge that is not contained in a $2$-edge cut. There exists a perfect matching containing $e$ such that $e$ is a chord of a cycle in the complement of the matching.
+	\end{fdef}
+	\begin{proof}
+		It is easy to see that if there does exist a $2$-edge cut containing $e$, $e$ cannot be a chord of a cycle in the complement.\\
+		Otherwise, let $e = uv$, and let $uv_1,uv_2,u_1v,u_2v$ also be edges. Clearly, if $e$ is the chord of a cycle in the complement, the cycle must have all $4$ of these edges. Consider the graph $H$ obtained by deleting the vertices $u,v$, and adding the edges $u_1u_2$ and $v_1v_2$. While $H$ is $3$-regular, it need not be bipartite. $H$ is, however, \emph{near-bipartite}, which means that deleting these two edges results in a bipartite graph.\\
+		If we show that $H$ has a perfect matching including $u_1u_2$ and $v_1v_2$, we are done. Remove the vertices $u_1u_2$ and $v_1v_2$ to get a graph $H'$. Note that since $e$ is not in a $2$-edge cut, $H'$ does not contain a bridge, i.e., an edge whose removal disconnects it. If this graph does not contain a perfect matching, there is some $X$ such that $|N(X)| < |X|$. Note that at most $4$ edges can go to $\{v_1,v_2\}$, so there are at least $3|X|-4$ edges from $|X|$ to $|N(X)|$. This implies that $|N(X)| = |X|-1$. Consequently, $3|X|-3$ edges go from $|X|$ to $|N(X)|$. This means that one of the $4$ edges incident on $\{v_1,v_2\}$ does not go to $X$, but then this edge is a bridge, a contradiction.
+	\end{proof}
+
+	In the Petersen graph, the only $2$-factors have two disjoint $5$-cycles, and no edge is a chord.
+
+	\begin{fdef}
+		A graph is said to be $k$-extendable if any set of at most $k$ disjoint edges is contained in a perfect matching.
+	\end{fdef}
+
+	\begin{fprop}
+		If a bipartite $G(A,B)$ is $k$-extendable, for any $X \subseteq A$ with $|X| \le |A|-k$, $|N(X)| \ge |X|+k$.
+	\end{fprop}

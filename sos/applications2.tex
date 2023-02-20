@@ -65,6 +65,7 @@
 	has a sum-of-squares certificate.
 	
 	\begin{ftheo}[Cheeger's Inequality]
+		\label{cheegers inequality}
 		There is a degree $2$ sum-of-squares certificate for
 		\[ f_G(x) - \frac{\Phi_G^2}{2} \cdot \frac{d}{n} f_{K_n}(x). \]
 	\end{ftheo}
@@ -223,7 +224,8 @@
 		\begin{theorem}
 			For some constant $c > 0$, $(1,1-c)$-3SAT is \textsf{NP}-hard.
 		\end{theorem}
-		In the original proof of the above, the constant $c$ was incredibly tiny. Later, this was improved by Ran Raz \cite{raz-parallel-reptn} in the parallel repetition theorem. Finally, H\r{a}stad \cite{hastad-appx-3sat} proved the best possible result, showing that for any $\epsilon > 0$, $(1,7/8 + \epsilon)$-3SAT is \textsf{NP}-hard; there is a simple (but clever) $7/8$-approximation algorithm. In the same paper, H\r{a}stad also proved that $(1,1/2+\epsilon)$-3LIN is \textsf{NP}-hard. This provided a more general system for proving hardness of approximation results, including many other CSPs. However, questions regarding the hardness of approximating problems like MAX-CUT and MAX2LIN remained elusive. Recall that for the former, \Cref{prop: gw-reparametr} implies that $(1-\epsilon,1-\sqrt{\epsilon})$-CUT is in \textsf{P}. VERTEX-COVER was another problem that seemed difficult to approximate -- a simple algorithm gives a $2$-approximation, but we were unable to do better on the algorithmic or hardness fronts.
+		In the original proof of the above, the constant $c$ was incredibly tiny. Later, this was improved by Ran Raz \cite{raz-parallel-reptn} in the parallel repetition theorem. Finally, H\r{a}stad \cite{hastad-appx-3sat} proved the best possible result, showing that for any $\epsilon > 0$, $(1,7/8 + \epsilon)$-3SAT is \textsf{NP}-hard; there is a simple (but clever) $7/8$-approximation algorithm. In the same paper, H\r{a}stad also proved that $(1,1/2+\epsilon)$-3LIN is \textsf{NP}-hard; we shall return to this later in \Cref{sec:lower-bounds}.\\
+		This provided a more general system for proving hardness of approximation results, including many other CSPs. However, questions regarding the hardness of approximating problems like MAX-CUT and MAX2LIN remained elusive. Recall that for the former, \Cref{prop: gw-reparametr} implies that $(1-\epsilon,1-\sqrt{\epsilon})$-CUT is in \textsf{P}. VERTEX-COVER was another problem that seemed difficult to approximate -- a simple algorithm gives a $2$-approximation, but we were unable to do better on the algorithmic or hardness fronts.
 
 	\subsubsection{A brief history of unique games}
 
@@ -268,25 +270,25 @@
 		The ETH is easily seen to imply that $3$-coloring doesn't have a $2^{O(n)}$ algorithm. If it was able to get a $2^{n^{o(1)}}$ algorithm for $(1-\epsilon,1/2)$-UG, assuming the ETH would imply that the UGC is false. Indeed, if the UGC were true instead, there is a $\poly(n)$ algorithm that reduces a 3\textsf{SAT} instance to an instance of UG. Using the $2^{n^{o(1)}}$ algorithm on top of this yields a $2^{n^{o(1)}}$ algorithm for 3\textsf{SAT}, contradicting ETH.\\
 		We also have that assuming the ETH and the UGC, the Arora-Barak-Steurer algorithm shows that no reduction from 3\textsf{SAT} to UGC can have an instance size blow-up of less than $O(n^{\epsilon^{-1/3}})$.
 
-		Recently in 2018, Dinur-Khot-Kindler-Minzer-Safra \cite{2-2-gc} settled the $2$-to-$2$ Games Conjecture, which is a weaker version of the Unique Games Conjecture, wherein instead of ``unique'' constraints where fixing a variable leaves precisely \emph{one} choice for the other variable, there are now \emph{two} possibilities. A consequence of this is that $(1/2-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.\\
+		Recently in 2018, Dinur-Khot-Kindler-Minzer-Safra \cite{2-2-gc} settled the $2$-to-$2$ Games Conjecture, which is a weaker version of the Unique Games Conjecture, wherein instead of ``unique'' constraints where fixing a variable leaves precisely \emph{one} choice for the other variable, there are now \emph{two} possibilities. A consequence of this is that $(1/2-\epsilon,\epsilon)$-UG is \textsf{NP}-hard.
 
 		% UGC SAYS THAT YOU CANNOT BEAT THE INTEGRALITY GAP OF DEG 2 SOS
 
 \subsection{Global correlation rounding}
 
-	We have extensively looked at Gaussian rounding, which works for degree $2$ pseudodistributions. Later, we combined this with the squared triangle inequality to get something for degree $4$ pseudodistributions. In this section, we shall study a more general scheme called global correlation rounding that works for higher degree pseudodistributions. This is also the idea behind the Arora-Barak-Steurer proof we mentioned in the previous section.\\
+	We have extensively looked at Gaussian rounding, which works for degree $2$ pseudodistributions. Later, we combined this with the squared triangle inequality to get something for degree $4$ pseudodistributions. In this section, we shall study a more general scheme called global correlation rounding that works for higher degree pseudodistributions. This is also the idea behind the Arora-Barak-Steurer algorithm mentioned in the previous section.\\
 	Our running example over this section will be the max-cut problem over a certain restricted class of graphs.\\
 
-	Recall the normalized adjacency matrix (random walk matrix) $A$ of a $d$-regular graph $G$ on $[n]$. Let $1 = \lambda_1 \ge \cdots \ge \lambda_n \ge -1$ be the eigenvalues of $A$. Recall that $G$ is said to be a combinatorial expander if the conductance $\Phi_G \ge \delta$ for some constant $\delta$, and a spectral expander if $\lambda_2 \le 1-\delta$. It may be shown that these two notions are equivalent, with $\Phi_G \ge \delta$ implying that $\lambda_2 \le 1 - O(\delta^2)$.\\
-	An example of an expander is a random $d$-regular graph. We also have more explicit examples such as \emph{configuration models}, where $\lambda_2 = \frac{2\sqrt{d-1}}{d} + o(1)$.
+	Recall the normalized adjacency matrix (random walk matrix) $A$ of a $d$-regular graph $G$ on $[n]$. Let $1 = \lambda_1 \ge \cdots \ge \lambda_n \ge -1$ be the eigenvalues of $A$. Recall that $G$ is said to be a combinatorial expander if the conductance $\Phi_G \ge \delta$ for some constant $\delta$, and a spectral expander if $\lambda_2 \le 1-\delta$. A direct consequence of \nameref{cheegers inequality} is that these two notions are equivalent, with $\Phi_G \ge \delta$ implying that $\lambda_2 \le 1 - O(\delta^2)$.\\
+	An example of an expander is a random $d$-regular graph. We also have more explicit examples such as \emph{configuration models}, where $\lambda_2 = \frac{2\sqrt{d-1}}{d} + o(1)$ (this is interesting because of the Alon-Boppana bound in extremal graph theory).
 
 	\begin{fdef}
 		Let $G$ be a $d$-regular graph with eigenvalues $\lambda_1 \ge \cdots \ge \lambda_n$. The \emph{$\rho$-threshold rank} of $G$ $\rank_\rho(G)$ is the number of eigenvalues that are at least $\rho$.
 	\end{fdef}
-	In particular, on expanders, $\rank_{1-\epsilon}(G) = 1$ for sufficiently small $\epsilon$. The threshold rank ends up being related to some notion of graph expansion, but we shall not study this.\\
+	In particular, on expanders, $\rank_{1-\epsilon}(G) = 1$ for sufficiently small $\epsilon$. The threshold rank ends up being related to some notion of graph expansion, but we shall not study this.
 	
 	\begin{ftheo}
-		Let $G$ be a $d$-regular graph on $[n]$, $r = \rank_\delta(G)$. Let $r = \rank_{\delta}(G)/\delta^4$. Given a degree $r+2$ pseudodistribution $\mu$, we can find in polynomial time a distribution $\mu'$ such that
+		Let $G$ be a $d$-regular graph on $[n]$ and set $r = \rank_{\delta}(G)/\delta^4$. Given a degree $r+2$ pseudodistribution $\mu$, we can find in polynomial time a distribution $\mu'$ such that
 		\[ \E_{\mu'} f_G \ge \pE_{\mu} f_G - m\cdot O(\sqrt{\delta}). \]
 	\end{ftheo}
 	The ``restricted class of graphs'' we mentioned is that of graphs with bounded threshold rank. This gives us a $n^{O(r)}$ time algorithm to compute an additive $O(\sqrt{\delta})$-approximation of the max-cut. Alternatively, this gives us an algorithm to find an $1-O(\sqrt{\delta})$ multiplicative approximation of the max-cut -- this is a consequence of the fact that the max-cut is at least $m/2$. In particular, this gives us a polynomial time algorithm for max-cut on expanders.
@@ -317,7 +319,7 @@
 	\[ \pE_{\mu'} f = \frac{\pE_\mu pf}{\pE_\mu p}. \]
 
 	\begin{fprop}
-		Let $\mu$ be a degree $r$ pseudodistribution, $p$ a sum-of-squares polynomial of degree at most $r'$ with $\pE_\mu p > 0$. Then, $\mu'$, the reweighting of $\mu$ by $p$, is a degree $(r-r')$ pseudodistribution.
+		Let $\mu$ be a degree $r$ pseudodistribution and $p$ a sum-of-squares polynomial of degree at most $r'$ with $\pE_\mu p > 0$. Then, $\mu'$, the reweighting of $\mu$ by $p$, is a degree $(r-r')$ pseudodistribution.
 	\end{fprop}
 	\begin{proof}
 		We clearly have $\pE_{\mu'} 1 = 1$. For any function $f$ of degree $\le (r-r')/2$,
@@ -325,7 +327,7 @@
 		since $pf^2$ is an SoS polynomial of degree at most $r$.
 	\end{proof}
 
-	We can also more generally define conditioning on events.
+	We can also more generally condition on events.
 
 	\begin{fdef}[Conditioning]
 		Let $\mu$ be a pseudodistribution of degree $r$, and let $S \subseteq [n]$ with $|S| \le r/2$. Let $\alpha \in \{-1,1\}^S$. Then, $\restr{\mu}{x_S = \alpha}$ is the reweighting of $\mu$ by the polynomial $f_\alpha^2$, where
@@ -345,7 +347,7 @@
 		\[ \E f_G(x') = \pE_\mu f_G(x) + \sum_{ij \in E} \frac{1}{2} \pCov_\mu(x_i,x_j), \]
 		where $\pCov_\mu (x_i,x_j) \defeq \pE_\mu (x_i - \pE_\mu x_i)(x_j - \pE_\mu x_j)$.
 	\end{fprop}
-	This intuitively makes sense. In the scenario where the various coordinates according to $\mu$ are independent, we do not incur any loss when doing independent rounding. A loss gets introduced when there is a negative correlation. This makes sense in the context of cuts, since here a negative correlation between two adjacent vertices corresponds to the two vertices being likely to be on opposite sides of the cut; when we make it independent, this information gets lost.
+	We do not incur any loss when distinct coordinates are independent (according to $\mu$); loss is introduced only in the presence of negative correlation. This makes sense in the context of cuts, since here a negative correlation between two adjacent vertices corresponds to the two vertices being likely to be on opposite sides of the cut; when we make it independent, this information is lost.
 	\begin{proof}
 		Due to linearity of expectation, we can look at a single edge $ij \in E$. On the left, independence implies that
 		\[ \E (x_i' - x_j')^2 = \E x_i'^2 + \E x_j'^2 - 2 \E x_i' \E x_j' = 2 - 2 \pE_\mu x_i \pE_\mu x_j. \]
@@ -354,7 +356,7 @@
 		The desideratum follows on subtracting the two, since $\pCov_\mu(x_i,x_j) = \pE_\mu x_i x_j - \pE_\mu x_i \pE_\mu x_j$.
 	\end{proof}
 
-	The main insight of global correlation rounding is the following. We start with a high-degree pseudodistribution $\mu$, and produce a low average covariance pseudodistribution $\mu_1$ but conditioning it, while ensuring that $\pE f_G$ does not change by much. Following this, we just independently round $\mu_1$ to $\mu'$ and are done.\\
+	The main insight of global correlation rounding is the following. We start with a high-degree pseudodistribution $\mu$, and produce a low average covariance pseudodistribution $\mu_1$ by conditioning it, while ensuring that $\pE f_G$ does not change by much. Following this, we just independently round $\mu_1$ to $\mu'$ and are done.\\
 
 	\begin{fdef}[Local correlation]
 		Let $\mu$ be a pseudodistribution on $\{-1,1\}^n$ and $G$ a graph on $[n]$. The \emph{local correlation} of $\mu$ under $G$ is
@@ -386,7 +388,7 @@
 		Let $\mu$ be a pseudodistribution of degree at least $4$. The \emph{global correlation} of $\mu$ is defined by
 		\[ \GC(\mu) = \E_{i,j \in [n]} \I(X_i;X_j). \]
 	\end{fdef}
-	Note here that we are using $\I$ despite $\mu$ being a pseudodistribution because \Cref{prop:marginal-facts}(c) implies that the marginal $\restr{\mu}{\{i,j\}}$ is indeed a distribution.\\
+	Note here that we are using $\I$ despite $\mu$ being a pseudodistribution because \Cref{prop:marginal-facts}(c) implies that the marginal $\restr{\mu}{\{i,j\}}$ is indeed a distribution (this uses that the degree of $\mu$ is at least $4$).\\
 	Unlike local correlation, we can always find a pseudodistribution with low global correlation.
 
 	\begin{flem}
@@ -418,7 +420,7 @@
 	\begin{proof}
 		The following claim implies the desideratum. If $M$ is an $n \times n$ PSD matrix such that $\Tr(M) \le n$ and $|M_{ij}| \le 1$ for all $i,j$, then if $\E_{ij \in E} M_{ij} \ge \delta$, then $\E_{i,j \in [n]} M_{ij}^2 \ge \left(\frac{\delta-\rho}{\rank_\rho(G)}\right)^2$.\\
 		Let us see why this gives the required. For ease of notation, denote $\overline{x}_i = x_i - \pE_\mu x_i$. The local correlation condition says that $\E_{ij \in E} |\pE_\mu \overline{x}_i \overline{x}_j| \ge \delta$.
-		Set $M_{ij} = \pE_\mu \overline{x}_i \overline{x}_j$. $M = \pE_\mu \overline{x} \overline{x}^top$ is clearly PSD, and the above condition gives that $\sum_{ij \in E} M_{ij} \ge \delta$. Using the claim, we get that
+		Set $M_{ij} = \pE_\mu \overline{x}_i \overline{x}_j$. $M = \pE_\mu \overline{x} \, \overline{x}^\top$ is clearly PSD, and the above condition gives that $\sum_{ij \in E} M_{ij} \ge \delta$. Using the claim, we get that
 		\[ \E_{i,j \in [n]} \pCov_\mu(x_i,x_j)^2 \ge \left( \frac{\delta-\rho}{\rank_\rho(G)} \right)^2. \] 
 		\Cref{prop:cov-mutinfo} then yields that
 		\[ \GC(\mu) = \E_{i,j \in [n]} \I(X_i;X_j) \ge \Omega\left( \left(\frac{\delta-\rho}{\rank_\rho(G)}\right)^2 \right) \]
