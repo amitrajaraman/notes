@@ -115,12 +115,29 @@ Back towards the ending of \Cref{subsec:max-cut}, we showed a ``lower bound'' us
 		So, the number of variables in $\bigoplus_{C \in U_i} C$ is at least the number of variables that occurs exactly once in the above union, so is greater than $d$. However, all constraints in $\Der_d$ have at most $d$ variables, leading to a contradiction and completing the proof.
 	\end{proof}
 
-	The above argument concretely defines what $\pE_\mu x_S$ is for $S$ in $\Der_d$. For any $S \not\in \Der_d$, we set $\pE_\mu x_S = 0$, which can be thought of as the ``least informative option''.\\
+	The above argument describes what $\pE_\mu x_S$ is for $S$ in $\Der_d$. For any $S \not\in \Der_d$, we set $\pE_\mu x_S = 0$, which can be thought of as the ``least informative option''.\\
 
 	In the following proposition, we use the $\pE_\mu$ notation although $\mu$ is not known prima facie to be a pseudodistribution.
 	\begin{fprop}
 		Let $\mu$ be a function on $\{-1,1\}^n$ such that $\pE_\mu x_S = b$ for any constraint $(S,b)$ in $\Der_d$, $\pE_\mu 1 = 1$, and $\pE_\mu x_S = 0$ if $S$ is not a constraint in $\Der_d$. Then, $\mu$ is a degree $d$ pseudodistribution such that $\pE_\mu \Val_\mathcal{I}(x) = 1$.
 	\end{fprop}
 	\begin{proof}
-		It is obvious from the construction that $\pE_\mu \Val_\mathcal{I}(x) = 1$. Let $p$ be a polynomial of degree $\le (d/2)$ -- we shall show that $\pE_\mu p^2 \ge 0$.
+		It is obvious from the construction that $\pE_\mu \Val_\mathcal{I}(x) = 1$. Let $p$ be a polynomial of degree $\le (d/2)$ -- we shall show that $\pE_\mu p^2 \ge 0$. Consider the relation $\sim$ on $\{S \subseteq [n] : |S| \le (d/2) \}$ where $S \sim T$ if $\pE_\mu x_S x_T \ne 0$. We claim that this is an equivalence relation. Reflexivity is immediate since $\pE_\mu x_S x_S = \pE_\mu 1 = 1$, and so is symmetry since $\pE_\mu x_S x_T = \pE_\mu x_T x_S$. For transitivity, if $S \sim S'$ and $S' \sim S''$, we have 
+		\[ \pE_\mu x_S x_{S''} = \pE_\mu x_S x_{S'} x_{S'} x_{S''} = \left(\pE_\mu x_S x_{S'}\right) \left(\pE_\mu x_{S'} x_{S''}\right) \ne 0, \]
+		where the second equality follows by the definition of $\Der_d$.\\ 
+		Let the equivalence classes of this relation be $Q_1,\ldots,Q_r$.Now, decompose $p$ as
+		\[ p(x) = \sum_{i \in [r]} \sum_{S \in Q_i} p_S x_S = \sum_{i \in [r]} p_i, \]
+		where each $p_S$ is a constant and $p_i = \sum_{S \in Q_i} p_S x_S$. Then,
+		\begin{align*}
+			\pE_\mu p^2 &= \sum_{i \in [r]} \pE_\mu p_i^2 + \sum_{\substack{i,j \in [r] \\ i \ne j}} \pE_\mu  p_i p_j \\
+				&= \sum_{i \in [r]} \pE_\mu p_i^2. \qquad \text{($\pE_\mu x_S x_{S'} = 0$ if $S \in Q_i, S' \in Q_j$ for $i \ne j$)}
+		\end{align*}
+		Fix some $t \in [r]$, and $S_t \in Q_t$. Then,
+		\begin{align*}
+			\pE_\mu p_t^2 &= \pE_\mu \left(\sum_{S \in Q_t} p_S x_S\right)^2 \\
+				&= \sum_{S,T \in Q_t} p_S p_T \pE_\mu [x_S x_T] \\
+				&= \sum_{S,T \in Q_t} p_S p_T \pE_\mu [x_S x_{S_t}] \pE_\mu [x_{S_t} x_T] \\
+				&= \left(\sum_{S \in Q_t} p_S \pE_\mu [x_S x_{S_t}]\right)^2 \ge 0,
+		\end{align*}
+		completing the proof.
 	\end{proof}
