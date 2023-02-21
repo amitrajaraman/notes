@@ -19,7 +19,7 @@
 
 	\begin{ftheo}[K\"{o}nig's Theorem]
 		\label{theo: konigs theorem}
-		The size of a maximum matching in a bipartite graph is equal to the minimum number of vertices required to cover all edges in the graph (a minimum vertex cover) -- the smallest subset such that every edge has at least one endpoint in the subset.
+		The size of a maximum matching in a bipartite graph is equal to the size of a minimum vertex cover -- the smallest subset such that every edge has at least one endpoint in the subset.
 	\end{ftheo}
 	This result is equivalent to Hall's Theorem.
 
@@ -40,13 +40,13 @@
 	\label{max-wt-pm-lp}
 	\begin{array}{ll@{}ll}
 	\text{maximize}  & \displaystyle\sum_{e \in E} w_{e} x_{e} &\\
-	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} \le 1,  &\qquad v \in V\\\\
-	                 & x_{e} \ge 0,                                                &\qquad e \in E
+	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} \le 1, &\qquad v \in V\\&&\\
+	                 & x_{e} \ge 0, &\qquad e \in E
 	\end{array}
 	\end{equation}
 	
 	% Further, since this linear program must be maximized at some point on the boundary of the resulting polytope, whose vertices are integral points, there is a solution to this linear program that is also a solution to the integer linear program. It is possible to find such a solution efficiently by possibly adding additional constraints; we shall return to this later.\\
-	The \emph{dual} of the above linear program \Cref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
+	The \emph{dual} of the above linear program \eqref{max-wt-pm-lp} is formed by taking a variable $y_v \ge 0$ for each vertex $v$, and multiplying the inequality corresponding to $v$ with $y_v$. This changes the second constraint to
 	\[ \sum_{e\text{ incident on }v} y_v x_e \le y_v. \]
 	Adding this up over all vertices gives
 	\[ \sum_{\text{edges } e = uv} (y_u + y_v) x_e \le \sum_{v \in V} y_v. \]
@@ -58,7 +58,7 @@
 
 	\begin{equation}
 	\label{dual-max-wt-pm-lp}
-	\begin{array}{ll@{}ll}
+	\begin{array}{lll@{}lll}
 	\text{minimize}  & \displaystyle\sum_{v \in V} y_v &\\
 	\text{subject to} \displaystyle &y_u+y_v \ge w_e,  &\qquad uv = e \in E\\
 	                  &y_v \ge 0,                      &\qquad v \in V
@@ -121,6 +121,7 @@
 	% \end{fprop}
 
 	\Cref{max-wt-pm-lp} can more succinctly be written as
+	
 	\begin{equation}		
 	\label{max-wt-pm-lp-2}
 	\begin{array}{ll@{}ll}
@@ -281,7 +282,6 @@
 	Now, in the problem of finding a maximum weight \emph{perfect} matching, we instead have
 
 	\[
-	\label{max-wt-pm-lp}
 	\begin{array}{ll@{}ll}
 	\text{maximize}  & \displaystyle\sum_{e \in E} w_{e} x_{e} &\\
 	\text{subject to}& \displaystyle\sum\limits_{e \text{ incident on } v} x_{e} = 1,  &\qquad v \in V\\\\
@@ -290,7 +290,6 @@
 	\]
 	and in the dual,
 	\[
-	\label{dual-max-wt-pm-lp}
 	\begin{array}{ll@{}ll}
 	\text{minimize}  & \displaystyle\sum_{v \in V} y_v &\\
 	\text{subject to} \displaystyle &y_u+y_v \ge w_e,  &\qquad uv = e \in E.
