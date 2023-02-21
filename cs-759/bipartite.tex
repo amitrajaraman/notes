@@ -57,7 +57,7 @@ that is, $(-1)^{b_1+a_2} = -1$. In other words, there is an odd number of edges 
 	% Given a perfect matching, a \emph{Pfaffian orientation} is an orientation of the edges such that all alternating cycles are oddly oriented.
 	A Pfaffian orientation is an orientation of the edges of a graph such that for some perfect matching, all alternating cycles are oddly oriented. 
 \end{fdef}
-Note that in a bipartite graph, if a Pfaffian orientation exists for one perfect matching, it is Pfaffian for all perfect matchings.\\
+Note that in a bipartite graph, if a Pfaffian orientation exists for one perfect matching, it is Pfaffian for all perfect matchings -- this is because an orientation is Pfaffian iff the corresponding term in the determinant is the same for any matching (and the latter property does not depend on the matching with respect to which the orientation is Pfaffian).\\
 
 Thus, if we can find a Pfaffian orientation of a given bipartite graph, we can determine the number of perfect matchings.\\
 We may assume without loss of generality that if there exists a Pfaffian orientation, all edges in the matching we have are oriented from $A$ to $B$ -- if not, we can reverse the direction of all edges incident on the $A$-vertex of the ``wrongly'' oriented edge.\\
