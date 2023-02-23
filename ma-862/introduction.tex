@@ -15,8 +15,7 @@
 		\end{enumerate}
 	\end{fdef}
 
-	That is, it is a subalgebra that is closed under conjugate transposes.
-
+	That is, it is a subalgebra that is closed under conjugate transposes. $*$-algebras are also sometimes referred to as \emph{self-adjoint algebras}.\\
 
 	Let $q$ be a prime power. Denote by $B_q(n)$ the set of all subspaces of $\F_q^n$ and $B_q(n,k)$ the set of all $k$-dimensional subspaces of $\F_q^n$. It is not too difficult to show that
 	\[ |B_q(n,k)| = \binom{n}{k}_q = \frac{(q^n-1)(q^n-q)(q^n-q^2)\cdots(q^n-q^{n-k+1})}{(q^k-1)(q^k-q)(q^k-q^2)\cdots(q^k-q^{k-1})}. \]
@@ -40,7 +39,7 @@
 
 	Note that this algebra is abelian. Furthermore, by the spectral theorem, $\dim(\langle A\rangle)$ is the number of distinct eigenvalues of $A$.\\ % *** EXPLAIN ***
 
-	For $A \in \mathcal{M}^n(\C)$ similar to a Hermitian matrix, that is, $PAP^{-1}$ is Hermitian for some $P$, $P\langle A\rangle P^{-1}$ is a $*$-algebra.
+	If $A \in \mathcal{M}^n(\C)$ is such that $PAP^{-1}$ is Hermitian, then $P\langle A\rangle P^{-1}$ is also a $*$-algebra.
 	
 	\begin{fex}[$*$-algebras on graphs]
 		\label{exmp: star-alg}
@@ -58,7 +57,7 @@
 	All the above examples are commutative. \href{https://amitrajaraman.github.io/notes/rep-th/main.pdf}{Recall} that a \emph{unitary representation} of a group $G$ is a group homomorphism $\varphi : G \to \mathcal{U}_n(\C)$.
 
 	\begin{ftheo}
-		Let $\varphi$ be a unitary representation as above. Then,
+		Let $\varphi$ be a unitary representation of a group $G$. Then,
 		\[ \mathcal{A} = \{A \in \mathcal{M}_n(\C) : A \varphi(g) = \varphi(g) A \text{ for all } g \in G \} \]
 		is a $*$-algebra called the \emph{commutant} of $\varphi$.
 	\end{ftheo}
@@ -227,6 +226,7 @@
 	There is also a more general spectral theorem for (not necessarily commutative) $*$-algebras, that we state without proof.
 
 	\begin{ftheo}[Spectral theorem for $*$-algebras]
+		\label{theo:noncomm-spec-thm}
 		Let $\mathcal{A} \subseteq \mathcal{M}_n(\C)$ be a commutative $*$-algebra. Then, there exists an $n \times n$ unitary matrix $U$ and positive integers $p_1,\ldots,p_m$ and $q_1,\ldots,q_m$ (determined up to permutation) such that $U^\dagger \mathcal{A} U$ is the set of all \emph{$((p_0,q_0),\ldots,(p_m,q_m))$-block diagonal matrices}, that is, the set of all matrices
 		\[ U^\dagger \mathcal{A} U = \begin{pmatrix} C_1 & & & \\ & C_2 & & \\ & & \ddots & \\ & & & C_m \end{pmatrix}, \]
 		where $C_k$ is a block diagonal matrix
@@ -262,9 +262,10 @@
 	More succinctly, an irreducible $G$-module is one with exactly two submodules. In particular, any one-dimensional module is irreducible
 
 	\begin{fex}
+		\label{ex:sn-action-permutation-mod}
 		Consider the obvious action of $S_n$ on $X = [n]$. Considering the permutation module $\C[X]$, the subspaces
 		\begin{align*}
-			V_1 &= \Span\{1+2+\cdots+n\} \text{ and}
+			V_1 &= \Span\{1+2+\cdots+n\} \text{ and} \\
 			V_2 &= \{c_11 + c_22 + \cdots + c_nn : c_1 + \cdots + c_n = 0\}.
 		\end{align*}
 		Clearly, $V_1$ is irreducible. It turns out that $V_2$ is irreducible as well! Suppose instead that $W \ne 0$ is a submodule of $V_2$, containing $w = c_11 + \cdots + c_nn$ for some $(c_i)$ adding up to $0$. Suppose that $c_1 \ne 0$. We must have that some other $c_i$ is also nonzero and unequal to $c_1$; suppose that $c_2$ is so. Then,
@@ -315,6 +316,7 @@
 	\end{proof}
 
 	\begin{flem}[Schur's Lemma]
+		\label{schur's lemma}
 		Let $V$ be an irreducible $G$-module and $f : V \to V$ be $G$-linear. Then, $f = \lambda I$ for some $\lambda \in \C$.
 	\end{flem}
 	\begin{proof}
@@ -325,6 +327,19 @@
 		Let $V,W$ be irreducible $G$-modules. Then,
 		\[ \dim \Hom_G(V,W) = \begin{cases} 1, & V \cong W, \\ 0, & \text{otherwise.} \end{cases} \]
 	\end{fcor}
+
+	\begin{fcor}
+		\label{irred-unique-inner-prod}
+		A $G$-invariant inner product on an irreducible $G$-module is unique up to scaling.
+	\end{fcor}
+	\begin{proof}
+		Let $\langle\cdot,\cdot\rangle$ and $[\cdot,\cdot]$ be two $G$-invariant inner products on an irreducible $G$-module $V$.
+		Consider the linear map $\varphi : V \to V^*$ (where $V^*$ is the dual of $V$) defined by
+		\[ \varphi(v)(u) = \langle v,u\rangle, \]
+		and similarly $\psi : V \to V^*$ defined by $\psi(v)(u) = [v,u]$. Note that both $\varphi$ and $\psi$ are $G$-linear isomorphisms, where for $f \in V^*$ we define
+		\[ (g \cdot f)(v) = f(g^{-1} \cdot v). \]
+		It follows that $\psi^{-1} \circ \varphi : V \to V$ is a $G$-linear isomorphism. Irreducibility of $V$ with \nameref{schur's lemma} implies that $\psi^{-1} \circ \varphi = \lambda \Id$, which yields the desired.
+	\end{proof}
 
 	\begin{flem}
 		Let $V,W$ be $G$-modules, and $W_1,W_2$ be $G$-submodules of $W$ such that $W = W_1 \oplus W_2$. Then,
@@ -362,6 +377,7 @@
 	\end{fdef}
 
 	\begin{flem}
+		\label{lem:multiplicity-free}
 		Let $G$ act on a set $S$ and consider $\mathcal{A} = \Hom_G(S,S)$. Then, $\C[S]$ is multiplicity-free iff $\mathcal{A}$ is commutative.
 	\end{flem}
 	Suppose that $\C[S] \cong n_1 V_1 \oplus \cdots \oplus n_r V_r$. It is easy to see that
@@ -520,3 +536,209 @@
 		& \displaystyle \sum_{i,j,t} (x_{i+j-2t,0,0} - x_{i,j,t}) M_{i,j,t} \pge 0. &
 		\end{array}
 	\end{equation}
+
+	To conclude, we must, as in the Delsarte bound, take advantage of symmetries to bring down the size of the PSD constraint. This is far more complicated here, however, since the algebra is non-commutative so we must deal with the \emph{block} diagonalization (recall the \nameref{theo:noncomm-spec-thm}). 
+
+	\begin{ftheo}[Schrijver]
+		\label{theo:schrijver}
+		Let $\mathcal{A}_n = \Hom_{S_n}(B(n),B(n))$. Set $\mathcal{M} = \lfloor n/2 \rfloor$, and $p_k = n-2k+1$ and $q_k = \binom{n}{k} - \binom{n}{k-1}$ for $k=0,1,\ldots,m$. Then, the following are true.
+		\begin{enumerate}[label=(\alph*)]
+			\item There exists a $B(n) \times S$ real unitary matrix $V$ (for some indexing set $S$ of size $2^n$) such that $V^\dagger \mathcal{A}_n V$ is equal to the set of all $S \times S$ $((p_0,q_0),(p_1,q_1),\ldots,(p_m,q_m))$-block-diagonal matrices.\\
+			In particular, this implies that $p_0^2 + \cdots + p_m^2 = \dim \mathcal{A}_n = \binom{n+3}{3}$ and $p_0q_0 + \cdots + p_mq_m = 2^n$.
+			\item ``Dropping'' the duplicated blocks in the above block-diagonalization, we get a PSDness-preserving $*$-algebra isomorphism
+			\[ \Phi : \mathcal{A}_n \to \bigoplus_{k=0}^m \mathcal{M}_{p_k}(\C). \]
+			\item Suppose that
+			\[ \Phi\left( \sum_{r,s,t=0}^n x_{r,s,t} M_{r,s,t} \right) = (R_0,\ldots,R_m), \]
+			where the rows and columns of $R_k \in \mathcal{M}_{p_k}(\C)$ are indexed by $k,k+1,\ldots,n-k$. Then, for $k \le i,j \le n-k$,
+			\[ (R_k)_{ij} = \frac{1}{\sqrt{\binom{n-2k}{i-k}\binom{n-2k}{j-k}}} \sum_{u,t=0}^n (-1)^{u-t} \binom{u}{t} \binom{n-2k}{u-k} \binom{n-k-u}{i-u} \binom{n-k-u}{j-u} x_{i,j,t}. \]
+		\end{enumerate}
+	\end{ftheo}
+
+	We shall spend the remainder of this section proving the above monster of a theorem.
+
+	\begin{fdef}
+		The \emph{up} linear operator $U : \C[B(n)] \to \C[B(n)]$ is defined by
+		\[ X \mapsto \sum_{\substack{Y \supseteq X \\ |Y|=|X|+1}} Y. \]
+		Similarly, the \emph{down} linear operator $D : \C[B(n)] \to \C[B(n)]$ is defined by
+		\[ X \mapsto \sum_{\substack{Y \subset X \\ |Y|=|X|-1}} Y. \]
+	\end{fdef}
+	
+	Despite the deceptive names, $U$ and $D$ are \emph{not} inverses of each other.
+
+	\begin{fdef}
+		An element $v \in \C[B(n)]$ is said to be \emph{homogeneous} if $v \in \C[B(n,k)]$ for some $0 \le k \le n$. In this case, we say that the \emph{rank} of $v$ is $k$ and write $r(v) = k$.\\
+		A \emph{symmetric Jordan chain} (SJC) is a sequence $(v_k,v_{k+1},\ldots,v_{n-k})$ of non-zero homogeneous elements of $\C[B(n)]$ such that $r(v_i) = i$ for $i = k,k+1,\ldots,n-k$, $U(v_i) = v_{i+1}$ for $i=k,k+1,\ldots,n-k-1$. and $U(v_{n-k}) = 0$.\\
+		A \emph{symmetric Jordan basis} (SJB) off $\C[B(n)]$ is a basis of $\C[B(n)]$ consisting of a disjoint union of SJCs.
+	\end{fdef}
+
+	It is not difficult to see that in an SJB, the number of SJCs going from rank $k$ to $n-k$ is $\binom{n}{k}-\binom{n}{k-1}$ -- the chains starting at lower levels account for a $\binom{n}{k-1}$-dimensional subspace of $B(n,k) \subseteq B(n)$, so an appropriate number of SJCs have to start at this level.
+
+	\begin{fex}
+		An SJB of $\C[B(3)]$ consists of the chains $(\emptyset, \{1\}+\{2\}+\{3\}, 2(\{1,2\}+\{1,3\}+\{2,3\}), 6\{1,2,3\})$, $(2\{3\}-\{1\}-\{2\} , \{1,3\}+\{2,3\}-2\{1,2\})$, and $(\{2\}-\{1\} , \{2,3\} - \{1,3\})$.
+	\end{fex}
+
+	We endow $\C[B(n)]$ with the standard inner product defined by $\langle X,Y\rangle = \delta_{XY}$ for $X,Y \in B(n)$. The primary lemma in our proof will be the following.
+
+	\begin{flem}
+		\label{schrijver-lem}
+		There exists an SJB $J(n)$ of $\C[B(n)]$ satisfying
+		\begin{enumerate}[label=(\alph*)]
+			\item The vectors in $J(n)$ are orthogonal with respect to the standard inner product $\langle \cdot,\cdot\rangle$.
+			\item Let $0 \le k \le n/2$ and let $(v_k,\ldots,v_{n-k})$ be an SJC in $J(n)$ starting at rank $k$ and going to rank $n-k$. Then,
+			\[ \frac{\|v_{i+1}\|}{\|v_i\|} = \sqrt{(i+1-k)(n-k-i)} \]
+			for $k \le i \le n-k$.
+		\end{enumerate}
+	\end{flem}
+
+	\begin{flem}
+		\label{schrijver-lem1}
+		For $0 \le k \le n$, set $m(k) = \min\{k,n-k\}$. For any $0 \le k \le n$, $\C[B(n,k)]$ can be decomposed into orthogonal mutually non-isomorphic irreducibles as $W_{k,0} \oplus W_{k,1} \oplus \cdots \oplus W_{k,m(k)}$, where $W_{k,r}$ is of dimension $\binom{n}{k} - \binom{n}{k-1}$. Furthermore, $W_{k,m(k)}$ and $W_{j,m(k)}$ are $S_n$-isomorphic for any $k \le j \le n-k$.
+	\end{flem}
+
+	Before proving this, let us first establish some consequences of this result. The proof of \Cref{theo:schrijver} just uses the change-of-basis matrix associated with the SJB $J(n)$. \\
+
+	If we write the up operator $U$ with respect to the SJB $J(n)$, we get $q_k$ identical blocks of size $p_k \times p_k$. Each of these $p_k \times p_k$ blocks has a $1$ at the $ij$th entry if $j-i=1$ and $0$ elsewhere. It turns out that something similar is also true for the $M_{i,j,t}$, as we shall show in the proof of \nameref{theo:schrijver}.\\
+	Suppose we normalize $J(n)$ to get an ortho\emph{normal} basis $J'(n)$ of $\C[B(n)]$. Let $(v_k,\ldots,v_{n-k})$ be an SJC in $J(n)$. For $i=k,\ldots,n-k$, set
+	\[ v_i' = \frac{v_i}{\|v_i\|} \in J'(n) \]
+	and
+	\[ \alpha_i = \frac{\|v_{i+1}\|}{\|v_i\|} = \sqrt{(i+1-k)(n-k-i)}, \]
+	with $\alpha_k = 0$. Then,
+	\[ U(v_i') = \alpha_i v_{i+1}'. \]
+	So, with respect to $J'(n)$, the matrix $U$ is again block-diagonal, with the block corresponding to $(v_k',\ldots,v_{n-k}')$ having $\alpha_i$ at the $ij$th block if $j-i=1$. \\
+	Now, observe that with respect to the standard basis $B(n)$ of $\C[B(n)]$, the matrices for $U$ and $D$ are real and transposes of each other. Because $J'(n)$ is orthonormal, the corresponding matrices are adjoints even here! Therefore, $D(v_{i+1}') = \alpha_i v_i'$, and the subspace spanned by the normalized SJC $(v_k',\ldots,v_{n-k}')$ is closed under $D$.
+
+	\begin{fprop}
+		\label{prop:d-on-sjc}
+		Let $(v_k,\ldots,v_{n-k})$ be an SJC in $J(n)$. Then, for $i=k,\ldots,n-k-1$, setting $\alpha_i = \|v_{i+1}\|/\|v_i\|$, $D(v_{i+1}) = \alpha_i^2 D(v_i)$.
+	\end{fprop}
+	The proof is immediate from the previous discussion.
+
+	\begin{proof}[Proof of \Cref{schrijver-lem1}]
+		Recall that $\Hom_{S_n}(B(n,k),B(n,k))$ is commutative and has dimension $1+\{k,n-k\}$. It follows by \Cref{lem:multiplicity-free} that $\C[B(n,k)]$ is the direct sum of $1+\{k,n-k\}$ mutually non-isomorphic irreducibles. Further note that because the $S_n$ action on $B(n,k)$ results in a unitary representation of $\C[B(n,k)]$, these irreducibles can be taken to be orthogonal. \\
+		For $0 \le k \le j \le n-k \le n$, it is easily checked that the $S_n$ action on $B(n,k) \times B(n,j)$ has $1+k$ irreducibles; the idea is the same as that in \Cref{ex:non-comm-alg}, where $(X,Y) \sim (X',Y')$ iff $|X \cap Y| = |X' \cap Y'|$. 
+		This implies that every irreducible occurring in $\C[B(n,k)]$ also occurs in $\C[B(n,j)]$, and in particular, $\C[B(n,k)]$ and $\C[B(n,n-k)]$ are isomorphic as $S_n$-modules. The desideratum follows.
+	\end{proof}
+
+	For example, when $k=0$, we get only the trivial irreducible representation. When $k=1$, we get the trivial irreducible as well as that mentioned in \Cref{ex:sn-action-permutation-mod}, which is of dimension $n-1$. For $k=2$, we get these two irreducible and another irreducible, which is forced to have dimension $\binom{n}{2} - n$ (since we know the dimensions of the first two irreducibles).
+
+	\begin{proof}[Proof of \Cref{schrijver-lem}]	
+		Now, let us play with these irreducibles in order to get an SJB. If we manage to show that $U$ maps $W_{j,m(k)}$ to $W_{j+1,m(k)}$ bijectively for $k \le j < n-k$, we are done -- \nameref{schur's lemma} would imply that it then acts like some multiple of $\Id$, so if we take some orthogonal basis of $W_{k,m(k)}$, applying $U$ repeatedly maps this basis to an orthogonal basis of $W_{j,m(k)}$ for any $k \le j \le n-k$.\\
+		Note that $U : W_{j,m(k)} \to W_{j+1,m(k)}$ is, by \nameref{schur's lemma}, either a multiple of the identity or $0$.\\
+		\textbf{***** INCOMPLETE *****}
+
+		Let $(v_k,\ldots,v_{n-k})$ be an SJB in $J(n)$. To complete the proof, it remains to find $\alpha_i = \|v_{i+1}\|/\|v_i\|$. Consider the linear operator $H : \C[B(n)] \to \C[B(n)]$ defined by $X \mapsto (n-2|X|)X$. First off, observe that $UD-DU = H$. This can be proved easily using a combinatorial argument. For $X \in B(n)$ of size $k$, applying $UD$ gives $X$ back in $n-k$ ways (since we must choose one of the elements not in $X$ to add and subsequently remove), and applying $DU$ gives $X$ back in $k$ ways. Furthermore, the component for any other set $Y$ is $0$, since it can be arrived at in at most one way for $UD$ (or $DU$) -- removing the element in $X \setminus Y$ and adding the element in $Y \setminus X$.\\
+		Now, recall from \Cref{prop:d-on-sjc} that $D(v_{i+1}) = \alpha_i^2 v_i$. We determine the value of $\alpha_i^2$ by induction on $i$. First off,
+		\[ \alpha_k^2 v_k = D(v_{k+1}) = (DU)(v_k) = (UD-H)(v_k) = -H(v_k) = (n-2k)v_k, \]
+		where we used the fact that $D(v_k) = 0$. Therefore, $\alpha_k^2 = n-2k$.\\
+		For $k < i \le n-k$, we have
+		\[ \alpha_i^2 v_i = (DU)(v_i) = (UD-H)(v_i) = U(\alpha_{i-1}^2 v_{i-1}) - H(v_i) = \alpha_{i-1}^2 v_i - (n-2i)v_i, \]
+		and the claim follows by induction.
+	\end{proof}
+
+	\begin{lemma}[Binomial inversion]
+		Let $a_0,\ldots,a_n$ and $b_0,\ldots,b_n$ be sequences. Then,
+		\[ a_t = \sum_{u=0}^{n} \binom{u}{t} b_u \]
+		for $t=0,\ldots,n$ iff
+		\[ b_t = \sum_{u=0}^{n} (-1)^{u-t} \binom{u}{t} a_u \]
+		for $t=0,\ldots,n$.
+	\end{lemma}
+	\begin{proof}
+		Let $M$ be the $n \times n$ matrix with $tu$th entry equal to $\binom{u}{t}$, and $N$ the matrix with $tu$th entry equal to $(-1)^{u-t} \binom{u}{t}$. The question asks to show that $M = N^{-1}$. Consider the vector space spanned by $\{1,x,x^2,\ldots,x^n\}$. Another basis for this space is $\{1,(x-1),(x-1)^2,\ldots,(x-1)^n\}$. We have
+		\[ x^u = \sum_{t=0}^{n} \binom{u}{t} (x-1)^t \]
+		and
+		\[ (x-1)^u = \sum_{t=0}^{n} (-1)^{n-t} \binom{u}{t} x^t. \]
+		The desideratum follows since the two resulting change-of-basis matrices, equal to $M,N$, are inverses of each other.
+	\end{proof}
+
+	\begin{fprop}
+		\label{binom-inv-2}
+		It holds that
+		\[ M_{i,j,t} = \sum_{u=0}^{n} (-1)^{u-t} \binom{u}{t} M_{i,u,u} M_{u,j,u}. \]
+	\end{fprop}
+	\begin{proof}
+		Note that
+		\[ M_{i,t,t} M_{t,j,t} = \sum_{u=0}^{n} \binom{u}{t} M_{i,j,t}. \]
+		The $XY$th entry of the left is equal to the number of size $u$ sets $Z$ such that $Z \subseteq X,Y$, assuming $|X|=i$ and $|Y|=j$. If $X \cap Z = u$, this number is precisely $\binom{u}{t}$. This is exactly equal to the $XY$th entry of the right. \\
+		To complete the proof, apply binomial inversion.
+	\end{proof}
+
+	\begin{proof}[Proof of \nameref{theo:schrijver}]
+		For $i,j,k,t$, define
+		\[ \beta_{i,j,k,t} = \sum_{u=0}^{n} (-1)^{u-t} \binom{u}{t} \binom{n-2k}{u-k} \binom{n-k-u}{i-u} \binom{n-k-u}{j-u}. \]
+		For $0 \le k \le m$ and $k \le i,j \le n-k$, define $E_{i,j,k}$ to be the $p_k \times p_k$ matrix, with rows and columns indexed by $k,k+1,\ldots,n-k$, with the entry in row $i$ and column $j$ equal to $1$ and all other entries $0$.\\
+		The block-diagonalizing unitary matrix $V$ is the change-of-basis matrix to the basis described by \Cref{schrijver-lem}. (a) follows near-immediately by \Cref{schrijver-lem1} and the proof of \Cref{schrijver-lem}, and (b) is immediate from (a).\\
+		For (c), suppose that $x_{i,j,t} = 1$ and all others are $0$, so we have
+		\[ \Phi(M_{i,j,t}) = (R_0,\ldots,R_m). \]
+		We claim that for $0 \le k \le m$,
+		\[ R_k = \begin{cases} \binom{n-2k}{i-k}^{-1/2} \binom{n-2k}{j-k}^{1/2} \beta_{i,j,k,t} E_{i,j,k}, & k \le i,j \le n-k, \\ 0, & \text{otherwise.} \end{cases} \]
+		Now, the $S_n$-linear map $M_{i,j,t}$ maps homogeneous vectors at the $i$th level to some (possibly zero) vector at the $j$th level, and everything else to $0$. Since all the vectors in our basis $J(n)$ are homogeneous, all the irreducibles except those at the $i$th level are certainly mapped to $0$. In particular, the irreducible $W_{i,m(k)}$ must map to $W_{j,m(k)}$, and $W_{r,m(k)}$ maps to $0$ for any $r \ne i$.\\
+		In more concrete terms, this implies that $R_k = 0$ if $i$ or $j$ is not in $k,k+1,\ldots,n-k$. So, suppose $k \le i,j \le n-k$. The above observation again implies that $R_k$ is some multiple of $E_{i,j,k}$.\\
+		This is where \Cref{binom-inv-2} enters the picture. Consider the simpler case where $j=t=u$ with $i \ge u$, so
+		\[ \Phi(M_{i,u,u}) = (A_0^u,\ldots,A_m^u). \]
+		Again, $A_k^u$ is some multiple of $E_{i,u,k}$. Now, $M_{i,u,u}$ just takes a set $X \in B(n)$ of size $i$ to all subsets $Y \subseteq X$ of size $u$. Such a subset can be constructed by taking a ``path'' from $X$ down to $Y$, removing one element at a time. Each level of such a path is constructed precisely by $D$! Since each $Y$ is repeated by $(i-u)!$ paths, $M_{i,u,u}$ is just equal to $D^{i-u}/(i-u)!$. Recall \Cref{prop:d-on-sjc}. It follows that
+		\begin{align*}
+			(A_k^u)_{iu} &= \frac{1}{(i-u)!} \prod_{w=u}^{i-1} \sqrt{(w+1-k)(n-k-w)} \\
+				&= \frac{1}{(i-u)!} \prod_{w=u}^{i-1} (n-k-w) \binom{n-2k}{w-k}^{1/2} \binom{n-2k}{w+1-k}^{-1/2} \\
+				&= \binom{n-k-u}{i-u} \binom{n-2k}{u-k}^{1/2} \binom{n-2k}{i-k}^{-1/2}
+		\end{align*}
+		and therefore,
+		\[ A_k^u = \begin{cases} \binom{n-k-u}{i-u} \binom{n-2k}{u-k}^{1/2} \binom{n-2k}{i-k}^{-1/2} E_{i,u,k}, & k \le u \le n-k, \\ 0, & \text{otherwise.} \end{cases} \]
+		Similarly, if $\Phi(M_{u,j,u}) = (B_0^u,\ldots,B_m^u)$,
+		\[ B_k^u = \begin{cases} \binom{n-k-u}{j-u} \binom{n-2k}{u-k}^{1/2} \binom{n-2k}{j-k}^{-1/2} E_{u,j,k}, & k \le u \le n-k, \\ 0, & \text{otherwise.} \end{cases} \]
+		Therefore, using \Cref{binom-inv-2},
+		\begin{align*}
+			(R_k)_{ij} &= \sum_{u=k}^{n-k} (-1)^{u-t} \binom{u}{t} \sum_{\ell=k}^{n-k} (A_k^u)_{i\ell} (B_k^u)_{\ell j} \\
+				&= \sum_{u=k}^{n-k} (-1)^{u-t} \binom{u}{t} (A_k^u)_{iu} (B_k^u)_{uj} \\
+				&= \binom{n-2k}{i-k}^{-1/2} \binom{n-2k}{j-k}^{1/2} \beta_{i,j,k,t}
+		\end{align*}
+		as desired, proving the theorem. Here, for the final equality, we substituted the expressions for $A_k^u$ and $B_k^u$ as proved above.
+	\end{proof}
+
+\subsection{Johnson schemes}
+
+	Following on from the previous subsection, let $0 \le k \le \lfloor n/2\rfloor$, and consider $\mathcal{A} = \Hom_{S_n}(B(n,k),B(n,k))$. Recall that unlike $\Hom_{S_n}(B(n),B(n))$, this $*$-algebra is commutative and of dimension $k+1$. The orbital basis of this algebra is $\{M_t\}_{0 \le t \le k}$, where $(M_t)_{XY} = 1$ if $|X \cap Y| = t$ and $0$ otherwise. Note that this is essentially just (an appropriate submatrix of) $M_{k,k,t}$. Let us determine the eigenvalues of the $M_t$ on each of its $k+1$ eigenspaces.\\
+	We have already discovered these $k+1$ eigenspaces in the previous subsection! Indeed, we can decompose $\C[B(n,k)] = W_0 \oplus \cdots \oplus W_k$, where
+	\[ W_j = \Span\{v \in J(n) : r(v)=k \text{ and the SJC on which $v$ lies starts at rank $j$} \}. \]
+	As argued earlier, $\dim W_j = \binom{n}{j} - \binom{n}{j-1}$.\\
+	We would like to determine the eigenvalues of $M_{k,k,t}$ on these eigenspaces.
+	Recalling binomial inversion \Cref{binom-inv-2}, we have
+	\[ M_{k,k,t} = \sum_{u=0}^{n} (-1)^{u-t} \binom{u}{t} M_{k,u,u} M_{u,k,u}. \]
+
+	\textbf{***** INCOMPLETE *****}
+
+	This implies that the eigenvalue of $M_t$ on $W_j$ is
+	\[ \sum_{u=0}^n (-1)^{u-t} \binom{u}{t} \binom{k-j}{k-u} \binom{n-j-u}{k-u}. \]
+
+	This has an interesting application in counting the number of spanning trees of the Johnson graph.
+
+	\begin{definition}
+		A \emph{rooted spanning tree} of a graph $G=(V,E)$ is a pair $(T,v)$, where $T$ is a spanning tree and $v$ is a vertex in the graph.
+	\end{definition}
+	Note that the number of rooted spanning trees of a graph is $|V|$ times the number of spanning trees of the graph.
+
+	\begin{fdef}
+		Given a graph $G=(V,E)$, the \emph{Laplacian} of $G$ is the $V \times V$ matrix $L = D-A$, where $D$ is the diagonal matrix with $D_{uu}$ equal to the degree of $u$, and $A$ is the adjacency matrix of the graph.
+	\end{fdef}
+
+	\begin{ftheo}[Matrix Tree Theorem]
+		Let $G$ be a connected graph with Laplacian $\mathcal{L}$. Then, the number of rooted spanning trees of $G$ is equal to the product of nonzero eigenvalues of $\mathcal{L}$.
+	\end{ftheo}
+	It may also be shown that $0$ is an eigenvalue of $\mathcal{L}$ of multiplicity $1$. We do not prove the matrix tree theorem.
+
+	\begin{fcor}
+		The complete graph $K_n$ has $n^{n-2}$ spanning trees.
+	\end{fcor}
+	This is direct using the spanning tree theorem, and there are also several bijective proofs known -- see Section 1.2 of the author's \href{https://amitrajaraman.github.io/notes/ma-861/}{Combinatorics I notes} for more details.
+
+	\begin{fcor}
+		The number of spanning trees of the $n$-hypercube is $(1/n) \prod_{k=1}^{n} (2k)^{\binom{n}{k}}$.
+	\end{fcor}
+	We had studied the eigenvalues of the adjacency matrix of $n$-hypercube when studying the Delsarte bound. Since the graph is $n$-regular, this also gives the eigenvalues of the Laplacian.
+
+	\begin{fcor}
+		The number of spanning trees of the Johnson graph $J(n,k)$ for $k \le n/2$ is
+		\[ \frac{1}{n} \prod_{j=1}^{k} (j(n-j+1))^{\binom{n}{j} - \binom{n}{j-1}}. \]
+	\end{fcor}
+	Again, we had studied the eigenvalues of the adjacency matrix of $J(n,k)$ earlier in this section (and indirectly in the Schrijver bound), and the graph is $k(n-k)$-regular.
+
+	For the last two corollaries, no bijective proof is known.
