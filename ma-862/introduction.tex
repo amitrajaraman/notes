@@ -8,7 +8,7 @@
 
 	\begin{fdef}
 		A subspace $\mathcal{A} \subseteq \mathcal{M}_n(\C)$ is said to be a \emph{$*$-algebra of matrices} if
-		\begin{enumerate}
+		\begin{enumerate}[label=(\alph*)]
 			\item $\mathcal{A}$ is closed under multiplication, in that if $A,B \in \mathcal{A}$, then $AB \in \mathcal{A}$, and
 			\item $\mathcal{A}$ is closed under conjugate transposes, in that if $A = (a_{ij}) \in \mathcal{A}$, then $A^\dagger = (\overline{a_{ji}}) \in \mathcal{A}$.
 			\item $\Id \in \mathcal{A}$.
@@ -45,11 +45,11 @@
 		\label{exmp: star-alg}
 		Let $G = (V,E)$ be a graph and $A$ its adjacency matrix. $\langle A\rangle$ is called the \emph{adjacency algebra} of $G$. \\
 
-		More specifically, consider the $n$-cube graph $C_n$ with vertex set $B(n)=2^{[n]}$ and an edge between $X,Y$ if $|X \triangle Y| = 1$. Although $\langle A\rangle$ is $*$-algebra of $2^n \times 2^n$ matrices, its dimension turns out to be only $n+1$. The fact that we only require $n+1$ parameters to describe an arbitrary element of $\langle A\rangle$ is key to the Delsarte bound on binary code size we shall study later.\\
+		More specifically, consider the $n$-cube graph $C_n$ with vertex set $B(n)=2^{[n]}$ and an edge between $X,Y$ if $|X \triangle Y| = 1$. Although $\langle A\rangle$ is a $*$-algebra of $2^n \times 2^n$ matrices, its dimension turns out to be only $n+1$. The fact that we only require $n+1$ parameters to describe an arbitrary element of $\langle A\rangle$ is key to the Delsarte bound on binary code size we shall study later.\\
 
 		Let $k \le n/2$. The Johnson graph has vertex set $B(n,k) = \binom{[n]}{k}$ and an edge between $X,Y$ if $|X \cap Y| = k-1$. The dimension of this graph's adjacency algebra turns out to be $k+1$.\\
 
-		The Grassmann graph $J_q(n,k)$ has vertex set $B_q(n,k)$ (see above the example for definition) with $X,Y \in B_q(n,k)$ adjacent iff $\dim(X \cap Y) = k-1$. It turns out that the dimension of this graph's adjacency algebra is $k+1$ as well. Interestingly, the proof for this ends up just being a ``$q$-analogue'' of the proof for the Johnson graph.\\
+		The Grassmann graph $J_q(n,k)$ has vertex set $B_q(n,k)$ with $X,Y \in B_q(n,k)$ adjacent iff $\dim(X \cap Y) = k-1$. It turns out that the dimension of this graph's adjacency algebra is $k+1$ as well. Interestingly, the proof for this ends up just being a ``$q$-analogue'' of the proof for the Johnson graph.\\
 
 		The $q$-analogue of the $n$-cube $C_q(n)$ has vertex set $B_q(n)$ with $X,Y$ adjacent iff $|\dim X - \dim Y| = 1$. We do not know the dimension of this graph's adjacency algebra! The adjacency matrix seems difficult to study (and is perhaps not even the right object to study). We shall instead study a weighted adjacency matrix of $C_q(n)$.
 	\end{fex}
@@ -92,7 +92,18 @@
 		Since each $M_j$ is symmetric and orthogonal, all matrices in $\mathcal{A}$ are symmetric. We are done if we show that a $*$-algebra of symmetric matrices is commutative. Indeed, $MN = (MN)^\top = N^\top M^\top = NM$.
 	\end{proof}
 
-	Note that the converse does \emph{not} hold; we shall see a counterexample later. Let us get back to our earlier discussion in \Cref{exmp: star-alg}. Think of $B(n)$ as $\{0,1\}^n$. Consider the \emph{hyperoctahedral group} $H_n$, which has base set equal to $S_2^n \times S_n$, with elements denoted $(\sigma_1,\sigma_2,\ldots,\sigma_n,\pi)$. This group acts on $B(n)$ by first permuting the $n$ coordinates according to $\pi$, then deciding whether or not to flip the entries based on the $(\sigma_i)$. Note that adjacency is preserved under the group action. In fact, $H_n$ is the set of all permutations that preserve adjacency.\\
+	The converse does \emph{not} hold.
+
+	\begin{fex}
+		Let $G$ be a finite group. $G \times G$ acts on $G$ by $(g,h) \cdot a = gah^{-1}$. What is the orbital basis of the commutant of this action?\\
+		Let $(a,b),(c,d) \in G \times G$. Then, $(a,b) \sim (c,d)$ iff $ab^{-1}$ and $cd^{-1}$ are conjugates in $G$.\\
+		The former is true iff for some $g,h \in G$, $gah^{-1} = c$ and $gbh^{-1} = d$. Equivalently, $ga = ch$ and $b^{-1}g^{-1} = h^{-1}d^{-1}$. Multiplying the two, this implies that $gab^{-1}g^{-1} = cd^{-1}$, that is, $ab^{-1}$ and $cd^{-1}$ are conjugates. For the backward direction, if we have $gab^{-1}g^{-1} = cd^{-1}$. Setting $h = gac^{-1}$, the previous equation implies that $h = d^{-1}gb$. This directly implies that $gah^{-1} = c$ and $gbh^{-1} = d$.\\
+		Let the conjugacy classes of $G$ be $C_1,\ldots,C_t$. Consider the $G \times G$ matrices $A_j$ by
+		\[ A_j(g,h) = \begin{cases} 1, & gh^{-1} \in C_j, \\ 0, & \text{otherwise.} \end{cases} \]
+		In the case where each element of the group is conjugate to its inverse, we can use \nameref{lem: gelfands lemma} to conclude that each $A_j$ is symmetric so $\mathcal{A}$ is abelian. An example of such a group is the symmetric group $S_n$, and the dimension of the resulting $\mathcal{A}$ is $p(n)$, the number of number partitions of $n$. However, it turns out that $\mathcal{A}$ is commutative for \emph{any} $G$! This shows that Gelfand's lemma is sufficient but not necessary.
+	\end{fex}
+
+	Let us get back to our earlier discussion in \Cref{exmp: star-alg}. Think of $B(n)$ as $\{0,1\}^n$. Consider the \emph{hyperoctahedral group} $H_n$, which has base set equal to $S_2^n \times S_n$, with elements denoted $(\sigma_1,\sigma_2,\ldots,\sigma_n,\pi)$. This group acts on $B(n)$ by first permuting the $n$ coordinates according to $\pi$, then deciding whether or not to flip the entries based on the $(\sigma_i)$. Note that adjacency is preserved under the group action. In fact, $H_n$ is the set of all permutations that preserve adjacency.\\
 	The group action can be thought of as first taking the vertex to any other arbitrary vertex, then permuting the $n$ outgoing edges in some manner -- these two together further determine the group element.\\
 
 	Let $\alpha,\beta,\alpha',\beta' \in B(n)$. We denote by $d(\alpha,\beta)$ the set of coordinates where $\alpha,\beta$ differ. We write $(\alpha,\beta) \sim (\alpha',\beta')$ if the two are in the same $H_n$-orbit.
@@ -124,7 +135,7 @@
 	\end{fcor}
 
 	A natural next question is: what are these $n+1$ eigenvalues, and what are each of their eigenspaces and multiplicities?\\
-	As a little spoiler, we answer these questions: the eigenvectors are $n-2k$ for $k=0,1,\ldots,n$, with $n-2k$ having multiplicity $\binom{n}{k}$. We shall prove this later in *** SEC ? ***. \\
+	As a little spoiler, we answer these questions: the eigenvectors are $n-2k$ for $k=0,1,\ldots,n$, with $n-2k$ having multiplicity $\binom{n}{k}$. We shall prove this later in \Cref{subsec:delsarte}. \\
 
 	Let us next go back to the example of $B(n,k)$. $S_n$ acts on $B(n,k)$ with $\pi \cdot \{i_1,\ldots,i_k\} = \{\pi(i_1),\ldots,\pi(i_k)\}$. What are the orbits of this $S_n$-action on $B(n,k) \times B(n,k)$?
 
@@ -146,7 +157,7 @@
 	\begin{fcor}
 		The adjacency matrix $A$ of the Johnson graph $J(n,k)$ has $1+\min\{k,n-k\}$ distinct eigenvalues.
 	\end{fcor}
-	In the case where $k \le n-k$, the multiplicities of the eigenvalues of the graph are $\binom{n}{0}, \binom{n}{1} - \binom{n}{0}, \binom{n}{2} - \binom{n}{1}, \ldots, \binom{n}{k}-\binom{n}{k-1}$. We shall prove this and find the corresponding eigenspaces later in *** SEC ? ***.\\
+	In the case where $k \le n-k$, the multiplicities of the eigenvalues of the graph are $\binom{n}{0}, \binom{n}{1} - \binom{n}{0}, \binom{n}{2} - \binom{n}{1}, \ldots, \binom{n}{k}-\binom{n}{k-1}$. We shall prove this and find the corresponding eigenspaces later in \Cref{subsec:schrijver,subsec:johnson-schemes}.\\
 
 	When we deal with $B_q(n,k)$, the collection of $k$-dimensional subspaces of $\F_q^n$, we shall take the action of $\GL_n(\F_q)$ defined by
 	\[ MX = M(X) = \{Mv : v \in X\} \]
@@ -155,7 +166,7 @@
 	\begin{flem}
 		Let $(X,Y), (X',Y') \in B_q(n,k) \times B_q(n,k)$. Then, $(X,Y) \sim (X',Y')$ iff $\dim(X \cap Y) = \dim(X' \cap Y')$.
 	\end{flem}
-	So, the Grassmann graph with adjacency matrix $A$ and corresponding adjacency algebra $\mathcal{A}$ has $\dim \mathcal{A} = 1+\max\{k,n-k\}$ as well. Letting $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $\dim(X \cap Y) = j$ and $0$ otherwise, we again get that $\langle A\rangle = \Span\{A_k,\ldots,A_{\max\{0,2k-n\}}\}$.
+	So, the Grassmann graph with adjacency matrix $A$ and corresponding adjacency algebra $\mathcal{A}$ has $\dim \mathcal{A} = 1+\max\{k,n-k\}$ as well. Letting $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $\dim(X \cap Y) = j$ and $0$ otherwise, we again get the following.
 
 	\begin{fprop}
 		\label{prop: johnson-adj-eigenvals}
@@ -187,16 +198,7 @@
 	 	Again, we have $\dim \mathcal{A} = \binom{n+3}{3}$.
 	 \end{fex}
 
-	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H_n$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H_n}(B(n),B(n))$ that does not come from a graph action.
-
-	\begin{fex}
-		Let $G$ be a finite group. $G \times G$ acts on $G$ by $(g,h) \cdot a = gah^{-1}$. What is the orbital basis of the commutant of this action?\\
-		Let $(a,b),(c,d) \in G \times G$. Then, $(a,b) \sim (c,d)$ iff $ab^{-1}$ and $cd^{-1}$ are conjugates in $G$.\\
-		The former is true iff for some $g,h \in G$, $gah^{-1} = c$ and $gbh^{-1} = d$. Equivalently, $ga = ch$ and $b^{-1}g^{-1} = h^{-1}d^{-1}$. Multiplying the two, this implies that $gab^{-1}g^{-1} = cd^{-1}$, that is, $ab^{-1}$ and $cd^{-1}$ are conjugates. For the backward direction, if we have $gab^{-1}g^{-1} = cd^{-1}$. Setting $h = gac^{-1}$, the previous equation implies that $h = d^{-1}gb$. This directly implies that $gah^{-1} = c$ and $gbh^{-1} = d$.\\
-		Let the conjugacy classes of $G$ be $C_1,\ldots,C_t$. Consider the $G \times G$ matrices $A_j$ by
-		\[ A_j(g,h) = \begin{cases} 1, & gh^{-1} \in C_j, \\ 0, & \text{otherwise.} \end{cases} \]
-		In the case where each element of the group is conjugate to its inverse, we can use \nameref{lem: gelfands lemma} to conclude that each $A_j$ is symmetric so $\mathcal{A}$ is abelian. An example of such a group is the symmetric group $S_n$, and the dimension of the resulting $\mathcal{A}$ is $p(n)$, the number of number partitions of $n$. However, it turns out that $\mathcal{A}$ is commutative for \emph{any} $G$! This shows that Gelfand's lemma is sufficient but not necessary. *** EXERCISE ***
-	\end{fex}
+	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H_n$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H_n}(B(n),B(n))$ that does not come from a group action.
 
 	\begin{fex}
 		Consider $K_{2n}$, the complete graph on $2n$ vertices. It is not too difficult to show that the number of perfect matchings of $K_{2n}$ is $\frac{(2n)!}{n!2^n} = (2n)!!$. Denote the set of all perfect matchings on $K_{2n}$ by $\PM_{2n}$. $S_{2n}$ acts on $\PM_{2n}$ in an obvious manner, by mapping the matching $\{i_1j_1,i_2j_2,\ldots,i_nj_n\}$ to $\{\pi(i_1)\pi(i_2),\ldots,\pi(i_n)\pi(j_n)\}$. What are the $K_{2n}$ orbits on $\PM_{2n} \times \PM_{2n}$?\\
@@ -205,7 +207,7 @@
 		We claim that $(M_1,M_2) \sim (M_3,M_4)$ iff $d(M_1,M_2) = d(M_3,M_4)$.\\
 		The forward direction is direct since if we have $\pi (M_1,M_2) = (M_3,M_4)$, then $\pi$ applied to the vertices of the multigraph $M_1 \cup M_2$ gives $M_3 \cup M_4$ while having the same graph (up to isomorphism), so the partition remains the same. For the backward direction, just match up $M_1 \cup M_2$ and $M_3 \cup M_4$ in a way that cycle sizes agree.\\
 
-		Therefore, the dimension of this $*$-algebra is $p(n)$, the number of partitions of $n$. Recall that this is the same as the number of partitions as the previous example when $G = S_n$. Further, since $d(M_1,M_2) = d(M_2,M_1)$, this algebra is abelian by \nameref{lem: gelfands lemma}.
+		Therefore, the dimension of this $*$-algebra is $p(n)$, the number of partitions of $n$. Recall that this is the same as the number of partitions as the previous example when $G = S_n$. Further, since $d(M_1,M_2) = d(M_2,M_1)$, this algebra is commutative by \nameref{lem: gelfands lemma}.
 	\end{fex}
 
 	Much like the spectral theorem of normal matrices, there is a spectral theorem of $*$-algebras which ``diagonalizes'' them.
@@ -216,7 +218,7 @@
 		where $C_k$ is a $q_k \times q_k$ scalar matrix. In particular, any element of $U^\dagger \mathcal{A} U$ is determined by the $m$ scalars corresponding to these blocks, so $\dim \mathcal{A} = m$ and $q_1 + \cdots + q_m = n$.
 	\end{ftheo}
 	\begin{proof}
-		
+		\textbf{***** INCOMPLETE *****}
 	\end{proof}
 
 	\begin{corollary}
@@ -385,6 +387,7 @@
 	is commutative iff each of the $r$ parts of the direct sum are commutative. The idea behind the proof is that each $\Hom_G(n_i V_i, n_i V_i)$ is essentially a $n_i \times n_i$ matrix, which is commutative iff $n_i = 1$.
 
 \subsection{The Delsarte Bound}
+\label{subsec:delsarte}
 
 	\begin{fdef}
 		A \emph{binary code} $C$ (of length $n$) is a non-empty proper subset of $B(n)$. Given $X,Y \in B(n)$, the \emph{Hamming distance} $d$ defined by $d(X,Y) = |X \triangle Y|$. The Hamming distance of a code $C$ is $d(C) = \min_{\substack{X,Y \in C \\ X \ne Y}} d(X,Y)$.
@@ -481,6 +484,7 @@
 	\]
 
 \subsection{The Schrijver Bound}
+\label{subsec:schrijver}
 
 	The idea behind the Schrijver bound is that we split the sum in \cref{eq:delsarte-key} into two parts as 
 	\[ |C| \cdot M = |\Pi| \cdot \frac{1}{|\Pi|} \sum_{\tau \in \Pi} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top + |H_n \setminus \Pi| \cdot \frac{1}{|H_n \setminus \Pi|} \sum_{\tau \in H_n \setminus \Pi} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top, \]
@@ -695,6 +699,7 @@
 	\end{proof}
 
 \subsection{Johnson schemes}
+\label{subsec:johnson-schemes}
 
 	Following on from the previous subsection, let $0 \le k \le \lfloor n/2\rfloor$, and consider $\mathcal{A} = \Hom_{S_n}(B(n,k),B(n,k))$. Recall that unlike $\Hom_{S_n}(B(n),B(n))$, this $*$-algebra is commutative and of dimension $k+1$. The orbital basis of this algebra is $\{M_t\}_{0 \le t \le k}$, where $(M_t)_{XY} = 1$ if $|X \cap Y| = t$ and $0$ otherwise. Note that this is essentially just (an appropriate submatrix of) $M_{k,k,t}$. Let us determine the eigenvalues of the $M_t$ on each of its $k+1$ eigenspaces.\\
 	We have already discovered these $k+1$ eigenspaces in the previous subsection! Indeed, we can decompose $\C[B(n,k)] = W_0 \oplus \cdots \oplus W_k$, where
