@@ -1,8 +1,9 @@
 %!TEX root = main.tex
 
-\section{The Delsarte and Schrijver Bounds}
+% \section{The Delsarte and Schrijver Bounds}
 
-\subsection{$*$-algebras of matrices}
+\clearpage
+\section{$*$-algebras of matrices}
 
 	Denote by $\mathcal{M}_n(\C)$ the $\C$-vector space of all $n \times n$ complex matrices.
 
@@ -248,7 +249,8 @@
 
 	In either spectral theorem, we say that we have a \emph{diagonalization} of $\mathcal{A}$ if we know the images $A \mapsto U^\dagger A U$ explicitly, and an \emph{explicit diagonalization} if we further know $U$.
 
-\subsection{A primer on representation theory}
+\clearpage
+\section{A primer on representation theory}
 
 	\begin{fdef}
 		A \emph{representation} of a group $G$ is a group homomorphism $\varphi : G \to \GL(V)$ for some finite-dimensional vector space $V$ over $\C$. Given such a representation, we say that $V$ is a \emph{$G$-module}.
@@ -424,7 +426,7 @@
 		Suppose otherwise, and let $v = \sum_{r \in S} \alpha_r r$ be a nonzero vector in $\C[S]$ such that $f(v) = 0$. Suppose that $\alpha_s = 0$ for some $s \in S$. Let $v' = \frac{1}{|G|} \sum_{g \in G_S} g \cdot v$. As in the proof of the previous lemma, we have $f(v') = 0$, $v' \in F(G_S,S)$ and also $v' \ne 0$. This is a contradiction to the one-oneness of $f : F(G_s,S) \to F(G_s,T)$.
 	\end{proof}
 
-\subsection{The Delsarte Bound}
+\section{The Delsarte bound}
 \label{subsec:delsarte}
 
 	\begin{fdef}
@@ -521,7 +523,8 @@
 		\end{array}
 	\]
 
-\subsection{The Schrijver Bound}
+\clearpage
+\section{The Schrijver bound}
 \label{subsec:schrijver}
 
 	The idea behind the Schrijver bound is that we split the sum in \cref{eq:delsarte-key} into two parts as 
@@ -743,11 +746,12 @@
 		as desired, proving the theorem. Here, for the final equality, we substituted the expressions for $A_k^u$ and $B_k^u$ as proved above.
 	\end{proof}
 
-\subsection{Johnson schemes}
+\clearpage
+\section{Johnson schemes}
 \label{subsec:johnson-schemes}
 
-	Following on from the previous subsection, let $0 \le k \le \lfloor n/2\rfloor$, and consider $\mathcal{A} = \Hom_{S_n}(B(n,k),B(n,k))$. Recall that unlike $\Hom_{S_n}(B(n),B(n))$, this $*$-algebra is commutative and of dimension $k+1$. The orbital basis of this algebra is $\{M_t\}_{0 \le t \le k}$, where $(M_t)_{XY} = 1$ if $|X \cap Y| = t$ and $0$ otherwise. Note that this is essentially just (an appropriate submatrix of) $M_{k,k,t}$. Let us determine the eigenvalues of the $M_t$ on each of its $k+1$ eigenspaces.\\
-	We have already discovered these $k+1$ eigenspaces in the previous subsection! Indeed, we can decompose $\C[B(n,k)] = W_0 \oplus \cdots \oplus W_k$, where
+	Following on from the previous section, let $0 \le k \le \lfloor n/2\rfloor$, and consider $\mathcal{A} = \Hom_{S_n}(B(n,k),B(n,k))$. Recall that unlike $\Hom_{S_n}(B(n),B(n))$, this $*$-algebra is commutative and of dimension $k+1$. The orbital basis of this algebra is $\{M_t\}_{0 \le t \le k}$, where $(M_t)_{XY} = 1$ if $|X \cap Y| = t$ and $0$ otherwise. Note that this is essentially just (an appropriate submatrix of) $M_{k,k,t}$. Let us determine the eigenvalues of the $M_t$ on each of its $k+1$ eigenspaces.\\
+	We have already discovered these $k+1$ eigenspaces in the previous section! Indeed, we can decompose $\C[B(n,k)] = W_0 \oplus \cdots \oplus W_k$, where
 	\[ W_j = \Span\{v \in J(n) : r(v)=k \text{ and the SJC on which $v$ lies starts at rank $j$} \}. \]
 	As argued earlier, $\dim W_j = \binom{n}{j} - \binom{n}{j-1}$.\\
 	We would like to determine the eigenvalues of $M_{k,k,t}$ on these eigenspaces.

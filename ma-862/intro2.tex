@@ -1,0 +1,15 @@
+%!TEX root = ./main.tex
+
+\clearpage
+\section{The $q$-analogue of the cube}
+
+Recall the $q$-analogue of the $n$-cube from \Cref{exmp: star-alg}.\\
+We start off by giving an impossibility result, showing that the analysis of this is not as ``easy'' as in the Delsarte bound.
+
+\begin{ftheo}
+	Let $C_q(n)$ be the $q$-analogue of the $n$-cube, with vertex set $B_q(n)$, and $X,Y$ adjacent iff $X \subseteq Y$ or $Y \subseteq X$ and $|\dim X - \dim Y| = 1$. Let $A$ be the adjacency matrix of $G$. There is no finite group $G$ with an action on $B_q(n)$ such that the commutant is commutative and contains $A$.
+\end{ftheo}
+\begin{proof}
+	Suppose otherwise. For any $g \in G$, let $\rho_g$ be the $B_q(n) \times B_q(n)$ permutation matrix corresponding to the action of $g$. By the definition of the commutant, $\rho(g) A = A \rho(g)$, so $\rho(g)^\top A \rho(g) = A$. It is easily checked that this implies that $\rho(g) \in \Aut(C_q(n))$. We may thus assume that $G$ is a subgroup of $\Aut(C_q(n))$.\\
+	Now, the degree of a vertex $X \in B_q(n)$ is $(k)_q + (n-k)_q$. Unlike the normal hypercube graph, the $q$-analogue is not regular. Therefore, $\Aut(C_q(n))$, and thus $G$, has at least $2$ orbits -- any vertex must be mapped to a vertex of equal degree. Let $o_1,\ldots,o_t$ be the orbits of the action. Note that for any $1 \le r \le t$, the subspace $\Span\{\sum_{g \in o_r} g\}$ is $G$-invariant, corresponding to the trivial one-dimensional representation of $G$. Since $t \ge 2$, there are at least two (isomorphic) copies of this irreducible in the decomposition of $\C[B_q(n)]$. \Cref{lem:multiplicity-free} implies that the commutant is non-commutative, completing the proof.
+\end{proof}
