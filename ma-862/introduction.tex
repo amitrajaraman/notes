@@ -94,13 +94,19 @@
 
 	The converse does \emph{not} hold.
 
-	\begin{fex}
+	\begin{fex}[The converse of Gelfand's lemma is not true]
 		Let $G$ be a finite group. $G \times G$ acts on $G$ by $(g,h) \cdot a = gah^{-1}$. What is the orbital basis of the commutant of this action?\\
 		Let $(a,b),(c,d) \in G \times G$. Then, $(a,b) \sim (c,d)$ iff $ab^{-1}$ and $cd^{-1}$ are conjugates in $G$.\\
 		The former is true iff for some $g,h \in G$, $gah^{-1} = c$ and $gbh^{-1} = d$. Equivalently, $ga = ch$ and $b^{-1}g^{-1} = h^{-1}d^{-1}$. Multiplying the two, this implies that $gab^{-1}g^{-1} = cd^{-1}$, that is, $ab^{-1}$ and $cd^{-1}$ are conjugates. For the backward direction, if we have $gab^{-1}g^{-1} = cd^{-1}$. Setting $h = gac^{-1}$, the previous equation implies that $h = d^{-1}gb$. This directly implies that $gah^{-1} = c$ and $gbh^{-1} = d$.\\
 		Let the conjugacy classes of $G$ be $C_1,\ldots,C_t$. Consider the $G \times G$ matrices $A_j$ by
 		\[ A_j(g,h) = \begin{cases} 1, & gh^{-1} \in C_j, \\ 0, & \text{otherwise.} \end{cases} \]
-		In the case where each element of the group is conjugate to its inverse, we can use \nameref{lem: gelfands lemma} to conclude that each $A_j$ is symmetric so $\mathcal{A}$ is abelian. An example of such a group is the symmetric group $S_n$, and the dimension of the resulting $\mathcal{A}$ is $p(n)$, the number of number partitions of $n$. However, it turns out that $\mathcal{A}$ is commutative for \emph{any} $G$! This shows that Gelfand's lemma is sufficient but not necessary.
+		In the case where each element of the group is conjugate to its inverse, we can use \nameref{lem: gelfands lemma} to conclude that each $A_j$ is symmetric so $\mathcal{A}$ is abelian. An example of such a group is the symmetric group $S_n$, and the dimension of the resulting $\mathcal{A}$ is $p(n)$, the number of number partitions of $n$.\\
+
+		However, $\mathcal{A}$ is commutative for \emph{any} $G$, even in the case where the orbital matrices are not symmetric. As before, let $C_1,\ldots,C_t$ be the conjugacy classes of $G$, and consider the orbital matrices $A_1,\ldots,A_t$, where $(A_r)_{gh} = 1$ iff $gh^{-1} \in C_r$ and $0$ otherwise. It suffices to show that the orbital matrices commute. Let us show that $A_1,A_2$ commute. We have
+		\[ (A_1A_2)_{ab} = |\{x \in G : ax^{-1} \in C_1, xb^{-1} \in C_2\}| \]
+		and
+		\[ (A_2A_1)_{ab} = |\{x \in G : xb^{-1} \in C_1, ax^{-1} \in C_2\}|. \]
+		It is easily checked that a bijection between these two sets is given by $x \mapsto ax^{-1}b$, proving the claim.
 	\end{fex}
 
 	Let us get back to our earlier discussion in \Cref{exmp: star-alg}. Think of $B(n)$ as $\{0,1\}^n$. Consider the \emph{hyperoctahedral group} $H_n$, which has base set equal to $S_2^n \times S_n$, with elements denoted $(\sigma_1,\sigma_2,\ldots,\sigma_n,\pi)$. This group acts on $B(n)$ by first permuting the $n$ coordinates according to $\pi$, then deciding whether or not to flip the entries based on the $(\sigma_i)$. Note that adjacency is preserved under the group action. In fact, $H_n$ is the set of all permutations that preserve adjacency.\\
@@ -218,7 +224,10 @@
 		where $C_k$ is a $q_k \times q_k$ scalar matrix. In particular, any element of $U^\dagger \mathcal{A} U$ is determined by the $m$ scalars corresponding to these blocks, so $\dim \mathcal{A} = m$ and $q_1 + \cdots + q_m = n$.
 	\end{ftheo}
 	\begin{proof}
-		\textbf{***** INCOMPLETE *****}
+		Instead of matrices in $\mathcal{M}_n(\C)$, we shall view the elements of $\mathcal{A}$ as linear operators on $\C^n$. We apply induction on $n$.\\
+		First off, note that for any $S \in \mathcal{A}$, we have $S^\dagger \in \mathcal{A}$ by the definition of a $*$-algebra, and that $SS^\dagger = S^\dagger S$ since $\mathcal{A}$ is commutative. That is, all operators in $\mathcal{A}$ are normal. It follows by the spectral theorem that $\C^n$ can be decomposed into orthogonal eigenspaces of any such operator. \\
+		Let $S,T \in \mathcal{A}$. Then, for any eigenvector $v \in \C^n$ of $S$ with eigenvalue $\lambda$, $S(Tv) = T(Sv) = \lambda (Tv)$, so eigenspaces of $S$ are invariant under $T$.\\
+		Now, the base case $n=1$ is trivial. In general, let $S \in \mathcal{A}$ be a non-scalar matrix, and decompose $\C^n$ into an orthogonal direct sum $W_1 \oplus \cdots \oplus W_m$ of eigenspaces of $S$, where $m \ge 2$. As observed, each $W_i$ is invariant under operators in $\mathcal{A}$. Since $\dim W_i < n$, the result follows by the inductive hypothesis.
 	\end{proof}
 
 	\begin{corollary}
@@ -385,6 +394,35 @@
 	Suppose that $\C[S] \cong n_1 V_1 \oplus \cdots \oplus n_r V_r$. It is easy to see that
 	\[ \mathcal{A} \cong \Hom_G(n_1 V_1, n_1 V_1) \oplus \cdots \oplus \Hom_G(n_r V_r, n_r V_r) \]
 	is commutative iff each of the $r$ parts of the direct sum are commutative. The idea behind the proof is that each $\Hom_G(n_i V_i, n_i V_i)$ is essentially a $n_i \times n_i$ matrix, which is commutative iff $n_i = 1$.
+
+	\begin{flem}
+		Let $G$ act on sets $S,T$. Define the subspace of $\C[S]$
+		\[ F(G,S) = \{v \in \C[S] : g \cdot v = v \text{ for all } g \in G \}. \]
+		Similarly define $F(G,T)$. Suppose that $f : \C[S] \to \C[T]$ is $G$-linear. Then,
+		\begin{enumerate}[label=(\alph*)]
+			\item $f(F(G,S)) \subseteq F(G,T)$,
+			\item if $f : \C[S] \to \C[T]$ is onto, so is $f : F(G,S) \to F(G,T)$, and
+			\item if $f : \C[S] \to \C[T]$ is one-one, so is $f : F(G,S) \to F(G,T)$. 
+		\end{enumerate}
+	\end{flem}
+	\begin{proof}
+		$G$-linearity immediately implies the first part. For any $v \in f(F(G,S))$ and $g \in G$, we have $g \cdot f(v) = f(g \cdot v) = f(v)$, so $f(v) \in F(G,T)$. The third part is direct since the restriction of a one-one function is one-one.\\
+		For ontoness, let $w$ be an arbitrary element in $F(G,T)$, and $v \in \C[S]$ such that $f(v) = w$. Then,
+		\[ f\left(\frac{1}{|G|} \sum_{g \in G} g \cdot v\right) = \frac{1}{|G|} \sum_{g \in G} f(g \cdot v) = \frac{1}{|G|} \sum_{g \in G} g \cdot w = w \]
+		and further, for any $h \in G$,
+		\[ h \cdot \left(\frac{1}{|G|} \sum_{g \in G} g \cdot v\right) = \frac{1}{|G|} \sum_{g \in G} (hg) \cdot v = \frac{1}{|G|} \sum_{g \in G} g \cdot v \in F(G,S), \]
+		completing the proof.
+	\end{proof}
+
+	A spiritual converse of the above is as follows.
+
+	\begin{fcor}
+		\label{cor:glinear-11}
+		Using the notation of the above lemma, let $f : \C[S] \to \C[T]$ be $G$-linear. Suppose that for each $s \in S$, there exists a subgroup $G_s \subseteq G$ fixing $s$ such that $f : F(G_s,S) \to F(G_s,T)$ is one-one. Then, $f : \C[S] \to \C[T]$ is one-one.
+	\end{fcor}
+	\begin{proof}
+		Suppose otherwise, and let $v = \sum_{r \in S} \alpha_r r$ be a nonzero vector in $\C[S]$ such that $f(v) = 0$. Suppose that $\alpha_s = 0$ for some $s \in S$. Let $v' = \frac{1}{|G|} \sum_{g \in G_S} g \cdot v$. As in the proof of the previous lemma, we have $f(v') = 0$, $v' \in F(G_S,S)$ and also $v' \ne 0$. This is a contradiction to the one-oneness of $f : F(G_s,S) \to F(G_s,T)$.
+	\end{proof}
 
 \subsection{The Delsarte Bound}
 \label{subsec:delsarte}
@@ -569,6 +607,13 @@
 	
 	Despite the deceptive names, $U$ and $D$ are \emph{not} inverses of each other.
 
+	\begin{flem}
+		Let $k < n/2$ and consider the restriction $U : \C[B(n,k)] \to \C[B(n,k+1)]$ of the up operator. This map is one-one.
+	\end{flem}
+	\begin{proof}
+		
+	\end{proof}
+
 	\begin{fdef}
 		An element $v \in \C[B(n)]$ is said to be \emph{homogeneous} if $v \in \C[B(n,k)]$ for some $0 \le k \le n$. In this case, we say that the \emph{rank} of $v$ is $k$ and write $r(v) = k$.\\
 		A \emph{symmetric Jordan chain} (SJC) is a sequence $(v_k,v_{k+1},\ldots,v_{n-k})$ of non-zero homogeneous elements of $\C[B(n)]$ such that $r(v_i) = i$ for $i = k,k+1,\ldots,n-k$, $U(v_i) = v_{i+1}$ for $i=k,k+1,\ldots,n-k-1$. and $U(v_{n-k}) = 0$.\\
@@ -627,7 +672,7 @@
 
 	\begin{proof}[Proof of \Cref{schrijver-lem}]	
 		Now, let us play with these irreducibles in order to get an SJB. If we manage to show that $U$ maps $W_{j,m(k)}$ to $W_{j+1,m(k)}$ bijectively for $k \le j < n-k$, we are done -- \nameref{schur's lemma} would imply that it then acts like some multiple of $\Id$, so if we take some orthogonal basis of $W_{k,m(k)}$, applying $U$ repeatedly maps this basis to an orthogonal basis of $W_{j,m(k)}$ for any $k \le j \le n-k$.\\
-		Note that $U : W_{j,m(k)} \to W_{j+1,m(k)}$ is, by \nameref{schur's lemma}, either a multiple of the identity or $0$.\\
+		Let us show that $U : B(n,j) \to B(n,j+1)$ is one-one for $j < n/2$. For each $X \in B(n,j)$, consider $G_X \subseteq S_n$ to be the set of all permutations that fix $X$, namely the composition of a permutation of $X$ and a permutation of $[n] \setminus X$. The only elements in $\C[B(n,j)]$ of size $j$ fixed by all such permutations (since $j < n/2$) are scalar multiples of $B(n,j)$. The desideratum follows on using \Cref{cor:glinear-11}.
 		\textbf{***** INCOMPLETE *****}
 
 		Let $(v_k,\ldots,v_{n-k})$ be an SJB in $J(n)$. To complete the proof, it remains to find $\alpha_i = \|v_{i+1}\|/\|v_i\|$. Consider the linear operator $H : \C[B(n)] \to \C[B(n)]$ defined by $X \mapsto (n-2|X|)X$. First off, observe that $UD-DU = H$. This can be proved easily using a combinatorial argument. For $X \in B(n)$ of size $k$, applying $UD$ gives $X$ back in $n-k$ ways (since we must choose one of the elements not in $X$ to add and subsequently remove), and applying $DU$ gives $X$ back in $k$ ways. Furthermore, the component for any other set $Y$ is $0$, since it can be arrived at in at most one way for $UD$ (or $DU$) -- removing the element in $X \setminus Y$ and adding the element in $Y \setminus X$.\\
