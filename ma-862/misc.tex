@@ -1,0 +1,145 @@
+%!TEX root = ./main.tex
+
+\clearpage
+\section{Miscellaneous}
+
+\subsection{The Erd\H{o}s-Ko-Rado Theorem}
+
+\begin{fdef}
+	$\mathcal{A} \subseteq B(n,k)$ is said to be an \emph{intersecting family} if for any $X,Y \in \mathcal{A}$, $X \cap Y \ne \emptyset$.
+\end{fdef}
+
+\begin{ftheo}[Erd\H{o}s-Ko-Rado]
+	\label{ekr}
+	Let $k \le n/2$ and $\mathcal{A} \subseteq B(n,k)$ be intersecting. Then,
+	\begin{enumerate}[label=(\alph*)]
+		\item $|\mathcal{A}| \le \binom{n-1}{k-1}$ and furthermore,
+		\item if $|\mathcal{A}| = \binom{n-1}{k-1}$, there is some $i \in [n]$ such that $i \in A$ for all $A \in \mathcal{A}$.
+	\end{enumerate}
+\end{ftheo}
+
+% other interesting results if t-intersecting; one threshold beyond which (i) is true and another beyond which (ii)
+% in fact, the explicit minimum n for which it happens is known!!! remarkable result (wilson's theorem)
+% all ``intersecting permutations'' : \exists i such that \pi_i = \tau_i : number here is (n-1)! and the bound is attained iff it is the set of all perms that send i to j
+
+Consider the \emph{Kneser graph} $K(n,k)$ on $B(n,k)$, with $X,Y$ adjacent iff $X \cap Y = \emptyset$. The Erd\H{o}s-Ko-Rado Theorem just characterizes the maximum independent sets in this graph.
+
+\begin{flem}[Ratio bound]
+	\label{lem:ratio-bound}
+	Let $G$ be a $d$-regular graph on $n$ vertices. Let $\theta$ be the smallest eigenvalue of the adjacency matrix of $G$. Then, setting $\alpha(G)$ as the size of a maximum independent set in $G$, $\alpha(G) \le \frac{n}{1-d/\theta}$.\\
+	Moreover, if $S$ is an independent set for which equality is attained above, then $\chi_S - (|S|/n) \mathbf{1}$ is an eigenvector of $G$ with eigenvalue $\theta$.
+\end{flem}
+\begin{proof}
+	Note that $\theta < 0$. Let $s = |S|$, $A$ the adjacency matrix of $G$, and consider
+	\[ M = A - \theta \Id - \frac{d-\theta}{n}J, \]
+	where $J$ is the all-ones matrix.\\
+	Recall that a graph is regular iff its adjacency matrix commutes with $J$. First off, we have
+	\[ M \mathbf{1} = A \mathbf{1} - \theta \mathbf{1} - \frac{d-\theta}{n} J \mathbf{1} = 0. \]
+	For any $x$ orthogonal to $\mathbf{1}$,
+	\[ x^\top M x = x^\top(A-\theta \Id)x \ge 0. \]
+	It follows that $M$ is positive semidefinite. Set $v = \chi_S$ for a stable set $S$. Then,
+	\begin{align*}
+		0 &\le v^\top M v \\
+			&= v^\top A v - \theta v^\top v - \frac{d-\theta}{n} v^\top J v \\
+			&= -\theta |S| - \frac{d-\theta}{n}|S|^2.
+	\end{align*}
+	The first part of the result follows. For the second part, we must have that equality is attained above iff $v^\top M v = 0$. Since $M$ is positive semidefinite, $Mv = 0$. Therefore,
+	\[ Av = \theta v + \frac{d-\theta}{n} Jv = \theta v + \frac{|S|(d-\theta)}{n} \mathbf{1}. \]
+	Consequently,
+	\begin{align*}
+		A\left(v - \frac{|S|}{n} \mathbf{1}\right) &= \theta v + \frac{|S|(d-\theta)}{n} \mathbf{1} - \frac{|S|d}{n} \mathbf{1} \\
+			&= \theta v - \frac{|S|\theta}{n} \mathbf{1}. \qedhere
+	\end{align*}
+\end{proof}
+
+The proof above works for the following more general result.
+
+\begin{flem}
+	Let $A$ be a symmetric matrix with constant row sum $d$ that is compatible with the $d$-regular graph $G$ on $n$ vertices, that is, $A_{uv} = 0$ if $u,v$ are not adjacent. If $\theta$ is the least eigenvalue of $A$, then $\alpha(G) \le n / (1 - d/\theta)$.\\
+	Moreover, if equality holds above for a set $S$, then $\chi_S - (|S|/n)\mathbf{1}$ is an eigenvector of $A$ with eigenvalue $\theta$.
+\end{flem}
+Alternatively, $\chi_S \in \langle \mathbf{1}\rangle \oplus E_\theta$, where $E_\theta$ is the eigenspace of $\theta$.\\
+
+Let us now get to the proof of \nameref{ekr}. To use the ratio bound above, we would like to analyze the spectrum of the Kneser graph (for the first part), and then use the eigenspaces of its adjacency matrix for the second part.\\
+The Kneser graph is a $\binom{n-k}{k}$-regular graph on $\binom{n}{k}$ vertices. Recall from Schrijver that the eigenvalues of the Kneser graph are
+\[ (-1)^j \binom{n-k-j}{k-j} \]
+with multiplicity $\binom{n}{j} - \binom{n}{j-1}$ for $j=0,1,\ldots,k$. It may be checked that the least eigenvalue corresponds to $j=1$, and is equal to $-\binom{n-k-1}{k-1}$. Therefore,
+\[ \alpha(K(n,k)) \le \frac{\binom{n}{k}}{1 + \binom{n-k}{k}/\binom{n-k-1}{k-1}} = \frac{\binom{n}{k}}{1 + \frac{n-k}{k}} = \binom{n-1}{k-1} \]
+as desired.\\
+
+For the second part, we require the eigenspaces of the Kneser graph. Consider the $\binom{n}{k} \times n$ matrix $N(1,k)$, with rows indexed by $B(n,k)$ and columns indexed by $[n]$, with $B_{X,i} = 1$ if $i \in X$ and $0$ otherwise. It is easy to show that $\rank(N(1,k)) = n$. Each column is the characteristic vector of a maximum stable set achieving the ratio bound, and a simple dimension-counting argument shows that the column space of this matrix is precisely $\langle \mathbf{1}\rangle \oplus E_\theta$.\\
+If $S$ is a stable set meeting the ratio bound, then $v = \chi_S$ is in the column space of $N = N(1,k)$. Let $h$ such that $Nh = v$. For $X \in B(n,k)$, denote the row of $X$ in $N$ as $r_X$. If $X \not\in S$, then $r_X$ is orthogonal to $h$. Without loss of generality, assume that $\{1,\ldots,k\} \in S$. Then, $X \not\in S$ if $X \cap [k] = \emptyset$.\\
+Consider the $\binom{n-k}{k} \times n$ submatrix $M$ of $N$ indexed by those rows not intersecting $[k]$. Note that the first $k$ columns of $M$ are $0$. It is seen that the rank of $M$ is $n-k$ (Why?). It follows that if $i \not\in [k]$, $h_i = 0$. That is, $\operatorname{supp} h \subseteq [k]$. This is true more generally for any $X \in S$ in place of $[k]$, so $\operatorname{supp} h \subseteq \bigcap_{Y \in S} Y$.
+
+\subsection{Standard Young Tableaux}
+
+Recall the definition of a Standard Young Tableau, and the number $f_\lambda$ of SYTs of shape $\lambda$. Also recall Theorem 2.35 in my \href{https://amitrajaraman.github.io/notes/ma-861/}{Combinatorics I} notes.
+
+\begin{ftheo}
+	\label{th7.5}
+	\[ \sum_{\lambda \vdash n} f_\lambda^2 = n!. \]
+\end{ftheo}
+
+In Combinatorics I, had seen an algebraic proof there using representation theory, as well as a bijective proof using the RSK algorithm. We give an alternate proof here.\\
+Consider \emph{Young's poset}, a poset on the set of all partitions, with $\lambda \ple \mu$ if the Ferrer diagram of $\lambda$ is contained in that of $\mu$. The diagram of this poset is called the \emph{Hasse diagram}, with the resulting graph being called the \emph{Hasse graph}. We consider walks on this graph, which are referred to as \emph{Hasse walks}. Given a Hasse walk, each step of the walk takes a step either up ($U$) or down ($D$) the poset. We can then associate to any walk a sequence of $U$s and $D$s, called the walk's \emph{type}. For example, the walk $1^2,21,2,3,31,21$ would be associated to $DUUDU$, which we write more succinctly as $DU^2DU$.\\
+
+How many walks of type $U^n$ are there starting at $\emptyset$? Given any such walk, we can create an SYT by filling an $i$ in the new block obtained in the $i$th step. For example, the walk $\emptyset,1,1^2,1^3,21^3$ would correspond to the SYT
+\[ \begin{ytableau} 1 & 4 \\ 2 \\ 3 \end{ytableau} \]
+Consequently, $f_\lambda$ is the number of walks from $\emptyset$ to $\lambda$ of type $U^n$. Therefore, the number of walks from $\emptyset$ to $\emptyset$ of type $U^nD^n$ is $\sum_{\lambda \vdash n} f_\lambda^2$.\\
+
+Denote Young's poset by $Y$, and consider the infinite-dimensional vector space $\C[Y]$. Consider the linear map $U : \C[Y] \to \C[Y]$ with
+\[ U(\lambda) = \sum_{\substack{\mu \supseteq \lambda \\ |\mu| = |\lambda|+1}} \mu. \]
+Similarly, define $D : \C[Y] \to \C[Y]$ by
+\[ D(\lambda) = \sum_{\substack{\mu \subseteq \lambda \\ |\mu| = |\lambda|-1}} \mu. \]
+Denoting by $Y(i)$ the set of partitions of $i$, define the restriction $U_i : \C[Y(i)] \to \C[Y(i+1)]$ of $U$ and $D_i$ similarly.
+
+\begin{flem}[Weyl's Identity]
+	$DU - UD = \Id$.
+\end{flem}
+Similar identities hold in many places -- for example in the proof of \Cref{schrijver-lem1}, and if we look at the derivative operator $\partial : \C[x] \to \C[x]$, we have $\partial x - x \partial = \Id$.
+\begin{proof}[Proof sketch]
+	To prove this, split a given Ferrer diagram into ``rectangles'', grouping together parts of the same size. Then, the up operator is obtained by choosing a rectangle, and adding a block to its outer up-right corner, and the down operator is obtained by choosing a rectangle, and removing its inner down-right corner. All such $UD$ and $DU$ operations may be paired, except that which adds a single block to a new row of the partition.
+\end{proof}
+
+Due to this identity, this poset is said to be a \emph{differential poset}.
+\begin{fcor}
+	For a polynomial $p(x)$, $Dp(U) = p'(U) + p(U)D$.
+\end{fcor}
+\begin{proof}
+	We may assume without loss of generality that $p(x) = x^n$ for some $n$. The statement for $n=1$ follows from Weyl's identity. In general, using the inductive hypothesis, we have
+	\[ DU^{n+1} = (DU^n)U = (nU^{n-1} + U^nD)U = nU^{n} + U^n(UD+\Id) = (n+1)U^n + U^{n+1}D. \]
+\end{proof}
+
+More generally, if $p(x)$ is a polynomial, then
+\[ Dp(U) = p'(U) + p(U)D. \]
+This is easily proved by assuming without loss of generality that $p(x)$ is of the form $x^n$, then performing induction on $n$.
+
+\begin{proof}[Proof of \Cref{th7.5}]
+	By the earlier argument, we have $D^nU^n \emptyset = \left(\sum_{\lambda \vdash n} f_\lambda^2\right) \emptyset$. We prove this by induction. The base case $n=1$ is trivial. In general,
+	\[ D^nU^n \emptyset = D^{n-1}(DU^n) \emptyset = D^{n-1}(nU^{n-1} + U^nD)\emptyset = n D^{n-1}U^{n-1} \emptyset = (n!) \emptyset. \qedhere \]
+\end{proof}
+
+Consider $Y(j-1,j)$, the bipartite graph on $Y(j-1) \cup Y(j)$, with adjacency being determined by inclusion. Let $A$ be the adjacency matrix of this graph.
+
+\begin{ftheo}
+	$A$ has eigenvalue $0$ with multiplicity $p(j) - p(j-1)$, and for $0 \le s \le j-1$, the eigenvalue $\pm \sqrt{j-s}$ with multiplicity $p(s)-p(s-1)$.
+\end{ftheo}
+The proof is actually vaguely similar to that in the Schrijver bound, where we saw the eigenvalues of $B(n,k)$.
+\begin{proof}
+	Since $DU-UD = \Id$, each $U_i$ is injective and each $D_i$ is surjective -- this is because $D_{i+1} U_i - U_{i-1} D_i = \Id$.\\
+	We have $\dim \ker D_j = p(j) - p(j-1)$, showing the multiplicity of $0$ as an eigenvalue, since $D_j$ is just the adjacency operator for partitions in $Y(j)$.\\
+	Let $v \in \ker D_s$, and consider $v^* = \pm \sqrt{j-s} U^{j-1-s}v + U^{j-s}v$. We claim that $v^*$ is an eigenvector of $A$, of eigenvalue $\pm\sqrt{j-s}$. We have
+	\begin{align*}
+		Av^* &= \pm\sqrt{j-s}AU^{j-1-s}v + AU^{j-s}v \\
+			&= \pm\sqrt{j-s}U^{j-s}v + DU^{j-s}v \\
+			&= \pm \sqrt{j-s}U^{j-s}v + (j-s)U^{j-s-1}v + U^{j-s}Dv \\
+			&= \pm\sqrt{j-s}\left( \pm\sqrt{j-s}U^{j-s-1}v + U^{j-s}v \right) = \pm\sqrt{j-s}v^*.
+	\end{align*}
+	This gives $\pm \sqrt{j-s}$ as an eigenvalue of multiplicity $\ge \ker D_s = p(s) - p(s-1)$. A simple counting argument over all $s$ shows that this covers all the eigenvalues (with multiplicities) -- we have $p(j) - p(j-1) + 2\sum_{s=0}^{j-1} (p(s) - p(s-1)) = p(j) - p(j-1) + 2p(j-1) = p(j) + p(j-1)$, which is the total number of vertices.
+\end{proof}
+
+\begin{fcor}
+	Fix $j \ge 1$. The number of ways to choose a partition $\lambda$ of $j$, then repeatedly, $m$ times, deleting an inner corner and adding an outer corner, to get back $\lambda$, that is, the number of closed walks of length $2m$, is 
+	\[ \sum_{s=1}^{j} (p(j-s) - p(j-s-1)) s^m. \]
+\end{fcor}
+This immediately follows by looking at $\Tr(A^{2m})$.

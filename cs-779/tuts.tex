@@ -22,7 +22,7 @@
 
 \clearpage
 
-\section{Tutorial 1}
+\section{Tutorial 1: Linear Algebra Methods}
 
 	\begin{exercise}
 		Prove that the maximum number of subsets of $[n]$ with pairwise non-empty intersection is $2^{n-1}$.
@@ -93,7 +93,7 @@
 		which is nonzero as $d_{ii},\lambda > 0$ and $t \ne 0$.
 	\end{solution*}
 
-\section{Tutorial 2}
+\section{Tutorial 2: Polynomial Space Methods}
 
 	\begin{exercise}
 		\label{ex:2.1}
@@ -174,5 +174,20 @@
 	\begin{solution*}
 		
 	\end{solution*}
+
+\section{Tutorial 3: Real Symmetric Matrices}
+
+	\begin{exercise}
+		Given an $n \times n$ real matrix $A$, a vector $v$ is called an eigenvector with eigenvalue $\lambda$ if it satisfies $Av = \lambda v$. Show that $\lambda$ is an eigenvalue iff the determinant of $A-\lambda\Id$ is $0$.
+	\end{exercise}
+	\begin{solution*}
+		The determinant of $A-\lambda\Id$ is $0$ iff it is not full-rank, that is, there exists some $v$ such that $(A-\lambda\Id)v = 0$, which is equivalent to $\lambda$ being an eigenvalue of $A$.
+	\end{solution*}
+
+	\begin{exercise}
+		Note that $\det(A-\lambda\Id)$ is a polynomial in $\lambda$ with real coefficients. Hence, it factors over the complex numbers. Let $v_i$ be the eigenvector corresponding to $\lambda_i$. Prove that $\Tr(A) = \sum_i \lambda_i$, and prove that the determinant is the product of the eigenvalues.
+	\end{exercise}
+
+	
 
 \end{document}
