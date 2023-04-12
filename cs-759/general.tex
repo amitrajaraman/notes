@@ -1,0 +1,176 @@
+% tutte's th
+
+% factor-critical?
+
+% edmond's blossom
+
+% blossom but use shortest augmenting path instead
+
+\begin{flem}
+	Let $\mathcal{M}$ be a matching such that the shortest augmenting path with respect to $\mathcal{M}$ has length $\ell$. Suppose $P_1,P_2,\ldots,P_t$ is a maximal subset of disjoint shortest augmenting paths.\\
+
+	Let $M'$ be obtained by switching on all of these paths. Then, the shortest augmenting path with respect to $M'$ has length $> \ell$.\\
+
+	If $M$ has size $k$ and the maximum matching has size $m$, there are at least $m-k$ disjoint augmenting paths with respect to $M$.\\
+
+	Let $M'$ be a maximum matching. At least $(m-k)$ components of $M' \oplus M$ must be paths with more edges of $M'$ than $M$. Every such component is an augmenting path.
+\end{flem}
+\begin{proof}
+	$(m-k)\ell \le n$, so one of these is $\le \sqrt{n}$.\\
+	$\sqrt{n}$ iterations to make the shortest path at least $\sqrt{n}$. Then, at most $\sqrt{n}$ augmenting paths, so $m-k \le \sqrt{n}$, and each iteration increases by at least one so we are done.\\
+	Suppose $Q$ is an augmenting path with respect to $M'$, where $|M'| = |M| + t$, let $M'' = M \oplus Q$, so $|M''| = |M|+t+1$. Therefore, $t+1$ disjoint augmenting paths with respect to $M$ in $M'' \oplus M$, each having length at least $\ell$.\\
+	$|M'' \oplus M| \ge \ell(t+1)$, so $|P_1 \oplus \cdots \oplus P_t \oplus Q| \ge \ell(t+1)$, so $|(P_1 \cup \cdots \cup P_t) \oplus Q| \ge \ell(t+1)$, so $|P_1 \cup \cdots \cup P_t| + |Q| - 2 |(P_1 \cup \cdots \cup P_t)\cap Q| \ge \ell(t+1)$, so $t\ell + |Q| - 2|(P_1 \cup \cdots \cup P_t) \cap Q| \ge \ell(t+1)$ (all of length $\ell$), so either $|Q| > \ell$ or $|Q| = \ell$ and $|(P_1 \cup \cdots \cup P_t) \cap Q| = \emptyset$, but the second possibility would contradict that it's a maximal set of length $\ell$ augmenting paths.
+	just ``dinik''?'s algo in bipartite case. 
+	In bipartite, can find $P_1,\ldots,P_t$ in $O(m+n)$ time and we need to do this $O(\sqrt{n})$ ($\le 2\sqrt{n}$) times. not easy in general graphs.
+
+	layer 0 - unmatched edges in A
+	layer 2i+1 - all B-vertices that are joined by non-matching edge to layer 2i
+	layer 2i+2 - all vertices in A that are matched to a vtx in 2i
+	continue until unmatched vertex in B is found
+\end{proof}
+
+every 3-regular (not necessarily bipartite graph) without a bridge has a perfect matching. furthermore, every edge in such a graph is contained in a perfect matching.
+
+petersen's theorem
+any 2-edge-connected cubic graph has a perfect matching.
+for which graphs can this be decomposed into 3 perfect matchings? petersen's graph shows that not all, disproves a conjecture of tait. 2-elem subsets of {1,2,3,4,5}, two adjacent of disjoint. K(5,2).
+Fulkerson Conjecture: every 2-edge-connected cubic graph has 6 perfect matchings that cover every edge exactly twice. that is, the multigraph obtained by doubling every edge is 6-edge-colourable.
+Berge Conjecture: every 2-edge-connected cubic graph has 5 perfect matchings that cover every edge.
+
+Fulkerson and Berge are equivalent! They are now called the Berge-Fulkerson Conjecture.
+
+Forward is direct.
+In fact, while backward is true, we do not know an algorithm that converts a Berge cover to a Fulkerson cover. This is because some edge may be covered in 3 matchings, instead of the number of matchings containing each of the edges incident on a vertex being 2, 2, 1. The set of edges labelled 2 forms a collection of disjoint cycles. The remaining graph has a perfect matching labelled 3. If there are no such edges (so the 2-edges form a 2-factor), then the 1-edges form a perfect matching, adding which gives a Fulkerson cover.
+We can use the Petersen graph to show that if there is a counterexample to F, there is a counterexample to B. In fact, the Petersen graph has no problematic B cover as above, so no edge is labelled 3.
+Suppose the Fulkerson conjecture is false, so there exists a cubic bridgeless graph without 6 perfect matchings covering every edge exactly twice. In this graph, replace each edge with the Petersen graph minus an edge. Suppose this new graph had a Berge cover. Then, in a given 2-edge-cut, either both edges are in a PM or neither is, so the two have the same label. This means that any Berge cover of this graph gives a Berge cover of the Petersen graph. Therefore, the property of Petersen implies the desideratum with some effort.
+
+Fan-Raspaud Conjecture: In any cubic bridgeless graph, there exist three perfect matchings with empty intersection (in that no edge belongs to all three).
+This is a weaker version of the Fulkerson conjecture. 
+Equivalent to saying that there exist two perfect matchings such that the complement of their intersection has a matching.
+
+Mazuoccolo: Every cubic bridgeless graph has two perfect matchings such that their intersection does not contain an odd cut (\partial S for some odd subset S).
+this is just Tutte's condition for the empty set.
+
+even weaker, weaken the above to requiring it only for odd cycles S instead of all odd S. That is, removing $M_1 \cup M_2$ destroys all odd cycles, and thus $G - (M_1 \cup M_2)$ is bipartite.
+This was proved just last year!
+
+There is also another conjecture, going from the above: there exist two PMs $M_1,M_2$ such that $G-(M_1 \cup M_2)$ is a forest.
+Note that in the above, the degree of any vertex after removal would be either 1 or 2, so it is just a collection of paths. another stronger question: are the lengths of these paths bounded? specifically, is it bounded by 2?
+
+
+
+for any perfect matching $M_1$, there exists a pm $M_2$ such that $G - (M_1 \cup M_2)$ is bipartite.
+proof. [Disjoint odd cycles in a bridgeless cubic graph can be quelled by a single perfect matching - Kardoš, Máčajová, Zerafa]
+Prove instead that given a collection of disjoint odd cycles, there exists a PM including at least one edge from each cycle. These two are equivalent, why? Forward is direct, for backward, do a blowup trick?
+a subgraph F is a 1+ factor if it's spanning and every vtx has degree at least 1.
+
+Prove instead that given a 1+ factor F in a cubic bridgeless graph and an edge $e$, there exists a perfect matching $M$ in $G$ containing $e$ such that $G-(F \cup M)$ is bipartite.
+
+Consider a smallest counterexample $G$ (with minimum number of vertices), and choose $F$ maximal. We claim that $G-F$ contains only disjoint odd cycles.
+1. $F$ cannot contain a vertex of degree $2$, because this would contradict the maximality of $F$. Let $v$ be a vertex of degree $3$, $f = vu$ an edge incident on it that is not in $F$ such that the other two vertices are in $F$. By maximality, there exists a pm containing $e$ such that $G - (G \cup \{f\} \cup M)$ is bipartite, but $G-(F \cup M)$ is not bipartite. So, there must be an odd cycle containing $f$. This odd cycle must also have one of the other two edges incident on $v$, a contradiction since both of them are in $F$. 
+2. So, all vertices in $F$ have degree $1$ or $3$, so $G-F$ is a collection of disjoint cycles. If one of these cycles was even, add the entire cycle to $F$ -- a similar argument works to contradict maximality of $F$. claim done.
+
+Now, let $G-F$ be a collection of disjoint odd cycles. assume e in F.
+
+1. Suppose $G$ has a $2$-edge cut (bridgeless implies that these two edges are disjoint). $F$ must include either both $e_1,e_2$ or neither. This is a consequence of the fact that all vertices in $F$ have degree $1$ or $3$. Consider the graph $G_1',G_2'$ obtained by adding an edge $e'$ between the two endpoints of the two edges on the left side, and $e'$ on the right side respectively.
+use induction from $G_1'$ to larger graph. One of the two sides, say right, must be an odd cycle. If $e$ on the left, choose $F$ of original graph restricted to the left.
+If $e$ is in the cut, 
+
+2. If $3$-edge-connected and there exists a non-trivial 3-edge-cut (each component has >1 vtx). the 3 edges must be disjoint, say G_1 left and G_2 right. contract G_2 to a single vertex and G_1 to a single vertex to get two components G_1-o o-G_2. 3-edge-cut so either all three are in F or exactly one. if former, a very similar argument, just choose a matching on the side e is contained to destroy all odd cycles; if it is one of the three edges, choose that edge itself. if only one, argument similar to part 1.
+
+3. no non-trivial 3-edge-cut. apply petersen theorem reduction:
+  \ /       |  |
+   |   to   |  |
+--/ \     --|  |--
+this is a bridgeless cubic graph.
+if middle graph not in F, suppose the two blues are not in F (recall disjoint union of odd cycles), then merge the two blue and two white edges instead. induction so matching including e that hits all odd cycles in G-F. works even if the two whites are in F instead.
+above works if edge distance 2 from e that is not in F.
+
+otherwise, all edges at distance 1 or 2 must be in F. if the top two edges were also in F, then same reduction again. so, suppose they are not in F. to ensure that bottom right has degree 1 after reduction, we need to include that edge in F. also include the left edge in F. this breaks the top two odd cycle in G-F, preventing us from breaking it in the original graph by removing M? to fix this issue, apply the reduction twice. the cycle has length at least five -- if it is a triangle it has a non-trivial 3-edge-cut. 
+    \5/a
+     |4
+  1\ /3\b
+    |2,w
+u_v/ \x
+apply the petersen reduction twice. first to wv_2, then to v_3v_4. connect v to a, v5 to b and v1 to x. include all three of these edges in F.
+when coming back to the original graph, it must include v3v4 or v4v5. (av cannot be there because e is included, if bv5, bv3 and v4v5, and if no bv5, put v3v4).
+
+now only left to confirm that doing these two reductions preserves 2-edge-connectivity. just look at what the ``components'' look like in the original graph, and show that this implies the existence of a 3-edge-cut, like the previous case. this will be non-trivial unless one of these new edges is a self-loop. but that cannot happen; check case-by-case (triangles are formed, or we get an edge v4v3 at distance 2 not in F).
+
+Can this be modified to hit _all_ cycles and not just odd cycles? Unknown.
+
+for 3-edge-coloring, even 4-cycles can be eliminated.
+\_/
+| |
+/-\
+
+
+
+Nowhere zero flows.
+
+Every planar bridgeless graph is 4-face-colourable iff every planar cubic bridgeless graph is 3-edge-colourable.
+Idea: Can remove vertices of degree 2 while preserving everything. if degree 4, split the vertex into two degree 3 vertices (so it goes from >< to >-<).
+assign to an edge the colour which is the XOR of the colours of the faces which it abuts (set the colours as 00,01,10,11).
+
+set the colours in {0,1,2,3}. for each vertex, go clockwise. if the colour increases from say 0 to 2 when (laterally) crossing an edge, assign an outward flow of 2 on this edge. clearly, flow is conserved at each vertex. furthermore, the flow on no edge is 0.
+
+A \emph{nowhere-zero k-flow} in a graph is an assignment of a direction and positive integer value <k to each edge such that for each vertex v, the total incoming flow equals the total outgoing flow.
+"every planar bridgeless graph is 4-face-colourable" iff "every planar cubic bridgeless graph has a nowhere-zero 4-flow"
+first, show that the set of edges with flow 2 form a perfect matching. next, show that the remaining 2-factor has only even cycles.
+for the converse, take the first two matchings and for each (even) cycle in their union, assign a flow of 1 in the clockwise direction. in the union of the second and third matching, assign weight-2 flows in some fixed direction.
+
+
+
+Tutte's 5-flow conjecture.
+Every bridgeless graph has a nowhere-zero 5-flow.
+
+weakening [Seymour]: Every bridgeless graph has a nowhere-zero 6-flow.
+new 3-page short inductive proof of this just last month (Feb 2023) due to DeVus, McDonald...: in fact, a stronger version was proved where at each vertex, we can fix ahead of time what the total incoming/outgoing flow is (instead of conservation), as long as it is consistent.
+
+if degree at least 4, remove two of the incident edges and connect them directly. contract degree 2 vertices. this reduces it to cubic bridgeless graphs.
+
+what if instead of saying that net outgoing flow at each vertex is 0, what if we say that it is 0 modulo k? these ``nowhere-zero $\Z_k$ flows'' turn out to be equivalent to nowhere-zero k-flows.
+this can be generalized even further to any abelian group of order k!
+this is what makes it doable for 6, because we can use Z2 x Z3 instead -- we have a z2 flow and z3 flow, but instead of the nowhere-zero condition, we can set each of these flows as 0 on some edges, as long as both are not simultaneously 0 on any edge.
+proof of equivalence of k and Z_k.
+k-flow -> Z_k flow is direct. suppose we have a Z_k flow. it is possible that the net outgoing flow at each vertex is some (nonzero) multiple of k. correspondingly, each vertex has some (possible negative) excess (in the sense of too much outgoing), with the sum of excesses equal to 0. show that there are directed paths from vertices of positive excess to vertices of negative excess, and reduce the flow along this path by k units. repeat till excess becomes 0 everywhere.
+
+
+Tutte (Conjecture II, now proved).
+If a cubic bridgeless graph does not contain a subdivision of the Petersen graph, it has a 4-flow.
+stronger than 4CT. current proof uses the 4CT.
+
+Show that a cubic bridgeless graph has a 3-flow iff it is bipartite.
+
+Tutte (Conjecture III).
+
+
+
+Conjecture. [Proved]
+Every cubic bridgeless graph $G$ has two perfect matching $M_1,M_2$ such that $G-(M_1 \cup M_2)$ is bipartite.
+
+Strengthening. [Turns out to be false, and NP-complete to decide]
+Every cubic bridgeless graph $G$ has two perfect matching $M_1,M_2$ such that $G-(M_1 \cup M_2)$ is acyclic.
+For a counterexample, first note that in $K_4$, if we require that one of the matchings includes a fixed edge, we get a counterexample. To construct a general counterexample, replace each edge with $K_4 - edge$.
+
+
+4CT <=> Vertices can be partitioned into two parts that induce bipartite subgraphs.
+
+Can it be partitioned into two parts that induce forests? False, and NP-complete to decide.
+Equivalent to Tait's conjecture (again false). Every planar cubic 3-connected graph has a hamiltonian cycle. just take the cut corresponding between the partition. every triangle has two edges in the cut.
+
+Barnette's Conjecture [1960, believed to be true]. Every planar cubic 3-connected bipartite graph has a Hamiltonian cycle.
+If there exists a counterexample, then it is NP-complete to decide if an arbitrary planar cubic 3-connected bipartite graph has a Hamiltonian cycle.
+
+
+
+Let us prove the earlier result. For any graph $G$, for an Abelian group A, the number of nowhere-zero A-flows in G, depends only on |A| and not on the structure of A.
+Proved by induction on number of edges.
+If there is a bridge, number of A-flows is 0. Base case: if there is only one edge (so it is a bridge), we are clearly done. if the one edge is a loop, there are |A|-1 nowhere-zero A-flows.
+Now, suppose we have any arbitrary graph with >1 edge. If there is a loop, we can again assign it any non-zero value (independent of the remaining values). If there is a bridge, we get no flows, again independent of the structure of A. If there are multiple copies of an edge, take two such edges, if both cancel each other out, delete and consider a flow on the remaining graph; else delete one and set the other edge's value as a corresponding (nonzero) value -- $(|A|-1) \times (Number on G - \{e_1,e_2\})$ + $Number on G-e_1$.
+So, suppose the graph is bridgeless and loopless and multiedgeless.
+Set $e = uv$ to be any edge. Consider $G / e$ obtained by contracting $e$. For any $A$-flow in $G/e$, we can get corresponding $A$-flow(s) in $G$ -- if after expansion (reverse-contraction), the outgoing flow out of $u$ is $a$ and out of $v$ is $-a$, and send $a$ from $v$ to $u$. However, $a$ can be 0 -- this is just an A-flow in a graph obtained by deleting $e$. Therefore, it is $(Number on G/e) - (Number on G-e)$; both independent of the structure of $A$ so we are done.
+
+This gives a \emph{flow polynomial} on the graph.
+
+These nowhere-zero flows are duals of colourings on the graph, with the induction of the flow polynomial being very similar to that of the chromatic polynomial (see Sec 1.7 of https://amitrajaraman.github.io/notes/ma-861)

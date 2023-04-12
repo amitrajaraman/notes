@@ -1,0 +1,31 @@
+%!TEX root = ./main.tex
+
+\clearpage
+
+\section{Constrained sum-of-squares}
+\label{sec:constrained}
+
+Recall the second part of \Cref{def:sos}, which we have not really used after defining SoS certificates on the boolean hypercube. We restate the definition here for convenience
+
+\begin{fdef}[Constrained sum-of-squares proofs]
+	Let $\mathcal{A}$ be a set of constraints of the form $f_i(x) \ge 0$ for $i \in [m]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{p_S\}_{S \subseteq [m]}$ of degree $d$ sum-of-squares polynomial (in the sense that it satisfies \Cref{eqn: base-sos} for some $(g_i)$), where $S$ ranges over \emph{multi}sets of elements in $[m]$ such that
+	\[ f(x) = \sum_{S \subseteq [m]} p_S(x) \prod_{i \in S} f_i(x) \]
+	as polynomials. If this is the case, we write
+	\[ \mathcal{A} \sststile{x}{d} \{f \ge 0\} \]
+	and say that ``$\mathcal{A}$ derives $g \ge 0$ in degree $d$''.
+\end{fdef}
+Again, we remark that although $\mathcal{A}$ contains only inequalities of polynomials, we can easily also make it contain equalities of polynomials by adding two corresponding constraints -- for $p(x) = k$, add $p(x)-k \ge 0$ and $k-p(x) \ge 0$. \\
+We often interchangeably use $\mathcal{A}$ to denote the subset $S \subseteq \R^n$ of all $x$ satisfying the constraints in $\mathcal{A}$. Such sets are called \emph{semialgebraic sets}. Let $\mathcal{A}$ be some semialgebraic set. Now, similar to how in the first section we motivated SoS by considering the problem of figuring out whether a polynomial is non-negative everywhere, consider the following.
+
+\begin{enumerate}
+	\item Given $g \in \R[x]$, determine if $g \ge 0$ subject to $\mathcal{A}$.
+	\item Decide if $\mathcal{A}$ is empty.
+\end{enumerate}
+
+Note that the second problem above is a generalization of the first, since the first is true iff $\mathcal{A} \cup \{g < 0\}$ is not empty. In fact, it turns out to be a \emph{strict} generalization, as we shall see soon. Let us now state an analogue of \Cref{prop: deg-2n-sos}.
+
+\begin{flem}[Positivstellensatz]
+	Let $\mathcal{A}$ be a semialgebraic set. Then, either $\mathcal{A}$ is non-empty, or there exists a sum-of-squares proof that $\mathcal{A} \sststile{}{d} \{-1 \ge 0\}$ for some integer $d$.
+\end{flem}
+
+The above was originally proved by Krivine \cite{krivine-positivstellensatz} in 1964 and later independently by Stengle \cite{stengle-positivstellensatz} in 1974.

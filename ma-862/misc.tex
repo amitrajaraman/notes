@@ -3,6 +3,46 @@
 \clearpage
 \section{Miscellaneous}
 
+\subsection{The K\"{o}nig-Egev\'{a}ry Theorem}
+
+In a bipartite graph $G = (S,T,E)$, we denote a matching by a triple $(A,B,f)$, where $A\subseteq S$, $B\subseteq T$, and $f:A\to B$ is a bijection such that $(a,f(a)) \in E$ for any $a \in A$.
+
+\begin{fdef}
+	Given a bipartite graph $G=(S,T,E)$, a \emph{cover} of $G$ is a pair $(J,K)$, where $J \subseteq S$, $K \subseteq T$, and for any $st \in E$, $s \in J$ or $t \in K$. The size of such a cover is $|J|+|K|$.
+\end{fdef}
+
+\begin{flem}
+	Let $M$ be a matching in $G$ and $(J,K)$ a cover. Then, $|M| \le |J|+|K|$.
+\end{flem}
+\begin{proof}
+	Let $M = (A,B,f)$ be a matching. We have
+	\[ |M| = |A| = |J \cap A| + |(S-J)\cap A| \le |J| + |f(A \cap (S-J))| \le |J|+|K|. \]
+\end{proof}
+
+\begin{ftheo}[K\"{o}nig]
+	Let $G$ be a bipartite graph, $M$ a matching in $G$, and $(J,K)$ a cover. Then, $|M|=|J|+|K|$ iff $M$ is a maximum matching and $(J,K)$ is a minimum cover. 
+\end{ftheo}
+The forward direction is trivial by the previous lemma. We spend the rest of this subsection proving the backward direction, with a proof due to Edmonds.
+
+Denote by $\F$ the field $\R[\{x_e : e \in E\}]$ of rational functions with real coefficients in $\{x_e : e \in E\}$.
+
+\begin{flem}
+	Consider the matrix $X$ over $\F$, with rows indexed by $S$ and columns indexed by $T$, such that $X_{st} = x_{st}$ if $st \in E$ and $0$ otherwise. Then, $\rank(X)$ is equal to the size of a maximum matching in $G$. 
+\end{flem}
+\begin{proof}
+	Let $M = (A,B,f)$ be a largest matching in $G$ of size $k$. Consider the $k \times k$ submatrix $Y$ of $X$, with rows indexed by $A$ and columns indexed by $B$. Note that
+	\[ \det(Y) = \sum_{\substack{\pi : A \to B \\ \pi \text{ bijection}}} \sign(\pi) \prod_{s \in A} X_{s \pi(s)} \ne 0, \]
+	because $f$ is a bijection for which the corresponding term is nonzero. Therefore, $\rank(X) \ge k$.\\
+	On the other hand, let $\rank(X) = r$ and suppose there is a $r \times r$ submatrix $Y$ of $X$ with nonzero determinant, with rows indexed by $A$ and columns indexed by $B$. Then, by the definition of the determinant, there is a bijection $\pi : A \to B$ such that $s \pi(s) \in E$ for all $s \in A$. Therefore, there is a matching of size at least $\rank(X)$.
+\end{proof}
+
+\begin{flem}
+	Consider the same matrix $X$ as in the previous lemma. Then, $\rank(X)$ is equal to the size of a smallest cover of $G$.
+\end{flem}
+\begin{proof}
+	Suppose that $X$ is such that there is some row that is not linearly dependent on the remaining rows. Removing this row, we obtain a matrix $X_1$. Keep repeating this procedure until a matrix $X_s$ is obtained, such that every row of $X_s$ is linearly dependent on the other rows. Now perform the same procedure on the columns, until the matrix $X_{s+t}$ is obtained. Then, $\rank(X) = s+t+\rank(X_{s+t})$. Set $(J,K)$ to be the sets indexing the removed rows and columns. It is also easy to see that $X_{s+t}$ is the all zeros matrix -- 
+\end{proof}
+
 \subsection{The Erd\H{o}s-Ko-Rado Theorem}
 
 \begin{fdef}
@@ -142,4 +182,64 @@ The proof is actually vaguely similar to that in the Schrijver bound, where we s
 	Fix $j \ge 1$. The number of ways to choose a partition $\lambda$ of $j$, then repeatedly, $m$ times, deleting an inner corner and adding an outer corner, to get back $\lambda$, that is, the number of closed walks of length $2m$, is 
 	\[ \sum_{s=1}^{j} (p(j-s) - p(j-s-1)) s^m. \]
 \end{fcor}
-This immediately follows by looking at $\Tr(A^{2m})$.
+This immediately follows by looking at $\Tr(A^{2m})$.\\
+
+Let $w = A_n A_{n-1} \cdots A_1$ be a word, where each $A_i$ is in $\{U,D\}$. $w$ can be interpreted as both a linear transformation as well as the type of a Hasse walk.\\
+Let $\lambda$ be a partition. We say that $w$ is \emph{valid} for $\lambda$, if it is possible to reach $\lambda$ from $\emptyset$ with a walk of type $w$.
+
+\begin{fprop}
+	$w$ is valid if the number of $U$s in $w$ minus the number of $D$s in $w$ is $|\lambda|$, and any suffix of $w$ has at least as many $U$s as $D$s.
+\end{fprop}
+
+If $w$ is valid for partitions of size $n$, then set
+\[ w\emptyset = \sum_{\lambda \vdash n} \alpha(w,\lambda) \lambda. \]
+As observed earlier, we have $\alpha(U^n,\lambda) f_\lambda$.
+
+\begin{ftheo}
+	Let $\lambda \vdash n$ and $w = A_r A_{r-1} \cdots A_1$ be valid for $\lambda$. Define $S_w = \{i \in [n] : A_i = D\}$, and for each $i \in S_w$, $a_i$ as the number of $D$s to the right of $A_i$ and $b_i$ as the number of $U$s to the right of $A_i$. Then,
+	\[ \alpha(w,\lambda) = f_\lambda \prod_{i \in S_w} (b_i - a_i).  \]
+\end{ftheo}
+That is,
+\[ w\emptyset = \left(\prod_{i \in S_w} (b_i - a_i)\right) U^n\emptyset. \]
+% hook-length formula: to generate a uniformly random SYT of shape \lambda, pick a random cell, pick a random point in its hook, pick a random point in its hook and so on... at the finally landed cell, input n. remove this cell and recurse. this generates a random SYT (Why?). The probability of any SYT is n!/\prod h_{ij} (Why?).
+\begin{proof}
+	The idea is to pick an arbitrary $DU$ in $w$, and replace it with $UD + \Id$. Eventually, we end up at $w = \sum_{i-j=m} r_{ij} U^i D^j$, where $m$ is the difference between the number of $U$s and $D$s in $w$. We are interested in $r_{i,0}$, since $U^iD^j \emptyset = 0$ for $j > 0$. Clearly, these coefficients $r_j$ do not depend on the order in which we replace the $DU$s -- this is a consequence of the fact that $\{U^iD^j : i-j = m\}$ is linearly independent, since $(U^iD^j)(1^k) = 0$ iff $k < j$.\\
+	We have
+	\[ w\emptyset = r_{m,0} (w) U^m \emptyset, \]
+	so we are done if we show that $r_{m,0} = \prod_{i \in S_w} (b_i - a_i)$.
+	Now, observe that
+	\[ Uw = \sum_{i-j = m} r_{ij}(w)U^{i+1}D^j = \sum_{i-j=m+1} r_{i+1,j}(Uw) U^{i} D^j, \]
+	so $r_{i,j}(Uw) = r_{i-1,j}(w)$ and
+	\[ Dw = \sum_{i-j = m} r_{ij}(w) DU^{i}D^j = \sum_{i-j = m} r_{ij}(w) (U^iD + iU^{i-1}) D^j, \]
+	so $r_{i,j}(Dw) = r_{i,j-1}(w) + (i+1) r_{i+1,j}(w)$.\\
+	So, for $j = 0$, $r_{i,0}(Uw) = r_{i-1,0}(w)$ and $r_{i,0}(Dw) = (i+1) r_{i+1,0}(w)$. Here, $i+1$ is precisely the difference between the number of $U$s and $D$s in $w$. The desideratum follows by an inductive argument.
+\end{proof}
+
+Set $\beta(\ell,\lambda)$ as the number of walks of length $\ell$ from $\emptyset$ to $\lambda$. Clearly, $\beta(\ell,\lambda) = 0$ unless $\ell \equiv |\lambda| \pmod{2}$. Also, $\beta(\ell,\lambda)$ is the coefficient of $\lambda$ in $(D+U)^\ell \emptyset$.
+\begin{flem}
+	Set
+	\[ (D+U)^\ell = \sum_{i,j} b_{i,j}(\ell) U^i D^j. \]
+	$b_{i,j}(\ell) = 0$ if $\ell = i-j$ is odd, and if $\ell-i-j = 2m$, then
+	\[ b_{i,j}(\ell) = \frac{\ell!}{2^m i! j! m!}. \]
+\end{flem}
+\begin{proof}
+	We prove this by induction on $\ell$. The statement is trivial for $\ell = 1$. In general, using the inductive hypothesis,
+	\begin{align*}
+		\sum_{i,j} b_{i,j}(\ell+1) U^i D^j &= (D+U) (D+U)^{\ell} \\
+			&= \sum_{i,j} b_{i,j}(\ell) (U^{i+1} D^j + D U^i D^j) \\
+			&= \sum_{i,j} b_{i,j}(\ell) (U^{i+1} D^j + U^i D^{j+1} + i U^{i-1} D^j),
+	\end{align*}
+	so
+	\[ b_{i,j}(\ell+1) = b_{i-1,j}(\ell) + b_{i,j-1}(\ell) + (i+1) b_{i+1,j}(\ell). \]
+	A simple calculation completes the proof.
+\end{proof}
+
+\begin{fcor}
+	Let $\ell \ge n$, $\lambda$ a partition of $n$, and $\ell-n$ be even. Then,
+	\[ \beta(\ell,\lambda) = \binom{\ell}{n} (1 \cdot 3 \cdot 5 \cdot \cdots \cdot (\ell-n-1)) f_\lambda. \]
+\end{fcor}
+\begin{proof}
+	Indeed,
+	\[ (D+U)^\ell \emptyset = \sum_{i} b_{i,0}(\ell) U^i \emptyset = \sum_{i} \frac{\ell!}{2^{(\ell-i)/2} i! ((\ell-i)/2)!} \sum_{\lambda \vdash i} f_\lambda \lambda, \]
+	and simplifying this a bit completes the proof.
+\end{proof}

@@ -4,24 +4,33 @@
 
 \subsection{Introduction}
 
-	The sum-of-squares technique, at its most basic form, is a way of determining whether for some polynomial $p$ over $\R^n$, $p(x) \ge 0$ for $x$ in some base set. For now, suppose that our ``base set'' is $\{0,1\}^n$. Elegantly, it manages to convert \emph{disproofs} of such inequalities to \emph{algorithms} to determine a point where $p(x) < 0$. \\
-	More concretely, we shall show non-negativity by expressing $p$ as a \emph{sum of squares} of \emph{low degree} polynomials (while low degree is not technically required, it makes the converted algorithm efficient).
+	Consider the problem of, for a given multivariate polynomial $p$, determining whether $p(x) \ge 0$ for $x$ in some (subset of) $\R^n$. It is not difficult to see that this can capture a huge spectrum of problems, specifically NP-hard ones such as max-cut -- given a graph $G$ on $n$ vertices, consider the polynomial $f : \{-1,1\}^n \to \R$ defined by
+	\[ f(x) = \sum_{ij \in E} (x_i - x_j)^2. \]
+	Then, there exists $x$ such that $f(x) \le k$ -- or equivalently, the polynomial $k - f(x)$ is non-negative on $\{-1,1\}^n$ -- iff every cut is of size at most $k$.\\
+	So, this problem of determining non-negativity of a polynomial is NP-hard. What next?\\
+
+	The sum-of-squares technique, at its most basic form, is a a restriction to a certain type of non-negativity. For now, suppose that our ``base set'' is $\{0,1\}^n$. \\
+	More concretely, we shall show non-negativity by expressing $p$ as a \emph{sum of squares} of \emph{low degree} polynomials (while low degree is not technically required, the resulting algorithm need not be efficient otherwise).
 	\begin{fdef}[Sum-of-squares proof]
-		Given a polynomial $f$ in variables $x_1,\ldots,x_n$, a \emph{degree $d$ sum-of-squares proof} or \emph{degree $d$ sum-of-squares certificate} (abbreviated SoS proof or SoS certificate) of $f \ge 0$ is a set $\{g_1,\ldots,g_m\}$ of polynomials of degree at most $d/2$ such that
+		\label{def:sos}
+		Given a polynomial $f \in \R[x_1,\ldots,x_n]$, a \emph{degree $d$ sum-of-squares proof} or \emph{degree $d$ sum-of-squares certificate} (abbreviated SoS proof or SoS certificate) of $f \ge 0$ is a set $\{g_1,\ldots,g_m\}$ of polynomials of degree at most $d/2$ such that
 		\begin{equation}
 			\label{eqn: base-sos}
 			f(x) = \sum_{i=1}^m g_i^2(x)
 		\end{equation}
-		for all $x$.
+		as polynomials.
 		If $f$ has a degree $d$ sum-of-squares certificate, we write that
-		\[ \vdash_d f(x) \ge 0. \]
-		Let $\mathcal{A}$ be a set of constraints of the form $A_i(x) = 0$ or $B_j(x) \ge 0$ for $i \in [k], j \in [\ell]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{g_1,\ldots,g_m\}$ of polynomials of degree at most $d/2$ such that \eqref{eqn: base-sos} holds for all $x$ satisfying the constraints in $\mathcal{A}$. If such a set exists, we write
-		\[ \mathcal{A} \vdash_d f \ge 0. \]
+		\[ \sststile{x}{d} f(x) \ge 0. \]
+		Let $\mathcal{A}$ be a set of constraints of the form $f_i(x) \ge 0$ for $i \in [m]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{p_S\}_{S \subseteq [m]}$ of degree $d$ sum-of-squares polynomial (in the sense that it satisfies \Cref{eqn: base-sos} for some $(g_i)$), where $S$ ranges over \emph{multi}sets of elements in $[m]$ such that
+		\[ f(x) = \sum_{S \subseteq [m]} p_S(x) \prod_{i \in S} f_i(x) \]
+		as polynomials. If this is the case, we write
+		\[ \mathcal{A} \sststile{x}{d} f \ge 0. \]
 	\end{fdef}
-	We always assume that $d$ in this context is even.
+	We always assume that $d$ in this context is even. We often suppress the variable $x$, and rarely even the degree $d$, in the above notation if they are clear from context. \\
+	Although $\mathcal{A}$ contains only inequalities of polynomials, we can easily also make it contain equalities of polynomials by adding two corresponding constraints -- for $p(x) = k$, add $p(x)-k \ge 0$ and $k-p(x) \ge 0$. \\
 
-	Note that simple set restrictions can be captured by the set of constraints. In particular, we can check restrict ourselves to the boolean hypercube $\{-1,1\}^n$ by having $\mathcal{A}$ contain $x_i^2 = 1$ for all $i$. 
-	Note that the set of functions with degree $d$ SoS proofs of non-negativity forms a closed convex cone.
+	Note that simple set restrictions can be captured by the set of constraints. In particular, we can check restrict ourselves to the boolean hypercube $\{-1,1\}^n$ by having $\mathcal{A}$ contain $x_i^2 = 1$ for all $i$. Other than this, the reader can more or less ignore the second part of the above definition until \Cref{sec:constrained}, where we shall use its power in more depth.
+	Also observe that the set of functions with degree $d$ SoS proofs of non-negativity forms a closed convex cone.
 
 	\begin{fprop}
 		\label{prop: deg-2n-sos}
