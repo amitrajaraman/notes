@@ -4,6 +4,7 @@
 \section{Miscellaneous}
 
 \begin{comment}
+
 \subsection{The K\"{o}nig-Egev\'{a}ry Theorem}
 
 In a bipartite graph $G = (S,T,E)$, we denote a matching by a triple $(A,B,f)$, where $A\subseteq S$, $B\subseteq T$, and $f:A\to B$ is a bijection such that $(a,f(a)) \in E$ for any $a \in A$.
@@ -76,7 +77,8 @@ Consider the \emph{Kneser graph} $K(n,k)$ on $B(n,k)$, with $X,Y$ adjacent iff $
 	Note that $\theta < 0$. Let $s = |S|$, $A$ the adjacency matrix of $G$, and consider
 	\[ M = A - \theta \Id - \frac{d-\theta}{n}J, \]
 	where $J$ is the all-ones matrix.\\
-	Recall that a graph is regular iff its adjacency matrix commutes with $J$. First off, we have
+	A graph is $d$-regular iff $A\mathbf{1} = d\mathbf{1}$.% its adjacency matrix commutes with $J$.
+	First off, we have
 	\[ M \mathbf{1} = A \mathbf{1} - \theta \mathbf{1} - \frac{d-\theta}{n} J \mathbf{1} = 0. \]
 	For any $x$ orthogonal to $\mathbf{1}$,
 	\[ x^\top M x = x^\top(A-\theta \Id)x \ge 0. \]
@@ -86,7 +88,7 @@ Consider the \emph{Kneser graph} $K(n,k)$ on $B(n,k)$, with $X,Y$ adjacent iff $
 			&= v^\top A v - \theta v^\top v - \frac{d-\theta}{n} v^\top J v \\
 			&= -\theta |S| - \frac{d-\theta}{n}|S|^2.
 	\end{align*}
-	The first part of the result follows. For the second part, we must have that equality is attained above iff $v^\top M v = 0$. Since $M$ is positive semidefinite, $Mv = 0$. Therefore,
+	The first part of the result follows. For the second part, we have that equality is attained above iff $v^\top M v = 0$. Since $M$ is positive semidefinite, $Mv = 0$. Therefore,
 	\[ Av = \theta v + \frac{d-\theta}{n} Jv = \theta v + \frac{|S|(d-\theta)}{n} \mathbf{1}. \]
 	Consequently,
 	\begin{align*}
@@ -128,11 +130,11 @@ Consider \emph{Young's poset}, a poset on the set of all partitions, with $\lamb
 
 How many walks of type $U^n$ are there starting at $\emptyset$? Given any such walk, we can create an SYT by filling an $i$ in the new block obtained in the $i$th step. For example, the walk $\emptyset,1,1^2,1^3,21^3$ would correspond to the SYT
 \[ \begin{ytableau} 1 & 4 \\ 2 \\ 3 \end{ytableau} \]
-Consequently, $f_\lambda$ is the number of walks from $\emptyset$ to $\lambda$ of type $U^n$. Therefore, the number of walks from $\emptyset$ to $\emptyset$ of type $U^nD^n$ is $\sum_{\lambda \vdash n} f_\lambda^2$.\\
+Consequently, $f_\lambda$ is the number of walks from $\emptyset$ to $\lambda$ of type $U^n$. Therefore, the number of walks from $\emptyset$ to $\emptyset$ of type $D^nU^n$ is $\sum_{\lambda \vdash n} f_\lambda^2$.\\
 
-Denote Young's poset by $Y$, and consider the infinite-dimensional vector space $\C[Y]$. Consider the linear map $U : \C[Y] \to \C[Y]$ with
-\[ U(\lambda) = \sum_{\substack{\mu \supseteq \lambda \\ |\mu| = |\lambda|+1}} \mu. \]
-Similarly, define $D : \C[Y] \to \C[Y]$ by
+Denote Young's poset by $Y$, and consider the infinite-dimensional vector space $\C[Y]$. Consider the linear map $U : \C[Y] \to \C[Y]$ defined by
+\[ U(\lambda) = \sum_{\substack{\mu \supseteq \lambda \\ |\mu| = |\lambda|+1}} \mu \]
+and similarly, $D : \C[Y] \to \C[Y]$ defined by
 \[ D(\lambda) = \sum_{\substack{\mu \subseteq \lambda \\ |\mu| = |\lambda|-1}} \mu. \]
 Denoting by $Y(i)$ the set of partitions of $i$, define the restriction $U_i : \C[Y(i)] \to \C[Y(i+1)]$ of $U$ and $D_i$ similarly.
 
@@ -152,10 +154,6 @@ Due to this identity, this poset is said to be a \emph{differential poset}.
 	We may assume without loss of generality that $p(x) = x^n$ for some $n$. The statement for $n=1$ follows from Weyl's identity. In general, using the inductive hypothesis, we have
 	\[ DU^{n+1} = (DU^n)U = (nU^{n-1} + U^nD)U = nU^{n} + U^n(UD+\Id) = (n+1)U^n + U^{n+1}D. \]
 \end{proof}
-
-More generally, if $p(x)$ is a polynomial, then
-\[ Dp(U) = p'(U) + p(U)D. \]
-This is easily proved by assuming without loss of generality that $p(x)$ is of the form $x^n$, then performing induction on $n$.
 
 \begin{proof}[Proof of \Cref{th7.5}]
 	By the earlier argument, we have $D^nU^n \emptyset = \left(\sum_{\lambda \vdash n} f_\lambda^2\right) \emptyset$. We prove this by induction. The base case $n=1$ is trivial. In general,
