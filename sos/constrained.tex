@@ -2,30 +2,130 @@
 
 \clearpage
 
-\section{Constrained sum-of-squares}
+\section{Constrained sum-of-squares and reductions}
 \label{sec:constrained}
 
-Recall the second part of \Cref{def:sos}, which we have not really used after defining SoS certificates on the boolean hypercube. We restate the definition here for convenience
+\subsection{Constrained sum-of-squares}
+
+The first half of this section is spent rehashing and expounding on sum-of-squares in a constrained setting, which we first defined looked at all the way back in \Cref{def:sos} -- we begin with SoS certificates, then move on to pseudodistributions and the duality between them. We restate the relevant part of the definition here for convenience.
 
 \begin{fdef}[Constrained sum-of-squares proofs]
-	Let $\mathcal{A}$ be a set of constraints of the form $f_i(x) \ge 0$ for $i \in [m]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{p_S\}_{S \subseteq [m]}$ of degree $d$ sum-of-squares polynomial (in the sense that it satisfies \Cref{eqn: base-sos} for some $(g_i)$), where $S$ ranges over \emph{multi}sets of elements in $[m]$ such that
+	Let $\mathcal{A}$ be a set of constraints of the form $f_i(x) \ge 0$ for $i \in [m]$. Then, an \emph{degree $d$ SoS proof given $\mathcal{A}$} of $f \ge 0$ is a set $\{p_S\}_{S \subseteq [m]}$ of degree $d$ sum-of-squares polynomials (in the sense that it satisfies \Cref{eqn: base-sos} for some $(g_i)$), where $S$ ranges over \emph{multi}sets of elements in $[m]$ such that
 	\[ f(x) = \sum_{S \subseteq [m]} p_S(x) \prod_{i \in S} f_i(x) \]
 	as polynomials. If this is the case, we write
-	\[ \mathcal{A} \sststile{x}{d} \{f \ge 0\} \]
-	and say that ``$\mathcal{A}$ derives $g \ge 0$ in degree $d$''.
+	\[ \mathcal{A} \sststile{x}{d} \{f \ge 0\}, \]
+	read as ``$\mathcal{A}$ derives $g \ge 0$ in degree $d$''.
 \end{fdef}
 Again, we remark that although $\mathcal{A}$ contains only inequalities of polynomials, we can easily also make it contain equalities of polynomials by adding two corresponding constraints -- for $p(x) = k$, add $p(x)-k \ge 0$ and $k-p(x) \ge 0$. \\
-We often interchangeably use $\mathcal{A}$ to denote the subset $S \subseteq \R^n$ of all $x$ satisfying the constraints in $\mathcal{A}$. Such sets are called \emph{semialgebraic sets}. Let $\mathcal{A}$ be some semialgebraic set. Now, similar to how in the first section we motivated SoS by considering the problem of figuring out whether a polynomial is non-negative everywhere, consider the following.
+% We also remark that this does not discount the situation where $f$ is SoS-non-negative on \emph{all} of $\R^n$ -- the product when $S = \emptyset$ is just $1$.
+The $\sststile{}{}$ notation is more generally extended to sets of polynomial inequalities on the right-hand side, and we write that $\mathcal{A} \sststile{x}{d} \mathcal{B}$ if for every $f \ge 0$ constraint in $\mathcal{B}$, $\mathcal{A} \sststile{x}{d} \{f \ge 0\}$.
+
+We often interchangeably use $\mathcal{A}$ to denote the subset $S \subseteq \R^n$ of all $x$ satisfying the constraints in $\mathcal{A}$. Such sets are called \emph{semialgebraic sets}.\\
+
+Let $\mathcal{A}$ be some semialgebraic set. Now, similar to how in the first section we motivated SoS by considering the problem of figuring out whether a polynomial is non-negative everywhere, consider the following problems.
 
 \begin{enumerate}
 	\item Given $g \in \R[x]$, determine if $g \ge 0$ subject to $\mathcal{A}$.
 	\item Decide if $\mathcal{A}$ is empty.
 \end{enumerate}
 
-Note that the second problem above is a generalization of the first, since the first is true iff $\mathcal{A} \cup \{g < 0\}$ is not empty. In fact, it turns out to be a \emph{strict} generalization, as we shall see soon. Let us now state an analogue of \Cref{prop: deg-2n-sos}.
+Note that the second problem above is a generalization of the first, since the first is true iff $\mathcal{A} \cup \{g < 0\}$ is not empty. In fact, it turns out to be a \emph{strict} generalization, as we shall later see. Let us now state an analogue of \Cref{prop: deg-2n-sos}.
 
 \begin{flem}[Positivstellensatz]
+	\label{positivstellensatz}
 	Let $\mathcal{A}$ be a semialgebraic set. Then, either $\mathcal{A}$ is non-empty, or there exists a sum-of-squares proof that $\mathcal{A} \sststile{}{d} \{-1 \ge 0\}$ for some integer $d$.
 \end{flem}
 
-The above was originally proved by Krivine \cite{krivine-positivstellensatz} in 1964 and later independently by Stengle \cite{stengle-positivstellensatz} in 1974.
+The above was originally proved by Krivine \cite{krivine-positivstellensatz} in 1964 and later independently by Stengle \cite{stengle-positivstellensatz} in 1974. Unfortunately, the above formulation of positivstellensatz is very non-constructive, and does not provide an upper bound on $d$.
+
+For the sake of completeness, we state the following rules that can be used to derive new (SoS) inequalities using existing ones. Let $\mathcal{A},\mathcal{B},\mathcal{C}$ be semialgebraic sets and $f,g$ be polynomials. 
+\begin{align*}
+	\mathsf{Addition} &\;\; \frac{\mathcal{A} \sststile{}{\ell} \{f \ge 0, g \ge 0\}}{\mathcal{A} \sststile{}{\ell} \{f+g \ge 0\}} \\
+	\mathsf{Multiplication} &\;\; \frac{\mathcal{A} \sststile{}{\ell} \{f \ge 0\} \; \; \; \mathcal{A} \sststile{}{\ell'} \{g \ge 0\}}{\mathcal{A} \sststile{}{\ell+\ell'} \{fg \ge 0\}} \\
+	\mathsf{Transitivity} &\;\; \frac{\mathcal{A} \sststile{}{\ell} \mathcal{B} \; \; \; \mathcal{B} \sststile{}{\ell'} \mathcal{C}}{\mathcal{A} \sststile{}{\ell\ell'} \mathcal{C}}.
+\end{align*}
+If $F,G$ are collections of polynomials in $n$ variables $x_1,\ldots,x_n$, and $h : \R^p \to \R^n$, then
+\[ \mathsf{Substitution} \;\; \frac{\{F \ge 0\} \sststile{}{\ell} \{G \ge 0\}}{\{F(h) \ge 0\} \sststile{}{\ell \deg h} \{G(h) \ge 0\}} \]
+
+Next, let us get to the theory of pseudodistributions and duality in this constrained setting. To get around pesky issues of measurability and continuity, we make the following (simple) definition.
+
+\begin{fdef}
+	Given a finite set $\Omega$, a \emph{degree $d$ pseudodistribution over $\Omega$} is a function $\mu : \R^n \to \R$ that is finitely supported with $\supp \mu \subseteq \Omega \subseteq \R^n$, such that the expectation operator $\pE_{\mu}$ defined by $\pE_{\mu} f = \sum_{x \in \{-1,1\}^n} f(x) \mu(x)$ satisfies
+	\begin{enumerate}[label=(\alph*)]
+		\item $\pE_\mu 1 = 1$, and
+		\item for all $f$ of degree at most $d/2$, $\pE_\mu f^2 \ge 0$.
+	\end{enumerate}
+	In this case, $\pE_\mu$ is called a \emph{pseudoexpectation}.
+\end{fdef}
+
+Identically to the proof of \Cref{prop: pe-characterization}, we get the following.
+
+\begin{fprop}
+	$\pE$ is a degree $d$ pseudoexpectation (over $\Omega$) iff
+	\begin{enumerate}[label=(\alph*)]
+		\item $\pE 1 = 1$, and
+		\item $\pE v_{d/2}(x) v_{d/2}(x)^\top \pge 0$. 
+	\end{enumerate}
+\end{fprop}
+
+\begin{fdef}
+	\label{def:pd-satisfy}
+	Let $\mathcal{A} = \{f_i \ge 0\}_{i=1}^m$ be a semi-algebraic set. $\mu$ is said to \emph{satisfy $\mathcal{A}$ at degree $\ell$} if, for any sum-of-squares polynomial $h$ on $\R^n$ (given $\mathcal{A}$) and $S \subseteq [m]$ such that $\deg(h) + \sum_{i \in S} \max\{\deg f_i , \ell\} \le d$, $\pE_\mu h \prod_{i \in S} f_i \ge 0$. If this is the case, we write $\mu \sdtstile{}{\ell} \mathcal{A}$, and when $\ell = 0$, we write this as merely $\mu \sdtstile{}{} \mathcal{A}$.
+\end{fdef}
+The introduction of the new parameter $\ell$ in the above definition might make it slightly difficult to parse. To understand this better, consider the setting where $\ell = 0$. Here, we are saying that $\pE_\mu h \prod_{i \in S} f_i \ge 0$, as long as the degree of this polynomial is at most $d$.\\
+This is what we had in the hypercube as well, though not directly. There, multiplying by (possibly multiple copies of) $f_i(x) = x_i^2 - 1$ just means that we are reversing the steps of multilinear reduction. That is, if we first reduce $h$ to a multilinear polynomial, we can completely omit the $\prod f_i$ to obtain the cleaner $\pE_\mu h \ge 0$. \\
+The introduction of $\ell$ is a weakening of this, where the degrees of very low-degree $f_i$ are artificially bumped up in the degree calculation of the polynomial.\\
+
+In the setting where the constraints in $\mathcal{A}$ are of the form $\{f_i = 0\}$, the definition reduces to showing that desired when $h$ is \emph{any} polynomial, not necessarily a sum-of-squares one. We shall often use this.
+
+\begin{fprop}
+	If $\mu$ is a degree $d$ pseudodistribution and $g$ a polynomial such that $\mathcal{A} \sststile{}{\ell} \{g \ge 0\}$ and $\mu \sdtstile{}{} \mathcal{A}$, then if $\ell \le d$, $\pE_\mu g \ge 0$.
+\end{fprop}
+
+That is, if we are able to prove that a function has an SoS certificate of non-negativity, its pseudoexpectation must be non-negative as well.
+
+\begin{definition}
+	A semialgebraic set $\mathcal{A}$ is said to be \emph{explicitly bounded} if for some $M$, $\{\sum_{i=1}^n x_i^2 \le M\}$ is in $\mathcal{A}$.
+\end{definition}
+We can often add such a constraint to $\mathcal{A}$ without loss of generality, for example in the hypercube with $M=n$.
+
+Now, let us finally get to the duality between pseudoexpectations and SoS certificates, namely the analogue of \Cref{theo: sos-pe-equiv}.
+
+\begin{ftheo}
+	\label{constrained-sos-duality}
+	Let $\mathcal{A}$ be an explicitly bounded semialgebraic set, and let $d \in \N$ and $f$ a polynomial of degree $d$. Then,
+	\begin{equation}
+		\label{eq:constrained-sos-strong-duality}
+		\max \{ \epsilon : \mathcal{A} \sststile{}{d} \{f-\epsilon \ge 0\} \} = \min_{\text{pseudodistribution }\mu} \pE_\mu f.
+	\end{equation}
+	In particular, taking cases on whether this common value is non-negative or negative, we get that exactly one of the following holds.
+	\begin{enumerate}[label=(\alph*)]
+		\item For all $\epsilon > 0$, $\mathcal{A} \sststile{}{d} \{f \ge -\epsilon\}$.
+		\item There exists some degree $d$ pseudodistribution $\mu$ such that $\mu \sdtstile{}{} \mathcal{A}$ and $\pE_\mu f < 0$.
+	\end{enumerate}
+\end{ftheo}
+We omit the proof of the above; it amounts to showing that two SDPs, corresponding to each of the two quantities, are duals of each other. Having the semialgebraic set be explicitly bounded provides the mild conditions required for strong duality, which enforces that the optima of the two SDPs are equal. In the absence of this condition, we still have that \cref{eq:constrained-sos-strong-duality} holds with a $\le$ in place of the $=$. We refer the reader to Theorem 3.67 of [cite monograph].
+
+\begin{fcor}
+	Let $d \in \N$ and $\mathcal{A} = \{f_i \ge 0\}_{i=1}^m$ be a non-empty explicitly bounded semialgebraic set. Then, there exists an $N^{O(d)}$ algorithm to output a degree $d$ pseudodistribution $\mu$ such that $\mu \sdtstile{}{} \mathcal{A}$ up to $2^{-N}$ additive error. Here, $N$ is the input size of the functions in $\mathcal{A}$, and the additive error statement means that for any sum-of-squares polynomial $h$ and $S \subseteq [m]$, $\pE_\mu h \prod_{i \in S} f_i \ge 2^{-N} \cdot (\text{sum of absolute values of coefficients of the polynomials})$.
+\end{fcor}
+
+Now that we have established some background, let us return to our earlier analysis of specific problems.
+
+\subsection{A glance at \textsf{SAT}}
+
+Consider the $k$-\textsf{XOR} problem we looked at earlier, where we are given $k$-sized subsets $C_i$, and corresponding elements $b_i$ in $\{\pm 1\}$. Instead of looking at it as a CSP where we attempt to maximize the number of satisfied constraints, instead consider the problem of checking whether the entire system is satisfiable. As mentioned in the remark after \Cref{prop:grig-small-true-opt}, this cannot be done using the CSP machinery with sum-of-squares.\\
+Recall the two problems we mentioned before \nameref{positivstellensatz}. The argument mentioned says that the equivalent of the \emph{first} of these cannot be done using sum-of-squares, but what about the second? Setting
+\[ \mathcal{A} = \{x_i^2 = 1\}_{i=1}^n \cup \{b_i x_{C_i} = 1\}_{i=1}^m, \]
+we would like to check if $\mathcal{A}$ is empty or not. If it is empty, we have by positivstellensatz that there exists a derivation of $-1 \ge 0$. For this to be useful however, we want there to be a \emph{low-degree} derivation of $\{-1 \ge 0\}$, that is, show that $\mathcal{A} \sststile{}{\ell} \{-1 \ge 0\}$ for some small (ideally constant) $\ell$.\\
+
+First off, note that if we had some pseudodistribution $\mu$ of degree $d$ that satisfies $\mathcal{A}$, then $\pE_\mu -1 = -1 < 0$, so by \Cref{constrained-sos-duality}, $\mathcal{A} \not\sststile{}{d} \{-1 \ge 0\}$. Set $d = c'n$, where $c'$ is the same constant as in \Cref{def:kxor-hard}. Let $\mu$ be as in the Grigoriev construction, namely a degree $d$ pseudodistribution such that $\pE_\mu x_{C_i} b_i = 1$ for every $1 \le i \le m$.\\
+As in the definition of satisfaction \Cref{def:pd-satisfy} (with $\ell = 0$), set $h$ to be an arbitrary polynomial on $\R^n$of degree at most $d-3$. We claim that $\pE_\mu h (b_i x_{C_i} - 1) = 0$. It suffices to consider the case where $h$ is a monomial $x_S$, where $|S| \le d-3$. We wish to show that
+\[ \pE_\mu x_{S \oplus C_i} = \pE_\mu x_S \pE_\mu x_{C_i}. \]
+Since we know that $x_{C_i} \in \Der_d$, this is near-direct -- if $x_{S \oplus C_i} \in \Der_d$, we must have $x_S \in \Der_d$ (since $(S \oplus C_i) \oplus S = C_i$) with the equality holding, and if $x_{S \oplus C_i} \not\in \Der_d$, we mus thave $x_S \not\in \Der_d$, and both sides  become equal to $0$.\\
+
+In fact, $\Der_d$ is precisely the set of all degree at most $d$ constraints that can be derived using SoS proofs from $\mathcal{A}$!\\
+
+\begin{fdef}
+	Let $P : \{\pm1\}^k \to \{0,1\}$ be an arbitrary predicate. Then, an instance $\mathcal{I}$ of $\mathsf{CSP}(P)$
+\end{fdef}

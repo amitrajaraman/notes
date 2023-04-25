@@ -180,7 +180,7 @@ The proof is actually vaguely similar to that in the Schrijver bound, where we s
 \end{proof}
 
 \begin{fcor}
-	Fix $j \ge 1$. The number of ways to choose a partition $\lambda$ of $j$, then repeatedly, $m$ times, deleting an inner corner and adding an outer corner, to get back $\lambda$, that is, the number of closed walks of length $2m$, is 
+	Fix $j \ge 1$. The number of ways to choose a partition $\lambda$ of $j$, then repeatedly, $m$ times, deleting an inner corner and adding an outer corner, to get back $\lambda$, that is, the number of closed walks of length $2m$ through a partition of $j$, is 
 	\[ \sum_{s=1}^{j} (p(j-s) - p(j-s-1)) s^m. \]
 \end{fcor}
 This immediately follows by looking at $\Tr(A^{2m})$.\\
@@ -189,12 +189,12 @@ Let $w = A_n A_{n-1} \cdots A_1$ be a word, where each $A_i$ is in $\{U,D\}$. $w
 Let $\lambda$ be a partition. We say that $w$ is \emph{valid} for $\lambda$, if it is possible to reach $\lambda$ from $\emptyset$ with a walk of type $w$.
 
 \begin{fprop}
-	$w$ is valid if the number of $U$s in $w$ minus the number of $D$s in $w$ is $|\lambda|$, and any suffix of $w$ has at least as many $U$s as $D$s.
+	$w$ is valid for $\lambda$ if the number of $U$s in $w$ minus the number of $D$s in $w$ is $|\lambda|$, and any suffix of $w$ has at least as many $U$s as $D$s.
 \end{fprop}
 
 If $w$ is valid for partitions of size $n$, then set
 \[ w\emptyset = \sum_{\lambda \vdash n} \alpha(w,\lambda) \lambda. \]
-As observed earlier, we have $\alpha(U^n,\lambda) f_\lambda$.
+As observed earlier, we have $\alpha(U^n,\lambda) = f_\lambda$.
 
 \begin{ftheo}
 	Let $\lambda \vdash n$ and $w = A_r A_{r-1} \cdots A_1$ be valid for $\lambda$. Define $S_w = \{i \in [n] : A_i = D\}$, and for each $i \in S_w$, $a_i$ as the number of $D$s to the right of $A_i$ and $b_i$ as the number of $U$s to the right of $A_i$. Then,

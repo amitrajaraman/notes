@@ -173,7 +173,7 @@
 	\begin{flem}
 		Let $(X,Y), (X',Y') \in B_q(n,k) \times B_q(n,k)$. Then, $(X,Y) \sim (X',Y')$ iff $\dim(X \cap Y) = \dim(X' \cap Y')$.
 	\end{flem}
-	So, the Grassmann graph with adjacency matrix $A$ and corresponding adjacency algebra $\mathcal{A}$ has $\dim \mathcal{A} = 1+\max\{k,n-k\}$ as well. Letting $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $\dim(X \cap Y) = j$ and $0$ otherwise, we again get the following.
+	So, the Grassmann graph with adjacency matrix $A$ and corresponding adjacency algebra $\mathcal{A}$ has $\dim \mathcal{A} = 1+\min\{k,n-k\}$ as well. Letting $\{A_k,A_{k-1},\ldots,A_{\max\{0,2k-n\}}\}$ be the orbital basis of $\mathcal{A}$ with $A_j(X,Y) = 1$ if $\dim(X \cap Y) = j$ and $0$ otherwise, we again get the following.
 
 	\begin{fprop}
 		\label{prop: johnson-adj-eigenvals}
@@ -208,7 +208,7 @@
 	So far, this idea of translating proofs to proofs in the setting of $q$-analogues seems pretty straightforward. However, things don't work out as well when we try to go from $C(n)$ to $C_q(n)$. The issue is that $H_n$ does not have a neat $q$-analogue. Later, we shall look at a $q$-analogue of $\Hom_{H_n}(B(n),B(n))$ that does not come from a group action.
 
 	\begin{fex}
-		Consider $K_{2n}$, the complete graph on $2n$ vertices. It is not too difficult to show that the number of perfect matchings of $K_{2n}$ is $\frac{(2n)!}{n!2^n} = (2n)!!$. Denote the set of all perfect matchings on $K_{2n}$ by $\PM_{2n}$. $S_{2n}$ acts on $\PM_{2n}$ in an obvious manner, by mapping the matching $\{i_1j_1,i_2j_2,\ldots,i_nj_n\}$ to $\{\pi(i_1)\pi(i_2),\ldots,\pi(i_n)\pi(j_n)\}$. What are the $K_{2n}$ orbits on $\PM_{2n} \times \PM_{2n}$?\\
+		Consider $K_{2n}$, the complete graph on $2n$ vertices. It is not too difficult to show that the number of perfect matchings of $K_{2n}$ is $\frac{(2n)!}{n!2^n} = (2n)!!$. Denote the set of all perfect matchings on $K_{2n}$ by $\PM_{2n}$. $S_{2n}$ acts on $\PM_{2n}$ in an obvious manner, by mapping the matching $\{i_1j_1,i_2j_2,\ldots,i_nj_n\}$ to $\{\pi(i_1)\pi(j_1),\ldots,\pi(i_n)\pi(j_n)\}$. What are the $K_{2n}$ orbits on $\PM_{2n} \times \PM_{2n}$?\\
 		Let $M_1,M_2 \in \PM_{2n}$. It is not too difficult to see that $M_1 \cup M_2$ comprises of ``alternating cycles'', namely even cycles whose edges alternate between being in $M_1,M_2$ (such a cycle may also be a $2$-cycle with two edgees between two vertices, one of which is in $M_1$ and the other in $M_2$).  This induces a number partition of $n$, based on the number of cycles of size $2k$ for $1 \le k \le n$. Call this partition $d(M_1,M_2)$.\\
 		
 		We claim that $(M_1,M_2) \sim (M_3,M_4)$ iff $d(M_1,M_2) = d(M_3,M_4)$.\\
@@ -272,7 +272,7 @@
 	\begin{fdef}
 		A $G$-module $V$ is said to be \emph{irreducible} if $\dim V > 0$ and it has no submodules other than $\{0\}$ and $V$.
 	\end{fdef}
-	More succinctly, an irreducible $G$-module is one with exactly two submodules. In particular, any one-dimensional module is irreducible
+	More succinctly, an irreducible $G$-module is one with exactly two submodules. In particular, any one-dimensional module is irreducible.
 
 	\begin{fex}
 		\label{ex:sn-action-permutation-mod}
@@ -472,7 +472,7 @@
 	\end{equation}
 	However, note that for our graph $G$ on $B(n)$, this SDP is of exponential size in the input parameter $n$! The Delsarte bound takes advantage of the symmetries of the graph to bring this down to a \emph{linear} program whose size is polynomial in $n$.\\
 
-	Recall the hyperoctahedral group $H_n$. For $\tau \in H_n$, let $\rho_\tau$ be the $B(n) \times B(n)$ permutation matrix that permutes vertices according to $\tau$. The key idea is that since $\tau$ is distance-preserving, if $C$ is a code with minimum distance at least $d$, so is $\tau(C)$. Therefore, for a given code $C$, instead of the $\chi(S) \chi(S)^\top$ we considered earlier, we shall instead look at
+	Recall the hyperoctahedral group $H_n$. For $\tau \in H_n$, let $\rho_\tau$ be the $B(n) \times B(n)$ permutation matrix that permutes vertices according to $\tau$. The key idea is that since $\tau$ is distance-preserving, if $C$ is a code with minimum distance at least $d$, so is $\tau(C)$. Therefore, for a given code $C$, instead of the $\chi(C) \chi(C)^\top$ we considered earlier, we shall instead look at
 	\begin{equation}
 		\label{eq:delsarte-key}
 		M = \frac{1}{|C|} \sum_{\tau \in H_n} \rho_\tau \chi(C) \chi(C)^\top \rho_\tau^\top,
@@ -539,9 +539,9 @@
 	we have
 	\[ R = \frac{1}{|\Pi|} \sum_{\tau \in \Pi} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top = \frac{1}{|C|} \sum_{X \in C} R_X. \]
 	Set $\Pi' = H_n \setminus \Pi$. We similarly have
-	\[ R' = \frac{1}{|\Pi'|} \sum_{\tau \in \Pi} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top, \]
+	\[ R' = \frac{1}{|\Pi'|} \sum_{\tau \in \Pi'} \rho_{\tau} \chi(C) \chi(C)^\top \rho_\tau^\top, \]
 	so
-	\[ M = |\Pi| \cdot R + |\Pi'| \cdot R'. \]
+	\[ |C|\cdot M = |\Pi| \cdot R + |\Pi'| \cdot R'. \]
 	The space we shall consider is $\mathcal{A} = \Hom_{S_n}(B(n),B(n))$ -- recall from \Cref{ex:non-comm-alg} that this is a non-commutative $\binom{n+3}{3}$-dimensional $*$-algebra with basis $(M_{i,j,t})$. It is reasonably easy to show that $R,R' \in \mathcal{A}$ by a proof similar to \cref{eq:1.4}.
 
 	\begin{fprop}
@@ -551,7 +551,7 @@
 		\[ R' = \frac{|C|}{2^n - |C|} \sum_{i,j,t} (\alpha_{i+j-2t,0,0} - \alpha_{i,j,t}) M_{i,j,t}. \]
 	\end{fprop}
 	\begin{proof}
-		The sum of elements of $R_X$ in the nonzero positions of $M_{i,j,t}$ is precisely the number of $(Y,Z) \in C^2$ such that for some $\tau \in \Pi$, $|\tau(Y)| = i$, $|\tau(Z)| = j$, and $d(\tau(Y),\tau(Z)) = i+j-2t$, which is precisely the number of $(Y,Z) \in C^2$ such that $d(X,Y) = i$, $d(X,Z) = j$, and $d(Y,Z) = i+j-2t$. Summing over $X$ and dividing by $|C|$, this is exactly $\binom{n}{i-t,t,j-t} \alpha_{i,j,t}$. On the other hand, the sum of elements of $M_{i,j,t}$ on the other hand is $\binom{n}{i-t,t,j-t}$. The first equation follows.\\
+		The sum of elements of $R_X$ in the nonzero positions of $M_{i,j,t}$ is precisely the number of $(Y,Z) \in C^2$ such that for some $\tau \in \Pi$, $|\tau(Y)| = i$, $|\tau(Z)| = j$, and $d(\tau(Y),\tau(Z)) = i+j-2t$, which is precisely the number of $(Y,Z) \in C^2$ such that $d(X,Y) = i$, $d(X,Z) = j$, and $d(Y,Z) = i+j-2t$. Summing over $X$ and dividing by $|C|$, this is exactly $\binom{n}{i-t,t,j-t} \alpha_{i,j,t}$. On the other hand, the sum of elements of $M_{i,j,t}$ is $\binom{n}{i-t,t,j-t}$. The first equation follows.\\
 		Now, by \Cref{prop:delsarte-1}, we have
 		\begin{align*}
 			M &= n! \sum_{t=0}^{n} \alpha_t A_t \\
@@ -586,7 +586,7 @@
 
 	\begin{ftheo}[Schrijver]
 		\label{theo:schrijver}
-		Let $\mathcal{A}_n = \Hom_{S_n}(B(n),B(n))$. Set $\mathcal{M} = \lfloor n/2 \rfloor$, and $p_k = n-2k+1$ and $q_k = \binom{n}{k} - \binom{n}{k-1}$ for $k=0,1,\ldots,m$. Then, the following are true.
+		Let $\mathcal{A}_n = \Hom_{S_n}(B(n),B(n))$. Set $m = \lfloor n/2 \rfloor$, and $p_k = n-2k+1$ and $q_k = \binom{n}{k} - \binom{n}{k-1}$ for $k=0,1,\ldots,m$. Then, the following are true.
 		\begin{enumerate}[label=(\alph*)]
 			\item There exists a $B(n) \times S$ real unitary matrix $V$ (for some indexing set $S$ of size $2^n$) such that $V^\dagger \mathcal{A}_n V$ is equal to the set of all $S \times S$ $((p_0,q_0),(p_1,q_1),\ldots,(p_m,q_m))$-block-diagonal matrices.\\
 			In particular, this implies that $p_0^2 + \cdots + p_m^2 = \dim \mathcal{A}_n = \binom{n+3}{3}$ and $p_0q_0 + \cdots + p_mq_m = 2^n$.
@@ -620,7 +620,7 @@
 	\begin{fdef}
 		An element $v \in \C[B(n)]$ is said to be \emph{homogeneous} if $v \in \C[B(n,k)]$ for some $0 \le k \le n$. In this case, we say that the \emph{rank} of $v$ is $k$ and write $r(v) = k$.\\
 		A \emph{symmetric Jordan chain} (SJC) is a sequence $(v_k,v_{k+1},\ldots,v_{n-k})$ of non-zero homogeneous elements of $\C[B(n)]$ such that $r(v_i) = i$ for $i = k,k+1,\ldots,n-k$, $U(v_i) = v_{i+1}$ for $i=k,k+1,\ldots,n-k-1$. and $U(v_{n-k}) = 0$.\\
-		A \emph{symmetric Jordan basis} (SJB) off $\C[B(n)]$ is a basis of $\C[B(n)]$ consisting of a disjoint union of SJCs.
+		A \emph{symmetric Jordan basis} (SJB) of $\C[B(n)]$ is a basis of $\C[B(n)]$ consisting of a disjoint union of SJCs.
 	\end{fdef}
 
 	It is not difficult to see that in an SJB, the number of SJCs going from rank $k$ to $n-k$ is $\binom{n}{k}-\binom{n}{k-1}$ -- the chains starting at lower levels account for a $\binom{n}{k-1}$-dimensional subspace of $B(n,k) \subseteq B(n)$, so an appropriate number of SJCs have to start at this level.
@@ -661,7 +661,7 @@
 
 	\begin{fprop}
 		\label{prop:d-on-sjc}
-		Let $(v_k,\ldots,v_{n-k})$ be an SJC in $J(n)$. Then, for $i=k,\ldots,n-k-1$, setting $\alpha_i = \|v_{i+1}\|/\|v_i\|$, $D(v_{i+1}) = \alpha_i^2 D(v_i)$.
+		Let $(v_k,\ldots,v_{n-k})$ be an SJC in $J(n)$. Then, for $i=k,\ldots,n-k-1$, setting $\alpha_i = \|v_{i+1}\|/\|v_i\|$, $D(v_{i+1}) = \alpha_i^2 v_i$.
 	\end{fprop}
 	The proof is immediate from the previous discussion.
 
