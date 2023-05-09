@@ -423,7 +423,7 @@
 		Using the notation of the above lemma, let $f : \C[S] \to \C[T]$ be $G$-linear. Suppose that for each $s \in S$, there exists a subgroup $G_s \subseteq G$ fixing $s$ such that $f : F(G_s,S) \to F(G_s,T)$ is one-one. Then, $f : \C[S] \to \C[T]$ is one-one.
 	\end{fcor}
 	\begin{proof}
-		Suppose otherwise, and let $v = \sum_{r \in S} \alpha_r r$ be a nonzero vector in $\C[S]$ such that $f(v) = 0$. Suppose that $\alpha_s = 0$ for some $s \in S$. Let $v' = \frac{1}{|G|} \sum_{g \in G_S} g \cdot v$. As in the proof of the previous lemma, we have $f(v') = 0$, $v' \in F(G_S,S)$ and also $v' \ne 0$. This is a contradiction to the one-oneness of $f : F(G_s,S) \to F(G_s,T)$.
+		Suppose otherwise, and let $v = \sum_{r \in S} \alpha_r r$ be a nonzero vector in $\C[S]$ such that $f(v) = 0$. Suppose that $\alpha_s \ne 0$ for some $s \in S$. Let $v' = \frac{1}{|G|} \sum_{g \in G_S} g \cdot v$. As in the proof of the previous lemma, we have $f(v') = 0$, $v' \in F(G_S,S)$ and also $v' \ne 0$. This is a contradiction to the one-oneness of $f : F(G_s,S) \to F(G_s,T)$.
 	\end{proof}
 
 \section{The Delsarte bound}
