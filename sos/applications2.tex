@@ -56,9 +56,9 @@
 	\end{fdef}
 	Conductance is very closely related to the rate of convergence of the standard random walk on the graph -- a low conductance implies that there is a ``tight bottleneck'' somewhere in the graph where the walk can get stuck. Indeed, if we remove the $d/n$ in the denominator, the conductance of a set is just the probability of exiting the set if we start a random walk at a uniformly random point in it.\\
 
-	The problem of determining the conductance of a graph (and possibly a cut that attains it) is called the uniform sparsest cut problem. It is not too difficult to show that this is \textsf{NP}-hard using a reduction from max-cut. In fact, \cite{cond-appx-hard-ugc} show that the Unique Games Conjecture implies that any constant-factor approximation for $\Phi_G$ is $\mathsf{NP}$-hard! It is quite interesting how min-cut is in \textsf{P}, max-cut is \textsf{NP}-hard but we can get a good constant-factor approximation, but even that is not possible for sparsest-cut (assuming the UGC).
+	The problem of determining the conductance of a graph (and possibly a cut that attains it) is called the uniform sparsest cut problem. It is not too difficult to show that this is \textsf{NP}-hard using a reduction from max-cut. In fact, \cite{cond-appx-hard-ugc} show that the Unique Games Conjecture implies that any constant-factor approximation for $\Phi_G$ is $\mathsf{NP}$-hard! It is quite interesting how min-cut is in \textsf{P}, max-cut is \textsf{NP}-hard but we can get a good constant-factor approximation, but even that is not possible for sparsest-cut (assuming the UGC).\\
 
-	It is quite easy to see that
+	Observe that
 	\[ \Phi_G = \min_{x \in \{-1,1\}^n} \frac{f_G(x)}{(d/4n) \sum_{i,j} (x_i - x_j)^2} = \min_{x \in \{-1,1\}^n} \frac{f_G(x)}{(d/n) f_{K_n}(x)}. \]
 	Minimizing this directly seems impossible using the sum-of-squares method since we are looking at a rational function that is not a polynomial. So, we instead try to get a ``large'' $\alpha$ such that
 	\[ f_G(x) - \alpha \frac{d}{n} f_{K_n}(x) \]
@@ -101,7 +101,7 @@
 		Let $G$ be a $d$-regular graph and $\mu$ a degree $4$ pseudodistribution. Suppose that $\sum_{i,j} D(i,j) = \Omega(n^2)$.
 		Then, there exist $A,B$ that can be found in polynomial time that are $\Omega(1/\sqrt{\log n})$-separated.
 	\end{ftheo}
-	Let us first give a proof of the Leighton-Rao $O(\log n)$-approximation algorithm, which proves the above for $\Omega(1/\log n)$-separation instead. Their original Leighton-Rao proof was based on linear programming, but we give one based on the above sum-of-squares idea.
+	Let us first give a proof of the Leighton-Rao $O(\log n)$-approximation algorithm, which proves the above for $\Omega(1/\log n)$-separation instead. Their original proof was based on linear programming, but we give one based on the above sum-of-squares idea.
 	\begin{proof}[Proof of weaker \nameref{arv-glob-struct}]
 		Like before, assume wlog that $\pE_\mu x = 0$, and let $g \sim \mathcal{N}(0,\pE_\mu xx^\top)$. Let
 		\[ A^{(0)} = \{i : g_i \le -1\} \text{ and } B^{(0)} = \{i : g_i \ge 1\}. \]

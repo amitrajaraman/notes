@@ -246,7 +246,7 @@
 		\[ \frac{\opt(B)}{c} - x^\top B x \]
 		has a degree $2$ sum-of-squares certificate.
 	\end{ftheo}
-	While we do not compute the exact constants exactly, the above is true for roughly $n > 60$ and $c = 4 \log n$.
+	% While we do not compute the exact constants exactly, the above is true for roughly $n > 60$ and $c = 4 \log n$.
 	\begin{proof}
 		As in the max-cut and PSD cases, we prove that given any pseudodistribution $\mu$, there exists an (efficiently sampleable) distribution $\mu'$ on $\{-1,1\}^n$ such that $\E_{\mu'} \hat{x}^\top B \hat{x} \ge \frac{1}{O(\log n)} \pE_\mu x^\top B x$. By \Cref{prop: solid-to-discrete-hypercube}, it suffices to show this for a distribution on the continuous hypercube $[-1,1]^n$ instead of $\{-1,1\}^n$.\\
 		As before, choose $g \sim \mathcal{N}(0,\E_\mu xx^\top)$, so
